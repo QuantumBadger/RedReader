@@ -43,6 +43,7 @@ import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -577,7 +578,7 @@ public class RedditAPICommentAction {
 							final Throwable t,
 							final Integer status,
 							final String readableMessage,
-							@NonNull final Optional<String> response) {
+							@NonNull final Optional<FailedRequestBody> response) {
 						revertOnFailure();
 						if(t != null) {
 							t.printStackTrace();
@@ -589,7 +590,7 @@ public class RedditAPICommentAction {
 								t,
 								status,
 								"Comment action " + action,
-								response.orElseNull());
+								response);
 
 						General.showResultDialog(activity, error);
 					}
@@ -598,7 +599,7 @@ public class RedditAPICommentAction {
 					protected void onFailure(
 							@NonNull final APIFailureType type,
 							@Nullable final String debuggingContext,
-							@NonNull final Optional<String> response) {
+							@NonNull final Optional<FailedRequestBody> response) {
 						revertOnFailure();
 
 						final RRError error = General.getGeneralErrorForFailure(

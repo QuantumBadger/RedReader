@@ -17,11 +17,13 @@
 
 package org.quantumbadger.redreader.reddit.api;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 
 import java.net.URI;
 
@@ -31,29 +33,39 @@ public class SubredditRequestFailure {
 	public final Integer statusLine;
 	public final String readableMessage;
 	public final String url;
+	@NonNull public final Optional<FailedRequestBody> body;
 
 	public SubredditRequestFailure(
-			@CacheRequest.RequestFailureType final int requestFailureType, final Throwable t,
-			final Integer statusLine, final String readableMessage, final String url) {
+			@CacheRequest.RequestFailureType final int requestFailureType,
+			final Throwable t,
+			final Integer statusLine,
+			final String readableMessage,
+			final String url,
+			@NonNull final Optional<FailedRequestBody> body) {
 		this.requestFailureType = requestFailureType;
 		this.t = t;
 		this.statusLine = statusLine;
 		this.readableMessage = readableMessage;
 		this.url = url;
+		this.body = body;
 	}
 
 	public SubredditRequestFailure(
-			@CacheRequest.RequestFailureType final int requestFailureType, final Throwable t,
-			final Integer statusLine, final String readableMessage, final URI url) {
+			@CacheRequest.RequestFailureType final int requestFailureType,
+			final Throwable t,
+			final Integer statusLine,
+			final String readableMessage,
+			final URI url,
+			@NonNull final Optional<FailedRequestBody> body) {
 		this(
 				requestFailureType,
 				t,
 				statusLine,
 				readableMessage,
-				url != null ? url.toString() : null);
+				url != null ? url.toString() : null,
+				body);
 	}
 
-	@SuppressLint("WrongConstant")
 	public RRError asError(final Context context) {
 		return General.getGeneralErrorForFailure(
 				context,
@@ -61,6 +73,6 @@ public class SubredditRequestFailure {
 				t,
 				statusLine,
 				url,
-				null);
+				body);
 	}
 }

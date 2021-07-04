@@ -44,6 +44,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.viewholders.VH3TextIcon;
@@ -163,7 +164,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 								@Nullable final Throwable t,
 								@Nullable final Integer httpStatus,
 								@Nullable final String readableMessage,
-								@NonNull final Optional<byte[]> body) {
+								@NonNull final Optional<FailedRequestBody> body) {
 
 							if(General.isSensitiveDebugLoggingEnabled()) {
 								Log.e(

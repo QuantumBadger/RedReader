@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.common.datastream.MemoryDataStream;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
@@ -165,7 +166,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					final @CacheRequest.RequestFailureType int failureType,
 					final Throwable exception,
 					final Integer httpStatus,
-					@NonNull final Optional<byte[]> bodyBytes) {
+					@NonNull final Optional<FailedRequestBody> body) {
 				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API
 						&& TorCommon.isTorEnabled()) {
 					HTTPBackend.getBackend().recreateHttpBackend();
@@ -177,7 +178,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						exception,
 						httpStatus,
 						"CacheDownload onError",
-						bodyBytes);
+						body);
 			}
 
 			@Override

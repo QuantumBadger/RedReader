@@ -31,8 +31,8 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -166,7 +166,7 @@ public final class RedditVideosAPI {
 										e,
 										null,
 										"Failed to parse mpd",
-										Optional.of(mpd));
+										Optional.of(new FailedRequestBody(mpd)));
 							}
 						}
 					}
@@ -177,7 +177,7 @@ public final class RedditVideosAPI {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						if(!mNotifiedFailure.getAndSet(true)) {
 							listener.onFailure(
@@ -185,7 +185,7 @@ public final class RedditVideosAPI {
 									t,
 									httpStatus,
 									readableMessage,
-									body.map(StringUtils::fromUTF8));
+									body);
 						}
 					}
 				}));

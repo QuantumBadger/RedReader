@@ -81,7 +81,7 @@ public abstract class HTTPBackend {
 				@CacheRequest.RequestFailureType int failureType,
 				Throwable exception,
 				Integer httpStatus,
-				@NonNull Optional<byte[]> body);
+				@NonNull Optional<FailedRequestBody> body);
 
 		void onSuccess(String mimetype, Long bodyBytes, InputStream body);
 	}

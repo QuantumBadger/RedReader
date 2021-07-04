@@ -37,6 +37,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RunnableOnce;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.http.PostField;
 import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
@@ -348,7 +349,7 @@ public final class RedditOAuth {
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
 						final Integer httpStatus,
-						@NonNull final Optional<byte[]> body) {
+						@NonNull final Optional<FailedRequestBody> body) {
 					result.set(handleRefreshTokenError(
 							exception,
 							httpStatus,
@@ -437,7 +438,7 @@ public final class RedditOAuth {
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
 						final Integer httpStatus,
-						@NonNull final Optional<byte[]> body) {
+						@NonNull final Optional<FailedRequestBody> body) {
 
 					if(httpStatus != null && httpStatus != 200) {
 						result.set(new FetchUserInfoResult(
@@ -449,8 +450,8 @@ public final class RedditOAuth {
 										null,
 										httpStatus,
 										uri.toString(),
-										null)
-						));
+										null,
+										body)));
 
 					} else {
 						result.set(new FetchUserInfoResult(
@@ -462,8 +463,8 @@ public final class RedditOAuth {
 										exception,
 										null,
 										uri.toString(),
-										null)
-						));
+										null,
+										body)));
 					}
 				}
 
@@ -491,8 +492,8 @@ public final class RedditOAuth {
 											null,
 											null,
 											uri.toString(),
-											null)
-							));
+											null,
+											Optional.of(new FailedRequestBody(jsonValue)))));
 
 							return;
 						}
@@ -716,7 +717,7 @@ public final class RedditOAuth {
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
 						final Integer httpStatus,
-						@NonNull final Optional<byte[]> body) {
+						@NonNull final Optional<FailedRequestBody> body) {
 					result.set(handleAccessTokenError(
 							exception,
 							httpStatus,
@@ -822,7 +823,7 @@ public final class RedditOAuth {
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
 						final Integer httpStatus,
-						@NonNull final Optional<byte[]> body) {
+						@NonNull final Optional<FailedRequestBody> body) {
 					result.set(handleAccessTokenError(
 							exception,
 							httpStatus,

@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
@@ -255,7 +256,7 @@ public class UserProfileDialog extends PropertiesDialog {
 							final Throwable t,
 							final Integer status,
 							final String readableMessage,
-							@NonNull final Optional<String> response) {
+							@NonNull final Optional<FailedRequestBody> response) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
@@ -271,7 +272,7 @@ public class UserProfileDialog extends PropertiesDialog {
 									t,
 									status,
 									null,
-									response.orElseNull());
+									response);
 							items.addView(new ErrorView(context, error));
 						});
 					}
@@ -280,7 +281,7 @@ public class UserProfileDialog extends PropertiesDialog {
 					protected void onFailure(
 							@NonNull final APIFailureType type,
 							@Nullable final String debuggingContext,
-							@NonNull final Optional<String> response) {
+							@NonNull final Optional<FailedRequestBody> response) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 

@@ -26,6 +26,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.IOException;
@@ -51,7 +52,7 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 				@Nullable Throwable t,
 				@Nullable Integer httpStatus,
 				@Nullable String readableMessage,
-				@NonNull Optional<byte[]> body);
+				@NonNull Optional<FailedRequestBody> body);
 
 		default void onDownloadNecessary() {
 			// Do nothing by default
@@ -92,9 +93,8 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 								e,
 								null,
 								"Exception during JSON parse",
-								General.ignoreIOException(streamFactory).filter(
-										stream -> General.ignoreIOException(
-												() -> General.readWholeStream(stream))));
+								General.ignoreIOException(streamFactory)
+										.filter(FailedRequestBody::from));
 					}
 					return;
 				}
@@ -125,7 +125,7 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 			@Nullable final Throwable t,
 			@Nullable final Integer httpStatus,
 			@Nullable final String readableMessage,
-			@NonNull final Optional<byte[]> body) {
+			@NonNull final Optional<FailedRequestBody> body) {
 
 		if(!mNotifiedFailure.getAndSet(true)) {
 			mListener.onFailure(type, t, httpStatus, readableMessage, body);

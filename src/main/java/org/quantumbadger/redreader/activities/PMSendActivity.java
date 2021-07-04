@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -231,7 +232,7 @@ public class PMSendActivity extends BaseActivity {
 						final Throwable t,
 						final Integer status,
 						final String readableMessage,
-						@NonNull final Optional<String> response) {
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
@@ -239,7 +240,7 @@ public class PMSendActivity extends BaseActivity {
 							t,
 							status,
 							"PM send",
-							response.orElseNull());
+							response);
 
 					General.showResultDialog(PMSendActivity.this, error);
 					General.safeDismissDialog(progressDialog);
@@ -249,7 +250,7 @@ public class PMSendActivity extends BaseActivity {
 				protected void onFailure(
 						@NonNull final APIFailureType type,
 						@Nullable final String debuggingContext,
-						@NonNull final Optional<String> response) {
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,

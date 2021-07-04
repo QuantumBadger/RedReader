@@ -64,9 +64,9 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
-import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -190,7 +190,7 @@ public class ImageViewActivity extends BaseActivity
 								final Throwable t,
 								final Integer status,
 								final String readableMessage,
-								@NonNull final Optional<String> body) {
+								@NonNull final Optional<FailedRequestBody> body) {
 
 							// Do nothing
 						}
@@ -271,7 +271,7 @@ public class ImageViewActivity extends BaseActivity
 							final Throwable t,
 							final Integer status,
 							final String readableMessage,
-							@NonNull final Optional<String> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						General.quickToast(
 								ImageViewActivity.this,
@@ -951,7 +951,7 @@ public class ImageViewActivity extends BaseActivity
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						synchronized(resultLock) {
 
@@ -971,7 +971,7 @@ public class ImageViewActivity extends BaseActivity
 										t,
 										httpStatus,
 										uri.toString(),
-										body.map(StringUtils::fromUTF8).orElseNull());
+										body);
 
 								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 									final LinearLayout layout
@@ -1060,7 +1060,7 @@ public class ImageViewActivity extends BaseActivity
 								@Nullable final Throwable t,
 								@Nullable final Integer httpStatus,
 								@Nullable final String readableMessage,
-								@NonNull final Optional<byte[]> body) {
+								@NonNull final Optional<FailedRequestBody> body) {
 
 							synchronized(resultLock) {
 
@@ -1072,7 +1072,7 @@ public class ImageViewActivity extends BaseActivity
 											t,
 											httpStatus,
 											audioUri.toString(),
-											body.map(StringUtils::fromUTF8).orElseNull());
+											body);
 
 									AndroidCommon.runOnUiThread(() -> {
 										final LinearLayout layout

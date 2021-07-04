@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -379,7 +380,7 @@ public final class InboxListingActivity extends BaseActivity {
 									t,
 									null,
 									"Parse failure",
-									Optional.of(result.toString().getBytes(General.CHARSET_UTF8)));
+									Optional.of(new FailedRequestBody(result)));
 							return;
 						}
 
@@ -394,7 +395,7 @@ public final class InboxListingActivity extends BaseActivity {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						request = null;
 
@@ -408,7 +409,7 @@ public final class InboxListingActivity extends BaseActivity {
 								t,
 								httpStatus,
 								url.toString(),
-								null);
+								body);
 						AndroidCommon.runOnUiThread(() -> notifications.addView(
 								new ErrorView(InboxListingActivity.this, error)));
 
@@ -472,7 +473,7 @@ public final class InboxListingActivity extends BaseActivity {
 									final Throwable t,
 									final Integer status,
 									final String readableMessage,
-									@NonNull final Optional<String> response) {
+									@NonNull final Optional<FailedRequestBody> response) {
 
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
@@ -480,7 +481,7 @@ public final class InboxListingActivity extends BaseActivity {
 										t,
 										status,
 										"Reddit API action: Mark all as Read",
-										response.orElseNull());
+										response);
 								General.showResultDialog(
 										InboxListingActivity.this,
 										error);
@@ -490,7 +491,7 @@ public final class InboxListingActivity extends BaseActivity {
 							protected void onFailure(
 									@NonNull final APIFailureType type,
 									@Nullable final String debuggingContext,
-									@NonNull final Optional<String> response) {
+									@NonNull final Optional<FailedRequestBody> response) {
 
 								final RRError error = General.getGeneralErrorForFailure(
 										context,

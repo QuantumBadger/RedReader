@@ -30,6 +30,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 
 import java.io.IOException;
@@ -289,7 +290,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			final Throwable t,
 			final Integer httpStatus,
 			final String readableMessage,
-			@NonNull final Optional<byte[]> body) {
+			@NonNull final Optional<FailedRequestBody> body) {
 
 		try {
 			mCallbacks.onFailure(type, t, httpStatus, readableMessage, body);

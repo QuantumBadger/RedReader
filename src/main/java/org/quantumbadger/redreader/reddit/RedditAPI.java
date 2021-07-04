@@ -35,9 +35,9 @@ import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.PostField;
 import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -123,7 +123,7 @@ public final class RedditAPI {
 					mHandler.notifyFailure(
 							failureType,
 							"GenericResponseHandler",
-							Optional.of(result.toString()));
+							Optional.of(new FailedRequestBody(result)));
 				} else {
 					mHandler.notifySuccess();
 				}
@@ -146,14 +146,14 @@ public final class RedditAPI {
 				@Nullable final Throwable t,
 				@Nullable final Integer httpStatus,
 				@Nullable final String readableMessage,
-				@NonNull final Optional<byte[]> body) {
+				@NonNull final Optional<FailedRequestBody> body) {
 
 			mHandler.notifyFailure(
 					type,
 					t,
 					httpStatus,
 					readableMessage,
-					body.map(StringUtils::fromUTF8));
+					body);
 		}
 	}
 
@@ -170,11 +170,11 @@ public final class RedditAPI {
 				@Nullable Throwable t,
 				@Nullable Integer httpStatus,
 				@Nullable String readableMessage,
-				@NonNull final Optional<String> response);
+				@NonNull final Optional<FailedRequestBody> response);
 
 		void onFailure(
 				@NonNull APIResponseHandler.APIFailureType type,
-				@NonNull final Optional<String> response);
+				@NonNull final Optional<FailedRequestBody> response);
 	}
 
 	public static void flairSelectorForNewLink(
@@ -223,11 +223,11 @@ public final class RedditAPI {
 							if(failureType != null) {
 								responseHandler.onFailure(
 										failureType,
-										Optional.of(result.toString()));
+										Optional.of(new FailedRequestBody(result)));
 							} else {
 								responseHandler.onFailure(
 										APIResponseHandler.APIFailureType.UNKNOWN,
-										Optional.of(result.toString()));
+										Optional.of(new FailedRequestBody(result)));
 							}
 
 							return;
@@ -242,7 +242,7 @@ public final class RedditAPI {
 									new RuntimeException(),
 									null,
 									"Failed to parse choices list",
-									Optional.of(result.toString()));
+									Optional.of(new FailedRequestBody(result)));
 							return;
 						}
 
@@ -255,7 +255,7 @@ public final class RedditAPI {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> response) {
+							@NonNull final Optional<FailedRequestBody> response) {
 
 						if(httpStatus != null && httpStatus == 404) {
 							responseHandler.onSubredditDoesNotExist();
@@ -269,7 +269,7 @@ public final class RedditAPI {
 									t,
 									httpStatus,
 									readableMessage,
-									response.map(StringUtils::fromUTF8));
+									response);
 						}
 					}
 				}));
@@ -321,7 +321,7 @@ public final class RedditAPI {
 					mResponseHandler.notifyFailure(
 							failureType,
 							null,
-							Optional.of(result.toString()));
+							Optional.of(new FailedRequestBody(result)));
 				} else {
 					mResponseHandler.onSuccess(
 							result.getStringAtPath("json", "data", "things", 0, "data", "permalink")
@@ -349,14 +349,14 @@ public final class RedditAPI {
 				@Nullable final Throwable t,
 				@Nullable final Integer httpStatus,
 				@Nullable final String readableMessage,
-				@NonNull final Optional<byte[]> body) {
+				@NonNull final Optional<FailedRequestBody> body) {
 
 			mResponseHandler.notifyFailure(
 					type,
 					t,
 					httpStatus,
 					readableMessage,
-					body.map(StringUtils::fromUTF8));
+					body);
 		}
 	}
 
@@ -481,7 +481,7 @@ public final class RedditAPI {
 							@Nullable final Throwable t,
 							@Nullable final Integer status,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<String> response) {
+							@NonNull final Optional<FailedRequestBody> response) {
 
 						responseHandler.onFailure(type, t, status, readableMessage, response);
 					}
@@ -490,7 +490,7 @@ public final class RedditAPI {
 					protected void onFailure(
 							@NonNull final APIFailureType type,
 							@Nullable final String debuggingContext,
-							@NonNull final Optional<String> response) {
+							@NonNull final Optional<FailedRequestBody> response) {
 
 						responseHandler.onFailure(type, debuggingContext, response);
 					}
@@ -517,14 +517,14 @@ public final class RedditAPI {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						responseHandler.notifyFailure(
 								type,
 								t,
 								httpStatus,
 								readableMessage,
-								body.map(StringUtils::fromUTF8));
+								body);
 					}
 
 					@Override
@@ -714,7 +714,7 @@ public final class RedditAPI {
 									t,
 									null,
 									"JSON parse failed for unknown reason",
-									Optional.of(result.toString()));
+									Optional.of(new FailedRequestBody(result)));
 						}
 					}
 
@@ -724,13 +724,13 @@ public final class RedditAPI {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 						responseHandler.notifyFailure(
 								type,
 								t,
 								httpStatus,
 								readableMessage,
-								body.map(StringUtils::fromUTF8));
+								body);
 					}
 				}));
 	}

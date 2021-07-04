@@ -36,6 +36,7 @@ import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
@@ -376,7 +377,7 @@ public class RedditSubredditSubscriptionManager {
 				final Throwable t,
 				final Integer status,
 				final String readableMessage,
-				@NonNull final Optional<String> response) {
+				@NonNull final Optional<FailedRequestBody> response) {
 
 			if(status != null && status == 404) {
 				// Weirdly, reddit returns a 404 if we were already subscribed/unsubscribed to
@@ -401,7 +402,7 @@ public class RedditSubredditSubscriptionManager {
 					t,
 					status,
 					"Subreddit action " + action + " for " + canonicalName,
-					response.orElseNull());
+					response);
 
 			General.showResultDialog(activity, error);
 		}
@@ -410,7 +411,7 @@ public class RedditSubredditSubscriptionManager {
 		protected void onFailure(
 				@NonNull final APIFailureType type,
 				@Nullable final String debuggingContext,
-				@NonNull final Optional<String> response) {
+				@NonNull final Optional<FailedRequestBody> response) {
 
 			onSubscriptionChangeAttemptFailed(canonicalName);
 

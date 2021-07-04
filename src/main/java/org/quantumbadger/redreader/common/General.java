@@ -44,7 +44,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 
 import java.io.ByteArrayOutputStream;
@@ -247,7 +247,7 @@ public final class General {
 			@Nullable final Throwable t,
 			@Nullable final Integer status,
 			@Nullable final String url,
-			@Nullable final String response) {
+			@NonNull final Optional<FailedRequestBody> response) {
 
 		final int title, message;
 		boolean reportable = true;
@@ -426,20 +426,7 @@ public final class General {
 			final Context context,
 			final APIResponseHandler.APIFailureType type,
 			final String debuggingContext,
-			final JsonValue response) {
-
-		return getGeneralErrorForFailure(
-				context,
-				type,
-				debuggingContext,
-				response == null ? Optional.empty() : Optional.of(response.toString()));
-	}
-
-	public static RRError getGeneralErrorForFailure(
-			final Context context,
-			final APIResponseHandler.APIFailureType type,
-			final String debuggingContext,
-			@NonNull final Optional<String> response) {
+			@NonNull final Optional<FailedRequestBody> response) {
 
 		final int title, message;
 
@@ -500,7 +487,7 @@ public final class General {
 				null,
 				null,
 				debuggingContext,
-				response.orElseNull());
+				response);
 	}
 
 	public static void showResultDialog(

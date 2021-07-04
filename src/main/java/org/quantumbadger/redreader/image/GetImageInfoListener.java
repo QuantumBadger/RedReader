@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.image;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 
 public interface GetImageInfoListener {
 	void onFailure(
@@ -27,7 +28,7 @@ public interface GetImageInfoListener {
 			final Throwable t,
 			final Integer status,
 			final String readableMessage,
-			@NonNull final Optional<String> body);
+			@NonNull final Optional<FailedRequestBody> body);
 
 	void onSuccess(ImageInfo info);
 

@@ -45,6 +45,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.LegacySaveImageCallback;
@@ -530,14 +531,14 @@ public class FileUtils {
 							final Throwable t,
 							final Integer status,
 							final String readableMessage,
-							@NonNull final Optional<String> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 						final RRError error = General.getGeneralErrorForFailure(
 								activity,
 								type,
 								t,
 								status,
 								uri,
-								body.orElseNull());
+								body);
 						General.showResultDialog(activity, error);
 					}
 
@@ -568,7 +569,7 @@ public class FileUtils {
 											final Throwable t,
 											final Integer status,
 											final String readableMessage,
-											@NonNull final Optional<byte[]> body) {
+											@NonNull final Optional<FailedRequestBody> body) {
 
 										General.showResultDialog(
 												activity,
@@ -578,8 +579,7 @@ public class FileUtils {
 														t,
 														status,
 														info.urlOriginal,
-														body.map(StringUtils::fromUTF8)
-																.orElseNull()));
+														body));
 									}
 
 									@Override

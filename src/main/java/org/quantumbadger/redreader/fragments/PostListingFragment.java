@@ -60,8 +60,8 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
-import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -901,7 +901,8 @@ public class PostListingFragment extends RRFragment
 														final Throwable t,
 														final Integer status,
 														final String readableMessage,
-														@NonNull final Optional<String> body) {
+														@NonNull final
+																Optional<FailedRequestBody> body) {
 												}
 
 												@Override
@@ -953,7 +954,7 @@ public class PostListingFragment extends RRFragment
 									t,
 									null,
 									"Parse failure",
-									Optional.of(value.toString().getBytes(General.CHARSET_UTF8)));
+									Optional.of(new FailedRequestBody(value)));
 						}
 					}
 
@@ -963,7 +964,7 @@ public class PostListingFragment extends RRFragment
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
@@ -980,7 +981,7 @@ public class PostListingFragment extends RRFragment
 										httpStatus,
 										url.toString(),
 										readableMessage,
-										body.map(StringUtils::fromUTF8).orElseNull());
+										body);
 
 							} else {
 								error = General.getGeneralErrorForFailure(
@@ -989,7 +990,7 @@ public class PostListingFragment extends RRFragment
 										t,
 										httpStatus,
 										url.toString(),
-										null);
+										body);
 							}
 
 							mPostListingManager.addFooterError(new ErrorView(
@@ -1039,7 +1040,7 @@ public class PostListingFragment extends RRFragment
 									@Nullable final Throwable t,
 									@Nullable final Integer httpStatus,
 									@Nullable final String readableMessage,
-									@NonNull final Optional<byte[]> body) {
+									@NonNull final Optional<FailedRequestBody> body) {
 
 								if(General.isSensitiveDebugLoggingEnabled()) {
 									Log.e(
@@ -1166,7 +1167,7 @@ public class PostListingFragment extends RRFragment
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.e(TAG, String.format(

@@ -34,6 +34,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -134,7 +135,7 @@ public class AlbumListingActivity extends BaseActivity {
 							final Throwable t,
 							final Integer status,
 							final String readableMessage,
-							@NonNull final Optional<String> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 						Log.e(
 								"AlbumListingActivity",
 								"getAlbumInfo call failed: " + type);
@@ -172,7 +173,7 @@ public class AlbumListingActivity extends BaseActivity {
 												final Throwable t,
 												final Integer status,
 												final String readableMessage,
-												@NonNull final Optional<String> body) {
+												@NonNull final Optional<FailedRequestBody> body) {
 											Log.e(
 													"AlbumListingActivity",
 													"Image info request also failed: "

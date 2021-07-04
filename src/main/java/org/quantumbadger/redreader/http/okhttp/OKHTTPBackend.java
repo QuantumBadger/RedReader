@@ -38,6 +38,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.common.Void;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.http.PostField;
 import org.quantumbadger.redreader.http.body.HTTPRequestBody;
@@ -271,11 +272,11 @@ public class OKHTTPBackend extends HTTPBackend {
 									details));
 						}
 
-						Optional<byte[]> bodyBytes = Optional.empty();
+						Optional<FailedRequestBody> bodyBytes = Optional.empty();
 
-						if(response.body() != null) {
+						if(body != null) {
 							try {
-								bodyBytes = Optional.of(response.body().bytes());
+								bodyBytes = Optional.of(new FailedRequestBody(body.bytes()));
 							} catch(final IOException e) {
 								// Ignore
 							}

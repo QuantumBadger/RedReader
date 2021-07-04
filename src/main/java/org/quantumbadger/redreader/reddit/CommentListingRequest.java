@@ -36,8 +36,8 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -239,7 +239,7 @@ public class CommentListingRequest {
 									t,
 									null,
 									"Parse failure",
-									Optional.of(value.toString().getBytes(General.CHARSET_UTF8)));
+									Optional.of(new FailedRequestBody(value)));
 						}
 					}
 
@@ -249,7 +249,7 @@ public class CommentListingRequest {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						final RRError error = General.getGeneralErrorForFailure(
 								mContext,
@@ -257,7 +257,7 @@ public class CommentListingRequest {
 								t,
 								httpStatus,
 								url == null ? null : url.toString(),
-								body.map(StringUtils::fromUTF8).orElseNull());
+								body);
 
 						AndroidCommon.runOnUiThread(()
 								-> mListener.onCommentListingRequestFailure(error));

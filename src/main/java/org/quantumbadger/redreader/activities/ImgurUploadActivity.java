@@ -46,7 +46,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.body.HTTPRequestBodyMultipart;
 import org.quantumbadger.redreader.http.body.multipart.PartFormDataBinary;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
@@ -291,8 +291,7 @@ public class ImgurUploadActivity extends BaseActivity {
 										null,
 										null,
 										null,
-										Optional.of(
-												result.toString().getBytes(General.CHARSET_UTF8)));
+										Optional.of(new FailedRequestBody(result)));
 								return;
 							}
 
@@ -305,7 +304,7 @@ public class ImgurUploadActivity extends BaseActivity {
 									t,
 									null,
 									t.toString(),
-									Optional.of(result.toString().getBytes(General.CHARSET_UTF8)));
+									Optional.of(new FailedRequestBody(result)));
 							return;
 						}
 
@@ -324,7 +323,7 @@ public class ImgurUploadActivity extends BaseActivity {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						General.showResultDialog(
 								ImgurUploadActivity.this,
@@ -334,7 +333,7 @@ public class ImgurUploadActivity extends BaseActivity {
 										t,
 										httpStatus,
 										"https://api.imgur.com/3/image",
-										body.map(StringUtils::fromUTF8).orElseNull()));
+										body));
 
 						AndroidCommon.runOnUiThread(ImgurUploadActivity.this::hideLoadingOverlay);
 					}

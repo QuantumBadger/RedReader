@@ -30,7 +30,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
@@ -101,7 +101,7 @@ public final class RedditGalleryAPI {
 									e,
 									null,
 									"Reddit gallery data parse failed",
-									Optional.of(result.toString()));
+									Optional.of(new FailedRequestBody(result)));
 						}
 					}
 
@@ -111,14 +111,14 @@ public final class RedditGalleryAPI {
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						listener.onFailure(
 								type,
 								t,
 								httpStatus,
 								readableMessage,
-								body.map(StringUtils::fromUTF8));
+								body);
 					}
 				})));
 	}

@@ -36,6 +36,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -156,7 +157,7 @@ public class CommentEditActivity extends BaseActivity {
 						@Nullable final Throwable t,
 						@Nullable final Integer httpStatus,
 						@Nullable final String readableMessage,
-						@NonNull final Optional<String> response) {
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
@@ -164,7 +165,7 @@ public class CommentEditActivity extends BaseActivity {
 							t,
 							httpStatus,
 							"Comment edit",
-							response.orElseNull());
+							response);
 
 					General.showResultDialog(CommentEditActivity.this, error);
 					General.safeDismissDialog(progressDialog);
@@ -174,7 +175,7 @@ public class CommentEditActivity extends BaseActivity {
 				protected void onFailure(
 						@NonNull final APIFailureType type,
 						@Nullable final String debuggingContext,
-						@NonNull final Optional<String> response) {
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,

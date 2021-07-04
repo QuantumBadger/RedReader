@@ -17,7 +17,9 @@
 
 package org.quantumbadger.redreader.common;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 
 public class RRError {
 
@@ -53,7 +55,7 @@ public class RRError {
 			@Nullable final String url,
 			@Nullable final String debuggingContext) {
 
-		this(title, message, reportable, t, httpStatus, url, debuggingContext, null);
+		this(title, message, reportable, t, httpStatus, url, debuggingContext, Optional.empty());
 	}
 
 	public RRError(
@@ -64,7 +66,7 @@ public class RRError {
 			@Nullable final Integer httpStatus,
 			@Nullable final String url,
 			@Nullable final String debuggingContext,
-			@Nullable final String response) {
+			@NonNull final Optional<FailedRequestBody> response) {
 
 		this.title = title;
 		this.message = message;
@@ -73,6 +75,6 @@ public class RRError {
 		this.httpStatus = httpStatus;
 		this.url = url;
 		this.debuggingContext = debuggingContext;
-		this.response = response;
+		this.response = response.map(FailedRequestBody::toString).orElseNull();
 	}
 }

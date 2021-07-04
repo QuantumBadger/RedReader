@@ -68,6 +68,7 @@ import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
@@ -1363,7 +1364,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.e(
@@ -1516,7 +1517,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<String> response) {
+							@NonNull final Optional<FailedRequestBody> response) {
 
 						revertOnFailure();
 						if(t != null) {
@@ -1532,7 +1533,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 										+ action
 										+ " "
 										+ src.getIdAndType(),
-								response.orElseNull());
+								response);
 						General.showResultDialog(activity, error);
 					}
 
@@ -1540,7 +1541,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					protected void onFailure(
 							@NonNull final APIFailureType type,
 							@Nullable final String debuggingContext,
-							@NonNull final Optional<String> response) {
+							@NonNull final Optional<FailedRequestBody> response) {
 
 						revertOnFailure();
 

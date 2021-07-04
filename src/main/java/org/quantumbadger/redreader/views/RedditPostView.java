@@ -57,9 +57,9 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
-import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
@@ -729,7 +729,7 @@ public final class RedditPostView extends FlingableItemView
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
-							@NonNull final Optional<byte[]> body) {
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						Log.e(TAG, "Failed to download image preview", t);
 
@@ -756,7 +756,7 @@ public final class RedditPostView extends FlingableItemView
 											httpStatus,
 											preview.url,
 											null,
-											body.map(StringUtils::fromUTF8).orElseNull()));
+											body));
 
 							mPostErrors.addView(errorView);
 							General.setLayoutMatchWidthWrapHeight(errorView);

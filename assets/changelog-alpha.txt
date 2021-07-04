@@ -1,3 +1,6 @@
+/Alpha 286 (2021-07-04)
+Preserve error response body in more cases
+
 /Alpha 285 (2021-07-04)
 Imgur upload reliability improved
 

@@ -46,6 +46,7 @@ import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.DeviantArtAPI;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
@@ -720,7 +721,7 @@ public class LinkHandler {
 							final Throwable t,
 							final Integer status,
 							final String readableMessage,
-							@NonNull final Optional<String> firstBody) {
+							@NonNull final Optional<FailedRequestBody> firstBody) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.i(
@@ -740,7 +741,7 @@ public class LinkHandler {
 											final Throwable t,
 											final Integer status,
 											final String readableMessage,
-											@NonNull final Optional<String> body) {
+											@NonNull final Optional<FailedRequestBody> body) {
 
 										if(General.isSensitiveDebugLoggingEnabled()) {
 											Log.i(
@@ -760,7 +761,8 @@ public class LinkHandler {
 															final Throwable t,
 															final Integer status,
 															final String readableMessage,
-															@NonNull final Optional<String> body) {
+															@NonNull final
+																Optional<FailedRequestBody> body) {
 
 														Log.i(
 																"getImgurImageInfo",
@@ -839,7 +841,7 @@ public class LinkHandler {
 							final Throwable t,
 							final Integer status,
 							final String readableMessage,
-							@NonNull final Optional<String> firstBody) {
+							@NonNull final Optional<FailedRequestBody> firstBody) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.i(
@@ -860,7 +862,7 @@ public class LinkHandler {
 											final Throwable t,
 											final Integer status,
 											final String readableMessage,
-											@NonNull final Optional<String> body) {
+											@NonNull final Optional<FailedRequestBody> body) {
 
 										if(General.isSensitiveDebugLoggingEnabled()) {
 											Log.i(
@@ -881,7 +883,8 @@ public class LinkHandler {
 															final Throwable t,
 															final Integer status,
 															final String readableMessage,
-															@NonNull final Optional<String> body) {
+															@NonNull final
+																Optional<FailedRequestBody> body) {
 
 														Log.i(
 																"getImgurImageInfo",

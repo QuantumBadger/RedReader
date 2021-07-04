@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -278,15 +279,15 @@ public class CommentReplyActivity extends BaseActivity {
 						@Nullable final Throwable t,
 						@Nullable final Integer httpStatus,
 						@Nullable final String readableMessage,
-						@NonNull final Optional<String> response) {
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
 							type,
 							t,
 							httpStatus,
-							"Comment reply",
-							response.orElseNull());
+							"Comment reply: " + readableMessage,
+							response);
 
 					General.showResultDialog(CommentReplyActivity.this, error);
 					General.safeDismissDialog(progressDialog);
@@ -296,7 +297,7 @@ public class CommentReplyActivity extends BaseActivity {
 				protected void onFailure(
 						@NonNull final APIFailureType type,
 						@Nullable final String debuggingContext,
-						@NonNull final Optional<String> response) {
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
@@ -327,7 +328,7 @@ public class CommentReplyActivity extends BaseActivity {
 						final Throwable t,
 						final Integer status,
 						final String readableMessage,
-						@NonNull final Optional<String> response) {
+						@NonNull final Optional<FailedRequestBody> response) {
 					Toast.makeText(
 							context,
 							getString(R.string.disable_replies_to_infobox_failed),
@@ -338,7 +339,7 @@ public class CommentReplyActivity extends BaseActivity {
 				protected void onFailure(
 						@NonNull final APIFailureType type,
 						@Nullable final String readableMessage,
-						@NonNull final Optional<String> response) {
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					Toast.makeText(
 							context,

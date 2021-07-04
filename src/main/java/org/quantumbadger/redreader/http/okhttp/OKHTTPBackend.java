@@ -27,6 +27,7 @@ import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -36,7 +37,15 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.TorCommon;
+import org.quantumbadger.redreader.common.Void;
 import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.PostField;
+import org.quantumbadger.redreader.http.body.HTTPRequestBody;
+import org.quantumbadger.redreader.http.body.HTTPRequestBodyMultipart;
+import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
+import org.quantumbadger.redreader.http.body.multipart.Part;
+import org.quantumbadger.redreader.http.body.multipart.PartFormData;
+import org.quantumbadger.redreader.http.body.multipart.PartFormDataBinary;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -138,12 +147,55 @@ public class OKHTTPBackend extends HTTPBackend {
 
 		builder.header("User-Agent", Constants.ua(context));
 
-		final List<PostField> postFields = details.getPostFields();
+		final Optional<HTTPRequestBody> requestBody
+				= details.getRequestBody();
 
-		if(postFields != null) {
-			builder.post(RequestBody.create(
-					MediaType.parse("application/x-www-form-urlencoded"),
-					PostField.encodeList(postFields)));
+		if(requestBody.isPresent()) {
+
+			builder.post(requestBody.get().visit(new HTTPRequestBody.Visitor<RequestBody>() {
+
+				@Override
+				public RequestBody visitRequestBody(
+						@NonNull final HTTPRequestBodyPostFields body) {
+
+					return RequestBody.create(
+							MediaType.parse("application/x-www-form-urlencoded"),
+							PostField.encodeList(body.getPostFields()));
+				}
+
+				@Override
+				public RequestBody visitRequestBody(@NonNull final HTTPRequestBodyMultipart body) {
+
+					final MultipartBody.Builder builder = new MultipartBody.Builder()
+							.setType(MultipartBody.FORM);
+
+					body.forEachPart(part -> part.visit(new Part.Visitor<Void>() {
+
+						@NonNull
+						@Override
+						public Void visitPart(@NonNull final PartFormData part) {
+							builder.addFormDataPart(part.name, part.value);
+							return Void.INSTANCE;
+						}
+
+						@NonNull
+						@Override
+						public Void visitPart(@NonNull final PartFormDataBinary part) {
+
+							builder.addFormDataPart(
+									part.name,
+									null,
+									RequestBody.create(
+											MediaType.parse("application/octet-stream"),
+											part.value));
+
+							return Void.INSTANCE;
+						}
+					}));
+
+					return builder.build();
+				}
+			}));
 
 		} else {
 			builder.get();

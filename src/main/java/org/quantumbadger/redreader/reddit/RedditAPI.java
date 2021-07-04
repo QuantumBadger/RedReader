@@ -38,7 +38,8 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
-import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.PostField;
+import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonString;
@@ -183,8 +184,8 @@ public final class RedditAPI {
 			@NonNull final SubredditCanonicalId subreddit,
 			@NonNull final FlairSelectorResponseHandler responseHandler) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("is_newlink", "true"));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("is_newlink", "true"));
 
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri(subreddit + "/api/flairselector"),
@@ -373,25 +374,25 @@ public final class RedditAPI {
 			@Nullable final String flairId,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("api_type", "json"));
-		postFields.add(new HTTPBackend.PostField("kind", is_self ? "self" : "link"));
-		postFields.add(new HTTPBackend.PostField(
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("api_type", "json"));
+		postFields.add(new PostField("kind", is_self ? "self" : "link"));
+		postFields.add(new PostField(
 				"sendreplies",
 				sendRepliesToInbox ? "true" : "false"));
-		postFields.add(new HTTPBackend.PostField("nsfw", markAsNsfw ? "true" : "false"));
-		postFields.add(new HTTPBackend.PostField("spoiler", markAsSpoiler ? "true" : "false"));
-		postFields.add(new HTTPBackend.PostField("sr", subreddit));
-		postFields.add(new HTTPBackend.PostField("title", title));
+		postFields.add(new PostField("nsfw", markAsNsfw ? "true" : "false"));
+		postFields.add(new PostField("spoiler", markAsSpoiler ? "true" : "false"));
+		postFields.add(new PostField("sr", subreddit));
+		postFields.add(new PostField("title", title));
 
 		if(flairId != null) {
-			postFields.add(new HTTPBackend.PostField("flair_id", flairId));
+			postFields.add(new PostField("flair_id", flairId));
 		}
 
 		if(is_self) {
-			postFields.add(new HTTPBackend.PostField("text", body));
+			postFields.add(new PostField("text", body));
 		} else {
-			postFields.add(new HTTPBackend.PostField("url", body));
+			postFields.add(new PostField("url", body));
 		}
 
 		cm.makeRequest(createPostRequest(
@@ -411,11 +412,11 @@ public final class RedditAPI {
 			@NonNull final String body,
 			@NonNull final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("api_type", "json"));
-		postFields.add(new HTTPBackend.PostField("subject", subject));
-		postFields.add(new HTTPBackend.PostField("to", recipient));
-		postFields.add(new HTTPBackend.PostField("text", body));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("api_type", "json"));
+		postFields.add(new PostField("subject", subject));
+		postFields.add(new PostField("to", recipient));
+		postFields.add(new PostField("text", body));
 
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri("/api/compose"),
@@ -435,10 +436,10 @@ public final class RedditAPI {
 			final boolean sendRepliesToInbox,
 			final AppCompatActivity context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("api_type", "json"));
-		postFields.add(new HTTPBackend.PostField("thing_id", parentIdAndType));
-		postFields.add(new HTTPBackend.PostField("text", markdown));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("api_type", "json"));
+		postFields.add(new PostField("thing_id", parentIdAndType));
+		postFields.add(new PostField("text", markdown));
 
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri("/api/comment"),
@@ -502,7 +503,7 @@ public final class RedditAPI {
 			final RedditAccount user,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
+		final LinkedList<PostField> postFields = new LinkedList<>();
 
 		cm.makeRequest(createPostRequestUnprocessedResponse(
 				Constants.Reddit.getUri("/api/read_all_messages"),
@@ -547,9 +548,9 @@ public final class RedditAPI {
 			final String markdown,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("thing_id", commentIdAndType));
-		postFields.add(new HTTPBackend.PostField("text", markdown));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("thing_id", commentIdAndType));
+		postFields.add(new PostField("text", markdown));
 
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri("/api/editusertext"),
@@ -567,8 +568,8 @@ public final class RedditAPI {
 			final @RedditAction int action,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("id", idAndType));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("id", idAndType));
 
 		final URI url = prepareActionUri(action, postFields);
 
@@ -582,18 +583,18 @@ public final class RedditAPI {
 
 	private static URI prepareActionUri(
 			final @RedditAction int action,
-			final LinkedList<HTTPBackend.PostField> postFields) {
+			final LinkedList<PostField> postFields) {
 		switch(action) {
 			case ACTION_DOWNVOTE:
-				postFields.add(new HTTPBackend.PostField("dir", "-1"));
+				postFields.add(new PostField("dir", "-1"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
 			case ACTION_UNVOTE:
-				postFields.add(new HTTPBackend.PostField("dir", "0"));
+				postFields.add(new PostField("dir", "0"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
 			case ACTION_UPVOTE:
-				postFields.add(new HTTPBackend.PostField("dir", "1"));
+				postFields.add(new PostField("dir", "1"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
 			case ACTION_SAVE:
@@ -642,9 +643,9 @@ public final class RedditAPI {
 							final RedditSubreddit subreddit,
 							final long timeCached) {
 
-						final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
+						final LinkedList<PostField> postFields = new LinkedList<>();
 
-						postFields.add(new HTTPBackend.PostField("sr", subreddit.name));
+						postFields.add(new PostField("sr", subreddit.name));
 
 						final URI url = subscriptionPrepareActionUri(action, postFields);
 
@@ -661,14 +662,14 @@ public final class RedditAPI {
 
 	private static URI subscriptionPrepareActionUri(
 			final @RedditSubredditAction int action,
-			final LinkedList<HTTPBackend.PostField> postFields) {
+			final LinkedList<PostField> postFields) {
 		switch(action) {
 			case SUBSCRIPTION_ACTION_SUBSCRIBE:
-				postFields.add(new HTTPBackend.PostField("action", "sub"));
+				postFields.add(new PostField("action", "sub"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
 
 			case SUBSCRIPTION_ACTION_UNSUBSCRIBE:
-				postFields.add(new HTTPBackend.PostField("action", "unsub"));
+				postFields.add(new PostField("action", "unsub"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
 
 			default:
@@ -742,9 +743,9 @@ public final class RedditAPI {
 			final boolean state,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("id", fullname));
-		postFields.add(new HTTPBackend.PostField("state", String.valueOf(state)));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("id", fullname));
+		postFields.add(new PostField("state", String.valueOf(state)));
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri("/api/sendreplies"),
 				user,
@@ -858,7 +859,7 @@ public final class RedditAPI {
 	private static CacheRequest createPostRequest(
 			@NonNull final URI url,
 			@NonNull final RedditAccount user,
-			@NonNull final List<HTTPBackend.PostField> postFields,
+			@NonNull final List<PostField> postFields,
 			@NonNull final Context context,
 			@NonNull final CacheRequestJSONParser.Listener handler) {
 
@@ -874,7 +875,7 @@ public final class RedditAPI {
 	private static CacheRequest createPostRequestUnprocessedResponse(
 			@NonNull final URI url,
 			@NonNull final RedditAccount user,
-			@NonNull final List<HTTPBackend.PostField> postFields,
+			@NonNull final List<PostField> postFields,
 			@NonNull final Context context,
 			@NonNull final CacheRequestCallbacks callbacks) {
 
@@ -886,7 +887,7 @@ public final class RedditAPI {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
-				postFields,
+				new HTTPRequestBodyPostFields(postFields),
 				context,
 				callbacks);
 	}

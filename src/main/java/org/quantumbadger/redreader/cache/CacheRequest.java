@@ -30,13 +30,12 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
-import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 public final class CacheRequest implements Comparable<CacheRequest> {
@@ -94,7 +93,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	public final int fileType;
 
 	public final @DownloadQueueType int queueType;
-	public final List<HTTPBackend.PostField> postFields;
+	@NonNull public final Optional<HTTPRequestBody> requestBody;
 
 	public final boolean cache;
 
@@ -183,7 +182,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
-			final List<HTTPBackend.PostField> postFields,
+			@Nullable final HTTPRequestBody requestBody,
 			final Context context,
 			final CacheRequestCallbacks callbacks) {
 
@@ -195,7 +194,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				downloadStrategy,
 				fileType,
 				queueType,
-				postFields,
+				requestBody,
 				false,
 				context,
 				callbacks);
@@ -210,7 +209,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
-			final List<HTTPBackend.PostField> postFields,
+			@Nullable final HTTPRequestBody requestBody,
 			final boolean cache,
 			final Context context,
 			final CacheRequestCallbacks callbacks) {
@@ -223,7 +222,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 					"User was null - set to empty string for anonymous");
 		}
 
-		if(!downloadStrategy.shouldDownloadWithoutCheckingCache() && postFields != null) {
+		if(!downloadStrategy.shouldDownloadWithoutCheckingCache() && requestBody != null) {
 			throw new IllegalArgumentException(
 					"Should not perform cache lookup for POST requests");
 		}
@@ -235,8 +234,8 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		this.downloadStrategy = downloadStrategy;
 		this.fileType = fileType;
 		this.queueType = queueType;
-		this.postFields = postFields;
-		this.cache = (postFields == null) && cache;
+		this.requestBody = Optional.ofNullable(requestBody);
+		this.cache = (requestBody == null) && cache;
 
 		if(url == null) {
 			notifyFailure(

@@ -19,16 +19,13 @@ package org.quantumbadger.redreader.http;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
-import java.util.List;
 
 public abstract class HTTPBackend {
 	/**
@@ -41,13 +38,13 @@ public abstract class HTTPBackend {
 	public static class RequestDetails {
 
 		@NonNull private final URI mUrl;
-		@Nullable private final List<PostField> mPostFields;
+		@NonNull private final Optional<HTTPRequestBody> mRequestBody;
 
 		public RequestDetails(
 				@NonNull final URI url,
-				@Nullable final List<PostField> postFields) {
+				@NonNull final Optional<HTTPRequestBody> requestBody) {
 			mUrl = url;
-			mPostFields = postFields;
+			mRequestBody = requestBody;
 		}
 
 		@NonNull
@@ -55,62 +52,19 @@ public abstract class HTTPBackend {
 			return mUrl;
 		}
 
-		@Nullable
-		public List<PostField> getPostFields() {
-			return mPostFields;
+		@NonNull
+		public Optional<HTTPRequestBody> getRequestBody() {
+			return mRequestBody;
 		}
 
 		@NonNull
 		@Override
 		public String toString() {
 			return "RequestDetails("
-					+ mUrl.toString()
+					+ mUrl
 					+ ", "
-					+ (mPostFields != null ? mPostFields.toString() : null)
+					+ mRequestBody
 					+ ")";
-		}
-	}
-
-	public static class PostField {
-
-		public final String name;
-		public final String value;
-
-		public PostField(final String name, final String value) {
-			this.name = name;
-			this.value = value;
-		}
-
-		public String encode() {
-			try {
-				return URLEncoder.encode(name, "UTF-8") + "=" + URLEncoder.encode(
-						value,
-						"UTF-8");
-			} catch(final UnsupportedEncodingException e) {
-				throw new RuntimeException(e);
-			}
-		}
-
-		public static String encodeList(final List<PostField> fields) {
-
-			final StringBuilder result = new StringBuilder();
-
-			for(final PostField field : fields) {
-
-				if(result.length() > 0) {
-					result.append('&');
-				}
-
-				result.append(field.encode());
-			}
-
-			return result.toString();
-		}
-
-		@NonNull
-		@Override
-		public String toString() {
-			return "PostField(name=" + name + ")";
 		}
 	}
 

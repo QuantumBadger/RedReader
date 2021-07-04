@@ -1,3 +1,6 @@
+/Alpha 285 (2021-07-04)
+Imgur upload reliability improved
+
 /Alpha 284 (2021-07-03)
 Show parent comment after submitting reply
 Better error message when failing to create cache directories

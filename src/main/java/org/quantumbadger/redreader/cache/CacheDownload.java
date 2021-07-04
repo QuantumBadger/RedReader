@@ -68,7 +68,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 		mRequest = HTTPBackend.getBackend().prepareRequest(
 				initiator.context,
-				new HTTPBackend.RequestDetails(mInitiator.url, mInitiator.postFields));
+				new HTTPBackend.RequestDetails(mInitiator.url, mInitiator.requestBody));
 	}
 
 	public synchronized void cancel() {

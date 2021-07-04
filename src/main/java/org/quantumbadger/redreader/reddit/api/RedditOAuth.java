@@ -38,6 +38,8 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RunnableOnce;
 import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.PostField;
+import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -318,17 +320,17 @@ public final class RedditOAuth {
 
 		final String uri = ACCESS_TOKEN_URL;
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(3);
-		postFields.add(new HTTPBackend.PostField("grant_type", "authorization_code"));
-		postFields.add(new HTTPBackend.PostField("code", code));
-		postFields.add(new HTTPBackend.PostField("redirect_uri", REDIRECT_URI_NEW));
+		final ArrayList<PostField> postFields = new ArrayList<>(3);
+		postFields.add(new PostField("grant_type", "authorization_code"));
+		postFields.add(new PostField("code", code));
+		postFields.add(new PostField("redirect_uri", REDIRECT_URI_NEW));
 
 		try {
 			final HTTPBackend.Request request = HTTPBackend.getBackend().prepareRequest(
 					context,
 					new HTTPBackend.RequestDetails(
 							General.uriFromString(uri),
-							postFields));
+							Optional.of(new HTTPRequestBodyPostFields(postFields))));
 
 			request.addHeader(
 					"Authorization",
@@ -422,7 +424,7 @@ public final class RedditOAuth {
 		try {
 			final HTTPBackend.Request request
 					= HTTPBackend.getBackend()
-					.prepareRequest(context, new HTTPBackend.RequestDetails(uri, null));
+					.prepareRequest(context, new HTTPBackend.RequestDetails(uri, Optional.empty()));
 
 			request.addHeader("Authorization", "bearer " + accessToken.token);
 
@@ -686,9 +688,9 @@ public final class RedditOAuth {
 
 		final String uri = ACCESS_TOKEN_URL;
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(2);
-		postFields.add(new HTTPBackend.PostField("grant_type", "refresh_token"));
-		postFields.add(new HTTPBackend.PostField("refresh_token", user.refreshToken.token));
+		final ArrayList<PostField> postFields = new ArrayList<>(2);
+		postFields.add(new PostField("grant_type", "refresh_token"));
+		postFields.add(new PostField("refresh_token", user.refreshToken.token));
 
 		try {
 			final HTTPBackend.Request request = HTTPBackend.getBackend()
@@ -696,7 +698,7 @@ public final class RedditOAuth {
 							context,
 							new HTTPBackend.RequestDetails(
 									General.uriFromString(uri),
-									postFields));
+									Optional.of(new HTTPRequestBodyPostFields(postFields))));
 
 			request.addHeader(
 					"Authorization",
@@ -789,11 +791,11 @@ public final class RedditOAuth {
 
 		final String uri = ACCESS_TOKEN_URL;
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(2);
-		postFields.add(new HTTPBackend.PostField(
+		final ArrayList<PostField> postFields = new ArrayList<>(2);
+		postFields.add(new PostField(
 				"grant_type",
 				"https://oauth.reddit.com/grants/installed_client"));
-		postFields.add(new HTTPBackend.PostField(
+		postFields.add(new PostField(
 				"device_id",
 				"DO_NOT_TRACK_THIS_DEVICE"));
 
@@ -803,7 +805,7 @@ public final class RedditOAuth {
 							context,
 							new HTTPBackend.RequestDetails(
 									General.uriFromString(uri),
-									postFields));
+									Optional.of(new HTTPRequestBodyPostFields(postFields))));
 
 			request.addHeader(
 					"Authorization",

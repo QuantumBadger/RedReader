@@ -1567,5 +1567,13 @@
 	<string name="accessibility_subtitle_author_admin_withperiod">Author: %s, admin.</string>
 	<string name="accessibility_subtitle_author_submitter_moderator_withperiod">Author: %s, submitter and moderator.</string>
 	<string name="accessibility_subtitle_author_submitter_admin_withperiod">Author: %s, submitter and admin.</string>
+
+	<!-- 2021-07-10 -->
+	<string name="sort_posts_controversial_hour">Controversial: This Hour</string>
+	<string name="sort_posts_controversial_today">Controversial: Today</string>
+	<string name="sort_posts_controversial_week">Controversial: This Week</string>
+	<string name="sort_posts_controversial_month">Controversial: This Month</string>
+	<string name="sort_posts_controversial_year">Controversial: This Year</string>
+	<string name="sort_posts_controversial_all">Controversial: All Time</string>
 	
 </resources>

@@ -217,13 +217,21 @@ public class UserPostListingURL extends PostListingURL {
 		}
 
 		switch(order) {
+			case CONTROVERSIAL_HOUR:
+			case CONTROVERSIAL_DAY:
+			case CONTROVERSIAL_WEEK:
+			case CONTROVERSIAL_MONTH:
+			case CONTROVERSIAL_YEAR:
+			case CONTROVERSIAL_ALL:
 			case TOP_HOUR:
 			case TOP_DAY:
 			case TOP_WEEK:
 			case TOP_MONTH:
 			case TOP_YEAR:
 			case TOP_ALL:
-				return path + "?t=" + StringUtils.asciiLowercase(order.name().split("_")[1]);
+				final String[] parts = order.name().split("_");
+				return path + "?sort=" + StringUtils.asciiLowercase(parts[0])
+						+ "&t=" + StringUtils.asciiLowercase(parts[1]);
 
 			default:
 				return path + "?sort=" + StringUtils.asciiLowercase(order.name());

@@ -1042,11 +1042,40 @@ public final class OptionsMenuUtility {
 		if(includeRising) {
 			addSort(activity, sortPosts, R.string.sort_posts_rising, PostSort.RISING);
 		}
+
+		final SubMenu sortsPostsControversial =
+				sortPosts.addSubMenu(R.string.sort_posts_controversial);
+
 		addSort(
 				activity,
-				sortPosts,
-				R.string.sort_posts_controversial,
-				PostSort.CONTROVERSIAL);
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_hour,
+				PostSort.CONTROVERSIAL_HOUR);
+		addSort(
+				activity,
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_today,
+				PostSort.CONTROVERSIAL_DAY);
+		addSort(
+				activity,
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_week,
+				PostSort.CONTROVERSIAL_WEEK);
+		addSort(
+				activity,
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_month,
+				PostSort.CONTROVERSIAL_MONTH);
+		addSort(
+				activity,
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_year,
+				PostSort.CONTROVERSIAL_YEAR);
+		addSort(
+				activity, sortsPostsControversial,
+				R.string.sort_posts_controversial_all,
+				PostSort.CONTROVERSIAL_ALL);
+
 		if(includeBest) {
 			addSort(activity, sortPosts, R.string.sort_posts_best, PostSort.BEST);
 		}
@@ -1207,11 +1236,40 @@ public final class OptionsMenuUtility {
 				sortComments,
 				R.string.sort_comments_new,
 				UserCommentListingURL.Sort.NEW);
+
+		final SubMenu sortCommentsControversial
+				= sortComments.addSubMenu(R.string.sort_comments_controversial);
+
 		addSort(
 				activity,
-				sortComments,
-				R.string.sort_comments_controversial,
-				UserCommentListingURL.Sort.CONTROVERSIAL);
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_hour,
+				UserCommentListingURL.Sort.CONTROVERSIAL_HOUR);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_today,
+				UserCommentListingURL.Sort.CONTROVERSIAL_DAY);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_week,
+				UserCommentListingURL.Sort.CONTROVERSIAL_WEEK);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_month,
+				UserCommentListingURL.Sort.CONTROVERSIAL_MONTH);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_year,
+				UserCommentListingURL.Sort.CONTROVERSIAL_YEAR);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_all,
+				UserCommentListingURL.Sort.CONTROVERSIAL_ALL);
 
 		final SubMenu sortCommentsTop
 				= sortComments.addSubMenu(R.string.sort_comments_top);

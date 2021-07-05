@@ -32,7 +32,12 @@ public enum PostSort {
 	TOP_MONTH,
 	TOP_YEAR,
 	TOP_ALL,
-	CONTROVERSIAL,
+	CONTROVERSIAL_HOUR,
+	CONTROVERSIAL_DAY,
+	CONTROVERSIAL_WEEK,
+	CONTROVERSIAL_MONTH,
+	CONTROVERSIAL_YEAR,
+	CONTROVERSIAL_ALL,
 	BEST,
 	// Sorts related to Search Listings
 	RELEVANCE,
@@ -69,7 +74,24 @@ public enum PostSort {
 			return BEST;
 
 		} else if(sort.equals("controversial")) {
-			return CONTROVERSIAL;
+
+			if(t == null) {
+				return CONTROVERSIAL_ALL;
+			} else if(t.equals("all")) {
+				return CONTROVERSIAL_ALL;
+			} else if(t.equals("hour")) {
+				return CONTROVERSIAL_HOUR;
+			} else if(t.equals("day")) {
+				return CONTROVERSIAL_DAY;
+			} else if(t.equals("week")) {
+				return CONTROVERSIAL_WEEK;
+			} else if(t.equals("month")) {
+				return CONTROVERSIAL_MONTH;
+			} else if(t.equals("year")) {
+				return CONTROVERSIAL_YEAR;
+			} else {
+				return CONTROVERSIAL_ALL;
+			}
 
 		} else if(sort.equals("rising")) {
 			return RISING;
@@ -104,10 +126,15 @@ public enum PostSort {
 		switch(this) {
 			case HOT:
 			case NEW:
-			case CONTROVERSIAL:
 				builder.appendQueryParameter("sort", StringUtils.asciiLowercase(name()));
 				break;
 
+			case CONTROVERSIAL_HOUR:
+			case CONTROVERSIAL_DAY:
+			case CONTROVERSIAL_WEEK:
+			case CONTROVERSIAL_MONTH:
+			case CONTROVERSIAL_YEAR:
+			case CONTROVERSIAL_ALL:
 			case TOP_HOUR:
 			case TOP_DAY:
 			case TOP_WEEK:
@@ -127,21 +154,25 @@ public enum PostSort {
 			case HOT:
 			case NEW:
 			case RISING:
-			case CONTROVERSIAL:
 			case BEST:
 				builder.appendEncodedPath(StringUtils.asciiLowercase(name()));
 				break;
 
+			case CONTROVERSIAL_HOUR:
+			case CONTROVERSIAL_DAY:
+			case CONTROVERSIAL_WEEK:
+			case CONTROVERSIAL_MONTH:
+			case CONTROVERSIAL_YEAR:
+			case CONTROVERSIAL_ALL:
 			case TOP_HOUR:
 			case TOP_DAY:
 			case TOP_WEEK:
 			case TOP_MONTH:
 			case TOP_YEAR:
 			case TOP_ALL:
-				builder.appendEncodedPath("top");
-				builder.appendQueryParameter(
-						"t",
-						StringUtils.asciiLowercase(name().split("_")[1]));
+				final String[] parts = name().split("_");
+				builder.appendEncodedPath(StringUtils.asciiLowercase(name().split("_")[0]));
+				builder.appendQueryParameter("t", StringUtils.asciiLowercase(parts[1]));
 				break;
 		}
 	}

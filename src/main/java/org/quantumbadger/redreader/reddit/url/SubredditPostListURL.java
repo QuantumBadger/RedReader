@@ -392,6 +392,12 @@ public class SubredditPostListURL extends PostListingURL {
 		}
 
 		switch(order) {
+			case CONTROVERSIAL_HOUR:
+			case CONTROVERSIAL_DAY:
+			case CONTROVERSIAL_WEEK:
+			case CONTROVERSIAL_MONTH:
+			case CONTROVERSIAL_YEAR:
+			case CONTROVERSIAL_ALL:
 			case TOP_HOUR:
 			case TOP_DAY:
 			case TOP_WEEK:

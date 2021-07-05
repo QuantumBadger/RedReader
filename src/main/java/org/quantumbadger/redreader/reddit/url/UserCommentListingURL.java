@@ -177,8 +177,12 @@ public class UserCommentListingURL extends CommentListingURL {
 	public enum Sort {
 		NEW,
 		HOT,
-		CONTROVERSIAL,
-		TOP,
+		CONTROVERSIAL_HOUR,
+		CONTROVERSIAL_DAY,
+		CONTROVERSIAL_WEEK,
+		CONTROVERSIAL_MONTH,
+		CONTROVERSIAL_YEAR,
+		CONTROVERSIAL_ALL,
 		TOP_HOUR,
 		TOP_DAY,
 		TOP_WEEK,
@@ -203,7 +207,23 @@ public class UserCommentListingURL extends CommentListingURL {
 				return NEW;
 
 			} else if(sort.equals("controversial")) {
-				return CONTROVERSIAL;
+				if(t == null) {
+					return CONTROVERSIAL_ALL;
+				} else if(t.equals("all")) {
+					return CONTROVERSIAL_ALL;
+				} else if(t.equals("hour")) {
+					return CONTROVERSIAL_HOUR;
+				} else if(t.equals("day")) {
+					return CONTROVERSIAL_DAY;
+				} else if(t.equals("week")) {
+					return CONTROVERSIAL_WEEK;
+				} else if(t.equals("month")) {
+					return CONTROVERSIAL_MONTH;
+				} else if(t.equals("year")) {
+					return CONTROVERSIAL_YEAR;
+				} else {
+					return CONTROVERSIAL_ALL;
+				}
 
 			} else if(sort.equals("top")) {
 
@@ -235,10 +255,15 @@ public class UserCommentListingURL extends CommentListingURL {
 			switch(this) {
 				case HOT:
 				case NEW:
-				case CONTROVERSIAL:
 					builder.appendQueryParameter("sort", StringUtils.asciiLowercase(name()));
 					break;
 
+				case CONTROVERSIAL_HOUR:
+				case CONTROVERSIAL_DAY:
+				case CONTROVERSIAL_WEEK:
+				case CONTROVERSIAL_MONTH:
+				case CONTROVERSIAL_YEAR:
+				case CONTROVERSIAL_ALL:
 				case TOP_HOUR:
 				case TOP_DAY:
 				case TOP_WEEK:

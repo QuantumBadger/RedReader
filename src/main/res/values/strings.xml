@@ -1560,5 +1560,13 @@
 
 	<!-- 2021-07-01 -->
 	<string name="prefs_category_menus_appbar_screen_key" translatable="false">prefs_category_menus_appbar_screen</string>
+
+	<!-- 2021-07-05 -->
+	<string name="sort_posts_controversial_hour">Controversial: This Hour</string>
+	<string name="sort_posts_controversial_today">Controversial: Today</string>
+	<string name="sort_posts_controversial_week">Controversial: This Week</string>
+	<string name="sort_posts_controversial_month">Controversial: This Month</string>
+	<string name="sort_posts_controversial_year">Controversial: This Year</string>
+	<string name="sort_posts_controversial_all">Controversial: All Time</string>
 	
 </resources>

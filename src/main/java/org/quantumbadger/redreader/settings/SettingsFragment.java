@@ -36,6 +36,8 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -555,6 +557,29 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				});
 			}
 
+		}
+	}
+
+	//Based on https://stackoverflow.com/a/55724743
+	@Override
+	public void setPreferenceScreen(final PreferenceScreen preferenceScreen) {
+		if(preferenceScreen != null) {
+			configureAllPrefsAppearance(preferenceScreen);
+		}
+
+		super.setPreferenceScreen(preferenceScreen);
+	}
+
+	private void configureAllPrefsAppearance(final PreferenceGroup prefGroup) {
+		for(int i = 0; i < prefGroup.getPreferenceCount(); i++) {
+			final Preference pref = prefGroup.getPreference(i);
+
+			pref.setSingleLineTitle(false);
+			pref.setIconSpaceReserved(false);
+
+			if(pref instanceof PreferenceGroup) {
+				configureAllPrefsAppearance((PreferenceGroup)pref);
+			}
 		}
 	}
 

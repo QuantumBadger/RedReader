@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -129,6 +130,7 @@ public class PostListingFragment extends RRFragment
 	private long mTimestamp;
 
 	private int mPostCount = 0;
+	private boolean mPostsNotShown = false;
 	private final AtomicInteger mPostRefreshCount = new AtomicInteger(0);
 
 	private final HashSet<String> mPostIds = new HashSet<>(200);
@@ -862,6 +864,7 @@ public class PostListingFragment extends RRFragment
 									// has been clicked on AND user preference
 									// "hideReadPosts" is true
 									if(hideReadPosts && preparedPost.isRead()) {
+										mPostsNotShown = true;
 										continue;
 									}
 
@@ -917,6 +920,8 @@ public class PostListingFragment extends RRFragment
 
 									mPostCount++;
 									mPostRefreshCount.decrementAndGet();
+								} else {
+									mPostsNotShown = true;
 								}
 							}
 
@@ -924,6 +929,32 @@ public class PostListingFragment extends RRFragment
 
 								mPostListingManager.addPosts(downloadedPosts);
 								mPostListingManager.setLoadingVisible(false);
+
+								if(mPostCount == 0) {
+									@StringRes final int emptyViewText;
+
+									if(mPostsNotShown) {
+										if(mPostListingURL.pathType()
+												== RedditURLParser.SEARCH_POST_LISTING_URL) {
+											emptyViewText = R.string.no_search_results_hidden;
+										} else {
+											emptyViewText = R.string.no_posts_yet_hidden;
+										}
+									} else {
+										if(mPostListingURL.pathType()
+												== RedditURLParser.SEARCH_POST_LISTING_URL) {
+											emptyViewText = R.string.no_search_results;
+										} else {
+											emptyViewText = R.string.no_posts_yet;
+										}
+									}
+
+									mPostListingManager.setEmptyVisible(true);
+									mPostListingManager.setEmptyText(emptyViewText);
+								} else {
+									mPostListingManager.setEmptyVisible(false);
+								}
+
 								onPostsAdded();
 
 								mRequest = null;

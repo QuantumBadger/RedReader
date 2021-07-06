@@ -31,8 +31,7 @@
 			android:layout_gravity="center"
 			android:textAlignment="center"
 			android:textSize="18sp"
-			android:textColor="?rrSubTextCol"
-			android:text="@string/no_comments_yet"/>
+			android:textColor="?rrSubTextCol"/>
 
 </FrameLayout>
 

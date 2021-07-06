@@ -634,13 +634,16 @@ public class CommentListingFragment extends RRFragment
 			if(mCommentListingManager.getCommentCount() == 0) {
 
 				final View emptyView = LayoutInflater.from(getContext()).inflate(
-						R.layout.no_comments_yet,
+						R.layout.no_items_yet,
 						mRecyclerView,
 						false);
 
 				if(mCommentListingManager.isSearchListing()) {
 					((TextView)emptyView.findViewById(R.id.empty_view_text))
 							.setText(R.string.no_search_results);
+				} else {
+					((TextView)emptyView.findViewById(R.id.empty_view_text))
+							.setText(R.string.no_comments_yet);
 				}
 
 				mCommentListingManager.addViewToItems(emptyView);

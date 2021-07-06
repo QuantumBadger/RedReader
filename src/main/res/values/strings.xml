@@ -1575,5 +1575,10 @@
 	<string name="sort_posts_controversial_month">Controversial: This Month</string>
 	<string name="sort_posts_controversial_year">Controversial: This Year</string>
 	<string name="sort_posts_controversial_all">Controversial: All Time</string>
+
+	<!-- 2021-07-25 -->
+	<string name="no_posts_yet">No posts yet.</string>
+	<string name="no_posts_yet_hidden">No posts shown due to settings.</string>
+	<string name="no_search_results_hidden">No search results shown due to settings.</string>
 	
 </resources>

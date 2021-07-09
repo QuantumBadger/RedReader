@@ -1,7 +1,10 @@
-100/1.18
+101/1.18
 Imgur upload reliability improved
 Show parent comment after submitting reply
 More detail in errors for failed API requests
+
+100/1.17.3
+Adding workaround for TLS 1.2 support on Android 4
 
 99/1.17.2
 Fixing issue where non-video image previews have a "play" button overlaid

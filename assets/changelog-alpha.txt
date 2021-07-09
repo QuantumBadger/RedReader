@@ -1,3 +1,6 @@
+/Alpha 287 (2021-07-09)
+Adding workaround for TLS 1.2 support on Android 4
+
 /Alpha 286 (2021-07-04)
 Preserve error response body in more cases
 

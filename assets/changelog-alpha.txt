@@ -1,3 +1,17 @@
+/Alpha 287 (2021-07-09)
+Adding workaround for TLS 1.2 support on Android 4
+
+/Alpha 286 (2021-07-04)
+Preserve error response body in more cases
+
+/Alpha 285 (2021-07-04)
+Imgur upload reliability improved
+
+/Alpha 284 (2021-07-03)
+Show parent comment after submitting reply
+Better error message when failing to create cache directories
+More detail in errors for failed API requests
+
 /Alpha 283 (2021-07-01)
 Fixing issue where non-video image previews have a "play" button overlaid
 Fix for "Action bar items" setting not working

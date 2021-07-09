@@ -18,11 +18,13 @@
 package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.ConnectionPool;
+import okhttp3.ConnectionSpec;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
@@ -31,12 +33,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okhttp3.TlsVersion;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.LegacyTLSSocketFactory;
 
+import javax.net.ssl.SSLContext;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -57,6 +62,30 @@ public class OKHTTPBackend extends HTTPBackend {
 
 	private OKHTTPBackend() {
 		final OkHttpClient.Builder builder = new OkHttpClient.Builder();
+
+		// Enable TLS 1.2 on legacy Android devices
+		if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 21) {
+			try {
+				final SSLContext sc = SSLContext.getInstance("TLSv1.2");
+				sc.init(null, null, null);
+				builder.sslSocketFactory(new LegacyTLSSocketFactory(sc.getSocketFactory()));
+
+				final ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+						.tlsVersions(TlsVersion.TLS_1_2)
+						.build();
+
+				final List<ConnectionSpec> specs = new ArrayList<>();
+				specs.add(cs);
+				specs.add(ConnectionSpec.COMPATIBLE_TLS);
+				specs.add(ConnectionSpec.CLEARTEXT);
+
+				builder.connectionSpecs(specs);
+
+			} catch(final Exception e) {
+				// Continue anyway
+				Log.e(TAG, "Failed to enable TLS 1.2", e);
+			}
+		}
 
 		// here we set the over18 cookie and return it whenever the url contains search
 		// this is necessary to get the reddit API to return NSFW search results

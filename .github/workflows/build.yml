@@ -75,3 +75,10 @@ jobs:
 
             -   name: Run Qodana
                 uses: JetBrains/qodana-action@v2.0-eap
+
+            -   name: Archive results
+                uses: actions/upload-artifact@v2
+                with:
+                    name: qodana-results
+                    if-no-files-found: error
+                    path: report/results

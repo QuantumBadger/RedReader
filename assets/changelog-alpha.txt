@@ -2,6 +2,7 @@
 Highlight moderator/admin username for distinguished posts (thanks to Cameron Merkel)
 Include author mod/admin/submitter role in accessibility description (thanks to Cameron Merkel)
 Wrap preference strings, and don't reserve space for icons (thanks to Cameron Merkel)
+Allow specifying date range when sorting by controversial (thanks to Cameron Merkel)
 
 /Alpha 287 (2021-07-09)
 Adding workaround for TLS 1.2 support on Android 4

@@ -22,8 +22,12 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
-public class SubredditCanonicalId implements Comparable<SubredditCanonicalId>, Parcelable {
+public class SubredditCanonicalId implements
+		Comparable<SubredditCanonicalId>,
+		Parcelable,
+		JsonObject.JsonDeserializable {
 
 	@NonNull private final String mId;
 

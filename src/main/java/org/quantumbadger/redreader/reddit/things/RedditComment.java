@@ -25,13 +25,17 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonBoolean;
 import org.quantumbadger.redreader.jsonwrap.JsonLong;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 import java.util.HashSet;
 
 
-public final class RedditComment implements Parcelable, RedditThingWithIdAndType {
+public final class RedditComment implements
+		Parcelable,
+		RedditThingWithIdAndType,
+		JsonObject.JsonDeserializable {
 
 	public String body, body_html, author, subreddit;
 	public String author_flair_text;

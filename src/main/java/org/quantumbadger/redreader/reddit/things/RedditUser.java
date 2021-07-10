@@ -19,8 +19,9 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
-public class RedditUser implements Parcelable {
+public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 
 	public int comment_karma, link_karma;
 

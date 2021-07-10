@@ -1,4 +1,6 @@
 /Alpha 288 (2021-07-10)
+Enabled Proguard minification -- may cause instability! Please report any bugs.
+Updated dependencies
 Highlight moderator/admin username for distinguished posts (thanks to Cameron Merkel)
 Include author mod/admin/submitter role in accessibility description (thanks to Cameron Merkel)
 Wrap preference strings, and don't reserve space for icons (thanks to Cameron Merkel)

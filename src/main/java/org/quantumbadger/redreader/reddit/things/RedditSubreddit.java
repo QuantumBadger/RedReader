@@ -28,13 +28,17 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.io.WritableObject;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RedditSubreddit implements Parcelable, Comparable<RedditSubreddit>,
-		WritableObject<SubredditCanonicalId> {
+public class RedditSubreddit implements
+		Parcelable,
+		Comparable<RedditSubreddit>,
+		WritableObject<SubredditCanonicalId>,
+		JsonObject.JsonDeserializable {
 
 	@Override
 	public SubredditCanonicalId getKey() {

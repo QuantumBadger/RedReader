@@ -28,7 +28,10 @@ import org.quantumbadger.redreader.jsonwrap.JsonLong;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
-public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
+public final class RedditPost implements
+		Parcelable,
+		RedditThingWithIdAndType,
+		JsonObject.JsonDeserializable {
 
 	public String id, name;
 	public String url;

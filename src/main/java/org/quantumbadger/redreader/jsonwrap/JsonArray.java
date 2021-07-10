@@ -90,7 +90,9 @@ public final class JsonArray extends JsonValue implements Iterable<JsonValue> {
 	}
 
 	@Nullable
-	public <E> E getObject(final int id, final Class<E> clazz) throws
+	public <E extends JsonObject.JsonDeserializable> E getObject(
+					final int id,
+					final Class<E> clazz) throws
 			InstantiationException,
 			IllegalAccessException,
 			NoSuchMethodException,

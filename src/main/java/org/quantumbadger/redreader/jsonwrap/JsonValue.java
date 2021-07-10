@@ -96,7 +96,7 @@ public abstract class JsonValue {
 	}
 
 	@Nullable
-	public <E> E asObject(final Class<E> clazz) throws
+	public <E extends JsonObject.JsonDeserializable> E asObject(final Class<E> clazz) throws
 			InstantiationException,
 			IllegalAccessException,
 			NoSuchMethodException,

@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.reddit.things;
 
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -25,7 +26,7 @@ import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RedditMoreComments {
+public class RedditMoreComments implements JsonObject.JsonDeserializable {
 	public int count;
 	public JsonArray children;
 	public String parent_id;

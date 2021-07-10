@@ -19,9 +19,10 @@ package org.quantumbadger.redreader.reddit.things;
 
 import androidx.annotation.Nullable;
 import org.apache.commons.text.StringEscapeUtils;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
-public class RedditMessage {
+public class RedditMessage implements JsonObject.JsonDeserializable {
 
 	@Nullable public String author;
 	public String dest;

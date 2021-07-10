@@ -37,6 +37,8 @@ import java.util.Set;
 public final class JsonObject extends JsonValue
 		implements Iterable<Map.Entry<String, JsonValue>> {
 
+	public interface JsonDeserializable {}
+
 	private final HashMap<String, JsonValue> properties = new HashMap<>();
 
 	protected JsonObject(final JsonParser parser) throws IOException {
@@ -82,7 +84,7 @@ public final class JsonObject extends JsonValue
 
 	@NonNull
 	@Override
-	public <E> E asObject(final Class<E> clazz) throws
+	public <E extends JsonDeserializable> E asObject(final Class<E> clazz) throws
 			InstantiationException,
 			IllegalAccessException,
 			NoSuchMethodException,
@@ -159,11 +161,13 @@ public final class JsonObject extends JsonValue
 	}
 
 	@Nullable
-	public <E> E getObject(@NonNull final String id, final Class<E> clazz) throws
-			InstantiationException,
-			IllegalAccessException,
-			NoSuchMethodException,
-			InvocationTargetException {
+	public <E extends JsonDeserializable> E getObject(
+			@NonNull final String id,
+			final Class<E> clazz) throws
+					InstantiationException,
+					IllegalAccessException,
+					NoSuchMethodException,
+					InvocationTargetException {
 
 		final JsonValue value = get(id);
 
@@ -278,8 +282,14 @@ public final class JsonObject extends JsonValue
 				} else if(fieldType == JsonValue.class) {
 					objectField.set(o, val);
 
+				} else if(JsonDeserializable.class.isAssignableFrom(fieldType)) {
+					//noinspection unchecked
+					objectField.set(o, val.asObject(
+							(Class<? extends JsonDeserializable>)fieldType));
+
 				} else {
-					objectField.set(o, val.asObject(fieldType));
+					throw new RuntimeException("Cannot handle field type "
+							+ fieldType.getCanonicalName());
 				}
 			}
 

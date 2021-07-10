@@ -3,8 +3,10 @@
 <ruleset
 		xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		name="Custom ruleset"
-		xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+		xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd"
+		name="Custom ruleset">
+
+	<description>RedReader custom PMD rules</description>
 
 	<rule name="CheckResultSet" ref="category/java/bestpractices.xml/CheckResultSet"/>
 	<rule name="DefaultLabelNotLastInSwitchStmt" ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitchStmt"/>

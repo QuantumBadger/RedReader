@@ -120,7 +120,7 @@ android {
 }
 
 pmd {
-	toolVersion = '6.24.0'
+	toolVersion = '6.36.0'
 	consoleOutput = true
 }
 

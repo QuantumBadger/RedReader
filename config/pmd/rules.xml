@@ -18,15 +18,13 @@
 	<rule ref="category/java/bestpractices.xml/ReplaceEnumerationWithIterator"/>
 	<rule ref="category/java/bestpractices.xml/ReplaceHashtableWithMap"/>
 	<rule ref="category/java/bestpractices.xml/ReplaceVectorWithList"/>
-	<rule ref="category/java/bestpractices.xml/UnusedImports"/>
 	<rule ref="category/java/bestpractices.xml/UnusedLocalVariable"/>
-	<rule ref="category/java/codestyle.xml/DontImportJavaLang"/>
-	<rule ref="category/java/codestyle.xml/DuplicateImports"/>
 	<rule ref="category/java/codestyle.xml/ExtendsObject"/>
 	<rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop"/>
 	<rule ref="category/java/codestyle.xml/TooManyStaticImports"/>
 	<rule ref="category/java/codestyle.xml/UnnecessaryConstructor"/>
 	<rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName"/>
+	<rule ref="category/java/codestyle.xml/UnnecessaryImport"/>
 	<rule ref="category/java/codestyle.xml/UnnecessaryLocalBeforeReturn"/>
 	<rule ref="category/java/codestyle.xml/UnnecessaryModifier"/>
 	<rule ref="category/java/codestyle.xml/UnnecessaryReturn"/>
@@ -52,7 +50,6 @@
 	<rule ref="category/java/errorprone.xml/CloneMethodMustBePublic"/>
 	<rule ref="category/java/errorprone.xml/CloneMethodMustImplementCloneable"/>
 	<rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName"/>
-	<rule ref="category/java/errorprone.xml/CloneThrowsCloneNotSupportedException"/>
 	<rule ref="category/java/errorprone.xml/CloseResource"/>
 	<rule ref="category/java/errorprone.xml/DoNotHardCodeSDCard"/>
 	<rule ref="category/java/errorprone.xml/DontUseFloatTypeForLoopIndices"/>
@@ -63,7 +60,6 @@
 	<rule ref="category/java/errorprone.xml/FinalizeOverloaded"/>
 	<rule ref="category/java/errorprone.xml/FinalizeShouldBeProtected"/>
 	<rule ref="category/java/errorprone.xml/IdempotentOperations"/>
-	<rule ref="category/java/errorprone.xml/ImportFromSamePackage"/>
 	<rule ref="category/java/errorprone.xml/JumbledIncrementer"/>
 	<rule ref="category/java/errorprone.xml/MisplacedNullCheck"/>
 	<rule ref="category/java/errorprone.xml/NonCaseLabelInSwitchStatement"/>

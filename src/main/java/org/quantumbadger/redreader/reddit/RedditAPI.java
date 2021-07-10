@@ -362,7 +362,7 @@ public final class RedditAPI {
 			final CacheManager cm,
 			final APIResponseHandler.SubmitResponseHandler responseHandler,
 			final RedditAccount user,
-			final boolean is_self,
+			final boolean isSelfPost,
 			final String subreddit,
 			final String title,
 			final String body,
@@ -374,7 +374,7 @@ public final class RedditAPI {
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("api_type", "json"));
-		postFields.add(new PostField("kind", is_self ? "self" : "link"));
+		postFields.add(new PostField("kind", isSelfPost ? "self" : "link"));
 		postFields.add(new PostField(
 				"sendreplies",
 				sendRepliesToInbox ? "true" : "false"));
@@ -387,7 +387,7 @@ public final class RedditAPI {
 			postFields.add(new PostField("flair_id", flairId));
 		}
 
-		if(is_self) {
+		if(isSelfPost) {
 			postFields.add(new PostField("text", body));
 		} else {
 			postFields.add(new PostField("url", body));

@@ -51,7 +51,7 @@ public class BoundsHelper {
 	}
 
 	public boolean isMinScale() {
-		return mCoordinateHelper.getScale() - 0.000001f <= mMinScale;
+		return mCoordinateHelper.getScale() - 0.000_001f <= mMinScale;
 	}
 
 	public void applyBounds() {

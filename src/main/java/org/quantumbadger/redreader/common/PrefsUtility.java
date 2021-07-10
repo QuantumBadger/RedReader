@@ -1837,7 +1837,7 @@ public final class PrefsUtility {
 			final Context context,
 			final SharedPrefsWrapper sharedPreferences) {
 
-		final AppbarItemInfo[] appbarItemsInfo = new AppbarItemInfo[] {
+		final AppbarItemInfo[] appbarItemsInfo = {
 				new AppbarItemInfo(
 						OptionsMenuUtility.AppbarItemsPref.SORT,
 						R.string.pref_menus_appbar_sort_key,

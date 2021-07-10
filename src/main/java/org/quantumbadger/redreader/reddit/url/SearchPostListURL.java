@@ -152,7 +152,7 @@ public class SearchPostListURL extends PostListingURL {
 
 	public static SearchPostListURL parse(final Uri uri) {
 
-		boolean restrict_sr = false;
+		boolean restrictSubreddit = false;
 		String query = "";
 		PostSort order = null;
 		Integer limit = null;
@@ -180,7 +180,7 @@ public class SearchPostListURL extends PostListingURL {
 				query = uri.getQueryParameter(parameterKey);
 
 			} else if(parameterKey.equalsIgnoreCase("restrict_sr")) {
-				restrict_sr = "on".equalsIgnoreCase(uri.getQueryParameter(parameterKey));
+				restrictSubreddit = "on".equalsIgnoreCase(uri.getQueryParameter(parameterKey));
 			}
 		}
 
@@ -227,7 +227,7 @@ public class SearchPostListURL extends PostListingURL {
 
 				final String subreddit = pathSegments[1];
 				return new SearchPostListURL(
-						restrict_sr ? subreddit : null,
+						restrictSubreddit ? subreddit : null,
 						query,
 						order,
 						limit,

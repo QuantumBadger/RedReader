@@ -29,7 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @SuppressWarnings("ForLoopReplaceableByForEach")
 public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
-	private static final AtomicLong ITEM_UNIQUE_ID_GENERATOR = new AtomicLong(100000);
+	private static final AtomicLong ITEM_UNIQUE_ID_GENERATOR = new AtomicLong(100_000);
 
 	public static abstract class Item {
 

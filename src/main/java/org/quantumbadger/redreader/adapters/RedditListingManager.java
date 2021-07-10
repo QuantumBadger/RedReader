@@ -32,8 +32,7 @@ public abstract class RedditListingManager {
 	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(7);
 	private LinearLayoutManager mLayoutManager;
 
-	private static final int
-			GROUP_HEADER = 0;
+	private static final int GROUP_HEADER = 0;
 	private static final int GROUP_NOTIFICATIONS = 1;
 	private static final int GROUP_POST_SELFTEXT = 2;
 	private static final int GROUP_ITEMS = 3;

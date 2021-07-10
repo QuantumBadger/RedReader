@@ -106,11 +106,11 @@ public final class RedditComment implements
 		ups = in.readInt();
 		downs = in.readInt();
 
-		final long in_edited = in.readLong();
-		if(in_edited == -1) {
+		final long inEdited = in.readLong();
+		if(inEdited == -1) {
 			edited = JsonBoolean.FALSE;
 		} else {
-			edited = new JsonLong(in_edited);
+			edited = new JsonLong(inEdited);
 		}
 
 		created = in.readLong();

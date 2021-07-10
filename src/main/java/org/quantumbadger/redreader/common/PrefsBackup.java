@@ -112,11 +112,7 @@ public final class PrefsBackup {
 				SerializeUtils.serialize(dos, map);
 				dos.flush();
 
-			} catch(final SerializeUtils.UnhandledTypeException e) {
-				BugReportActivity.handleGlobalError(activity, e);
-				return;
-
-			} catch(final IOException e) {
+			} catch(final SerializeUtils.UnhandledTypeException | IOException e) {
 				BugReportActivity.handleGlobalError(activity, e);
 				return;
 			}

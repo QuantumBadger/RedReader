@@ -235,7 +235,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 	private synchronized void reloadAccounts(final SQLiteDatabase db) {
 
-		final String[] fields = new String[] {
+		final String[] fields = {
 				FIELD_USERNAME,
 				FIELD_REFRESH_TOKEN,
 				FIELD_PRIORITY,

@@ -51,9 +51,9 @@ public class RRTime {
 		return DateTime.now(DateTimeZone.UTC).getMillis();
 	}
 
-	public static String formatDateTime(final long utc_ms, final Context context) {
+	public static String formatDateTime(final long utcMs, final Context context) {
 
-		final DateTime dateTime = new DateTime(utc_ms);
+		final DateTime dateTime = new DateTime(utcMs);
 		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
 
 		if(DateFormat.is24HourFormat(context)) {
@@ -63,9 +63,9 @@ public class RRTime {
 		}
 	}
 
-	public static String formatDateTimeFilenameSafe(final long utc_ms) {
+	public static String formatDateTimeFilenameSafe(final long utcMs) {
 
-		final DateTime dateTime = new DateTime(utc_ms);
+		final DateTime dateTime = new DateTime(utcMs);
 		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
 
 		return dtFormatterFilename.print(localDateTime);

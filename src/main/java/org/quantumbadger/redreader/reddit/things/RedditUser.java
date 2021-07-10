@@ -57,18 +57,18 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 		created = in.readLong();
 		created_utc = in.readLong();
 
-		final int has_mail_in = in.readInt();
-		if(has_mail_in == 0) {
+		final int inHasMail = in.readInt();
+		if(inHasMail == 0) {
 			has_mail = null;
 		} else {
-			has_mail = has_mail_in == 1;
+			has_mail = inHasMail == 1;
 		}
 
-		final int has_mod_mail_in = in.readInt();
-		if(has_mod_mail_in == 0) {
+		final int inHasModMail = in.readInt();
+		if(inHasModMail == 0) {
 			has_mod_mail = null;
 		} else {
-			has_mod_mail = has_mod_mail_in == 1;
+			has_mod_mail = inHasModMail == 1;
 		}
 
 		is_friend = in.readInt() == 1;

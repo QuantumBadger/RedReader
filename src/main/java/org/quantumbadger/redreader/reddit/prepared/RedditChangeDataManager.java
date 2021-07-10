@@ -47,7 +47,7 @@ public final class RedditChangeDataManager {
 
 	private static final String TAG = "RedditChangeDataManager";
 
-	private static final int MAX_ENTRY_COUNT = 10000;
+	private static final int MAX_ENTRY_COUNT = 10_000;
 
 	private static final HashMap<RedditAccount, RedditChangeDataManager> INSTANCE_MAP
 			= new HashMap<>();
@@ -614,7 +614,7 @@ public final class RedditChangeDataManager {
 		synchronized(mLock) {
 			final Iterator<Map.Entry<String, Entry>> iterator =
 					mEntries.entrySet().iterator();
-			final SortedMap<Long, String> byTimestamp = new TreeMap<Long, String>();
+			final SortedMap<Long, String> byTimestamp = new TreeMap<>();
 
 			while(iterator.hasNext()) {
 

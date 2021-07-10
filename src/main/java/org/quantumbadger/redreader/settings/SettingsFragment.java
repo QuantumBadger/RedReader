@@ -99,9 +99,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 						.getInt(null);
 			}
 
-		} catch(final IllegalAccessException e) {
-			throw new RuntimeException(e);
-		} catch(final NoSuchFieldException e) {
+		} catch(final Exception e) {
 			throw new RuntimeException(e);
 		}
 

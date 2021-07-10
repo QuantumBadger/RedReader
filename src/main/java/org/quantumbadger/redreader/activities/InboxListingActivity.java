@@ -316,7 +316,7 @@ public final class InboxListingActivity extends BaseActivity {
 												= new RedditRenderableComment(
 												parsedComment,
 												null,
-												-100000,
+												-100_000,
 												null,
 												false,
 												true,

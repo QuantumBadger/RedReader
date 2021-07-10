@@ -65,7 +65,7 @@ public class CachedThreadPool {
 						mIdleThreads++;
 
 						try {
-							mTasks.wait(30000);
+							mTasks.wait(30_000);
 						} catch(final InterruptedException e) {
 							throw new RuntimeException(e);
 						} finally {

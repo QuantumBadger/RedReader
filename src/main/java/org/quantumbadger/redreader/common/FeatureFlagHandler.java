@@ -421,8 +421,7 @@ public final class FeatureFlagHandler {
 					}
 				}
 
-				final AppbarItemStrings[] appbarItemsPrefStrings
-						= new AppbarItemStrings[] {
+				final AppbarItemStrings[] appbarItemsPrefStrings = {
 						new AppbarItemStrings(
 								R.string.pref_menus_appbar_accounts_key,
 								"accounts"),

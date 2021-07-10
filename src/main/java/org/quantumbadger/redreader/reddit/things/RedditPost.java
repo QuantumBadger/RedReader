@@ -141,11 +141,11 @@ public final class RedditPost implements
 		clicked = in.readInt() == 1;
 		stickied = in.readInt() == 1;
 
-		final long in_edited = in.readLong();
-		if(in_edited == -1) {
+		final long inEdited = in.readLong();
+		if(inEdited == -1) {
 			edited = JsonBoolean.FALSE;
 		} else {
-			edited = new JsonLong(in_edited);
+			edited = new JsonLong(inEdited);
 		}
 
 		likes = ParcelUtils.readNullableBoolean(in);

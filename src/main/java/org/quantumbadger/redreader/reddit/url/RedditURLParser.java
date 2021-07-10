@@ -57,7 +57,7 @@ public class RedditURLParser {
 	public @interface PathType {
 	}
 
-	private static Optional<Uri> isRedditUri(final Uri uri) {
+	private static Optional<Uri> tryGetRedditUri(final Uri uri) {
 
 		if(uri == null || uri.getHost() == null || uri.getPath() == null) {
 			return Optional.empty();
@@ -114,7 +114,7 @@ public class RedditURLParser {
 			return null;
 		}
 
-		final Optional<Uri> optionalUri = isRedditUri(rawUri);
+		final Optional<Uri> optionalUri = tryGetRedditUri(rawUri);
 
 		if(optionalUri.isEmpty()) {
 			return null;

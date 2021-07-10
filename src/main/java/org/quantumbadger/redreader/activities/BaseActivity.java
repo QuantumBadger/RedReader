@@ -53,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 	private static boolean closingAll = false;
 
-	private final AtomicInteger mRequestIdGenerator = new AtomicInteger(10000);
+	private final AtomicInteger mRequestIdGenerator = new AtomicInteger(10_000);
 
 	private final HashMap<Integer, PermissionCallback> mPermissionRequestCallbacks
 			= new HashMap<>();

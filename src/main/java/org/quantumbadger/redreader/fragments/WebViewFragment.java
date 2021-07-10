@@ -121,14 +121,14 @@ public class WebViewFragment extends Fragment
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment, null);
 
-		final RedditPost src_post = getArguments().getParcelable("post");
+		final RedditPost srcPost = getArguments().getParcelable("post");
 		final RedditPreparedPost post;
 
-		if(src_post != null) {
+		if(srcPost != null) {
 
 			final RedditParsedPost parsedPost = new RedditParsedPost(
 					mActivity,
-					src_post,
+					srcPost,
 					false);
 
 			post = new RedditPreparedPost(

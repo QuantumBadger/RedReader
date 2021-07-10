@@ -489,12 +489,12 @@ public final class OptionsMenuUtility {
 		((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
 				.getSize(windowSize);
 
-		final int BUTTON_SIZE = General.dpToPixels(activity, 48);
-		final int BACK_BUTTON_SIZE = General.dpToPixels(activity, 52);
+		final int buttonSize = General.dpToPixels(activity, 48);
+		final int backButtonSize = General.dpToPixels(activity, 52);
 
 		int buttonSlotsRemaining = (windowSize.x - (backButtonShown
-				? BACK_BUTTON_SIZE
-				: 0)) / BUTTON_SIZE;
+				? backButtonSize
+				: 0)) / buttonSize;
 
 		//Count show-if-room buttons, subtract always-show buttons from
 		// total-remaining, see if we MUST show the overflow menu
@@ -1345,7 +1345,7 @@ public final class OptionsMenuUtility {
 						&& accountsList.size() > 1) {
 
 			//Quick account switcher is on, create its SubMenu and add it to the main menu
-			final int ACCOUNTS_GROUP = 1;
+			final int accountsGroup = 1;
 
 			final SubMenu accountsMenu = menu.addSubMenu(
 					Menu.NONE,
@@ -1362,7 +1362,7 @@ public final class OptionsMenuUtility {
 			//Each account gets a radio button to show which one is active
 			for(final RedditAccount account : accountsList) {
 				final MenuItem accountsMenuItem = accountsMenu.add(
-						ACCOUNTS_GROUP,
+						accountsGroup,
 						Menu.NONE,
 						account.isAnonymous()
 								? QuickAccountsSort.ANONYMOUS
@@ -1380,7 +1380,7 @@ public final class OptionsMenuUtility {
 				}
 			}
 
-			accountsMenu.setGroupCheckable(ACCOUNTS_GROUP,true, true);
+			accountsMenu.setGroupCheckable(accountsGroup,true, true);
 
 			//Add a MenuItem for the full account dialog, so it's still accessible for changes
 			add(activity, accountsMenu, Option.ACCOUNTS);

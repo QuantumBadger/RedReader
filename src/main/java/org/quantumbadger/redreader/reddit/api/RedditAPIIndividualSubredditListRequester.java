@@ -168,13 +168,13 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 					throw new UnexpectedInternalStateException(type.name());
 			}
 
-			if(after != null) {
+			if(after == null) {
+				uri = baseUri;
+
+			} else {
 				final Uri.Builder builder = Uri.parse(baseUri.toString()).buildUpon();
 				builder.appendQueryParameter("after", after);
 				uri = General.uriFromString(builder.toString());
-
-			} else {
-				uri = baseUri;
 			}
 		}
 
@@ -236,9 +236,8 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 							RedditSubredditManager.getInstance(context, user)
 									.offerRawSubredditData(toWrite, timestamp);
 							final String receivedAfter = redditListing.getString("after");
-							if(receivedAfter != null
-									&& type
-									!= RedditSubredditManager.SubredditListType.MOST_POPULAR) {
+							if(receivedAfter != null && type !=
+									RedditSubredditManager.SubredditListType.MOST_POPULAR) {
 
 								doSubredditListRequest(
 										type,

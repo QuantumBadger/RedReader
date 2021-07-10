@@ -634,7 +634,7 @@ public class PostSubmitContentFragment extends Fragment {
 					}
 				};
 
-				final boolean is_self = mTypeSpinner.getSelectedItem().equals("Self");
+				final boolean isSelfPost = mTypeSpinner.getSelectedItem().equals("Self");
 
 				while(subreddit.startsWith("/")) {
 					subreddit = subreddit.substring(1);
@@ -656,7 +656,7 @@ public class PostSubmitContentFragment extends Fragment {
 						cm,
 						handler,
 						mSelectedAccount,
-						is_self,
+						isSelfPost,
 						subreddit,
 						postTitle,
 						text,

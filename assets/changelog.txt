@@ -4,6 +4,7 @@ Highlight moderator/admin username for distinguished posts (thanks to Cameron Me
 Include author mod/admin/submitter role in accessibility description (thanks to Cameron Merkel)
 Show parent comment after submitting reply
 More detail in errors for failed API requests
+Wrap long text in preferences (thanks to Cameron Merkel)
 
 100/1.17.3
 Adding workaround for TLS 1.2 support on Android 4

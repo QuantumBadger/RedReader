@@ -67,20 +67,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainMenuListingManager {
 
-	private static final int
-			GROUP_MAIN_HEADER = 0,
-			GROUP_MAIN_ITEMS = 1,
-			GROUP_USER_HEADER = 2,
-			GROUP_USER_ITEMS = 3,
-			GROUP_ANNOUNCEMENTS = 4,
-			GROUP_PINNED_SUBREDDITS_HEADER = 5,
-			GROUP_PINNED_SUBREDDITS_ITEMS = 6,
-			GROUP_BLOCKED_SUBREDDITS_HEADER = 7,
-			GROUP_BLOCKED_SUBREDDITS_ITEMS = 8,
-			GROUP_MULTIREDDITS_HEADER = 9,
-			GROUP_MULTIREDDITS_ITEMS = 10,
-			GROUP_SUBREDDITS_HEADER = 11,
-			GROUP_SUBREDDITS_ITEMS = 12;
+	@SuppressWarnings("unused")
+	private static final int GROUP_MAIN_HEADER = 0;
+
+	private static final int GROUP_MAIN_ITEMS = 1;
+	private static final int GROUP_USER_HEADER = 2;
+	private static final int GROUP_USER_ITEMS = 3;
+	private static final int GROUP_ANNOUNCEMENTS = 4;
+	private static final int GROUP_PINNED_SUBREDDITS_HEADER = 5;
+	private static final int GROUP_PINNED_SUBREDDITS_ITEMS = 6;
+	private static final int GROUP_BLOCKED_SUBREDDITS_HEADER = 7;
+	private static final int GROUP_BLOCKED_SUBREDDITS_ITEMS = 8;
+	private static final int GROUP_MULTIREDDITS_HEADER = 9;
+	private static final int GROUP_MULTIREDDITS_ITEMS = 10;
+	private static final int GROUP_SUBREDDITS_HEADER = 11;
+	private static final int GROUP_SUBREDDITS_ITEMS = 12;
 
 	@NonNull private final GroupedRecyclerViewAdapter mAdapter
 			= new GroupedRecyclerViewAdapter(13);

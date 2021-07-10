@@ -168,7 +168,7 @@ public class RedditRenderableComment
 		final String flair = mComment.getFlair();
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.FLAIR)
-				&& flair != null && flair.length() > 0) {
+				&& flair != null && !flair.isEmpty()) {
 
 			if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AUTHOR)) {
 				sb.append("  ", 0);
@@ -337,7 +337,7 @@ public class RedditRenderableComment
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.FLAIR)
 				&& flair != null
-				&& flair.length() > 0) {
+				&& !flair.isEmpty()) {
 
 			accessibilityHeader
 					.append(context.getString(

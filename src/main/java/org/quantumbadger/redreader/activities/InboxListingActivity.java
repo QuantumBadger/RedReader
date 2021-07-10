@@ -412,10 +412,6 @@ public final class InboxListingActivity extends BaseActivity {
 								body);
 						AndroidCommon.runOnUiThread(() -> notifications.addView(
 								new ErrorView(InboxListingActivity.this, error)));
-
-						if(t != null) {
-							t.printStackTrace();
-						}
 					}
 				}));
 

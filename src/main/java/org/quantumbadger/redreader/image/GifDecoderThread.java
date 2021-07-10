@@ -31,6 +31,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GifDecoderThread extends Thread {
 
+	@NonNull private static final String TAG = "GifDecoderThread";
+
 	private volatile boolean playing = true;
 	private final InputStream is;
 	private ImageView view;
@@ -70,7 +72,7 @@ public class GifDecoderThread extends Thread {
 		try {
 			is.close();
 		} catch(final Throwable t) {
-			Log.e("GifDecoderThread", "Exception while stopping", t);
+			Log.e(TAG, "Exception while stopping", t);
 		}
 	}
 
@@ -89,7 +91,7 @@ public class GifDecoderThread extends Thread {
 					decoder.read(is);
 					loaded.set(true);
 				} catch(final Throwable t) {
-					t.printStackTrace();
+					Log.i(TAG, "Got exception", t);
 					failed.set(true);
 				}
 			}

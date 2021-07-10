@@ -28,7 +28,10 @@ public class RRGLRenderableColouredQuad extends RRGLRenderable {
 
 	private final RRGLContext mGLContext;
 
-	private float mRed, mGreen, mBlue, mAlpha;
+	private float mRed;
+	private float mGreen;
+	private float mBlue;
+	private float mAlpha;
 	private float mOverallAlpha = 1;
 
 	private static final FloatBuffer mVertexBuffer;

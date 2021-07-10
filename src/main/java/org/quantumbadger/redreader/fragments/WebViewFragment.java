@@ -65,7 +65,8 @@ public class WebViewFragment extends Fragment
 
 	private BaseActivity mActivity;
 
-	private String mUrl, html;
+	private String mUrl;
+	private String html;
 	private volatile String currentUrl;
 	private volatile boolean goingBack;
 	private volatile int lastBackDepthAttempt;

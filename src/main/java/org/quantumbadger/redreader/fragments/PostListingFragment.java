@@ -122,7 +122,8 @@ public class PostListingFragment extends RRFragment
 
 	private final View mOuter;
 
-	private String mAfter = null, mLastAfter = null;
+	private String mAfter = null;
+	private String mLastAfter = null;
 	private CacheRequest mRequest;
 	private boolean mReadyToDownloadMore = false;
 	private long mTimestamp;
@@ -158,7 +159,7 @@ public class PostListingFragment extends RRFragment
 			Toast.makeText(getActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG)
 					.show();
 			// TODO proper error handling -- show error view
-			throw new RuntimeException("Invalid post listing URL");
+			throw new RuntimeException(e);
 		}
 
 		mSession = session;
@@ -235,12 +236,6 @@ public class PostListingFragment extends RRFragment
 		});
 
 		General.setLayoutMatchParent(mRecyclerView);
-
-		int limit = 50;
-
-		if(mPostCountLimit > 0 && limit > mPostCountLimit) {
-			limit = mPostCountLimit;
-		}
 
 		final DownloadStrategy downloadStrategy;
 
@@ -543,12 +538,6 @@ public class PostListingFragment extends RRFragment
 						? DownloadStrategyIfNotCached.INSTANCE
 						: DownloadStrategyNever.INSTANCE;
 
-				int limit = 50;
-
-				if(mPostCountLimit > 0 && limit > mPostRefreshCount.get()) {
-					limit = mPostRefreshCount.get();
-				}
-
 				mRequest = createPostListingRequest(
 						newUri,
 						RedditAccountManager.getInstance(getActivity())
@@ -625,12 +614,6 @@ public class PostListingFragment extends RRFragment
 	@Nullable
 	public RedditSubreddit getSubreddit() {
 		return mSubreddit;
-	}
-
-	private static Uri setUriDownloadCount(final Uri input, final int count) {
-		return input.buildUpon()
-				.appendQueryParameter("limit", String.valueOf(count))
-				.build();
 	}
 
 	public void onPostsAdded() {

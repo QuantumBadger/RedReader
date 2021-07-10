@@ -116,7 +116,8 @@ public class ImageViewActivity extends BaseActivity
 
 	private String mUrl;
 
-	private boolean mIsPaused = true, mIsDestroyed = false;
+	private boolean mIsPaused = true;
+	private boolean mIsDestroyed = false;
 	@NonNull private final ArrayList<Runnable> mActionsOnResume = new ArrayList<>();
 
 	@Nullable private CacheRequest mImageOrVideoRequest;
@@ -472,8 +473,8 @@ public class ImageViewActivity extends BaseActivity
 				return;
 			}
 
-			if(mImageInfo != null && ((mImageInfo.title != null && mImageInfo.title.length() > 0)
-					|| (mImageInfo.caption != null && mImageInfo.caption.length() > 0))) {
+			if(mImageInfo != null && ((mImageInfo.title != null && !mImageInfo.title.isEmpty())
+					|| (mImageInfo.caption != null && !mImageInfo.caption.isEmpty()))) {
 
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> addFloatingToolbarButton(
 						R.drawable.ic_action_info_dark,

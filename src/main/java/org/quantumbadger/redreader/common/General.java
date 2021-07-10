@@ -249,7 +249,8 @@ public final class General {
 			@Nullable final String url,
 			@NonNull final Optional<FailedRequestBody> response) {
 
-		final int title, message;
+		final int title;
+		final int message;
 		boolean reportable = true;
 
 		switch(type) {
@@ -428,7 +429,8 @@ public final class General {
 			final String debuggingContext,
 			@NonNull final Optional<FailedRequestBody> response) {
 
-		final int title, message;
+		final int title;
+		final int message;
 
 		switch(type) {
 
@@ -548,13 +550,13 @@ public final class General {
 
 					final String scheme = urlMatcher.group(1);
 					final String authority = urlMatcher.group(2);
-					final String path = urlMatcher.group(3).length() == 0
+					final String path = urlMatcher.group(3).isEmpty()
 							? null
 							: "/" + urlMatcher.group(3);
-					final String query = urlMatcher.group(4).length() == 0
+					final String query = urlMatcher.group(4).isEmpty()
 							? null
 							: urlMatcher.group(4);
-					final String fragment = urlMatcher.group(5).length() == 0
+					final String fragment = urlMatcher.group(5).isEmpty()
 							? null
 							: urlMatcher.group(5);
 
@@ -835,8 +837,9 @@ public final class General {
 		return General.class.getCanonicalName().contains("alpha");
 	}
 
+	@SafeVarargs
 	@NonNull
-	public static <E> Set<E> hashsetFromArray(@NonNull final E[] data) {
+	public static <E> Set<E> hashsetFromArray(@NonNull final E... data) {
 		final HashSet<E> result = new HashSet<>(data.length);
 		Collections.addAll(result, data);
 		return result;

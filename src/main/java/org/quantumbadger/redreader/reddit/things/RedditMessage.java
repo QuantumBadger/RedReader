@@ -34,9 +34,12 @@ public class RedditMessage implements JsonObject.JsonDeserializable {
 	public String subject;
 	public String subreddit;
 	public String subreddit_name_prefixed;
-	public boolean _json_new, was_comment;
-	public JsonValue first_message, replies;
-	public long created, created_utc;
+	public boolean _json_new;
+	public boolean was_comment;
+	public JsonValue first_message;
+	public JsonValue replies;
+	public long created;
+	public long created_utc;
 
 	public String getUnescapedBodyMarkdown() {
 		return StringEscapeUtils.unescapeHtml4(body);

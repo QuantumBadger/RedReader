@@ -72,14 +72,17 @@ import java.util.regex.Pattern;
 
 public class LinkHandler {
 
-	public static final Pattern
-			youtubeDotComPattern
-			= Pattern.compile("^https?://[\\.\\w]*youtube\\.\\w+/.*"),
-			youtuDotBePattern = Pattern.compile(
-					"^https?://[\\.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*"),
-			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
-			googlePlayPattern = Pattern.compile(
-					"^https?://[\\.\\w]*play\\.google\\.\\w+/.*");
+	public static final Pattern youtubeDotComPattern
+			= Pattern.compile("^https?://[.\\w]*youtube\\.\\w+/.*");
+
+	public static final Pattern youtuDotBePattern = Pattern.compile(
+					"^https?://[.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*");
+
+	public static final Pattern vimeoPattern
+			= Pattern.compile("^https?://[.\\w]*vimeo\\.\\w+/.*");
+
+	public static final Pattern googlePlayPattern = Pattern.compile(
+					"^https?://[.\\w]*play\\.google\\.\\w+/.*");
 
 	public enum LinkAction {
 		SHARE(R.string.action_share),
@@ -308,7 +311,7 @@ public class LinkHandler {
 		if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
 			final String youtuBeUrl = "http://youtube.com/watch?v="
 					+ youtuDotBeMatcher.group(1)
-					+ (youtuDotBeMatcher.group(2).length() > 0
+					+ (!youtuDotBeMatcher.group(2).isEmpty()
 							? "&" + youtuDotBeMatcher.group(2) .substring(1)
 							: "");
 			if(openWebBrowser(activity, Uri.parse(youtuBeUrl), fromExternalIntent)) {
@@ -552,29 +555,36 @@ public class LinkHandler {
 		}
 	}
 
-	public static final Pattern imgurPattern = Pattern.compile(
-			".*[^A-Za-z]imgur\\.com/(\\w+).*"),
-			imgurAlbumPattern = Pattern.compile(
-					".*[^A-Za-z]imgur\\.com/(a|gallery)/(\\w+).*"),
-			redditGalleryPattern = Pattern.compile(
-					".*[^A-Za-z]reddit\\.com/gallery/(\\w+).*"),
-			qkmePattern1 = Pattern.compile(".*[^A-Za-z]qkme\\.me/(\\w+).*"),
-			qkmePattern2 = Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*"),
-			lvmePattern = Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*"),
-			gfycatPattern = Pattern.compile(
-					".*[^A-Za-z]gfycat\\.com/(?:gifs/detail/)?(\\w+).*"),
-			redgifsPattern = Pattern.compile(
-					".*[^A-Za-z]redgifs\\.com/watch/(?:gifs/detail/)?(\\w+).*"),
-			streamablePattern = Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*"),
-			reddituploadsPattern = Pattern.compile(
-					".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*"),
-			redditVideosPattern = Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*"),
-			imgflipPattern = Pattern.compile(".*[^A-Za-z]imgflip\\.com/i/(\\w+).*"),
-			makeamemePattern = Pattern.compile(
-					".*[^A-Za-z]makeameme\\.org/meme/([\\w\\-]+).*"),
-			deviantartPattern = Pattern.compile(
-					"https://www\\.deviantart\\.com/([\\w\\-]+)/art/([\\w\\-]+)"),
-			giphyPattern = Pattern.compile(".*[^A-Za-z]giphy\\.com/gifs/(\\w+).*");
+	public static final Pattern imgurPattern
+			= Pattern.compile(".*[^A-Za-z]imgur\\.com/(\\w+).*");
+	public static final Pattern imgurAlbumPattern
+			= Pattern.compile(".*[^A-Za-z]imgur\\.com/(a|gallery)/(\\w+).*");
+	public static final Pattern redditGalleryPattern
+			= Pattern.compile(".*[^A-Za-z]reddit\\.com/gallery/(\\w+).*");
+	public static final Pattern qkmePattern1
+			= Pattern.compile(".*[^A-Za-z]qkme\\.me/(\\w+).*");
+	public static final Pattern qkmePattern2
+			= Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*");
+	public static final Pattern lvmePattern
+			= Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*");
+	public static final Pattern gfycatPattern
+			= Pattern.compile(".*[^A-Za-z]gfycat\\.com/(?:gifs/detail/)?(\\w+).*");
+	public static final Pattern redgifsPattern
+			= Pattern.compile(".*[^A-Za-z]redgifs\\.com/watch/(?:gifs/detail/)?(\\w+).*");
+	public static final Pattern streamablePattern
+			= Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*");
+	public static final Pattern reddituploadsPattern
+			= Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*");
+	public static final Pattern redditVideosPattern
+			= Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*");
+	public static final Pattern imgflipPattern
+			= Pattern.compile(".*[^A-Za-z]imgflip\\.com/i/(\\w+).*");
+	public static final Pattern makeamemePattern
+			= Pattern.compile(".*[^A-Za-z]makeameme\\.org/meme/([\\w\\-]+).*");
+	public static final Pattern deviantartPattern
+			= Pattern.compile("https://www\\.deviantart\\.com/([\\w\\-]+)/art/([\\w\\-]+)");
+	public static final Pattern giphyPattern
+			= Pattern.compile(".*[^A-Za-z]giphy\\.com/gifs/(\\w+).*");
 
 	public static boolean isProbablyAnImage(final String url) {
 

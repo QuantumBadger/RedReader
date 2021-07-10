@@ -800,7 +800,7 @@ public class MainActivity extends RefreshableActivity
 				subredditSubscriptionState,
 				postsVisible
 						&& subredditDescription != null
-						&& subredditDescription.length() > 0,
+						&& !subredditDescription.isEmpty(),
 				true,
 				subredditPinState,
 				subredditBlockedState);

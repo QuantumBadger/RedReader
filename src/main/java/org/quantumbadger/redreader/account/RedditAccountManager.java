@@ -55,12 +55,12 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		}
 	};
 
-	private static final String ACCOUNTS_DB_FILENAME = "accounts_oauth2.db",
-			TABLE = "accounts_oauth2",
-			FIELD_USERNAME = "username",
-			FIELD_REFRESH_TOKEN = "refresh_token",
-			FIELD_PRIORITY = "priority",
-			FIELD_USES_NEW_CLIENT_ID = "uses_new_client_id";
+	private static final String ACCOUNTS_DB_FILENAME = "accounts_oauth2.db";
+	private static final String TABLE = "accounts_oauth2";
+	private static final String FIELD_USERNAME = "username";
+	private static final String FIELD_REFRESH_TOKEN = "refresh_token";
+	private static final String FIELD_PRIORITY = "priority";
+	private static final String FIELD_USES_NEW_CLIENT_ID = "uses_new_client_id";
 
 	private static final int ACCOUNTS_DB_VERSION = 3;
 

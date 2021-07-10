@@ -61,7 +61,8 @@ public final class CacheManager {
 
 	private static final String TAG = "CacheManager";
 
-	private static final String ext = ".rr_cache_data", tempExt = ".rr_cache_data_tmp";
+	private static final String ext = ".rr_cache_data";
+	private static final String tempExt = ".rr_cache_data_tmp";
 
 	private static final AtomicBoolean isAlreadyInitialized = new AtomicBoolean(false);
 	private final CacheDbManager dbManager;

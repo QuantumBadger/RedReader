@@ -255,7 +255,7 @@ public class PostListingActivity extends RefreshableActivity
 				true,
 				controller.isFrontPage(),
 				subredditSubscriptionState,
-				subredditDescription != null && subredditDescription.length() > 0,
+				subredditDescription != null && !subredditDescription.isEmpty(),
 				false,
 				subredditPinState,
 				subredditBlockedState);

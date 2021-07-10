@@ -265,7 +265,7 @@ public class PostSubmitSubredditSelectionFragment extends Fragment {
 				.filter(RedditAccount::isNotAnonymous)
 				.forEach(account -> usernames.add(account.username));
 
-		if(usernames.size() == 0) {
+		if(usernames.isEmpty()) {
 			final FragmentActivity activity = getActivity();
 
 			if(activity != null) {

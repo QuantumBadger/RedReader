@@ -81,9 +81,11 @@ public final class RedditPostView extends FlingableItemView
 	private static final AtomicInteger sInlinePreviewsShownThisSession = new AtomicInteger(0);
 
 	private RedditPreparedPost mPost = null;
-	private final TextView title, subtitle;
+	private final TextView title;
+	private final TextView subtitle;
 
-	@NonNull private final ImageView mThumbnailView, mOverlayIcon;
+	@NonNull private final ImageView mThumbnailView;
+	@NonNull private final ImageView mOverlayIcon;
 
 	@NonNull private final LinearLayout mOuterView;
 	@NonNull private final LinearLayout mInnerView;
@@ -103,16 +105,18 @@ public final class RedditPostView extends FlingableItemView
 
 	private final BaseActivity mActivity;
 
-	private final PrefsUtility.PostFlingAction mLeftFlingPref, mRightFlingPref;
-	private ActionDescriptionPair mLeftFlingAction, mRightFlingAction;
+	private final PrefsUtility.PostFlingAction mLeftFlingPref;
+	private final PrefsUtility.PostFlingAction mRightFlingPref;
+	private ActionDescriptionPair mLeftFlingAction;
+	private ActionDescriptionPair mRightFlingAction;
 
 	private final boolean mCommentsButtonPref;
 
 	private final int
-			rrPostTitleReadCol,
-			rrPostTitleCol,
-			rrListItemBackgroundCol,
-			rrPostCommentsButtonBackCol;
+			rrPostTitleReadCol;
+	private final int rrPostTitleCol;
+	private final int rrListItemBackgroundCol;
+	private final int rrPostCommentsButtonBackCol;
 
 	private final int mThumbnailSizePrefPixels;
 

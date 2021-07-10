@@ -70,7 +70,8 @@ public class CommentReplyActivity extends BaseActivity {
 	private ParentType mParentType;
 
 	private boolean mDraftReset = false;
-	private static String lastText, lastParentIdAndType;
+	private static String lastText;
+	private static String lastParentIdAndType;
 
 	public static final String PARENT_TYPE = "parentType";
 	public static final String PARENT_TYPE_MESSAGE = "parentTypeMessage";
@@ -154,7 +155,7 @@ public class CommentReplyActivity extends BaseActivity {
 			}
 		}
 
-		if(usernames.size() == 0) {
+		if(usernames.isEmpty()) {
 			General.quickToast(this, getString(R.string.error_toast_notloggedin));
 			finish();
 		}

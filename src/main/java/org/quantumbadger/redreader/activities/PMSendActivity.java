@@ -64,7 +64,9 @@ public class PMSendActivity extends BaseActivity {
 
 	private boolean mSendSuccess;
 
-	private static String lastText, lastRecipient, lastSubject;
+	private static String lastText;
+	private static String lastRecipient;
+	private static String lastSubject;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -138,7 +140,7 @@ public class PMSendActivity extends BaseActivity {
 			}
 		}
 
-		if(usernames.size() == 0) {
+		if(usernames.isEmpty()) {
 			General.quickToast(this, getString(R.string.error_toast_notloggedin));
 			finish();
 		}

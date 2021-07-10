@@ -30,11 +30,13 @@ import java.util.List;
 
 public class SearchPostListURL extends PostListingURL {
 
-	public final String subreddit, query;
+	public final String subreddit;
+	public final String query;
 
 	public final PostSort order;
 	public final Integer limit;
-	public final String before, after;
+	public final String before;
+	public final String after;
 
 	SearchPostListURL(
 			final String subreddit,
@@ -154,7 +156,8 @@ public class SearchPostListURL extends PostListingURL {
 		String query = "";
 		PostSort order = null;
 		Integer limit = null;
-		String before = null, after = null;
+		String before = null;
+		String after = null;
 
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
@@ -194,7 +197,7 @@ public class SearchPostListURL extends PostListingURL {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
-				if(segment.length() > 0) {
+				if(!segment.isEmpty()) {
 					pathSegmentsFiltered.add(segment);
 				}
 			}

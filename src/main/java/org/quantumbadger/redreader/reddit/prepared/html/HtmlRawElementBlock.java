@@ -115,7 +115,6 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 
 		if(currentSsb != null) {
 			destination.add(new BodyElementTextSpanned(mBlockType, currentSsb));
-			currentSsb = null;
 		}
 	}
 }

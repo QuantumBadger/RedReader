@@ -37,20 +37,32 @@ public final class RedditComment implements
 		RedditThingWithIdAndType,
 		JsonObject.JsonDeserializable {
 
-	public String body, body_html, author, subreddit;
+	public String body;
+	public String body_html;
+	public String author;
+	public String subreddit;
 	public String author_flair_text;
-	public Boolean archived, likes, score_hidden;
+	public Boolean archived;
+	public Boolean likes;
+	public Boolean score_hidden;
 
 	public JsonValue replies;
 
-	public String id, subreddit_id, link_id, parent_id, name, context;
+	public String id;
+	public String subreddit_id;
+	public String link_id;
+	public String parent_id;
+	public String name;
+	public String context;
 
-	public int ups, downs;
+	public int ups;
+	public int downs;
 	public int gilded;
 
 	@Nullable public JsonValue edited;
 
-	public long created, created_utc;
+	public long created;
+	public long created_utc;
 
 	@Nullable public Boolean saved;
 

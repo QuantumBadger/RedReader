@@ -37,10 +37,14 @@ import java.util.Locale;
 
 public class RRTime {
 
-	private static final DateTimeFormatter
-			dtFormatter12hr = DateTimeFormat.forPattern("yyyy-MM-dd h:mm a"),
-			dtFormatter24hr = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm"),
-			dtFormatterFilename = DateTimeFormat.forPattern("yyyy_MM_dd__HH_mm_ss");
+	private static final DateTimeFormatter dtFormatter12hr
+			= DateTimeFormat.forPattern("yyyy-MM-dd h:mm a");
+
+	private static final DateTimeFormatter dtFormatter24hr
+			= DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+
+	private static final DateTimeFormatter dtFormatterFilename
+			= DateTimeFormat.forPattern("yyyy_MM_dd__HH_mm_ss");
 
 
 	public static long utcCurrentTimeMillis() {

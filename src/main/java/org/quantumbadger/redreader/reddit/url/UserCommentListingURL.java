@@ -76,7 +76,7 @@ public class UserCommentListingURL extends CommentListingURL {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
-				if(segment.length() > 0) {
+				if(!segment.isEmpty()) {
 					pathSegmentsFiltered.add(segment);
 				}
 			}

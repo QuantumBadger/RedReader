@@ -54,7 +54,8 @@ public class UserPostListingURL extends PostListingURL {
 	public final String user;
 	public final PostSort order;
 	public final Integer limit;
-	public final String before, after;
+	public final String before;
+	public final String after;
 
 	UserPostListingURL(
 			final Type type,
@@ -97,7 +98,8 @@ public class UserPostListingURL extends PostListingURL {
 	public static UserPostListingURL parse(final Uri uri) {
 
 		Integer limit = null;
-		String before = null, after = null;
+		String before = null;
+		String after = null;
 
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
@@ -128,7 +130,7 @@ public class UserPostListingURL extends PostListingURL {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
-				if(segment.length() > 0) {
+				if(!segment.isEmpty()) {
 					pathSegmentsFiltered.add(segment);
 				}
 			}

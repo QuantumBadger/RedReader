@@ -49,7 +49,7 @@ public class RedditAccount {
 	}
 
 	public boolean isAnonymous() {
-		return username.length() == 0;
+		return username.isEmpty();
 	}
 
 	public boolean isNotAnonymous() {

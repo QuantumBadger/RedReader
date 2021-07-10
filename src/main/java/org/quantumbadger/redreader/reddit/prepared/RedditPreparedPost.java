@@ -996,12 +996,12 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			boldCol = appearance.getColor(0, 255);
 		}
 
-		final int rrPostSubtitleUpvoteCol = appearance.getColor(1, 255),
-				rrPostSubtitleDownvoteCol = appearance.getColor(2, 255),
-				rrFlairBackCol = appearance.getColor(3, 255),
-				rrFlairTextCol = appearance.getColor(4, 255),
-				rrGoldTextCol = appearance.getColor(5, 255),
-				rrGoldBackCol = appearance.getColor(6, 255);
+		final int rrPostSubtitleUpvoteCol = appearance.getColor(1, 255);
+		final int rrPostSubtitleDownvoteCol = appearance.getColor(2, 255);
+		final int rrFlairBackCol = appearance.getColor(3, 255);
+		final int rrFlairTextCol = appearance.getColor(4, 255);
+		final int rrGoldTextCol = appearance.getColor(5, 255);
+		final int rrGoldBackCol = appearance.getColor(6, 255);
 
 		appearance.recycle();
 
@@ -1341,7 +1341,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final String url = post.getThumbnailUrl();
 
 		return url != null
-				&& url.length() != 0
+				&& !url.isEmpty()
 				&& !url.equalsIgnoreCase("nsfw")
 				&& !url.equalsIgnoreCase("self")
 				&& !url.equalsIgnoreCase("default");
@@ -1557,9 +1557,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							@NonNull final Optional<FailedRequestBody> response) {
 
 						revertOnFailure();
-						if(t != null) {
-							t.printStackTrace();
-						}
 
 						final RRError error = General.getGeneralErrorForFailure(
 								context,

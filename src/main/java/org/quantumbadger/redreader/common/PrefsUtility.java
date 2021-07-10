@@ -80,6 +80,7 @@ public final class PrefsUtility {
 		return sharedPreferences.getBoolean(context.getString(id), defaultValue);
 	}
 
+	@SuppressWarnings("unused")
 	private static long getLong(
 			final int id,
 			final long defaultValue,
@@ -1819,7 +1820,8 @@ public final class PrefsUtility {
 
 	private static class AppbarItemInfo {
 		final OptionsMenuUtility.AppbarItemsPref itemPref;
-		final int stringRes, defaultValue;
+		final int stringRes;
+		final int defaultValue;
 
 		AppbarItemInfo(
 				final OptionsMenuUtility.AppbarItemsPref itemPref,

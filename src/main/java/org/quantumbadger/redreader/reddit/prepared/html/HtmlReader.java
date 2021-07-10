@@ -142,7 +142,8 @@ public class HtmlReader {
 			throw new MalformedHtmlException(
 					"Reached EOF while reading name",
 					mHtml,
-					mPos);
+					mPos,
+					e);
 		}
 
 		if(result.length() == 0) {
@@ -182,7 +183,7 @@ public class HtmlReader {
 			}
 
 		} catch(final IndexOutOfBoundsException e) {
-			throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos);
+			throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos, e);
 		}
 
 		mPos++;
@@ -335,7 +336,7 @@ public class HtmlReader {
 			}
 
 		} catch(final IndexOutOfBoundsException e) {
-			throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos);
+			throw new MalformedHtmlException("Unexpected EOF", mHtml, mPos, e);
 		}
 	}
 

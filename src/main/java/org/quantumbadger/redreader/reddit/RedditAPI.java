@@ -66,8 +66,6 @@ import java.util.UUID;
 
 public final class RedditAPI {
 
-	private static final String TAG = "RedditAPI";
-
 	public static final int ACTION_UPVOTE = 0;
 	public static final int ACTION_UNVOTE = 1;
 	public static final int ACTION_DOWNVOTE = 2;

@@ -33,7 +33,8 @@ public final class LoadingView extends StatusListItemView {
 
 	private final TextView textView;
 
-	private static final int LOADING_INDETERMINATE = -1, LOADING_DONE = -2;
+	private static final int LOADING_INDETERMINATE = -1;
+	private static final int LOADING_DONE = -2;
 
 	private final Handler loadingHandler = new Handler(Looper.getMainLooper()) {
 		@Override

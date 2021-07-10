@@ -52,7 +52,7 @@ public final class ImageInfoDialog extends PropertiesDialog {
 
 		boolean first = true;
 
-		if(info.title != null && info.title.trim().length() > 0) {
+		if(info.title != null && !info.title.trim().isEmpty()) {
 			items.addView(propView(
 					context,
 					R.string.props_title,
@@ -61,7 +61,7 @@ public final class ImageInfoDialog extends PropertiesDialog {
 			first = false;
 		}
 
-		if(info.caption != null && info.caption.trim().length() > 0) {
+		if(info.caption != null && !info.caption.trim().isEmpty()) {
 			items.addView(propView(
 					context,
 					R.string.props_caption,

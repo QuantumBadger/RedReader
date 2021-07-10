@@ -23,7 +23,8 @@ import org.quantumbadger.redreader.http.FailedRequestBody;
 
 public class RRError {
 
-	@Nullable public final String title, message;
+	@Nullable public final String title;
+	@Nullable public final String message;
 	public final boolean reportable;
 	@Nullable public final Throwable t;
 	@Nullable public final Integer httpStatus;

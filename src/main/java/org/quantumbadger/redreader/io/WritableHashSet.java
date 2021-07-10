@@ -95,7 +95,7 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 
 	public static String listToEscapedString(final Collection<String> list) {
 
-		if(list.size() == 0) {
+		if(list.isEmpty()) {
 			return "";
 		}
 
@@ -132,7 +132,7 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 		if(str != null) {
 
 			// Workaround to improve parsing of lists saved by older versions of the app
-			if(str.length() > 0 && !str.endsWith(";")) {
+			if(!str.isEmpty() && !str.endsWith(";")) {
 				str += ";";
 			}
 

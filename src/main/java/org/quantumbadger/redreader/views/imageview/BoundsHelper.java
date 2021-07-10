@@ -21,8 +21,10 @@ import org.quantumbadger.redreader.common.MutableFloatPoint2D;
 
 public class BoundsHelper {
 
-	private final int mResolutionX, mResolutionY;
-	private final int mImageResolutionX, mImageResolutionY;
+	private final int mResolutionX;
+	private final int mResolutionY;
+	private final int mImageResolutionX;
+	private final int mImageResolutionY;
 	private final CoordinateHelper mCoordinateHelper;
 
 	private final float mMinScale;

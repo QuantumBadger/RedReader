@@ -58,7 +58,7 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		if(parseSelfText
 				&& src.is_self
 				&& src.selftext_html != null
-				&& src.selftext.trim().length() > 0) {
+				&& !src.selftext.trim().isEmpty()) {
 			mSelfText = HtmlReader.parse(
 					StringEscapeUtils.unescapeHtml4(src.selftext_html),
 					activity);
@@ -66,7 +66,7 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 			mSelfText = null;
 		}
 
-		if(src.link_flair_text != null && src.link_flair_text.length() > 0) {
+		if(src.link_flair_text != null && !src.link_flair_text.isEmpty()) {
 			mFlairText = StringEscapeUtils.unescapeHtml4(src.link_flair_text);
 		} else {
 			mFlairText = null;

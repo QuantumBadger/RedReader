@@ -21,7 +21,8 @@ public final class SwipeHistory {
 
 	private final float[] positions;
 	private final long[] timestamps;
-	private int start = 0, len = 0;
+	private int start = 0;
+	private int len = 0;
 
 	public SwipeHistory(final int len) {
 		positions = new float[len];

@@ -66,7 +66,8 @@ public class MultiredditPostListURL extends PostListingURL {
 
 	@Nullable public final PostSort order;
 	@Nullable public final Integer limit;
-	@Nullable public final String before, after;
+	@Nullable public final String before;
+	@Nullable public final String after;
 
 	private MultiredditPostListURL(
 			@Nullable final String username,
@@ -151,7 +152,8 @@ public class MultiredditPostListURL extends PostListingURL {
 	public static MultiredditPostListURL parse(final Uri uri) {
 
 		Integer limit = null;
-		String before = null, after = null;
+		String before = null;
+		String after = null;
 
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
@@ -183,7 +185,7 @@ public class MultiredditPostListURL extends PostListingURL {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
-				if(segment.length() > 0) {
+				if(!segment.isEmpty()) {
 					pathSegmentsFiltered.add(segment);
 				}
 			}

@@ -39,23 +39,23 @@ import java.util.UUID;
 
 final class CacheDbManager extends SQLiteOpenHelper {
 
-	private static final String CACHE_DB_FILENAME = "cache.db",
-			TABLE = "web";
+	private static final String CACHE_DB_FILENAME = "cache.db";
+	private static final String TABLE = "web";
 
-	public static final String
-			FIELD_URL = "url",
-			FIELD_ID = "id",
-			FIELD_TIMESTAMP = "timestamp",
-			FIELD_SESSION = "session",
-			FIELD_USER = "user",
-			FIELD_STATUS = "status",
-			FIELD_TYPE = "type",
-			FIELD_MIMETYPE = "mimetype",
-			FIELD_COMPRESSION_TYPE = "compressionType",
-			FIELD_LENGTH_UNCOMPRESSED = "lengthUncompressed",
-			FIELD_LENGTH_COMPRESSED = "lengthCompressed";
+	public static final String FIELD_URL = "url";
+	public static final String FIELD_ID = "id";
+	public static final String FIELD_TIMESTAMP = "timestamp";
+	public static final String FIELD_SESSION = "session";
+	public static final String FIELD_USER = "user";
+	public static final String FIELD_STATUS = "status";
+	public static final String FIELD_TYPE = "type";
+	public static final String FIELD_MIMETYPE = "mimetype";
+	public static final String FIELD_COMPRESSION_TYPE = "compressionType";
+	public static final String FIELD_LENGTH_UNCOMPRESSED = "lengthUncompressed";
+	public static final String FIELD_LENGTH_COMPRESSED = "lengthCompressed";
 
-	private static final int STATUS_MOVING = 1, STATUS_DONE = 2;
+	private static final int STATUS_MOVING = 1;
+	private static final int STATUS_DONE = 2;
 
 	private static final int CACHE_DB_VERSION = 2;
 

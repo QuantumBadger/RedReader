@@ -33,19 +33,39 @@ public final class RedditPost implements
 		RedditThingWithIdAndType,
 		JsonObject.JsonDeserializable {
 
-	public String id, name;
+	public String id;
+	public String name;
 	public String url;
-	public String title, author, domain, subreddit, subreddit_id;
-	public int num_comments, score, ups, downs, gilded;
-	public boolean archived, over_18, hidden, saved, is_self, clicked, stickied;
+	public String title;
+	public String author;
+	public String domain;
+	public String subreddit;
+	public String subreddit_id;
+	public int num_comments;
+	public int score;
+	public int ups;
+	public int downs;
+	public int gilded;
+	public boolean archived;
+	public boolean over_18;
+	public boolean hidden;
+	public boolean saved;
+	public boolean is_self;
+	public boolean clicked;
+	public boolean stickied;
 	@Nullable public JsonValue edited;
 	@Nullable public Boolean likes;
 	@Nullable public Boolean spoiler;
 	@Nullable public Boolean locked;
 
-	public long created, created_utc;
+	public long created;
+	public long created_utc;
 
-	public String selftext, selftext_html, permalink, link_flair_text, author_flair_text;
+	public String selftext;
+	public String selftext_html;
+	public String permalink;
+	public String link_flair_text;
+	public String author_flair_text;
 	public String thumbnail; // an image URL
 
 	public JsonObject media;

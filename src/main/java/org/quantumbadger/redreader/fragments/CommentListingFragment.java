@@ -672,10 +672,9 @@ public class CommentListingFragment extends RRFragment
 				OptionsMenuUtility.AppbarItemsPref.REPLY);
 
 		if(mAllUrls != null
-				&& mAllUrls.size() > 0
+				&& !mAllUrls.isEmpty()
 				&& mAllUrls.get(0).pathType() == RedditURLParser.POST_COMMENT_LISTING_URL
-				&&
-				replyShowAsAction != OptionsMenuUtility.DO_NOT_SHOW) {
+				&& replyShowAsAction != OptionsMenuUtility.DO_NOT_SHOW) {
 			final MenuItem reply = menu.add(
 					Menu.NONE,
 					OptionsMenuUtility.AppbarItemsPref.REPLY.ordinal(),

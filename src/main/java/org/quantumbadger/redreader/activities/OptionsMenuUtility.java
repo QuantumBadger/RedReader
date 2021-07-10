@@ -1322,9 +1322,9 @@ public final class OptionsMenuUtility {
 	private static class QuickAccountsSort {
 		//Constants for sorting the quick accounts submenu properly
 		//Real accounts first, then Anonymous, then the account dialog
-		static final int ACCOUNT = 2,
-				ANONYMOUS = 3,
-				MANAGER = 4;
+		static final int ACCOUNT = 2;
+		static final int ANONYMOUS = 3;
+		static final int MANAGER = 4;
 	}
 
 	private static void addAccounts(

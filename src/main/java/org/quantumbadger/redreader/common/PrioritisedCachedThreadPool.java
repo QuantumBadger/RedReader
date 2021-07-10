@@ -30,7 +30,8 @@ public class PrioritisedCachedThreadPool {
 	private final String mThreadName;
 	private int mThreadNameCount = 0;
 
-	private int mRunningThreads, mIdleThreads;
+	private int mRunningThreads;
+	private int mIdleThreads;
 
 	public PrioritisedCachedThreadPool(final int threads, final String threadName) {
 		mMaxThreads = threads;

@@ -96,7 +96,7 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 				String.valueOf(post.num_comments),
 				false));
 
-		if(post.selftext != null && post.selftext.length() > 0) {
+		if(post.selftext != null && !post.selftext.isEmpty()) {
 			items.addView(propView(
 					context,
 					R.string.props_self_markdown,

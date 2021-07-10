@@ -26,7 +26,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.StringUtils;
-import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.io.WritableObject;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
@@ -45,10 +44,10 @@ public class RedditSubreddit implements
 		try {
 			return getCanonicalId();
 		} catch(final InvalidSubredditNameException e) {
-			throw new UnexpectedInternalStateException(String.format(
+			throw new RuntimeException(String.format(
 					Locale.US,
 					"Cannot save subreddit '%s'",
-					url));
+					url), e);
 		}
 	}
 
@@ -59,11 +58,20 @@ public class RedditSubreddit implements
 
 	@WritableObjectVersion public static int DB_VERSION = 1;
 
-	@WritableField public String header_img, header_title;
-	@WritableField public String description, description_html, public_description;
-	@WritableField public String id, name, title, display_name, url;
-	@WritableField public long created, created_utc;
-	@WritableField public Integer accounts_active, subscribers;
+	@WritableField public String header_img;
+	@WritableField public String header_title;
+	@WritableField public String description;
+	@WritableField public String description_html;
+	@WritableField public String public_description;
+	@WritableField public String id;
+	@WritableField public String name;
+	@WritableField public String title;
+	@WritableField public String display_name;
+	@WritableField public String url;
+	@WritableField public long created;
+	@WritableField public long created_utc;
+	@WritableField public Integer accounts_active;
+	@WritableField public Integer subscribers;
 	@WritableField public boolean over18;
 
 	@WritableObjectTimestamp public long downloadTime;
@@ -208,7 +216,7 @@ public class RedditSubreddit implements
 	}
 
 	public boolean hasSidebar() {
-		return description_html != null && description_html.length() > 0;
+		return description_html != null && !description_html.isEmpty();
 	}
 
 	public void showSidebarActivity(final AppCompatActivity context) {

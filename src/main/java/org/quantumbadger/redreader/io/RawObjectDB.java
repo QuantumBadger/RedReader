@@ -41,9 +41,9 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 	private final Field[] fields;
 	private final String[] fieldNames;
 
-	private static final String TABLE_NAME = "objects",
-			FIELD_ID = "RawObjectDB_id",
-			FIELD_TIMESTAMP = "RawObjectDB_timestamp";
+	private static final String TABLE_NAME = "objects";
+	private static final String FIELD_ID = "RawObjectDB_id";
+	private static final String FIELD_TIMESTAMP = "RawObjectDB_timestamp";
 
 	private static <E> int getDbVersion(final Class<E> clazz) {
 		for(final Field field : clazz.getDeclaredFields()) {

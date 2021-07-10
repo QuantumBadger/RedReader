@@ -21,8 +21,11 @@ public final class MarkdownLine {
 
 	public final CharArrSubstring src;
 	public final MarkdownParser.MarkdownParagraphType type;
-	public final int spacesAtStart, spacesAtEnd;
-	public final int prefixLength, level, number;
+	public final int spacesAtStart;
+	public final int spacesAtEnd;
+	public final int prefixLength;
+	public final int level;
+	public final int number;
 
 	MarkdownLine(
 			final CharArrSubstring src,

@@ -392,9 +392,6 @@ public class RedditSubredditSubscriptionManager {
 			}
 
 			onSubscriptionChangeAttemptFailed(canonicalName);
-			if(t != null) {
-				t.printStackTrace();
-			}
 
 			final RRError error = General.getGeneralErrorForFailure(
 					context,

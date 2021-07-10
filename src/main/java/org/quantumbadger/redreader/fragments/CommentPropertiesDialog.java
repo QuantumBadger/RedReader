@@ -57,7 +57,7 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 
 		items.addView(propView(context, R.string.props_author, comment.author, false));
 
-		if(comment.author_flair_text != null && comment.author_flair_text.length() > 0) {
+		if(comment.author_flair_text != null && !comment.author_flair_text.isEmpty()) {
 			items.addView(propView(
 					context,
 					R.string.props_author_flair,
@@ -97,7 +97,7 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 				comment.subreddit,
 				false));
 
-		if(comment.body != null && comment.body.length() > 0) {
+		if(comment.body != null && !comment.body.isEmpty()) {
 			items.addView(propView(
 					context,
 					R.string.props_body_markdown,

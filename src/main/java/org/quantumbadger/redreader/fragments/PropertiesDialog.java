@@ -37,7 +37,9 @@ import java.util.Locale;
 
 public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
-	protected int rrListHeaderTextCol, rrListDividerCol, rrCommentBodyCol;
+	protected int rrListHeaderTextCol;
+	protected int rrListDividerCol;
+	protected int rrCommentBodyCol;
 
 	// Workaround for HoloEverywhere bug?
 	private volatile boolean alreadyCreated = false;

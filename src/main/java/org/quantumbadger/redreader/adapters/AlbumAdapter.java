@@ -121,7 +121,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
 		vh.text2.setText(subtitle);
 
-		if(imageInfo.caption != null && imageInfo.caption.length() > 0) {
+		if(imageInfo.caption != null && !imageInfo.caption.isEmpty()) {
 			vh.text3.setText(imageInfo.caption);
 			vh.text3.setVisibility(View.VISIBLE);
 		} else {

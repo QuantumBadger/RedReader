@@ -580,9 +580,6 @@ public class RedditAPICommentAction {
 							final String readableMessage,
 							@NonNull final Optional<FailedRequestBody> response) {
 						revertOnFailure();
-						if(t != null) {
-							t.printStackTrace();
-						}
 
 						final RRError error = General.getGeneralErrorForFailure(
 								context,

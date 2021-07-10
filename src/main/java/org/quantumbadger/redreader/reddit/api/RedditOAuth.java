@@ -53,7 +53,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class RedditOAuth {
 
-	private static final String REDIRECT_URI_OLD = "http://rr_oauth_redir";
 	private static final String CLIENT_ID_OLD = "m_zCW1Dixs9WLA";
 
 	private static final String REDIRECT_URI_NEW = "redreader://rr_oauth_redir";
@@ -481,7 +480,7 @@ public final class RedditOAuth {
 
 						final String username = responseObject.getString("name");
 
-						if(username == null || username.length() == 0) {
+						if(username == null || username.isEmpty()) {
 
 							result.set(new FetchUserInfoResult(
 									FetchUserInfoResultStatus.INVALID_RESPONSE,

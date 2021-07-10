@@ -137,6 +137,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 		spoiler = ParcelUtils.readNullableBoolean(in);
 		locked = ParcelUtils.readNullableBoolean(in);
 		rr_internal_dash_url = in.readString();
+		distinguished = in.readString();
 	}
 
 	@Override
@@ -188,6 +189,7 @@ public final class RedditPost implements Parcelable, RedditThingWithIdAndType {
 
 		getDashUrl();
 		parcel.writeString(rr_internal_dash_url);
+		parcel.writeString(distinguished);
 	}
 
 	public static final Parcelable.Creator<RedditPost> CREATOR

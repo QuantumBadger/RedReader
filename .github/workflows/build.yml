@@ -65,3 +65,13 @@ jobs:
                 with:
                     name: RedReader-debug.apk
                     path: build/outputs/apk/debug/RedReader-debug.apk
+
+    qodana:
+        name: Qodana - Code Inspection
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Run Qodana
+                uses: JetBrains/qodana-action@v2.0-eap

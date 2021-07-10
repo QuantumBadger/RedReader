@@ -81,4 +81,4 @@ jobs:
                 with:
                     name: qodana-results
                     if-no-files-found: error
-                    path: report/results
+                    path: ${{ github.workspace }}/qodana

@@ -1,3 +1,6 @@
+/Alpha 289 (2021-07-11)
+Turn off Proguard shrinkResources flag (potential crash fix)
+
 /Alpha 288 (2021-07-10)
 Enabled Proguard minification -- may cause instability! Please report any bugs.
 Updated dependencies

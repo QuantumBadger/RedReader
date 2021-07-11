@@ -18,12 +18,8 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.content.Context;
-import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
-import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
@@ -33,7 +29,7 @@ import java.util.Collection;
 
 public abstract class RedditListingManager {
 
-	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(8);
+	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(7);
 	private LinearLayoutManager mLayoutManager;
 
 	private static final int
@@ -43,12 +39,9 @@ public abstract class RedditListingManager {
 			GROUP_ITEMS = 3,
 			GROUP_LOAD_MORE_BUTTON = 4,
 			GROUP_LOADING = 5,
-			GROUP_FOOTER_ERRORS = 6,
-			GROUP_EMPTY = 7;
+			GROUP_FOOTER_ERRORS = 6;
 
 	private final GroupedRecyclerViewItemFrameLayout mLoadingItem;
-	private final GroupedRecyclerViewItemFrameLayout mEmptyItem;
-	private final View mEmptyView;
 	private boolean mWorkaroundDone = false;
 
 	public RedditListingManager(final Context context) {
@@ -59,14 +52,6 @@ public abstract class RedditListingManager {
 
 		mLoadingItem = new GroupedRecyclerViewItemFrameLayout(loadingSpinnerView);
 		mAdapter.appendToGroup(GROUP_LOADING, mLoadingItem);
-
-		mEmptyView = LayoutInflater.from(context).inflate(
-						R.layout.no_items_yet,
-						null,
-						false);
-		mEmptyItem = new GroupedRecyclerViewItemFrameLayout(mEmptyView);
-		mAdapter.appendToGroup(GROUP_EMPTY, mEmptyItem);
-		mEmptyItem.setHidden(true);
 	}
 
 	public void setLayoutManager(final LinearLayoutManager layoutManager) {
@@ -150,17 +135,6 @@ public abstract class RedditListingManager {
 		General.checkThisIsUIThread();
 		mLoadingItem.setHidden(!visible);
 		mAdapter.updateHiddenStatus();
-	}
-
-	public void setEmptyVisible(final boolean visible) {
-		General.checkThisIsUIThread();
-		mEmptyItem.setHidden(!visible);
-		mAdapter.updateHiddenStatus();
-	}
-
-	public void setEmptyText(@StringRes final int text) {
-		General.checkThisIsUIThread();
-		((TextView)mEmptyView.findViewById(R.id.empty_view_text)).setText(text);
 	}
 
 	public GroupedRecyclerViewAdapter getAdapter() {

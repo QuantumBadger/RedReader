@@ -947,7 +947,8 @@ public class PostListingFragment extends RRFragment
 								mPostListingManager.addPosts(downloadedPosts);
 								mPostListingManager.setLoadingVisible(false);
 
-								if(mPostCount == 0) {
+								if(mPostCount == 0
+										&& (mAfter == null || mAfter.equals(mLastAfter))) {
 									@StringRes final int emptyViewText;
 
 									if(mPostsNotShown) {
@@ -966,10 +967,16 @@ public class PostListingFragment extends RRFragment
 										}
 									}
 
-									mPostListingManager.setEmptyVisible(true);
-									mPostListingManager.setEmptyText(emptyViewText);
-								} else {
-									mPostListingManager.setEmptyVisible(false);
+									final View emptyView =
+											LayoutInflater.from(getContext()).inflate(
+													R.layout.no_items_yet,
+													mRecyclerView,
+													false);
+
+									((TextView)emptyView.findViewById(R.id.empty_view_text))
+											.setText(emptyViewText);
+
+									mPostListingManager.addViewToItems(emptyView);
 								}
 
 								onPostsAdded();

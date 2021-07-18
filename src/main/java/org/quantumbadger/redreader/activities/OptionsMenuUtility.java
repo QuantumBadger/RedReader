@@ -1114,11 +1114,98 @@ public final class OptionsMenuUtility {
 			sortPosts.getItem().setShowAsAction(handleShowAsActionIfRoom(showAsAction));
 		}
 
-		addSort(activity, sortPosts, R.string.sort_posts_relevance, PostSort.RELEVANCE);
-		addSort(activity, sortPosts, R.string.sort_posts_new, PostSort.NEW);
-		addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT);
-		addSort(activity, sortPosts, R.string.sort_posts_top, PostSort.TOP);
-		addSort(activity, sortPosts, R.string.sort_posts_comments, PostSort.COMMENTS);
+		final SubMenu sortPostsRelevance = sortPosts.addSubMenu(R.string.sort_posts_relevance);
+
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_hour,
+				PostSort.RELEVANCE_HOUR);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_today,
+				PostSort.RELEVANCE_DAY);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_week,
+				PostSort.RELEVANCE_WEEK);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_month,
+				PostSort.RELEVANCE_MONTH);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_year,
+				PostSort.RELEVANCE_YEAR);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_all,
+				PostSort.RELEVANCE_ALL);
+
+		final SubMenu sortPostsNew = sortPosts.addSubMenu(R.string.sort_posts_new);
+
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_hour, PostSort.NEW_HOUR);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_today, PostSort.NEW_DAY);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_week, PostSort.NEW_WEEK);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_month, PostSort.NEW_MONTH);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_year, PostSort.NEW_YEAR);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_all, PostSort.NEW_ALL);
+
+		final SubMenu sortPostsHot = sortPosts.addSubMenu(R.string.sort_posts_hot);
+
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_hour, PostSort.HOT_HOUR);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_today, PostSort.HOT_DAY);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_week, PostSort.HOT_WEEK);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_month, PostSort.HOT_MONTH);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_year, PostSort.HOT_YEAR);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_all, PostSort.HOT_ALL);
+
+		final SubMenu sortPostsTop = sortPosts.addSubMenu(R.string.sort_posts_top);
+
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_hour, PostSort.TOP_HOUR);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_today, PostSort.TOP_DAY);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_week, PostSort.TOP_WEEK);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_month, PostSort.TOP_MONTH);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_year, PostSort.TOP_YEAR);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostSort.TOP_ALL);
+
+		final SubMenu sortPostsComments = sortPosts.addSubMenu(R.string.sort_posts_comments);
+
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_hour,
+				PostSort.COMMENTS_HOUR);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_today,
+				PostSort.COMMENTS_DAY);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_week,
+				PostSort.COMMENTS_WEEK);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_month,
+				PostSort.COMMENTS_MONTH);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_year,
+				PostSort.COMMENTS_YEAR);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_all,
+				PostSort.COMMENTS_ALL);
 	}
 
 	private static void addSort(

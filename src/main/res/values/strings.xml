@@ -1580,5 +1580,30 @@
 	<string name="no_posts_yet">No posts yet.</string>
 	<string name="no_posts_yet_hidden">No posts shown due to settings.</string>
 	<string name="no_search_results_hidden">No search results shown due to settings.</string>
+
+	<string name="sort_posts_relevance_hour">Relevance: This Hour</string>
+	<string name="sort_posts_relevance_today">Relevance: Today</string>
+	<string name="sort_posts_relevance_week">Relevance: This Week</string>
+	<string name="sort_posts_relevance_month">Relevance: This Month</string>
+	<string name="sort_posts_relevance_year">Relevance: This Year</string>
+	<string name="sort_posts_relevance_all">Relevance: All Time</string>
+	<string name="sort_posts_new_hour">New: This Hour</string>
+	<string name="sort_posts_new_today">New: Today</string>
+	<string name="sort_posts_new_week">New: This Week</string>
+	<string name="sort_posts_new_month">New: This Month</string>
+	<string name="sort_posts_new_year">New: This Year</string>
+	<string name="sort_posts_new_all">New: All Time</string>
+	<string name="sort_posts_hot_hour">Hot: This Hour</string>
+	<string name="sort_posts_hot_today">Hot: Today</string>
+	<string name="sort_posts_hot_week">Hot: This Week</string>
+	<string name="sort_posts_hot_month">Hot: This Month</string>
+	<string name="sort_posts_hot_year">Hot: This Year</string>
+	<string name="sort_posts_hot_all">Hot: All Time</string>
+	<string name="sort_posts_comments_hour">Comments: This Hour</string>
+	<string name="sort_posts_comments_today">Comments: Today</string>
+	<string name="sort_posts_comments_week">Comments: This Week</string>
+	<string name="sort_posts_comments_month">Comments: This Month</string>
+	<string name="sort_posts_comments_year">Comments: This Year</string>
+	<string name="sort_posts_comments_all">Comments: All Time</string>
 	
 </resources>

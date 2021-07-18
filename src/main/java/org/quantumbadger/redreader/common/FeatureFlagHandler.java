@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -45,7 +46,8 @@ public final class FeatureFlagHandler {
 
 	private enum FeatureFlag {
 
-		COMMENT_HEADER_SUBREDDIT_FEATURE("commentHeaderSubredditFeature");
+		COMMENT_HEADER_SUBREDDIT_FEATURE("commentHeaderSubredditFeature"),
+		CONTROVERSIAL_DATE_SORTS_FEATURE("controversialDateSortsFeature");
 
 		@NonNull private final String id;
 
@@ -57,6 +59,15 @@ public final class FeatureFlagHandler {
 		public final String getId() {
 			return "rr_feature_flag_" + id;
 		}
+	}
+
+	private static String getString(
+			@StringRes final int id,
+			final String defaultString,
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+
+		return sharedPreferences.getString(context.getString(id), defaultString);
 	}
 
 	private static Set<String> getStringSet(
@@ -98,6 +109,64 @@ public final class FeatureFlagHandler {
 										R.string.pref_appearance_comment_header_items_key),
 								existingCommentHeaderItems)
 						.apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.CONTROVERSIAL_DATE_SORTS_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, add date sorting for controversial posts/user comments");
+
+				final String existingDefaultPostsSort = getString(
+						R.string.pref_behaviour_postsort_key,
+						"hot",
+						context,
+						prefs);
+
+				final String existingDefaultMultiPostsSort = getString(
+						R.string.pref_behaviour_multi_postsort_key,
+						"hot",
+						context,
+						prefs);
+
+				final String existingDefaultUserPostsSort = getString(
+						R.string.pref_behaviour_user_postsort_key,
+						"new",
+						context,
+						prefs);
+
+				final String existingDefaultUserCommentsSort = getString(
+						R.string.pref_behaviour_user_commentsort_key,
+						"new",
+						context,
+						prefs);
+
+				if(existingDefaultPostsSort.equals("controversial")) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_behaviour_postsort_key),
+							"controversial_day")
+						.apply();
+				}
+
+				if(existingDefaultMultiPostsSort.equals("controversial")) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_behaviour_multi_postsort_key),
+							"controversial_day")
+							.apply();
+				}
+
+				if(existingDefaultUserPostsSort.equals("controversial")) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_behaviour_user_postsort_key),
+							"controversial_all")
+							.apply();
+				}
+
+				if(existingDefaultUserCommentsSort.equals("controversial")) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_behaviour_user_commentsort_key),
+							"controversial_all")
+							.apply();
+				}
 			}
 		});
 	}

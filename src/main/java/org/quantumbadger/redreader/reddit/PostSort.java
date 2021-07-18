@@ -40,9 +40,30 @@ public enum PostSort {
 	CONTROVERSIAL_ALL,
 	BEST,
 	// Sorts related to Search Listings
-	RELEVANCE,
-	COMMENTS,
-	TOP;
+	RELEVANCE_HOUR,
+	RELEVANCE_DAY,
+	RELEVANCE_WEEK,
+	RELEVANCE_MONTH,
+	RELEVANCE_YEAR,
+	RELEVANCE_ALL,
+	NEW_HOUR,
+	NEW_DAY,
+	NEW_WEEK,
+	NEW_MONTH,
+	NEW_YEAR,
+	NEW_ALL,
+	COMMENTS_HOUR,
+	COMMENTS_DAY,
+	COMMENTS_WEEK,
+	COMMENTS_MONTH,
+	COMMENTS_YEAR,
+	COMMENTS_ALL,
+	HOT_HOUR,
+	HOT_DAY,
+	HOT_WEEK,
+	HOT_MONTH,
+	HOT_YEAR,
+	HOT_ALL;
 
 	@Nullable
 	public static PostSort valueOfOrNull(@NonNull final String string) {
@@ -114,6 +135,121 @@ public enum PostSort {
 				return TOP_YEAR;
 			} else {
 				return TOP_ALL;
+			}
+
+		} else {
+			return null;
+		}
+	}
+
+	@Nullable
+	public static PostSort parseSearch(@Nullable String sort, @Nullable String t) {
+
+		if(sort == null) {
+			return null;
+		}
+
+		sort = StringUtils.asciiLowercase(sort);
+		t = t != null ? StringUtils.asciiLowercase(t) : null;
+
+		if(sort.equals("relevance")) {
+
+			if(t == null) {
+				return RELEVANCE_ALL;
+			} else if(t.equals("all")) {
+				return RELEVANCE_ALL;
+			} else if(t.equals("hour")) {
+				return RELEVANCE_HOUR;
+			} else if(t.equals("day")) {
+				return RELEVANCE_DAY;
+			} else if(t.equals("week")) {
+				return RELEVANCE_WEEK;
+			} else if(t.equals("month")) {
+				return RELEVANCE_MONTH;
+			} else if(t.equals("year")) {
+				return RELEVANCE_YEAR;
+			} else {
+				return RELEVANCE_ALL;
+			}
+
+		} else if(sort.equals("new")) {
+
+			if(t == null) {
+				return NEW_ALL;
+			} else if(t.equals("all")) {
+				return NEW_ALL;
+			} else if(t.equals("hour")) {
+				return NEW_HOUR;
+			} else if(t.equals("day")) {
+				return NEW_DAY;
+			} else if(t.equals("week")) {
+				return NEW_WEEK;
+			} else if(t.equals("month")) {
+				return NEW_MONTH;
+			} else if(t.equals("year")) {
+				return NEW_YEAR;
+			} else {
+				return NEW_ALL;
+			}
+
+		} else if(sort.equals("hot")) {
+
+			if(t == null) {
+				return HOT_ALL;
+			} else if(t.equals("all")) {
+				return HOT_ALL;
+			} else if(t.equals("hour")) {
+				return HOT_HOUR;
+			} else if(t.equals("day")) {
+				return HOT_DAY;
+			} else if(t.equals("week")) {
+				return HOT_WEEK;
+			} else if(t.equals("month")) {
+				return HOT_MONTH;
+			} else if(t.equals("year")) {
+				return HOT_YEAR;
+			} else {
+				return HOT_ALL;
+			}
+
+		} else if(sort.equals("top")) {
+
+			if(t == null) {
+				return TOP_ALL;
+			} else if(t.equals("all")) {
+				return TOP_ALL;
+			} else if(t.equals("hour")) {
+				return TOP_HOUR;
+			} else if(t.equals("day")) {
+				return TOP_DAY;
+			} else if(t.equals("week")) {
+				return TOP_WEEK;
+			} else if(t.equals("month")) {
+				return TOP_MONTH;
+			} else if(t.equals("year")) {
+				return TOP_YEAR;
+			} else {
+				return TOP_ALL;
+			}
+
+		} else if(sort.equals("comments")) {
+
+			if(t == null) {
+				return COMMENTS_ALL;
+			} else if(t.equals("all")) {
+				return COMMENTS_ALL;
+			} else if(t.equals("hour")) {
+				return COMMENTS_HOUR;
+			} else if(t.equals("day")) {
+				return COMMENTS_DAY;
+			} else if(t.equals("week")) {
+				return COMMENTS_WEEK;
+			} else if(t.equals("month")) {
+				return COMMENTS_MONTH;
+			} else if(t.equals("year")) {
+				return COMMENTS_YEAR;
+			} else {
+				return COMMENTS_ALL;
 			}
 
 		} else {

@@ -141,8 +141,8 @@
     <string name="action_actionmenu">Menuo de agoj</string>
     <string name="action_comment_links">Ligiloj en komento</string>
     <string name="action_selftext_links">Ligiloj en memafiŝo</string>
-    <string name="action_share">Diskonigi</string>
-    <string name="action_share_comments">Diskonigi komentojn</string>
+    <string name="action_share">Kunhavigi</string>
+    <string name="action_share_comments">Kunhavigi komentojn</string>
     <string name="action_copy">Kopii</string>
     <string name="action_gotosubreddit">Iri al redditero</string>
     <string name="action_reply">Respondi</string>
@@ -547,7 +547,7 @@
     <string name="mainmenu_custom_destination_user">Uzanto</string>
     <string name="mainmenu_custom_destination_url">URL</string>
     <string name="mainmenu_header_multireddits">Plurredditeroj</string>
-    <string name="pref_behaviour_share_permalink_title">Diskonigi kiel konstantan ligilon</string>
+    <string name="pref_behaviour_share_permalink_title">Kunhavigi kiel konstantan ligilon</string>
     <!-- 2016-08-10 -->
     <string name="pref_cache_general_header">Ĝeneralaj</string>
     <string name="pref_cache_location_title">Loko por kaŝmemoro</string>
@@ -586,7 +586,7 @@
     <!-- 2016-12-07 -->
     <string name="send_replies_to_inbox">Sendi respondojn al mia mesaĝujo</string>
     <!-- 2016-12-11 -->
-    <string name="action_share_image">Diskonigi bildon</string>
+    <string name="action_share_image">Kunhavigi bildon</string>
     <!-- 2017-01-15 -->
     <string name="error_403_title_nonreddit">Permeso rifuzita</string>
     <string name="error_403_message_nonreddit">La servilo respondis per permeso rifuzita eraro.</string>
@@ -635,12 +635,12 @@
     <string name="pref_menus_show_random_main_menu_title">Montri /r/random en la ĉefmenuo</string>
     <string name="pref_cache_maxage_entry_title">Forviŝi kaŝmemorigitajn indikojn (legita, voĉdonita, ktp.) post</string>
     <string name="mainmenu_custom_destination_search">Serĉi</string>
-    <string name="pref_behaviour_sharing_share_text_title">Ampleksi tekston kiam diskonigi komenton</string>
+    <string name="pref_behaviour_sharing_share_text_title">Ampleksi tekston kiam kunhavigi komenton</string>
     <string name="mainmenu_custom_empty_search_query">Malplena serĉpeto.</string>
     <string name="search_listing_header_query">Serĉpeto</string>
     <string name="search_listing_header_sub">Nur en redditero</string>
-    <string name="pref_behaviour_sharing_header">Diskonigi</string>
-    <string name="pref_behaviour_sharing_include_desc_title">Ampleksi titolon/priskribon dum diskonigi</string>
+    <string name="pref_behaviour_sharing_header">Kunhavigi</string>
+    <string name="pref_behaviour_sharing_include_desc_title">Ampleksi titolon/priskribon dum kunhavigi</string>
     <string name="share_comments_for">Komentoj por %s</string>
     <string name="share_comment_by_on_reddit">Komento de %s ĉe Reddit</string>
     <string name="title_license">Permesilo</string>
@@ -666,9 +666,9 @@
     <string name="notification_channel_name_reddit_messages">Ricevitaj mesaĝoj el Reddit</string>
     <string name="post_text_copied_to_clipboard">Mamafiŝo kopiita al tondujo</string>
     <string name="action_copy_selftext">Kopii memtekston</string>
-    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Elektu aplikaĵon por diskonigi</string>
-    <string name="pref_behaviour_sharing_share_dialog_title">Uzi internan fenestron de diskonigo</string>
-    <string name="error_toast_no_share_app_installed">Neniu taŭga aplikaĵo instalita por diskonigi tion ĉi.</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Elektu aplikaĵon por kunhavigi</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Uzi internan fenestron de kunhavigo</string>
+    <string name="error_toast_no_share_app_installed">Neniu taŭga aplikaĵo instalita por kunhavigi tion ĉi.</string>
     <string name="subreddit_link_copied_to_clipboard">Kopiis ligilon de redditero al tondujo</string>
     <string name="comment_text_copied_to_clipboard">Kopiis tekston de komento al tondujo</string>
     <string name="comment_link_copied_to_clipboard">Kopiis ligilon de komento al tondujo</string>

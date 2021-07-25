@@ -1,5 +1,7 @@
 /Alpha 290 (2021-07-25)
 Show message when no posts are available (thanks to Cameron Merkel)
+Allow specifying date range for searches (thanks to Cameron Merkel)
+Allow sorting by controversial by default  (thanks to Cameron Merkel)
 
 /Alpha 289 (2021-07-11)
 Turn off Proguard shrinkResources flag (potential crash fix)

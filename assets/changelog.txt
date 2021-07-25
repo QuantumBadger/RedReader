@@ -3,6 +3,7 @@ Imgur upload reliability improved
 Highlight moderator/admin username for distinguished posts (thanks to Cameron Merkel)
 Allow specifying date range when sorting by controversial (thanks to Cameron Merkel)
 Include author mod/admin/submitter role in accessibility description (thanks to Cameron Merkel)
+Show message when no posts are available (thanks to Cameron Merkel)
 Show parent comment after submitting reply
 More detail in errors for failed API requests
 Wrap long text in preferences (thanks to Cameron Merkel)

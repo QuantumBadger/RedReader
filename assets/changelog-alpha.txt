@@ -1,3 +1,6 @@
+/Alpha 290 (2021-07-25)
+Show message when no posts are available (thanks to Cameron Merkel)
+
 /Alpha 289 (2021-07-11)
 Turn off Proguard shrinkResources flag (potential crash fix)
 

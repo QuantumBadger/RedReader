@@ -1231,18 +1231,18 @@
 
 	<!-- Constants. Do not change. -->
 	<string-array name="pref_menus_comment_context_items_return">
-		<item>upvote</item>
-		<item>downvote</item>
-		<item>save</item>
-		<item>report</item>
-		<item>reply</item>
-		<item>edit</item>
-		<item>delete</item>
-		<item>context</item>
+<!--		<item>upvote</item>-->
+<!--		<item>downvote</item>-->
+<!--		<item>save</item>-->
+<!--		<item>report</item>-->
+<!--		<item>reply</item>-->
+<!--		<item>edit</item>-->
+<!--		<item>delete</item>-->
+<!--		<item>context</item>-->
 		<item>go_to_comment</item>
-		<item>comment_links</item>
+<!--		<item>comment_links</item>-->
 		<item>collapse</item>
-		<item>share</item>
+<!--		<item>share</item>-->
 		<item>copy_text</item>
 		<item>copy_url</item>
 		<item>user_profile</item>

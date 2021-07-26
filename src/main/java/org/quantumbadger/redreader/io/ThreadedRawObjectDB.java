@@ -149,7 +149,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 				}
 			}
 
-			if(keys.size() == 0) {
+			if(keys.isEmpty()) {
 				responseHandler.onRequestSuccess(existingResult, oldestTimestamp);
 				return;
 			}
@@ -167,7 +167,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 				}
 			}
 
-			if(keys.size() == 0) {
+			if(keys.isEmpty()) {
 				responseHandler.onRequestSuccess(existingResult, oldestTimestamp);
 				return;
 			}

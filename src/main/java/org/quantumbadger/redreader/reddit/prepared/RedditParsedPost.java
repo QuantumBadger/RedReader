@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
@@ -57,7 +58,7 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		if(parseSelfText
 				&& src.is_self
 				&& src.selftext_html != null
-				&& src.selftext.trim().length() > 0) {
+				&& !src.selftext.trim().isEmpty()) {
 			mSelfText = HtmlReader.parse(
 					StringEscapeUtils.unescapeHtml4(src.selftext_html),
 					activity);
@@ -65,7 +66,7 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 			mSelfText = null;
 		}
 
-		if(src.link_flair_text != null && src.link_flair_text.length() > 0) {
+		if(src.link_flair_text != null && !src.link_flair_text.isEmpty()) {
 			mFlairText = StringEscapeUtils.unescapeHtml4(src.link_flair_text);
 		} else {
 			mFlairText = null;
@@ -152,15 +153,15 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 
 	@Nullable
 	private ImagePreviewDetails getPreviewInternal(
-			@Nullable final JsonObject root,
+			@NonNull final Optional<JsonObject> root,
 			final int minWidth,
 			final int minHeight) {
 
-		if(root == null) {
+		if(root.isEmpty()) {
 			return null;
 		}
 
-		final JsonArray resolutions = root.getArray("resolutions");
+		final JsonArray resolutions = root.get().getArray("resolutions");
 
 		if(resolutions == null || resolutions.size() < 1) {
 			return null;
@@ -170,11 +171,15 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		int bestHeight = 0;
 		String bestUrl = null;
 
+		final JsonObject source = root.get().getObject("source");
+		final Long sourceWidth = source != null ? source.getLong("width") : null;
+		final Long sourceHeight = source != null ? source.getLong("height") : null;
+
 		for(int i = -1; i < resolutions.size(); i++) {
 
 			final JsonObject resolution;
 			if(i == -1) {
-				resolution = root.getObject("source");
+				resolution = source;
 
 			} else {
 				resolution = resolutions.getObject(i);
@@ -192,9 +197,26 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 				continue;
 			}
 
-			boolean use = false;
+			if(width < 50 || height < 50) {
+				continue;
+			}
 
-			if(bestUrl == null) {
+			if(sourceWidth != null && sourceHeight != null && sourceWidth > 0) {
+
+				final int estimatedRealHeight
+						= (int)(((double)sourceHeight / (double)sourceWidth) * width);
+
+				if(estimatedRealHeight > 3000) {
+					continue;
+				}
+			}
+
+			final boolean use;
+
+			if(height > 3000 || width > 3000) {
+				use = false;
+
+			} else if(bestUrl == null) {
 				use = true;
 
 			} else if((bestWidth < minWidth || bestHeight < minHeight)
@@ -204,6 +226,9 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 			} else if(width < bestWidth && height < bestHeight
 					&& width >= minWidth && height >= minHeight) {
 				use = true;
+
+			} else {
+				use = false;
 			}
 
 			if(use) {
@@ -229,6 +254,10 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 
 	public String getAuthor() {
 		return mSrc.author;
+	}
+
+	public String getDistinguished() {
+		return mSrc.distinguished;
 	}
 
 	public String getRawSelfTextMarkdown() {

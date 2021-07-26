@@ -28,7 +28,8 @@ public class CollectionStream<Type> extends Stream<Type> {
 		mIterator = iterable.iterator();
 	}
 
-	public CollectionStream(final Type[] array) {
+	@SafeVarargs
+	public CollectionStream(final Type... array) {
 		this(Arrays.asList(array));
 	}
 

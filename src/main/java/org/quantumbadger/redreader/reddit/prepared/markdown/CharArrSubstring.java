@@ -20,8 +20,8 @@ package org.quantumbadger.redreader.reddit.prepared.markdown;
 import java.util.LinkedList;
 
 public final class CharArrSubstring {
-	protected final char[] arr;
-	protected final int start;
+	final char[] arr;
+	final int start;
 	public final int length;
 
 	CharArrSubstring(final char[] arr, final int start, final int length) {

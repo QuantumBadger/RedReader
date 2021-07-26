@@ -203,7 +203,7 @@ public class WebViewFixed extends WebView {
 							getResources().getString(R.string.error_tor_setting_failed));
 				}
 			} catch(final Exception e) {
-				e.printStackTrace();
+				BugReportActivity.handleGlobalError(context, e);
 			}
 		}
 	}

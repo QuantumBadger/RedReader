@@ -19,17 +19,26 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
-public class RedditUser implements Parcelable {
+public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 
-	public int comment_karma, link_karma;
+	public int comment_karma;
+	public int link_karma;
 
-	public long created, created_utc;
+	public long created;
+	public long created_utc;
 
-	public Boolean has_mail, has_mod_mail;
-	public boolean is_friend, is_gold, is_mod, over_18;
+	public Boolean has_mail;
+	public Boolean has_mod_mail;
+	public boolean is_friend;
+	public boolean is_gold;
+	public boolean is_mod;
+	public boolean over_18;
 
-	public String id, modhash, name;
+	public String id;
+	public String modhash;
+	public String name;
 
 	@Override
 	public int describeContents() {
@@ -48,20 +57,18 @@ public class RedditUser implements Parcelable {
 		created = in.readLong();
 		created_utc = in.readLong();
 
-		has_mail = in.readInt() == 1;
-
-		final int has_mail_in = in.readInt();
-		if(has_mail_in == 0) {
+		final int inHasMail = in.readInt();
+		if(inHasMail == 0) {
 			has_mail = null;
 		} else {
-			has_mail = has_mail_in == 1;
+			has_mail = inHasMail == 1;
 		}
 
-		final int has_mod_mail_in = in.readInt();
-		if(has_mod_mail_in == 0) {
+		final int inHasModMail = in.readInt();
+		if(inHasModMail == 0) {
 			has_mod_mail = null;
 		} else {
-			has_mod_mail = has_mod_mail_in == 1;
+			has_mod_mail = inHasModMail == 1;
 		}
 
 		is_friend = in.readInt() == 1;

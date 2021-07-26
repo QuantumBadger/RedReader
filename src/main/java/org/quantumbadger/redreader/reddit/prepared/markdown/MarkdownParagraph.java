@@ -44,7 +44,8 @@ public final class MarkdownParagraph {
 	final MarkdownParagraph parent;
 	final MarkdownParser.MarkdownParagraphType type;
 	final int[] tokens;
-	final int level, number;
+	final int level;
+	final int number;
 
 	final Spanned spanned;
 	final List<Link> links;
@@ -104,9 +105,14 @@ public final class MarkdownParagraph {
 
 		final SpannableStringBuilder builder = new SpannableStringBuilder();
 
-		int boldStart = -1, italicStart = -1, strikeStart = -1, linkStart = -1, caretStart
-				= -1,
-				parentOpenCount = 0, parentCloseCount = 0;
+		int boldStart = -1;
+		int italicStart = -1;
+		int strikeStart = -1;
+		int linkStart = -1;
+		int caretStart
+						= -1;
+		int parentOpenCount = 0;
+		int parentCloseCount = 0;
 
 		for(int i = 0; i < tokens.length; i++) {
 

@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -32,6 +33,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -39,11 +41,15 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -64,7 +70,8 @@ public class CommentReplyActivity extends BaseActivity {
 	private ParentType mParentType;
 
 	private boolean mDraftReset = false;
-	private static String lastText, lastParentIdAndType;
+	private static String lastText;
+	private static String lastParentIdAndType;
 
 	public static final String PARENT_TYPE = "parentType";
 	public static final String PARENT_TYPE_MESSAGE = "parentTypeMessage";
@@ -148,7 +155,7 @@ public class CommentReplyActivity extends BaseActivity {
 			}
 		}
 
-		if(usernames.size() == 0) {
+		if(usernames.isEmpty()) {
 			General.quickToast(this, getString(R.string.error_toast_notloggedin));
 			finish();
 		}
@@ -164,7 +171,7 @@ public class CommentReplyActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(COMMENT_TEXT_KEY, textEdit.getText().toString());
 		outState.putString(PARENT_ID_AND_TYPE_KEY, parentIdAndType);
@@ -209,10 +216,30 @@ public class CommentReplyActivity extends BaseActivity {
 				return true;
 			});
 
-			final APIResponseHandler.ActionResponseHandler handler
-					= new APIResponseHandler.ActionResponseHandler(this) {
+			final APIResponseHandler.SubmitResponseHandler handler
+					= new APIResponseHandler.SubmitResponseHandler(this) {
+
 				@Override
-				protected void onSuccess(@Nullable final String redirectUrl) {
+				public void onSubmitErrors(@NonNull final ArrayList<String> errors) {
+
+					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+
+						final String errorsJoined = StringUtils.join(errors, " ");
+
+						DialogUtils.showDialog(
+								CommentReplyActivity.this,
+								getString(R.string.error_comment_submit_title),
+								errorsJoined);
+
+						General.safeDismissDialog(progressDialog);
+					});
+				}
+
+				@Override
+				public void onSuccess(
+						@NonNull final Optional<String> redirectUrl,
+						@NonNull final Optional<String> thingId) {
+
 					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 						General.safeDismissDialog(progressDialog);
 
@@ -230,11 +257,13 @@ public class CommentReplyActivity extends BaseActivity {
 						lastText = null;
 						lastParentIdAndType = null;
 
-						if(redirectUrl != null) {
-							LinkHandler.onLinkClicked(
-									CommentReplyActivity.this,
-									redirectUrl);
-						}
+						redirectUrl.ifPresent(url -> LinkHandler.onLinkClicked(
+								CommentReplyActivity.this,
+								Uri.parse(url)
+										.buildUpon()
+										.appendQueryParameter("context", "1")
+										.build()
+										.toString()));
 
 						finish();
 					});
@@ -247,28 +276,35 @@ public class CommentReplyActivity extends BaseActivity {
 
 				@Override
 				protected void onFailure(
-						@CacheRequest.RequestFailureType final int type,
-						final Throwable t,
-						final Integer status,
-						final String readableMessage) {
+						final int type,
+						@Nullable final Throwable t,
+						@Nullable final Integer httpStatus,
+						@Nullable final String readableMessage,
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
 							type,
 							t,
-							status,
-							null);
+							httpStatus,
+							"Comment reply: " + readableMessage,
+							response);
 
 					General.showResultDialog(CommentReplyActivity.this, error);
 					General.safeDismissDialog(progressDialog);
 				}
 
 				@Override
-				protected void onFailure(final APIFailureType type) {
+				protected void onFailure(
+						@NonNull final APIFailureType type,
+						@Nullable final String debuggingContext,
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
-							type);
+							type,
+							debuggingContext,
+							response);
 
 					General.showResultDialog(CommentReplyActivity.this, error);
 					General.safeDismissDialog(progressDialog);
@@ -278,7 +314,7 @@ public class CommentReplyActivity extends BaseActivity {
 			final APIResponseHandler.ActionResponseHandler inboxHandler
 					= new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
-				protected void onSuccess(@Nullable final String redirectUrl) {
+				protected void onSuccess() {
 					// Do nothing (result expected)
 				}
 
@@ -292,7 +328,8 @@ public class CommentReplyActivity extends BaseActivity {
 						@CacheRequest.RequestFailureType final int type,
 						final Throwable t,
 						final Integer status,
-						final String readableMessage) {
+						final String readableMessage,
+						@NonNull final Optional<FailedRequestBody> response) {
 					Toast.makeText(
 							context,
 							getString(R.string.disable_replies_to_infobox_failed),
@@ -300,7 +337,11 @@ public class CommentReplyActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onFailure(final APIFailureType type) {
+				protected void onFailure(
+						@NonNull final APIFailureType type,
+						@Nullable final String readableMessage,
+						@NonNull final Optional<FailedRequestBody> response) {
+
 					Toast.makeText(
 							context,
 							getString(R.string.disable_replies_to_infobox_failed),
@@ -322,7 +363,7 @@ public class CommentReplyActivity extends BaseActivity {
 					break;
 				}
 			}
-			boolean sendRepliesToInbox = true;
+			final boolean sendRepliesToInbox;
 			if(mParentType == ParentType.COMMENT_OR_POST) {
 				sendRepliesToInbox = inboxReplies.isChecked();
 			} else {

@@ -45,6 +45,8 @@
         <item name="rrListHeaderLineCol">#444444</item>
         <item name="rrListSubtitleCol">#CCCCCC</item>
 
+		<item name="rrAnnouncementBorderCol">#808080</item>
+
         <item name="rrLoadingRingForegroundCol">#C8C8C8</item>
         <item name="rrLoadingRingBackgroundCol">#323232</item>
 
@@ -92,6 +94,7 @@
         <item name="rrIconAdd">@drawable/ic_action_add_dark</item>
         <item name="rrIconCross">@drawable/ic_action_cross_dark</item>
         <item name="rrIconEnvOpen">@drawable/ic_action_env_open_dark</item>
+        <item name="rrIconSentMessages">@drawable/ic_action_sent_messages_dark</item>
         <item name="rrIconInfo">@drawable/ic_action_info_dark</item>
         <item name="rrIconRefresh">@drawable/ic_refresh_dark</item>
         <item name="rrIconReply">@drawable/ic_action_reply_dark</item>
@@ -141,6 +144,8 @@
 		<item name="rrListHeaderTextCol">#BBBBBB</item>
 		<item name="rrListHeaderLineCol">#444444</item>
 		<item name="rrListSubtitleCol">#BBBBBB</item>
+
+		<item name="rrAnnouncementBorderCol">#808080</item>
 
 		<item name="rrLoadingRingForegroundCol">#AAAAAA</item>
 		<item name="rrLoadingRingBackgroundCol">#323232</item>
@@ -207,6 +212,8 @@
 		<item name="rrListHeaderLineCol">#444444</item>
 		<item name="rrListSubtitleCol">#CCCCCC</item>
 
+		<item name="rrAnnouncementBorderCol">#808080</item>
+
 		<item name="rrLoadingRingForegroundCol">#C8C8C8</item>
 		<item name="rrLoadingRingBackgroundCol">#000000</item>
 
@@ -247,7 +254,7 @@
 
 	</style>
 
-	<style name="RR.Settings" parent="Theme.AppCompat">
+	<style name="RR.Settings" parent="Theme.AppCompat.NoActionBar">
 
 		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
 
@@ -296,6 +303,8 @@
         <item name="rrListHeaderLineCol">?colorAccent</item>
         <item name="rrListSubtitleCol">#666666</item>
 
+		<item name="rrAnnouncementBorderCol">#A0A0A0</item>
+
 		<item name="actionBarSize">48dp</item>
 
         <!-- Comment -->
@@ -337,6 +346,7 @@
         <item name="rrIconAdd">@drawable/ic_action_add_light</item>
         <item name="rrIconCross">@drawable/ic_action_cross_light</item>
         <item name="rrIconEnvOpen">@drawable/ic_action_env_open_light</item>
+        <item name="rrIconSentMessages">@drawable/ic_action_sent_messages_light</item>
         <item name="rrIconInfo">@drawable/ic_action_info_light</item>
         <item name="rrIconRefresh">@drawable/ic_refresh_light</item>
         <item name="rrIconReply">@drawable/ic_action_reply_light</item>

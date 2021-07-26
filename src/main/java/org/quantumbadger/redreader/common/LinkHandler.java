@@ -23,7 +23,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -41,11 +40,13 @@ import org.quantumbadger.redreader.activities.AlbumListingActivity;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.CommentListingActivity;
 import org.quantumbadger.redreader.activities.ImageViewActivity;
+import org.quantumbadger.redreader.activities.PMSendActivity;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.DeviantArtAPI;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
@@ -59,6 +60,7 @@ import org.quantumbadger.redreader.image.RedditVideosAPI;
 import org.quantumbadger.redreader.image.RedgifsAPI;
 import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.reddit.url.ComposeMessageURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.ArrayList;
@@ -70,14 +72,17 @@ import java.util.regex.Pattern;
 
 public class LinkHandler {
 
-	public static final Pattern
-			youtubeDotComPattern
-			= Pattern.compile("^https?://[\\.\\w]*youtube\\.\\w+/.*"),
-			youtuDotBePattern = Pattern.compile(
-					"^https?://[\\.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*"),
-			vimeoPattern = Pattern.compile("^https?://[\\.\\w]*vimeo\\.\\w+/.*"),
-			googlePlayPattern = Pattern.compile(
-					"^https?://[\\.\\w]*play\\.google\\.\\w+/.*");
+	public static final Pattern youtubeDotComPattern
+			= Pattern.compile("^https?://[.\\w]*youtube\\.\\w+/.*");
+
+	public static final Pattern youtuDotBePattern = Pattern.compile(
+					"^https?://[.\\w]*youtu\\.be/([A-Za-z0-9\\-_]+)(\\?.*|).*");
+
+	public static final Pattern vimeoPattern
+			= Pattern.compile("^https?://[.\\w]*vimeo\\.\\w+/.*");
+
+	public static final Pattern googlePlayPattern = Pattern.compile(
+					"^https?://[.\\w]*play\\.google\\.\\w+/.*");
 
 	public enum LinkAction {
 		SHARE(R.string.action_share),
@@ -144,7 +149,7 @@ public class LinkHandler {
 			return;
 		}
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(activity);
 
 		if(url.startsWith("rr://")) {
@@ -257,6 +262,26 @@ public class LinkHandler {
 					return;
 				}
 
+				case RedditURLParser.COMPOSE_MESSAGE_URL: {
+					final Intent intent = new Intent(
+							activity,
+							PMSendActivity.class);
+					final ComposeMessageURL cmUrl = redditURL.asComposeMessageURL();
+
+					if(cmUrl.recipient != null) {
+						intent.putExtra(PMSendActivity.EXTRA_RECIPIENT, cmUrl.recipient);
+					}
+					if(cmUrl.subject != null) {
+						intent.putExtra(PMSendActivity.EXTRA_SUBJECT, cmUrl.subject);
+					}
+					if(cmUrl.message != null) {
+						intent.putExtra(PMSendActivity.EXTRA_TEXT, cmUrl.message);
+					}
+
+					activity.startActivityForResult(intent, 1);
+					return;
+				}
+
 				case RedditURLParser.USER_PROFILE_URL: {
 					UserProfileDialog.newInstance(redditURL.asUserProfileURL().username)
 							.show(activity.getSupportFragmentManager(), null);
@@ -265,8 +290,9 @@ public class LinkHandler {
 			}
 		}
 
-		// Disabled browser because its not available on WearOS
 
+		// TODO: Not supported Use a browser
+//
 //		if(!PrefsUtility.pref_behaviour_useinternalbrowser(activity, sharedPreferences)) {
 //			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
 //				return;
@@ -280,20 +306,20 @@ public class LinkHandler {
 //				return;
 //			}
 //		}
-
+//
 //		final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
-
+//
 //		if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
 //			final String youtuBeUrl = "http://youtube.com/watch?v="
 //					+ youtuDotBeMatcher.group(1)
-//					+ (youtuDotBeMatcher.group(2).length() > 0
+//					+ (!youtuDotBeMatcher.group(2).isEmpty()
 //							? "&" + youtuDotBeMatcher.group(2) .substring(1)
 //							: "");
 //			if(openWebBrowser(activity, Uri.parse(youtuBeUrl), fromExternalIntent)) {
 //				return;
 //			}
 //		}
-
+//
 //		if(PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences)
 //				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 //			openCustomTab(activity, Uri.parse(url), post);
@@ -530,29 +556,36 @@ public class LinkHandler {
 		}
 	}
 
-	public static final Pattern imgurPattern = Pattern.compile(
-			".*[^A-Za-z]imgur\\.com/(\\w+).*"),
-			imgurAlbumPattern = Pattern.compile(
-					".*[^A-Za-z]imgur\\.com/(a|gallery)/(\\w+).*"),
-			redditGalleryPattern = Pattern.compile(
-					".*[^A-Za-z]reddit\\.com/gallery/(\\w+).*"),
-			qkmePattern1 = Pattern.compile(".*[^A-Za-z]qkme\\.me/(\\w+).*"),
-			qkmePattern2 = Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*"),
-			lvmePattern = Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*"),
-			gfycatPattern = Pattern.compile(
-					".*[^A-Za-z]gfycat\\.com/(?:gifs/detail/)?(\\w+).*"),
-			redgifsPattern = Pattern.compile(
-					".*[^A-Za-z]redgifs\\.com/watch/(?:gifs/detail/)?(\\w+).*"),
-			streamablePattern = Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*"),
-			reddituploadsPattern = Pattern.compile(
-					".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*"),
-			redditVideosPattern = Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*"),
-			imgflipPattern = Pattern.compile(".*[^A-Za-z]imgflip\\.com/i/(\\w+).*"),
-			makeamemePattern = Pattern.compile(
-					".*[^A-Za-z]makeameme\\.org/meme/([\\w\\-]+).*"),
-			deviantartPattern = Pattern.compile(
-					"https://www\\.deviantart\\.com/([\\w\\-]+)/art/([\\w\\-]+)"),
-			giphyPattern = Pattern.compile(".*[^A-Za-z]giphy\\.com/gifs/(\\w+).*");
+	public static final Pattern imgurPattern
+			= Pattern.compile(".*[^A-Za-z]imgur\\.com/(\\w+).*");
+	public static final Pattern imgurAlbumPattern
+			= Pattern.compile(".*[^A-Za-z]imgur\\.com/(a|gallery)/(\\w+).*");
+	public static final Pattern redditGalleryPattern
+			= Pattern.compile(".*[^A-Za-z]reddit\\.com/gallery/(\\w+).*");
+	public static final Pattern qkmePattern1
+			= Pattern.compile(".*[^A-Za-z]qkme\\.me/(\\w+).*");
+	public static final Pattern qkmePattern2
+			= Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*");
+	public static final Pattern lvmePattern
+			= Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*");
+	public static final Pattern gfycatPattern
+			= Pattern.compile(".*[^A-Za-z]gfycat\\.com/(?:gifs/detail/)?(\\w+).*");
+	public static final Pattern redgifsPattern
+			= Pattern.compile(".*[^A-Za-z]redgifs\\.com/watch/(?:gifs/detail/)?(\\w+).*");
+	public static final Pattern streamablePattern
+			= Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*");
+	public static final Pattern reddituploadsPattern
+			= Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*");
+	public static final Pattern redditVideosPattern
+			= Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*");
+	public static final Pattern imgflipPattern
+			= Pattern.compile(".*[^A-Za-z]imgflip\\.com/i/(\\w+).*");
+	public static final Pattern makeamemePattern
+			= Pattern.compile(".*[^A-Za-z]makeameme\\.org/meme/([\\w\\-]+).*");
+	public static final Pattern deviantartPattern
+			= Pattern.compile("https://www\\.deviantart\\.com/([\\w\\-]+)/art/([\\w\\-]+)");
+	public static final Pattern giphyPattern
+			= Pattern.compile(".*[^A-Za-z]giphy\\.com/gifs/(\\w+).*");
 
 	public static boolean isProbablyAnImage(final String url) {
 
@@ -666,13 +699,6 @@ public class LinkHandler {
 		}
 
 		@Override
-		public abstract void onFailure(
-				final @CacheRequest.RequestFailureType int type,
-				final Throwable t,
-				final Integer status,
-				final String readableMessage);
-
-		@Override
 		public void onSuccess(final ImageInfo info) {
 			mListener.onSuccess(info);
 		}
@@ -690,7 +716,9 @@ public class LinkHandler {
 			final boolean returnUrlOnFailure,
 			final GetImageInfoListener listener) {
 
-		Log.i("getImgurImageInfo", "Image " + imgId + ": trying API v3 with auth");
+		if(General.isSensitiveDebugLoggingEnabled()) {
+			Log.i("getImgurImageInfo", "Image " + imgId + ": trying API v3 with auth");
+		}
 
 		ImgurAPIV3.getImageInfo(
 				context,
@@ -703,11 +731,14 @@ public class LinkHandler {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> firstBody) {
 
-						Log.i(
-								"getImgurImageInfo",
-								"Image " + imgId + ": trying API v3 without auth");
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.i(
+									"getImgurImageInfo",
+									"Image " + imgId + ": trying API v3 without auth");
+						}
 
 						ImgurAPIV3.getImageInfo(
 								context,
@@ -720,11 +751,14 @@ public class LinkHandler {
 											final @CacheRequest.RequestFailureType int type,
 											final Throwable t,
 											final Integer status,
-											final String readableMessage) {
+											final String readableMessage,
+											@NonNull final Optional<FailedRequestBody> body) {
 
-										Log.i(
-												"getImgurImageInfo",
-												"Image " + imgId + ": trying API v2");
+										if(General.isSensitiveDebugLoggingEnabled()) {
+											Log.i(
+													"getImgurImageInfo",
+													"Image " + imgId + ": trying API v2");
+										}
 
 										ImgurAPI.getImageInfo(
 												context,
@@ -737,7 +771,9 @@ public class LinkHandler {
 																	int type,
 															final Throwable t,
 															final Integer status,
-															final String readableMessage) {
+															final String readableMessage,
+															@NonNull final
+																Optional<FailedRequestBody> body) {
 
 														Log.i(
 																"getImgurImageInfo",
@@ -757,7 +793,8 @@ public class LinkHandler {
 																	type,
 																	t,
 																	status,
-																	readableMessage);
+																	readableMessage,
+																	firstBody);
 														}
 													}
 												});
@@ -774,13 +811,6 @@ public class LinkHandler {
 		private AlbumInfoRetryListener(final GetAlbumInfoListener listener) {
 			mListener = listener;
 		}
-
-		@Override
-		public abstract void onFailure(
-				final @CacheRequest.RequestFailureType int type,
-				final Throwable t,
-				final Integer status,
-				final String readableMessage);
 
 		@Override
 		public void onGalleryRemoved() {
@@ -805,7 +835,9 @@ public class LinkHandler {
 			@NonNull final Priority priority,
 			final GetAlbumInfoListener listener) {
 
-		Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 with auth");
+		if(General.isSensitiveDebugLoggingEnabled()) {
+			Log.i("getImgurAlbumInfo", "Album " + albumId + ": trying API v3 with auth");
+		}
 
 		ImgurAPIV3.getAlbumInfo(
 				context,
@@ -819,11 +851,14 @@ public class LinkHandler {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> firstBody) {
 
-						Log.i(
-								"getImgurAlbumInfo",
-								"Album " + albumId + ": trying API v3 without auth");
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.i(
+									"getImgurAlbumInfo",
+									"Album " + albumId + ": trying API v3 without auth");
+						}
 
 						ImgurAPIV3.getAlbumInfo(
 								context,
@@ -837,11 +872,14 @@ public class LinkHandler {
 											final @CacheRequest.RequestFailureType int type,
 											final Throwable t,
 											final Integer status,
-											final String readableMessage) {
+											final String readableMessage,
+											@NonNull final Optional<FailedRequestBody> body) {
 
-										Log.i(
-												"getImgurAlbumInfo",
-												"Album " + albumId + ": trying API v2");
+										if(General.isSensitiveDebugLoggingEnabled()) {
+											Log.i(
+													"getImgurAlbumInfo",
+													"Album " + albumId + ": trying API v2");
+										}
 
 										ImgurAPI.getAlbumInfo(
 												context,
@@ -855,7 +893,9 @@ public class LinkHandler {
 																	int type,
 															final Throwable t,
 															final Integer status,
-															final String readableMessage) {
+															final String readableMessage,
+															@NonNull final
+																Optional<FailedRequestBody> body) {
 
 														Log.i(
 																"getImgurImageInfo",
@@ -864,7 +904,8 @@ public class LinkHandler {
 																type,
 																t,
 																status,
-																readableMessage);
+																readableMessage,
+																firstBody);
 													}
 												});
 
@@ -913,7 +954,8 @@ public class LinkHandler {
 				CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
 				null,
 				null,
-				"Cannot parse '" + url + "' as an album URL");
+				"Cannot parse '" + url + "' as an album URL",
+				Optional.empty());
 	}
 
 	public static void getImageInfo(

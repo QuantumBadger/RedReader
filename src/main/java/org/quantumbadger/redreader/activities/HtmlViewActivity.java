@@ -42,7 +42,7 @@ public class HtmlViewActivity extends BaseActivity {
 
 		try(InputStream asset = context.getAssets().open(filename)) {
 
-			final ByteArrayOutputStream baos = new ByteArrayOutputStream(16384);
+			final ByteArrayOutputStream baos = new ByteArrayOutputStream(16_384);
 
 			final byte[] buf = new byte[8192];
 			int bytesRead;

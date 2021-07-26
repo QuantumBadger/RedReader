@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.views;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,11 +52,14 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.DisplayUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
@@ -79,9 +81,11 @@ public final class RedditPostView extends FlingableItemView
 	private static final AtomicInteger sInlinePreviewsShownThisSession = new AtomicInteger(0);
 
 	private RedditPreparedPost mPost = null;
-	private final TextView title, subtitle;
+	private final TextView title;
+	private final TextView subtitle;
 
-	@NonNull private final ImageView mThumbnailView, mOverlayIcon;
+	@NonNull private final ImageView mThumbnailView;
+	@NonNull private final ImageView mOverlayIcon;
 
 	@NonNull private final LinearLayout mOuterView;
 	@NonNull private final LinearLayout mInnerView;
@@ -101,16 +105,18 @@ public final class RedditPostView extends FlingableItemView
 
 	private final BaseActivity mActivity;
 
-	private final PrefsUtility.PostFlingAction mLeftFlingPref, mRightFlingPref;
-	private ActionDescriptionPair mLeftFlingAction, mRightFlingAction;
+	private final PrefsUtility.PostFlingAction mLeftFlingPref;
+	private final PrefsUtility.PostFlingAction mRightFlingPref;
+	private ActionDescriptionPair mLeftFlingAction;
+	private ActionDescriptionPair mRightFlingAction;
 
 	private final boolean mCommentsButtonPref;
 
 	private final int
-			rrPostTitleReadCol,
-			rrPostTitleCol,
-			rrListItemBackgroundCol,
-			rrPostCommentsButtonBackCol;
+			rrPostTitleReadCol;
+	private final int rrPostTitleCol;
+	private final int rrListItemBackgroundCol;
+	private final int rrPostCommentsButtonBackCol;
 
 	private final int mThumbnailSizePrefPixels;
 
@@ -246,6 +252,60 @@ public final class RedditPostView extends FlingableItemView
 						RedditPreparedPost.Action.EXTERNAL,
 						R.string.action_external_short);
 
+			case REPORT:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.REPORT,
+						R.string.action_report
+				);
+
+			case SAVE_IMAGE:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.SAVE_IMAGE,
+						R.string.action_save_image
+				);
+
+			case GOTO_SUBREDDIT:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.GOTO_SUBREDDIT,
+						R.string.action_gotosubreddit
+				);
+
+			case SHARE:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.SHARE,
+						R.string.action_share
+				);
+
+			case SHARE_COMMENTS:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.SHARE_COMMENTS,
+						R.string.action_share_comments
+				);
+
+			case SHARE_IMAGE:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.SHARE_IMAGE,
+						R.string.action_share_image
+				);
+
+			case COPY:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.COPY,
+						R.string.action_copy_link
+				);
+
+			case USER_PROFILE:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.USER_PROFILE,
+						R.string.action_user_profile_short
+				);
+
+			case PROPERTIES:
+				return new ActionDescriptionPair(
+						RedditPreparedPost.Action.PROPERTIES,
+						R.string.action_properties
+				);
+
 			case ACTION_MENU:
 				return new ActionDescriptionPair(
 						RedditPreparedPost.Action.ACTION_MENU,
@@ -330,7 +390,7 @@ public final class RedditPostView extends FlingableItemView
 		title = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_title));
 		subtitle = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_subtitle));
 
-		final SharedPreferences sharedPreferences =
+		final SharedPrefsWrapper sharedPreferences =
 				General.getSharedPrefs(context);
 
 		mCommentsButtonPref =
@@ -366,6 +426,15 @@ public final class RedditPostView extends FlingableItemView
 
 		if(mCommentsButtonPref) {
 			mCommentsButton.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
+		}
+
+		final boolean postTitleOpensPost = PrefsUtility.pref_behaviour_post_title_opens_comments(
+				getContext(),
+				General.getSharedPrefs(getContext())
+		);
+
+		if(postTitleOpensPost) {
+			title.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
 		}
 
 		title.setTextSize(
@@ -468,22 +537,12 @@ public final class RedditPostView extends FlingableItemView
 
 	public void updateAppearance() {
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		mOuterView.setBackgroundResource(
+				R.drawable.rr_postlist_item_selector_main);
 
-			mOuterView.setBackgroundResource(
-					R.drawable.rr_postlist_item_selector_main);
-
-			if(mCommentsButtonPref) {
-				mCommentsButton.setBackgroundResource(
-						R.drawable.rr_postlist_commentbutton_selector_main);
-			}
-
-		} else {
-			// On KitKat and lower, we can't do easily themed highlighting
-			mOuterView.setBackgroundColor(rrListItemBackgroundCol);
-			if(mCommentsButtonPref) {
-				mCommentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
-			}
+		if(mCommentsButtonPref) {
+			mCommentsButton.setBackgroundResource(
+					R.drawable.rr_postlist_commentbutton_selector_main);
 		}
 
 		if(mPost.isRead()) {
@@ -614,6 +673,18 @@ public final class RedditPostView extends FlingableItemView
 								throw new IOException("Failed to decode bitmap");
 							}
 
+							// Avoid a crash on badly behaving Android ROMs (where the ImageView
+							// crashes if an image is too big)
+							// Should never happen as we limit the preview size to 3000x3000
+							if(data.getByteCount() > 50 * 1024 * 1024) {
+								throw new RuntimeException("Image was too large: "
+										+ data.getByteCount()
+										+ ", preview URL was "
+										+ preview.url
+										+ " and post was "
+										+ post.src.getIdAndType());
+							}
+
 							final boolean alreadyAcceptedPrompt = General.getSharedPrefs(mActivity)
 									.getBoolean(PROMPT_PREF_KEY, false);
 
@@ -641,7 +712,8 @@ public final class RedditPostView extends FlingableItemView
 									CacheRequest.REQUEST_FAILURE_CONNECTION,
 									t,
 									null,
-									"Exception while downloading thumbnail");
+									"Exception while downloading thumbnail",
+									Optional.empty());
 						}
 					}
 
@@ -650,7 +722,8 @@ public final class RedditPostView extends FlingableItemView
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						Log.e(TAG, "Failed to download image preview", t);
 
@@ -672,10 +745,12 @@ public final class RedditPostView extends FlingableItemView
 													R.string.error_inline_preview_failed_title),
 											context.getString(
 													R.string.error_inline_preview_failed_message),
+											true,
 											t,
 											httpStatus,
 											preview.url,
-											null));
+											null,
+											body));
 
 							mPostErrors.addView(errorView);
 							General.setLayoutMatchWidthWrapHeight(errorView);
@@ -684,10 +759,11 @@ public final class RedditPostView extends FlingableItemView
 				}
 		));
 	}
-
+//TODO: Not supported
+//
 //	private void showPrefPrompt() {
 //
-//		final SharedPreferences sharedPrefs
+//		final SharedPrefsWrapper sharedPrefs
 //				= General.getSharedPrefs(mActivity);
 //
 //		LayoutInflater.from(mActivity).inflate(

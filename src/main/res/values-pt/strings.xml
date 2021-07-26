@@ -16,7 +16,7 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   --><resources>
     <string name="accounts_anon">Anônimo</string>
-    <string name="accounts_password">Senha</string>
+    <string name="accounts_password">Palavra-passe</string>
     <string name="accounts_active">Ativo</string>
     <string name="accounts_add">Adicionar conta do Reddit</string>
     <string name="accounts_delete">Remover</string>
@@ -86,7 +86,7 @@
     <string name="download_connecting">Conectando…</string>
     <string name="download_done">Feito.</string>
     <string name="download_downloading">Baixando…</string>
-    <string name="download_downloadstarting">Iniciando download…</string>
+    <string name="download_downloadstarting">A descarrega inicia…</string>
     <string name="download_failed">Falhou.</string>
     <string name="download_loading">Carregando…</string>
     <string name="download_subreddits">Baixando subreddits…</string>
@@ -106,7 +106,7 @@
     <string name="error_file_open_failed_title">Falha ao abrir o ficheiro</string>
     <string name="error_file_too_big_title">O ficheiro é muito grande</string>
     <string name="error_invalid_password_message">O seu nome de utilizador ou palavra-passe estão incorretos.</string>
-    <string name="error_invalid_password_title">Senha Inválida</string>
+    <string name="error_invalid_password_title">Palavra-passe Inválida</string>
     <string name="error_postlist_redditdown_title">O Reddit está fora do ar</string>
     <string name="error_too_fast_title">Muito rápido</string>
     <string name="error_too_long_title">Muito longo</string>
@@ -149,7 +149,7 @@
     <string name="post_captcha_submit_button">Enviar</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_submit_done">Post Enviado.</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_submit_title_hint">Título</string>
     <string name="pref_about_version_title">Versão</string>
     <string name="pref_appearance_comment_header_items_age">Idade</string>
@@ -219,7 +219,7 @@
     <string name="error_cache_dir_does_not_exist_title">Pasta de cache não encontrada</string>
     <string name="error_cancelled_message">A operação atual foi cancelada.</string>
     <string name="error_connection_message">Ocorreu um problema ao conectar-se com o servidor. Por favor verifiquee sua conexão e tente novamente.</string>
-    <string name="error_disk_space_message">O download falhou porque seu armazenamento está cheio. Por favor libere um pouco de espaço e tente novamente.</string>
+    <string name="error_disk_space_message">A descarrega falhou porque o seu armazenamento está cheio. Por favor, libere um pouco de espaço e tente novamente.</string>
     <string name="error_file_open_failed_message">Ocorreu um erro ao tentar abrir o ficheiro.</string>
     <string name="error_file_too_big_message">O tamanho do ficheiro (%1$s) é maior que o limite de upload (%2$s).</string>
     <string name="webview_use_https">Usar HTTPS</string>
@@ -320,7 +320,7 @@
     <string name="pref_menus_post_toolbar_items_title">Barra Lateral do Post</string>
     <string name="pref_menus_post_context_items_title">Menu da Publicação</string>
     <string name="pref_menus_optionsmenu_items_title">Opções do Menu</string>
-    <string name="pref_menus_mainmenu_useritems_title">Menu Principal do Usuário</string>
+    <string name="pref_menus_mainmenu_useritems_title">Itens do utilizador</string>
     <string name="pref_menus_link_context_items_title">Menu do Link</string>
     <string name="pref_cache_rerequest_postlist_age_title">Atualizar posts se o cache for mais antigo que</string>
     <string name="pref_cache_pruning">Limpeza de Cache</string>
@@ -512,8 +512,8 @@
     <string name="edit_post_actionbar">Editar Post</string>
     <string name="button_next_comment_parent">Próximo Comentário Pai</string>
     <string name="button_prev_comment_parent">Comentário Pai Anterior</string>
-    <string name="download_link_title">Baixar Arquivo</string>
-    <string name="download_link_message">Este é um link de download. Você deseja carregá-lo em um browser externo\?</string>
+    <string name="download_link_title">Descarregar ficheiro</string>
+    <string name="download_link_message">Este é uma ligação de descarrega. Deseja carregá-lo num navegador externo\?</string>
     <string name="pref_menus_show_popular_main_menu_title">Mostrar /r/popular no menu principal</string>
     <string name="pref_behaviour_video_playback_controls_title">Ativar controles de reprodução de vídeo</string>
     <string name="error_no_suitable_apps_available">Nenhuma app adequada disponível.</string>

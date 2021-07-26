@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -64,7 +65,8 @@ public class WebViewFragment extends Fragment
 
 	private BaseActivity mActivity;
 
-	private String mUrl, html;
+	private String mUrl;
+	private String html;
 	private volatile String currentUrl;
 	private volatile boolean goingBack;
 	private volatile int lastBackDepthAttempt;
@@ -119,14 +121,14 @@ public class WebViewFragment extends Fragment
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment, null);
 
-		final RedditPost src_post = getArguments().getParcelable("post");
+		final RedditPost srcPost = getArguments().getParcelable("post");
 		final RedditPreparedPost post;
 
-		if(src_post != null) {
+		if(srcPost != null) {
 
 			final RedditParsedPost parsedPost = new RedditParsedPost(
 					mActivity,
-					src_post,
+					srcPost,
 					false);
 
 			post = new RedditPreparedPost(
@@ -226,8 +228,16 @@ public class WebViewFragment extends Fragment
 								(dialog, which) -> {
 									final Intent i = new Intent(Intent.ACTION_VIEW);
 									i.setData(Uri.parse(url));
-									getContext().startActivity(i);
-									mActivity.onBackPressed(); //get back from internal browser
+
+									try {
+										getContext().startActivity(i);
+										mActivity.onBackPressed(); //get back from internal browser
+
+									} catch(final ActivityNotFoundException e) {
+										General.quickToast(
+												getContext(),
+												R.string.action_not_handled_by_installed_app_toast);
+									}
 								})
 						.setNegativeButton(
 								android.R.string.no,

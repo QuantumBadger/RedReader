@@ -24,11 +24,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.wear.widget.WearableLinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import org.quantumbadger.redreader.R;
 
 public class ScrollbarRecyclerViewManager {
@@ -70,21 +73,16 @@ public class ScrollbarRecyclerViewManager {
 //		mRecyclerView.setPadding(40, 0, 0, 0);
 
 		mRecyclerView.setHasFixedSize(true);
+
 		mRecyclerView.requestFocus();
 //		linearLayoutManager.setSmoothScrollbarEnabled(false);
 
 		// To align the edge children (first and last) with the center of the screen
 		mRecyclerView.setEdgeItemsCenteringEnabled(false);
 
-
-
-//		mRecyclerView.setCircularScrollingGestureEnabled(true);1
-
-//		WearableLinearLayoutManager layoutManager = new WearableLinearLayoutManager(context);
+//		TODO: NOT SUPPROTED
+//		linearLayoutManager.setSmoothScrollbarEnabled(false);
 //
-//
-
-
 //		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //
 //			private void updateScroll() {
@@ -118,21 +116,25 @@ public class ScrollbarRecyclerViewManager {
 //			}
 //
 //			@Override
-//			public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
+//			public void onScrolled(
+//					@NonNull final RecyclerView recyclerView,
+//					final int dx,
+//					final int dy) {
 //				updateScroll();
 //			}
 //
 //			@Override
-//			public void onScrollStateChanged(final RecyclerView recyclerView, final int newState) {
+//			public void onScrollStateChanged(
+//					@NonNull final RecyclerView recyclerView,
+//					final int newState) {
 //
 //				switch(newState) {
 //					case RecyclerView.SCROLL_STATE_IDLE:
 //						hideScrollbar();
 //						break;
 //					case RecyclerView.SCROLL_STATE_DRAGGING:
-//						showScrollbar();
-//						break;
 //					case RecyclerView.SCROLL_STATE_SETTLING:
+//						showScrollbar();
 //						break;
 //				}
 //

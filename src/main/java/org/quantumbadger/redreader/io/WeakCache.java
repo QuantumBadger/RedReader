@@ -70,7 +70,7 @@ public final class WeakCache<K, V extends WritableObject<K>, F>
 			}
 		}
 
-		if(keysRemaining.size() > 0) {
+		if(!keysRemaining.isEmpty()) {
 
 			final long outerOldestTimestamp = oldestTimestamp;
 

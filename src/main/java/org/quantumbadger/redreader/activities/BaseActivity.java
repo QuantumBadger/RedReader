@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -34,19 +33,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TorCommon;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class BaseActivity extends AppCompatActivity
-		implements SharedPreferences.OnSharedPreferenceChangeListener {
+		implements SharedPrefsWrapper.OnSharedPreferenceChangeListener {
 
-	private SharedPreferences mSharedPreferences;
+	private SharedPrefsWrapper mSharedPreferences;
 
 	private static boolean closingAll = false;
 
-	private final AtomicInteger mRequestIdGenerator = new AtomicInteger(10000);
+	private final AtomicInteger mRequestIdGenerator = new AtomicInteger(10_000);
 
 	private final HashMap<Integer, PermissionCallback> mPermissionRequestCallbacks
 			= new HashMap<>();
@@ -165,7 +165,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		mSharedPreferences = General.getSharedPrefs(this);
 
-		if(PrefsUtility.pref_appearance_hide_android_status(this, mSharedPreferences)) {
+		if (PrefsUtility.pref_appearance_hide_android_status(this, mSharedPreferences)) {
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -176,8 +176,8 @@ public abstract class BaseActivity extends AppCompatActivity
 		setOrientationFromPrefs();
 		closeIfNecessary();
 
-		/// Disabled Toolbar
-//
+// TODO: Not supported
+
 //		if(baseActivityIsToolbarActionBarEnabled()) {
 //
 //			final View outerView;
@@ -233,7 +233,7 @@ public abstract class BaseActivity extends AppCompatActivity
 //
 //			configBackButton(
 //					baseActivityIsActionBarBackEnabled(),
-//					v -> finish());
+//					v -> onBackPressed());
 //
 //			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //
@@ -269,16 +269,16 @@ public abstract class BaseActivity extends AppCompatActivity
 //			}
 //
 //		} else {
-//
+//	}
+			mContentListing = new FrameLayout(this);
+			mContentOverlay = new FrameLayout(this);
+
+			final FrameLayout outer = new FrameLayout(this);
+			outer.addView(mContentListing);
+			outer.addView(mContentOverlay);
+
+			super.setContentView(outer);
 //		}
-		mContentListing = new FrameLayout(this);
-		mContentOverlay = new FrameLayout(this);
-
-		final FrameLayout outer = new FrameLayout(this);
-		outer.addView(mContentListing);
-		outer.addView(mContentOverlay);
-
-		super.setContentView(outer);
 	}
 
 	public void setBaseActivityListing(@NonNull final View view) {
@@ -351,6 +351,8 @@ public abstract class BaseActivity extends AppCompatActivity
 			@NonNull final String[] permissions,
 			@NonNull final int[] grantResults) {
 
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
 		final PermissionCallback callback
 				= mPermissionRequestCallbacks.remove(requestCode);
 
@@ -401,26 +403,32 @@ public abstract class BaseActivity extends AppCompatActivity
 				= PrefsUtility.pref_behaviour_screen_orientation(
 				this,
 				mSharedPreferences);
+
 		if(orientation == PrefsUtility.ScreenOrientation.AUTO) {
+			//noinspection SourceLockedOrientationActivity
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+
 		} else if(orientation == PrefsUtility.ScreenOrientation.PORTRAIT) {
+			//noinspection SourceLockedOrientationActivity
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 		} else if(orientation == PrefsUtility.ScreenOrientation.LANDSCAPE) {
+			//noinspection SourceLockedOrientationActivity
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		}
 	}
 
 
 	protected void onSharedPreferenceChangedInner(
-			final SharedPreferences prefs,
+			final SharedPrefsWrapper prefs,
 			final String key) {
 		// Do nothing
 	}
 
 	@Override
 	public final void onSharedPreferenceChanged(
-			final SharedPreferences prefs,
-			final String key) {
+			@NonNull final SharedPrefsWrapper prefs,
+			@NonNull final String key) {
 
 		onSharedPreferenceChangedInner(prefs, key);
 
@@ -428,6 +436,10 @@ public abstract class BaseActivity extends AppCompatActivity
 				|| key.equals(getString(R.string.pref_menus_quick_account_switcher_key))
 				|| key.equals(getString(R.string.pref_pinned_subreddits_key))) {
 			invalidateOptionsMenu();
+		}
+
+		if(key.equals(getString(R.string.pref_behaviour_screenorientation_key))) {
+			setOrientationFromPrefs();
 		}
 	}
 }

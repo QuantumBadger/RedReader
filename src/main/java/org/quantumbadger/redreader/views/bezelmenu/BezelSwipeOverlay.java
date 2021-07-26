@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.views.bezelmenu;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.MotionEvent;
 import android.view.View;
 import androidx.annotation.IntDef;
@@ -47,9 +46,9 @@ public class BezelSwipeOverlay extends View {
 		super(context);
 		this.listener = listener;
 
-		final SharedPreferences prefs = General.getSharedPrefs(context);
-		final int swipeZoneDp =
-				PrefsUtility.pref_behaviour_bezel_toolbar_swipezone_dp(context, prefs);
+		final int swipeZoneDp = PrefsUtility.pref_behaviour_bezel_toolbar_swipezone_dp(
+				context,
+				General.getSharedPrefs(context));
 
 		mSwipeZonePixels = General.dpToPixels(getContext(), swipeZoneDp);
 	}

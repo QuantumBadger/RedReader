@@ -21,7 +21,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -39,11 +38,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 
 import java.io.ByteArrayOutputStream;
@@ -57,6 +58,7 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -73,7 +75,7 @@ public final class General {
 
 	public static final int COLOR_INVALID = Color.MAGENTA;
 
-	private static final AtomicReference<SharedPreferences> mPrefs = new AtomicReference<>();
+	private static final AtomicReference<SharedPrefsWrapper> mPrefs = new AtomicReference<>();
 
 	private static long lastBackPress = -1;
 
@@ -88,16 +90,18 @@ public final class General {
 	}
 
 	@NonNull
-	public static SharedPreferences getSharedPrefs(@NonNull final Context context) {
+	public static SharedPrefsWrapper getSharedPrefs(@NonNull final Context context) {
 
-		SharedPreferences prefs = mPrefs.get();
+		SharedPrefsWrapper prefs = mPrefs.get();
 
 		if(prefs == null) {
-			prefs = context.getSharedPreferences(
+			prefs = new SharedPrefsWrapper(context.getSharedPreferences(
 					context.getPackageName() + "_preferences",
-					Context.MODE_PRIVATE);
+					Context.MODE_PRIVATE));
 
-			mPrefs.set(prefs);
+			if(!mPrefs.compareAndSet(null, prefs)) {
+				prefs = mPrefs.get();
+			}
 		}
 
 		return prefs;
@@ -115,21 +119,31 @@ public final class General {
 	 */
 	public static String addUnits(final long input) {
 		int i = 0;
-		long result = input;
+		double result = input;
 		while(i <= 3 && result >= 1024) {
-			result = input / (long)Math.pow(1024, ++i);
+			result = input / Math.pow(1024, ++i);
 		}
 
+		final String unit;
 		switch(i) {
 			case 1:
-				return result + " KiB";
+				unit = " KiB";
+				break;
 			case 2:
-				return result + " MiB";
+				unit = " MiB";
+				break;
 			case 3:
-				return result + " GiB";
+				unit = " GiB";
+				break;
 			default:
-				return result + " B";
+				unit = " B";
 		}
+
+		if(i > 0 && Math.round(result) < 10) {
+			return String.format(Locale.US, "%.1f%s", result, unit);
+		}
+
+		return String.format(Locale.US, "%.0f%s", result, unit);
 	}
 
 	public static String bytesToMegabytes(final long input) {
@@ -151,6 +165,10 @@ public final class General {
 				TypedValue.COMPLEX_UNIT_SP,
 				sp,
 				context.getResources().getDisplayMetrics()));
+	}
+
+	public static boolean isSensitiveDebugLoggingEnabled() {
+		return BuildConfig.DEBUG;
 	}
 
 	public static void quickToast(final Context context, final int textRes) {
@@ -182,7 +200,7 @@ public final class General {
 
 	public static boolean isTablet(
 			final Context context,
-			final SharedPreferences sharedPreferences) {
+			final SharedPrefsWrapper sharedPreferences) {
 
 		final PrefsUtility.AppearanceTwopane pref = PrefsUtility.appearance_twopane(
 				context,
@@ -224,13 +242,16 @@ public final class General {
 	}
 
 	public static RRError getGeneralErrorForFailure(
-			final Context context,
+			@NonNull final Context context,
 			@CacheRequest.RequestFailureType final int type,
-			final Throwable t,
-			final Integer status,
-			final String url) {
+			@Nullable final Throwable t,
+			@Nullable final Integer status,
+			@Nullable final String url,
+			@NonNull final Optional<FailedRequestBody> response) {
 
-		final int title, message;
+		final int title;
+		final int message;
+		boolean reportable = true;
 
 		switch(type) {
 			case CacheRequest.REQUEST_FAILURE_CANCELLED:
@@ -250,10 +271,23 @@ public final class General {
 				message = R.string.error_unexpected_storage_message;
 				break;
 			case CacheRequest.REQUEST_FAILURE_CONNECTION:
+
 				// TODO check network and customise message
-				title = R.string.error_connection_title;
-				message = R.string.error_connection_message;
+				if(isTorError(t)) {
+					title = R.string.error_tor_connection_title;
+					message = R.string.error_tor_connection_message;
+
+				} else if(isContentBlockerError(t)) {
+					title = R.string.error_content_blocker_title;
+					message = R.string.error_content_blocker_message;
+
+				} else {
+					title = R.string.error_connection_title;
+					message = R.string.error_connection_message;
+				}
+
 				break;
+
 			case CacheRequest.REQUEST_FAILURE_MALFORMED_URL:
 				title = R.string.error_malformed_url_title;
 				message = R.string.error_malformed_url_message;
@@ -274,15 +308,30 @@ public final class General {
 						case 401:
 						case 403: {
 							final URI uri = General.uriFromString(url);
-							final boolean isRedditRequest
-									= uri != null
-									&& uri.getHost() != null
-									&& ("reddit.com".equalsIgnoreCase(uri.getHost())
-									|| uri.getHost().endsWith(".reddit.com"));
+
+							boolean isImgurApiRequest = false;
+							boolean isRedditRequest = false;
+
+							if(uri != null && uri.getHost() != null) {
+								if("reddit.com".equalsIgnoreCase(uri.getHost())
+										|| uri.getHost().endsWith(".reddit.com")) {
+
+									isRedditRequest = true;
+
+								} else if(uri.getHost().equalsIgnoreCase(
+										"api.imgur.com")) {
+									isImgurApiRequest = true;
+								}
+							}
 
 							if(isRedditRequest) {
 								title = R.string.error_403_title;
 								message = R.string.error_403_message;
+
+							} else if(status == 400 && isImgurApiRequest) {
+								title = R.string.error_imgur_400_title;
+								message = R.string.error_imgur_400_message;
+
 							} else {
 								title = R.string.error_403_title_nonreddit;
 								message = R.string.error_403_message_nonreddit;
@@ -294,17 +343,27 @@ public final class General {
 							title = R.string.error_404_title;
 							message = R.string.error_404_message;
 							break;
+						case 429:
+							title = R.string.error_http_429_title;
+							message = R.string.error_http_429_message;
+							break;
 						case 502:
 						case 503:
 						case 504:
 							title = R.string.error_redditdown_title;
 							message = R.string.error_redditdown_message;
+							reportable = false;
 							break;
 						default:
 							title = R.string.error_unknown_api_title;
 							message = R.string.error_unknown_api_message;
 							break;
 					}
+
+				} else if(isTorError(t)) {
+					title = R.string.error_tor_connection_title;
+					message = R.string.error_tor_connection_message;
+
 				} else {
 					title = R.string.error_unknown_api_title;
 					message = R.string.error_unknown_api_message;
@@ -326,25 +385,52 @@ public final class General {
 				message = R.string.error_upload_fail_imgur_message;
 				break;
 
-			default:
-				title = R.string.error_unknown_title;
-				message = R.string.error_unknown_message;
+			default: {
+				if(isTorError(t)) {
+					title = R.string.error_tor_connection_title;
+					message = R.string.error_tor_connection_message;
+
+				} else {
+					title = R.string.error_unknown_title;
+					message = R.string.error_unknown_message;
+				}
+
 				break;
+			}
 		}
 
 		return new RRError(
 				context.getString(title),
 				context.getString(message),
+				reportable,
 				t,
 				status,
-				url, null);
+				url,
+				null,
+				response);
+	}
+
+	private static boolean isTorError(@Nullable final Throwable t) {
+		return t != null
+				&& t.getMessage() != null
+				&& t.getMessage().contains("127.0.0.1:8118");
+	}
+
+	private static boolean isContentBlockerError(@Nullable final Throwable t) {
+		return t != null
+				&& t.getMessage() != null
+				&& (t.getMessage().contains("127.0.0.1:443")
+						|| t.getMessage().contains("127.0.0.1:80"));
 	}
 
 	public static RRError getGeneralErrorForFailure(
 			final Context context,
-			final APIResponseHandler.APIFailureType type) {
+			final APIResponseHandler.APIFailureType type,
+			final String debuggingContext,
+			@NonNull final Optional<FailedRequestBody> response) {
 
-		final int title, message;
+		final int title;
+		final int message;
 
 		switch(type) {
 
@@ -384,13 +470,26 @@ public final class General {
 				message = R.string.error_already_submitted_message;
 				break;
 
+			case POST_FLAIR_REQUIRED:
+				title = R.string.error_post_flair_required_title;
+				message = R.string.error_post_flair_required_message;
+				break;
+
 			default:
 				title = R.string.error_unknown_api_title;
 				message = R.string.error_unknown_api_message;
 				break;
 		}
 
-		return new RRError(context.getString(title), context.getString(message));
+		return new RRError(
+				context.getString(title),
+				context.getString(message),
+				true,
+				null,
+				null,
+				null,
+				debuggingContext,
+				response);
 	}
 
 	public static void showResultDialog(
@@ -451,13 +550,13 @@ public final class General {
 
 					final String scheme = urlMatcher.group(1);
 					final String authority = urlMatcher.group(2);
-					final String path = urlMatcher.group(3).length() == 0
+					final String path = urlMatcher.group(3).isEmpty()
 							? null
 							: "/" + urlMatcher.group(3);
-					final String query = urlMatcher.group(4).length() == 0
+					final String query = urlMatcher.group(4).isEmpty()
 							? null
 							: urlMatcher.group(4);
-					final String fragment = urlMatcher.group(5).length() == 0
+					final String fragment = urlMatcher.group(5).isEmpty()
 							? null
 							: urlMatcher.group(5);
 
@@ -685,5 +784,88 @@ public final class General {
 			@NonNull final Runnable runnable) {
 
 		new Thread(runnable, name).start();
+	}
+
+	@Nullable
+	public static <T extends View> T findViewById(@NonNull final View view, final int id) {
+
+		if(view.getId() == id) {
+			//noinspection unchecked
+			return (T)view;
+		}
+
+		if(view instanceof ViewGroup) {
+
+			final ViewGroup group = (ViewGroup)view;
+
+			for(int i = 0; i < group.getChildCount(); i++) {
+
+				final T result = findViewById(group.getChildAt(i), id);
+
+				if(result != null) {
+					return result;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static <E> void ifNotNull(
+			@Nullable final E value,
+			@NonNull final Consumer<E> consumer) {
+
+		if(value != null) {
+			consumer.consume(value);
+		}
+	}
+
+	@Nullable
+	public static <E, R> R mapIfNotNull(
+			@Nullable final E value,
+			@NonNull final UnaryOperator<E, R> op) {
+
+		if(value != null) {
+			return op.operate(value);
+		}
+
+		return null;
+	}
+
+	public static boolean isAlpha() {
+		//noinspection ConstantConditions
+		return General.class.getCanonicalName().contains("alpha");
+	}
+
+	@SafeVarargs
+	@NonNull
+	public static <E> Set<E> hashsetFromArray(@NonNull final E... data) {
+		final HashSet<E> result = new HashSet<>(data.length);
+		Collections.addAll(result, data);
+		return result;
+	}
+
+	@SafeVarargs
+	public static <E> E nullAlternative(
+			final E... values) {
+
+		for(final E value : values) {
+			if(value != null) {
+				return value;
+			}
+		}
+
+		return values[values.length - 1];
+	}
+
+	@NonNull
+	public static <E> Optional<E> ignoreIOException(
+			@NonNull final GenericFactory<E, IOException> factory) {
+
+		try {
+			return Optional.of(factory.create());
+		} catch(final IOException e) {
+			return Optional.empty();
+		}
 	}
 }

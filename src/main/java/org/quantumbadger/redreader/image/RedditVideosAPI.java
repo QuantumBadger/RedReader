@@ -29,12 +29,13 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -85,13 +86,27 @@ public final class RedditVideosAPI {
 							final boolean fromCache,
 							@Nullable final String mimetype) {
 
-						try {
-							final String mpd;
+						final String mpd;
 
-							try(InputStream is = stream.create()) {
-								mpd = new String(General.readWholeStream(is), General.CHARSET_UTF8);
+						try(InputStream is = stream.create()) {
+							mpd = new String(General.readWholeStream(is), General.CHARSET_UTF8);
+						} catch(final IOException e) {
+
+							Log.e(TAG, "Got exception", e);
+
+							if(!mNotifiedFailure.getAndSet(true)) {
+								listener.onFailure(
+										CacheRequest.REQUEST_FAILURE_STORAGE,
+										e,
+										null,
+										"Failed to read mpd",
+										Optional.empty());
 							}
 
+							return;
+						}
+
+						try {
 							String videoUrl = null;
 							String audioUrl = null;
 
@@ -139,13 +154,6 @@ public final class RedditVideosAPI {
 										ImageInfo.HasAudio.NO_AUDIO);
 							}
 
-							Log.i(TAG, String.format(
-									Locale.US,
-									"For '%s', got video stream '%s' and audio stream '%s'",
-									apiUrl,
-									videoUrl,
-									audioUrl == null ? "null" : audioUrl));
-
 							listener.onSuccess(result);
 
 						} catch(final Exception e) {
@@ -157,7 +165,8 @@ public final class RedditVideosAPI {
 										CacheRequest.REQUEST_FAILURE_STORAGE,
 										e,
 										null,
-										"Failed to read mpd");
+										"Failed to parse mpd",
+										Optional.of(new FailedRequestBody(mpd)));
 							}
 						}
 					}
@@ -167,10 +176,16 @@ public final class RedditVideosAPI {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						if(!mNotifiedFailure.getAndSet(true)) {
-							listener.onFailure(type, t, httpStatus, readableMessage);
+							listener.onFailure(
+									type,
+									t,
+									httpStatus,
+									readableMessage,
+									body);
 						}
 					}
 				}));

@@ -39,10 +39,12 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.NeverAlwaysOrWifiOnly;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.viewholders.VH3TextIcon;
@@ -119,7 +121,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 
 		vh.text2.setText(subtitle);
 
-		if(imageInfo.caption != null && imageInfo.caption.length() > 0) {
+		if(imageInfo.caption != null && !imageInfo.caption.isEmpty()) {
 			vh.text3.setText(imageInfo.caption);
 			vh.text3.setVisibility(View.VISIBLE);
 		} else {
@@ -161,12 +163,15 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 								final int type,
 								@Nullable final Throwable t,
 								@Nullable final Integer httpStatus,
-								@Nullable final String readableMessage) {
+								@Nullable final String readableMessage,
+								@NonNull final Optional<FailedRequestBody> body) {
 
-							Log.e(
-									"AlbumAdapter",
-									"Failed to fetch thumbnail " + imageInfo.urlBigSquare,
-									t);
+							if(General.isSensitiveDebugLoggingEnabled()) {
+								Log.e(
+										"AlbumAdapter",
+										"Failed to fetch thumbnail " + imageInfo.urlBigSquare,
+										t);
+							}
 						}
 
 						@Override
@@ -190,7 +195,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 								});
 
 							} catch(final IOException e) {
-								onFailure(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null, null);
+								onFailure(
+										CacheRequest.REQUEST_FAILURE_CONNECTION,
+										e,
+										null,
+										null,
+										Optional.empty());
 							}
 						}
 					}));
@@ -211,9 +221,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 					new RRError(
 							activity.getString(R.string.image_gallery_no_image_present_title),
 							activity.getString(R.string.image_gallery_no_image_present_message),
+							true,
 							new RuntimeException(),
 							null,
-							albumInfo.url, null)));
+							albumInfo.url,
+							null)));
 		}
 
 		vh.itemView.setOnLongClickListener(v -> {

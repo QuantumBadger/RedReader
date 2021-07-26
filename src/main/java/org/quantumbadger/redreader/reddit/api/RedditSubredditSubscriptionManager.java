@@ -29,12 +29,14 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
@@ -352,7 +354,7 @@ public class RedditSubredditSubscriptionManager {
 		}
 
 		@Override
-		protected void onSuccess(@Nullable final String redirectUrl) {
+		protected void onSuccess() {
 
 			switch(action) {
 				case RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE:
@@ -374,7 +376,8 @@ public class RedditSubredditSubscriptionManager {
 				@CacheRequest.RequestFailureType final int type,
 				final Throwable t,
 				final Integer status,
-				final String readableMessage) {
+				final String readableMessage,
+				@NonNull final Optional<FailedRequestBody> response) {
 
 			if(status != null && status == 404) {
 				// Weirdly, reddit returns a 404 if we were already subscribed/unsubscribed to
@@ -383,31 +386,37 @@ public class RedditSubredditSubscriptionManager {
 				if(action == RedditAPI.SUBSCRIPTION_ACTION_SUBSCRIBE
 						|| action == RedditAPI.SUBSCRIPTION_ACTION_UNSUBSCRIBE) {
 
-					onSuccess(null);
+					onSuccess();
 					return;
 				}
 			}
 
 			onSubscriptionChangeAttemptFailed(canonicalName);
-			if(t != null) {
-				t.printStackTrace();
-			}
 
-			final RRError error =
-					General.getGeneralErrorForFailure(context, type, t, status, null);
+			final RRError error = General.getGeneralErrorForFailure(
+					context,
+					type,
+					t,
+					status,
+					"Subreddit action " + action + " for " + canonicalName,
+					response);
+
 			General.showResultDialog(activity, error);
 		}
 
 		@Override
-		protected void onFailure(final APIFailureType type) {
+		protected void onFailure(
+				@NonNull final APIFailureType type,
+				@Nullable final String debuggingContext,
+				@NonNull final Optional<FailedRequestBody> response) {
+
 			onSubscriptionChangeAttemptFailed(canonicalName);
-			final RRError error = General.getGeneralErrorForFailure(context, type);
+
+			final RRError error
+					= General.getGeneralErrorForFailure(context, type, debuggingContext, response);
+
 			General.showResultDialog(activity, error);
 		}
-	}
-
-	public Long getSubscriptionListTimestamp() {
-		return subscriptions != null ? subscriptions.getTimestamp() : null;
 	}
 
 	public interface SubredditSubscriptionStateChangeListener {
@@ -452,8 +461,7 @@ public class RedditSubredditSubscriptionManager {
 					break;
 				default:
 					throw new UnexpectedInternalStateException(
-							"Invalid SubredditSubscriptionChangeType "
-									+ changeType.toString());
+							"Invalid SubredditSubscriptionChangeType " + changeType);
 			}
 		}
 	}

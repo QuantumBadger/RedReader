@@ -63,7 +63,7 @@ public class ChangelogManager {
 			String line;
 			while((line = br.readLine()) != null) {
 
-				if(line.length() == 0) {
+				if(line.isEmpty()) {
 
 					curVersionName = null;
 

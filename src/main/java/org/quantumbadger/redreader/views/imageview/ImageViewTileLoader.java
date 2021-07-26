@@ -35,7 +35,9 @@ public class ImageViewTileLoader {
 
 	private final ImageTileSource mSource;
 	private final ImageViewTileLoaderThread mThread;
-	private final int mX, mY, mSampleSize;
+	private final int mX;
+	private final int mY;
+	private final int mSampleSize;
 
 	private boolean mWanted;
 

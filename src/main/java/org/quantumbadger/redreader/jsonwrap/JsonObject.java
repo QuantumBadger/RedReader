@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import org.quantumbadger.redreader.common.Optional;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -35,6 +36,8 @@ import java.util.Set;
 
 public final class JsonObject extends JsonValue
 		implements Iterable<Map.Entry<String, JsonValue>> {
+
+	public interface JsonDeserializable {}
 
 	private final HashMap<String, JsonValue> properties = new HashMap<>();
 
@@ -69,6 +72,10 @@ public final class JsonObject extends JsonValue
 		parser.nextToken();
 	}
 
+	public boolean isEmpty() {
+		return properties.isEmpty();
+	}
+
 	@NonNull
 	@Override
 	public JsonObject asObject() {
@@ -77,7 +84,7 @@ public final class JsonObject extends JsonValue
 
 	@NonNull
 	@Override
-	public <E> E asObject(final Class<E> clazz) throws
+	public <E extends JsonDeserializable> E asObject(final Class<E> clazz) throws
 			InstantiationException,
 			IllegalAccessException,
 			NoSuchMethodException,
@@ -154,11 +161,13 @@ public final class JsonObject extends JsonValue
 	}
 
 	@Nullable
-	public <E> E getObject(@NonNull final String id, final Class<E> clazz) throws
-			InstantiationException,
-			IllegalAccessException,
-			NoSuchMethodException,
-			InvocationTargetException {
+	public <E extends JsonDeserializable> E getObject(
+			@NonNull final String id,
+			final Class<E> clazz) throws
+					InstantiationException,
+					IllegalAccessException,
+					NoSuchMethodException,
+					InvocationTargetException {
 
 		final JsonValue value = get(id);
 
@@ -273,8 +282,14 @@ public final class JsonObject extends JsonValue
 				} else if(fieldType == JsonValue.class) {
 					objectField.set(o, val);
 
+				} else if(JsonDeserializable.class.isAssignableFrom(fieldType)) {
+					//noinspection unchecked
+					objectField.set(o, val.asObject(
+							(Class<? extends JsonDeserializable>)fieldType));
+
 				} else {
-					objectField.set(o, val.asObject(fieldType));
+					throw new RuntimeException("Cannot handle field type "
+							+ fieldType.getCanonicalName());
 				}
 			}
 
@@ -288,18 +303,18 @@ public final class JsonObject extends JsonValue
 		return properties.entrySet().iterator();
 	}
 
-	@Nullable
+	@NonNull
 	@Override
-	protected JsonValue getAtPathInternal(final int offset, final Object... keys) {
+	protected Optional<JsonValue> getAtPathInternal(final int offset, final Object... keys) {
 
 		if(offset == keys.length) {
-			return this;
+			return Optional.of(this);
 		}
 
 		final JsonValue next = properties.get(keys[offset].toString());
 
 		if(next == null) {
-			return null;
+			return Optional.empty();
 		}
 
 		return next.getAtPathInternal(offset + 1, keys);

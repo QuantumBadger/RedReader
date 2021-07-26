@@ -18,8 +18,8 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.content.Context;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
@@ -32,19 +32,18 @@ public abstract class RedditListingManager {
 	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(7);
 	private LinearLayoutManager mLayoutManager;
 
-	private static final int
-			GROUP_HEADER = 0,
-			GROUP_NOTIFICATIONS = 1,
-			GROUP_POST_SELFTEXT = 2,
-			GROUP_ITEMS = 3,
-			GROUP_LOAD_MORE_BUTTON = 4,
-			GROUP_LOADING = 5,
-			GROUP_FOOTER_ERRORS = 6;
+	private static final int GROUP_HEADER = 0;
+	private static final int GROUP_NOTIFICATIONS = 1;
+	private static final int GROUP_POST_SELFTEXT = 2;
+	private static final int GROUP_ITEMS = 3;
+	private static final int GROUP_LOAD_MORE_BUTTON = 4;
+	private static final int GROUP_LOADING = 5;
+	private static final int GROUP_FOOTER_ERRORS = 6;
 
 	private final GroupedRecyclerViewItemFrameLayout mLoadingItem;
 	private boolean mWorkaroundDone = false;
 
-	public RedditListingManager(final Context context) {
+	protected RedditListingManager(final Context context) {
 		General.checkThisIsUIThread();
 		final LoadingSpinnerView loadingSpinnerView = new LoadingSpinnerView(context);
 		final int paddingPx = General.dpToPixels(context, 30);

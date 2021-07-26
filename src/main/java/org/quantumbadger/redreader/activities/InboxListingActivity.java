@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -42,11 +41,15 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -73,6 +76,10 @@ public final class InboxListingActivity extends BaseActivity {
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
 
+	public enum InboxType {
+		INBOX, SENT, MODMAIL
+	}
+
 	private static final String PREF_ONLY_UNREAD = "inbox_only_show_unread";
 
 	private GroupedRecyclerViewAdapter adapter;
@@ -82,7 +89,7 @@ public final class InboxListingActivity extends BaseActivity {
 
 	private CacheRequest request;
 
-	private boolean isModmail = false;
+	private InboxType inboxType;
 	private boolean mOnlyShowUnread;
 
 	private RRThemeAttributes mTheme;
@@ -154,17 +161,34 @@ public final class InboxListingActivity extends BaseActivity {
 		mChangeDataManager = RedditChangeDataManager.getInstance(
 				RedditAccountManager.getInstance(this).getDefaultAccount());
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(this);
 		final String title;
 
-		isModmail = getIntent() != null && getIntent().getBooleanExtra("modmail", false);
+		if(getIntent() != null) {
+			final String inboxTypeString = getIntent().getStringExtra("inboxType");
+
+			if(inboxTypeString != null) {
+				inboxType = InboxType.valueOf(StringUtils.asciiUppercase(inboxTypeString));
+			} else {
+				inboxType = InboxType.INBOX;
+			}
+		} else {
+			inboxType = InboxType.INBOX;
+		}
+
 		mOnlyShowUnread = sharedPreferences.getBoolean(PREF_ONLY_UNREAD, false);
 
-		if(!isModmail) {
-			title = getString(R.string.mainmenu_inbox);
-		} else {
-			title = getString(R.string.mainmenu_modmail);
+		switch(inboxType) {
+			case SENT:
+				title = getString(R.string.mainmenu_sent_messages);
+				break;
+			case MODMAIL:
+				title = getString(R.string.mainmenu_modmail);
+				break;
+			default:
+				title = getString(R.string.mainmenu_inbox);
+				break;
 		}
 
 		setTitle(title);
@@ -210,14 +234,16 @@ public final class InboxListingActivity extends BaseActivity {
 
 		final URI url;
 
-		if(!isModmail) {
+		if(inboxType == InboxType.SENT) {
+			url = Constants.Reddit.getUri("/message/sent.json?limit=100");
+		} else if(inboxType == InboxType.MODMAIL) {
+			url = Constants.Reddit.getUri("/message/moderator.json?limit=100");
+		} else {
 			if(mOnlyShowUnread) {
 				url = Constants.Reddit.getUri("/message/unread.json?mark=true&limit=100");
 			} else {
 				url = Constants.Reddit.getUri("/message/inbox.json?mark=true&limit=100");
 			}
-		} else {
-			url = Constants.Reddit.getUri("/message/moderator.json?limit=100");
 		}
 
 		// TODO parameterise limit
@@ -229,6 +255,7 @@ public final class InboxListingActivity extends BaseActivity {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.INBOX_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				false,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -289,8 +316,10 @@ public final class InboxListingActivity extends BaseActivity {
 												= new RedditRenderableComment(
 												parsedComment,
 												null,
-												-100000,
+												-100_000,
+												null,
 												false,
+												true,
 												true);
 
 										itemHandler.sendMessage(General.handlerMessage(
@@ -306,7 +335,8 @@ public final class InboxListingActivity extends BaseActivity {
 												= new RedditPreparedMessage(
 												InboxListingActivity.this,
 												thing.asMessage(),
-												timestamp);
+												timestamp,
+												inboxType);
 										itemHandler.sendMessage(General.handlerMessage(
 												0,
 												new InboxItem(listPosition, message)));
@@ -328,7 +358,8 @@ public final class InboxListingActivity extends BaseActivity {
 														= new RedditPreparedMessage(
 														InboxListingActivity.this,
 														childMsgRaw,
-														timestamp);
+														timestamp,
+														inboxType);
 												itemHandler.sendMessage(General.handlerMessage(
 														0,
 														new InboxItem(listPosition, childMsg)));
@@ -348,7 +379,8 @@ public final class InboxListingActivity extends BaseActivity {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Parse failure");
+									"Parse failure",
+									Optional.of(new FailedRequestBody(result)));
 							return;
 						}
 
@@ -362,7 +394,8 @@ public final class InboxListingActivity extends BaseActivity {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						request = null;
 
@@ -375,13 +408,10 @@ public final class InboxListingActivity extends BaseActivity {
 								type,
 								t,
 								httpStatus,
-								url.toString());
+								url.toString(),
+								body);
 						AndroidCommon.runOnUiThread(() -> notifications.addView(
 								new ErrorView(InboxListingActivity.this, error)));
-
-						if(t != null) {
-							t.printStackTrace();
-						}
 					}
 				}));
 
@@ -397,6 +427,10 @@ public final class InboxListingActivity extends BaseActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
+		if(inboxType == InboxType.SENT) {
+			return false;
+		}
+
 		menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 0, R.string.mark_all_as_read);
 		menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 1, R.string.inbox_unread_only);
 		menu.getItem(1).setCheckable(true);
@@ -414,7 +448,7 @@ public final class InboxListingActivity extends BaseActivity {
 						CacheManager.getInstance(this),
 						new APIResponseHandler.ActionResponseHandler(this) {
 							@Override
-							protected void onSuccess(@Nullable final String redirectUrl) {
+							protected void onSuccess() {
 								General.quickToast(
 										context,
 										R.string.mark_all_as_read_success);
@@ -425,6 +459,7 @@ public final class InboxListingActivity extends BaseActivity {
 								BugReportActivity.addGlobalError(new RRError(
 										"Mark all as Read failed",
 										"Callback exception",
+										true,
 										t));
 							}
 
@@ -433,24 +468,32 @@ public final class InboxListingActivity extends BaseActivity {
 									final @CacheRequest.RequestFailureType int type,
 									final Throwable t,
 									final Integer status,
-									final String readableMessage) {
+									final String readableMessage,
+									@NonNull final Optional<FailedRequestBody> response) {
+
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
 										type,
 										t,
 										status,
-										"Reddit API action: Mark all as Read");
+										"Reddit API action: Mark all as Read",
+										response);
 								General.showResultDialog(
 										InboxListingActivity.this,
 										error);
 							}
 
 							@Override
-							protected void onFailure(final APIFailureType type) {
+							protected void onFailure(
+									@NonNull final APIFailureType type,
+									@Nullable final String debuggingContext,
+									@NonNull final Optional<FailedRequestBody> response) {
 
 								final RRError error = General.getGeneralErrorForFailure(
 										context,
-										type);
+										type,
+										debuggingContext,
+										response);
 								General.showResultDialog(InboxListingActivity.this, error);
 							}
 						},

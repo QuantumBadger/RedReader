@@ -218,7 +218,7 @@
     <string name="comment_reply_done">您已經回覆，評論將在您刷新後顯示。</string>
     <string name="comment_edit_done">您已經修改評論，更改將在您刷新後顯示。</string>
     <string name="post_submit_title_hint">標題</string>
-    <string name="post_submit_subreddit_hint">版塊</string>
+    <string name="subreddit_selection_textbox_hint">版塊</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">提交</string>
     <string name="post_submit_done">已發帖。</string>

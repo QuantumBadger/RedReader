@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.common;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import org.quantumbadger.redreader.R;
 
@@ -26,23 +25,23 @@ import java.util.EnumSet;
 
 public class RRThemeAttributes {
 
-	public final int
-			rrCommentHeaderBoldCol,
-			rrCommentHeaderAuthorCol,
-			rrPostSubtitleUpvoteCol,
-			rrPostSubtitleDownvoteCol,
-			rrFlairBackCol,
-			rrFlairTextCol,
-			rrGoldBackCol,
-			rrGoldTextCol,
-			rrCommentHeaderCol,
-			rrCommentBodyCol,
-			rrMainTextCol,
-			colorAccent;
+	public final int rrCommentHeaderBoldCol;
+	public final int rrCommentHeaderAuthorCol;
+	public final int rrPostSubtitleUpvoteCol;
+	public final int rrPostSubtitleDownvoteCol;
+	public final int rrFlairBackCol;
+	public final int rrFlairTextCol;
+	public final int rrGoldBackCol;
+	public final int rrGoldTextCol;
+	public final int rrCommentHeaderCol;
+	public final int rrCommentBodyCol;
+	public final int rrMainTextCol;
+	public final int colorAccent;
 
 	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItem> mCommentHeaderItems;
 
-	public final float rrCommentFontScale, rrCommentHeaderFontScale;
+	public final float rrCommentFontScale;
+	public final float rrCommentHeaderFontScale;
 
 	public RRThemeAttributes(final Context context) {
 
@@ -76,7 +75,7 @@ public class RRThemeAttributes {
 
 		appearance.recycle();
 
-		final SharedPreferences prefs = General.getSharedPrefs(
+		final SharedPrefsWrapper prefs = General.getSharedPrefs(
 				context);
 
 		mCommentHeaderItems = PrefsUtility.appearance_comment_header_items(

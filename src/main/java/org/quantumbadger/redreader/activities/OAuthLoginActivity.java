@@ -142,7 +142,7 @@ public class OAuthLoginActivity extends BaseActivity {
 							getResources().getString(R.string.error_tor_setting_failed));
 				}
 			} catch(final Exception e) {
-				e.printStackTrace();
+				BugReportActivity.handleGlobalError(this, e);
 			}
 		}
 

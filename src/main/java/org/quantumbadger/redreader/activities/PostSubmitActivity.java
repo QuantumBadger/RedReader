@@ -17,59 +17,30 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.Toast;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
-import org.quantumbadger.redreader.reddit.APIResponseHandler;
-import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.fragments.postsubmit.PostSubmitContentFragment;
+import org.quantumbadger.redreader.fragments.postsubmit.PostSubmitSubredditSelectionFragment;
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
-import java.util.ArrayList;
 
-public class PostSubmitActivity extends BaseActivity {
+public class PostSubmitActivity extends BaseActivity implements
+		PostSubmitSubredditSelectionFragment.Listener,
+		PostSubmitContentFragment.Listener {
 
-	private Spinner typeSpinner, usernameSpinner;
-	private EditText subredditEdit, titleEdit, textEdit;
-	private CheckBox sendRepliesToInboxCheckbox;
-	private CheckBox markAsNsfwCheckbox;
-	private CheckBox markAsSpoilerCheckbox;
+	@NonNull private static final String TAG = "PostSubmitActivity";
 
-	private static final String[] postTypes = {"Link", "Self", "Upload to Imgur"};
-
-	private boolean mDraftReset = false;
-
-	private static int lastType;
-	private static String lastTitle;
-	private static String lastSubreddit;
-	private static String lastText;
-	private static boolean lastNsfw;
-	private static boolean lastSpoiler;
-	private static boolean lastInbox;
+	@Nullable private String mIntentUrl;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -78,321 +49,38 @@ public class PostSubmitActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		setTitle(R.string.submit_post_actionbar);
-
-		final LinearLayout layout = (LinearLayout)getLayoutInflater().inflate(
-				R.layout.post_submit,
-				null);
-
-		typeSpinner = layout.findViewById(R.id.post_submit_type);
-		usernameSpinner = layout.findViewById(R.id.post_submit_username);
-		subredditEdit = layout.findViewById(R.id.post_submit_subreddit);
-		titleEdit = layout.findViewById(R.id.post_submit_title);
-		textEdit = layout.findViewById(R.id.post_submit_body);
-		sendRepliesToInboxCheckbox = layout.findViewById(R.id.post_submit_send_replies_to_inbox);
-		markAsNsfwCheckbox = layout.findViewById(R.id.post_submit_mark_nsfw);
-		markAsSpoilerCheckbox = layout.findViewById(R.id.post_submit_mark_spoiler);
+		SubredditCanonicalId intentSubreddit = null;
 
 		final Intent intent = getIntent();
+
 		if(intent != null) {
 
-			if(intent.hasExtra("subreddit")) {
+			final String subreddit = intent.getStringExtra("subreddit");
 
-				final String subreddit = intent.getStringExtra("subreddit");
+			if(subreddit != null) {
+				try {
+					intentSubreddit = new SubredditCanonicalId(subreddit);
 
-				if(subreddit != null && subreddit.length() > 0 && !subreddit.matches(
-						"/?(r/)?all/?") && subreddit.matches("/?(r/)?\\w+/?")) {
-					subredditEdit.setText(subreddit);
+				} catch(final InvalidSubredditNameException e) {
+					Log.e(TAG, "Invalid subreddit name", e);
 				}
+			}
 
-			} else if(Intent.ACTION_SEND.equalsIgnoreCase(intent.getAction())
+			if(Intent.ACTION_SEND.equalsIgnoreCase(intent.getAction())
 					&& intent.hasExtra(Intent.EXTRA_TEXT)) {
-				final String url = intent.getStringExtra(Intent.EXTRA_TEXT);
-				textEdit.setText(url);
-			}
-
-		} else if(savedInstanceState != null && savedInstanceState.containsKey("post_title")) {
-			titleEdit.setText(savedInstanceState.getString("post_title"));
-			textEdit.setText(savedInstanceState.getString("post_body"));
-			subredditEdit.setText(savedInstanceState.getString("subreddit"));
-			typeSpinner.setSelection(savedInstanceState.getInt("post_type"));
-		}
-
-		final ArrayList<RedditAccount> accounts
-				= RedditAccountManager.getInstance(this).getAccounts();
-
-		final ArrayList<String> usernames = new ArrayList<>();
-
-		for(final RedditAccount account : accounts) {
-			if(!account.isAnonymous()) {
-				usernames.add(account.username);
+				mIntentUrl = intent.getStringExtra(Intent.EXTRA_TEXT);
 			}
 		}
 
-		if(usernames.size() == 0) {
-			General.quickToast(this, R.string.error_toast_notloggedin);
-			finish();
-		}
+		setBaseActivityListing(R.layout.single_fragment_layout);
 
-		usernameSpinner.setAdapter(new ArrayAdapter<>(
-				this,
-				android.R.layout.simple_list_item_1,
-				usernames));
-		typeSpinner.setAdapter(new ArrayAdapter<>(
-				this,
-				android.R.layout.simple_list_item_1,
-				postTypes));
-
-		// Fetch information from draft if a draft exists
-		if((lastTitle != null || lastText != null)
-				&& subredditEdit.getText().toString().equals(lastSubreddit)) {
-			typeSpinner.setSelection(lastType);
-			titleEdit.setText(lastTitle);
-			textEdit.setText(lastText);
-			sendRepliesToInboxCheckbox.setChecked(lastInbox);
-			markAsSpoilerCheckbox.setChecked(lastSpoiler);
-			markAsNsfwCheckbox.setChecked(lastNsfw);
-		}
-
-		// TODO remove the duplicate code here
-		setHint();
-
-		typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(
-					final AdapterView<?> parent,
-					final View view,
-					final int position,
-					final long id) {
-				setHint();
-			}
-
-			@Override
-			public void onNothingSelected(final AdapterView<?> parent) {
-			}
-		});
-
-		final ScrollView sv = new ScrollView(this);
-		sv.addView(layout);
-		setBaseActivityListing(sv);
-	}
-
-	private void setHint() {
-
-		final Object selected = typeSpinner.getSelectedItem();
-
-		if(selected.equals("Link") || selected.equals("Upload to Imgur")) {
-			textEdit.setHint(getString(R.string.submit_post_url_hint));
-			textEdit.setInputType(InputType.TYPE_CLASS_TEXT
-					| InputType.TYPE_TEXT_VARIATION_URI);
-			textEdit.setSingleLine(true);
-		} else if(selected.equals("Self")) {
-			textEdit.setHint(getString(R.string.submit_post_self_text_hint));
-			textEdit.setInputType(InputType.TYPE_CLASS_TEXT
-					| InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE
-					| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-			textEdit.setSingleLine(false);
-		} else {
-			throw new RuntimeException("Unknown selection " + selected.toString());
-		}
-
-		if(selected.equals("Upload to Imgur")) {
-
-			typeSpinner.setSelection(0); // Link
-
-			final Intent intent = new Intent(this, ImgurUploadActivity.class);
-
-			startActivityForResultWithCallback(intent, (resultCode, data) -> {
-				if(data != null && data.getData() != null) {
-					textEdit.setText(data.getData().toString());
-				}
-			});
-		}
-	}
-
-	@Override
-	protected void onSaveInstanceState(@NonNull final Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putString("post_title", titleEdit.getText().toString());
-		outState.putString("post_body", textEdit.getText().toString());
-		outState.putString("subreddit", subredditEdit.getText().toString());
-		outState.putInt("post_type", typeSpinner.getSelectedItemPosition());
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) {
-
-		final MenuItem send = menu.add(R.string.comment_reply_send);
-		send.setIcon(R.drawable.ic_action_send_dark);
-		send.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-		menu.add(R.string.comment_reply_preview);
-
-		return true;
-	}
-
-	private void resetDraft() {
-		mDraftReset = true;
-		lastType = 0;
-		lastTitle = null;
-		lastSubreddit = null;
-		lastText = null;
-		lastInbox = true;
-		lastNsfw = false;
-		lastSpoiler = false;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-
-		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
-
-			String subreddit = subredditEdit.getText().toString();
-			final String postTitle = titleEdit.getText().toString();
-			final String text = textEdit.getText().toString();
-
-			if(subreddit.isEmpty()) {
-				Toast.makeText(
-						this,
-						R.string.submit_post_specify_subreddit,
-						Toast.LENGTH_SHORT).show();
-				subredditEdit.requestFocus();
-			} else if(postTitle.isEmpty()) {
-				Toast.makeText(this, R.string.submit_post_title_empty, Toast.LENGTH_SHORT)
-						.show();
-				titleEdit.requestFocus();
-			} else if(getString(R.string.submit_post_url_hint).equals(textEdit.getHint()
-					.toString())
-					&& text.isEmpty()) {
-				Toast.makeText(this, R.string.submit_post_url_empty, Toast.LENGTH_SHORT)
-						.show();
-				textEdit.requestFocus();
-			} else {
-				final ProgressDialog progressDialog = new ProgressDialog(this);
-				progressDialog.setTitle(getString(R.string.comment_reply_submitting_title));
-				progressDialog.setMessage(getString(R.string.comment_reply_submitting_message));
-				progressDialog.setIndeterminate(true);
-				progressDialog.setCancelable(true);
-				progressDialog.setCanceledOnTouchOutside(false);
-
-				progressDialog.setOnCancelListener(dialogInterface -> {
-					General.quickToast(this, getString(R.string.comment_reply_oncancel));
-					General.safeDismissDialog(progressDialog);
-				});
-
-				progressDialog.setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
-
-					if(keyCode == KeyEvent.KEYCODE_BACK) {
-						General.quickToast(this, getString(R.string.comment_reply_oncancel));
-						General.safeDismissDialog(progressDialog);
-					}
-
-					return true;
-				});
-
-				final CacheManager cm = CacheManager.getInstance(this);
-
-				final APIResponseHandler.ActionResponseHandler handler
-						= new APIResponseHandler.ActionResponseHandler(this) {
-					@Override
-					protected void onSuccess(@Nullable final String redirectUrl) {
-						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-							General.safeDismissDialog(progressDialog);
-							General.quickToast(
-									PostSubmitActivity.this,
-									getString(R.string.post_submit_done));
-
-							resetDraft();
-
-							if(redirectUrl != null) {
-								LinkHandler.onLinkClicked(
-										PostSubmitActivity.this,
-										redirectUrl);
-							}
-
-							finish();
-						});
-					}
-
-					@Override
-					protected void onCallbackException(final Throwable t) {
-						BugReportActivity.handleGlobalError(PostSubmitActivity.this, t);
-					}
-
-					@Override
-					protected void onFailure(
-							@CacheRequest.RequestFailureType final int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage) {
-
-						final RRError error = General.getGeneralErrorForFailure(
-								context,
-								type,
-								t,
-								status,
-								null);
-
-						General.showResultDialog(PostSubmitActivity.this, error);
-						General.safeDismissDialog(progressDialog);
-					}
-
-					@Override
-					protected void onFailure(final APIFailureType type) {
-
-						final RRError error = General.getGeneralErrorForFailure(
-								context,
-								type);
-
-						General.showResultDialog(PostSubmitActivity.this, error);
-						General.safeDismissDialog(progressDialog);
-					}
-				};
-
-				final boolean is_self = typeSpinner.getSelectedItem().equals("Self");
-
-				final RedditAccount selectedAccount = RedditAccountManager.getInstance(
-						this).getAccount((String)usernameSpinner.getSelectedItem());
-
-				while(subreddit.startsWith("/")) {
-					subreddit = subreddit.substring(1);
-				}
-				while(subreddit.startsWith("r/")) {
-					subreddit = subreddit.substring(2);
-				}
-				while(subreddit.endsWith("/")) {
-					subreddit = subreddit.substring(0, subreddit.length() - 1);
-				}
-
-				final boolean sendRepliesToInbox = sendRepliesToInboxCheckbox.isChecked();
-				final boolean markAsNsfw = markAsNsfwCheckbox.isChecked();
-				final boolean markAsSpoiler = markAsSpoilerCheckbox.isChecked();
-
-				RedditAPI.submit(
-						cm,
-						handler,
-						selectedAccount,
-						is_self,
-						subreddit,
-						postTitle,
-						text,
-						sendRepliesToInbox,
-						markAsNsfw,
-						markAsSpoiler,
-						this);
-
-				progressDialog.show();
-			}
-			return true;
-
-		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
-			MarkdownPreviewDialog.newInstance(textEdit.getText().toString())
-					.show(getSupportFragmentManager(), null);
-			return true;
-
-		} else {
-			return super.onOptionsItemSelected(item);
-		}
+		getSupportFragmentManager().beginTransaction()
+				.setReorderingAllowed(false)
+				.add(
+						R.id.single_fragment_container,
+						PostSubmitSubredditSelectionFragment.class,
+						new PostSubmitSubredditSelectionFragment.Args(intentSubreddit).toBundle())
+				.commit();
 	}
 
 	@Override
@@ -403,18 +91,72 @@ public class PostSubmitActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+	public void onSubredditSelected(
+			@NonNull final String username,
+			@NonNull final SubredditCanonicalId subreddit) {
 
-		// Store information for draft
-		if(titleEdit != null && textEdit != null && !mDraftReset) {
-			lastType = typeSpinner.getSelectedItemPosition();
-			lastTitle = titleEdit.getText().toString();
-			lastSubreddit = subredditEdit.getText().toString();
-			lastText = textEdit.getText().toString();
-			lastInbox = sendRepliesToInboxCheckbox.isChecked();
-			lastNsfw = markAsNsfwCheckbox.isChecked();
-			lastSpoiler = markAsSpoilerCheckbox.isChecked();
+		getSupportFragmentManager().beginTransaction()
+				.setReorderingAllowed(false)
+				.replace(
+						R.id.single_fragment_container,
+						PostSubmitContentFragment.class,
+						new PostSubmitContentFragment.Args(
+								username,
+								subreddit,
+								mIntentUrl).toBundle())
+				.addToBackStack("Subreddit selected")
+				.commit();
+	}
+
+	@Override
+	public void onNotLoggedIn() {
+		General.quickToast(this, R.string.error_toast_notloggedin);
+		finish();
+	}
+
+	@Override
+	public void onContentFragmentSubmissionSuccess(@Nullable final String redirectUrl) {
+
+		if(redirectUrl != null) {
+			LinkHandler.onLinkClicked(this, redirectUrl);
 		}
+
+		finish();
+	}
+
+	@Override
+	public void onContentFragmentSubredditDoesNotExist() {
+
+		onBackPressed();
+
+		final Context applicationContext = getApplicationContext();
+
+		General.showResultDialog(this, new RRError(
+				applicationContext.getString(R.string.error_subreddit_does_not_exist_title),
+				applicationContext.getString(R.string.error_subreddit_does_not_exist_message),
+				false,
+				new RuntimeException()));
+	}
+
+	@Override
+	public void onContentFragmentSubredditPermissionDenied() {
+
+		onBackPressed();
+
+		final Context applicationContext = getApplicationContext();
+
+		General.showResultDialog(this, new RRError(
+				applicationContext.getString(
+						R.string.error_subreddit_info_permission_denied_title),
+				applicationContext.getString(
+						R.string.error_subreddit_info_permission_denied_message),
+				false,
+				new RuntimeException()));
+	}
+
+	@Override
+	public void onContentFragmentFlairRequestError(@NonNull final RRError error) {
+		onBackPressed();
+		General.showResultDialog(this, error);
 	}
 }

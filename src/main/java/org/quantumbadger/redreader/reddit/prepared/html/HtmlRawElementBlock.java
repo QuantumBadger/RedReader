@@ -17,10 +17,10 @@
 
 package org.quantumbadger.redreader.reddit.prepared.html;
 
+import android.text.SpannableStringBuilder;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.text.SpannableStringBuilder;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementTextSpanned;
@@ -35,7 +35,7 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 
 	public HtmlRawElementBlock(
 			@NonNull final BlockType blockType,
-			final ArrayList<HtmlRawElement> children) {
+			@NonNull final ArrayList<HtmlRawElement> children) {
 
 		mBlockType = blockType;
 		mChildren = children;
@@ -115,7 +115,6 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 
 		if(currentSsb != null) {
 			destination.add(new BodyElementTextSpanned(mBlockType, currentSsb));
-			currentSsb = null;
 		}
 	}
 }

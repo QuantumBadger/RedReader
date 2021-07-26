@@ -24,7 +24,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.util.Base64OutputStream;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -43,10 +42,13 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.FailedRequestBody;
+import org.quantumbadger.redreader.http.body.HTTPRequestBodyMultipart;
+import org.quantumbadger.redreader.http.body.multipart.PartFormDataBinary;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -55,7 +57,6 @@ import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class ImgurUploadActivity extends BaseActivity {
@@ -64,7 +65,7 @@ public class ImgurUploadActivity extends BaseActivity {
 
 	private ImageView mThumbnailView;
 
-	private String mBase64Data;
+	private byte[] mImageData;
 
 	private Button mUploadButton;
 
@@ -122,7 +123,7 @@ public class ImgurUploadActivity extends BaseActivity {
 		});
 
 		mUploadButton.setOnClickListener(v -> {
-			if(mBase64Data != null) {
+			if(mImageData != null) {
 				uploadImage();
 			} else {
 				General.quickToast(this, R.string.no_file_selected);
@@ -162,7 +163,7 @@ public class ImgurUploadActivity extends BaseActivity {
 
 	private void updateUploadButtonVisibility() {
 		mUploadButton.setVisibility(
-				mBase64Data != null
+				mImageData != null
 						? View.VISIBLE
 						: View.GONE);
 	}
@@ -188,7 +189,8 @@ public class ImgurUploadActivity extends BaseActivity {
 										getString(
 												R.string.error_file_too_big_message,
 												statSize / 1024 + "kB",
-												"10MB")));
+												"10MB"),
+										false));
 						return;
 					}
 
@@ -203,22 +205,19 @@ public class ImgurUploadActivity extends BaseActivity {
 					rawBitmap.recycle();
 
 					final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
-					final Base64OutputStream output = new Base64OutputStream(
-							byteOutput,
-							0);
 
 					try(InputStream inputStream = getContentResolver().openInputStream(uri)) {
-						General.copyStream(inputStream, output);
-						output.flush();
+						General.copyStream(inputStream, byteOutput);
+						byteOutput.flush();
 
 					} catch(final IOException e) {
 						throw new RuntimeException(e);
 					}
 
-					final String base64String = new String(byteOutput.toByteArray());
+					final byte[] imageData = byteOutput.toByteArray();
 
 					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-						mBase64Data = base64String;
+						mImageData = imageData;
 						mUploadButton.setEnabled(true);
 						mThumbnailView.setImageBitmap(thumbnailBitmap);
 						mTextView.setText(getString(
@@ -236,10 +235,11 @@ public class ImgurUploadActivity extends BaseActivity {
 							new RRError(
 									getString(R.string.error_file_open_failed_title),
 									getString(R.string.error_file_open_failed_message),
+									true,
 									e));
 
 					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-						mBase64Data = null;
+						mImageData = null;
 						mUploadButton.setEnabled(false);
 						mThumbnailView.setImageBitmap(null);
 						mTextView.setText(R.string.no_file_selected);
@@ -255,9 +255,6 @@ public class ImgurUploadActivity extends BaseActivity {
 
 		showLoadingOverlay();
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(1);
-		postFields.add(new HTTPBackend.PostField("image", mBase64Data));
-
 		CacheManager.getInstance(this).makeRequest(new CacheRequest(
 				General.uriFromString("https://api.imgur.com/3/image"),
 				RedditAccountManager.getInstance(this).getDefaultAccount(),
@@ -266,14 +263,16 @@ public class ImgurUploadActivity extends BaseActivity {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
 				CacheRequest.DOWNLOAD_QUEUE_IMGUR_API,
-				postFields,
+				new HTTPRequestBodyMultipart()
+						.addPart(new PartFormDataBinary("image", mImageData)),
 				this,
 				new CacheRequestJSONParser(this, new CacheRequestJSONParser.Listener() {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
 							final long timestamp,
-							@NonNull final UUID session, final boolean fromCache) {
+							@NonNull final UUID session,
+							final boolean fromCache) {
 
 						final Uri imageUri;
 
@@ -291,7 +290,8 @@ public class ImgurUploadActivity extends BaseActivity {
 										CacheRequest.REQUEST_FAILURE_UPLOAD_FAIL_IMGUR,
 										null,
 										null,
-										null);
+										null,
+										Optional.of(new FailedRequestBody(result)));
 								return;
 							}
 
@@ -303,7 +303,8 @@ public class ImgurUploadActivity extends BaseActivity {
 									CacheRequest.REQUEST_FAILURE_PARSE_IMGUR,
 									t,
 									null,
-									t.toString());
+									t.toString(),
+									Optional.of(new FailedRequestBody(result)));
 							return;
 						}
 
@@ -321,7 +322,8 @@ public class ImgurUploadActivity extends BaseActivity {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						General.showResultDialog(
 								ImgurUploadActivity.this,
@@ -330,7 +332,8 @@ public class ImgurUploadActivity extends BaseActivity {
 										type,
 										t,
 										httpStatus,
-										"https://api.imgur.com/3/image"));
+										"https://api.imgur.com/3/image",
+										body));
 
 						AndroidCommon.runOnUiThread(ImgurUploadActivity.this::hideLoadingOverlay);
 					}

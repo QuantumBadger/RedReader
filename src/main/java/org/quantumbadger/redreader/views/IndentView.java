@@ -96,12 +96,14 @@ class IndentView extends View {
 		if(mPrefDrawLines) {
 			// i keeps track of indentation, and
 			// l is to populate the float[] with line co-ordinates
-			for(int i = 0, l = 0; i < mIndent; ++l) {
+			int l = 0;
+			int i = 0;
+			while(i < mIndent) {
 				final float x = (mPixelsPerIndent * ++i) - mHalfALine;
-				mLineBuffer[l] = x;      // start-x
-				mLineBuffer[++l] = 0;      // start-y
-				mLineBuffer[++l] = x;      // stop-x
-				mLineBuffer[++l] = height; // stop-y
+				mLineBuffer[l++] = x;      // start-x
+				mLineBuffer[l++] = 0;      // start-y
+				mLineBuffer[l++] = x;      // stop-x
+				mLineBuffer[l++] = height; // stop-y
 			}
 			canvas.drawLines(mLineBuffer, mPaint);
 

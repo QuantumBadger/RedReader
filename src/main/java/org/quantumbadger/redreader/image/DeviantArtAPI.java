@@ -27,7 +27,9 @@ import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -77,7 +79,8 @@ public final class DeviantArtAPI {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"DeviantArt data parse failed");
+									"DeviantArt data parse failed",
+									Optional.of(new FailedRequestBody(result)));
 						}
 					}
 
@@ -86,9 +89,15 @@ public final class DeviantArtAPI {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
-						listener.onFailure(type, t, httpStatus, readableMessage);
+						listener.onFailure(
+								type,
+								t,
+								httpStatus,
+								readableMessage,
+								body);
 					}
 				})));
 	}

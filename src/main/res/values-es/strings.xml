@@ -54,7 +54,7 @@
     <string name="pref_cache_precache_images_title">Guardar previamente imágenes en la caché</string>
     <string name="pref_cache_precache_images_wifionly_title">Sólo con Wi-Fi</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Pulsación larga en ítems del menú</string>
+    <string name="pref_menus_post_context_items_title">Acción en ítems del menú</string>
     <string name="pref_menus_post_toolbar_items_title">Ítems de la barra lateral</string>
     <!-- Options Menu -->
     <string name="options_accounts">Cuentas</string>
@@ -183,8 +183,8 @@
     <string name="comment_reply_done">Respuesta enviada. El comentario aparecerá si actualizas.</string>
     <string name="comment_edit_done">Comentario editado. Los cambios aparecerán si actualizas.</string>
     <string name="post_submit_title_hint">Título</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Enviar</string>
     <string name="post_submit_done">Publicación enviada.</string>
     <!-- Bug Reporting -->
@@ -360,7 +360,7 @@
     <string name="pref_menus_mainmenu_useritems_title">Ítems de usuario</string>
     <string name="mainmenu_submitted">Publicaciones enviadas</string>
     <string name="mainmenu_downvoted">Publicaciones votadas negativamente</string>
-    <string name="mainmenu_modmail">Mensajes de moderadores</string>
+    <string name="mainmenu_modmail">Correo para moderadores</string>
     <string name="sidebar_activity_title">Barra lateral</string>
     <!-- 2014-04-20 -->
     <string name="header_subscriber_count">%s subscriptores</string>
@@ -374,7 +374,7 @@
     <string name="karma_link">Karma de enlaces</string>
     <string name="karma_comment">Karma de comentarios</string>
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Error al leer la imagen. Intentándolo con el navegador interno.</string>
+    <string name="imageview_decode_failed">No se pudo descodificar la imagen. Intentándolo con el navegador web.</string>
     <!-- 2014-12-06 -->
     <string name="user_comments">Comentarios</string>
     <!-- 2014-12-07 -->
@@ -399,7 +399,7 @@
     <string name="error_message_login_user_denied_permission">El permiso para acceder a la cuenta ha sido denegado. Por favor, inténtalo de nuevo.</string>
     <string name="error_title_login_unknown_reddit_error">Error de Reddit desconocido: %s</string>
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Vídeo inválido. Intentándolo con el navegador interno.</string>
+    <string name="imageview_invalid_video">Vídeo no válido. Intentándolo con el navegador web.</string>
     <string name="download_authorizing">Autentificando…</string>
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Ir directamente a la página principal</string>
@@ -434,11 +434,11 @@
     <!-- 2015-10-04 -->
     <string name="album_already_first_image">Ya es la primera imagen del álbum.</string>
     <string name="album_already_last_image">Ya es la última imagen del álbum.</string>
-    <string name="upgrade_v190_login_message">RedReader se ha actualizado y ahora utiliza oAuth para la identificación en Reddit. Si no te habías identificado antes de actualizar, ahora estás desconectado.</string>
+    <string name="upgrade_v190_login_message">RedReader se ha actualizado y ahora utiliza OAuth para la identificación en Reddit. Si te habías identificado antes de actualizar, ahora estás desconectado.</string>
     <string name="pref_behaviour_videoview_mode_title">Visor de video</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Visor de vídeo interno (recommendado)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Aplicación externa: VLC</string>
-    <string name="videoview_mode_app_vlc_launch_failed">Error al lanzar VLC. Por favor, actualiza VLC o cambia tu configuración del visor de vídeo.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">No se pudo iniciar VLC. Por favor, actualiza VLC o cambia tu configuración del visor de vídeo.</string>
     <!-- 2015-10-05 -->
     <string name="error_url_required_title">URL Requerida</string>
     <string name="error_url_required_message">Debes especificar una URL.</string>
@@ -449,7 +449,7 @@
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Precargar comentarios</string>
     <string name="pref_cache_precache_comments_title">Cargar comentarios en caché</string>
-    <string name="pref_cache_precache_comments_wifionly_title">Sólo con WiFi</string>
+    <string name="pref_cache_precache_comments_wifionly_title">Sólo mediante Wi-Fi</string>
     <string name="mainmenu_header_subreddits_subscribed">Subreddits suscritos</string>
     <string name="mainmenu_header_subreddits_pinned">Subreddits fijados</string>
     <string name="pin_subreddit">Fijar al menú principal</string>
@@ -475,7 +475,7 @@
     <string name="pref_network_tor_title">Usar Tor</string>
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor no funcionará a no ser que Orbot esté instalado. ¿Instalar ahora?</string>
-    <string name="error_tor_setting_failed">Fallo al establecer el proxy.</string>
+    <string name="error_tor_setting_failed">No se pudo establecer el proxy.</string>
     <!-- 2016-04-10 -->
     <string name="error_parse_imgur_title">Error al procesar</string>
     <string name="error_parse_imgur_message">Imgur ha enviado ciertos datos que no he podido entender.</string>
@@ -487,7 +487,7 @@
     <string name="button_browse">Navegar…</string>
     <string name="error_file_too_big_title">Archivo demasiado grande</string>
     <string name="error_file_too_big_message">El tamaño del archivo (%1$s) es mayor que el límite de subida (%2$s).</string>
-    <string name="error_file_open_failed_title">Error al abrir la imagen</string>
+    <string name="error_file_open_failed_title">No se pudo abrir la imagen</string>
     <string name="error_file_open_failed_message">Un error ha ocurrido mientras se intentaba abrir el archivo.</string>
     <string name="image_selected_summary">Imagen seleccionada: %1$dx%2$d, %3$s</string>
     <!-- 2016-06-10 -->
@@ -503,7 +503,7 @@
     <string name="pref_behaviour_imageview_mode_internal_opengl">Visor interno (OpenGL)</string>
     <string name="pref_behaviour_albumview_mode_title">Visor de álbumes</string>
     <string name="pref_behaviour_albumview_mode_internal_list">Visor interno (lista)</string>
-    <string name="error_tor_start_failed">Orbot ha fallado al inicarse. Tor no funcionará correctamente.</string>
+    <string name="error_tor_start_failed">Orbot no pudo iniciarse. Tor no funcionará correctamente.</string>
     <!-- 2016-06-30 -->
     <string name="inbox_unread_only">Sólo mensajes sin leer</string>
     <!-- 2016-07-02 -->
@@ -550,7 +550,7 @@
     <string name="pref_cache_general_header">General</string>
     <string name="pref_cache_location_title">Ubicación de almacenamiento de caché</string>
     <string name="error_cache_dir_does_not_exist_title">El directorio de caché no existe</string>
-    <string name="error_cache_dir_does_not_exist_message">No se pudo acceder al directorio de caché. Por favor elige una ubicación diferente en los ajustes de caché.</string>
+    <string name="error_cache_dir_does_not_exist_message">No se ha podido acceder al directorio de la caché. Por favor, elige una ubicación diferente en la configuración de la caché.</string>
     <!-- 2016-08-15 -->
     <string name="pref_behaviour_pinned_subredditsort">Subreddits fijados</string>
     <string name="sort_pinned_subreddit_name">Por nombre</string>
@@ -596,7 +596,7 @@
     <!-- 2017-02-23 -->
     <string name="action_back">Volver</string>
     <!-- 2017-03-07 -->
-    <string name="pref_menus_subreddit_context_items_title">Elementos de menú contextual del subreddit</string>
+    <string name="pref_menus_subreddit_context_items_title">Elementos del menú de acción del Subreddit</string>
     <string name="mainmenu_toast_not_subscribed">¡Aún no te has suscrito a este subreddit!</string>
     <string name="mainmenu_toast_subscribed">¡Ya estás suscrito a este subreddit!</string>
     <string name="mainmenu_toast_not_pinned">¡Este subreddit no ha sido fijado al menú principal!</string>
@@ -613,7 +613,7 @@
     <string name="action_subscribe_subreddit">Suscribirte al Subreddit</string>
     <string name="action_unsubscribe_subreddit">Anular suscripción al Subreddit</string>
     <!-- 2017-04-14 -->
-    <string name="collapsed_self_post">Entrada colapsada</string>
+    <string name="collapsed_self_post">Autopublicación colapsada</string>
     <!-- 2017-05-08 -->
     <string name="button_next_comment_parent">Comentario padre siguiente</string>
     <string name="button_prev_comment_parent">Comentario padre anterior</string>
@@ -624,13 +624,13 @@
     <string name="pref_cache_maxage_entry_title">Borrar marcadores en cache (leído, voto positivo, etc.) después de</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
     <string name="mainmenu_custom_destination_search">Buscar</string>
-    <string name="pref_menus_link_context_items_title">Elementos del menú contextual de enlaces</string>
+    <string name="pref_menus_link_context_items_title">Enlazar elementos del menú de acción</string>
     <string name="pref_behaviour_self_post_tap_actions_title">Acción al tocar publicación</string>
     <string name="pref_menus_show_popular_main_menu_title">Mostrar /r/popular en el menú principal</string>
     <string name="pref_behaviour_video_playback_controls_title">Mostrar controles al reproducir video</string>
     <string name="error_no_suitable_apps_available">No se encontraron aplicaciones adecuadas.</string>
     <string name="pref_behaviour_sharing_share_text_title">Incluir texto al compartir comentario</string>
-    <string name="disable_replies_to_infobox_failed">No se pudo desactivar el envío de respuestas al buzón</string>
+    <string name="disable_replies_to_infobox_failed">No se pudieron desactivar las respuestas a la bandeja de entrada</string>
     <string name="mainmenu_random">Subreddit aleatorio</string>
     <string name="pref_menus_show_random_main_menu_title">Mostrar /r/random en el menú principal</string>
     <string name="mainmenu_custom_empty_search_query">Búsqueda vacía.</string>
@@ -648,8 +648,8 @@
     <string name="error_already_submitted_message">Esta publicación ya se ha enviado a este subreddit.</string>
     <string name="comment_reply_done_norefresh">Respuesta enviada.</string>
     <string name="sort_posts_best">Los mejores</string>
-    <string name="pref_behaviour_usecustomtabs_title">Usar pestañas personalizadas</string>
-    <string name="pref_behaviour_usecustomtabs_summary">Usar pestañas personalizadas cuando estén disponibles</string>
+    <string name="pref_behaviour_usecustomtabs_title">Utilizar las pestañas personalizadas de Android</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Usar las pestañas personalizadas de Android cuando estén disponibles</string>
     <string name="pref_behaviour_hide_read_posts_title">Ocultar publicaciones leídas</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Mostrar multireddits</string>
     <string name="mainmenu_random_nsfw">Subreddit NSFW aleatorio</string>
@@ -674,7 +674,7 @@
     <string name="pref_appearance_fontscale_post_header_titles_title">Títulos de publicaciones abiertas</string>
     <string name="pref_appearance_fontscale_post_subtitles_title">Subtítulos de publicación</string>
     <string name="search_results_short">Resultados de la búsqueda</string>
-    <string name="error_nsfw_subreddits_disabled_message">El contenido NSFW está actualmente deshabilitado en la configuración.</string>
+    <string name="error_nsfw_subreddits_disabled_message">El contenido NSFW está actualmente desactivado en los ajustes.</string>
     <string name="error_nsfw_subreddits_disabled_title">Subreddit NSFW bloqueado</string>
     <string name="list_yes_no_or_wifi_never">Nunca</string>
     <string name="list_yes_no_or_wifi_always">Siempre</string>
@@ -690,9 +690,183 @@
     <string name="prefs_category_fonts">Fuente</string>
     <string name="pref_network_tor_summary">Al usar un navegador externo o pestañas personalizadas, los enlaces no se abrirán usando Tor (a menos que su navegador esté configurado para usar Tor)</string>
     <string name="search_results_query_only">Buscar \"%s\"</string>
-    <string name="list_yes_no_or_wifi_wifionly">Solo con conexión Wi-Fi</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Cargar más comentarios (%d responder)"</item>
-		<item quantity="other">"Cargar más comentarios (%d respuestas)"</item>
-	</plurals>
+    <string name="list_yes_no_or_wifi_wifionly">Solo mediante Wi-Fi</string>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">"Cargar más comentarios (%d responder)"</item>
+        <item quantity="other">"Cargar más comentarios (%d respuestas)"</item>
+    </plurals>
+    <string name="action_comments_with_count">Ver comentarios (%d)</string>
+    <string name="pref_appearance_post_show_comments_button_title">Mostrar el botón de comentarios</string>
+    <string name="image_gallery">Galería</string>
+    <string name="action_search_posts">Buscar publicaciones</string>
+    <string name="pref_menus_appbar_items_never">No mostrar</string>
+    <string name="pref_menus_appbar_items_overflow_only">Sólo mostrar en el menú de tres puntos</string>
+    <string name="pref_menus_appbar_items_if_room">Mostrar botón si hay sitio</string>
+    <string name="pref_menus_appbar_items_always">Mostrar siempre el botón</string>
+    <string name="prefs_category_menus_appbar_screen">Elementos de la barra de acción</string>
+    <string name="copied_to_clipboard">Copiado al portapapeles</string>
+    <string name="subreddit_link_copied_to_clipboard">Enlace de Subreddit copiado en el portapapeles</string>
+    <string name="comment_text_copied_to_clipboard">Texto del comentario copiado al portapapeles</string>
+    <string name="comment_link_copied_to_clipboard">Enlace del comentario copiado al portapapeles</string>
+    <string name="link_copied_to_clipboard">Enlace copiado al portapapeles</string>
+    <string name="post_link_copied_to_clipboard">Enlace de la publicación copiado al portapapeles</string>
+    <string name="pref_appearance_hide_headertoolbar_commentlist_title">Ocultar la barra de herramientas del encabezado de la lista de comentarios</string>
+    <string name="pref_appearance_hide_headertoolbar_postlist_title">Ocultar la barra de herramientas del encabezado de la lista de publicaciones</string>
+    <string name="props_self_html">Texto propio (HTML)</string>
+    <string name="props_body_html">Cuerpo (HTML)</string>
+    <string name="error_message_malformed_html">No se ha podido analizar el cuerpo del texto. Por favor, informa al desarrollador de la aplicación.</string>
+    <string name="error_title_malformed_html">HTML malformado</string>
+    <string name="spoiler">Spoiler</string>
+    <string name="pref_menus_posts_header">Publicaciones</string>
+    <string name="pref_menus_mainmenu_header">Menú principal</string>
+    <string name="unpin_successful">Desanclado %s del menú principal</string>
+    <string name="pin_successful">Anclado %s al menú principal</string>
+    <string name="unsubscription_successful">Desuscrito de %s</string>
+    <string name="subscription_successful">Suscrito a %s</string>
+    <string name="bug_chooser_title">Informe de errores por correo electrónico</string>
+    <string name="error_toast_no_email_apps">No hay aplicaciones de correo electrónico instaladas!</string>
+    <string name="error_toast_failed_open_external_browser">Fallo al abrir la url \"%s\" en el navegador externo</string>
+    <string name="upgrade_message">Actualizado a la versión %s</string>
+    <string name="pref_appearance_fontscale_linkbuttons_title">Botones de enlace</string>
+    <string name="pref_appearance_fontscale_use_global">Utilizar la escala global de fuentes</string>
+    <string name="pref_appearance_fontscale_header">Escala de la fuente</string>
+    <string name="search_results_subreddit_only">Buscar /r/%s</string>
+    <string name="search_results_all">Buscar \"%1$s\" en /r/%2$s</string>
+    <string name="pref_appearance_post_header_subtitle_items_title">Entradas de subtítulos de puestos abiertos</string>
+    <string name="video_zoom_out">Alejar</string>
+    <string name="video_zoom_in">Ampliar</string>
+    <string name="video_fast_forward">Avance rápido</string>
+    <string name="video_pause">Pausar</string>
+    <string name="video_play">Reproducir</string>
+    <string name="video_rewind">Rebobinar</string>
+    <string name="video_restart">Reiniciar el vídeo</string>
+    <string name="video_unmute">Activar audio</string>
+    <string name="video_mute">Silenciar</string>
+    <string name="pref_appearance_thumbnails_spoiler_show_title">Mostrar las miniaturas de los spoilers</string>
+    <string name="pref_images_inline_image_previews_spoiler_title">Mostrar vistas previas de los spoilers</string>
+    <string name="accessibility_subtitle_recipient_withperiod">Destinatario: %s.</string>
+    <string name="invalid_subreddit_name_message">Por favor, introduce un nombre de subreddit válido.</string>
+    <string name="error_subreddit_info_permission_denied_message">El usuario conectado no puede acceder a la información de ese subreddit.</string>
+    <string name="error_subreddit_info_permission_denied_title">Permiso denegado</string>
+    <string name="error_subreddit_does_not_exist_message">El subreddit especificado no existe.</string>
+    <string name="error_subreddit_does_not_exist_title">Subreddit no válido</string>
+    <string name="post_submit_heading">Enviando publicación a %1$s como usuario %2$s.</string>
+    <string name="subreddit_selector_title">Selecciona el subreddit</string>
+    <string name="post_submit_flair_none_selected">No se han seleccionado distintivos</string>
+    <string name="post_submit_flair_none_available">No hay distintivos disponibles</string>
+    <string name="mainmenu_sent_messages">Mensajes enviados</string>
+    <string name="pref_behaviour_post_title_opens_comments_title">El título del mensaje abre los comentarios</string>
+    <string name="pref_menus_comment_context_items_title">Elementos del menú de acción</string>
+    <string name="pref_menus_comments_header">Comentarios</string>
+    <string name="pref_accessibility_min_comment_height_none">Ninguno</string>
+    <string name="pref_accessibility_min_comment_height_title">Altura mínima de los comentarios</string>
+    <string name="action_not_handled_by_installed_app_toast">No se ha encontrado ninguna aplicación que gestione esta acción</string>
+    <string name="button_view">Ver</string>
+    <string name="button_dismiss">Descartar</string>
+    <string name="pref_menus_mainmenu_dev_announcements_title">Mostrar los registros de cambios del desarrollador</string>
+    <string name="pref_accessibility_separate_body_text_lines_summary">En los comentarios y en el cuerpo del mensaje, haga que cada línea sea enfocable individualmente, en lugar de leer todo el comentario a la vez</string>
+    <string name="pref_accessibility_separate_body_text_lines_title">Líneas de texto separadas</string>
+    <string name="prefs_category_accessibility">Accesibilidad</string>
+    <string name="pref_videos_download_before_playing_title">Descarga completa de los vídeos antes de iniciar la reproducción</string>
+    <string name="imageview_download_failed">La descarga se ha interrumpido. Probando el navegador web.</string>
+    <string name="imageview_image_info_failed">No se han podido descargar los metadatos de la imagen. Probando con el navegador web.</string>
+    <string name="album_image_default_text">Imagen %d</string>
+    <string name="edittext_hint_comment_body_text">Texto del comentario</string>
+    <string name="inline_preview_prompt_keep_showing">Seguir mostrando</string>
+    <string name="inline_preview_prompt_turn_off">Desactivar</string>
+    <string name="inline_preview_prompt_message">¿Seguir mostrando vistas previas de imágenes en línea como la de arriba\? Puedes cambiar esto en cualquier momento en la configuración.</string>
+    <string name="inline_preview_prompt_title">Vista previa de las imágenes</string>
+    <string name="error_inline_preview_failed_message">No se ha podido descargar la vista previa de la imagen.</string>
+    <string name="error_inline_preview_failed_title">Error de descarga</string>
+    <string name="pref_header_image_viewer">Visualizador de imágenes</string>
+    <string name="pref_images_inline_image_previews_nsfw_title">Mostrar vistas previas de NSFW</string>
+    <string name="pref_images_inline_image_previews_title">Previsualización de imágenes en línea</string>
+    <string name="pref_header_inline_image_previews">Previsualización de imágenes en línea</string>
+    <string name="pref_images_high_res_thumbnails_title">Miniaturas de alta resolución</string>
+    <string name="pref_appearance_navbar_color_option_white">Blanco</string>
+    <string name="accessibility_subtitle_domain_v_redd_it">Videos de Reddit</string>
+    <string name="accessibility_subtitle_domain_i_redd_it">Imágenes de Reddit</string>
+    <string name="accessibility_subtitle_comment_collapsed">Texto del comentario oculto.</string>
+    <string name="accessibility_subtitle_edited_since_being_posted">Texto editado desde su publicación.</string>
+    <string name="accessibility_subtitle_points_unknown_withperiod">Puntuación oculta.</string>
+    <string name="accessibility_subtitle_selfpost_withperiod">Publicación de texto.</string>
+    <string name="accessibility_subtitle_domain_withperiod">Dominio: %s.</string>
+    <string name="accessibility_subtitle_subreddit_withperiod">Sub-Reddit: %s.</string>
+    <string name="accessibility_subtitle_author_withperiod">Autor: %s.</string>
+    <string name="accessibility_subtitle_age_withperiod">Año: %s.</string>
+    <string name="accessibility_subtitle_gold_withperiod">Oro concedido: %d.</string>
+    <string name="accessibility_subtitle_points_withperiod">Puntuación: %d.</string>
+    <string name="accessibility_subtitle_flair_withperiod">Bandera: %s.</string>
+    <string name="accessibility_subtitle_nsfw_withperiod">No es seguro para el trabajo.</string>
+    <string name="accessibility_subtitle_sticky_withperiod">Fijado.</string>
+    <string name="accessibility_subtitle_spoiler_withperiod">Contiene spoilers.</string>
+    <string name="accessibility_image_viewer_go_back">Regresar</string>
+    <string name="accessibility_image_viewer_view_comments">Ver comentarios</string>
+    <string name="accessibility_image_viewer_title">Viendo imagen</string>
+    <string name="pref_images_thumbnail_size_title">Tamaño de las miniaturas</string>
+    <string name="three_dots_menu">Más opciones</string>
+    <string name="cache_clear_dialog_flags">Banderas</string>
+    <string name="cache_clear_dialog_images_data">Imágenes (%s)</string>
+    <string name="cache_clear_dialog_images">Imágenes</string>
+    <string name="cache_clear_dialog_thumbnails_data">Miniaturas (%s)</string>
+    <string name="cache_clear_dialog_thumbnails">Miniaturas</string>
+    <string name="cache_clear_dialog_listings_data">Listados (%s)</string>
+    <string name="cache_clear_dialog_listings">Listados</string>
+    <string name="cache_clear_dialog_loaded">Tamaños de uso de datos cargados</string>
+    <string name="cache_clear_dialog_loading">Cargando tamaños de uso de datos</string>
+    <string name="dialog_clear">Borrar</string>
+    <string name="pref_cache_clear_title">Borrar caché</string>
+    <string name="pref_appearance_comment_age_mode_relative_parent">En relación con el comentario de los padres (respondido x minutos después)</string>
+    <string name="pref_appearance_comment_age_mode_relative_post">Relativo a la publicación (después de x minutos)</string>
+    <string name="pref_appearance_comment_age_mode_absolute">Tiempo desde el comentario (hace x minutos)</string>
+    <string name="pref_appearance_comment_age_mode_title">Forma de la edad de comentario</string>
+    <string name="pref_appearance_age_units_3">Tres unidades (x horas, x minutos, x segundos)</string>
+    <string name="pref_appearance_age_units_2">Dos unidades (x horas, x minutos)</string>
+    <string name="pref_appearance_age_units_1">Una unidad (x horas)</string>
+    <string name="pref_appearance_inbox_age_units_title">Precisión de la edad de entrada en el buzón</string>
+    <string name="pref_appearance_inbox_header">Bandeja de entrada</string>
+    <string name="pref_appearance_comment_age_units_title">Precisión de la edad del comentario</string>
+    <string name="pref_appearance_post_header_age_units_title">Precisión de la edad de la publicación abierta</string>
+    <string name="pref_appearance_post_age_units_title">Precisión de la edad de la publicación</string>
+    <string name="time_after_reply">%s respondido más tarde</string>
+    <string name="time_after">después de %s</string>
+    <string name="options_account_manager">Gestionar…</string>
+    <string name="pref_menus_quick_account_switcher_title">Utilice el cambio rápido de cuenta</string>
+    <string name="pref_appearance_not_possible_in_tablet_mode">No es posible en modo tableta</string>
+    <string name="pref_behaviour_save_location_system_default">Utilizar el del sistema por defecto</string>
+    <string name="pref_behaviour_save_location_prompt_every_time">Preguntar siempre</string>
+    <string name="pref_behaviour_save_location_title">Guardar destino</string>
+    <string name="pref_appearance_toolbar_header">Barra de herramientas</string>
+    <string name="pref_appearance_hide_toolbar_on_scroll_title">Ocultar la barra de herramientas al desplazarse</string>
+    <string name="pref_behaviour_back_button_title">Botón de regreso</string>
+    <string name="press_back_again">Pulse hacia atrás de nuevo</string>
+    <string name="pref_behaviour_postlist_back_again">Pulse dos veces atrás para salir de la lista de publicaciones</string>
+    <string name="pref_behaviour_imagevideo_tap_close_summary">No afecta a los vídeos si los controles de reproducción están activados</string>
+    <string name="pref_behaviour_imagevideo_tap_close_title">Pulse para cerrar las imágenes/vídeos</string>
+    <string name="action_save_image_success_no_path">Imagen guardada con éxito</string>
+    <string name="link_does_not_exist">Este enlace no existe. Es posible que haya sido borrado.</string>
+    <string name="title_attribution">Atribución</string>
+    <string name="dialog_continue">Continuar</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Utilizar el navegador externo (recomendado)</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Utilizar el navegador interno (recomendado)</string>
+    <string name="reddit_login_browser_popup_line_2">Cuando el inicio de sesión se haya completado, debería ser redirigido de nuevo a RedReader. Si el inicio de sesión falla, puede probar con otro navegador utilizando la casilla de verificación que aparece a continuación.</string>
+    <string name="reddit_login_browser_popup_line_1">Para iniciar la sesión, ahora se te llevará a Reddit en un navegador web.</string>
+    <string name="image_gallery_no_image_present_message">No se ha podido encontrar la imagen especificada. Es posible que se haya eliminado.</string>
+    <string name="image_gallery_no_image_present_title">Imagen no encontrada</string>
+    <string name="button_error_send_report">Reportar</string>
+    <string name="button_error_details">Detalles</string>
+    <string name="image_gallery_no_data_present_message">No se ha encontrado ninguna galería de imágenes en el enlace especificado. Es posible que se haya eliminado.</string>
+    <string name="image_gallery_no_data_present_title">Galería no encontrada</string>
+    <string name="image_gallery_removed_message">Esta galería ha sido eliminada y ya no es accesible.</string>
+    <string name="image_gallery_removed_title">Galería eliminada</string>
+    <string name="pref_behaviour_video_zoom_default_title">Recortar vídeos para llenar la pantalla</string>
+    <string name="sort_comments_top_all">Lo más visto: de todos los tiempos</string>
+    <string name="sort_comments_top_year">Lo más visto: este año</string>
+    <string name="sort_comments_top_hour">Lo más visto: en la última hora</string>
+    <string name="sort_comments_top_today">Lo más visto: hoy</string>
+    <string name="sort_comments_top_week">Lo más visto: esta semana</string>
+    <string name="sort_comments_top_month">Lo más visto: este mes</string>
+    <string name="pref_behaviour_user_commentsort_title">Comentarios del usuario (por defecto)</string>
+    <string name="pref_behaviour_multi_postsort_title">Publicaciones de Multireddit (por defecto)</string>
+    <string name="pref_behaviour_user_postsort_title">Publicaciones del usuario (por defecto)</string>
 </resources>

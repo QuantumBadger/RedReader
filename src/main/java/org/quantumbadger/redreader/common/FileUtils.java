@@ -18,6 +18,8 @@
 package org.quantumbadger.redreader.common;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -43,6 +45,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.LegacySaveImageCallback;
@@ -53,6 +56,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -236,6 +240,9 @@ public class FileUtils {
 					.setType(mimetype)
 					.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
+			// Workaround for third party share apps
+			shareIntent.setClipData(ClipData.newRawUri(null, externalUri));
+
 			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 
 				// Due to bugs in the API before Android Lollipop, we have to
@@ -365,32 +372,40 @@ public class FileUtils {
 				.putExtra(Intent.EXTRA_TITLE, filename)
 				.addCategory(Intent.CATEGORY_OPENABLE);
 
-		activity.startActivityForResultWithCallback(
-				intent,
-				(resultCode, data) -> {
+		try {
+			activity.startActivityForResultWithCallback(
+					intent,
+					(resultCode, data) -> {
 
-					if(data == null || data.getData() == null) {
-						return;
-					}
-
-					new Thread(() -> {
-
-						try(OutputStream outputStream = activity.getContentResolver()
-								.openOutputStream(data.getData())) {
-
-							source.writeTo(outputStream);
-
-							onSuccess.run();
-
-						} catch(final IOException e) {
-							showUnexpectedStorageErrorDialog(
-									activity,
-									e,
-									data.getData().toString());
+						if(data == null || data.getData() == null) {
+							return;
 						}
 
-					}).start();
-				});
+						new Thread(() -> {
+
+							try(OutputStream outputStream = activity.getContentResolver()
+									.openOutputStream(data.getData())) {
+
+								source.writeTo(outputStream);
+
+								onSuccess.run();
+
+							} catch(final IOException e) {
+								showUnexpectedStorageErrorDialog(
+										activity,
+										e,
+										data.getData().toString());
+							}
+
+						}).start();
+					});
+
+		} catch(final ActivityNotFoundException e) {
+			DialogUtils.showDialog(
+					activity,
+					R.string.error_no_file_manager_title,
+					R.string.error_no_file_manager_message);
+		}
 	}
 
 	public static void saveImageAtUri(
@@ -485,6 +500,7 @@ public class FileUtils {
 		General.showResultDialog(activity, new RRError(
 				activity.getString(R.string.error_unexpected_storage_title),
 				activity.getString(R.string.error_unexpected_storage_message),
+				true,
 				throwable,
 				null,
 				uri,
@@ -514,13 +530,15 @@ public class FileUtils {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 						final RRError error = General.getGeneralErrorForFailure(
 								activity,
 								type,
 								t,
 								status,
-								uri);
+								uri,
+								body);
 						General.showResultDialog(activity, error);
 					}
 
@@ -550,7 +568,8 @@ public class FileUtils {
 											@CacheRequest.RequestFailureType final int type,
 											final Throwable t,
 											final Integer status,
-											final String readableMessage) {
+											final String readableMessage,
+											@NonNull final Optional<FailedRequestBody> body) {
 
 										General.showResultDialog(
 												activity,
@@ -559,7 +578,8 @@ public class FileUtils {
 														type,
 														t,
 														status,
-														info.urlOriginal));
+														info.urlOriginal,
+														body));
 									}
 
 									@Override
@@ -617,5 +637,33 @@ public class FileUtils {
 		}
 
 		return result;
+	}
+
+	@NonNull private static final Object sMkdirsLock = new Object();
+
+	public static void mkdirs(@NonNull final File file) throws IOException {
+
+		synchronized(sMkdirsLock) {
+
+			if(file.isDirectory()) {
+				return;
+			}
+
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+				try {
+					Files.createDirectories(file.toPath());
+				} catch(final Exception e) {
+					throw new IOException(
+							"Failed to create dirs " + file.getAbsolutePath(),
+							e);
+				}
+
+			} else {
+				if(!file.mkdirs()) {
+					throw new IOException("Failed to create dirs " + file.getAbsolutePath());
+				}
+			}
+		}
 	}
 }

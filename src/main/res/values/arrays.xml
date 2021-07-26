@@ -39,6 +39,15 @@
         <item>@string/action_comments</item>
         <item>@string/action_link</item>
         <item>@string/action_external</item>
+        <item>@string/action_report</item>
+        <item>@string/action_save_image</item>
+        <item>@string/action_gotosubreddit</item>
+        <item>@string/action_share</item>
+        <item>@string/action_share_comments</item>
+        <item>@string/action_share_image</item>
+        <item>@string/action_copy_link</item>
+        <item>@string/action_user_profile</item>
+        <item>@string/action_properties</item>
 <!--        <item>@string/action_actionmenu</item>-->
 		<item>@string/action_back</item>
         <item>@string/action_fling_disabled</item>
@@ -48,11 +57,20 @@
     <string-array name="pref_behaviour_fling_post_actions_return">
 <!--        <item>upvote</item>-->
 <!--        <item>downvote</item>-->
-        <item>save</item>
+        <item>save</item>d
         <item>hide</item>
         <item>comments</item>
 <!--        <item>link</item>-->
 <!--        <item>browser</item>-->
+        <item>report</item>
+        <item>save_image</item>
+        <item>goto_subreddit</item>
+        <item>share</item>
+        <item>share_comments</item>
+        <item>share_image</item>
+        <item>copy</item>
+        <item>user_profile</item>
+        <item>properties</item>
 <!--        <item>action_menu</item>-->
 		<item>back</item>
         <item>disabled</item>
@@ -73,7 +91,14 @@
 		<item>@string/action_upvote</item>
 		<item>@string/action_downvote</item>
 		<item>@string/action_save</item>
+		<item>@string/action_report</item>
 		<item>@string/action_reply</item>
+		<item>@string/action_comment_context</item>
+		<item>@string/action_comment_go_to</item>
+		<item>@string/action_comment_links</item>
+		<item>@string/action_share</item>
+		<item>@string/action_copy_text</item>
+		<item>@string/action_copy_link</item>
 		<item>@string/action_user_profile</item>
 		<item>@string/action_collapse</item>
 		<item>@string/action_properties</item>
@@ -87,7 +112,14 @@
 		<item>upvote</item>
 		<item>downvote</item>
 		<item>save</item>
+		<item>report</item>
 		<item>reply</item>
+		<item>context</item>
+		<item>go_to_comment</item>
+		<item>comment_links</item>
+		<item>share</item>
+		<item>copy_text</item>
+		<item>copy_url</item>
 		<item>user_profile</item>
 		<item>collapse</item>
 		<item>properties</item>
@@ -100,7 +132,12 @@
 		<item>@string/sort_posts_hot</item>
 		<item>@string/sort_posts_new</item>
 		<item>@string/sort_posts_rising</item>
-		<item>@string/sort_posts_controversial</item>
+		<item>@string/sort_posts_controversial_hour</item>
+		<item>@string/sort_posts_controversial_today</item>
+		<item>@string/sort_posts_controversial_week</item>
+		<item>@string/sort_posts_controversial_month</item>
+		<item>@string/sort_posts_controversial_year</item>
+		<item>@string/sort_posts_controversial_all</item>
 		<item>@string/sort_posts_best</item>
 		<item>@string/sort_posts_top_hour</item>
 		<item>@string/sort_posts_top_today</item>
@@ -115,7 +152,12 @@
 		<item>hot</item>
 		<item>new</item>
 		<item>rising</item>
-		<item>controversial</item>
+		<item>controversial_hour</item>
+		<item>controversial_day</item>
+		<item>controversial_week</item>
+		<item>controversial_month</item>
+		<item>controversial_year</item>
+		<item>controversial_all</item>
 		<item>best</item>
 		<item>top_hour</item>
 		<item>top_day</item>
@@ -583,6 +625,7 @@
     <string-array name="pref_menus_mainmenu_useritems_items">
         <item>@string/mainmenu_profile</item>
         <item>@string/mainmenu_inbox</item>
+        <item>@string/mainmenu_sent_messages</item>
         <item>@string/mainmenu_submitted</item>
         <item>@string/mainmenu_saved</item>
         <item>@string/mainmenu_hidden</item>
@@ -595,6 +638,7 @@
     <string-array name="pref_menus_mainmenu_useritems_items_return">
         <item>profile</item>
         <item>inbox</item>
+        <item>sent_messages</item>
         <item>submitted</item>
         <item>saved</item>
         <item>hidden</item>
@@ -940,7 +984,12 @@
 	<string-array name="pref_behaviour_user_postsort_array">
 		<item>@string/sort_posts_hot</item>
 		<item>@string/sort_posts_new</item>
-		<item>@string/sort_posts_controversial</item>
+		<item>@string/sort_posts_controversial_hour</item>
+		<item>@string/sort_posts_controversial_today</item>
+		<item>@string/sort_posts_controversial_week</item>
+		<item>@string/sort_posts_controversial_month</item>
+		<item>@string/sort_posts_controversial_year</item>
+		<item>@string/sort_posts_controversial_all</item>
 		<item>@string/sort_posts_top_hour</item>
 		<item>@string/sort_posts_top_today</item>
 		<item>@string/sort_posts_top_week</item>
@@ -953,7 +1002,12 @@
 	<string-array name="pref_behaviour_user_postsort_array_return">
 		<item>hot</item>
 		<item>new</item>
-		<item>controversial</item>
+		<item>controversial_hour</item>
+		<item>controversial_day</item>
+		<item>controversial_week</item>
+		<item>controversial_month</item>
+		<item>controversial_year</item>
+		<item>controversial_all</item>
 		<item>top_hour</item>
 		<item>top_day</item>
 		<item>top_week</item>
@@ -966,7 +1020,12 @@
 		<item>@string/sort_posts_hot</item>
 		<item>@string/sort_posts_new</item>
 		<item>@string/sort_posts_rising</item>
-		<item>@string/sort_posts_controversial</item>
+		<item>@string/sort_posts_controversial_hour</item>
+		<item>@string/sort_posts_controversial_today</item>
+		<item>@string/sort_posts_controversial_week</item>
+		<item>@string/sort_posts_controversial_month</item>
+		<item>@string/sort_posts_controversial_year</item>
+		<item>@string/sort_posts_controversial_all</item>
 		<item>@string/sort_posts_top_hour</item>
 		<item>@string/sort_posts_top_today</item>
 		<item>@string/sort_posts_top_week</item>
@@ -980,7 +1039,12 @@
 		<item>hot</item>
 		<item>new</item>
 		<item>rising</item>
-		<item>controversial</item>
+		<item>controversial_hour</item>
+		<item>controversial_day</item>
+		<item>controversial_week</item>
+		<item>controversial_month</item>
+		<item>controversial_year</item>
+		<item>controversial_all</item>
 		<item>top_hour</item>
 		<item>top_day</item>
 		<item>top_week</item>
@@ -992,7 +1056,12 @@
 	<string-array name="pref_behaviour_user_commentsort_array">
 		<item>@string/sort_comments_hot</item>
 		<item>@string/sort_comments_new</item>
-		<item>@string/sort_comments_controversial</item>
+		<item>@string/sort_posts_controversial_hour</item>
+		<item>@string/sort_posts_controversial_today</item>
+		<item>@string/sort_posts_controversial_week</item>
+		<item>@string/sort_posts_controversial_month</item>
+		<item>@string/sort_posts_controversial_year</item>
+		<item>@string/sort_posts_controversial_all</item>
 		<item>@string/sort_comments_top_hour</item>
 		<item>@string/sort_comments_top_today</item>
 		<item>@string/sort_comments_top_week</item>
@@ -1005,7 +1074,12 @@
 	<string-array name="pref_behaviour_user_commentsort_array_return">
 		<item>hot</item>
 		<item>new</item>
-		<item>controversial</item>
+		<item>controversial_hour</item>
+		<item>controversial_day</item>
+		<item>controversial_week</item>
+		<item>controversial_month</item>
+		<item>controversial_year</item>
+		<item>controversial_all</item>
 		<item>top_hour</item>
 		<item>top_day</item>
 		<item>top_week</item>
@@ -1109,6 +1183,70 @@
 		<item>160</item>
 		<item>192</item>
 		<item>256</item>
+	</string-array>
+
+	<!-- 2021-01-25 -->
+
+	<string-array name="pref_accessibility_min_comment_height_items">
+		<item>@string/pref_accessibility_min_comment_height_none</item>
+		<item>30 dp</item>
+		<item>35 dp</item>
+		<item>40 dp</item>
+		<item>45 dp</item>
+		<item>50 dp</item>
+		<item>55 dp</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_accessibility_min_comment_height_return">
+		<item>0</item>
+		<item>30</item>
+		<item>35</item>
+		<item>40</item>
+		<item>45</item>
+		<item>50</item>
+		<item>55</item>
+	</string-array>
+  
+  <!-- 2021-02-16 -->
+
+	<string-array name="pref_menus_comment_context_items">
+		<item>@string/action_upvote</item>
+		<item>@string/action_downvote</item>
+		<item>@string/action_save</item>
+		<item>@string/action_report</item>
+		<item>@string/action_reply</item>
+		<item>@string/action_edit</item>
+		<item>@string/action_delete</item>
+		<item>@string/action_comment_context</item>
+		<item>@string/action_comment_go_to</item>
+		<item>@string/action_comment_links</item>
+		<item>@string/action_collapse</item>
+		<item>@string/action_share</item>
+		<item>@string/action_copy_text</item>
+		<item>@string/action_copy_link</item>
+		<item>@string/action_user_profile</item>
+		<item>@string/action_properties</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_menus_comment_context_items_return">
+		<item>upvote</item>
+		<item>downvote</item>
+		<item>save</item>
+		<item>report</item>
+		<item>reply</item>
+		<item>edit</item>
+		<item>delete</item>
+		<item>context</item>
+		<item>go_to_comment</item>
+		<item>comment_links</item>
+		<item>collapse</item>
+		<item>share</item>
+		<item>copy_text</item>
+		<item>copy_url</item>
+		<item>user_profile</item>
+		<item>properties</item>
 	</string-array>
 
 </resources>

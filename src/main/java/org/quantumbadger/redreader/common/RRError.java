@@ -17,40 +17,65 @@
 
 package org.quantumbadger.redreader.common;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 
 public class RRError {
 
-	@Nullable public final String title, message;
+	@Nullable public final String title;
+	@Nullable public final String message;
+	public final boolean reportable;
 	@Nullable public final Throwable t;
 	@Nullable public final Integer httpStatus;
 	@Nullable public final String url;
 	@Nullable public final String debuggingContext;
+	@Nullable public final String response;
 
-	public RRError(@Nullable final String title, @Nullable final String message) {
-		this(title, message, null, null, null, null);
+	public RRError(
+			@Nullable final String title,
+			@Nullable final String message,
+			final boolean reportable) {
+		this(title, message, reportable, null);
 	}
 
 	public RRError(
 			@Nullable final String title,
 			@Nullable final String message,
+			final boolean reportable,
 			@Nullable final Throwable t) {
-		this(title, message, t, null, null, null);
+		this(title, message, reportable, t, null, null, null);
 	}
 
 	public RRError(
 			@Nullable final String title,
 			@Nullable final String message,
+			final boolean reportable,
 			@Nullable final Throwable t,
 			@Nullable final Integer httpStatus,
 			@Nullable final String url,
 			@Nullable final String debuggingContext) {
 
+		this(title, message, reportable, t, httpStatus, url, debuggingContext, Optional.empty());
+	}
+
+	public RRError(
+			@Nullable final String title,
+			@Nullable final String message,
+			final boolean reportable,
+			@Nullable final Throwable t,
+			@Nullable final Integer httpStatus,
+			@Nullable final String url,
+			@Nullable final String debuggingContext,
+			@NonNull final Optional<FailedRequestBody> response) {
+
 		this.title = title;
 		this.message = message;
+		this.reportable = reportable;
 		this.t = t;
 		this.httpStatus = httpStatus;
 		this.url = url;
 		this.debuggingContext = debuggingContext;
+		this.response = response.map(FailedRequestBody::toString).orElseNull();
 	}
 }

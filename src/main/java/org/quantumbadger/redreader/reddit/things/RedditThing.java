@@ -17,14 +17,14 @@
 
 package org.quantumbadger.redreader.reddit.things;
 
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public final class RedditThing {
+public final class RedditThing implements JsonObject.JsonDeserializable {
 
 	public enum Kind {
 		POST, USER, COMMENT, MESSAGE, SUBREDDIT, MORE_COMMENTS, LISTING
@@ -46,8 +46,16 @@ public final class RedditThing {
 	public String kind;
 	public JsonObject data;
 
+	@NonNull
 	public Kind getKind() {
-		return kinds.get(kind);
+
+		final Kind result = kinds.get(this.kind);
+
+		if(result == null) {
+			throw new RuntimeException("Unknown thing type: " + this.kind);
+		}
+
+		return result;
 	}
 
 	public RedditMoreComments asMoreComments() throws

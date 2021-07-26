@@ -32,12 +32,38 @@ public enum PostSort {
 	TOP_MONTH,
 	TOP_YEAR,
 	TOP_ALL,
-	CONTROVERSIAL,
+	CONTROVERSIAL_HOUR,
+	CONTROVERSIAL_DAY,
+	CONTROVERSIAL_WEEK,
+	CONTROVERSIAL_MONTH,
+	CONTROVERSIAL_YEAR,
+	CONTROVERSIAL_ALL,
 	BEST,
 	// Sorts related to Search Listings
-	RELEVANCE,
-	COMMENTS,
-	TOP;
+	RELEVANCE_HOUR,
+	RELEVANCE_DAY,
+	RELEVANCE_WEEK,
+	RELEVANCE_MONTH,
+	RELEVANCE_YEAR,
+	RELEVANCE_ALL,
+	NEW_HOUR,
+	NEW_DAY,
+	NEW_WEEK,
+	NEW_MONTH,
+	NEW_YEAR,
+	NEW_ALL,
+	COMMENTS_HOUR,
+	COMMENTS_DAY,
+	COMMENTS_WEEK,
+	COMMENTS_MONTH,
+	COMMENTS_YEAR,
+	COMMENTS_ALL,
+	HOT_HOUR,
+	HOT_DAY,
+	HOT_WEEK,
+	HOT_MONTH,
+	HOT_YEAR,
+	HOT_ALL;
 
 	@Nullable
 	public static PostSort valueOfOrNull(@NonNull final String string) {
@@ -69,7 +95,24 @@ public enum PostSort {
 			return BEST;
 
 		} else if(sort.equals("controversial")) {
-			return CONTROVERSIAL;
+
+			if(t == null) {
+				return CONTROVERSIAL_ALL;
+			} else if(t.equals("all")) {
+				return CONTROVERSIAL_ALL;
+			} else if(t.equals("hour")) {
+				return CONTROVERSIAL_HOUR;
+			} else if(t.equals("day")) {
+				return CONTROVERSIAL_DAY;
+			} else if(t.equals("week")) {
+				return CONTROVERSIAL_WEEK;
+			} else if(t.equals("month")) {
+				return CONTROVERSIAL_MONTH;
+			} else if(t.equals("year")) {
+				return CONTROVERSIAL_YEAR;
+			} else {
+				return CONTROVERSIAL_ALL;
+			}
 
 		} else if(sort.equals("rising")) {
 			return RISING;
@@ -99,15 +142,135 @@ public enum PostSort {
 		}
 	}
 
+	@Nullable
+	public static PostSort parseSearch(@Nullable String sort, @Nullable String t) {
+
+		if(sort == null) {
+			return null;
+		}
+
+		sort = StringUtils.asciiLowercase(sort);
+		t = t != null ? StringUtils.asciiLowercase(t) : null;
+
+		if(sort.equals("relevance")) {
+
+			if(t == null) {
+				return RELEVANCE_ALL;
+			} else if(t.equals("all")) {
+				return RELEVANCE_ALL;
+			} else if(t.equals("hour")) {
+				return RELEVANCE_HOUR;
+			} else if(t.equals("day")) {
+				return RELEVANCE_DAY;
+			} else if(t.equals("week")) {
+				return RELEVANCE_WEEK;
+			} else if(t.equals("month")) {
+				return RELEVANCE_MONTH;
+			} else if(t.equals("year")) {
+				return RELEVANCE_YEAR;
+			} else {
+				return RELEVANCE_ALL;
+			}
+
+		} else if(sort.equals("new")) {
+
+			if(t == null) {
+				return NEW_ALL;
+			} else if(t.equals("all")) {
+				return NEW_ALL;
+			} else if(t.equals("hour")) {
+				return NEW_HOUR;
+			} else if(t.equals("day")) {
+				return NEW_DAY;
+			} else if(t.equals("week")) {
+				return NEW_WEEK;
+			} else if(t.equals("month")) {
+				return NEW_MONTH;
+			} else if(t.equals("year")) {
+				return NEW_YEAR;
+			} else {
+				return NEW_ALL;
+			}
+
+		} else if(sort.equals("hot")) {
+
+			if(t == null) {
+				return HOT_ALL;
+			} else if(t.equals("all")) {
+				return HOT_ALL;
+			} else if(t.equals("hour")) {
+				return HOT_HOUR;
+			} else if(t.equals("day")) {
+				return HOT_DAY;
+			} else if(t.equals("week")) {
+				return HOT_WEEK;
+			} else if(t.equals("month")) {
+				return HOT_MONTH;
+			} else if(t.equals("year")) {
+				return HOT_YEAR;
+			} else {
+				return HOT_ALL;
+			}
+
+		} else if(sort.equals("top")) {
+
+			if(t == null) {
+				return TOP_ALL;
+			} else if(t.equals("all")) {
+				return TOP_ALL;
+			} else if(t.equals("hour")) {
+				return TOP_HOUR;
+			} else if(t.equals("day")) {
+				return TOP_DAY;
+			} else if(t.equals("week")) {
+				return TOP_WEEK;
+			} else if(t.equals("month")) {
+				return TOP_MONTH;
+			} else if(t.equals("year")) {
+				return TOP_YEAR;
+			} else {
+				return TOP_ALL;
+			}
+
+		} else if(sort.equals("comments")) {
+
+			if(t == null) {
+				return COMMENTS_ALL;
+			} else if(t.equals("all")) {
+				return COMMENTS_ALL;
+			} else if(t.equals("hour")) {
+				return COMMENTS_HOUR;
+			} else if(t.equals("day")) {
+				return COMMENTS_DAY;
+			} else if(t.equals("week")) {
+				return COMMENTS_WEEK;
+			} else if(t.equals("month")) {
+				return COMMENTS_MONTH;
+			} else if(t.equals("year")) {
+				return COMMENTS_YEAR;
+			} else {
+				return COMMENTS_ALL;
+			}
+
+		} else {
+			return null;
+		}
+	}
+
 	public void addToUserPostListingUri(@NonNull final Uri.Builder builder) {
 
 		switch(this) {
 			case HOT:
 			case NEW:
-			case CONTROVERSIAL:
 				builder.appendQueryParameter("sort", StringUtils.asciiLowercase(name()));
 				break;
 
+			case CONTROVERSIAL_HOUR:
+			case CONTROVERSIAL_DAY:
+			case CONTROVERSIAL_WEEK:
+			case CONTROVERSIAL_MONTH:
+			case CONTROVERSIAL_YEAR:
+			case CONTROVERSIAL_ALL:
 			case TOP_HOUR:
 			case TOP_DAY:
 			case TOP_WEEK:
@@ -127,21 +290,25 @@ public enum PostSort {
 			case HOT:
 			case NEW:
 			case RISING:
-			case CONTROVERSIAL:
 			case BEST:
 				builder.appendEncodedPath(StringUtils.asciiLowercase(name()));
 				break;
 
+			case CONTROVERSIAL_HOUR:
+			case CONTROVERSIAL_DAY:
+			case CONTROVERSIAL_WEEK:
+			case CONTROVERSIAL_MONTH:
+			case CONTROVERSIAL_YEAR:
+			case CONTROVERSIAL_ALL:
 			case TOP_HOUR:
 			case TOP_DAY:
 			case TOP_WEEK:
 			case TOP_MONTH:
 			case TOP_YEAR:
 			case TOP_ALL:
-				builder.appendEncodedPath("top");
-				builder.appendQueryParameter(
-						"t",
-						StringUtils.asciiLowercase(name().split("_")[1]));
+				final String[] parts = name().split("_");
+				builder.appendEncodedPath(StringUtils.asciiLowercase(name().split("_")[0]));
+				builder.appendQueryParameter("t", StringUtils.asciiLowercase(parts[1]));
 				break;
 		}
 	}

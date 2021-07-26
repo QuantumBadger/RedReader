@@ -17,22 +17,15 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		  android:layout_width="match_parent"
-		  android:layout_height="wrap_content"
-		  android:gravity="center"
-		  android:padding="25dp">
 
-	<TextView
-			android:id="@+id/empty_view_text"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center"
-			android:textAlignment="center"
-			android:textSize="18sp"
-			android:textColor="?rrSubTextCol"
-			android:text="@string/no_comments_yet"/>
+    <Preference
+        android:key="@string/pref_item_backup_preferences_key"
+        android:title="@string/pref_item_backup_preferences_title" />
 
-</FrameLayout>
+	<Preference
+		android:key="@string/pref_item_restore_preferences_key"
+		android:title="@string/pref_item_restore_preferences_title" />
 
+</PreferenceScreen>

@@ -57,6 +57,10 @@ public final class Optional<E> {
 		return mValue != null;
 	}
 
+	public boolean isEmpty() {
+		return mValue == null;
+	}
+
 	@NonNull
 	public E get() {
 
@@ -77,16 +81,27 @@ public final class Optional<E> {
 		}
 	}
 
+	@NonNull
+	public Optional<E> orElse(@NonNull final Optional<E> alternative) {
+
+		if(mValue == null) {
+			return alternative;
+		} else {
+			return Optional.of(mValue);
+		}
+	}
+
 	@Nullable
 	public E orElseNull() {
 		return mValue;
 	}
 
 	@NonNull
-	public <T extends Exception> E orThrow(@NonNull final T e) throws T {
+	public <T extends Exception> E orThrow(
+			@NonNull final GenericFactory<T, RuntimeException> factory) throws T {
 
 		if(mValue == null) {
-			throw e;
+			throw factory.create();
 		}
 
 		return mValue;
@@ -99,6 +114,23 @@ public final class Optional<E> {
 			return Optional.empty();
 		} else {
 			return Optional.of(function.apply(mValue));
+		}
+	}
+
+	@NonNull
+	public <R> Optional<R> filter(
+			@NonNull final FunctionOneArgWithReturn<E, Optional<R>> function) {
+
+		if(mValue == null) {
+			return Optional.empty();
+		} else {
+			return function.apply(mValue);
+		}
+	}
+
+	public void ifPresent(@NonNull final Consumer<E> consumer) {
+		if(mValue != null) {
+			consumer.consume(mValue);
 		}
 	}
 

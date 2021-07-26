@@ -251,7 +251,7 @@
     <string name="comment_reply_done">Răspuns trimis. Comentariul va apărea după ce dați refresh.</string>
     <string name="comment_edit_done">Comentariu editat. Schimbările vor apărea după ce dați refresh.</string>
     <string name="post_submit_title_hint">Titlu</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_captcha_title">Imagine Captcha</string>
     <string name="post_captcha_submit_button">Postați</string>
     <string name="post_submit_done">Postare trimisă.</string>

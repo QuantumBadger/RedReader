@@ -26,16 +26,17 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
-import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.FailedRequestBody;
+import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 public final class CacheRequest implements Comparable<CacheRequest> {
@@ -93,7 +94,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	public final int fileType;
 
 	public final @DownloadQueueType int queueType;
-	public final List<HTTPBackend.PostField> postFields;
+	@NonNull public final Optional<HTTPRequestBody> requestBody;
 
 	public final boolean cache;
 
@@ -132,6 +133,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
+			final boolean cache,
 			final Context context,
 			final CacheRequestCallbacks callbacks) {
 
@@ -144,11 +146,11 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				fileType,
 				queueType,
 				null,
+				cache,
 				context,
 				callbacks);
 	}
 
-	// TODO remove this huge constructor, make mutable
 	public CacheRequest(
 			final URI url,
 			final RedditAccount user,
@@ -157,7 +159,59 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
-			final List<HTTPBackend.PostField> postFields,
+			final Context context,
+			final CacheRequestCallbacks callbacks) {
+
+		this(
+				url,
+				user,
+				requestSession,
+				priority,
+				downloadStrategy,
+				fileType,
+				queueType,
+				true,
+				context,
+				callbacks);
+	}
+
+	public CacheRequest(
+			final URI url,
+			final RedditAccount user,
+			final UUID requestSession,
+			@NonNull final Priority priority,
+			@NonNull final DownloadStrategy downloadStrategy,
+			final int fileType,
+			final @DownloadQueueType int queueType,
+			@Nullable final HTTPRequestBody requestBody,
+			final Context context,
+			final CacheRequestCallbacks callbacks) {
+
+		this(
+				url,
+				user,
+				requestSession,
+				priority,
+				downloadStrategy,
+				fileType,
+				queueType,
+				requestBody,
+				false,
+				context,
+				callbacks);
+	}
+
+	// TODO remove this huge constructor, make mutable
+	private CacheRequest(
+			final URI url,
+			final RedditAccount user,
+			final UUID requestSession,
+			@NonNull final Priority priority,
+			@NonNull final DownloadStrategy downloadStrategy,
+			final int fileType,
+			final @DownloadQueueType int queueType,
+			@Nullable final HTTPRequestBody requestBody,
+			final boolean cache,
 			final Context context,
 			final CacheRequestCallbacks callbacks) {
 
@@ -169,7 +223,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 					"User was null - set to empty string for anonymous");
 		}
 
-		if(!downloadStrategy.shouldDownloadWithoutCheckingCache() && postFields != null) {
+		if(!downloadStrategy.shouldDownloadWithoutCheckingCache() && requestBody != null) {
 			throw new IllegalArgumentException(
 					"Should not perform cache lookup for POST requests");
 		}
@@ -181,11 +235,16 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		this.downloadStrategy = downloadStrategy;
 		this.fileType = fileType;
 		this.queueType = queueType;
-		this.postFields = postFields;
-		this.cache = (postFields == null);
+		this.requestBody = Optional.ofNullable(requestBody);
+		this.cache = (requestBody == null) && cache;
 
 		if(url == null) {
-			notifyFailure(REQUEST_FAILURE_MALFORMED_URL, null, null, "Malformed URL");
+			notifyFailure(
+					REQUEST_FAILURE_MALFORMED_URL,
+					null,
+					null,
+					"Malformed URL",
+					Optional.empty());
 			cancel();
 		}
 	}
@@ -230,10 +289,11 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			final @RequestFailureType int type,
 			final Throwable t,
 			final Integer httpStatus,
-			final String readableMessage) {
+			final String readableMessage,
+			@NonNull final Optional<FailedRequestBody> body) {
 
 		try {
-			mCallbacks.onFailure(type, t, httpStatus, readableMessage);
+			mCallbacks.onFailure(type, t, httpStatus, readableMessage, body);
 
 		} catch(final Throwable t1) {
 			onCallbackException(t1);
@@ -275,7 +335,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				onCallbackException(t1);
 			} catch(final Throwable t2) {
 				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
+				BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
 		}
@@ -292,7 +352,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				onCallbackException(t1);
 			} catch(final Throwable t2) {
 				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
+				BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
 		}

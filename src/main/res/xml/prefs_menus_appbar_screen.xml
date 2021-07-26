@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<ListPreference android:title="@string/options_sort"
+					android:key="@string/pref_menus_appbar_sort_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="2"/>
+
+	<ListPreference android:title="@string/options_refresh"
+					android:key="@string/pref_menus_appbar_refresh_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="2"/>
+
+	<ListPreference android:title="@string/options_past"
+					android:key="@string/pref_menus_appbar_past_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/options_submit_post"
+					android:key="@string/pref_menus_appbar_submit_post_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/pin_subreddit"
+					android:key="@string/pref_menus_appbar_pin_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/options_subscribe"
+					android:key="@string/pref_menus_appbar_subscribe_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/block_subreddit"
+					android:key="@string/pref_menus_appbar_block_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/options_sidebar"
+					android:key="@string/pref_menus_appbar_sidebar_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/options_accounts"
+					android:key="@string/pref_menus_appbar_accounts_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/options_theme"
+					android:key="@string/pref_menus_appbar_theme_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/options_settings"
+					android:key="@string/pref_menus_appbar_settings_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/options_close_all"
+					android:key="@string/pref_menus_appbar_close_all_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="-1"/>
+
+	<ListPreference android:title="@string/action_reply"
+					android:key="@string/pref_menus_appbar_reply_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+	<ListPreference android:title="@string/action_search"
+					android:key="@string/pref_menus_appbar_search_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="0"/>
+
+</PreferenceScreen>

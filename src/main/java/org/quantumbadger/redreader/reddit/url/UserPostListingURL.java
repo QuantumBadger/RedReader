@@ -54,7 +54,8 @@ public class UserPostListingURL extends PostListingURL {
 	public final String user;
 	public final PostSort order;
 	public final Integer limit;
-	public final String before, after;
+	public final String before;
+	public final String after;
 
 	UserPostListingURL(
 			final Type type,
@@ -97,7 +98,8 @@ public class UserPostListingURL extends PostListingURL {
 	public static UserPostListingURL parse(final Uri uri) {
 
 		Integer limit = null;
-		String before = null, after = null;
+		String before = null;
+		String after = null;
 
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
@@ -128,7 +130,7 @@ public class UserPostListingURL extends PostListingURL {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
-				if(segment.length() > 0) {
+				if(!segment.isEmpty()) {
 					pathSegmentsFiltered.add(segment);
 				}
 			}
@@ -217,13 +219,21 @@ public class UserPostListingURL extends PostListingURL {
 		}
 
 		switch(order) {
+			case CONTROVERSIAL_HOUR:
+			case CONTROVERSIAL_DAY:
+			case CONTROVERSIAL_WEEK:
+			case CONTROVERSIAL_MONTH:
+			case CONTROVERSIAL_YEAR:
+			case CONTROVERSIAL_ALL:
 			case TOP_HOUR:
 			case TOP_DAY:
 			case TOP_WEEK:
 			case TOP_MONTH:
 			case TOP_YEAR:
 			case TOP_ALL:
-				return path + "?t=" + StringUtils.asciiLowercase(order.name().split("_")[1]);
+				final String[] parts = order.name().split("_");
+				return path + "?sort=" + StringUtils.asciiLowercase(parts[0])
+						+ "&t=" + StringUtils.asciiLowercase(parts[1]);
 
 			default:
 				return path + "?sort=" + StringUtils.asciiLowercase(order.name());

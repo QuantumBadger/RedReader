@@ -30,11 +30,13 @@ import java.util.List;
 
 public class SearchPostListURL extends PostListingURL {
 
-	public final String subreddit, query;
+	public final String subreddit;
+	public final String query;
 
 	public final PostSort order;
 	public final Integer limit;
-	public final String before, after;
+	public final String before;
+	public final String after;
 
 	SearchPostListURL(
 			final String subreddit,
@@ -57,7 +59,7 @@ public class SearchPostListURL extends PostListingURL {
 			final Integer limit,
 			final String before,
 			final String after) {
-		this(subreddit, query, PostSort.RELEVANCE, limit, before, after);
+		this(subreddit, query, PostSort.RELEVANCE_ALL, limit, before, after);
 	}
 
 	public static SearchPostListURL build(String subreddit, final String query) {
@@ -109,14 +111,39 @@ public class SearchPostListURL extends PostListingURL {
 
 		if(order != null) {
 			switch(order) {
-				case RELEVANCE:
-				case NEW:
-				case HOT:
-				case TOP:
-				case COMMENTS:
-					builder.appendQueryParameter(
-							"sort",
-							StringUtils.asciiLowercase(order.name()));
+				case RELEVANCE_HOUR:
+				case RELEVANCE_DAY:
+				case RELEVANCE_WEEK:
+				case RELEVANCE_MONTH:
+				case RELEVANCE_YEAR:
+				case RELEVANCE_ALL:
+				case NEW_HOUR:
+				case NEW_DAY:
+				case NEW_WEEK:
+				case NEW_MONTH:
+				case NEW_YEAR:
+				case NEW_ALL:
+				case HOT_HOUR:
+				case HOT_DAY:
+				case HOT_WEEK:
+				case HOT_MONTH:
+				case HOT_YEAR:
+				case HOT_ALL:
+				case TOP_HOUR:
+				case TOP_DAY:
+				case TOP_WEEK:
+				case TOP_MONTH:
+				case TOP_YEAR:
+				case TOP_ALL:
+				case COMMENTS_HOUR:
+				case COMMENTS_DAY:
+				case COMMENTS_WEEK:
+				case COMMENTS_MONTH:
+				case COMMENTS_YEAR:
+				case COMMENTS_ALL:
+					final String[] parts = order.name().split("_");
+					builder.appendQueryParameter("sort", StringUtils.asciiLowercase(parts[0]));
+					builder.appendQueryParameter("t", StringUtils.asciiLowercase(parts[1]));
 					break;
 			}
 		}
@@ -150,11 +177,15 @@ public class SearchPostListURL extends PostListingURL {
 
 	public static SearchPostListURL parse(final Uri uri) {
 
-		boolean restrict_sr = false;
+		boolean restrictSubreddit = false;
 		String query = "";
-		PostSort order = null;
+		final PostSort order;
 		Integer limit = null;
-		String before = null, after = null;
+		String before = null;
+		String after = null;
+
+		String sortParam = null;
+		String timeParam = null;
 
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
@@ -171,15 +202,20 @@ public class SearchPostListURL extends PostListingURL {
 				}
 
 			} else if(parameterKey.equalsIgnoreCase("sort")) {
-				order = PostSort.valueOfOrNull(uri.getQueryParameter(parameterKey));
+				sortParam = uri.getQueryParameter(parameterKey);
+
+			} else if(parameterKey.equalsIgnoreCase("t")) {
+				timeParam = uri.getQueryParameter(parameterKey);
 
 			} else if(parameterKey.equalsIgnoreCase("q")) {
 				query = uri.getQueryParameter(parameterKey);
 
 			} else if(parameterKey.equalsIgnoreCase("restrict_sr")) {
-				restrict_sr = "on".equalsIgnoreCase(uri.getQueryParameter(parameterKey));
+				restrictSubreddit = "on".equalsIgnoreCase(uri.getQueryParameter(parameterKey));
 			}
 		}
+
+		order = PostSort.parseSearch(sortParam, timeParam);
 
 		final String[] pathSegments;
 		{
@@ -194,7 +230,7 @@ public class SearchPostListURL extends PostListingURL {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
-				if(segment.length() > 0) {
+				if(!segment.isEmpty()) {
 					pathSegmentsFiltered.add(segment);
 				}
 			}
@@ -224,7 +260,7 @@ public class SearchPostListURL extends PostListingURL {
 
 				final String subreddit = pathSegments[1];
 				return new SearchPostListURL(
-						restrict_sr ? subreddit : null,
+						restrictSubreddit ? subreddit : null,
 						query,
 						order,
 						limit,

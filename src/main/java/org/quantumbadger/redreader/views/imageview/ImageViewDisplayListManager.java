@@ -64,7 +64,8 @@ public class ImageViewDisplayListManager implements
 	private RRGLRenderableScale mOverallScale;
 
 	private final ImageTileSource mImageTileSource;
-	private final int mHTileCount, mVTileCount;
+	private final int mHTileCount;
+	private final int mVTileCount;
 	private final int mTileSize;
 
 	private RRGLTexture mNotLoadedTexture;
@@ -95,7 +96,8 @@ public class ImageViewDisplayListManager implements
 	private TouchState mCurrentTouchState = null;
 
 	private FingerTracker.Finger mDragFinger;
-	private FingerTracker.Finger mPinchFinger1, mPinchFinger2;
+	private FingerTracker.Finger mPinchFinger1;
+	private FingerTracker.Finger mPinchFinger2;
 	private final Stack<FingerTracker.Finger> mSpareFingers = new Stack<>(8);
 
 	private final UIThreadRepeatingTimer mDoubleTapGapTimer =

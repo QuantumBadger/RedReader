@@ -16,7 +16,7 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   --><resources>
     <!-- First Run Dialog -->
-    <string name="firstrun_login_title">Přihlášení</string>
+    <string name="firstrun_login_title">Přihlásit</string>
     <string name="firstrun_login_message">Nejste momentálně přihlášeni. Seznam účtů je k dispozici po vybrání Účty z nabídky.</string>
     <string name="firstrun_login_button_now">Přihlásit teď</string>
     <string name="firstrun_login_button_later">Anonymně</string>
@@ -182,8 +182,8 @@
     <string name="comment_reply_done">Odpověď odeslána. Komentář se objeví po obnovení stránky.</string>
     <string name="comment_edit_done">Komentář upraven. Změny se objeví po obnovení stránky.</string>
     <string name="post_submit_title_hint">Název</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Odeslat</string>
     <string name="post_submit_done">Příspěvek odeslán.</string>
     <!-- Bug Reporting -->
@@ -192,8 +192,8 @@
     <string name="bug_button_send">Poslat hlášení o chybě emailem</string>
     <string name="bug_button_ignore">Neposílat hlášení o chybě</string>
     <!-- General errors -->
-    <string name="error_403_title">Neplatný uživatel</string>
-    <string name="error_403_message">Tento uživatel nemá dostatečná oprávnění pro tuto akci. Pokuste se odhlásit a znovu přihlásit (smazáním účtu ze seznamu účtů a poté znovupřidáním).</string>
+    <string name="error_403_title">Přístup odepřen</string>
+    <string name="error_403_message">Reddit hlásí, že tento uživatel nemá oprávnění pro tuto akci.</string>
     <string name="error_subreddit_required_title">Subreddit je vyžadován</string>
     <string name="error_subreddit_required_message">Musíte zadat subreddit.</string>
     <string name="error_bad_captcha_title">Neplatná CAPTCHA</string>
@@ -255,7 +255,7 @@
     <!-- Notifications -->
     <string name="notification_comment">%s odpověděl na váš komentář</string>
     <string name="notification_message">%s vám poslal zprávu</string>
-    <string name="notification_message_multiple">nových zpráv na Reddit</string>
+    <string name="notification_message_multiple">nových zpráv na Redditu</string>
     <string name="notification_message_action">K zobrazení stiskněte</string>
     <!-- General -->
     <string name="general_true">Pravda</string>
@@ -263,7 +263,7 @@
     <!-- 2013-05-17 Arrays -->
     <string name="pref_appearance_twopane_never">Nikdy</string>
     <string name="pref_appearance_twopane_auto">Auto detekce</string>
-    <string name="pref_appearance_twopane_landscape">Pouze krajina</string>
+    <string name="pref_appearance_twopane_landscape">Pouze na šířku</string>
     <string name="pref_appearance_twopane_force">Vždy (může vypadat divně)</string>
     <string name="theme_name_red">Červený</string>
     <string name="theme_name_night">Noční</string>
@@ -291,7 +291,7 @@
     <string name="error_invalid_password_title">Neplatné heslo</string>
     <string name="error_invalid_password_message">Vaše uživatelské jméno nebo heslo je neplatné.</string>
     <string name="error_ratelimit_title">Příliš mnoho neplatných pokusů.</string>
-    <string name="error_ratelimit_message">Blokováno z důvodu příliš mnoha neplatných pokusů na této IP adrese. Zpráva redditu:</string>
+    <string name="error_ratelimit_message">Blokováno z důvodu příliš mnoha chybných pokusů o přihlášení z této IP adresy. Zpráva Redditu:</string>
     <string name="general_success">Úspěch</string>
     <string name="message_nowloggedin">Jste přihlášeni.</string>
     <string name="message_cannotlogin">Nemohu se přihlásit.</string>
@@ -319,7 +319,7 @@
     <string name="lang_auto">Automaticky</string>
     <!-- 2013-06-25 -->
     <string name="prefs_category_network">Síť</string>
-    <string name="pref_network_https_title">Zapnout HTTPS</string>
+    <string name="pref_network_https_title">Použít HTTPS</string>
     <!-- 2013-07-01 -->
     <string name="web_view_open_browser">Otevřít v prohlížeči</string>
     <!-- 2013-07-26 -->
@@ -327,7 +327,7 @@
     <!-- 2013-07-29 -->
     <string name="pref_appearance_linkbuttons_title">Ukázat tlačítka odkazu</string>
     <!-- 2013-08-04 -->
-    <string name="pref_appearance_indentlines_title">Ukázat čáry odsazení</string>
+    <string name="pref_appearance_indentlines_title">Ukázat linky odsazení</string>
     <!-- 2014-03-14 -->
     <string name="load_more_posts">Načíst více příspěvků</string>
     <string name="pref_behaviour_postcount_title">Omezit počet příspěvků</string>
@@ -399,7 +399,7 @@
     <!-- 2015-05-17 -->
     <string name="error_title_login_user_denied_permission">Přístup zamítnut</string>
     <string name="error_message_login_user_denied_permission">Přístupu k účtu byl zamítnut. Prosím, zkuste znovu.</string>
-    <string name="error_title_login_unknown_reddit_error">Neznámá chyba redditu: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Neznámá chyba Redditu: %s</string>
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Neplatné video. Zkouším prohlížeč.</string>
     <string name="download_authorizing">Ověřuji…</string>
@@ -440,7 +440,7 @@
     <string name="pref_behaviour_videoview_mode_title">Přehrávač videa</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Interní VideoView (doporučeno)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Externí applikace: VLC</string>
-    <string name="videoview_mode_app_vlc_launch_failed">Spuštění VLC se nezdařilo. Prosím, aktualizujte VLC nebo změňte volbu VideoViewer.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Spustit VLC se nezdařilo. Prosím, aktualizujte VLC nebo změňte volbu Prohlížeč videí.</string>
     <!-- 2015-10-05 -->
     <string name="error_url_required_title">URL je nutné</string>
     <string name="error_url_required_message">Musíte zadat URL.</string>
@@ -619,7 +619,7 @@
     <string name="action_subscribe_subreddit">Objednej subreddit</string>
     <string name="action_unsubscribe_subreddit">Zruš objednávku subredditu</string>
     <!-- 2017-04-14 -->
-    <string name="collapsed_self_post">Self-post se sbalil</string>
+    <string name="collapsed_self_post">Self post se sbalil</string>
     <!-- 2017-05-08 -->
     <string name="button_next_comment_parent">Další mateřský komentář</string>
     <string name="button_prev_comment_parent">Předchozí mateřský komentář</string>
@@ -628,7 +628,7 @@
     <string name="download_link_title">Stáhni soubor</string>
     <string name="download_link_message">Toto je odkaz ke stažení. Chcete načíst v externím prohlížeči\?</string>
     <!--2017-05-21-->
-    <string name="pref_behaviour_self_post_tap_actions_title">Stisknutí na Self-Post</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Stisknutí na self post</string>
     <!-- 2017-06-05 -->
     <string name="pref_menus_show_popular_main_menu_title">Ukaž /r/popular v hlavním menu</string>
     <string name="pref_behaviour_video_playback_controls_title">Zapni ovládání přehrání videa</string>
@@ -637,7 +637,7 @@
     <!-- 2017-10-22 -->
     <string name="pref_behaviour_sharing_share_text_title">Zahrň text při sdílení komentáře</string>
     <!-- 2017-11-01 -->
-    <string name="disable_replies_to_infobox_failed">Vypnout odpovědí do schránky doručené se nezdařilo</string>
+    <string name="disable_replies_to_infobox_failed">Vypnout odpovědi do schránky doručené se nezdařilo</string>
     <!-- 2017-12-03 -->
     <string name="mainmenu_random">Nahodilý subreddit</string>
     <string name="pref_menus_show_random_main_menu_title">Ukaž /r/random (nahodilé) v hlavním menu</string>
@@ -664,8 +664,8 @@
     <string name="comment_reply_done_norefresh">Odpověď odeslána.</string>
     <string name="sort_posts_best">Nejlepší</string>
     <!-- 2018-07-08 -->
-    <string name="pref_behaviour_usecustomtabs_title">Použít vlastní záložky</string>
-    <string name="pref_behaviour_usecustomtabs_summary">Kde je to možné, použít vlastní záložky</string>
+    <string name="pref_behaviour_usecustomtabs_title">Použít vlastní záložky Androidu</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Kde je to možné, použít vlastní záložky Androidu</string>
     <!-- 2018-09-11 -->
     <string name="pref_behaviour_hide_read_posts_title">Skrýt přečtené články</string>
     <!-- 2019-10-01 -->
@@ -703,8 +703,8 @@
     <string name="pref_menus_mainmenu_header">Hlavní nabídka</string>
     <string name="unpin_successful">%s odebráno z hlavní nabídky</string>
     <string name="pin_successful">%s připnuto k hlavní nabídce</string>
-    <string name="subscription_successful">Přihláška odebírání %s úspěšná</string>
-    <string name="unsubscription_successful">Odebírání %s úspěšně zrušeno</string>
+    <string name="subscription_successful">Přihlášeno odebírání %s</string>
+    <string name="unsubscription_successful">Odebírání %s zrušeno</string>
     <string name="bug_chooser_title">Odeslat hlášení o chybě e-mailem</string>
     <string name="error_toast_no_email_apps">Není instalována žádná e-mailova aplikace!</string>
     <string name="error_toast_failed_open_external_browser">Otevřít url \"%s\" v externím prohlížeči se nezdařilo</string>
@@ -721,7 +721,7 @@
     <string name="search_results_query_only">Hledat \"%s\"</string>
     <string name="search_results_all">Hledat \"%1$s\" v /r/%2$s</string>
     <string name="search_results_short">Výsledky hledání</string>
-    <string name="error_nsfw_subreddits_disabled_message">Obsah NSFW je vypnut v nastavení.</string>
+    <string name="error_nsfw_subreddits_disabled_message">Obsah NSFW je nyní vypnut v nastavení.</string>
     <string name="error_nsfw_subreddits_disabled_title">Blokovaný NSFW subreddit</string>
     <string name="list_yes_no_or_wifi_never">Nikdy</string>
     <string name="list_yes_no_or_wifi_wifionly">Pouza na Wi-Fi</string>
@@ -745,7 +745,7 @@
         <item quantity="other">Načíst více komentářů (%d odpovědí)</item>
     </plurals>
     <string name="copied_to_clipboard">Zkopírováno do schránky</string>
-    <string name="pref_menus_appbar_screen_title">Položky lišty akcí</string>
+    <string name="prefs_category_menus_appbar_screen">Položky lišty akcí</string>
     <string name="pref_menus_appbar_items_always">Vždy ukázat tlačítko</string>
     <string name="pref_menus_appbar_items_if_room">Ukázat tlačítko pokud je místo</string>
     <string name="pref_menus_appbar_items_overflow_only">Ukázat je v třípuntíkové nabídce</string>
@@ -763,7 +763,7 @@
     <string name="sort_comments_top_month">Top: Tento měsíc</string>
     <string name="sort_comments_top_year">Top: Tento rok</string>
     <string name="sort_comments_top_all">Top: Všechny</string>
-    <string name="pref_behaviour_video_zoom_default_title">Zaostřit do videí jako výchozí</string>
+    <string name="pref_behaviour_video_zoom_default_title">Pro vyplnění obrazovky oříznout videa</string>
     <string name="image_gallery_removed_title">Galerie odstraněna</string>
     <string name="image_gallery_removed_message">Tato galerie byla odstraněn a není již přístupná.</string>
     <string name="image_gallery_no_data_present_title">Galerie nenalezena</string>
@@ -812,8 +812,8 @@
     <string name="cache_clear_dialog_thumbnails">Miniatury</string>
     <string name="cache_clear_dialog_listings_data">Soupisy (%s)</string>
     <string name="cache_clear_dialog_listings">Soupisy</string>
-    <string name="cache_clear_dialog_loaded">Využití dat načteno</string>
-    <string name="cache_clear_dialog_loading">Načítám využití dat</string>
+    <string name="cache_clear_dialog_loaded">Velikosti využití dat načteny</string>
+    <string name="cache_clear_dialog_loading">Načítám velikosti využití dat</string>
     <string name="dialog_clear">Vymazat</string>
     <string name="pref_cache_clear_title">Vymazat mezipaměť</string>
     <string name="pref_appearance_comment_age_mode_relative_parent">Relativní k nadřazenému komentáři (odpověď x minut později)</string>
@@ -854,4 +854,67 @@
     <string name="pref_images_inline_image_previews_title">Náhledy inline obrázků</string>
     <string name="pref_header_inline_image_previews">Náhledy inline obrázků</string>
     <string name="pref_images_high_res_thumbnails_title">Miniatury vysokého rozlišení</string>
+    <string name="pref_accessibility_separate_body_text_lines_title">Oddělit řádky hlavního textu</string>
+    <string name="pref_accessibility_separate_body_text_lines_summary">V hlavním textu komentáře a self postu bude každý řádek individálně zaměřitelný, celý komentář nebude nutno číst najednou</string>
+    <string name="prefs_category_accessibility">Přístupnost</string>
+    <string name="pref_videos_download_before_playing_title">Před spuštěním playbacku stáhnout videa</string>
+    <string name="button_view">Přečíst</string>
+    <string name="button_dismiss">Zavrhnout</string>
+    <string name="pref_menus_mainmenu_dev_announcements_title">Zobrazit sdělení vývojáře</string>
+    <string name="video_rewind">Převinout zpět</string>
+    <string name="video_zoom_out">Zmenšit</string>
+    <string name="video_zoom_in">Zvětšit</string>
+    <string name="video_fast_forward">Převinout vpřed</string>
+    <string name="video_pause">Pauza</string>
+    <string name="video_play">Hrát</string>
+    <string name="video_restart">Restartovat video</string>
+    <string name="video_unmute">Zapnout zvuk</string>
+    <string name="video_mute">Vypnout zvuk</string>
+    <string name="pref_appearance_thumbnails_spoiler_show_title">Ukázat spoilerové miniatury</string>
+    <string name="pref_images_inline_image_previews_spoiler_title">Ukázat spoilerové náhledy</string>
+    <string name="accessibility_subtitle_recipient_withperiod">Příjemce: %s.</string>
+    <string name="invalid_subreddit_name_message">Prosím, zadejte platný název subredditu.</string>
+    <string name="error_subreddit_info_permission_denied_message">Přihlášený uživatel nemá oprávnění číst informaci o tom subredditu.</string>
+    <string name="error_subreddit_info_permission_denied_title">Přístup odepřen</string>
+    <string name="error_subreddit_does_not_exist_message">Zadaný subreddit neexistuje.</string>
+    <string name="error_subreddit_does_not_exist_title">Neplatný subreddit</string>
+    <string name="post_submit_heading">Posílám příspěvek do %1$s jako uživatel %2$s.</string>
+    <string name="subreddit_selector_title">Vybrat subreddit</string>
+    <string name="post_submit_flair_none_selected">Nebyly vybrány žádné fléry</string>
+    <string name="post_submit_flair_none_available">Fléry nejsou</string>
+    <string name="mainmenu_sent_messages">Odeslané zprávy</string>
+    <string name="pref_behaviour_post_title_opens_comments_title">Titul příspěvku otevře komentáře</string>
+    <string name="pref_menus_comment_context_items_title">Položky nabídky Akce</string>
+    <string name="pref_menus_comments_header">Komentáře</string>
+    <string name="pref_accessibility_min_comment_height_none">Žádná</string>
+    <string name="pref_accessibility_min_comment_height_title">Minimální výška komentáře</string>
+    <string name="action_not_handled_by_installed_app_toast">Pro tuto akci nebyla nalezena žádná aplikace</string>
+    <string name="pref_item_backup_preferences_title">Možnosti zálohování</string>
+    <string name="prefs_category_backup_restore">Zálohování/Obnovení</string>
+    <string name="error_imgur_400_message">Imgut odmítá nahrání tohoto obrázku kvůli přenosovým omezením. Prosím, použijte jiný obrázkový server nebo opakujte později.</string>
+    <string name="error_http_429_message">Server požadavek odmítnul kvůli přenosovým omezením. Prosím, opakujte za okamžik.</string>
+    <string name="error_http_429_title">Příliš mnoho požadavků</string>
+    <string name="error_content_blocker_message">Vypadá to, že síť blokuje požadavky pomocí DNS. Zvažte použití VPN nebo přejděte na DNS přes HTTPS v síťových nastaveních Androidu.</string>
+    <string name="error_content_blocker_title">Zjištěno blokování obsahu</string>
+    <string name="error_imgur_400_title">Chyba Imguru</string>
+    <string name="error_tor_connection_message">Nelze se spojit s Torem. Prosím, ujistěte se, že Orbot je v chodu nebo vypněte Tor v síťových nastaveních.</string>
+    <string name="error_tor_connection_title">Chyba Toru</string>
+    <string name="error_post_submit_title">Chyba při odeslání příspěvku</string>
+    <string name="error_post_flair_required_message">Pravidla tohoto subredditu si u příspěvku žádají flér.</string>
+    <string name="error_post_flair_required_title">Flér je nutný</string>
+    <string name="error_no_file_manager_message">Operačnímu systému v tomto zařízení chybí správce souborů kompatibilní s Android Storage Access Framework. Je-li přítomen, pak je snad vypnut.</string>
+    <string name="error_no_file_manager_title">Správce souborů nenalezen</string>
+    <string name="backup_preferences_error_old_android_message">Tato funkce si žádá Android 4.4 a novější.</string>
+    <string name="backup_preferences_error_old_android_title">Systém je příliš zastaralý</string>
+    <string name="backup_preferences_success">Zálohování bylo úspěšné</string>
+    <string name="restore_preferences_success">Obnovení bylo úspěšné</string>
+    <string name="button_restore_preferences">Obnova</string>
+    <string name="button_cancel">Zrušit</string>
+    <string name="button_continue_anyway">Přesto pokračovat</string>
+    <string name="restore_preferences_error_version_warning_message">Vybraný soubor byl založen novější verzí RedReader. Obnovení možností z tohoto souboru může vést ke zborcení a nestabilitě.</string>
+    <string name="restore_preferences_error_version_warning_title">Varování</string>
+    <string name="restore_preferences_error_invalid_file_version_message">Vybraný soubor byl založen novější verzí RedReader a nelze jej otevřít.</string>
+    <string name="restore_preferences_error_invalid_file_contents_message">Vybraný soubor není platný soubor možnosti zálohy.</string>
+    <string name="restore_preferences_error_invalid_file_title">Neplatný soubor</string>
+    <string name="pref_item_restore_preferences_title">Možnosti obnovení</string>
 </resources>

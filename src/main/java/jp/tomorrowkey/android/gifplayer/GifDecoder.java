@@ -41,8 +41,14 @@ public class GifDecoder {
 	protected boolean lctFlag; // local color table flag
 	protected boolean interlace; // interlace flag
 	protected int lctSize; // local color table size
-	protected int ix, iy, iw, ih; // current image rectangle
-	protected int lrx, lry, lrw, lrh;
+	protected int ix;
+	protected int iy;
+	protected int iw;
+	protected int ih; // current image rectangle
+	protected int lrx;
+	protected int lry;
+	protected int lrw;
+	protected int lrh;
 	protected Bitmap image; // current frame
 	protected Bitmap lastBitmap; // previous frame
 	protected byte[] block = new byte[256]; // current data block
@@ -245,7 +251,23 @@ public class GifDecoder {
 	protected void decodeBitmapData() {
 		int nullCode = -1;
 		int npix = iw * ih;
-		int available, clear, code_mask, code_size, end_of_information, in_code, old_code, bits, code, count, i, datum, data_size, first, top, bi, pi;
+		int available;
+		int clear;
+		int code_mask;
+		int code_size;
+		int end_of_information;
+		int in_code;
+		int old_code;
+		int bits;
+		int code;
+		int count;
+		int i;
+		int datum;
+		int data_size;
+		int first;
+		int top;
+		int bi;
+		int pi;
 		if ((pixels == null) || (pixels.length < npix)) {
 			pixels = new byte[npix]; // allocate new pixel array
 		}

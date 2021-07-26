@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,11 +55,14 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -105,27 +108,29 @@ public class PostListingFragment extends RRFragment
 
 	private static final String SAVEDSTATE_FIRST_VISIBLE_POS = "firstVisiblePosition";
 
-	private PostListingURL mPostListingURL;
+	@NonNull private PostListingURL mPostListingURL;
 
-	private RedditSubreddit mSubreddit;
+	@Nullable private RedditSubreddit mSubreddit;
 
 	private UUID mSession;
 	private final int mPostCountLimit;
 	private TextView mLoadMoreView;
 
-	private final SharedPreferences mSharedPreferences;
+	private final SharedPrefsWrapper mSharedPreferences;
 
 	private final PostListingManager mPostListingManager;
 	private final RecyclerView mRecyclerView;
 
 	private final View mOuter;
 
-	private String mAfter = null, mLastAfter = null;
+	private String mAfter = null;
+	private String mLastAfter = null;
 	private CacheRequest mRequest;
 	private boolean mReadyToDownloadMore = false;
 	private long mTimestamp;
 
 	private int mPostCount = 0;
+	private boolean mPostsNotShown = false;
 	private final AtomicInteger mPostRefreshCount = new AtomicInteger(0);
 
 	private final HashSet<String> mPostIds = new HashSet<>(200);
@@ -156,7 +161,7 @@ public class PostListingFragment extends RRFragment
 			Toast.makeText(getActivity(), "Invalid post listing URL.", Toast.LENGTH_LONG)
 					.show();
 			// TODO proper error handling -- show error view
-			throw new RuntimeException("Invalid post listing URL");
+			throw new RuntimeException(e);
 		}
 
 		mSession = session;
@@ -171,7 +176,12 @@ public class PostListingFragment extends RRFragment
 							getActivity(),
 							new RRError(
 									"Invalid post listing URL",
-									"Could not navigate to that URL.")));
+									"Could not navigate to that URL.",
+									true,
+									new RuntimeException(),
+									null,
+									url.toString(),
+									null)));
 			// TODO proper error handling
 			throw new RuntimeException("Invalid post listing URL");
 		}
@@ -220,7 +230,7 @@ public class PostListingFragment extends RRFragment
 		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 			@Override
 			public void onScrolled(
-					final RecyclerView recyclerView,
+					@NonNull final RecyclerView recyclerView,
 					final int dx,
 					final int dy) {
 				onLoadMoreItemsCheck();
@@ -228,12 +238,6 @@ public class PostListingFragment extends RRFragment
 		});
 
 		General.setLayoutMatchParent(mRecyclerView);
-
-		int limit = 50;
-
-		if(mPostCountLimit > 0 && limit > mPostCountLimit) {
-			limit = mPostCountLimit;
-		}
 
 		final DownloadStrategy downloadStrategy;
 
@@ -341,7 +345,8 @@ public class PostListingFragment extends RRFragment
 												getActivity(),
 												new RRError(
 														context.getString(title),
-														context.getString(message))));
+														context.getString(message),
+														false)));
 									} else {
 										onSubredditReceived();
 										CacheManager.getInstance(context)
@@ -377,6 +382,7 @@ public class PostListingFragment extends RRFragment
 			case RedditURLParser.UNKNOWN_POST_LISTING_URL:
 			case RedditURLParser.USER_COMMENT_LISTING_URL:
 			case RedditURLParser.USER_PROFILE_URL:
+			case RedditURLParser.COMPOSE_MESSAGE_URL:
 				BugReportActivity.handleGlobalError(getActivity(), new RuntimeException(
 						"Unknown url type "
 								+ mPostListingURL.pathType()
@@ -534,12 +540,6 @@ public class PostListingFragment extends RRFragment
 						? DownloadStrategyIfNotCached.INSTANCE
 						: DownloadStrategyNever.INSTANCE;
 
-				int limit = 50;
-
-				if(mPostCountLimit > 0 && limit > mPostRefreshCount.get()) {
-					limit = mPostRefreshCount.get();
-				}
-
 				mRequest = createPostListingRequest(
 						newUri,
 						RedditAccountManager.getInstance(getActivity())
@@ -608,14 +608,14 @@ public class PostListingFragment extends RRFragment
 		}
 	}
 
-	public RedditSubreddit getSubreddit() {
-		return mSubreddit;
+	@NonNull
+	public PostListingURL getPostListingURL() {
+		return mPostListingURL;
 	}
 
-	private static Uri setUriDownloadCount(final Uri input, final int count) {
-		return input.buildUpon()
-				.appendQueryParameter("limit", String.valueOf(count))
-				.build();
+	@Nullable
+	public RedditSubreddit getSubreddit() {
+		return mSubreddit;
 	}
 
 	public void onPostsAdded() {
@@ -722,6 +722,11 @@ public class PostListingFragment extends RRFragment
 											activity,
 											mSharedPreferences);
 
+							final boolean showSpoilerPreviews
+									= PrefsUtility.images_inline_image_previews_spoiler(
+											activity,
+											mSharedPreferences);
+
 							final boolean downloadThumbnails
 									= PrefsUtility.appearance_thumbnails_show(
 											activity,
@@ -734,6 +739,11 @@ public class PostListingFragment extends RRFragment
 
 							final boolean showNsfwThumbnails
 									= PrefsUtility.appearance_thumbnails_nsfw_show(
+											activity,
+											mSharedPreferences);
+
+							final boolean showSpoilerThumbnails
+									= PrefsUtility.appearance_thumbnails_spoiler_show(
 											activity,
 											mSharedPreferences);
 
@@ -825,10 +835,12 @@ public class PostListingFragment extends RRFragment
 										&& mPostIds.add(post.getIdAlone())) {
 
 									final boolean downloadThisThumbnail = downloadThumbnails
-											&& (!post.over_18 || showNsfwThumbnails);
+											&& (!post.over_18 || showNsfwThumbnails)
+											&& (!post.spoiler || showSpoilerThumbnails);
 
 									final boolean downloadThisPreview = inlinePreviews
-											&& (!post.over_18 || showNsfwPreviews);
+											&& (!post.over_18 || showNsfwPreviews)
+											&& (!post.spoiler || showSpoilerPreviews);
 
 									final int positionInList = mPostCount;
 
@@ -852,6 +864,7 @@ public class PostListingFragment extends RRFragment
 									// has been clicked on AND user preference
 									// "hideReadPosts" is true
 									if(hideReadPosts && preparedPost.isRead()) {
+										mPostsNotShown = true;
 										continue;
 									}
 
@@ -873,7 +886,9 @@ public class PostListingFragment extends RRFragment
 																int type,
 														final Throwable t,
 														final Integer status,
-														final String readableMessage) {
+														final String readableMessage,
+														@NonNull final
+																Optional<FailedRequestBody> body) {
 												}
 
 												@Override
@@ -905,6 +920,8 @@ public class PostListingFragment extends RRFragment
 
 									mPostCount++;
 									mPostRefreshCount.decrementAndGet();
+								} else {
+									mPostsNotShown = true;
 								}
 							}
 
@@ -912,6 +929,39 @@ public class PostListingFragment extends RRFragment
 
 								mPostListingManager.addPosts(downloadedPosts);
 								mPostListingManager.setLoadingVisible(false);
+
+								if(mPostCount == 0
+										&& (mAfter == null || mAfter.equals(mLastAfter))) {
+									@StringRes final int emptyViewText;
+
+									if(mPostsNotShown) {
+										if(mPostListingURL.pathType()
+												== RedditURLParser.SEARCH_POST_LISTING_URL) {
+											emptyViewText = R.string.no_search_results_hidden;
+										} else {
+											emptyViewText = R.string.no_posts_yet_hidden;
+										}
+									} else {
+										if(mPostListingURL.pathType()
+												== RedditURLParser.SEARCH_POST_LISTING_URL) {
+											emptyViewText = R.string.no_search_results;
+										} else {
+											emptyViewText = R.string.no_posts_yet;
+										}
+									}
+
+									final View emptyView =
+											LayoutInflater.from(getContext()).inflate(
+													R.layout.no_items_yet,
+													mRecyclerView,
+													false);
+
+									((TextView)emptyView.findViewById(R.id.empty_view_text))
+											.setText(emptyViewText);
+
+									mPostListingManager.addViewToItems(emptyView);
+								}
+
 								onPostsAdded();
 
 								mRequest = null;
@@ -924,7 +974,8 @@ public class PostListingFragment extends RRFragment
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Parse failure");
+									"Parse failure",
+									Optional.of(new FailedRequestBody(value)));
 						}
 					}
 
@@ -933,7 +984,8 @@ public class PostListingFragment extends RRFragment
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
@@ -945,9 +997,12 @@ public class PostListingFragment extends RRFragment
 								error = new RRError(
 										activity.getString(R.string.error_postlist_cache_title),
 										activity.getString(R.string.error_postlist_cache_message),
+										false,
 										t,
 										httpStatus,
-										url.toString(), null);
+										url.toString(),
+										readableMessage,
+										body);
 
 							} else {
 								error = General.getGeneralErrorForFailure(
@@ -955,7 +1010,8 @@ public class PostListingFragment extends RRFragment
 										type,
 										t,
 										httpStatus,
-										url.toString());
+										url.toString(),
+										body);
 							}
 
 							mPostListingManager.addFooterError(new ErrorView(
@@ -978,7 +1034,9 @@ public class PostListingFragment extends RRFragment
 		final URI url = General.uriFromString(controller.getUri().toString());
 
 		if(url == null) {
-			Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
+			}
 			return;
 		}
 
@@ -1002,15 +1060,18 @@ public class PostListingFragment extends RRFragment
 									final int type,
 									@Nullable final Throwable t,
 									@Nullable final Integer httpStatus,
-									@Nullable final String readableMessage) {
+									@Nullable final String readableMessage,
+									@NonNull final Optional<FailedRequestBody> body) {
 
-								Log.e(
-										TAG,
-										"Failed to precache "
-												+ url.toString()
-												+ "(RequestFailureType code: "
-												+ type
-												+ ")");
+								if(General.isSensitiveDebugLoggingEnabled()) {
+									Log.e(
+											TAG,
+											"Failed to precache "
+													+ url.toString()
+													+ "(RequestFailureType code: "
+													+ type
+													+ ")");
+								}
 							}
 
 							@Override
@@ -1021,10 +1082,7 @@ public class PostListingFragment extends RRFragment
 									final boolean fromCache,
 									@Nullable final String mimetype) {
 
-								Log.i(
-										TAG,
-										"Successfully precached "
-												+ url.toString());
+								// Successfully precached
 							}
 						}));
 	}
@@ -1040,10 +1098,12 @@ public class PostListingFragment extends RRFragment
 		// Don't precache huge images
 		if(info.size != null
 				&& info.size > 15 * 1024 * 1024) {
-			Log.i(TAG, String.format(
-					"Not precaching '%s': too big (%d kB)",
-					info.urlOriginal,
-					info.size / 1024));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format(
+						"Not precaching '%s': too big (%d kB)",
+						info.urlOriginal,
+						info.size / 1024));
+			}
 			return;
 		}
 
@@ -1051,9 +1111,11 @@ public class PostListingFragment extends RRFragment
 		if(ImageInfo.MediaType.GIF.equals(info.mediaType)
 				&& !gifViewMode.downloadInApp) {
 
-			Log.i(TAG, String.format(
-					"Not precaching '%s': GIFs opened externally",
-					info.urlOriginal));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format(
+						"Not precaching '%s': GIFs opened externally",
+						info.urlOriginal));
+			}
 			return;
 		}
 
@@ -1061,9 +1123,11 @@ public class PostListingFragment extends RRFragment
 		if(ImageInfo.MediaType.IMAGE.equals(info.mediaType)
 				&& !imageViewMode.downloadInApp) {
 
-			Log.i(TAG, String.format(
-					"Not precaching '%s': images opened externally",
-					info.urlOriginal));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format(
+						"Not precaching '%s': images opened externally",
+						info.urlOriginal));
+			}
 			return;
 		}
 
@@ -1072,9 +1136,11 @@ public class PostListingFragment extends RRFragment
 		if(ImageInfo.MediaType.VIDEO.equals(info.mediaType)
 				&& !videoViewMode.downloadInApp) {
 
-			Log.i(TAG, String.format(
-					"Not precaching '%s': videos opened externally",
-					info.urlOriginal));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format(
+						"Not precaching '%s': videos opened externally",
+						info.urlOriginal));
+			}
 			return;
 		}
 
@@ -1098,7 +1164,9 @@ public class PostListingFragment extends RRFragment
 
 		final URI uri = General.uriFromString(url);
 		if(uri == null) {
-			Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
+			if(General.isSensitiveDebugLoggingEnabled()) {
+				Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
+			}
 			return;
 		}
 
@@ -1119,16 +1187,19 @@ public class PostListingFragment extends RRFragment
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
-						Log.e(TAG, String.format(
-								Locale.US,
-								"Failed to precache %s (RequestFailureType %d,"
-										+ " status %s, readable '%s')",
-								url,
-								type,
-								httpStatus == null ? "NULL" : httpStatus.toString(),
-								readableMessage == null ? "NULL" : readableMessage));
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.e(TAG, String.format(
+									Locale.US,
+									"Failed to precache %s (RequestFailureType %d,"
+											+ " status %s, readable '%s')",
+									url,
+									type,
+									httpStatus == null ? "NULL" : httpStatus.toString(),
+									readableMessage == null ? "NULL" : readableMessage));
+						}
 					}
 
 					@Override
@@ -1139,7 +1210,7 @@ public class PostListingFragment extends RRFragment
 							final boolean fromCache,
 							@Nullable final String mimetype) {
 
-						Log.i(TAG, "Successfully precached " + url);
+						// Successfully precached
 					}
 				}));
 	}

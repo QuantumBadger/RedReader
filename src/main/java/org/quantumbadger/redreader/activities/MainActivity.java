@@ -19,10 +19,11 @@ package org.quantumbadger.redreader.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -35,6 +36,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
+import androidx.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -46,6 +48,7 @@ import org.quantumbadger.redreader.common.FeatureFlagHandler;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ChangelogDialog;
@@ -108,7 +111,7 @@ public class MainActivity extends RefreshableActivity
 
 	private boolean isMenuShown = true;
 
-	private SharedPreferences sharedPreferences;
+	private SharedPrefsWrapper sharedPreferences;
 
 	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
@@ -167,12 +170,14 @@ public class MainActivity extends RefreshableActivity
 
 		Log.i(TAG, "[Migration] App version: " + appVersion);
 
-//		if(!sharedPreferences.contains("firstRunMessageShown")) {
+// TODO: Not supported
+
+//		if(!sharedPreferences.contains(FeatureFlagHandler.PREF_FIRST_RUN_MESSAGE_SHOWN)) {
 //
 //			Log.i(TAG, "[Migration] Showing first run message");
 //
 //			FeatureFlagHandler.handleFirstInstall(sharedPreferences);
-
+//
 //			new AlertDialog.Builder(this)
 //					.setTitle(R.string.firstrun_login_title)
 //					.setMessage(R.string.firstrun_login_message)
@@ -183,18 +188,20 @@ public class MainActivity extends RefreshableActivity
 //									null))
 //					.setNegativeButton(R.string.firstrun_login_button_later, null)
 //					.show();
-
-//			final SharedPreferences.Editor edit = sharedPreferences.edit();
-//			edit.putString("firstRunMessageShown", "true");
-//			edit.putInt("lastVersion", appVersion);
-//			edit.apply();
 //
-//		} else if(sharedPreferences.contains("lastVersion")) {
+//			sharedPreferences.edit()
+//					.putString(FeatureFlagHandler.PREF_FIRST_RUN_MESSAGE_SHOWN, "true")
+//					.putInt(FeatureFlagHandler.PREF_LAST_VERSION, appVersion)
+//					.apply();
+//
+//		} else if(sharedPreferences.contains(FeatureFlagHandler.PREF_LAST_VERSION)) {
 //			FeatureFlagHandler.handleLegacyUpgrade(this, appVersion, pInfo.versionName);
 //
 //		} else {
 //			Log.i(TAG, "[Migration] Last version not set.");
-//			sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
+//			sharedPreferences.edit()
+//					.putInt(FeatureFlagHandler.PREF_LAST_VERSION, appVersion)
+//					.apply();
 //			ChangelogDialog.newInstance().show(getSupportFragmentManager(), null);
 //		}
 
@@ -330,6 +337,54 @@ public class MainActivity extends RefreshableActivity
 
 				alertBuilder.setView(root);
 
+				editText.addTextChangedListener(new TextWatcher() {
+					@Override
+					public void beforeTextChanged(
+							final CharSequence s,
+							final int start,
+							final int count,
+							final int after) {}
+
+					@Override
+					public void onTextChanged(
+							final CharSequence s,
+							final int start,
+							final int before,
+							final int count) {
+
+						if(typeReturnValues[destinationType.getSelectedItemPosition()]
+								.equals("search")) {
+
+							return;
+						}
+
+						final String value = s.toString();
+						String type = null;
+
+						if(value.startsWith("http://") || value.startsWith("https://")) {
+							type = "url";
+
+						} else if(value.startsWith("/r/") || value.startsWith("r/")) {
+							type = "subreddit";
+
+						} else if(value.startsWith("/u/") || value.startsWith("u/")) {
+							type = "user";
+						}
+
+						if(type != null) {
+							for(int i = 0; i < typeReturnValues.length; i++) {
+								if(typeReturnValues[i].equals(type)) {
+									destinationType.setSelection(i);
+									break;
+								}
+							}
+						}
+					}
+
+					@Override
+					public void afterTextChanged(final Editable s) {}
+				});
+
 				destinationType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					@Override
 					public void onItemSelected(
@@ -337,17 +392,14 @@ public class MainActivity extends RefreshableActivity
 							final View view,
 							final int i,
 							final long l) {
+
 						final String typeName
 								= typeReturnValues[destinationType.getSelectedItemPosition()];
 
-						switch(typeName) {
-							case "subreddit":
-								editText.setAdapter(autocompleteAdapter);
-								break;
-
-							default:
-								editText.setAdapter(null);
-								break;
+						if("subreddit".equals(typeName)) {
+							editText.setAdapter(autocompleteAdapter);
+						} else {
+							editText.setAdapter(null);
 						}
 					}
 
@@ -378,9 +430,16 @@ public class MainActivity extends RefreshableActivity
 				startActivity(new Intent(this, InboxListingActivity.class));
 				break;
 
+			case MainMenuFragment.MENU_MENU_ACTION_SENT_MESSAGES: {
+				final Intent intent = new Intent(this, InboxListingActivity.class);
+				intent.putExtra("inboxType", "sent");
+				startActivity(intent);
+				break;
+			}
+
 			case MainMenuFragment.MENU_MENU_ACTION_MODMAIL: {
 				final Intent intent = new Intent(this, InboxListingActivity.class);
-				intent.putExtra("modmail", true);
+				intent.putExtra("inboxType", "modmail");
 				startActivity(intent);
 				break;
 			}
@@ -743,7 +802,7 @@ public class MainActivity extends RefreshableActivity
 				subredditSubscriptionState,
 				postsVisible
 						&& subredditDescription != null
-						&& subredditDescription.length() > 0,
+						&& !subredditDescription.isEmpty(),
 				true,
 				subredditPinState,
 				subredditBlockedState);
@@ -938,7 +997,16 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
+	protected void onResume() {
+		super.onResume();
+
+		if(mainMenuFragment != null) {
+			mainMenuFragment.onUpdateAnnouncement();
+		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
 
 		if(commentListingFragment != null) {
 			if(commentListingFragment.onOptionsItemSelected(item)) {

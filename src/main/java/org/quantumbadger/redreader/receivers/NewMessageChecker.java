@@ -23,7 +23,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabaseCorruptException;
 import android.graphics.Color;
 import android.os.Build;
@@ -41,11 +40,15 @@ import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
@@ -60,13 +63,14 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 	private static final String NOTIFICATION_CHANNEL_ID = "RRNewMessageChecker";
 
-	private static final String PREFS_SAVED_MESSAGE_ID = "LastMessageId";
-	private static final String PREFS_SAVED_MESSAGE_TIMESTAMP = "LastMessageTimestamp";
+	public static final String PREFS_SAVED_MESSAGE_ID = "LastMessageId";
+	public static final String PREFS_SAVED_MESSAGE_TIMESTAMP = "LastMessageTimestamp";
 
 
 	@Override
 	public void onReceive(final Context context, final Intent intent) {
 		checkForNewMessages(context);
+		AnnouncementDownloader.performDownload(context);
 	}
 
 	public static void checkForNewMessages(final Context context) {
@@ -107,6 +111,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.INBOX_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				false,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -124,7 +129,9 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 							final int messageCount = children.size();
 
-							Log.e(TAG, "Got response. Message count = " + messageCount);
+							if(General.isSensitiveDebugLoggingEnabled()) {
+								Log.i(TAG, "Got response. Message count = " + messageCount);
+							}
 
 							if(messageCount < 1) {
 								return;
@@ -139,12 +146,18 @@ public class NewMessageChecker extends BroadcastReceiver {
 							final String messageID;
 							final long messageTimestamp;
 
+							final String unknownUser = "["
+									+ context.getString(R.string.general_unknown)
+									+ "]";
+
 							switch(thing.getKind()) {
 								case COMMENT: {
 									final RedditComment comment = thing.asComment();
 									title = context.getString(
 											R.string.notification_comment,
-											comment.author);
+											General.nullAlternative(
+													comment.author,
+													unknownUser));
 									messageID = comment.name;
 									messageTimestamp = comment.created_utc;
 									break;
@@ -154,7 +167,10 @@ public class NewMessageChecker extends BroadcastReceiver {
 									final RedditMessage message = thing.asMessage();
 									title = context.getString(
 											R.string.notification_message,
-											message.author);
+											General.nullAlternative(
+													message.author,
+													message.subreddit_name_prefixed,
+													unknownUser));
 									messageID = message.name;
 									messageTimestamp = message.created_utc;
 									break;
@@ -168,7 +184,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 							// Check if the previously saved message is the same as the one we
 							// just received
 
-							final SharedPreferences prefs
+							final SharedPrefsWrapper prefs
 									= General.getSharedPrefs(context);
 							final String oldMessageId = prefs.getString(
 									PREFS_SAVED_MESSAGE_ID,
@@ -204,7 +220,8 @@ public class NewMessageChecker extends BroadcastReceiver {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Parse failure");
+									"Parse failure",
+									Optional.of(new FailedRequestBody(value)));
 						}
 					}
 
@@ -213,7 +230,8 @@ public class NewMessageChecker extends BroadcastReceiver {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						Log.e(TAG, "Request failed", t);
 					}

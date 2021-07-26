@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.common;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import info.guardianproject.netcipher.proxy.OrbotHelper;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.cache.CacheDownload;
@@ -55,7 +54,7 @@ public class TorCommon {
 
 		General.checkThisIsUIThread();
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(context);
 
 		final boolean torEnabled = PrefsUtility.network_tor(context, sharedPreferences);

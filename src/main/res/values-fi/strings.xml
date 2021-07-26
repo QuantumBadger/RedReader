@@ -160,7 +160,7 @@
     <string name="comment_reply_submitting_message">Hetki…</string>
     <string name="comment_reply_oncancel">Odotetaan toiminnon tulosta…</string>
     <string name="comment_reply_done">Vastaus lähetetty. Kommenti näkyy päivittämisen jälkeen.</string>
-    <string name="post_submit_subreddit_hint">Alireddit</string>
+    <string name="subreddit_selection_textbox_hint">Alireddit</string>
     <string name="bug_button_send">Lähetä virheilmoitus sähköpostilla</string>
     <string name="bug_button_ignore">Älä lähetä virheilmoitusta</string>
     <string name="error_403_title">Virheellinen käyttäjä</string>

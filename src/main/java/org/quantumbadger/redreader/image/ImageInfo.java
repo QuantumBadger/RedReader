@@ -22,6 +22,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.apache.commons.text.StringEscapeUtils;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.ParcelHelper;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
@@ -170,12 +171,13 @@ public class ImageInfo implements Parcelable {
 		@Nullable final Long widthPreview;
 		@Nullable final Long heightPreview;
 
-		final JsonObject mobilePoster = object.getObjectAtPath("content_urls", "mobilePoster");
+		final Optional<JsonObject> mobilePoster
+				= object.getObjectAtPath("content_urls", "mobilePoster");
 
-		if(mobilePoster != null) {
-			urlPreview = mobilePoster.getString("url");
-			widthPreview = mobilePoster.getLong("width");
-			heightPreview = mobilePoster.getLong("height");
+		if(mobilePoster.isPresent()) {
+			urlPreview = mobilePoster.get().getString("url");
+			widthPreview = mobilePoster.get().getLong("width");
+			heightPreview = mobilePoster.get().getLong("height");
 
 		} else {
 			urlPreview = null;

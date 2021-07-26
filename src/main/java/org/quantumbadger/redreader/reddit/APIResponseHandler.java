@@ -17,14 +17,18 @@
 
 package org.quantumbadger.redreader.reddit;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class APIResponseHandler {
@@ -40,7 +44,8 @@ public abstract class APIResponseHandler {
 		UNKNOWN,
 		TOO_FAST,
 		TOO_LONG,
-		ALREADY_SUBMITTED
+		ALREADY_SUBMITTED,
+		POST_FLAIR_REQUIRED
 	}
 
 	private APIResponseHandler(final AppCompatActivity context) {
@@ -51,40 +56,62 @@ public abstract class APIResponseHandler {
 
 	protected abstract void onFailure(
 			@CacheRequest.RequestFailureType int type,
-			Throwable t,
-			Integer status,
-			String readableMessage);
+			@Nullable Throwable t,
+			@Nullable Integer status,
+			@Nullable String readableMessage,
+			@NonNull Optional<FailedRequestBody> response);
 
-	protected abstract void onFailure(APIFailureType type);
+	protected abstract void onFailure(
+			@NonNull APIFailureType type,
+			@Nullable String debuggingContext,
+			@NonNull Optional<FailedRequestBody> response);
 
 	public final void notifyFailure(
 			final @CacheRequest.RequestFailureType int type,
-			final Throwable t,
-			final Integer status,
-			final String readableMessage) {
+			@Nullable final Throwable t,
+			@Nullable final Integer status,
+			@Nullable final String readableMessage,
+			@NonNull final Optional<FailedRequestBody> response) {
 		try {
-			onFailure(type, t, status, readableMessage);
+			onFailure(type, t, status, readableMessage, response);
 		} catch(final Throwable t1) {
 			try {
 				onCallbackException(t1);
 			} catch(final Throwable t2) {
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
+				BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
 		}
 	}
 
-	public final void notifyFailure(final APIFailureType type) {
+	public final void notifyFailure(
+			@NonNull final APIFailureType type,
+			@Nullable final String debuggingContext,
+			@NonNull final Optional<FailedRequestBody> response) {
+
 		try {
-			onFailure(type);
+			onFailure(type, debuggingContext, response);
 		} catch(final Throwable t1) {
 			try {
 				onCallbackException(t1);
 			} catch(final Throwable t2) {
-				BugReportActivity.addGlobalError(new RRError(null, null, t1));
+				BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 				BugReportActivity.handleGlobalError(context, t2);
 			}
 		}
+	}
+
+	public static abstract class SubmitResponseHandler extends APIResponseHandler {
+
+		protected SubmitResponseHandler(@NonNull final AppCompatActivity context) {
+			super(context);
+		}
+
+		public abstract void onSubmitErrors(@NonNull final ArrayList<String> errors);
+
+		public abstract void onSuccess(
+				@NonNull final Optional<String> redirectUrl,
+				@NonNull final Optional<String> thingId);
 	}
 
 	public static abstract class ActionResponseHandler extends APIResponseHandler {
@@ -93,20 +120,20 @@ public abstract class APIResponseHandler {
 			super(context);
 		}
 
-		public final void notifySuccess(@Nullable final String redirectUrl) {
+		public final void notifySuccess() {
 			try {
-				onSuccess(redirectUrl);
+				onSuccess();
 			} catch(final Throwable t1) {
 				try {
 					onCallbackException(t1);
 				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, t1));
+					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
 			}
 		}
 
-		protected abstract void onSuccess(@Nullable final String redirectUrl);
+		protected abstract void onSuccess();
 	}
 
 	public static abstract class NewCaptchaResponseHandler extends APIResponseHandler {
@@ -122,7 +149,7 @@ public abstract class APIResponseHandler {
 				try {
 					onCallbackException(t1);
 				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, t1));
+					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
 			}
@@ -146,7 +173,7 @@ public abstract class APIResponseHandler {
 				try {
 					onCallbackException(t1);
 				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, t1));
+					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
 			}
@@ -159,7 +186,7 @@ public abstract class APIResponseHandler {
 				try {
 					onCallbackException(t1);
 				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, t1));
+					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
 			}
@@ -172,7 +199,7 @@ public abstract class APIResponseHandler {
 				try {
 					onCallbackException(t1);
 				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, t1));
+					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
 			}
@@ -198,7 +225,7 @@ public abstract class APIResponseHandler {
 				try {
 					onCallbackException(t1);
 				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, t1));
+					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
 			}
@@ -211,7 +238,7 @@ public abstract class APIResponseHandler {
 				try {
 					onCallbackException(t1);
 				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, t1));
+					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 					BugReportActivity.handleGlobalError(context, t2);
 				}
 			}

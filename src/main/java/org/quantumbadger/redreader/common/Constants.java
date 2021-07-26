@@ -50,6 +50,10 @@ public final class Constants {
 		public static boolean isVideo(final String mimetype) {
 			return mimetype.startsWith("video/");
 		}
+
+		public static boolean isOctetStream(final String mimetype) {
+			return mimetype.equals("application/octet-stream");
+		}
 	}
 
 	public static final class Reddit {
@@ -115,26 +119,25 @@ public final class Constants {
 					.collect(new ArrayList<>(defaultSubredditStrings.length));
 		}
 
-		public static final String
-				SCHEME_HTTPS = "https",
-				DOMAIN_HTTPS = "oauth.reddit.com",
-				DOMAIN_HTTPS_HUMAN = "reddit.com",
-				PATH_VOTE = "/api/vote",
-				PATH_SAVE = "/api/save",
-				PATH_HIDE = "/api/hide",
-				PATH_UNSAVE = "/api/unsave",
-				PATH_UNHIDE = "/api/unhide",
-				PATH_REPORT = "/api/report",
-				PATH_DELETE = "/api/del",
-				PATH_SUBSCRIBE = "/api/subscribe",
-				PATH_SUBREDDITS_MINE_SUBSCRIBER
-						= "/subreddits/mine/subscriber.json?limit=100",
-				PATH_SUBREDDITS_MINE_MODERATOR
-						= "/subreddits/mine/moderator.json?limit=100",
-				PATH_SUBREDDITS_POPULAR = "/subreddits/popular.json",
-				PATH_MULTIREDDITS_MINE = "/api/multi/mine.json",
-				PATH_COMMENTS = "/comments/",
-				PATH_ME = "/api/v1/me";
+		public static final String SCHEME_HTTPS = "https";
+		public static final String DOMAIN_HTTPS = "oauth.reddit.com";
+		public static final String DOMAIN_HTTPS_HUMAN = "reddit.com";
+		public static final String PATH_VOTE = "/api/vote";
+		public static final String PATH_SAVE = "/api/save";
+		public static final String PATH_HIDE = "/api/hide";
+		public static final String PATH_UNSAVE = "/api/unsave";
+		public static final String PATH_UNHIDE = "/api/unhide";
+		public static final String PATH_REPORT = "/api/report";
+		public static final String PATH_DELETE = "/api/del";
+		public static final String PATH_SUBSCRIBE = "/api/subscribe";
+		public static final String PATH_SUBREDDITS_MINE_SUBSCRIBER
+						= "/subreddits/mine/subscriber.json?limit=100";
+		public static final String PATH_SUBREDDITS_MINE_MODERATOR
+						= "/subreddits/mine/moderator.json?limit=100";
+		public static final String PATH_SUBREDDITS_POPULAR = "/subreddits/popular.json";
+		public static final String PATH_MULTIREDDITS_MINE = "/api/multi/mine.json";
+		public static final String PATH_COMMENTS = "/comments/";
+		public static final String PATH_ME = "/api/v1/me";
 
 		public static String getScheme() {
 			return SCHEME_HTTPS;
@@ -194,7 +197,13 @@ public final class Constants {
 		public static boolean isApiAlreadySubmitted(final String str) {
 			return ".error.ALREADY_SUB.field-url".equals(str)
 					|| (str != null
-					&& str.contains("that link has already been submitted"));
+							&& str.contains("that link has already been submitted"));
+		}
+
+		public static boolean isPostFlairRequired(final String str) {
+			return ".error.SUBMIT_VALIDATION_FLAIR_REQUIRED.field-flair".equals(str)
+					|| (str != null
+							&& str.contains("Your post must contain post flair."));
 		}
 
 		public static boolean isApiError(final String str) {
@@ -209,36 +218,36 @@ public final class Constants {
 	}
 
 	public static final class Priority {
-		public static final int
-				CAPTCHA = -600,
-				API_ACTION = -500,
-				API_MULTIREDDIT_LIST = -200,
-				API_SUBREDDIT_LIST = -100,
-				API_SUBREDDIT_INVIDIVUAL = -250,
-				API_POST_LIST = -200,
-				API_COMMENT_LIST = -300,
-				THUMBNAIL = 100,
-				INLINE_IMAGE_PREVIEW = 100,
-				IMAGE_PRECACHE = 500,
-				COMMENT_PRECACHE = 500,
-				IMAGE_VIEW = -400,
-				API_USER_ABOUT = -500,
-				API_INBOX_LIST = -500;
+		public static final int CAPTCHA = -600;
+		public static final int API_ACTION = -500;
+		public static final int API_MULTIREDDIT_LIST = -200;
+		public static final int API_SUBREDDIT_LIST = -100;
+		public static final int API_SUBREDDIT_INVIDIVUAL = -250;
+		public static final int API_POST_LIST = -200;
+		public static final int API_COMMENT_LIST = -300;
+		public static final int THUMBNAIL = 100;
+		public static final int INLINE_IMAGE_PREVIEW = 100;
+		public static final int IMAGE_PRECACHE = 500;
+		public static final int COMMENT_PRECACHE = 500;
+		public static final int IMAGE_VIEW = -400;
+		public static final int API_USER_ABOUT = -500;
+		public static final int API_INBOX_LIST = -500;
+		public static final int DEV_ANNOUNCEMENTS = 600;
 	}
 
 	public static final class FileType {
-		public static final int NOCACHE = -1,
-				SUBREDDIT_LIST = 100,
-				SUBREDDIT_ABOUT = 101,
-				MULTIREDDIT_LIST = 102,
-				POST_LIST = 110,
-				COMMENT_LIST = 120,
-				USER_ABOUT = 130,
-				INBOX_LIST = 140,
-				THUMBNAIL = 200,
-				IMAGE = 201,
-				CAPTCHA = 202,
-				INLINE_IMAGE_PREVIEW = 203,
-				IMAGE_INFO = 300;
+		public static final int NOCACHE = -1;
+		public static final int SUBREDDIT_LIST = 100;
+		public static final int SUBREDDIT_ABOUT = 101;
+		public static final int MULTIREDDIT_LIST = 102;
+		public static final int POST_LIST = 110;
+		public static final int COMMENT_LIST = 120;
+		public static final int USER_ABOUT = 130;
+		public static final int INBOX_LIST = 140;
+		public static final int THUMBNAIL = 200;
+		public static final int IMAGE = 201;
+		public static final int CAPTCHA = 202;
+		public static final int INLINE_IMAGE_PREVIEW = 203;
+		public static final int IMAGE_INFO = 300;
 	}
 }

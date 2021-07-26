@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +32,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
@@ -111,7 +111,7 @@ public final class OptionsMenuUtility {
 			final Boolean subredditPinned,
 			final Boolean subredditBlocked) {
 
-		final SharedPreferences preferences
+		final SharedPrefsWrapper preferences
 				= General.getSharedPrefs(activity);
 		final EnumMap<AppbarItemsPref, Integer> appbarItemsPrefs
 				= PrefsUtility.pref_menus_appbar_items(activity, preferences);
@@ -489,12 +489,12 @@ public final class OptionsMenuUtility {
 		((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
 				.getSize(windowSize);
 
-		final int BUTTON_SIZE = General.dpToPixels(activity, 48);
-		final int BACK_BUTTON_SIZE = General.dpToPixels(activity, 52);
+		final int buttonSize = General.dpToPixels(activity, 48);
+		final int backButtonSize = General.dpToPixels(activity, 52);
 
 		int buttonSlotsRemaining = (windowSize.x - (backButtonShown
-				? BACK_BUTTON_SIZE
-				: 0)) / BUTTON_SIZE;
+				? backButtonSize
+				: 0)) / buttonSize;
 
 		//Count show-if-room buttons, subtract always-show buttons from
 		// total-remaining, see if we MUST show the overflow menu
@@ -664,7 +664,7 @@ public final class OptionsMenuUtility {
 						R.string.options_theme)
 						.setOnMenuItemClickListener(item -> {
 
-							final SharedPreferences prefs
+							final SharedPrefsWrapper prefs
 									= General.getSharedPrefs(activity);
 							final PrefsUtility.AppearanceTheme currentTheme
 									= PrefsUtility.appearance_theme(activity, prefs);
@@ -693,13 +693,12 @@ public final class OptionsMenuUtility {
 									themeNames,
 									selectedPos,
 									(dialog1, item1) -> {
-										final SharedPreferences.Editor editor
-												= prefs.edit();
-										editor.putString(
-												activity.getString(
+										prefs.edit()
+												.putString(
+														activity.getString(
 														R.string.pref_appearance_theme_key),
-												themeValues[item1]);
-										editor.apply();
+														themeValues[item1])
+												.apply();
 										dialog1.dismiss();
 									});
 
@@ -1043,11 +1042,40 @@ public final class OptionsMenuUtility {
 		if(includeRising) {
 			addSort(activity, sortPosts, R.string.sort_posts_rising, PostSort.RISING);
 		}
+
+		final SubMenu sortsPostsControversial =
+				sortPosts.addSubMenu(R.string.sort_posts_controversial);
+
 		addSort(
 				activity,
-				sortPosts,
-				R.string.sort_posts_controversial,
-				PostSort.CONTROVERSIAL);
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_hour,
+				PostSort.CONTROVERSIAL_HOUR);
+		addSort(
+				activity,
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_today,
+				PostSort.CONTROVERSIAL_DAY);
+		addSort(
+				activity,
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_week,
+				PostSort.CONTROVERSIAL_WEEK);
+		addSort(
+				activity,
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_month,
+				PostSort.CONTROVERSIAL_MONTH);
+		addSort(
+				activity,
+				sortsPostsControversial,
+				R.string.sort_posts_controversial_year,
+				PostSort.CONTROVERSIAL_YEAR);
+		addSort(
+				activity, sortsPostsControversial,
+				R.string.sort_posts_controversial_all,
+				PostSort.CONTROVERSIAL_ALL);
+
 		if(includeBest) {
 			addSort(activity, sortPosts, R.string.sort_posts_best, PostSort.BEST);
 		}
@@ -1086,11 +1114,98 @@ public final class OptionsMenuUtility {
 			sortPosts.getItem().setShowAsAction(handleShowAsActionIfRoom(showAsAction));
 		}
 
-		addSort(activity, sortPosts, R.string.sort_posts_relevance, PostSort.RELEVANCE);
-		addSort(activity, sortPosts, R.string.sort_posts_new, PostSort.NEW);
-		addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT);
-		addSort(activity, sortPosts, R.string.sort_posts_top, PostSort.TOP);
-		addSort(activity, sortPosts, R.string.sort_posts_comments, PostSort.COMMENTS);
+		final SubMenu sortPostsRelevance = sortPosts.addSubMenu(R.string.sort_posts_relevance);
+
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_hour,
+				PostSort.RELEVANCE_HOUR);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_today,
+				PostSort.RELEVANCE_DAY);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_week,
+				PostSort.RELEVANCE_WEEK);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_month,
+				PostSort.RELEVANCE_MONTH);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_year,
+				PostSort.RELEVANCE_YEAR);
+		addSort(
+				activity,
+				sortPostsRelevance,
+				R.string.sort_posts_relevance_all,
+				PostSort.RELEVANCE_ALL);
+
+		final SubMenu sortPostsNew = sortPosts.addSubMenu(R.string.sort_posts_new);
+
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_hour, PostSort.NEW_HOUR);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_today, PostSort.NEW_DAY);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_week, PostSort.NEW_WEEK);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_month, PostSort.NEW_MONTH);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_year, PostSort.NEW_YEAR);
+		addSort(activity, sortPostsNew, R.string.sort_posts_new_all, PostSort.NEW_ALL);
+
+		final SubMenu sortPostsHot = sortPosts.addSubMenu(R.string.sort_posts_hot);
+
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_hour, PostSort.HOT_HOUR);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_today, PostSort.HOT_DAY);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_week, PostSort.HOT_WEEK);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_month, PostSort.HOT_MONTH);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_year, PostSort.HOT_YEAR);
+		addSort(activity, sortPostsHot, R.string.sort_posts_hot_all, PostSort.HOT_ALL);
+
+		final SubMenu sortPostsTop = sortPosts.addSubMenu(R.string.sort_posts_top);
+
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_hour, PostSort.TOP_HOUR);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_today, PostSort.TOP_DAY);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_week, PostSort.TOP_WEEK);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_month, PostSort.TOP_MONTH);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_year, PostSort.TOP_YEAR);
+		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostSort.TOP_ALL);
+
+		final SubMenu sortPostsComments = sortPosts.addSubMenu(R.string.sort_posts_comments);
+
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_hour,
+				PostSort.COMMENTS_HOUR);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_today,
+				PostSort.COMMENTS_DAY);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_week,
+				PostSort.COMMENTS_WEEK);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_month,
+				PostSort.COMMENTS_MONTH);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_year,
+				PostSort.COMMENTS_YEAR);
+		addSort(
+				activity,
+				sortPostsComments,
+				R.string.sort_posts_comments_all,
+				PostSort.COMMENTS_ALL);
 	}
 
 	private static void addSort(
@@ -1208,11 +1323,40 @@ public final class OptionsMenuUtility {
 				sortComments,
 				R.string.sort_comments_new,
 				UserCommentListingURL.Sort.NEW);
+
+		final SubMenu sortCommentsControversial
+				= sortComments.addSubMenu(R.string.sort_comments_controversial);
+
 		addSort(
 				activity,
-				sortComments,
-				R.string.sort_comments_controversial,
-				UserCommentListingURL.Sort.CONTROVERSIAL);
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_hour,
+				UserCommentListingURL.Sort.CONTROVERSIAL_HOUR);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_today,
+				UserCommentListingURL.Sort.CONTROVERSIAL_DAY);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_week,
+				UserCommentListingURL.Sort.CONTROVERSIAL_WEEK);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_month,
+				UserCommentListingURL.Sort.CONTROVERSIAL_MONTH);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_year,
+				UserCommentListingURL.Sort.CONTROVERSIAL_YEAR);
+		addSort(
+				activity,
+				sortCommentsControversial,
+				R.string.sort_posts_controversial_all,
+				UserCommentListingURL.Sort.CONTROVERSIAL_ALL);
 
 		final SubMenu sortCommentsTop
 				= sortComments.addSubMenu(R.string.sort_comments_top);
@@ -1265,9 +1409,9 @@ public final class OptionsMenuUtility {
 	private static class QuickAccountsSort {
 		//Constants for sorting the quick accounts submenu properly
 		//Real accounts first, then Anonymous, then the account dialog
-		static final int ACCOUNT = 2,
-				ANONYMOUS = 3,
-				MANAGER = 4;
+		static final int ACCOUNT = 2;
+		static final int ANONYMOUS = 3;
+		static final int MANAGER = 4;
 	}
 
 	private static void addAccounts(
@@ -1288,7 +1432,7 @@ public final class OptionsMenuUtility {
 						&& accountsList.size() > 1) {
 
 			//Quick account switcher is on, create its SubMenu and add it to the main menu
-			final int ACCOUNTS_GROUP = 1;
+			final int accountsGroup = 1;
 
 			final SubMenu accountsMenu = menu.addSubMenu(
 					Menu.NONE,
@@ -1305,7 +1449,7 @@ public final class OptionsMenuUtility {
 			//Each account gets a radio button to show which one is active
 			for(final RedditAccount account : accountsList) {
 				final MenuItem accountsMenuItem = accountsMenu.add(
-						ACCOUNTS_GROUP,
+						accountsGroup,
 						Menu.NONE,
 						account.isAnonymous()
 								? QuickAccountsSort.ANONYMOUS
@@ -1323,7 +1467,7 @@ public final class OptionsMenuUtility {
 				}
 			}
 
-			accountsMenu.setGroupCheckable(ACCOUNTS_GROUP,true, true);
+			accountsMenu.setGroupCheckable(accountsGroup,true, true);
 
 			//Add a MenuItem for the full account dialog, so it's still accessible for changes
 			add(activity, accountsMenu, Option.ACCOUNTS);

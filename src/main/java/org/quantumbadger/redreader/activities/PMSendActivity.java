@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -36,9 +37,11 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -48,6 +51,7 @@ public class PMSendActivity extends BaseActivity {
 
 	public static final String EXTRA_RECIPIENT = "recipient";
 	public static final String EXTRA_SUBJECT = "subject";
+	public static final String EXTRA_TEXT = "text";
 
 	private static final String SAVED_STATE_RECIPIENT = "recipient";
 	private static final String SAVED_STATE_TEXT = "pm_text";
@@ -60,7 +64,9 @@ public class PMSendActivity extends BaseActivity {
 
 	private boolean mSendSuccess;
 
-	private static String lastText, lastRecipient, lastSubject;
+	private static String lastText;
+	private static String lastRecipient;
+	private static String lastSubject;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -105,7 +111,11 @@ public class PMSendActivity extends BaseActivity {
 				initialSubject = lastSubject;
 			}
 
-			initialText = lastText;
+			if(intent != null && intent.hasExtra(EXTRA_TEXT)) {
+				initialText = intent.getStringExtra(EXTRA_TEXT);
+			} else {
+				initialText = lastText;
+			}
 		}
 
 		if(initialRecipient != null) {
@@ -130,7 +140,7 @@ public class PMSendActivity extends BaseActivity {
 			}
 		}
 
-		if(usernames.size() == 0) {
+		if(usernames.isEmpty()) {
 			General.quickToast(this, getString(R.string.error_toast_notloggedin));
 			finish();
 		}
@@ -146,7 +156,7 @@ public class PMSendActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(SAVED_STATE_RECIPIENT, recipientEdit.getText().toString());
 		outState.putString(SAVED_STATE_SUBJECT, subjectEdit.getText().toString());
@@ -195,7 +205,7 @@ public class PMSendActivity extends BaseActivity {
 			final APIResponseHandler.ActionResponseHandler handler
 					= new APIResponseHandler.ActionResponseHandler(this) {
 				@Override
-				protected void onSuccess(@Nullable final String redirectUrl) {
+				protected void onSuccess() {
 					AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
 						General.safeDismissDialog(progressDialog);
@@ -223,25 +233,32 @@ public class PMSendActivity extends BaseActivity {
 						@CacheRequest.RequestFailureType final int type,
 						final Throwable t,
 						final Integer status,
-						final String readableMessage) {
+						final String readableMessage,
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
 							type,
 							t,
 							status,
-							null);
+							"PM send",
+							response);
 
 					General.showResultDialog(PMSendActivity.this, error);
 					General.safeDismissDialog(progressDialog);
 				}
 
 				@Override
-				protected void onFailure(final APIFailureType type) {
+				protected void onFailure(
+						@NonNull final APIFailureType type,
+						@Nullable final String debuggingContext,
+						@NonNull final Optional<FailedRequestBody> response) {
 
 					final RRError error = General.getGeneralErrorForFailure(
 							context,
-							type);
+							type,
+							debuggingContext,
+							response);
 
 					General.showResultDialog(PMSendActivity.this, error);
 					General.safeDismissDialog(progressDialog);

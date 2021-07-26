@@ -53,8 +53,10 @@ public class ImageViewScrollbars extends RRGLRenderable {
 
 	private final CoordinateHelper mCoordinateHelper;
 
-	private int mResX, mResY;
-	private final int mImageResX, mImageResY;
+	private int mResX;
+	private int mResY;
+	private final int mImageResX;
+	private final int mImageResY;
 
 	private final int mDimMarginSides;
 	private final int mDimMarginEnds;

@@ -23,6 +23,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
@@ -35,11 +36,14 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -49,6 +53,7 @@ import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Locale;
 
@@ -99,119 +104,164 @@ public class RedditAPICommentAction {
 			final RedditChangeDataManager changeDataManager,
 			final boolean isArchived) {
 
+		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(activity);
+
+		final EnumSet<RedditCommentAction> itemPref
+				= PrefsUtility.pref_menus_comment_context_items(activity, sharedPreferences);
+
+		if(itemPref.isEmpty()) {
+			return;
+		}
+
 		final RedditAccount user =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		final ArrayList<RCVMenuItem> menu = new ArrayList<>();
 
+		// TODO: Not supported
 //		if(!user.isAnonymous()) {
 //
-////			if(!isArchived) {
-////				if(!changeDataManager.isUpvoted(comment)) {
-////					menu.add(new RCVMenuItem(
-////							activity,
-////							R.string.action_upvote,
-////							RedditCommentAction.UPVOTE));
-////				} else {
-////					menu.add(new RCVMenuItem(
-////							activity,
-////							R.string.action_upvote_remove,
-////							RedditCommentAction.UNVOTE));
-////				}
-////
-////				if(!changeDataManager.isDownvoted(comment)) {
-////					menu.add(new RCVMenuItem(
-////							activity,
-////							R.string.action_downvote,
-////							RedditCommentAction.DOWNVOTE));
-////				} else {
-////					menu.add(new RCVMenuItem(
-////							activity,
-////							R.string.action_downvote_remove,
-////							RedditCommentAction.UNVOTE));
-////				}
-////			}
-////
-////			if(changeDataManager.isSaved(comment)) {
-////				menu.add(new RCVMenuItem(
-////						activity,
-////						R.string.action_unsave,
-////						RedditCommentAction.UNSAVE));
-////			} else {
-////				menu.add(new RCVMenuItem(
-////						activity,
-////						R.string.action_save,
-////						RedditCommentAction.SAVE));
-////			}
-////
-////			menu.add(new RCVMenuItem(
-////					activity,
-////					R.string.action_report,
-////					RedditCommentAction.REPORT));
-////
-////			if(!isArchived) {
-////				menu.add(new RCVMenuItem(
-////						activity,
-////						R.string.action_reply,
-////						RedditCommentAction.REPLY));
-////			}
+//			if(!isArchived) {
+//
+//				if(itemPref.contains(RedditCommentAction.UPVOTE)) {
+//					if(!changeDataManager.isUpvoted(comment)) {
+//						menu.add(new RCVMenuItem(
+//								activity,
+//								R.string.action_upvote,
+//								RedditCommentAction.UPVOTE));
+//					} else {
+//						menu.add(new RCVMenuItem(
+//								activity,
+//								R.string.action_upvote_remove,
+//								RedditCommentAction.UNVOTE));
+//					}
+//				}
+//
+//				if(itemPref.contains(RedditCommentAction.DOWNVOTE)) {
+//					if(!changeDataManager.isDownvoted(comment)) {
+//						menu.add(new RCVMenuItem(
+//								activity,
+//								R.string.action_downvote,
+//								RedditCommentAction.DOWNVOTE));
+//					} else {
+//						menu.add(new RCVMenuItem(
+//								activity,
+//								R.string.action_downvote_remove,
+//								RedditCommentAction.UNVOTE));
+//					}
+//				}
+//			}
+//
+//			if(itemPref.contains(RedditCommentAction.SAVE)) {
+//				if(changeDataManager.isSaved(comment)) {
+//					menu.add(new RCVMenuItem(
+//							activity,
+//							R.string.action_unsave,
+//							RedditCommentAction.UNSAVE));
+//				} else {
+//					menu.add(new RCVMenuItem(
+//							activity,
+//							R.string.action_save,
+//							RedditCommentAction.SAVE));
+//				}
+//			}
+//
+//			if(itemPref.contains(RedditCommentAction.REPORT)) {
+//				menu.add(new RCVMenuItem(
+//						activity,
+//						R.string.action_report,
+//						RedditCommentAction.REPORT));
+//			}
+//
+//			if(itemPref.contains(RedditCommentAction.REPLY) && !isArchived) {
+//				menu.add(new RCVMenuItem(
+//						activity,
+//						R.string.action_reply,
+//						RedditCommentAction.REPLY));
+//			}
 //
 //			if(user.username.equalsIgnoreCase(comment.getParsedComment()
 //					.getRawComment().author)) {
-//				if(!isArchived) {
+//				if(itemPref.contains(RedditCommentAction.EDIT) && !isArchived) {
 //					menu.add(new RCVMenuItem(
 //							activity,
 //							R.string.action_edit,
 //							RedditCommentAction.EDIT));
 //				}
-//				menu.add(new RCVMenuItem(
-//						activity,
-//						R.string.action_delete,
-//						RedditCommentAction.DELETE));
+//
+//				if(itemPref.contains(RedditCommentAction.DELETE)) {
+//					menu.add(new RCVMenuItem(
+//							activity,
+//							R.string.action_delete,
+//							RedditCommentAction.DELETE));
+//				}
 //			}
 //		}
+//
+//		if(itemPref.contains(RedditCommentAction.CONTEXT)) {
+//			menu.add(new RCVMenuItem(
+//					activity,
+//					R.string.action_comment_context,
+//					RedditCommentAction.CONTEXT));
+//		}
 
-//		menu.add(new RCVMenuItem(
-//				activity,
-//				R.string.action_comment_context,
-//				RedditCommentAction.CONTEXT));
-		menu.add(new RCVMenuItem(
-				activity,
-				R.string.action_comment_go_to,
-				RedditCommentAction.GO_TO_COMMENT));
+		if(itemPref.contains(RedditCommentAction.GO_TO_COMMENT)) {
+			menu.add(new RCVMenuItem(
+					activity,
+					R.string.action_comment_go_to,
+					RedditCommentAction.GO_TO_COMMENT));
+		}
 
-//		menu.add(new RCVMenuItem(
-//				activity,
-//				R.string.action_comment_links,
-//				RedditCommentAction.COMMENT_LINKS));
+//		if(itemPref.contains(RedditCommentAction.COMMENT_LINKS)) {
+//			menu.add(new RCVMenuItem(
+//					activity,
+//					R.string.action_comment_links,
+//					RedditCommentAction.COMMENT_LINKS));
+//		}
 
-		if(commentListingFragment != null) {
+
+		if(itemPref.contains(RedditCommentAction.COLLAPSE) && commentListingFragment != null) {
 			menu.add(new RCVMenuItem(
 					activity,
 					R.string.action_collapse,
 					RedditCommentAction.COLLAPSE));
 		}
+
 //
-//		menu.add(new RCVMenuItem(
-//				activity,
-//				R.string.action_share,
-//				RedditCommentAction.SHARE));
-		menu.add(new RCVMenuItem(
-				activity,
-				R.string.action_copy_text,
-				RedditCommentAction.COPY_TEXT));
-		menu.add(new RCVMenuItem(
-				activity,
-				R.string.action_copy_link,
-				RedditCommentAction.COPY_URL));
-		menu.add(new RCVMenuItem(
-				activity,
-				R.string.action_user_profile,
-				RedditCommentAction.USER_PROFILE));
-		menu.add(new RCVMenuItem(
-				activity,
-				R.string.action_properties,
-				RedditCommentAction.PROPERTIES));
+//		if(itemPref.contains(RedditCommentAction.SHARE)) {
+//			menu.add(new RCVMenuItem(
+//					activity,
+//					R.string.action_share,
+//					RedditCommentAction.SHARE));
+//		}
+
+		if(itemPref.contains(RedditCommentAction.COPY_TEXT)) {
+			menu.add(new RCVMenuItem(
+					activity,
+					R.string.action_copy_text,
+					RedditCommentAction.COPY_TEXT));
+		}
+
+		if(itemPref.contains(RedditCommentAction.COPY_URL)) {
+			menu.add(new RCVMenuItem(
+					activity,
+					R.string.action_copy_link,
+					RedditCommentAction.COPY_URL));
+		}
+
+		if(itemPref.contains(RedditCommentAction.USER_PROFILE)) {
+			menu.add(new RCVMenuItem(
+					activity,
+					R.string.action_user_profile,
+					RedditCommentAction.USER_PROFILE));
+		}
+
+		if(itemPref.contains(RedditCommentAction.PROPERTIES)) {
+			menu.add(new RCVMenuItem(
+					activity,
+					R.string.action_properties,
+					RedditCommentAction.PROPERTIES));
+		}
 
 		final String[] menuText = new String[menu.size()];
 
@@ -530,31 +580,39 @@ public class RedditAPICommentAction {
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> response) {
 						revertOnFailure();
-						if(t != null) {
-							t.printStackTrace();
-						}
 
 						final RRError error = General.getGeneralErrorForFailure(
 								context,
 								type,
 								t,
 								status,
-								null);
+								"Comment action " + action,
+								response);
+
 						General.showResultDialog(activity, error);
 					}
 
 					@Override
-					protected void onFailure(final APIFailureType type) {
+					protected void onFailure(
+							@NonNull final APIFailureType type,
+							@Nullable final String debuggingContext,
+							@NonNull final Optional<FailedRequestBody> response) {
 						revertOnFailure();
 
-						final RRError error = General.getGeneralErrorForFailure(context, type);
+						final RRError error = General.getGeneralErrorForFailure(
+								context,
+								type,
+								debuggingContext,
+								response);
+
 						General.showResultDialog(activity, error);
 					}
 
 					@Override
-					protected void onSuccess(@Nullable final String redirectUrl) {
+					protected void onSuccess() {
 						if(action == RedditAPI.ACTION_DELETE) {
 							General.quickToast(context, R.string.delete_success);
 						}

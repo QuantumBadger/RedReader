@@ -29,9 +29,11 @@ import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
@@ -109,7 +111,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 					final long curTime = System.currentTimeMillis();
 					handler.onRequestSuccess(
 							new WritableHashSet(
-									new HashSet<String>(),
+									new HashSet<>(),
 									curTime,
 									RedditSubredditManager.SubredditListType.MODERATED.name()),
 							curTime);
@@ -120,7 +122,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 					final long curTime = System.currentTimeMillis();
 					handler.onRequestSuccess(
 							new WritableHashSet(
-									new HashSet<String>(),
+									new HashSet<>(),
 									curTime,
 									RedditSubredditManager.SubredditListType.MULTIREDDITS.name()),
 							curTime);
@@ -166,13 +168,13 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 					throw new UnexpectedInternalStateException(type.name());
 			}
 
-			if(after != null) {
+			if(after == null) {
+				uri = baseUri;
+
+			} else {
 				final Uri.Builder builder = Uri.parse(baseUri.toString()).buildUpon();
 				builder.appendQueryParameter("after", after);
 				uri = General.uriFromString(builder.toString());
-
-			} else {
-				uri = baseUri;
 			}
 		}
 
@@ -234,9 +236,8 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 							RedditSubredditManager.getInstance(context, user)
 									.offerRawSubredditData(toWrite, timestamp);
 							final String receivedAfter = redditListing.getString("after");
-							if(receivedAfter != null
-									&& type
-									!= RedditSubredditManager.SubredditListType.MOST_POPULAR) {
+							if(receivedAfter != null && type !=
+									RedditSubredditManager.SubredditListType.MOST_POPULAR) {
 
 								doSubredditListRequest(
 										type,
@@ -286,7 +287,8 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 									e,
 									null,
 									"Parse error",
-									uri.toString()));
+									uri != null ? uri.toString() : null,
+									Optional.of(new FailedRequestBody(result))));
 						}
 					}
 
@@ -295,14 +297,16 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						handler.onRequestFailed(new SubredditRequestFailure(
 								type,
 								t,
 								httpStatus,
 								readableMessage,
-								uri.toString()));
+								uri != null ? uri.toString() : null,
+								body));
 					}
 				}));
 

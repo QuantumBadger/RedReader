@@ -22,7 +22,8 @@ import org.quantumbadger.redreader.views.glview.program.RRGLMatrixStack;
 
 public class RRGLRenderableScale extends RRGLRenderableRenderHooks {
 
-	private float mScaleX = 1, mScaleY = 1;
+	private float mScaleX = 1;
+	private float mScaleY = 1;
 
 	public RRGLRenderableScale(final RRGLRenderable entity) {
 		super(entity);

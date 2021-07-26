@@ -41,9 +41,9 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 	private final Field[] fields;
 	private final String[] fieldNames;
 
-	private static final String TABLE_NAME = "objects",
-			FIELD_ID = "RawObjectDB_id",
-			FIELD_TIMESTAMP = "RawObjectDB_timestamp";
+	private static final String TABLE_NAME = "objects";
+	private static final String FIELD_ID = "RawObjectDB_id";
+	private static final String FIELD_TIMESTAMP = "RawObjectDB_timestamp";
 
 	private static <E> int getDbVersion(final Class<E> clazz) {
 		for(final Field field : clazz.getDeclaredFields()) {
@@ -139,20 +139,16 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 	public synchronized Collection<E> getAll() {
 
-		final SQLiteDatabase db = getReadableDatabase();
+		try(SQLiteDatabase db = getReadableDatabase()) {
 
-		try {
-
-			final Cursor cursor = db.query(
+			try(Cursor cursor = db.query(
 					TABLE_NAME,
 					fieldNames,
 					null,
 					null,
 					null,
 					null,
-					null);
-
-			try {
+					null)) {
 
 				final LinkedList<E> result = new LinkedList<>();
 				while(cursor.moveToNext()) {
@@ -160,20 +156,9 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 				}
 				return result;
 
-			} catch(final InstantiationException e) {
+			} catch(final Exception e) {
 				throw new RuntimeException(e);
-
-			} catch(final IllegalAccessException e) {
-				throw new RuntimeException(e);
-
-			} catch(final InvocationTargetException e) {
-				throw new RuntimeException(e);
-
-			} finally {
-				cursor.close();
 			}
-		} finally {
-			db.close();
 		}
 	}
 
@@ -188,40 +173,28 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 
 	public synchronized ArrayList<E> getByField(final String field, final String value) {
 
-		final SQLiteDatabase db = getReadableDatabase();
+		try(SQLiteDatabase db = getReadableDatabase()) {
 
-		try {
-
-			final Cursor cursor = db.query(
+			try(Cursor cursor = db.query(
 					TABLE_NAME,
 					fieldNames,
 					String.format(Locale.US, "%s=?", field),
-					new String[] {value},
+					new String[]{value},
 					null,
 					null,
-					null);
+					null)) {
 
-			try {
 				final ArrayList<E> result = new ArrayList<>(cursor.getCount());
+
 				while(cursor.moveToNext()) {
 					result.add(readFromCursor(cursor));
 				}
+
 				return result;
 
-			} catch(final InstantiationException e) {
+			} catch(final Exception e) {
 				throw new RuntimeException(e);
-
-			} catch(final IllegalAccessException e) {
-				throw new RuntimeException(e);
-
-			} catch(final InvocationTargetException e) {
-				throw new RuntimeException(e);
-
-			} finally {
-				cursor.close();
 			}
-		} finally {
-			db.close();
 		}
 	}
 

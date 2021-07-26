@@ -50,6 +50,7 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 		}
 	}
 
+	@NonNull
 	public BodyElement getBody() {
 		return mBody;
 	}

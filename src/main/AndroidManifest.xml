@@ -16,19 +16,28 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
 		package="org.quantumbadger.redreader"
-          android:installLocation="auto">
+		android:installLocation="auto">
 
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 	<uses-feature android:name="android.hardware.type.watch" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+					 tools:ignore="ScopedStorage"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+	<queries>
+		<intent>
+			<action android:name="android.intent.action.PROCESS_TEXT" />
+			<data android:mimeType="text/plain" />
+		</intent>
+	</queries>
 
     <application android:name="org.quantumbadger.redreader.RedReader"
                  android:icon="@mipmap/ic_launcher"
@@ -50,7 +59,9 @@
 
 		<meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
 
-        <activity android:name=".activities.MainActivity"
+		<meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
+
+		<activity android:name=".activities.MainActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:clearTaskOnLaunch="false"
                   android:finishOnTaskLaunch="false"
@@ -115,6 +126,51 @@
 				<data android:scheme="http" android:host="reddit.com" android:pathPrefix="/comments/" />
 				<data android:scheme="https" android:host="*.reddit.com" android:pathPrefix="/comments/" />
 				<data android:scheme="https" android:host="reddit.com" android:pathPrefix="/comments/" />
+			</intent-filter>
+
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="http" android:host="*.reddit.com" android:pathPrefix="/message/compose/" />
+				<data android:scheme="http" android:host="reddit.com" android:pathPrefix="/message/compose/" />
+				<data android:scheme="https" android:host="*.reddit.com" android:pathPrefix="/message/compose/" />
+				<data android:scheme="https" android:host="reddit.com" android:pathPrefix="/message/compose/" />
+			</intent-filter>
+
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data
+						android:host="*.google.com"
+						android:pathPrefix="/amp/s/amp.reddit.com"
+						android:scheme="https"/>
+			</intent-filter>
+
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data
+						android:host="google.com"
+						android:pathPrefix="/amp/s/amp.reddit.com"
+						android:scheme="https"/>
+			</intent-filter>
+
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="http" android:host="reddit.app.link" />
+				<data android:scheme="https" android:host="reddit.app.link" />
+			</intent-filter>
+
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<data android:scheme="reddit" />
 			</intent-filter>
 
 			<intent-filter>

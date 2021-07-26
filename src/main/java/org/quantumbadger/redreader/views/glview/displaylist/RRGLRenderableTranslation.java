@@ -23,7 +23,8 @@ import org.quantumbadger.redreader.views.glview.program.RRGLMatrixStack;
 
 public class RRGLRenderableTranslation extends RRGLRenderableRenderHooks {
 
-	private float mPositionX, mPositionY;
+	private float mPositionX;
+	private float mPositionY;
 
 	public RRGLRenderableTranslation(final RRGLRenderable entity) {
 		super(entity);

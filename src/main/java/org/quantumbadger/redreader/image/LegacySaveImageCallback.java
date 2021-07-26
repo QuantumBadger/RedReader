@@ -25,6 +25,7 @@ import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 
 import java.io.File;
 import java.io.IOException;
@@ -78,7 +79,8 @@ public class LegacySaveImageCallback implements BaseActivity.PermissionCallback 
 										CacheRequest.REQUEST_FAILURE_STORAGE,
 										new RuntimeException("Could not copy file", e),
 										null,
-										uri));
+										uri,
+										Optional.empty()));
 
 						return;
 					}

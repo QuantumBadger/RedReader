@@ -20,7 +20,10 @@ package org.quantumbadger.redreader.reddit.url;
 import android.content.Context;
 import android.net.Uri;
 import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.StringUtils;
 
 import java.lang.annotation.Retention;
@@ -37,6 +40,7 @@ public class RedditURLParser {
 	public static final int UNKNOWN_COMMENT_LISTING_URL = 6;
 	public static final int POST_COMMENT_LISTING_URL = 7;
 	public static final int MULTIREDDIT_POST_LISTING_URL = 8;
+	public static final int COMPOSE_MESSAGE_URL = 9;
 
 	@IntDef({
 			SUBREDDIT_POST_LISTING_URL,
@@ -47,47 +51,79 @@ public class RedditURLParser {
 			USER_COMMENT_LISTING_URL,
 			UNKNOWN_COMMENT_LISTING_URL,
 			POST_COMMENT_LISTING_URL,
-			MULTIREDDIT_POST_LISTING_URL})
+			MULTIREDDIT_POST_LISTING_URL,
+			COMPOSE_MESSAGE_URL})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface PathType {
 	}
 
-	private static boolean isRedditUri(final Uri uri) {
+	private static Optional<Uri> tryGetRedditUri(final Uri uri) {
 
-		if(uri == null || uri.getHost() == null) {
-			return false;
+		if(uri == null || uri.getHost() == null || uri.getPath() == null) {
+			return Optional.empty();
 		}
+
+		if("reddit".equals(uri.getScheme()) && "reddit".equals(uri.getHost())) {
+			return Optional.of(uri.buildUpon()
+					.scheme("https")
+					.authority("reddit.com")
+					.build());
+		}
+
+		if("reddit.app.link".equals(uri.getHost())) {
+			final String redirect = uri.getQueryParameter("$og_redirect");
+
+			if(redirect != null) {
+				return Optional.ofNullable(Uri.parse(redirect));
+			}
+		}
+
+		final String ampPrefix = "/amp/s/amp.reddit.com";
+
+		if((("google.com".equals(uri.getHost())
+				|| uri.getHost().endsWith(".google.com"))
+						&& uri.getPath().startsWith(ampPrefix))) {
+
+			return Optional.ofNullable(Uri.parse(
+					"https://reddit.com" + uri.getPath().substring(ampPrefix.length())));
+		}
+
 		final String[] hostSegments = StringUtils.asciiLowercase(uri.getHost()).split("\\.");
+
 		if(hostSegments.length < 2) {
-			return false;
+			return Optional.empty();
 		}
-		if(hostSegments[hostSegments.length - 1].equals("com") && hostSegments[
-				hostSegments.length
-						- 2].equals(
-				"reddit")) {
-			return true;
+
+		if(hostSegments[hostSegments.length - 1].equals("com")
+				&& hostSegments[hostSegments.length - 2].equals("reddit")) {
+			return Optional.of(uri);
 		}
-		//noinspection RedundantIfStatement
+
 		if(hostSegments[hostSegments.length - 1].equals("it")
 				&& hostSegments[hostSegments.length - 2].equals("redd")) {
-			return true;
+			return Optional.of(uri);
 		}
 
-		return false;
+		return Optional.empty();
 	}
 
-	public static RedditURL parse(final Uri uri) {
+	@Nullable
+	public static RedditURL parse(final Uri rawUri) {
 
-		if(uri == null) {
+		if(rawUri == null) {
 			return null;
 		}
-		if(!isRedditUri(uri)) {
+
+		final Optional<Uri> optionalUri = tryGetRedditUri(rawUri);
+
+		if(optionalUri.isEmpty()) {
 			return null;
 		}
+
+		final Uri uri = optionalUri.get();
 
 		{
-			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(
-					uri);
+			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(uri);
 			if(subredditPostListURL != null) {
 				return subredditPostListURL;
 			}
@@ -138,6 +174,14 @@ public class RedditURLParser {
 			}
 		}
 
+		{
+			final ComposeMessageURL composeMessageURL = ComposeMessageURL.parse(uri);
+			//noinspection RedundantIfStatement
+			if(composeMessageURL != null) {
+				return composeMessageURL;
+			}
+		}
+
 		return null;
 	}
 
@@ -151,6 +195,7 @@ public class RedditURLParser {
 		return new UnknownCommentListURL(uri);
 	}
 
+	@NonNull
 	public static RedditURL parseProbablePostListing(final Uri uri) {
 
 		final RedditURL matchURL = parse(uri);
@@ -193,6 +238,10 @@ public class RedditURLParser {
 
 		public UserCommentListingURL asUserCommentListURL() {
 			return (UserCommentListingURL)this;
+		}
+
+		public ComposeMessageURL asComposeMessageURL() {
+			return (ComposeMessageURL)this;
 		}
 
 		public String humanReadableName(final Context context, final boolean shorter) {

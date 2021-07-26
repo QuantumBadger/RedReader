@@ -273,7 +273,7 @@
     <string name="comment_reply_done">Reply sent. The comment will appear after you refresh.</string>
     <string name="comment_edit_done">Comment edited. Changes will appear after you refresh.</string>
     <string name="post_submit_title_hint">Title</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Submit</string>
     <string name="post_submit_done">Post submitted.</string>
@@ -287,8 +287,8 @@
 
     <!-- General errors -->
 
-    <string name="error_403_title">Invalid User</string>
-    <string name="error_403_message">Reddit says the current user does not have permission to do that. Try logging out, and then logging back in (by deleting the account from the accounts list, and then adding it again).</string>
+    <string name="error_403_title">Permission Denied</string>
+    <string name="error_403_message">Reddit says the current user does not have permission to do that.</string>
 
     <string name="error_subreddit_required_title">Subreddit Required</string>
     <string name="error_subreddit_required_message">You must specify a subreddit.</string>
@@ -772,7 +772,7 @@
 
 	<!-- 2016-06-24 -->
 	<string name="save_image_permission_denied">Permission denied: could not save image.</string>
-	
+
 	<!-- 2016-06-25 -->
 	<string name="pref_behaviour_imageview_mode_title">Image viewer</string>
 	<string name="pref_behaviour_imageview_mode_key" translatable="false">pref_behaviour_imageview_mode</string>
@@ -788,7 +788,7 @@
 
 	<!-- 2016-06-30 -->
 	<string name="inbox_unread_only">Unread Messages Only</string>
-	
+
 	<!-- 2016-07-02 -->
 	<string name="pref_behaviour_actions_comment_longclick_key" translatable="false">pref_behaviour_actions_comment_longclick</string>
 	<string name="pref_behaviour_actions_comment_longclick_title">Long press</string>
@@ -811,7 +811,7 @@
 	<string name="submit_post_actionbar">Submit Post</string>
 	<string name="submit_comment_actionbar">Submit Comment</string>
 	<string name="edit_comment_actionbar">Edit Comment</string>
-	
+
 	<!-- 2016-07-16 -->
 	<string name="pref_behaviour_fling_comment_left_key" translatable="false">pref_behaviour_fling_comment_left</string>
 	<string name="pref_behaviour_fling_comment_left_title">Fling left</string>
@@ -1025,7 +1025,7 @@
 	<!-- 2018-02-10 -->
 	<string name="search_listing_header_query">Search Query</string>
 	<string name="search_listing_header_sub">Limit to Subreddit</string>
-  
+
 	<!-- 2018-02-11 -->
 	<string name="pref_behaviour_sharing_header">Sharing</string>
 	<string name="pref_behaviour_sharing_include_desc_key" translatable="false">pref_behaviour_sharing_include_desc</string>
@@ -1092,7 +1092,7 @@
 	<string name="prefs_category_images_video">Images/Video</string>
 
 	<string name="notification_channel_name_reddit_messages">Incoming Reddit Messages</string>
-	
+
 	<!-- 2019-10-05 -->
 	<string name="post_text_copied_to_clipboard">Post self-text copied to clipboard</string>
 	<string name="action_copy_selftext">Copy Self-Text</string>
@@ -1213,7 +1213,7 @@
 	<string name="copied_to_clipboard">Copied to clipboard</string>
 
 	<!-- 2020-07-19 -->
-	<string name="pref_menus_appbar_screen_title">Action bar items</string>
+	<string name="prefs_category_menus_appbar_screen">Action bar items</string>
 	<string name="pref_menus_appbar_items_always">Always show button</string>
 	<string name="pref_menus_appbar_items_if_room">Show button if room</string>
 	<string name="pref_menus_appbar_items_overflow_only">Only show in three-dot menu</string>
@@ -1434,4 +1434,176 @@
 	<string name="pref_accessibility_separate_body_text_lines_summary">In comment and self post body text, make each line individually focusable, rather than reading the whole comment at once</string>
 	<string name="pref_accessibility_separate_body_text_lines_key" translatable="false">pref_accessibility_separate_body_text_lines_key</string>
 
+	<!-- 2020-12-27 -->
+	<string name="pref_menus_mainmenu_dev_announcements_title">Show announcements from developer</string>
+	<string name="pref_menus_mainmenu_dev_announcements_key" translatable="false">pref_menus_mainmenu_dev_announcements_key</string>
+
+	<string name="button_dismiss">Dismiss</string>
+	<string name="button_view">View</string>
+
+	<!-- 2020-01-03 -->
+	<string name="action_not_handled_by_installed_app_toast">No app found to handle this action</string>
+
+	<!-- 2021-01-25 -->
+	<string name="pref_accessibility_min_comment_height_key" translatable="false">pref_accessibility_min_comment_height</string>
+	<string name="pref_accessibility_min_comment_height_title">Minimum comment height</string>
+	<string name="pref_accessibility_min_comment_height_none">None</string>
+
+	<!-- 2021-02-16 -->
+	<string name="pref_menus_comments_header">Comments</string>
+	<string name="pref_menus_comment_context_items_key" translatable="false">pref_menus_comment_context_items</string>
+	<string name="pref_menus_comment_context_items_title">Action menu items</string>
+
+	<!-- 2021-03-08 -->
+	<string name="pref_behaviour_post_title_opens_comments_key" translatable="false">pref_behaviour_post_title_opens_comments</string>
+	<string name="pref_behaviour_post_title_opens_comments_title">Post title opens comments</string>
+
+	<!-- 2021-03-16 -->
+	<string name="mainmenu_sent_messages">Sent Messages</string>
+
+	<!-- 2021-04-04 -->
+	<string name="post_submit_flair_none_available">No flairs available</string>
+	<string name="post_submit_flair_none_selected">No flair selected</string>
+
+	<string name="subreddit_selector_title">Select subreddit</string>
+
+	<string name="post_submit_heading">Submitting post to %1$s as user %2$s.</string>
+
+	<string name="error_subreddit_does_not_exist_title">Invalid subreddit</string>
+	<string name="error_subreddit_does_not_exist_message">The specified subreddit does not exist.</string>
+
+	<string name="error_subreddit_info_permission_denied_title">Permission denied</string>
+	<string name="error_subreddit_info_permission_denied_message">The logged in user is not able to access information about that subreddit.</string>
+
+	<string name="invalid_subreddit_name_message">Please enter a valid subreddit name.</string>
+
+	<!-- 2021-05-09 -->
+	<string name="accessibility_subtitle_recipient_withperiod">Recipient: %s.</string>
+
+	<string name="pref_images_inline_image_previews_spoiler_title">Show spoiler previews</string>
+	<string name="pref_images_inline_image_previews_spoiler_key" translatable="false">pref_images_inline_image_previews_spoiler_key</string>
+
+	<string name="pref_appearance_thumbnails_spoiler_show_key" translatable="false">pref_appearance_thumbnails_spoiler_show</string>
+	<string name="pref_appearance_thumbnails_spoiler_show_title">Show spoiler thumbnails</string>
+
+	<string name="video_mute">Mute</string>
+	<string name="video_unmute">Unmute</string>
+	<string name="video_restart">Restart video</string>
+	<string name="video_rewind">Rewind</string>
+	<string name="video_play">Play</string>
+	<string name="video_pause">Pause</string>
+	<string name="video_fast_forward">Fast forward</string>
+	<string name="video_zoom_in">Zoom in</string>
+	<string name="video_zoom_out">Zoom out</string>
+
+	<!-- 2021-06-12 -->
+	<string name="prefs_category_backup_restore">Backup/Restore</string>
+
+	<string name="pref_item_backup_preferences_key" translatable="false">pref_item_backup_preferences</string>
+	<string name="pref_item_backup_preferences_title">Backup preferences</string>
+
+	<string name="pref_item_restore_preferences_key" translatable="false">pref_item_restore_preferences</string>
+	<string name="pref_item_restore_preferences_title">Restore preferences</string>
+
+	<string name="restore_preferences_error_invalid_file_title">Invalid file</string>
+	<string name="restore_preferences_error_invalid_file_contents_message">The selected file is not a valid preference backup file.</string>
+	<string name="restore_preferences_error_invalid_file_version_message">The selected file was created by a newer version of RedReader and cannot be opened.</string>
+
+	<string name="restore_preferences_error_version_warning_title">Warning</string>
+	<string name="restore_preferences_error_version_warning_message">The selected file was created by a newer version of RedReader. Restoring the preferences from this file may lead to crashes and instability.</string>
+	
+	<string name="button_continue_anyway">Continue anyway</string>
+	<string name="button_cancel">Cancel</string>
+	<string name="button_restore_preferences">Restore</string>
+
+	<string name="prefs_category_about_key" translatable="false">prefs_category_about</string>
+	<string name="prefs_category_accessibility_key" translatable="false">prefs_category_accessibility</string>
+	<string name="prefs_category_appearance_key" translatable="false">prefs_category_appearance</string>
+	<string name="prefs_category_backup_restore_key" translatable="false">prefs_category_backup_restore</string>
+	<string name="prefs_category_behaviour_key" translatable="false">prefs_category_behaviour</string>
+	<string name="prefs_category_cache_key" translatable="false">prefs_category_cache</string>
+	<string name="prefs_category_fonts_key" translatable="false">prefs_category_fonts</string>
+	<string name="prefs_category_images_video_key" translatable="false">prefs_category_images_video</string>
+	<string name="prefs_category_menus_key" translatable="false">prefs_category_menus</string>
+	<string name="prefs_category_network_key" translatable="false">prefs_category_network</string>
+
+	<string name="backup_preferences_success">Backup successful</string>
+	<string name="restore_preferences_success">Restore successful</string>
+
+	<string name="backup_preferences_error_old_android_title">System too old</string>
+	<string name="backup_preferences_error_old_android_message">This feature requires Android 4.4 or above.</string>
+
+	<string name="error_no_file_manager_title">No file manager</string>
+	<string name="error_no_file_manager_message">The operating system on this device is missing a file manager compatible with the Android Storage Access Framework. If a file manager is present, it may be disabled.</string>
+
+	<!-- 2021-06-13 -->
+
+	<string name="error_post_flair_required_title">Flair required</string>
+	<string name="error_post_flair_required_message">The rules of this subreddit require setting a flair on your post.</string>
+
+	<string name="error_post_submit_title">Error submitting post</string>
+
+	<string name="error_tor_connection_title">Tor error</string>
+	<string name="error_tor_connection_message">Unable to connect to Tor. Please ensure the Orbot app is running, or disable Tor in the network settings.</string>
+
+	<string name="error_imgur_400_title">Imgur error</string>
+	<string name="error_imgur_400_message">Imgur is rejecting this image upload, possibly due to a rate limit. Please use another image host or try again later.</string>
+
+	<string name="error_content_blocker_title">Content blocker detected</string>
+	<string name="error_content_blocker_message">The current network appears to be blocking this request using DNS. Consider using a VPN, or switching on DNS over HTTPS in the Android network settings.</string>
+
+	<string name="error_http_429_title">Too many requests</string>
+	<string name="error_http_429_message">The server has rejected the request due to a rate limit. Please try again in a moment.</string>
+
+	<!-- 2021-06-30 -->
+	<string name="error_comment_submit_title">Error submitting comment</string>
+
+	<!-- 2021-07-01 -->
+	<string name="prefs_category_menus_appbar_screen_key" translatable="false">prefs_category_menus_appbar_screen</string>
+
+	<!-- 2021-07-09 -->
+	<string name="accessibility_subtitle_author_submitter_withperiod">Author: %s, submitter.</string>
+	<string name="accessibility_subtitle_author_moderator_withperiod">Author: %s, moderator.</string>
+	<string name="accessibility_subtitle_author_admin_withperiod">Author: %s, admin.</string>
+	<string name="accessibility_subtitle_author_submitter_moderator_withperiod">Author: %s, submitter and moderator.</string>
+	<string name="accessibility_subtitle_author_submitter_admin_withperiod">Author: %s, submitter and admin.</string>
+
+	<!-- 2021-07-10 -->
+	<string name="sort_posts_controversial_hour">Controversial: This Hour</string>
+	<string name="sort_posts_controversial_today">Controversial: Today</string>
+	<string name="sort_posts_controversial_week">Controversial: This Week</string>
+	<string name="sort_posts_controversial_month">Controversial: This Month</string>
+	<string name="sort_posts_controversial_year">Controversial: This Year</string>
+	<string name="sort_posts_controversial_all">Controversial: All Time</string>
+
+	<!-- 2021-07-25 -->
+	<string name="no_posts_yet">No posts yet.</string>
+	<string name="no_posts_yet_hidden">No posts shown due to settings.</string>
+	<string name="no_search_results_hidden">No search results shown due to settings.</string>
+
+	<string name="sort_posts_relevance_hour">Relevance: This Hour</string>
+	<string name="sort_posts_relevance_today">Relevance: Today</string>
+	<string name="sort_posts_relevance_week">Relevance: This Week</string>
+	<string name="sort_posts_relevance_month">Relevance: This Month</string>
+	<string name="sort_posts_relevance_year">Relevance: This Year</string>
+	<string name="sort_posts_relevance_all">Relevance: All Time</string>
+	<string name="sort_posts_new_hour">New: This Hour</string>
+	<string name="sort_posts_new_today">New: Today</string>
+	<string name="sort_posts_new_week">New: This Week</string>
+	<string name="sort_posts_new_month">New: This Month</string>
+	<string name="sort_posts_new_year">New: This Year</string>
+	<string name="sort_posts_new_all">New: All Time</string>
+	<string name="sort_posts_hot_hour">Hot: This Hour</string>
+	<string name="sort_posts_hot_today">Hot: Today</string>
+	<string name="sort_posts_hot_week">Hot: This Week</string>
+	<string name="sort_posts_hot_month">Hot: This Month</string>
+	<string name="sort_posts_hot_year">Hot: This Year</string>
+	<string name="sort_posts_hot_all">Hot: All Time</string>
+	<string name="sort_posts_comments_hour">Comments: This Hour</string>
+	<string name="sort_posts_comments_today">Comments: Today</string>
+	<string name="sort_posts_comments_week">Comments: This Week</string>
+	<string name="sort_posts_comments_month">Comments: This Month</string>
+	<string name="sort_posts_comments_year">Comments: This Year</string>
+	<string name="sort_posts_comments_all">Comments: All Time</string>
+	
 </resources>

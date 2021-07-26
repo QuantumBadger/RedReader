@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -28,20 +30,18 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 public class ChangelogActivity extends BaseActivity {
 
 	@Override
-	protected boolean baseActivityIsToolbarActionBarEnabled() {
-		return false;
-	}
-
-	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applySettingsTheme(this);
 
 		super.onCreate(savedInstanceState);
 
-//		getSupportActionBarOrThrow().setTitle(R.string.title_changelog);
-//		getSupportActionBarOrThrow().setHomeButtonEnabled(true);
-//		getSupportActionBarOrThrow().setDisplayHomeAsUpEnabled(true);
+
+//		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//			getWindow().setNavigationBarColor(Color.rgb(0x55, 0x55, 0x55));
+//		}
+
+//		setTitle(R.string.title_changelog);
 
 		final LinearLayout items = new LinearLayout(this);
 		items.setOrientation(LinearLayout.VERTICAL);

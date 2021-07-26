@@ -18,23 +18,42 @@
 package org.quantumbadger.redreader.http.okhttp;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
+import androidx.annotation.NonNull;
 import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.ConnectionPool;
+import okhttp3.ConnectionSpec;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okhttp3.TlsVersion;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.TorCommon;
+import org.quantumbadger.redreader.common.Void;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.LegacyTLSSocketFactory;
+import org.quantumbadger.redreader.http.PostField;
+import org.quantumbadger.redreader.http.body.HTTPRequestBody;
+import org.quantumbadger.redreader.http.body.HTTPRequestBodyMultipart;
+import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
+import org.quantumbadger.redreader.http.body.multipart.Part;
+import org.quantumbadger.redreader.http.body.multipart.PartFormData;
+import org.quantumbadger.redreader.http.body.multipart.PartFormDataBinary;
 
+import javax.net.ssl.SSLContext;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -56,6 +75,30 @@ public class OKHTTPBackend extends HTTPBackend {
 	private OKHTTPBackend() {
 		final OkHttpClient.Builder builder = new OkHttpClient.Builder();
 
+		// Enable TLS 1.2 on legacy Android devices
+		if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 21) {
+			try {
+				final SSLContext sc = SSLContext.getInstance("TLSv1.2");
+				sc.init(null, null, null);
+				builder.sslSocketFactory(new LegacyTLSSocketFactory(sc.getSocketFactory()));
+
+				final ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+						.tlsVersions(TlsVersion.TLS_1_2)
+						.build();
+
+				final List<ConnectionSpec> specs = new ArrayList<>();
+				specs.add(cs);
+				specs.add(ConnectionSpec.COMPATIBLE_TLS);
+				specs.add(ConnectionSpec.CLEARTEXT);
+
+				builder.connectionSpecs(specs);
+
+			} catch(final Exception e) {
+				// Continue anyway
+				Log.e(TAG, "Failed to enable TLS 1.2", e);
+			}
+		}
+
 		// here we set the over18 cookie and return it whenever the url contains search
 		// this is necessary to get the reddit API to return NSFW search results
 		final List<Cookie> list = new ArrayList<>();
@@ -71,10 +114,13 @@ public class OKHTTPBackend extends HTTPBackend {
 
 		final CookieJar cookieJar = new CookieJar() {
 			@Override
-			public void saveFromResponse(final HttpUrl url, final List<Cookie> cookies) {
+			public void saveFromResponse(
+					@NonNull final HttpUrl url,
+					@NonNull final List<Cookie> cookies) {
 				//LOL we do not care
 			}
 
+			@NonNull
 			@Override
 			public List<Cookie> loadForRequest(final HttpUrl url) {
 				if(url.toString().contains("search")) {
@@ -131,12 +177,55 @@ public class OKHTTPBackend extends HTTPBackend {
 
 		builder.header("User-Agent", Constants.ua(context));
 
-		final List<PostField> postFields = details.getPostFields();
+		final Optional<HTTPRequestBody> requestBody
+				= details.getRequestBody();
 
-		if(postFields != null) {
-			builder.post(RequestBody.create(
-					MediaType.parse("application/x-www-form-urlencoded"),
-					PostField.encodeList(postFields)));
+		if(requestBody.isPresent()) {
+
+			builder.post(requestBody.get().visit(new HTTPRequestBody.Visitor<RequestBody>() {
+
+				@Override
+				public RequestBody visitRequestBody(
+						@NonNull final HTTPRequestBodyPostFields body) {
+
+					return RequestBody.create(
+							MediaType.parse("application/x-www-form-urlencoded"),
+							PostField.encodeList(body.getPostFields()));
+				}
+
+				@Override
+				public RequestBody visitRequestBody(@NonNull final HTTPRequestBodyMultipart body) {
+
+					final MultipartBody.Builder builder = new MultipartBody.Builder()
+							.setType(MultipartBody.FORM);
+
+					body.forEachPart(part -> part.visit(new Part.Visitor<Void>() {
+
+						@NonNull
+						@Override
+						public Void visitPart(@NonNull final PartFormData part) {
+							builder.addFormDataPart(part.name, part.value);
+							return Void.INSTANCE;
+						}
+
+						@NonNull
+						@Override
+						public Void visitPart(@NonNull final PartFormDataBinary part) {
+
+							builder.addFormDataPart(
+									part.name,
+									null,
+									RequestBody.create(
+											MediaType.parse("application/octet-stream"),
+											part.value));
+
+							return Void.INSTANCE;
+						}
+					}));
+
+					return builder.build();
+				}
+			}));
 
 		} else {
 			builder.get();
@@ -154,7 +243,6 @@ public class OKHTTPBackend extends HTTPBackend {
 			public void executeInThisThread(final Listener listener) {
 
 				final Call call = mClient.newCall(builder.build());
-				Log.d(TAG, "calling: " + call.request().url());
 				callRef.set(call);
 
 				if(cancelled.get()) {
@@ -167,44 +255,73 @@ public class OKHTTPBackend extends HTTPBackend {
 				try {
 					response = call.execute();
 				} catch(final Exception e) {
-					listener.onError(CacheRequest.REQUEST_FAILURE_CONNECTION, e, null);
-					Log.i(TAG, "request didn't even connect: " + e.getMessage());
+					listener.onError(
+							CacheRequest.REQUEST_FAILURE_CONNECTION,
+							e,
+							null,
+							Optional.empty());
+					if(General.isSensitiveDebugLoggingEnabled()) {
+						Log.i(TAG, "request didn't even connect: " + e.getMessage());
+					}
 					return;
 				}
 
-				final int status = response.code();
+				try {
 
-				if(status == 200 || status == 202) {
-
+					final int status = response.code();
 					final ResponseBody body = response.body();
 
-					@SuppressWarnings("PMD.CloseResource") final InputStream bodyStream;
+					if(status == 200 || status == 202) {
 
-					final Long bodyBytes;
+						@SuppressWarnings("PMD.CloseResource") final InputStream bodyStream;
 
-					if(body != null) {
-						bodyStream = body.byteStream();
-						bodyBytes = body.contentLength();
+						final Long bodyBytes;
+
+						if(body != null) {
+							bodyStream = body.byteStream();
+							bodyBytes = body.contentLength();
+
+						} else {
+							// TODO error
+							bodyStream = null;
+							bodyBytes = null;
+						}
+
+						final String contentType = response.header("Content-Type");
+
+						listener.onSuccess(contentType, bodyBytes, bodyStream);
 
 					} else {
-						// TODO error
-						bodyStream = null;
-						bodyBytes = null;
+
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.e(TAG, String.format(
+									Locale.US,
+									"Got HTTP error %d for %s",
+									status,
+									details));
+						}
+
+						Optional<FailedRequestBody> bodyBytes = Optional.empty();
+
+						if(body != null) {
+							try {
+								bodyBytes = Optional.of(new FailedRequestBody(body.bytes()));
+							} catch(final IOException e) {
+								// Ignore
+							}
+						}
+
+
+						listener.onError(
+								CacheRequest.REQUEST_FAILURE_REQUEST,
+								null,
+								status,
+								bodyBytes);
 					}
-
-					final String contentType = response.header("Content-Type");
-
-					listener.onSuccess(contentType, bodyBytes, bodyStream);
-
-				} else {
-
-					Log.e(TAG, String.format(
-							Locale.US,
-							"Got HTTP error %d for %s",
-							status,
-							details.toString()));
-
-					listener.onError(CacheRequest.REQUEST_FAILURE_REQUEST, null, status);
+				} finally {
+					if(response.body() != null) {
+						response.body().close();
+					}
 				}
 			}
 

@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -40,8 +39,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.annotation.UiThread;
 import com.github.lzyzsd.circleprogress.DonutProgress;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -58,11 +59,14 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -112,7 +116,8 @@ public class ImageViewActivity extends BaseActivity
 
 	private String mUrl;
 
-	private boolean mIsPaused = true, mIsDestroyed = false;
+	private boolean mIsPaused = true;
+	private boolean mIsDestroyed = false;
 	@NonNull private final ArrayList<Runnable> mActionsOnResume = new ArrayList<>();
 
 	@Nullable private CacheRequest mImageOrVideoRequest;
@@ -153,7 +158,7 @@ public class ImageViewActivity extends BaseActivity
 
 		setTitle(R.string.accessibility_image_viewer_title);
 
-		final SharedPreferences sharedPreferences
+		final SharedPrefsWrapper sharedPreferences
 				= General.getSharedPrefs(this);
 
 		final int gallerySwipeLengthDp
@@ -185,7 +190,8 @@ public class ImageViewActivity extends BaseActivity
 								final @CacheRequest.RequestFailureType int type,
 								final Throwable t,
 								final Integer status,
-								final String readableMessage) {
+								final String readableMessage,
+								@NonNull final Optional<FailedRequestBody> body) {
 
 							// Do nothing
 						}
@@ -212,8 +218,6 @@ public class ImageViewActivity extends BaseActivity
 					}
 			);
 		}
-
-		Log.i(TAG, "Loading URL " + mUrl);
 
 		final DonutProgress progressBar = new DonutProgress(this);
 		progressBar.setIndeterminate(true);
@@ -267,7 +271,8 @@ public class ImageViewActivity extends BaseActivity
 							final @CacheRequest.RequestFailureType int type,
 							final Throwable t,
 							final Integer status,
-							final String readableMessage) {
+							final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						General.quickToast(
 								ImageViewActivity.this,
@@ -278,14 +283,6 @@ public class ImageViewActivity extends BaseActivity
 
 					@Override
 					public void onSuccess(final ImageInfo info) {
-
-						Log.i(TAG, "Got image URL: " + info.urlOriginal);
-
-						Log.i(TAG, "Got image Type: " + info.type);
-
-						Log.i(TAG, "Got media Type: " + info.mediaType);
-
-						Log.i(TAG, "Got audio Type: " + info.hasAudio);
 
 						mImageInfo = info;
 
@@ -361,6 +358,10 @@ public class ImageViewActivity extends BaseActivity
 			}
 
 			backButton.setOnClickListener(v -> finish());
+
+			//Consume & ignore touch events, so loading images aren't closed by tapping.
+			//noinspection ClickableViewAccessibility
+			backButton.setOnTouchListener((v, event) -> true);
 		}
 
 		final FrameLayout outerFrame = new FrameLayout(this);
@@ -449,27 +450,35 @@ public class ImageViewActivity extends BaseActivity
 
 			Log.i(TAG, "Image stream ready");
 
-			final SharedPreferences sharedPrefs = General.getSharedPrefs(this);
+			final SharedPrefsWrapper sharedPrefs = General.getSharedPrefs(this);
 
 			if(mimetype == null) {
 				revertToWeb();
 				return;
 			}
 
-			final boolean isImage = Constants.Mime.isImage(mimetype);
-			final boolean isVideo = Constants.Mime.isVideo(mimetype);
-			final boolean isGif = Constants.Mime.isImageGif(mimetype);
+			final boolean isOctetStream = Constants.Mime.isOctetStream(mimetype);
 
-			if(!isImage && !isVideo) {
+			final boolean isImage = Constants.Mime.isImage(mimetype)
+					|| (mImageInfo.mediaType == ImageInfo.MediaType.IMAGE && isOctetStream);
+
+			final boolean isVideo = Constants.Mime.isVideo(mimetype)
+					|| (mImageInfo.mediaType == ImageInfo.MediaType.VIDEO && isOctetStream);
+
+			final boolean isGif = !isVideo && !isImage && Constants.Mime.isImageGif(mimetype);
+
+			if(!isImage && !isVideo && !isGif) {
+				Log.e(TAG, "Cannot play mimetype: " + mimetype);
 				revertToWeb();
 				return;
 			}
 
-			if(mImageInfo != null && ((mImageInfo.title != null && mImageInfo.title.length() > 0)
-					|| (mImageInfo.caption != null && mImageInfo.caption.length() > 0))) {
+			if(mImageInfo != null && ((mImageInfo.title != null && !mImageInfo.title.isEmpty())
+					|| (mImageInfo.caption != null && !mImageInfo.caption.isEmpty()))) {
 
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> addFloatingToolbarButton(
 						R.drawable.ic_action_info_dark,
+						R.string.props_image_title,
 						view -> ImageInfoDialog.newInstance(mImageInfo).show(
 								getSupportFragmentManager(),
 								null)));
@@ -942,7 +951,8 @@ public class ImageViewActivity extends BaseActivity
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						synchronized(resultLock) {
 
@@ -961,7 +971,8 @@ public class ImageViewActivity extends BaseActivity
 										type,
 										t,
 										httpStatus,
-										uri.toString());
+										uri.toString(),
+										body);
 
 								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 									final LinearLayout layout
@@ -1049,7 +1060,8 @@ public class ImageViewActivity extends BaseActivity
 								final int type,
 								@Nullable final Throwable t,
 								@Nullable final Integer httpStatus,
-								@Nullable final String readableMessage) {
+								@Nullable final String readableMessage,
+								@NonNull final Optional<FailedRequestBody> body) {
 
 							synchronized(resultLock) {
 
@@ -1060,7 +1072,8 @@ public class ImageViewActivity extends BaseActivity
 											type,
 											t,
 											httpStatus,
-											audioUri.toString());
+											audioUri.toString(),
+											body);
 
 									AndroidCommon.runOnUiThread(() -> {
 										final LinearLayout layout
@@ -1104,7 +1117,8 @@ public class ImageViewActivity extends BaseActivity
 
 	@Nullable
 	private ImageButton addFloatingToolbarButton(
-			final int drawable,
+			@DrawableRes final int drawable,
+			@StringRes final int description,
 			@NonNull final View.OnClickListener listener) {
 
 		if(mFloatingToolbar == null) {
@@ -1121,6 +1135,7 @@ public class ImageViewActivity extends BaseActivity
 		final int buttonPadding = General.dpToPixels(this, 10);
 		ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding);
 		ib.setImageResource(drawable);
+		ib.setContentDescription(getResources().getString(description));
 
 		ib.setOnClickListener(listener);
 
@@ -1228,15 +1243,20 @@ public class ImageViewActivity extends BaseActivity
 						= new AtomicReference<>();
 				muteButton.set(addFloatingToolbarButton(
 						muteByDefault ? iconMuted : iconUnmuted,
+						muteByDefault ? R.string.video_unmute : R.string.video_mute,
 						view -> {
 							final ImageButton button = muteButton.get();
 
 							if(mVideoPlayerWrapper.isMuted()) {
 								mVideoPlayerWrapper.setMuted(false);
 								button.setImageResource(iconUnmuted);
+								button.setContentDescription(
+										getResources().getString(R.string.video_mute));
 							} else {
 								mVideoPlayerWrapper.setMuted(true);
 								button.setImageResource(iconMuted);
+								button.setContentDescription(
+										getResources().getString(R.string.video_unmute));
 							}
 						}));
 			}
@@ -1262,7 +1282,7 @@ public class ImageViewActivity extends BaseActivity
 
 			is.readRemainingAsBytes((buf, offset, length) -> {
 
-				Log.i(TAG, "Got byte array (" + length + " byte(s))");
+				Log.i(TAG, "Got byte array");
 
 				@SuppressWarnings("deprecation") final Movie movie;
 

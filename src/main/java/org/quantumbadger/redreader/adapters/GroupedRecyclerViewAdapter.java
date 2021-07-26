@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @SuppressWarnings("ForLoopReplaceableByForEach")
 public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
-	private static final AtomicLong ITEM_UNIQUE_ID_GENERATOR = new AtomicLong(100000);
+	private static final AtomicLong ITEM_UNIQUE_ID_GENERATOR = new AtomicLong(100_000);
 
 	public static abstract class Item {
 
@@ -126,9 +127,10 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 				+ " is too high");
 	}
 
+	@NonNull
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(
-			final ViewGroup viewGroup,
+			@NonNull final ViewGroup viewGroup,
 			final int viewType) {
 
 		final RecyclerView.ViewHolder viewHolder = mViewTypeItemMap.get(viewType)
@@ -145,7 +147,7 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 	@Override
 	public void onBindViewHolder(
-			final RecyclerView.ViewHolder viewHolder,
+			@NonNull final RecyclerView.ViewHolder viewHolder,
 			final int position) {
 		getItemInternal(position).onBindViewHolder(viewHolder);
 	}
@@ -154,7 +156,7 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 	public int getItemViewType(final int position) {
 
 		final Item item = getItemInternal(position);
-		final Class viewTypeClass = item.getViewType();
+		final Class<?> viewTypeClass = item.getViewType();
 
 		Integer typeId = mItemViewTypeMap.get(viewTypeClass);
 

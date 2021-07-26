@@ -34,14 +34,13 @@ public class BetterSSB {
 
 	private final SpannableStringBuilder sb;
 
-	public static final int
-			BOLD = 1,
-			ITALIC = 1 << 1,
-			UNDERLINE = 1 << 2,
-			STRIKETHROUGH = 1 << 3,
-			FOREGROUND_COLOR = 1 << 4,
-			BACKGROUND_COLOR = 1 << 5,
-			SIZE = 1 << 6;
+	public static final int BOLD = 1;
+	public static final int ITALIC = 1 << 1;
+	public static final int UNDERLINE = 1 << 2;
+	public static final int STRIKETHROUGH = 1 << 3;
+	public static final int FOREGROUND_COLOR = 1 << 4;
+	public static final int BACKGROUND_COLOR = 1 << 5;
+	public static final int SIZE = 1 << 6;
 
 	public static final char NBSP = '\u00A0';
 

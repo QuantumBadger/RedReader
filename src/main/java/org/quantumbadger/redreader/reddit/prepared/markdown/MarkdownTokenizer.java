@@ -25,20 +25,19 @@ public final class MarkdownTokenizer {
 
 	// TODO support double graves
 
-	public static final int
-			TOKEN_UNDERSCORE = -1,
-			TOKEN_UNDERSCORE_DOUBLE = -2,
-			TOKEN_ASTERISK = -3,
-			TOKEN_ASTERISK_DOUBLE = -4,
-			TOKEN_TILDE_DOUBLE = -5,
-			TOKEN_CARET = -6,
-			TOKEN_GRAVE = -7,
-			TOKEN_BRACKET_SQUARE_OPEN = -8,
-			TOKEN_BRACKET_SQUARE_CLOSE = -9,
-			TOKEN_PAREN_OPEN = -10,
-			TOKEN_PAREN_CLOSE = -11,
-			TOKEN_UNICODE_OPEN = -12,
-			TOKEN_UNICODE_CLOSE = -13;
+	public static final int TOKEN_UNDERSCORE = -1;
+	public static final int TOKEN_UNDERSCORE_DOUBLE = -2;
+	public static final int TOKEN_ASTERISK = -3;
+	public static final int TOKEN_ASTERISK_DOUBLE = -4;
+	public static final int TOKEN_TILDE_DOUBLE = -5;
+	public static final int TOKEN_CARET = -6;
+	public static final int TOKEN_GRAVE = -7;
+	public static final int TOKEN_BRACKET_SQUARE_OPEN = -8;
+	public static final int TOKEN_BRACKET_SQUARE_CLOSE = -9;
+	public static final int TOKEN_PAREN_OPEN = -10;
+	public static final int TOKEN_PAREN_CLOSE = -11;
+	public static final int TOKEN_UNICODE_OPEN = -12;
+	public static final int TOKEN_UNICODE_CLOSE = -13;
 
 	private static final char[][] reverseLookup = new char[20][];
 
@@ -330,8 +329,10 @@ public final class MarkdownTokenizer {
 		final boolean[] toRevert = new boolean[input.pos];
 		final boolean[] toDelete = new boolean[input.pos];
 
-		int openingUnderscore = -1, openingUnderscoreDouble = -1;
-		int openingAsterisk = -1, openingAsteriskDouble = -1;
+		int openingUnderscore = -1;
+		int openingUnderscoreDouble = -1;
+		int openingAsterisk = -1;
+		int openingAsteriskDouble = -1;
 		int openingTildeDouble = -1;
 
 		int lastBracketSquareOpen = -1;
@@ -949,18 +950,6 @@ public final class MarkdownTokenizer {
 			final int startInclusive,
 			final int endExclusive) {
 		for(int i = startInclusive; i < endExclusive; i++) {
-			if(haystack[i] == needle) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	private static int reverseIndexOf(
-			final int[] haystack,
-			final int needle,
-			final int startInclusive) {
-		for(int i = startInclusive; i >= 0; i--) {
 			if(haystack[i] == needle) {
 				return i;
 			}

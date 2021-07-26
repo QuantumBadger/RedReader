@@ -31,6 +31,10 @@
 							android:key="@string/pref_images_inline_image_previews_nsfw_key"
 							android:defaultValue="false"/>
 
+		<CheckBoxPreference android:title="@string/pref_images_inline_image_previews_spoiler_title"
+							android:key="@string/pref_images_inline_image_previews_spoiler_key"
+							android:defaultValue="false"/>
+
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_header_image_viewer">
@@ -108,6 +112,10 @@
 		<CheckBoxPreference android:title="@string/pref_appearance_thumbnails_nsfw_show_title"
 							android:key="@string/pref_appearance_thumbnails_nsfw_show_key"
 							android:defaultValue="false"/>
+
+		<CheckBoxPreference android:title="@string/pref_appearance_thumbnails_spoiler_show_title"
+					  android:key="@string/pref_appearance_thumbnails_spoiler_show_key"
+					  android:defaultValue="false"/>
 
 		<ListPreference android:title="@string/pref_images_high_res_thumbnails_title"
 						android:key="@string/pref_images_high_res_thumbnails_key"

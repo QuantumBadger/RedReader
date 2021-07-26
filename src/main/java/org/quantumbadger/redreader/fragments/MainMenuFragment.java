@@ -68,6 +68,7 @@ public class MainMenuFragment extends RRFragment implements
 	public static final int MENU_MENU_ACTION_POPULAR = 11;
 	public static final int MENU_MENU_ACTION_RANDOM = 12;
 	public static final int MENU_MENU_ACTION_RANDOM_NSFW = 13;
+	public static final int MENU_MENU_ACTION_SENT_MESSAGES = 14;
 
 	@IntDef({
 			MENU_MENU_ACTION_FRONTPAGE,
@@ -83,7 +84,8 @@ public class MainMenuFragment extends RRFragment implements
 			MENU_MENU_ACTION_ALL,
 			MENU_MENU_ACTION_POPULAR,
 			MENU_MENU_ACTION_RANDOM,
-			MENU_MENU_ACTION_RANDOM_NSFW})
+			MENU_MENU_ACTION_RANDOM_NSFW,
+			MENU_MENU_ACTION_SENT_MESSAGES})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface MainMenuAction {
 	}
@@ -203,7 +205,7 @@ public class MainMenuFragment extends RRFragment implements
 	}
 
 	public enum MainMenuUserItems {
-		PROFILE, INBOX, SUBMITTED, SAVED, HIDDEN, UPVOTED, DOWNVOTED, MODMAIL
+		PROFILE, INBOX, SUBMITTED, SAVED, HIDDEN, UPVOTED, DOWNVOTED, MODMAIL, SENT_MESSAGES
 	}
 
 	public enum MainMenuShortcutItems {
@@ -267,5 +269,9 @@ public class MainMenuFragment extends RRFragment implements
 	@Override
 	public void onSubredditUnsubscriptionAttempted(
 			final RedditSubredditSubscriptionManager subredditSubscriptionManager) {
+	}
+
+	public void onUpdateAnnouncement() {
+		mManager.onUpdateAnnouncement();
 	}
 }

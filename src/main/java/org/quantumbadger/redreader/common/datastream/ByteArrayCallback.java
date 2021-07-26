@@ -19,10 +19,12 @@ package org.quantumbadger.redreader.common.datastream;
 
 import androidx.annotation.NonNull;
 
+import java.io.IOException;
+
 public interface ByteArrayCallback {
 
 	void onByteArray(
 			@NonNull byte[] buf,
 			int offset,
-			int length);
+			int length) throws IOException;
 }

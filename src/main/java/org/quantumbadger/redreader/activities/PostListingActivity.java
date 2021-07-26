@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.Menu;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -43,6 +44,7 @@ import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
@@ -142,7 +144,7 @@ public class PostListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	protected void onSaveInstanceState(final Bundle outState) {
+	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 
 		final UUID session = controller.getSession();
@@ -253,7 +255,7 @@ public class PostListingActivity extends RefreshableActivity
 				true,
 				controller.isFrontPage(),
 				subredditSubscriptionState,
-				subredditDescription != null && subredditDescription.length() > 0,
+				subredditDescription != null && !subredditDescription.isEmpty(),
 				false,
 				subredditPinState,
 				subredditBlockedState);
@@ -328,10 +330,13 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	public void onSubmitPost() {
+
 		final Intent intent = new Intent(this, PostSubmitActivity.class);
+
 		if(controller.isSubreddit()) {
 			intent.putExtra("subreddit", controller.subredditCanonicalName().toString());
 		}
+
 		startActivity(intent);
 	}
 
@@ -359,8 +364,20 @@ public class PostListingActivity extends RefreshableActivity
 
 			if(controller != null && (controller.isSubreddit()
 					|| controller.isSubredditSearchResults())) {
+
+				final SubredditCanonicalId subredditCanonicalId
+						= controller.subredditCanonicalName();
+
+				if(subredditCanonicalId == null) {
+					BugReportActivity.handleGlobalError(
+							activity,
+							new RuntimeException("Can't search post listing "
+									+ controller.getUri()));
+					return;
+				}
+
 				url = SearchPostListURL.build(
-						controller.subredditCanonicalName().toString(),
+						subredditCanonicalId.toString(),
 						query);
 			} else {
 				url = SearchPostListURL.build(null, query);
@@ -404,6 +421,14 @@ public class PostListingActivity extends RefreshableActivity
 			return;
 		}
 
+		if(fragment.getSubreddit() == null) {
+			BugReportActivity.handleGlobalError(
+					this,
+					new RuntimeException("Can't pin post listing "
+							+ fragment.getPostListingURL()));
+			return;
+		}
+
 		try {
 			PrefsUtility.pref_pinned_subreddits_add(
 					this,
@@ -421,6 +446,14 @@ public class PostListingActivity extends RefreshableActivity
 	public void onUnpin() {
 
 		if(fragment == null) {
+			return;
+		}
+
+		if(fragment.getSubreddit() == null) {
+			BugReportActivity.handleGlobalError(
+					this,
+					new RuntimeException("Can't unpin post listing "
+							+ fragment.getPostListingURL()));
 			return;
 		}
 
@@ -443,6 +476,14 @@ public class PostListingActivity extends RefreshableActivity
 			return;
 		}
 
+		if(fragment.getSubreddit() == null) {
+			BugReportActivity.handleGlobalError(
+					this,
+					new RuntimeException("Can't block post listing "
+							+ fragment.getPostListingURL()));
+			return;
+		}
+
 		try {
 			PrefsUtility.pref_blocked_subreddits_add(
 					this,
@@ -459,6 +500,14 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onUnblock() {
 		if(fragment == null) {
+			return;
+		}
+
+		if(fragment.getSubreddit() == null) {
+			BugReportActivity.handleGlobalError(
+					this,
+					new RuntimeException("Can't unblock post listing "
+							+ fragment.getPostListingURL()));
 			return;
 		}
 

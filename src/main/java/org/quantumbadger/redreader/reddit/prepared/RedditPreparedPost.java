@@ -18,11 +18,11 @@
 package org.quantumbadger.redreader.reddit.prepared;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,6 +35,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
@@ -58,14 +59,17 @@ import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
@@ -220,7 +224,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		}
 
 		return Boolean.TRUE.equals(src.getSrc().is_video)
-				|| preview.getAtPath("images", 0, "variants", "mp4") != null
+				|| preview.getAtPath("images", 0, "variants", "mp4").isPresent()
 				|| preview.getObject("reddit_video_preview") != null
 				|| "v.redd.it".equals(src.getDomain())
 				|| "streamable.com".equals(src.getDomain())
@@ -231,7 +235,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final BaseActivity activity,
 			final RedditPreparedPost post) {
 
-		final SharedPreferences sharedPreferences =
+		final SharedPrefsWrapper sharedPreferences =
 				General.getSharedPrefs(activity);
 
 		final EnumSet<Action> itemPref
@@ -582,12 +586,19 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				break;
 
 			case EXTERNAL: {
-				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				final String url = (activity instanceof WebViewActivity)
-						? ((WebViewActivity)activity).getCurrentUrl()
-						: post.src.getUrl();
-				intent.setData(Uri.parse(url));
-				activity.startActivity(intent);
+				try {
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
+					final String url = (activity instanceof WebViewActivity)
+							? ((WebViewActivity)activity).getCurrentUrl()
+							: post.src.getUrl();
+					intent.setData(Uri.parse(url));
+					activity.startActivity(intent);
+
+				} catch(final ActivityNotFoundException e) {
+					General.quickToast(
+							activity,
+							R.string.action_not_handled_by_installed_app_toast);
+				}
 				break;
 			}
 
@@ -742,9 +753,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							Toast.LENGTH_LONG).show();
 
 				} catch(final Exception e) {
-					throw new RuntimeException(
-							"Got exception for subreddit: " + post.src.getSubreddit(),
-							e);
+					BugReportActivity.handleGlobalError(
+							activity,
+							new RuntimeException(
+									"Got exception for subreddit: " + post.src.getSubreddit(),
+									e));
 				}
 
 				break;
@@ -983,12 +996,12 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			boldCol = appearance.getColor(0, 255);
 		}
 
-		final int rrPostSubtitleUpvoteCol = appearance.getColor(1, 255),
-				rrPostSubtitleDownvoteCol = appearance.getColor(2, 255),
-				rrFlairBackCol = appearance.getColor(3, 255),
-				rrFlairTextCol = appearance.getColor(4, 255),
-				rrGoldTextCol = appearance.getColor(5, 255),
-				rrGoldBackCol = appearance.getColor(6, 255);
+		final int rrPostSubtitleUpvoteCol = appearance.getColor(1, 255);
+		final int rrPostSubtitleDownvoteCol = appearance.getColor(2, 255);
+		final int rrFlairBackCol = appearance.getColor(3, 255);
+		final int rrFlairTextCol = appearance.getColor(4, 255);
+		final int rrGoldTextCol = appearance.getColor(5, 255);
+		final int rrGoldBackCol = appearance.getColor(6, 255);
 
 		appearance.recycle();
 
@@ -1113,12 +1126,39 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AUTHOR)) {
 			postListDescSb.append(context.getString(R.string.subtitle_by) + " ", 0);
-			postListDescSb.append(
-					src.getAuthor(),
-					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
-					boldCol,
-					0,
-					1f);
+
+			final boolean setBackgroundColour;
+			final int backgroundColour; // TODO color from theme
+
+			if("moderator".equals(src.getDistinguished())) {
+				setBackgroundColour = true;
+				backgroundColour = Color.rgb(0, 170, 0);
+			} else if("admin".equals(src.getDistinguished())) {
+				setBackgroundColour = true;
+				backgroundColour = Color.rgb(170, 0, 0);
+			} else {
+				setBackgroundColour = false;
+				backgroundColour = 0;
+			}
+
+			if(setBackgroundColour) {
+				postListDescSb.append(
+						BetterSSB.NBSP + src.getAuthor() + BetterSSB.NBSP,
+						BetterSSB.BOLD
+								| BetterSSB.FOREGROUND_COLOR
+								| BetterSSB.BACKGROUND_COLOR,
+						Color.WHITE,
+						backgroundColour,
+						1f);
+			} else {
+				postListDescSb.append(
+						src.getAuthor(),
+						BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
+						boldCol,
+						0,
+						1f);
+			}
+
 			postListDescSb.append(" ", 0);
 		}
 
@@ -1242,10 +1282,19 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		}
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AUTHOR)) {
+			@StringRes final int authorString;
+
+			if("moderator".equals(src.getDistinguished())) {
+				authorString = R.string.accessibility_subtitle_author_moderator_withperiod;
+			} else if("admin".equals(src.getDistinguished())) {
+				authorString = R.string.accessibility_subtitle_author_admin_withperiod;
+			} else {
+				authorString = R.string.accessibility_subtitle_author_withperiod;
+			}
 
 			accessibilitySubtitle
 					.append(context.getString(
-							R.string.accessibility_subtitle_author_withperiod,
+							authorString,
 							ScreenreaderPronunciation.getPronunciation(
 									context,
 									src.getAuthor())))
@@ -1292,7 +1341,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final String url = post.getThumbnailUrl();
 
 		return url != null
-				&& url.length() != 0
+				&& !url.isEmpty()
 				&& !url.equalsIgnoreCase("nsfw")
 				&& !url.equalsIgnoreCase("self")
 				&& !url.equalsIgnoreCase("default");
@@ -1351,15 +1400,18 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
-						Log.e(
-								TAG,
-								"Failed to download thumbnail "
-										+ uriStr
-										+ " with status "
-										+ httpStatus,
-								t);
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.e(
+									TAG,
+									"Failed to download thumbnail "
+											+ uriStr
+											+ " with status "
+											+ httpStatus,
+									t);
+						}
 					}
 				}));
 	}
@@ -1498,38 +1550,46 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 					@Override
 					protected void onFailure(
-							final @CacheRequest.RequestFailureType int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage) {
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> response) {
+
 						revertOnFailure();
-						if(t != null) {
-							t.printStackTrace();
-						}
 
 						final RRError error = General.getGeneralErrorForFailure(
 								context,
 								type,
 								t,
-								status,
+								httpStatus,
 								"Reddit API action code: "
 										+ action
 										+ " "
-										+ src.getIdAndType());
+										+ src.getIdAndType(),
+								response);
 						General.showResultDialog(activity, error);
 					}
 
 					@Override
-					protected void onFailure(final APIFailureType type) {
+					protected void onFailure(
+							@NonNull final APIFailureType type,
+							@Nullable final String debuggingContext,
+							@NonNull final Optional<FailedRequestBody> response) {
+
 						revertOnFailure();
 
-						final RRError error =
-								General.getGeneralErrorForFailure(context, type);
+						final RRError error = General.getGeneralErrorForFailure(
+								context,
+								type,
+								debuggingContext,
+								response);
+
 						General.showResultDialog(activity, error);
 					}
 
 					@Override
-					protected void onSuccess(@Nullable final String redirectUrl) {
+					protected void onSuccess() {
 
 						final long now = RRTime.utcCurrentTimeMillis();
 

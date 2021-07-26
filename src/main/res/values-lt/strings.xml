@@ -218,7 +218,7 @@
     <string name="comment_reply_done">Atsakymas išsiųstas. Komentaras pasirodys perkrovus komentarų sąrašą.</string>
     <string name="comment_edit_done">Komentaras redaguotas. Pakeitimai pasirodys perkrovus komentarų sąrašą.</string>
     <string name="post_submit_title_hint">Pavadinimas</string>
-    <string name="post_submit_subreddit_hint">Subreddit\'as</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit\'as</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Įkelti</string>
     <string name="post_submit_done">Įrašas įkeltas.</string>

@@ -27,8 +27,10 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -100,7 +102,8 @@ public class RedditAPIIndividualSubredditDataRequester implements
 									e,
 									null,
 									"Parse error",
-									url));
+									url,
+									Optional.of(new FailedRequestBody(result))));
 						}
 					}
 
@@ -109,14 +112,16 @@ public class RedditAPIIndividualSubredditDataRequester implements
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						handler.onRequestFailed(new SubredditRequestFailure(
 								type,
 								t,
 								httpStatus,
 								readableMessage,
-								url));
+								url,
+								body));
 					}
 				}));
 

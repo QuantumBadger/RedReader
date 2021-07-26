@@ -45,7 +45,9 @@ public abstract class FlingableItemView extends SwipableItemView {
 	private final int mOffsetBeginAllowed;
 	private final int mOffsetActionPerformed;
 
-	private final Drawable rrIconFfLeft, rrIconFfRight, rrIconTick;
+	private final Drawable rrIconFfLeft;
+	private final Drawable rrIconFfRight;
+	private final Drawable rrIconTick;
 
 	public FlingableItemView(@NonNull final Context context) {
 

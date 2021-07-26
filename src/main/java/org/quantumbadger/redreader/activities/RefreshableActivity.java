@@ -17,13 +17,13 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 
 import java.util.EnumSet;
 
@@ -45,7 +45,7 @@ public abstract class RefreshableActivity extends BaseActivity {
 
 	@Override
 	protected void onSharedPreferenceChangedInner(
-			final SharedPreferences prefs,
+			final SharedPrefsWrapper prefs,
 			final String key) {
 
 		if(PrefsUtility.isRestartRequired(this, key)) {

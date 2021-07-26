@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.fragments;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -56,6 +55,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
@@ -150,8 +150,7 @@ public class CommentListingFragment extends RRFragment
 
 		final Context context = getActivity();
 
-		final SharedPreferences prefs = General.getSharedPrefs(
-				context);
+		final SharedPrefsWrapper prefs = General.getSharedPrefs(context);
 
 		mSelfTextFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
 
@@ -640,13 +639,16 @@ public class CommentListingFragment extends RRFragment
 			if(mCommentListingManager.getCommentCount() == 0) {
 
 				final View emptyView = LayoutInflater.from(getContext()).inflate(
-						R.layout.no_comments_yet,
+						R.layout.no_items_yet,
 						mRecyclerView,
 						false);
 
 				if(mCommentListingManager.isSearchListing()) {
 					((TextView)emptyView.findViewById(R.id.empty_view_text))
 							.setText(R.string.no_search_results);
+				} else {
+					((TextView)emptyView.findViewById(R.id.empty_view_text))
+							.setText(R.string.no_comments_yet);
 				}
 
 				mCommentListingManager.addViewToItems(emptyView);
@@ -678,10 +680,9 @@ public class CommentListingFragment extends RRFragment
 				OptionsMenuUtility.AppbarItemsPref.REPLY);
 
 		if(mAllUrls != null
-				&& mAllUrls.size() > 0
+				&& !mAllUrls.isEmpty()
 				&& mAllUrls.get(0).pathType() == RedditURLParser.POST_COMMENT_LISTING_URL
-				&&
-				replyShowAsAction != OptionsMenuUtility.DO_NOT_SHOW) {
+				&& replyShowAsAction != OptionsMenuUtility.DO_NOT_SHOW) {
 			final MenuItem reply = menu.add(
 					Menu.NONE,
 					OptionsMenuUtility.AppbarItemsPref.REPLY.ordinal(),

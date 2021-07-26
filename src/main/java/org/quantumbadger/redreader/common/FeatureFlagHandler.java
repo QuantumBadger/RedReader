@@ -18,9 +18,11 @@
 package org.quantumbadger.redreader.common;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -30,6 +32,9 @@ import org.quantumbadger.redreader.fragments.ChangelogDialog;
 import java.util.Set;
 
 public final class FeatureFlagHandler {
+
+	@NonNull public static final String PREF_LAST_VERSION = "lastVersion";
+	@NonNull public static final String PREF_FIRST_RUN_MESSAGE_SHOWN = "firstRunMessageShown";
 
 	private static final String TAG = "FeatureFlagHandler";
 
@@ -41,7 +46,8 @@ public final class FeatureFlagHandler {
 
 	private enum FeatureFlag {
 
-		COMMENT_HEADER_SUBREDDIT_FEATURE("commentHeaderSubredditFeature");
+		COMMENT_HEADER_SUBREDDIT_FEATURE("commentHeaderSubredditFeature"),
+		CONTROVERSIAL_DATE_SORTS_FEATURE("controversialDateSortsFeature");
 
 		@NonNull private final String id;
 
@@ -55,38 +61,118 @@ public final class FeatureFlagHandler {
 		}
 	}
 
-	public static void handleUpgrade(@NonNull final BaseActivity context) {
+	private static String getString(
+			@StringRes final int id,
+			final String defaultString,
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+
+		return sharedPreferences.getString(context.getString(id), defaultString);
+	}
+
+	private static Set<String> getStringSet(
+			final int id,
+			final int defaultArrayRes,
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+
+		return sharedPreferences.getStringSet(
+				context.getString(id),
+				General.hashsetFromArray(context.getResources().getStringArray(defaultArrayRes)));
+	}
+
+	public static void handleUpgrade(@NonNull final Context context) {
 
 		// getAndSetFeatureFlag() will return UPGRADE_NEEDED if the app has been
 		// upgraded from a version which did not support the specified feature.
 		// It will return ALREADY_UPGRADED if the feature was already present
 		// in the last version, or if this is a fresh install of the app.
 
-		final SharedPreferences sharedPrefs = General.getSharedPrefs(context);
+		General.getSharedPrefs(context).performActionWithWriteLock(prefs -> {
 
-		if(getAndSetFeatureFlag(sharedPrefs, FeatureFlag.COMMENT_HEADER_SUBREDDIT_FEATURE)
-				== FeatureFlagStatus.UPGRADE_NEEDED) {
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.COMMENT_HEADER_SUBREDDIT_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
 
-			Log.i(TAG, "Upgrading, show comment subreddit in header by default");
+				Log.i(TAG, "Upgrading, show comment subreddit in header by default");
 
-			final Set<String> existingCommentHeaderItems = PrefsUtility.getStringSet(
-					R.string.pref_appearance_comment_header_items_key,
-					R.array.pref_appearance_comment_header_items_default,
-					context,
-					sharedPrefs);
+				final Set<String> existingCommentHeaderItems = getStringSet(
+						R.string.pref_appearance_comment_header_items_key,
+						R.array.pref_appearance_comment_header_items_default,
+						context,
+						prefs);
 
-			existingCommentHeaderItems.add("subreddit");
+				existingCommentHeaderItems.add("subreddit");
 
-			sharedPrefs.edit()
-					.putStringSet(
-							context.getString(R.string.pref_appearance_comment_header_items_key),
-							existingCommentHeaderItems)
-					.apply();
-		}
+				prefs.edit()
+						.putStringSet(
+								context.getString(
+										R.string.pref_appearance_comment_header_items_key),
+								existingCommentHeaderItems)
+						.apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.CONTROVERSIAL_DATE_SORTS_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, add date sorting for controversial posts/user comments");
+
+				final String existingDefaultPostsSort = getString(
+						R.string.pref_behaviour_postsort_key,
+						"hot",
+						context,
+						prefs);
+
+				final String existingDefaultMultiPostsSort = getString(
+						R.string.pref_behaviour_multi_postsort_key,
+						"hot",
+						context,
+						prefs);
+
+				final String existingDefaultUserPostsSort = getString(
+						R.string.pref_behaviour_user_postsort_key,
+						"new",
+						context,
+						prefs);
+
+				final String existingDefaultUserCommentsSort = getString(
+						R.string.pref_behaviour_user_commentsort_key,
+						"new",
+						context,
+						prefs);
+
+				if(existingDefaultPostsSort.equals("controversial")) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_behaviour_postsort_key),
+							"controversial_day")
+						.apply();
+				}
+
+				if(existingDefaultMultiPostsSort.equals("controversial")) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_behaviour_multi_postsort_key),
+							"controversial_day")
+							.apply();
+				}
+
+				if(existingDefaultUserPostsSort.equals("controversial")) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_behaviour_user_postsort_key),
+							"controversial_all")
+							.apply();
+				}
+
+				if(existingDefaultUserCommentsSort.equals("controversial")) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_behaviour_user_commentsort_key),
+							"controversial_all")
+							.apply();
+				}
+			}
+		});
 	}
 
 	private static void setFeatureFlag(
-			@NonNull final SharedPreferences sharedPreferences,
+			@NonNull final SharedPrefsWrapper sharedPreferences,
 			@NonNull final FeatureFlag featureFlag) {
 
 		sharedPreferences.edit().putBoolean(featureFlag.getId(), true).apply();
@@ -95,7 +181,7 @@ public final class FeatureFlagHandler {
 	@NonNull
 	private static FeatureFlagStatus getAndSetFeatureFlag(
 			@NonNull final SharedPreferences sharedPreferences,
-			@NonNull final FeatureFlag featureFlag) {
+			@SuppressWarnings("SameParameterValue") @NonNull final FeatureFlag featureFlag) {
 
 		final String name = "rr_feature_flag_" + featureFlag.id;
 
@@ -108,7 +194,7 @@ public final class FeatureFlagHandler {
 		return current ? FeatureFlagStatus.ALREADY_UPGRADED : FeatureFlagStatus.UPGRADE_NEEDED;
 	}
 
-	public static void handleFirstInstall(@NonNull final SharedPreferences sharedPrefs) {
+	public static void handleFirstInstall(@NonNull final SharedPrefsWrapper sharedPrefs) {
 
 		// Set all feature flags when first installing
 
@@ -123,9 +209,9 @@ public final class FeatureFlagHandler {
 			final int appVersion,
 			@NonNull final String versionName) {
 
-		final SharedPreferences sharedPreferences = General.getSharedPrefs(activity);
+		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(activity);
 
-		final int lastVersion = sharedPreferences.getInt("lastVersion", 0);
+		final int lastVersion = sharedPreferences.getInt(PREF_LAST_VERSION, 0);
 
 		Log.i(TAG, "[Migration] Last version: " + lastVersion);
 
@@ -152,7 +238,7 @@ public final class FeatureFlagHandler {
 							activity.getString(R.string.upgrade_message),
 							versionName));
 
-			sharedPreferences.edit().putInt("lastVersion", appVersion).apply();
+			sharedPreferences.edit().putInt(PREF_LAST_VERSION, appVersion).apply();
 			ChangelogDialog.newInstance().show(activity.getSupportFragmentManager(), null);
 
 			if(lastVersion <= 51) {
@@ -404,8 +490,7 @@ public final class FeatureFlagHandler {
 					}
 				}
 
-				final AppbarItemStrings[] appbarItemsPrefStrings
-						= new AppbarItemStrings[] {
+				final AppbarItemStrings[] appbarItemsPrefStrings = {
 						new AppbarItemStrings(
 								R.string.pref_menus_appbar_accounts_key,
 								"accounts"),

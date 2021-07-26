@@ -17,8 +17,9 @@
 
 package org.quantumbadger.redreader.adapters;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by veyndan on 18/04/2016.
@@ -31,8 +32,9 @@ public abstract class HeaderRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 
 	protected static final int HEADER_SIZE = 1;
 
+	@NonNull
 	@Override
-	public VH onCreateViewHolder(final ViewGroup parent, final int viewType) {
+	public VH onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
 		switch(viewType) {
 			case TYPE_HEADER:
 				return onCreateHeaderItemViewHolder(parent);
@@ -48,7 +50,7 @@ public abstract class HeaderRecyclerAdapter<VH extends RecyclerView.ViewHolder>
 	protected abstract VH onCreateContentItemViewHolder(ViewGroup parent);
 
 	@Override
-	public void onBindViewHolder(final VH holder, final int position) {
+	public void onBindViewHolder(@NonNull final VH holder, final int position) {
 		if(position == 0) {
 			onBindHeaderItemViewHolder(holder, position);
 		} else {

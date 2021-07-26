@@ -28,6 +28,17 @@ public class MalformedHtmlException extends Exception {
 	public MalformedHtmlException(
 			@NonNull final String message,
 			@NonNull final String html,
+			@Nullable final Integer charPosition,
+			@NonNull final Exception e) {
+
+		super(message, e);
+		this.html = html;
+		this.charPosition = charPosition;
+	}
+
+	public MalformedHtmlException(
+			@NonNull final String message,
+			@NonNull final String html,
 			@Nullable final Integer charPosition) {
 
 		super(message);

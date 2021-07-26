@@ -24,6 +24,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.UpdateNotifier;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
@@ -54,12 +55,12 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		}
 	};
 
-	private static final String ACCOUNTS_DB_FILENAME = "accounts_oauth2.db",
-			TABLE = "accounts_oauth2",
-			FIELD_USERNAME = "username",
-			FIELD_REFRESH_TOKEN = "refresh_token",
-			FIELD_PRIORITY = "priority",
-			FIELD_USES_NEW_CLIENT_ID = "uses_new_client_id";
+	private static final String ACCOUNTS_DB_FILENAME = "accounts_oauth2.db";
+	private static final String TABLE = "accounts_oauth2";
+	private static final String FIELD_USERNAME = "username";
+	private static final String FIELD_REFRESH_TOKEN = "refresh_token";
+	private static final String FIELD_PRIORITY = "priority";
+	private static final String FIELD_USES_NEW_CLIENT_ID = "uses_new_client_id";
 
 	private static final int ACCOUNTS_DB_VERSION = 3;
 
@@ -180,6 +181,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		return new ArrayList<>(accountsCache);
 	}
 
+	@Nullable
 	public RedditAccount getAccount(@NonNull final String username) {
 
 		if("".equals(username)) {
@@ -233,7 +235,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 	private synchronized void reloadAccounts(final SQLiteDatabase db) {
 
-		final String[] fields = new String[] {
+		final String[] fields = {
 				FIELD_USERNAME,
 				FIELD_REFRESH_TOKEN,
 				FIELD_PRIORITY,

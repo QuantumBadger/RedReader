@@ -25,6 +25,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.util.Base64;
 import android.view.KeyEvent;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -33,9 +34,13 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RunnableOnce;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.PostField;
+import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -48,7 +53,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class RedditOAuth {
 
-	private static final String REDIRECT_URI_OLD = "http://rr_oauth_redir";
 	private static final String CLIENT_ID_OLD = "m_zCW1Dixs9WLA";
 
 	private static final String REDIRECT_URI_NEW = "redreader://rr_oauth_redir";
@@ -189,6 +193,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.message_cannotlogin),
+							true,
 							null,
 							httpStatus,
 							uri,
@@ -201,6 +206,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_connection_title),
 							context.getString(R.string.error_connection_message),
+							true,
 							exception,
 							null,
 							uri,
@@ -213,6 +219,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							exception,
 							null,
 							uri,
@@ -233,6 +240,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.message_cannotlogin),
+							true,
 							null,
 							httpStatus,
 							uri,
@@ -245,6 +253,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_connection_title),
 							context.getString(R.string.error_connection_message),
+							true,
 							exception,
 							null,
 							uri,
@@ -257,6 +266,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							exception,
 							null,
 							uri,
@@ -280,8 +290,8 @@ public final class RedditOAuth {
 								context.getString(
 										R.string.error_title_login_user_denied_permission),
 								context.getString(
-										R.string.error_message_login_user_denied_permission)
-						)
+										R.string.error_message_login_user_denied_permission),
+								false)
 				);
 
 			} else {
@@ -291,8 +301,8 @@ public final class RedditOAuth {
 								context.getString(
 										R.string.error_title_login_unknown_reddit_error,
 										error),
-								context.getString(R.string.error_unknown_message)
-						));
+								context.getString(R.string.error_unknown_message),
+								true));
 			}
 		}
 
@@ -303,24 +313,24 @@ public final class RedditOAuth {
 					FetchRefreshTokenResultStatus.INVALID_RESPONSE,
 					new RRError(
 							context.getString(R.string.error_unknown_title),
-							context.getString(R.string.error_unknown_message)
-					)
+							context.getString(R.string.error_unknown_message),
+							true)
 			);
 		}
 
 		final String uri = ACCESS_TOKEN_URL;
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(3);
-		postFields.add(new HTTPBackend.PostField("grant_type", "authorization_code"));
-		postFields.add(new HTTPBackend.PostField("code", code));
-		postFields.add(new HTTPBackend.PostField("redirect_uri", REDIRECT_URI_NEW));
+		final ArrayList<PostField> postFields = new ArrayList<>(3);
+		postFields.add(new PostField("grant_type", "authorization_code"));
+		postFields.add(new PostField("code", code));
+		postFields.add(new PostField("redirect_uri", REDIRECT_URI_NEW));
 
 		try {
 			final HTTPBackend.Request request = HTTPBackend.getBackend().prepareRequest(
 					context,
 					new HTTPBackend.RequestDetails(
 							General.uriFromString(uri),
-							postFields));
+							Optional.of(new HTTPRequestBodyPostFields(postFields))));
 
 			request.addHeader(
 					"Authorization",
@@ -337,7 +347,8 @@ public final class RedditOAuth {
 				public void onError(
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
-						final Integer httpStatus) {
+						final Integer httpStatus,
+						@NonNull final Optional<FailedRequestBody> body) {
 					result.set(handleRefreshTokenError(
 							exception,
 							httpStatus,
@@ -371,6 +382,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_connection_title),
 										context.getString(R.string.error_connection_message),
+										true,
 										e,
 										null,
 										uri,
@@ -394,6 +406,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							t,
 							null,
 							uri,
@@ -411,7 +424,7 @@ public final class RedditOAuth {
 		try {
 			final HTTPBackend.Request request
 					= HTTPBackend.getBackend()
-					.prepareRequest(context, new HTTPBackend.RequestDetails(uri, null));
+					.prepareRequest(context, new HTTPBackend.RequestDetails(uri, Optional.empty()));
 
 			request.addHeader("Authorization", "bearer " + accessToken.token);
 
@@ -423,7 +436,8 @@ public final class RedditOAuth {
 				public void onError(
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
-						final Integer httpStatus) {
+						final Integer httpStatus,
+						@NonNull final Optional<FailedRequestBody> body) {
 
 					if(httpStatus != null && httpStatus != 200) {
 						result.set(new FetchUserInfoResult(
@@ -431,11 +445,12 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_unknown_title),
 										context.getString(R.string.error_unknown_message),
+										true,
 										null,
 										httpStatus,
 										uri.toString(),
-										null)
-						));
+										null,
+										body)));
 
 					} else {
 						result.set(new FetchUserInfoResult(
@@ -443,11 +458,12 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_unknown_title),
 										context.getString(R.string.error_unknown_message),
+										true,
 										exception,
 										null,
 										uri.toString(),
-										null)
-						));
+										null,
+										body)));
 					}
 				}
 
@@ -464,18 +480,19 @@ public final class RedditOAuth {
 
 						final String username = responseObject.getString("name");
 
-						if(username == null || username.length() == 0) {
+						if(username == null || username.isEmpty()) {
 
 							result.set(new FetchUserInfoResult(
 									FetchUserInfoResultStatus.INVALID_RESPONSE,
 									new RRError(
 											context.getString(R.string.error_unknown_title),
 											context.getString(R.string.error_unknown_message),
+											true,
 											null,
 											null,
 											uri.toString(),
-											null)
-							));
+											null,
+											Optional.of(new FailedRequestBody(jsonValue)))));
 
 							return;
 						}
@@ -488,6 +505,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_connection_title),
 										context.getString(R.string.error_connection_message),
+										true,
 										e,
 										null,
 										uri.toString(),
@@ -511,6 +529,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							t,
 							null,
 							uri.toString(),
@@ -624,6 +643,7 @@ public final class RedditOAuth {
 							new RRError(
 									context.getString(R.string.error_unknown_title),
 									context.getString(R.string.error_unknown_message),
+									true,
 									t
 							)
 					);
@@ -668,9 +688,9 @@ public final class RedditOAuth {
 
 		final String uri = ACCESS_TOKEN_URL;
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(2);
-		postFields.add(new HTTPBackend.PostField("grant_type", "refresh_token"));
-		postFields.add(new HTTPBackend.PostField("refresh_token", user.refreshToken.token));
+		final ArrayList<PostField> postFields = new ArrayList<>(2);
+		postFields.add(new PostField("grant_type", "refresh_token"));
+		postFields.add(new PostField("refresh_token", user.refreshToken.token));
 
 		try {
 			final HTTPBackend.Request request = HTTPBackend.getBackend()
@@ -678,7 +698,7 @@ public final class RedditOAuth {
 							context,
 							new HTTPBackend.RequestDetails(
 									General.uriFromString(uri),
-									postFields));
+									Optional.of(new HTTPRequestBodyPostFields(postFields))));
 
 			request.addHeader(
 					"Authorization",
@@ -695,7 +715,8 @@ public final class RedditOAuth {
 				public void onError(
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
-						final Integer httpStatus) {
+						final Integer httpStatus,
+						@NonNull final Optional<FailedRequestBody> body) {
 					result.set(handleAccessTokenError(
 							exception,
 							httpStatus,
@@ -732,6 +753,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_connection_title),
 										context.getString(R.string.error_connection_message),
+										true,
 										e,
 										null,
 										uri,
@@ -755,6 +777,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.error_unknown_message),
+							true,
 							t,
 							null,
 							uri,
@@ -768,11 +791,11 @@ public final class RedditOAuth {
 
 		final String uri = ACCESS_TOKEN_URL;
 
-		final ArrayList<HTTPBackend.PostField> postFields = new ArrayList<>(2);
-		postFields.add(new HTTPBackend.PostField(
+		final ArrayList<PostField> postFields = new ArrayList<>(2);
+		postFields.add(new PostField(
 				"grant_type",
 				"https://oauth.reddit.com/grants/installed_client"));
-		postFields.add(new HTTPBackend.PostField(
+		postFields.add(new PostField(
 				"device_id",
 				"DO_NOT_TRACK_THIS_DEVICE"));
 
@@ -782,7 +805,7 @@ public final class RedditOAuth {
 							context,
 							new HTTPBackend.RequestDetails(
 									General.uriFromString(uri),
-									postFields));
+									Optional.of(new HTTPRequestBodyPostFields(postFields))));
 
 			request.addHeader(
 					"Authorization",
@@ -798,7 +821,8 @@ public final class RedditOAuth {
 				public void onError(
 						final @CacheRequest.RequestFailureType int failureType,
 						final Throwable exception,
-						final Integer httpStatus) {
+						final Integer httpStatus,
+						@NonNull final Optional<FailedRequestBody> body) {
 					result.set(handleAccessTokenError(
 							exception,
 							httpStatus,
@@ -835,6 +859,7 @@ public final class RedditOAuth {
 								new RRError(
 										context.getString(R.string.error_connection_title),
 										context.getString(R.string.error_connection_message),
+										true,
 										e,
 										null,
 										uri,
@@ -858,6 +883,7 @@ public final class RedditOAuth {
 					new RRError(
 							context.getString(R.string.error_unknown_title),
 							context.getString(R.string.message_cannotlogin),
+							true,
 							t,
 							null,
 							uri,

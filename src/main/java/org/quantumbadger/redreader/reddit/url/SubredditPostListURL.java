@@ -76,11 +76,12 @@ public class SubredditPostListURL extends PostListingURL {
 
 	@Nullable public final PostSort order;
 	@Nullable public final Integer limit;
-	@Nullable public final String before, after;
+	@Nullable public final String before;
+	@Nullable public final String after;
 
 	private SubredditPostListURL(
-			final Type type,
-			final String subreddit,
+			@NonNull final Type type,
+			@Nullable final String subreddit,
 			@Nullable final PostSort order,
 			@Nullable final Integer limit,
 			@Nullable final String before,
@@ -108,6 +109,7 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(type, subreddit, newOrder, limit, before, after);
 	}
 
+	@Nullable
 	@Override
 	public PostSort getOrder() {
 		return order;
@@ -173,7 +175,8 @@ public class SubredditPostListURL extends PostListingURL {
 	public static SubredditPostListURL parse(final Uri uri) {
 
 		Integer limit = null;
-		String before = null, after = null;
+		String before = null;
+		String after = null;
 
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
@@ -205,13 +208,12 @@ public class SubredditPostListURL extends PostListingURL {
 					segment = segment.substring(0, segment.lastIndexOf('.'));
 				}
 
-				if(segment.length() > 0) {
+				if(!segment.isEmpty()) {
 					pathSegmentsFiltered.add(segment);
 				}
 			}
 
-			pathSegments =
-					pathSegmentsFiltered.toArray(new String[0]);
+			pathSegments = pathSegmentsFiltered.toArray(new String[0]);
 		}
 
 		final PostSort order;
@@ -392,6 +394,12 @@ public class SubredditPostListURL extends PostListingURL {
 		}
 
 		switch(order) {
+			case CONTROVERSIAL_HOUR:
+			case CONTROVERSIAL_DAY:
+			case CONTROVERSIAL_WEEK:
+			case CONTROVERSIAL_MONTH:
+			case CONTROVERSIAL_YEAR:
+			case CONTROVERSIAL_ALL:
 			case TOP_HOUR:
 			case TOP_DAY:
 			case TOP_WEEK:

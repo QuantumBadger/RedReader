@@ -183,7 +183,7 @@
     <string name="comment_reply_done">Odpowiedź wysłana. Komentarz pojawi się po odświeżeniu.</string>
     <string name="comment_edit_done">Komentarz zmieniony. Zmiany pojawią się po odświeżeniu.</string>
     <string name="post_submit_title_hint">Tytuł</string>
-    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="subreddit_selection_textbox_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Publikuj</string>
     <string name="post_submit_done">Post opublikowany.</string>
@@ -694,4 +694,8 @@
     <string name="comment_link_copied_to_clipboard">Link do komentarza został skopiowany do schowka</string>
     <string name="link_copied_to_clipboard">Link został skopiowany do schowka</string>
     <string name="post_link_copied_to_clipboard">Link do wpisu został skopiowany do schowka</string>
+    <string name="accessibility_image_viewer_view_comments">Pokaż komentarze</string>
+    <string name="three_dots_menu">Więcej opcji</string>
+    <string name="cache_clear_dialog_images_data">Zdjęcia (%s)</string>
+    <string name="cache_clear_dialog_images">Zdjęcia</string>
 </resources>

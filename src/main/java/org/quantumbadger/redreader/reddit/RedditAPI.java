@@ -18,10 +18,10 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
-import android.util.Log;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -32,11 +32,14 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
-import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.http.FailedRequestBody;
+import org.quantumbadger.redreader.http.PostField;
+import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonString;
@@ -51,15 +54,17 @@ import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 
 public final class RedditAPI {
-
-	private static final String TAG = "RedditAPI";
 
 	public static final int ACTION_UPVOTE = 0;
 	public static final int ACTION_UNVOTE = 1;
@@ -113,15 +118,19 @@ public final class RedditAPI {
 				final APIResponseHandler.APIFailureType failureType = findFailureType(result);
 
 				if(failureType != null) {
-					mHandler.notifyFailure(failureType);
+					mHandler.notifyFailure(
+							failureType,
+							"GenericResponseHandler",
+							Optional.of(new FailedRequestBody(result)));
+				} else {
+					mHandler.notifySuccess();
 				}
-
-				mHandler.notifySuccess(findRedirectUrl(result));
 
 			} catch(final Exception e) {
 				BugReportActivity.handleGlobalError(mHandler.context, new RRError(
 						null,
 						null,
+						true,
 						e,
 						null,
 						null,
@@ -134,39 +143,254 @@ public final class RedditAPI {
 				final int type,
 				@Nullable final Throwable t,
 				@Nullable final Integer httpStatus,
-				@Nullable final String readableMessage) {
+				@Nullable final String readableMessage,
+				@NonNull final Optional<FailedRequestBody> body) {
 
-			mHandler.notifyFailure(type, t, httpStatus, readableMessage);
+			mHandler.notifyFailure(
+					type,
+					t,
+					httpStatus,
+					readableMessage,
+					body);
+		}
+	}
+
+	public interface FlairSelectorResponseHandler {
+
+		void onSuccess(@NonNull Collection<RedditFlairChoice> choices);
+
+		void onSubredditDoesNotExist();
+
+		void onSubredditPermissionDenied();
+
+		void onFailure(
+				int type,
+				@Nullable Throwable t,
+				@Nullable Integer httpStatus,
+				@Nullable String readableMessage,
+				@NonNull final Optional<FailedRequestBody> response);
+
+		void onFailure(
+				@NonNull APIResponseHandler.APIFailureType type,
+				@NonNull final Optional<FailedRequestBody> response);
+	}
+
+	public static void flairSelectorForNewLink(
+			@NonNull final Context context,
+			@NonNull final CacheManager cm,
+			@NonNull final RedditAccount user,
+			@NonNull final SubredditCanonicalId subreddit,
+			@NonNull final FlairSelectorResponseHandler responseHandler) {
+
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("is_newlink", "true"));
+
+		cm.makeRequest(createPostRequest(
+				Constants.Reddit.getUri(subreddit + "/api/flairselector"),
+				user,
+				postFields,
+				context,
+				new CacheRequestJSONParser.Listener() {
+
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
+
+						if(result.asObject() != null
+								&& Objects.requireNonNull(result.asObject()).isEmpty()) {
+							responseHandler.onSuccess(Collections.emptyList());
+							return;
+						}
+
+						if(result.asString() != null
+								&& Objects.requireNonNull(result.asString()).equals("{}")) {
+							responseHandler.onSuccess(Collections.emptyList());
+							return;
+						}
+
+						final Optional<JsonArray> array = result.getArrayAtPath("choices");
+
+						if(array.isEmpty()) {
+
+							final APIResponseHandler.APIFailureType failureType
+									= findFailureType(result);
+
+							if(failureType != null) {
+								responseHandler.onFailure(
+										failureType,
+										Optional.of(new FailedRequestBody(result)));
+							} else {
+								responseHandler.onFailure(
+										APIResponseHandler.APIFailureType.UNKNOWN,
+										Optional.of(new FailedRequestBody(result)));
+							}
+
+							return;
+						}
+
+						final Optional<List<RedditFlairChoice>> choices
+								= RedditFlairChoice.fromJsonList(array.get());
+
+						if(choices.isEmpty()) {
+							responseHandler.onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									new RuntimeException(),
+									null,
+									"Failed to parse choices list",
+									Optional.of(new FailedRequestBody(result)));
+							return;
+						}
+
+						responseHandler.onSuccess(choices.get());
+					}
+
+					@Override
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> response) {
+
+						if(httpStatus != null && httpStatus == 404) {
+							responseHandler.onSubredditDoesNotExist();
+
+						} else if(httpStatus != null && httpStatus == 403) {
+							responseHandler.onSubredditPermissionDenied();
+
+						} else {
+							responseHandler.onFailure(
+									type,
+									t,
+									httpStatus,
+									readableMessage,
+									response);
+						}
+					}
+				}));
+	}
+
+	private static class SubmitJSONListener implements CacheRequestJSONParser.Listener {
+
+		@NonNull private final APIResponseHandler.SubmitResponseHandler mResponseHandler;
+
+		private SubmitJSONListener(
+				@NonNull final APIResponseHandler.SubmitResponseHandler responseHandler) {
+			mResponseHandler = responseHandler;
+		}
+
+		@Override
+		public void onJsonParsed(
+				@NonNull final JsonValue result,
+				final long timestamp,
+				@NonNull final UUID session,
+				final boolean fromCache) {
+
+			try {
+				final Optional<JsonArray> errorsJson
+						= result.getArrayAtPath("json", "errors");
+
+				if(errorsJson.isPresent()) {
+
+					final ArrayList<String> errors = new ArrayList<>();
+
+					for(final JsonValue errorValue : errorsJson.get()) {
+
+						final JsonArray error = errorValue.asArray();
+
+						if(error != null && error.getString(1) != null) {
+							errors.add(error.getString(1));
+						}
+					}
+
+					if(!errors.isEmpty()) {
+						mResponseHandler.onSubmitErrors(errors);
+						return;
+					}
+				}
+
+				final APIResponseHandler.APIFailureType failureType
+						= findFailureType(result);
+
+				if(failureType != null) {
+					mResponseHandler.notifyFailure(
+							failureType,
+							null,
+							Optional.of(new FailedRequestBody(result)));
+				} else {
+					mResponseHandler.onSuccess(
+							result.getStringAtPath("json", "data", "things", 0, "data", "permalink")
+									.orElse(result.getStringAtPath("json", "data", "url")),
+							result.getStringAtPath("json", "data", "things", 0, "data", "name"));
+				}
+
+			} catch(final Exception e) {
+				BugReportActivity.handleGlobalError(
+						mResponseHandler.context,
+						new RRError(
+								null,
+								null,
+								true,
+								e,
+								null,
+								null,
+								result.toString()));
+			}
+		}
+
+		@Override
+		public void onFailure(
+				final int type,
+				@Nullable final Throwable t,
+				@Nullable final Integer httpStatus,
+				@Nullable final String readableMessage,
+				@NonNull final Optional<FailedRequestBody> body) {
+
+			mResponseHandler.notifyFailure(
+					type,
+					t,
+					httpStatus,
+					readableMessage,
+					body);
 		}
 	}
 
 	public static void submit(
 			final CacheManager cm,
-			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final APIResponseHandler.SubmitResponseHandler responseHandler,
 			final RedditAccount user,
-			final boolean is_self,
+			final boolean isSelfPost,
 			final String subreddit,
 			final String title,
 			final String body,
 			final boolean sendRepliesToInbox,
 			final boolean markAsNsfw,
 			final boolean markAsSpoiler,
+			@Nullable final String flairId,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("kind", is_self ? "self" : "link"));
-		postFields.add(new HTTPBackend.PostField(
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("api_type", "json"));
+		postFields.add(new PostField("kind", isSelfPost ? "self" : "link"));
+		postFields.add(new PostField(
 				"sendreplies",
 				sendRepliesToInbox ? "true" : "false"));
-		postFields.add(new HTTPBackend.PostField("nsfw", markAsNsfw ? "true" : "false"));
-		postFields.add(new HTTPBackend.PostField("spoiler", markAsSpoiler ? "true" : "false"));
-		postFields.add(new HTTPBackend.PostField("sr", subreddit));
-		postFields.add(new HTTPBackend.PostField("title", title));
+		postFields.add(new PostField("nsfw", markAsNsfw ? "true" : "false"));
+		postFields.add(new PostField("spoiler", markAsSpoiler ? "true" : "false"));
+		postFields.add(new PostField("sr", subreddit));
+		postFields.add(new PostField("title", title));
 
-		if(is_self) {
-			postFields.add(new HTTPBackend.PostField("text", body));
+		if(flairId != null) {
+			postFields.add(new PostField("flair_id", flairId));
+		}
+
+		if(isSelfPost) {
+			postFields.add(new PostField("text", body));
 		} else {
-			postFields.add(new HTTPBackend.PostField("url", body));
+			postFields.add(new PostField("url", body));
 		}
 
 		cm.makeRequest(createPostRequest(
@@ -174,7 +398,7 @@ public final class RedditAPI {
 				user,
 				postFields,
 				context,
-				new GenericResponseHandler(responseHandler)));
+				new SubmitJSONListener(responseHandler)));
 	}
 
 	public static void compose(
@@ -186,11 +410,11 @@ public final class RedditAPI {
 			@NonNull final String body,
 			@NonNull final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("api_type", "json"));
-		postFields.add(new HTTPBackend.PostField("subject", subject));
-		postFields.add(new HTTPBackend.PostField("to", recipient));
-		postFields.add(new HTTPBackend.PostField("text", body));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("api_type", "json"));
+		postFields.add(new PostField("subject", subject));
+		postFields.add(new PostField("to", recipient));
+		postFields.add(new PostField("text", body));
 
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri("/api/compose"),
@@ -202,80 +426,73 @@ public final class RedditAPI {
 
 	public static void comment(
 			final CacheManager cm,
-			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final APIResponseHandler.SubmitResponseHandler responseHandler,
 			final APIResponseHandler.ActionResponseHandler inboxResponseHandler,
 			final RedditAccount user,
 			final String parentIdAndType,
 			final String markdown,
 			final boolean sendRepliesToInbox,
-			final Context context) {
+			final AppCompatActivity context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("thing_id", parentIdAndType));
-		postFields.add(new HTTPBackend.PostField("text", markdown));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("api_type", "json"));
+		postFields.add(new PostField("thing_id", parentIdAndType));
+		postFields.add(new PostField("text", markdown));
 
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri("/api/comment"),
 				user,
 				postFields,
 				context,
-				new CacheRequestJSONParser.Listener() {
+				new SubmitJSONListener(new APIResponseHandler.SubmitResponseHandler(context) {
 					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final long timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
-
-						try {
-							final APIResponseHandler.APIFailureType failureType =
-									findFailureType(result);
-							if(failureType != null) {
-								responseHandler.notifyFailure(failureType);
-								return;
-							}
-							// sending replies to inbox is the default behaviour
-							if(!sendRepliesToInbox) {
-								final String commentFullname
-										= findThingIdFromCommentResponse(result);
-								if(commentFullname != null && commentFullname.length() > 0) {
-									sendReplies(
-											cm,
-											inboxResponseHandler,
-											user,
-											commentFullname,
-											false,
-											context);
-								}
-							}
-
-						} catch(final Throwable t) {
-							responseHandler.notifyFailure(
-									CacheRequest.REQUEST_FAILURE_PARSE,
-									t,
-									null,
-									"JSON failed to parse");
-						}
-
-						@Nullable String permalink = findStringValue(result, "permalink");
-
-						if(permalink != null && !permalink.contains("?")) {
-							permalink += "?context=1";
-						}
-
-						responseHandler.notifySuccess(permalink);
+					public void onSubmitErrors(@NonNull final ArrayList<String> errors) {
+						responseHandler.onSubmitErrors(errors);
 					}
 
 					@Override
-					public void onFailure(
+					public void onSuccess(
+							@NonNull final Optional<String> redirectUrl,
+							@NonNull final Optional<String> thingId) {
+
+						if(!sendRepliesToInbox) {
+							thingId.ifPresent(commentFullname -> sendReplies(
+									cm,
+									inboxResponseHandler,
+									user,
+									commentFullname,
+									false,
+									context));
+						}
+
+						responseHandler.onSuccess(redirectUrl, thingId);
+					}
+
+					@Override
+					protected void onCallbackException(final Throwable t) {
+						responseHandler.onCallbackException(t);
+					}
+
+					@Override
+					protected void onFailure(
 							final int type,
 							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final Integer status,
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> response) {
 
-						responseHandler.notifyFailure(type, t, httpStatus, readableMessage);
+						responseHandler.onFailure(type, t, status, readableMessage, response);
 					}
-				}));
+
+					@Override
+					protected void onFailure(
+							@NonNull final APIFailureType type,
+							@Nullable final String debuggingContext,
+							@NonNull final Optional<FailedRequestBody> response) {
+
+						responseHandler.onFailure(type, debuggingContext, response);
+					}
+				})));
 	}
 
 	public static void markAllAsRead(
@@ -284,7 +501,7 @@ public final class RedditAPI {
 			final RedditAccount user,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
+		final LinkedList<PostField> postFields = new LinkedList<>();
 
 		cm.makeRequest(createPostRequestUnprocessedResponse(
 				Constants.Reddit.getUri("/api/read_all_messages"),
@@ -297,9 +514,15 @@ public final class RedditAPI {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
-						responseHandler.notifyFailure(type, t, httpStatus, readableMessage);
+						responseHandler.notifyFailure(
+								type,
+								t,
+								httpStatus,
+								readableMessage,
+								body);
 					}
 
 					@Override
@@ -310,7 +533,7 @@ public final class RedditAPI {
 							final boolean fromCache,
 							@Nullable final String mimetype) {
 
-						responseHandler.notifySuccess(null);
+						responseHandler.notifySuccess();
 					}
 				}));
 	}
@@ -323,9 +546,9 @@ public final class RedditAPI {
 			final String markdown,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("thing_id", commentIdAndType));
-		postFields.add(new HTTPBackend.PostField("text", markdown));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("thing_id", commentIdAndType));
+		postFields.add(new PostField("text", markdown));
 
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri("/api/editusertext"),
@@ -343,8 +566,8 @@ public final class RedditAPI {
 			final @RedditAction int action,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("id", idAndType));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("id", idAndType));
 
 		final URI url = prepareActionUri(action, postFields);
 
@@ -358,18 +581,18 @@ public final class RedditAPI {
 
 	private static URI prepareActionUri(
 			final @RedditAction int action,
-			final LinkedList<HTTPBackend.PostField> postFields) {
+			final LinkedList<PostField> postFields) {
 		switch(action) {
 			case ACTION_DOWNVOTE:
-				postFields.add(new HTTPBackend.PostField("dir", "-1"));
+				postFields.add(new PostField("dir", "-1"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
 			case ACTION_UNVOTE:
-				postFields.add(new HTTPBackend.PostField("dir", "0"));
+				postFields.add(new PostField("dir", "0"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
 			case ACTION_UPVOTE:
-				postFields.add(new HTTPBackend.PostField("dir", "1"));
+				postFields.add(new PostField("dir", "1"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_VOTE);
 
 			case ACTION_SAVE:
@@ -409,7 +632,8 @@ public final class RedditAPI {
 								failureReason.requestFailureType,
 								failureReason.t,
 								failureReason.statusLine,
-								failureReason.readableMessage);
+								failureReason.readableMessage,
+								Optional.empty());
 					}
 
 					@Override
@@ -417,9 +641,9 @@ public final class RedditAPI {
 							final RedditSubreddit subreddit,
 							final long timeCached) {
 
-						final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
+						final LinkedList<PostField> postFields = new LinkedList<>();
 
-						postFields.add(new HTTPBackend.PostField("sr", subreddit.name));
+						postFields.add(new PostField("sr", subreddit.name));
 
 						final URI url = subscriptionPrepareActionUri(action, postFields);
 
@@ -436,14 +660,14 @@ public final class RedditAPI {
 
 	private static URI subscriptionPrepareActionUri(
 			final @RedditSubredditAction int action,
-			final LinkedList<HTTPBackend.PostField> postFields) {
+			final LinkedList<PostField> postFields) {
 		switch(action) {
 			case SUBSCRIPTION_ACTION_SUBSCRIBE:
-				postFields.add(new HTTPBackend.PostField("action", "sub"));
+				postFields.add(new PostField("action", "sub"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
 
 			case SUBSCRIPTION_ACTION_UNSUBSCRIBE:
-				postFields.add(new HTTPBackend.PostField("action", "unsub"));
+				postFields.add(new PostField("action", "unsub"));
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_SUBSCRIBE);
 
 			default:
@@ -487,7 +711,8 @@ public final class RedditAPI {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"JSON parse failed for unknown reason");
+									"JSON parse failed for unknown reason",
+									Optional.of(new FailedRequestBody(result)));
 						}
 					}
 
@@ -496,8 +721,14 @@ public final class RedditAPI {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
-						responseHandler.notifyFailure(type, t, httpStatus, readableMessage);
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
+						responseHandler.notifyFailure(
+								type,
+								t,
+								httpStatus,
+								readableMessage,
+								body);
 					}
 				}));
 	}
@@ -510,9 +741,9 @@ public final class RedditAPI {
 			final boolean state,
 			final Context context) {
 
-		final LinkedList<HTTPBackend.PostField> postFields = new LinkedList<>();
-		postFields.add(new HTTPBackend.PostField("id", fullname));
-		postFields.add(new HTTPBackend.PostField("state", String.valueOf(state)));
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("id", fullname));
+		postFields.add(new PostField("state", String.valueOf(state)));
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri("/api/sendreplies"),
 				user,
@@ -521,89 +752,8 @@ public final class RedditAPI {
 				new GenericResponseHandler(responseHandler)));
 	}
 
-	private static String findThingIdFromCommentResponse(final JsonValue response) {
-		// Returns either the correct value or null
-		try {
-			return "t1_" + response.asObject().getArray("jquery").getArray(30)
-					.getArray(3).getArray(0).getObject(0)
-					.getObject("data").getString("id");
-		} catch(final Exception e) {
-			Log.e(TAG, "Failed to find comment thing ID", e);
-		}
-		return null;
-	}
-
-	private static String findRedirectUrl(final JsonValue response) {
-		// Returns either the correct value or null
-		try {
-
-			String lastAttr = null;
-
-			for(final JsonValue elem : response.asObject().getArray("jquery")) {
-
-				if(elem.asArray() == null) {
-					continue;
-				}
-
-				final JsonArray arr = elem.asArray();
-
-				if("attr".equals(arr.getString(2))) {
-					lastAttr = arr.getString(3);
-
-				} else if("call".equals(arr.getString(2))
-						&& "redirect".equals(lastAttr)) {
-
-					return arr.getArray(3).getString(0);
-				}
-			}
-		} catch(final Exception e) {
-			Log.e(TAG, "Failed to find redirect URL", e);
-		}
-		return null;
-	}
-
-	@Nullable
-	private static String findStringValue(
-			final JsonValue response,
-			final String key) {
-
-		if(response == null) {
-			return null;
-		}
-
-		if(response.asObject() != null) {
-
-			for(final Map.Entry<String, JsonValue> v : response.asObject()) {
-
-				if(key.equalsIgnoreCase(v.getKey())
-						&& v.getValue() instanceof JsonString) {
-
-					return v.getValue().asString();
-				}
-
-				final String result = findStringValue(v.getValue(), key);
-
-				if(result != null) {
-					return result;
-				}
-			}
-
-		} else if(response.asArray() != null) {
-
-			for(final JsonValue v : response.asArray()) {
-
-				final String result = findStringValue(v, key);
-
-				if(result != null) {
-					return result;
-				}
-			}
-		}
-
-		return null;
-	}
-
 	// lol, reddit api
+	@Nullable
 	private static APIResponseHandler.APIFailureType findFailureType(final JsonValue response) {
 
 		// TODO handle 403 forbidden
@@ -635,18 +785,10 @@ public final class RedditAPI {
 				}
 			}
 
-			try {
-				final JsonArray errors =
-						response.asObject().getObject("json").getArray("errors");
+			final Optional<JsonArray> errors = response.getArrayAtPath("json", "errors");
 
-				if(errors != null) {
-					if(errors.size() > 0) {
-						unknownError = true;
-					}
-				}
-
-			} catch(final Exception e) {
-				// Do nothing
+			if(errors.isPresent() && errors.get().size() > 0) {
+				unknownError = true;
 			}
 
 		} else if(response.asArray() != null) {
@@ -699,6 +841,10 @@ public final class RedditAPI {
 				return APIResponseHandler.APIFailureType.ALREADY_SUBMITTED;
 			}
 
+			if(Constants.Reddit.isPostFlairRequired(responseAsString)) {
+				return APIResponseHandler.APIFailureType.POST_FLAIR_REQUIRED;
+			}
+
 			if(Constants.Reddit.isApiError(responseAsString)) {
 				unknownError = true;
 			}
@@ -711,7 +857,7 @@ public final class RedditAPI {
 	private static CacheRequest createPostRequest(
 			@NonNull final URI url,
 			@NonNull final RedditAccount user,
-			@NonNull final List<HTTPBackend.PostField> postFields,
+			@NonNull final List<PostField> postFields,
 			@NonNull final Context context,
 			@NonNull final CacheRequestJSONParser.Listener handler) {
 
@@ -727,7 +873,7 @@ public final class RedditAPI {
 	private static CacheRequest createPostRequestUnprocessedResponse(
 			@NonNull final URI url,
 			@NonNull final RedditAccount user,
-			@NonNull final List<HTTPBackend.PostField> postFields,
+			@NonNull final List<PostField> postFields,
 			@NonNull final Context context,
 			@NonNull final CacheRequestCallbacks callbacks) {
 
@@ -739,7 +885,7 @@ public final class RedditAPI {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
-				postFields,
+				new HTTPRequestBodyPostFields(postFields),
 				context,
 				callbacks);
 	}

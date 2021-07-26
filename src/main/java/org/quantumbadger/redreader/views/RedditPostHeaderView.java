@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.widget.ImageButton;
@@ -32,6 +31,7 @@ import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
@@ -48,7 +48,7 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		super(activity);
 
-		final SharedPreferences sharedPreferences =
+		final SharedPrefsWrapper sharedPreferences =
 				General.getSharedPrefs(activity);
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;

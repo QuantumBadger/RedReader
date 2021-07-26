@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.RRError;
 
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 public final class ErrorPropertiesDialog extends PropertiesDialog {
@@ -62,6 +63,10 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 			args.putString("url", error.url);
 		}
 
+		if(error.response != null) {
+			args.putString("response", error.response.toString());
+		}
+
 		dialog.setArguments(args);
 
 		return dialog;
@@ -70,7 +75,9 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 	@Override
 	protected void interceptBuilder(@NonNull final AlertDialog.Builder builder) {
 
-		if(!(mError.t instanceof UnknownHostException)) {
+		if(!(mError.t instanceof UnknownHostException)
+				&& !(mError.t instanceof SocketTimeoutException)
+				&& mError.reportable) {
 
 			builder.setPositiveButton(
 					R.string.button_error_send_report,
@@ -122,6 +129,14 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 					context,
 					"Exception",
 					getArguments().getString("t"),
+					false));
+		}
+
+		if(getArguments().containsKey("response")) {
+			items.addView(propView(
+					context,
+					"Response",
+					getArguments().getString("response"),
 					false));
 		}
 	}

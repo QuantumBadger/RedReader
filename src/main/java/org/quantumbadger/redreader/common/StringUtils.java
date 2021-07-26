@@ -94,4 +94,9 @@ public final class StringUtils {
 	public static boolean isEmpty(@Nullable final CharSequence value) {
 		return value == null || value.length() == 0;
 	}
+
+	@NonNull
+	public static String fromUTF8(@NonNull final byte[] bytes) {
+		return new String(bytes, General.CHARSET_UTF8);
+	}
 }

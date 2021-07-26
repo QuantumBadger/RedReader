@@ -38,10 +38,10 @@ public class WebViewActivity extends BaseActivity
 		implements RedditPostView.PostSelectionListener {
 
 	private WebViewFragment webView;
-	public static final int VIEW_IN_BROWSER = 10,
-			CLEAR_CACHE = 20,
-			USE_HTTPS = 30,
-			SHARE = 40;
+	public static final int VIEW_IN_BROWSER = 10;
+	public static final int CLEAR_CACHE = 20;
+	public static final int USE_HTTPS = 30;
+	public static final int SHARE = 40;
 
 	private RedditPost mPost;
 

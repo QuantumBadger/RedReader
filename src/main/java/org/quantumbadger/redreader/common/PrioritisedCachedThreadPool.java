@@ -30,7 +30,8 @@ public class PrioritisedCachedThreadPool {
 	private final String mThreadName;
 	private int mThreadNameCount = 0;
 
-	private int mRunningThreads, mIdleThreads;
+	private int mRunningThreads;
+	private int mIdleThreads;
 
 	public PrioritisedCachedThreadPool(final int threads, final String threadName) {
 		mMaxThreads = threads;
@@ -73,7 +74,7 @@ public class PrioritisedCachedThreadPool {
 						mIdleThreads++;
 
 						try {
-							mTasks.wait(30000);
+							mTasks.wait(30_000);
 						} catch(final InterruptedException e) {
 							throw new RuntimeException(e);
 						} finally {

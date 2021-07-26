@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -31,10 +32,12 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -235,7 +238,8 @@ public class CommentListingRequest {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Parse failure");
+									"Parse failure",
+									Optional.of(new FailedRequestBody(value)));
 						}
 					}
 
@@ -244,14 +248,16 @@ public class CommentListingRequest {
 							final int type,
 							@Nullable final Throwable t,
 							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage) {
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
 
 						final RRError error = General.getGeneralErrorForFailure(
 								mContext,
 								type,
 								t,
 								httpStatus,
-								url.toString());
+								url == null ? null : url.toString(),
+								body);
 
 						AndroidCommon.runOnUiThread(()
 								-> mListener.onCommentListingRequestFailure(error));
@@ -291,16 +297,22 @@ public class CommentListingRequest {
 		} else if(thing.getKind() == RedditThing.Kind.COMMENT) {
 
 			final RedditComment comment = thing.asComment();
+			final String currentCanonicalUserName = RedditAccountManager.getInstance(mContext)
+					.getDefaultAccount().getCanonicalUsername();
 			final boolean showSubredditName = !(mCommentListingURL != null
 					&& mCommentListingURL.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL);
+			final boolean neverAutoCollapse = mCommentListingURL != null
+					&& mCommentListingURL.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL;
 
 			final RedditCommentListItem item = new RedditCommentListItem(
 					new RedditRenderableComment(
 							new RedditParsedComment(comment, mActivity),
 							parentPostAuthor,
 							minimumCommentScore,
+							currentCanonicalUserName,
 							true,
-							showSubredditName),
+							showSubredditName,
+							neverAutoCollapse),
 					parent,
 					mFragment,
 					mActivity,

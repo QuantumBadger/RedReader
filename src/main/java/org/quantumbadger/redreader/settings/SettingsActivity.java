@@ -17,90 +17,55 @@
 
 package org.quantumbadger.redreader.settings;
 
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.Window;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
-import java.util.List;
+public class SettingsActivity extends BaseActivity {
 
-public final class SettingsActivity
-		extends AppCompatPreferenceActivity
-		implements SharedPreferences.OnSharedPreferenceChangeListener {
+	private void launchFragment(@NonNull final String panel) {
 
-	private SharedPreferences sharedPreferences;
+		final Bundle bundle = new Bundle();
+		bundle.putString("panel", panel);
+
+		getSupportFragmentManager()
+				.beginTransaction()
+				.setReorderingAllowed(false)
+				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+				.replace(R.id.single_fragment_container, SettingsFragment.class, bundle)
+				.addToBackStack("Settings: " + panel)
+				.commit();
+	}
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
-		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+		PrefsUtility.applySettingsTheme(this);
+
+		super.onCreate(savedInstanceState);
 
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			getWindow().setNavigationBarColor(Color.rgb(0x55, 0x55, 0x55));
 		}
 
-		PrefsUtility.applySettingsTheme(this);
-		super.onCreate(savedInstanceState);
-		sharedPreferences = General.getSharedPrefs(this);
-		sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-		setOrientationFromPrefs();
+		setBaseActivityListing(R.layout.single_fragment_layout);
 
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		final Bundle bundle = new Bundle();
+		bundle.putString("panel", "root");
+
+		getSupportFragmentManager()
+				.beginTransaction()
+				.setReorderingAllowed(false)
+				.replace(R.id.single_fragment_container, SettingsFragment.class, bundle)
+				.commit();
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
-	}
-
-	@Override
-	public void onBuildHeaders(final List<Header> target) {
-		loadHeadersFromResource(R.xml.prefheaders, target);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		switch(item.getItemId()) {
-			case android.R.id.home:
-				onBackPressed();
-				return true;
-			default:
-				return false;
-		}
-	}
-
-	private void setOrientationFromPrefs() {
-		final PrefsUtility.ScreenOrientation orientation
-				= PrefsUtility.pref_behaviour_screen_orientation(this, sharedPreferences);
-		if(orientation == PrefsUtility.ScreenOrientation.AUTO) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-		} else if(orientation == PrefsUtility.ScreenOrientation.PORTRAIT) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		} else if(orientation == PrefsUtility.ScreenOrientation.LANDSCAPE) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		}
-	}
-
-	@Override
-	public void onSharedPreferenceChanged(
-			final SharedPreferences prefs,
-			final String key) {
-
-		if(key.equals(getString(R.string.pref_behaviour_screenorientation_key))) {
-			setOrientationFromPrefs();
-		}
-	}
-
-	@Override
-	protected boolean isValidFragment(final String fragmentName) {
-		return fragmentName.equals(SettingsFragment.class.getCanonicalName());
+	public void onPanelSelected(@NonNull final String panel) {
+		launchFragment(panel);
 	}
 }

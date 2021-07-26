@@ -21,7 +21,8 @@ import android.view.MotionEvent;
 
 public class MutableFloatPoint2D {
 
-	public float x, y;
+	public float x;
+	public float y;
 
 	public void reset() {
 		x = 0;

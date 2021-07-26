@@ -25,7 +25,8 @@ public class ImageTileSourceWholeBitmap implements ImageTileSource {
 
 	private final Bitmap mBitmap;
 
-	private final int mWidth, mHeight;
+	private final int mWidth;
+	private final int mHeight;
 
 	private static final int TILE_SIZE = 512;
 

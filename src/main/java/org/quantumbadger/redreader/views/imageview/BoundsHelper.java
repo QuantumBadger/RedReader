@@ -21,8 +21,10 @@ import org.quantumbadger.redreader.common.MutableFloatPoint2D;
 
 public class BoundsHelper {
 
-	private final int mResolutionX, mResolutionY;
-	private final int mImageResolutionX, mImageResolutionY;
+	private final int mResolutionX;
+	private final int mResolutionY;
+	private final int mImageResolutionX;
+	private final int mImageResolutionY;
 	private final CoordinateHelper mCoordinateHelper;
 
 	private final float mMinScale;
@@ -49,7 +51,7 @@ public class BoundsHelper {
 	}
 
 	public boolean isMinScale() {
-		return mCoordinateHelper.getScale() - 0.000001f <= mMinScale;
+		return mCoordinateHelper.getScale() - 0.000_001f <= mMinScale;
 	}
 
 	public void applyBounds() {

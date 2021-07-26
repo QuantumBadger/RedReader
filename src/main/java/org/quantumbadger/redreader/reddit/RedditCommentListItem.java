@@ -192,8 +192,7 @@ public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
 			throw new RuntimeException("Unknown item type");
 		}
 
-		return new RecyclerView.ViewHolder(view) {
-		};
+		return new RecyclerView.ViewHolder(view) {};
 	}
 
 	@Override

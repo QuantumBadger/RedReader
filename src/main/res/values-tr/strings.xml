@@ -67,4 +67,20 @@
     <string name="options_accounts_long">Reddit Hesapları</string>
     <string name="options_accounts">Hesaplar</string>
     <string name="pref_cache_pruning">Önbellek Budama</string>
+    <string name="sort_posts_top_week">İlk: Bu Hafta</string>
+    <string name="sort_posts_top_today">İlk: Bugün</string>
+    <string name="sort_posts_top_hour">İlk: Bu Saat</string>
+    <string name="sort_posts_top">İlk</string>
+    <string name="sort_posts_controversial">Tartışmalı</string>
+    <string name="sort_posts_rising">Yükselen</string>
+    <string name="sort_posts_new">Yeni</string>
+    <string name="sort_posts_hot">Sıcak gündem</string>
+    <string name="accounts_delete_sure">Bu hesabı silmek istediğinize emin misiniz\?</string>
+    <string name="accounts_login">Giriş yap</string>
+    <string name="accounts_password">Şifre</string>
+    <string name="accounts_username">Kullanıcı adı</string>
+    <string name="accounts_loggingin_msg">Bir dakika…</string>
+    <string name="accounts_loggingin">Giriş yapılıyor…</string>
+    <string name="accounts_delete">Sil</string>
+    <string name="pref_menus_post_toolbar_items_title">Yan araç çubuğu öğeleri</string>
 </resources>

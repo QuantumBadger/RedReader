@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ import androidx.core.content.ContextCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -52,6 +55,7 @@ import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.MultiredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
+import org.quantumbadger.redreader.settings.SettingsActivity;
 import org.quantumbadger.redreader.views.AnnouncementView;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.list.GroupedRecyclerViewItemListItemView;
@@ -219,6 +223,34 @@ public class MainMenuListingManager {
 								null,
 								false));
 			}
+
+			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.CUSTOM)) {
+				mAdapter.appendToGroup(
+						GROUP_MAIN_ITEMS,
+						makeItem(
+								"Settings",
+								MainMenuFragment.MENU_MENU_ACTION_SETTINGS,
+								null,
+								false));
+			}
+
+//			final MenuItem settings = menu.add(
+//					Menu.NONE,
+//					OptionsMenuUtility.AppbarItemsPref.SETTINGS.ordinal(),
+//					Menu.NONE,
+//					R.string.options_settings)
+//					.setOnMenuItemClickListener(item -> {
+//						final Intent intent = new Intent(
+//								activity,
+//								SettingsActivity.class);
+//						activity.startActivityForResult(
+//								intent,
+//								1);
+//						return true;
+//					});
+//
+//			settings.setShowAsAction(showAsAction);
+//			settings.setIcon(R.drawable.ic_settings_dark);
 
 			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM)) {
 				mAdapter.appendToGroup(

@@ -69,6 +69,7 @@ public class MainMenuFragment extends RRFragment implements
 	public static final int MENU_MENU_ACTION_RANDOM = 12;
 	public static final int MENU_MENU_ACTION_RANDOM_NSFW = 13;
 	public static final int MENU_MENU_ACTION_SENT_MESSAGES = 14;
+	public static final int MENU_MENU_ACTION_SETTINGS = 15;
 
 	@IntDef({
 			MENU_MENU_ACTION_FRONTPAGE,
@@ -85,7 +86,8 @@ public class MainMenuFragment extends RRFragment implements
 			MENU_MENU_ACTION_POPULAR,
 			MENU_MENU_ACTION_RANDOM,
 			MENU_MENU_ACTION_RANDOM_NSFW,
-			MENU_MENU_ACTION_SENT_MESSAGES})
+			MENU_MENU_ACTION_SENT_MESSAGES,
+			MENU_MENU_ACTION_SETTINGS})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface MainMenuAction {
 	}

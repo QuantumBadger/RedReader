@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "761952022528",
+    "project_id": "wearreader-fd6b2",
+    "storage_bucket": "wearreader-fd6b2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761952022528:android:20da19ecbf0b26b53368e5",
+        "android_client_info": {
+          "package_name": "dev.steenbakker.wearreader"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "761952022528-tfkc8bcnarsa9hmpe8rd3blu1t8ecvlm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx_0oXMzy8HqJ2MUHF1gaaHWP5lVP6zOQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761952022528-tfkc8bcnarsa9hmpe8rd3blu1t8ecvlm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

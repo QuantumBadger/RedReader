@@ -74,6 +74,7 @@ import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
+import org.quantumbadger.redreader.settings.SettingsActivity;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.ArrayList;
@@ -250,6 +251,12 @@ public class MainActivity extends RefreshableActivity
 				.getDefaultAccount().username;
 
 		switch(type) {
+
+			case MainMenuFragment.MENU_MENU_ACTION_SETTINGS:
+				final Intent intentt = new Intent(this, SettingsActivity.class);
+	//			intent.putExtra("inboxType", "modmail");
+				startActivity(intentt);
+				break;
 
 			case MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE:
 				onSelected(SubredditPostListURL.getFrontPage());

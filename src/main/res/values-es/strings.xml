@@ -193,8 +193,8 @@
     <string name="bug_button_send">Enviar informe por correo electrónico</string>
     <string name="bug_button_ignore">No enviar informe</string>
     <!-- General errors -->
-    <string name="error_403_title">Usuario no válido</string>
-    <string name="error_403_message">El usuario que has seleccionado no tiene permiso para hacer eso.</string>
+    <string name="error_403_title">Permiso denegado</string>
+    <string name="error_403_message">Reddit dice que el usuario actual no tiene permiso para hacerlo.</string>
     <string name="error_subreddit_required_title">Subreddit requerido</string>
     <string name="error_subreddit_required_message">Debes especificar un subreddit.</string>
     <string name="error_bad_captcha_title">CAPTCHA no válido</string>
@@ -625,7 +625,7 @@
     <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
     <string name="mainmenu_custom_destination_search">Buscar</string>
     <string name="pref_menus_link_context_items_title">Enlazar elementos del menú de acción</string>
-    <string name="pref_behaviour_self_post_tap_actions_title">Acción al tocar publicación</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Auto-toque de publicación</string>
     <string name="pref_menus_show_popular_main_menu_title">Mostrar /r/popular en el menú principal</string>
     <string name="pref_behaviour_video_playback_controls_title">Mostrar controles al reproducir video</string>
     <string name="error_no_suitable_apps_available">No se encontraron aplicaciones adecuadas.</string>
@@ -869,4 +869,32 @@
     <string name="pref_behaviour_user_commentsort_title">Comentarios del usuario (por defecto)</string>
     <string name="pref_behaviour_multi_postsort_title">Publicaciones de Multireddit (por defecto)</string>
     <string name="pref_behaviour_user_postsort_title">Publicaciones del usuario (por defecto)</string>
+    <string name="error_http_429_message">El servidor ha rechazado la solicitud debido a un límite de velocidad. Por favor, inténtelo de nuevo en un momento.</string>
+    <string name="error_http_429_title">Demasiadas solicitudes</string>
+    <string name="error_content_blocker_message">La red actual parece estar bloqueando esta solicitud mediante DNS. Considere la posibilidad de utilizar una VPN o de activar el DNS sobre HTTPS en los ajustes de red de Android.</string>
+    <string name="error_content_blocker_title">Bloqueador de contenidos detectado</string>
+    <string name="error_imgur_400_message">Imgur está rechazando la subida de esta imagen, posiblemente debido a un límite de velocidad. Por favor, utiliza otro host de imágenes o inténtalo más tarde.</string>
+    <string name="error_imgur_400_title">Error de Imgur</string>
+    <string name="error_tor_connection_message">No se puede conectar a Tor. Por favor, asegúrese de que la aplicación Orbot se está ejecutando, o desactive Tor en la configuración de la red.</string>
+    <string name="error_tor_connection_title">Error de Tor</string>
+    <string name="error_post_submit_title">Error al enviar el mensaje</string>
+    <string name="error_post_flair_required_message">Las reglas de este subreddit exigen poner un toque en tu publicación.</string>
+    <string name="error_post_flair_required_title">Se requiere un estilo</string>
+    <string name="error_no_file_manager_message">El sistema operativo de este dispositivo carece de un gestor de archivos compatible con Android Storage Access Framework. Si hay un gestor de archivos, puede estar desactivado.</string>
+    <string name="error_no_file_manager_title">No hay gestor de archivos</string>
+    <string name="backup_preferences_error_old_android_message">Esta función requiere Android 4.4 o superior.</string>
+    <string name="backup_preferences_error_old_android_title">Sistema demasiado antiguo</string>
+    <string name="restore_preferences_success">Restaurar con éxito</string>
+    <string name="backup_preferences_success">Copia de seguridad con éxito</string>
+    <string name="button_restore_preferences">Restaurar</string>
+    <string name="button_cancel">Cancelar</string>
+    <string name="button_continue_anyway">Continuar de todos modos</string>
+    <string name="restore_preferences_error_version_warning_message">El archivo seleccionado fue creado por una versión más reciente de RedReader. Restaurar las preferencias de este archivo puede provocar fallos e inestabilidad.</string>
+    <string name="restore_preferences_error_version_warning_title">Advertencia</string>
+    <string name="restore_preferences_error_invalid_file_version_message">El archivo seleccionado fue creado por una versión más reciente de RedReader y no se puede abrir.</string>
+    <string name="restore_preferences_error_invalid_file_contents_message">El archivo seleccionado no es un archivo de copia de seguridad de preferencias válido.</string>
+    <string name="restore_preferences_error_invalid_file_title">Archivo no válido</string>
+    <string name="pref_item_restore_preferences_title">Restablecer las preferencias</string>
+    <string name="pref_item_backup_preferences_title">Preferencias de copia de seguridad</string>
+    <string name="prefs_category_backup_restore">Copia de seguridad/restauración</string>
 </resources>

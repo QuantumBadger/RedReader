@@ -65,3 +65,11 @@ jobs:
                 with:
                     name: RedReader-debug.apk
                     path: build/outputs/apk/debug/RedReader-debug.apk
+
+    gradleValidation:
+        name: Gradle wrapper validation
+        runs-on: ubuntu-latest
+
+        steps:
+            -   uses: actions/checkout@v2
+            -   uses: gradle/wrapper-validation-action@v1

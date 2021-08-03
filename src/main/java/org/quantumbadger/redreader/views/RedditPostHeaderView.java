@@ -116,84 +116,94 @@ public class RedditPostHeaderView extends LinearLayout {
 		final RedditAccount currentUser =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
 
-		if(!currentUser.isAnonymous()
-				&& !PrefsUtility.pref_appearance_hide_headertoolbar_commentlist(
-				activity,
-				sharedPreferences)) {
+		if(!currentUser.isAnonymous()) {
 
 			// A user is logged in
 
-			final LinearLayout buttons =
-					(LinearLayout)inflate(activity, R.layout.post_header_toolbar, this);
-
-			final ImageButton buttonAddUpvote =
-					buttons.findViewById(R.id.post_toolbar_botton_add_upvote);
-			final ImageButton buttonRemoveUpvote =
-					buttons.findViewById(R.id.post_toolbar_botton_remove_upvote);
-			final ImageButton buttonAddDownvote =
-					buttons.findViewById(R.id.post_toolbar_botton_add_downvote);
-			final ImageButton buttonRemoveDownvote =
-					buttons.findViewById(R.id.post_toolbar_botton_remove_downvote);
-			final ImageButton buttonReply =
-					buttons.findViewById(R.id.post_toolbar_botton_reply);
-			final ImageButton buttonShare =
-					buttons.findViewById(R.id.post_toolbar_botton_share);
-			final ImageButton buttonMore =
-					buttons.findViewById(R.id.post_toolbar_botton_more);
-
-			buttonAddUpvote.setOnClickListener(v -> post.performAction(
-					activity,
-					RedditPreparedPost.Action.UPVOTE));
-			buttonRemoveUpvote.setOnClickListener(v -> post.performAction(
-					activity,
-					RedditPreparedPost.Action.UNVOTE));
-			buttonAddDownvote.setOnClickListener(v -> post.performAction(
-					activity,
-					RedditPreparedPost.Action.DOWNVOTE));
-			buttonRemoveDownvote.setOnClickListener(v -> post.performAction(
-					activity,
-					RedditPreparedPost.Action.UNVOTE));
-			buttonReply.setOnClickListener(v -> post.performAction(
-					activity,
-					RedditPreparedPost.Action.REPLY));
-			buttonShare.setOnClickListener(v -> post.performAction(
-					activity,
-					RedditPreparedPost.Action.SHARE));
-			buttonMore.setOnClickListener(v -> post.performAction(
-					activity,
-					RedditPreparedPost.Action.ACTION_MENU));
-
 			final RedditChangeDataManager changeDataManager =
 					RedditChangeDataManager.getInstance(currentUser);
+			final RedditChangeDataManager.Listener changeListener;
 
-			final RedditChangeDataManager.Listener changeListener = thingIdAndType -> {
+			if(!PrefsUtility.pref_appearance_hide_headertoolbar_commentlist(
+					activity,
+					sharedPreferences)) {
 
-				subtitle.setText(post.buildSubtitle(activity, true));
-				subtitle.setContentDescription(
-						post.buildAccessibilitySubtitle(activity, true));
+				final LinearLayout buttons =
+						(LinearLayout)inflate(activity, R.layout.post_header_toolbar, this);
 
-				final boolean isUpvoted = changeDataManager.isUpvoted(post.src);
-				final boolean isDownvoted = changeDataManager.isDownvoted(post.src);
+				final ImageButton buttonAddUpvote =
+						buttons.findViewById(R.id.post_toolbar_botton_add_upvote);
+				final ImageButton buttonRemoveUpvote =
+						buttons.findViewById(R.id.post_toolbar_botton_remove_upvote);
+				final ImageButton buttonAddDownvote =
+						buttons.findViewById(R.id.post_toolbar_botton_add_downvote);
+				final ImageButton buttonRemoveDownvote =
+						buttons.findViewById(R.id.post_toolbar_botton_remove_downvote);
+				final ImageButton buttonReply =
+						buttons.findViewById(R.id.post_toolbar_botton_reply);
+				final ImageButton buttonShare =
+						buttons.findViewById(R.id.post_toolbar_botton_share);
+				final ImageButton buttonMore =
+						buttons.findViewById(R.id.post_toolbar_botton_more);
 
-				if(isUpvoted) {
-					buttonAddUpvote.setVisibility(GONE);
-					buttonRemoveUpvote.setVisibility(VISIBLE);
-					buttonAddDownvote.setVisibility(VISIBLE);
-					buttonRemoveDownvote.setVisibility(GONE);
+				buttonAddUpvote.setOnClickListener(v -> post.performAction(
+						activity,
+						RedditPreparedPost.Action.UPVOTE));
+				buttonRemoveUpvote.setOnClickListener(v -> post.performAction(
+						activity,
+						RedditPreparedPost.Action.UNVOTE));
+				buttonAddDownvote.setOnClickListener(v -> post.performAction(
+						activity,
+						RedditPreparedPost.Action.DOWNVOTE));
+				buttonRemoveDownvote.setOnClickListener(v -> post.performAction(
+						activity,
+						RedditPreparedPost.Action.UNVOTE));
+				buttonReply.setOnClickListener(v -> post.performAction(
+						activity,
+						RedditPreparedPost.Action.REPLY));
+				buttonShare.setOnClickListener(v -> post.performAction(
+						activity,
+						RedditPreparedPost.Action.SHARE));
+				buttonMore.setOnClickListener(v -> post.performAction(
+						activity,
+						RedditPreparedPost.Action.ACTION_MENU));
 
-				} else if(isDownvoted) {
-					buttonAddUpvote.setVisibility(VISIBLE);
-					buttonRemoveUpvote.setVisibility(GONE);
-					buttonAddDownvote.setVisibility(GONE);
-					buttonRemoveDownvote.setVisibility(VISIBLE);
+				changeListener = thingIdAndType -> {
 
-				} else {
-					buttonAddUpvote.setVisibility(VISIBLE);
-					buttonRemoveUpvote.setVisibility(GONE);
-					buttonAddDownvote.setVisibility(VISIBLE);
-					buttonRemoveDownvote.setVisibility(GONE);
-				}
-			};
+					subtitle.setText(post.buildSubtitle(activity, true));
+					subtitle.setContentDescription(
+							post.buildAccessibilitySubtitle(activity, true));
+
+					final boolean isUpvoted = changeDataManager.isUpvoted(post.src);
+					final boolean isDownvoted = changeDataManager.isDownvoted(post.src);
+
+					if(isUpvoted) {
+						buttonAddUpvote.setVisibility(GONE);
+						buttonRemoveUpvote.setVisibility(VISIBLE);
+						buttonAddDownvote.setVisibility(VISIBLE);
+						buttonRemoveDownvote.setVisibility(GONE);
+
+					} else if(isDownvoted) {
+						buttonAddUpvote.setVisibility(VISIBLE);
+						buttonRemoveUpvote.setVisibility(GONE);
+						buttonAddDownvote.setVisibility(GONE);
+						buttonRemoveDownvote.setVisibility(VISIBLE);
+
+					} else {
+						buttonAddUpvote.setVisibility(VISIBLE);
+						buttonRemoveUpvote.setVisibility(GONE);
+						buttonAddDownvote.setVisibility(VISIBLE);
+						buttonRemoveDownvote.setVisibility(GONE);
+					}
+				};
+			} else {
+
+				changeListener = thingIdAndType -> {
+					subtitle.setText(post.buildSubtitle(activity, true));
+					subtitle.setContentDescription(
+							post.buildAccessibilitySubtitle(activity, true));
+				};
+			}
 
 			mChangeListenerAddTask = () -> {
 				changeDataManager.addListener(post.src, changeListener);

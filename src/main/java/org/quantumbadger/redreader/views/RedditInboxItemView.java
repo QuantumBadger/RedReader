@@ -87,9 +87,7 @@ public class RedditInboxItemView extends LinearLayout {
 
 		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
 
-		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons(
-				activity,
-				General.getSharedPrefs(activity));
+		showLinkButtons = PrefsUtility.pref_appearance_linkbuttons();
 
 		setOnClickListener(v -> handleInboxClick(mActivity));
 
@@ -113,7 +111,7 @@ public class RedditInboxItemView extends LinearLayout {
 				theme,
 				changeDataManager,
 				context,
-				PrefsUtility.appearance_inbox_age_units(context, General.getSharedPrefs(context)),
+				PrefsUtility.appearance_inbox_age_units(),
 				RedditRenderableComment.NO_TIMESTAMP,
 				RedditRenderableComment.NO_TIMESTAMP));
 
@@ -121,7 +119,7 @@ public class RedditInboxItemView extends LinearLayout {
 				theme,
 				changeDataManager,
 				context,
-				PrefsUtility.appearance_inbox_age_units(context, General.getSharedPrefs(context)),
+				PrefsUtility.appearance_inbox_age_units(),
 				RedditRenderableComment.NO_TIMESTAMP,
 				RedditRenderableComment.NO_TIMESTAMP,
 				false));

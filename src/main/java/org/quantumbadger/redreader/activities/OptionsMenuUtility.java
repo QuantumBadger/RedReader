@@ -111,10 +111,8 @@ public final class OptionsMenuUtility {
 			final Boolean subredditPinned,
 			final Boolean subredditBlocked) {
 
-		final SharedPrefsWrapper preferences
-				= General.getSharedPrefs(activity);
 		final EnumMap<AppbarItemsPref, Integer> appbarItemsPrefs
-				= PrefsUtility.pref_menus_appbar_items(activity, preferences);
+				= PrefsUtility.pref_menus_appbar_items();
 
 		if(subredditsVisible && !postsVisible && !commentsVisible) {
 			add(
@@ -607,7 +605,7 @@ public final class OptionsMenuUtility {
 
 				accounts.setShowAsAction(showAsAction);
 				if(longText) {
-					if(PrefsUtility.isNightMode(activity)) {
+					if(PrefsUtility.isNightMode()) {
 						accounts.setIcon(R.drawable.ic_settings_dark);
 					} else {
 						accounts.setIcon(R.drawable.ic_settings_light);
@@ -667,7 +665,7 @@ public final class OptionsMenuUtility {
 							final SharedPrefsWrapper prefs
 									= General.getSharedPrefs(activity);
 							final PrefsUtility.AppearanceTheme currentTheme
-									= PrefsUtility.appearance_theme(activity, prefs);
+									= PrefsUtility.appearance_theme();
 
 							final String[] themeNames = activity.getResources()
 									.getStringArray(R.array.pref_appearance_theme);
@@ -1426,9 +1424,7 @@ public final class OptionsMenuUtility {
 		final RedditAccountManager accountManager = RedditAccountManager.getInstance(activity);
 		final ArrayList<RedditAccount> accountsList = accountManager.getAccounts();
 
-		if(PrefsUtility.pref_menus_quick_account_switcher(
-				activity,
-				General.getSharedPrefs(activity))
+		if(PrefsUtility.pref_menus_quick_account_switcher()
 						&& accountsList.size() > 1) {
 
 			//Quick account switcher is on, create its SubMenu and add it to the main menu

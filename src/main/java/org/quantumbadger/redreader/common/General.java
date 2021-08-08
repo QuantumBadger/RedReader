@@ -198,13 +198,9 @@ public final class General {
 				duration).show());
 	}
 
-	public static boolean isTablet(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean isTablet(final Context context) {
 
-		final PrefsUtility.AppearanceTwopane pref = PrefsUtility.appearance_twopane(
-				context,
-				sharedPreferences);
+		final PrefsUtility.AppearanceTwopane pref = PrefsUtility.appearance_twopane();
 
 		switch(pref) {
 			case AUTO:

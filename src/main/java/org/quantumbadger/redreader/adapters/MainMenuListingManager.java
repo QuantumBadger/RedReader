@@ -134,9 +134,6 @@ public class MainMenuListingManager {
 		mAnnouncementHolder = new FrameLayout(mActivity);
 		General.setLayoutMatchWidthWrapHeight(mAnnouncementHolder);
 
-		final SharedPrefsWrapper sharedPreferences
-				= General.getSharedPrefs(activity);
-
 		final Drawable rrIconPerson;
 		final Drawable rrIconEnvOpen;
 		final Drawable rrIconSentMessages;
@@ -176,9 +173,7 @@ public class MainMenuListingManager {
 
 		{
 			final EnumSet<MainMenuFragment.MainMenuShortcutItems> mainMenuShortcutItems
-					= PrefsUtility.pref_menus_mainmenu_shortcutitems(
-							activity,
-							sharedPreferences);
+					= PrefsUtility.pref_menus_mainmenu_shortcutitems();
 
 			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.FRONTPAGE)) {
 				mAdapter.appendToGroup(
@@ -241,7 +236,7 @@ public class MainMenuListingManager {
 			}
 		}
 
-		if(PrefsUtility.pref_menus_mainmenu_dev_announcements(mContext, sharedPreferences)) {
+		if(PrefsUtility.pref_menus_mainmenu_dev_announcements()) {
 
 			mAdapter.appendToGroup(
 					GROUP_ANNOUNCEMENTS,
@@ -253,14 +248,10 @@ public class MainMenuListingManager {
 		if(!user.isAnonymous()) {
 
 			final EnumSet<MainMenuFragment.MainMenuUserItems> mainMenuUserItems
-					= PrefsUtility.pref_menus_mainmenu_useritems(
-					activity,
-					sharedPreferences);
+					= PrefsUtility.pref_menus_mainmenu_useritems();
 
 			if(!mainMenuUserItems.isEmpty()) {
-				if(PrefsUtility.pref_appearance_hide_username_main_menu(
-						activity,
-						General.getSharedPrefs(activity))) {
+				if(PrefsUtility.pref_appearance_hide_username_main_menu()) {
 
 					mAdapter.appendToGroup(
 							GROUP_USER_HEADER,
@@ -369,17 +360,13 @@ public class MainMenuListingManager {
 
 		setPinnedSubreddits();
 
-		if(PrefsUtility.pref_appearance_show_blocked_subreddits_main_menu(
-				activity,
-				General.getSharedPrefs(activity))) {
+		if(PrefsUtility.pref_appearance_show_blocked_subreddits_main_menu()) {
 
 			setBlockedSubreddits();
 		}
 
 		if(!user.isAnonymous()) {
-			if(PrefsUtility.pref_show_multireddit_main_menu(
-					activity,
-					General.getSharedPrefs(activity))) {
+			if(PrefsUtility.pref_show_multireddit_main_menu()) {
 
 				showMultiredditsHeader(activity);
 
@@ -399,9 +386,7 @@ public class MainMenuListingManager {
 			}
 		}
 
-		if(PrefsUtility.pref_show_subscribed_subreddits_main_menu(
-				activity,
-				General.getSharedPrefs(activity))) {
+		if(PrefsUtility.pref_show_subscribed_subreddits_main_menu()) {
 
 			mAdapter.appendToGroup(
 					GROUP_SUBREDDITS_HEADER,
@@ -428,11 +413,8 @@ public class MainMenuListingManager {
 
 	private void setPinnedSubreddits() {
 
-		final SharedPrefsWrapper sharedPreferences
-				= General.getSharedPrefs(mActivity);
-
 		final List<SubredditCanonicalId> pinnedSubreddits
-				= PrefsUtility.pref_pinned_subreddits(mActivity, sharedPreferences);
+				= PrefsUtility.pref_pinned_subreddits();
 
 		mAdapter.removeAllFromGroup(GROUP_PINNED_SUBREDDITS_ITEMS);
 		mAdapter.removeAllFromGroup(GROUP_PINNED_SUBREDDITS_HEADER);
@@ -440,9 +422,7 @@ public class MainMenuListingManager {
 		if(!pinnedSubreddits.isEmpty()) {
 
 			final PrefsUtility.PinnedSubredditSort pinnedSubredditsSort
-					= PrefsUtility.pref_behaviour_pinned_subredditsort(
-					mActivity,
-					sharedPreferences);
+					= PrefsUtility.pref_behaviour_pinned_subredditsort();
 
 			mAdapter.appendToGroup(
 					GROUP_PINNED_SUBREDDITS_HEADER,
@@ -466,11 +446,8 @@ public class MainMenuListingManager {
 
 	private void setBlockedSubreddits() {
 
-		final SharedPrefsWrapper sharedPreferences
-				= General.getSharedPrefs(mActivity);
-
 		final List<SubredditCanonicalId> blockedSubreddits
-				= PrefsUtility.pref_blocked_subreddits(mActivity, sharedPreferences);
+				= PrefsUtility.pref_blocked_subreddits();
 
 		mAdapter.removeAllFromGroup(GROUP_BLOCKED_SUBREDDITS_ITEMS);
 		mAdapter.removeAllFromGroup(GROUP_BLOCKED_SUBREDDITS_HEADER);
@@ -478,9 +455,7 @@ public class MainMenuListingManager {
 		if(!blockedSubreddits.isEmpty()) {
 
 			final PrefsUtility.BlockedSubredditSort blockedSubredditsSort
-					= PrefsUtility.pref_behaviour_blocked_subredditsort(
-					mActivity,
-					sharedPreferences);
+					= PrefsUtility.pref_behaviour_blocked_subredditsort();
 
 			mAdapter.appendToGroup(
 					GROUP_BLOCKED_SUBREDDITS_HEADER,
@@ -558,9 +533,7 @@ public class MainMenuListingManager {
 				return;
 			}
 
-			if(!PrefsUtility.pref_show_subscribed_subreddits_main_menu(
-					mActivity,
-					General.getSharedPrefs(mActivity))) {
+			if(!PrefsUtility.pref_show_subscribed_subreddits_main_menu()) {
 				mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_HEADER);
 				mAdapter.removeAllFromGroup(GROUP_SUBREDDITS_ITEMS);
 				return;
@@ -596,9 +569,7 @@ public class MainMenuListingManager {
 				return;
 			}
 
-			if(!PrefsUtility.pref_show_multireddit_main_menu(
-					mActivity,
-					General.getSharedPrefs(mActivity))) {
+			if(!PrefsUtility.pref_show_multireddit_main_menu()) {
 				mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_HEADER);
 				mAdapter.removeAllFromGroup(GROUP_MULTIREDDITS_ITEMS);
 				return;
@@ -673,14 +644,8 @@ public class MainMenuListingManager {
 
 		final View.OnLongClickListener longClickListener = view -> {
 
-			final SharedPrefsWrapper sharedPreferences
-					= General.getSharedPrefs(
-					mActivity);
-
 			final EnumSet<SubredditAction> itemPref
-					= PrefsUtility.pref_menus_subreddit_context_items(
-					mActivity,
-					sharedPreferences);
+					= PrefsUtility.pref_menus_subreddit_context_items();
 
 			if(itemPref.isEmpty()) {
 				return true;
@@ -707,10 +672,7 @@ public class MainMenuListingManager {
 
 			if(itemPref.contains(SubredditAction.BLOCK)) {
 
-				final boolean isBlocked = PrefsUtility.pref_blocked_subreddits_check(
-						mActivity,
-						sharedPreferences,
-						subreddit);
+				final boolean isBlocked = PrefsUtility.pref_blocked_subreddits_check(subreddit);
 
 				if(isBlocked) {
 					menu.add(new SubredditMenuItem(
@@ -727,10 +689,7 @@ public class MainMenuListingManager {
 
 			if(itemPref.contains(SubredditAction.PIN)) {
 
-				final boolean isPinned = PrefsUtility.pref_pinned_subreddits_check(
-						mActivity,
-						sharedPreferences,
-						subreddit);
+				final boolean isPinned = PrefsUtility.pref_pinned_subreddits_check(subreddit);
 
 				if(isPinned) {
 					menu.add(new SubredditMenuItem(
@@ -853,28 +812,24 @@ public class MainMenuListingManager {
 			case PIN:
 				PrefsUtility.pref_pinned_subreddits_add(
 						mActivity,
-						General.getSharedPrefs(mActivity),
 						subredditCanonicalId);
 				break;
 
 			case UNPIN:
 				PrefsUtility.pref_pinned_subreddits_remove(
 						mActivity,
-						General.getSharedPrefs(mActivity),
 						subredditCanonicalId);
 				break;
 
 			case BLOCK:
 				PrefsUtility.pref_blocked_subreddits_add(
 						mActivity,
-						General.getSharedPrefs(mActivity),
 						subredditCanonicalId);
 				break;
 
 			case UNBLOCK:
 				PrefsUtility.pref_blocked_subreddits_remove(
 						mActivity,
-						General.getSharedPrefs(mActivity),
 						subredditCanonicalId);
 				break;
 
@@ -951,7 +906,7 @@ public class MainMenuListingManager {
 
 		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(mContext);
 
-		if(PrefsUtility.pref_menus_mainmenu_dev_announcements(mContext, sharedPreferences)) {
+		if(PrefsUtility.pref_menus_mainmenu_dev_announcements()) {
 
 			final Optional<Announcement> announcement
 					= AnnouncementDownloader.getMostRecentUnreadAnnouncement(sharedPreferences);

@@ -96,17 +96,13 @@ public class ExoPlayerWrapperView extends FrameLayout {
 		mVideoPlayer.setPlayWhenReady(true);
 		videoPlayerView.setUseController(false);
 
-		if(PrefsUtility.pref_behaviour_video_zoom_default(
-				context,
-				General.getSharedPrefs(context))) {
+		if(PrefsUtility.pref_behaviour_video_zoom_default()) {
 			videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
 		} else {
 			videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 		}
 
-		if(PrefsUtility.pref_behaviour_video_playback_controls(
-				context,
-				General.getSharedPrefs(context))) {
+		if(PrefsUtility.pref_behaviour_video_playback_controls()) {
 
 			mControlView = new RelativeLayout(context);
 			addView(mControlView);

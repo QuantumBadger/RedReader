@@ -40,7 +40,6 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -104,10 +103,8 @@ public class RedditAPICommentAction {
 			final RedditChangeDataManager changeDataManager,
 			final boolean isArchived) {
 
-		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(activity);
-
 		final EnumSet<RedditCommentAction> itemPref
-				= PrefsUtility.pref_menus_comment_context_items(activity, sharedPreferences);
+				= PrefsUtility.pref_menus_comment_context_items();
 
 		if(itemPref.isEmpty()) {
 			return;
@@ -399,9 +396,7 @@ public class RedditAPICommentAction {
 				String body = "";
 				String subject = null;
 
-				if(PrefsUtility.pref_behaviour_sharing_include_desc(
-						activity,
-						General.getSharedPrefs(activity))) {
+				if(PrefsUtility.pref_behaviour_sharing_include_desc()) {
 					subject = String.format(
 							Locale.US,
 							activity.getText(R.string.share_comment_by_on_reddit)
@@ -410,9 +405,7 @@ public class RedditAPICommentAction {
 				}
 
 				// TODO this currently just dumps the markdown (only if sharing text is enabled)
-				if(PrefsUtility.pref_behaviour_sharing_share_text(
-						activity,
-						General.getSharedPrefs(activity))) {
+				if(PrefsUtility.pref_behaviour_sharing_share_text()) {
 					body = StringEscapeUtils.unescapeHtml4(comment.body)
 							+ "\r\n\r\n";
 				}

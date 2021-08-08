@@ -199,9 +199,7 @@ public class FileUtils {
 	}
 
 	public static boolean isCacheDiskFull(final Context context) {
-		final long space = getFreeSpaceAvailable(PrefsUtility.pref_cache_location(
-				context,
-				General.getSharedPrefs(context)));
+		final long space = getFreeSpaceAvailable(PrefsUtility.pref_cache_location(context));
 		return space < 128 * 1024 * 1024;
 	}
 
@@ -266,9 +264,7 @@ public class FileUtils {
 				}
 			}
 
-			if(PrefsUtility.pref_behaviour_sharing_dialog(
-					activity,
-					General.getSharedPrefs(activity))) {
+			if(PrefsUtility.pref_behaviour_sharing_dialog()) {
 				ShareOrderDialog.newInstance(shareIntent)
 						.show(activity.getSupportFragmentManager(), null);
 
@@ -415,9 +411,7 @@ public class FileUtils {
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
 			final PrefsUtility.SaveLocation saveLocation
-					= PrefsUtility.pref_behaviour_save_location(
-							activity,
-							General.getSharedPrefs(activity));
+					= PrefsUtility.pref_behaviour_save_location();
 
 			switch(saveLocation) {
 

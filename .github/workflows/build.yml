@@ -4,16 +4,14 @@ on:
     push:
     pull_request:
     schedule:
-        - cron: '30 5 * * *'
+        -   cron: '30 5 * * *'
 
 jobs:
-
-    pmd:
-        name: PMD
+    ci:
         runs-on: ubuntu-latest
-
         steps:
             -   uses: actions/checkout@v2
+            -   uses: gradle/wrapper-validation-action@v1
 
             -   name: Install NDK
                 run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.1.7171670" --sdk_root=${ANDROID_SDK_ROOT}
@@ -21,41 +19,11 @@ jobs:
             -   name: Run PMD
                 run: ./gradlew pmd
 
-    checkstyle:
-        name: Code style
-        runs-on: ubuntu-latest
-
-        steps:
-            -   uses: actions/checkout@v2
-
-            -   name: Install NDK
-                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.1.7171670" --sdk_root=${ANDROID_SDK_ROOT}
-
             -   name: Run checkstyle
                 run: ./gradlew checkstyle --stacktrace --info
 
-    buildRelease:
-        name: Release build
-        runs-on: ubuntu-latest
-
-        steps:
-            -   uses: actions/checkout@v2
-
-            -   name: Install NDK
-                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.1.7171670" --sdk_root=${ANDROID_SDK_ROOT}
-
             -   name: Run release build
                 run: ./gradlew assembleRelease
-
-    buildDebug:
-        name: Debug build
-        runs-on: ubuntu-latest
-
-        steps:
-            -   uses: actions/checkout@v2
-
-            -   name: Install NDK
-                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.1.7171670" --sdk_root=${ANDROID_SDK_ROOT}
 
             -   name: Run debug build
                 run: ./gradlew assembleDebug
@@ -65,11 +33,3 @@ jobs:
                 with:
                     name: RedReader-debug.apk
                     path: build/outputs/apk/debug/RedReader-debug.apk
-
-    gradleValidation:
-        name: Gradle wrapper validation
-        runs-on: ubuntu-latest
-
-        steps:
-            -   uses: actions/checkout@v2
-            -   uses: gradle/wrapper-validation-action@v1

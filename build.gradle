@@ -4,7 +4,7 @@ buildscript {
 		google()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:4.1.1'
+		classpath 'com.android.tools.build:gradle:4.2.2'
 	}
 }
 
@@ -39,15 +39,15 @@ dependencies {
 
 	testImplementation 'junit:junit:4.13'
 
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    androidTestImplementation 'androidx.test:rules:1.3.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
+	androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+	androidTestImplementation 'androidx.test:rules:1.3.0'
+	androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0'
 }
 
 android {
 	compileSdkVersion 29
-	buildToolsVersion "29.0.3"
-	ndkVersion "21.3.6528147"
+	buildToolsVersion "30.0.3"
+	ndkVersion "22.1.7171670"
 
 	defaultConfig {
 		applicationId "org.quantumbadger.redreader"
@@ -57,8 +57,8 @@ android {
 		versionName "1.17.2"
 
 		vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-    }
+		testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+	}
 	// Flag to tell aapt to keep the attribute ids around
 	aaptOptions {
 		additionalParameters "--no-version-vectors"
@@ -92,6 +92,8 @@ android {
 		disable 'ImpliedQuantity'
 		disable 'InflateParams'
 		disable 'ObsoleteSdkInt'
+		disable 'OldTargetApi'
+		disable 'AndroidGradlePluginVersion'
 
 		// Too many false positives
 		disable 'UnusedResources'

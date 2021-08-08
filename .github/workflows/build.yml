@@ -16,7 +16,7 @@ jobs:
             -   uses: actions/checkout@v2
 
             -   name: Install NDK
-                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.3.6528147" --sdk_root=${ANDROID_SDK_ROOT}
+                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.1.7171670" --sdk_root=${ANDROID_SDK_ROOT}
 
             -   name: Run PMD
                 run: ./gradlew pmd
@@ -29,7 +29,7 @@ jobs:
             -   uses: actions/checkout@v2
 
             -   name: Install NDK
-                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.3.6528147" --sdk_root=${ANDROID_SDK_ROOT}
+                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.1.7171670" --sdk_root=${ANDROID_SDK_ROOT}
 
             -   name: Run checkstyle
                 run: ./gradlew checkstyle --stacktrace --info
@@ -42,7 +42,7 @@ jobs:
             -   uses: actions/checkout@v2
 
             -   name: Install NDK
-                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.3.6528147" --sdk_root=${ANDROID_SDK_ROOT}
+                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.1.7171670" --sdk_root=${ANDROID_SDK_ROOT}
 
             -   name: Run release build
                 run: ./gradlew assembleRelease
@@ -55,7 +55,7 @@ jobs:
             -   uses: actions/checkout@v2
 
             -   name: Install NDK
-                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;21.3.6528147" --sdk_root=${ANDROID_SDK_ROOT}
+                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.1.7171670" --sdk_root=${ANDROID_SDK_ROOT}
 
             -   name: Run debug build
                 run: ./gradlew assembleDebug

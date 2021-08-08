@@ -200,9 +200,7 @@ public class WebViewFragment extends Fragment
 				final WindowManager.LayoutParams attrs = mActivity.getWindow()
 						.getAttributes();
 				//only re-enable status bar if there is no contradicting preference set
-				if(!PrefsUtility.pref_appearance_hide_android_status(
-						getContext(),
-						General.getSharedPrefs(getContext()))) {
+				if(!PrefsUtility.pref_appearance_hide_android_status()) {
 					attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
 				}
 				attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
@@ -306,16 +304,12 @@ public class WebViewFragment extends Fragment
 					if(RedditURLParser.parse(Uri.parse(url)) != null) {
 						LinkHandler.onLinkClicked(mActivity, url, false);
 					} else {
-						if(!PrefsUtility.pref_behaviour_useinternalbrowser(
-								mActivity,
-								General.getSharedPrefs(mActivity))) {
+						if(!PrefsUtility.pref_behaviour_useinternalbrowser()) {
 							LinkHandler.openWebBrowser(
 									mActivity,
 									Uri.parse(url),
 									true);
-						} else if(PrefsUtility.pref_behaviour_usecustomtabs(
-								mActivity,
-								General.getSharedPrefs(mActivity))
+						} else if(PrefsUtility.pref_behaviour_usecustomtabs()
 								&& Build.VERSION.SDK_INT
 										>= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 							LinkHandler.openCustomTab(

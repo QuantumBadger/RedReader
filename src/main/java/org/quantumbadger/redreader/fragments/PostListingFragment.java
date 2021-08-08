@@ -60,7 +60,6 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -116,8 +115,6 @@ public class PostListingFragment extends RRFragment
 	private final int mPostCountLimit;
 	private TextView mLoadMoreView;
 
-	private final SharedPrefsWrapper mSharedPreferences;
-
 	private final PostListingManager mPostListingManager;
 	private final RecyclerView mRecyclerView;
 
@@ -167,7 +164,6 @@ public class PostListingFragment extends RRFragment
 		mSession = session;
 
 		final Context context = getContext();
-		mSharedPreferences = General.getSharedPrefs(context);
 
 		// TODO output failed URL
 		if(mPostListingURL == null) {
@@ -186,7 +182,7 @@ public class PostListingFragment extends RRFragment
 			throw new RuntimeException("Invalid post listing URL");
 		}
 
-		switch(PrefsUtility.pref_behaviour_post_count(context, mSharedPreferences)) {
+		switch(PrefsUtility.pref_behaviour_post_count()) {
 			case ALL:
 				mPostCountLimit = -1;
 				break;
@@ -212,9 +208,7 @@ public class PostListingFragment extends RRFragment
 				= new ScrollbarRecyclerViewManager(context, null, false);
 
 		if(parent instanceof OptionsMenuUtility.OptionsMenuPostsListener
-				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(
-				context,
-				mSharedPreferences)) {
+				&& PrefsUtility.pref_behaviour_enable_swipe_refresh()) {
 
 			recyclerViewManager.enablePullToRefresh(
 					((OptionsMenuUtility.OptionsMenuPostsListener)parent)::onRefreshPosts);
@@ -248,9 +242,7 @@ public class PostListingFragment extends RRFragment
 				&& savedInstanceState == null
 				&& General.isNetworkConnected(context)) {
 
-			final long maxAgeMs = PrefsUtility.pref_cache_rerequest_postlist_age_ms(
-					context,
-					mSharedPreferences);
+			final long maxAgeMs = PrefsUtility.pref_cache_rerequest_postlist_age_ms();
 			downloadStrategy = new DownloadStrategyIfTimestampOutsideBounds(TimestampBound
 					.notOlderThan(
 							maxAgeMs));
@@ -330,9 +322,7 @@ public class PostListingFragment extends RRFragment
 									mSubreddit = result;
 
 									if(mSubreddit.over18
-											&& !PrefsUtility.pref_behaviour_nsfw(
-											context,
-											mSharedPreferences)) {
+											&& !PrefsUtility.pref_behaviour_nsfw()) {
 										mPostListingManager.setLoadingVisible(false);
 
 										final int title
@@ -703,79 +693,55 @@ public class PostListingFragment extends RRFragment
 							final JsonObject listing = thing.getObject("data");
 							final JsonArray posts = listing.getArray("children");
 
-							final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw(
-									activity,
-									mSharedPreferences);
+							final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw();
 							final boolean hideReadPosts
-									= PrefsUtility.pref_behaviour_hide_read_posts(
-											activity,
-											mSharedPreferences);
+									= PrefsUtility.pref_behaviour_hide_read_posts();
 							final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
 							final boolean inlinePreviews
-									= PrefsUtility.images_inline_image_previews(
-											activity,
-											mSharedPreferences).isEnabled(isConnectionWifi);
+									= PrefsUtility.images_inline_image_previews()
+									.isEnabled(isConnectionWifi);
 
 							final boolean showNsfwPreviews
-									= PrefsUtility.images_inline_image_previews_nsfw(
-											activity,
-											mSharedPreferences);
+									= PrefsUtility.images_inline_image_previews_nsfw();
 
 							final boolean showSpoilerPreviews
-									= PrefsUtility.images_inline_image_previews_spoiler(
-											activity,
-											mSharedPreferences);
+									= PrefsUtility.images_inline_image_previews_spoiler();
 
 							final boolean downloadThumbnails
-									= PrefsUtility.appearance_thumbnails_show(
-											activity,
-											mSharedPreferences).isEnabled(isConnectionWifi);
+									= PrefsUtility.appearance_thumbnails_show()
+									.isEnabled(isConnectionWifi);
 
 							final boolean allowHighResThumbnails = downloadThumbnails
-									&& PrefsUtility.images_high_res_thumbnails(
-											activity,
-											mSharedPreferences).isEnabled(isConnectionWifi);
+									&& PrefsUtility.images_high_res_thumbnails()
+									.isEnabled(isConnectionWifi);
 
 							final boolean showNsfwThumbnails
-									= PrefsUtility.appearance_thumbnails_nsfw_show(
-											activity,
-											mSharedPreferences);
+									= PrefsUtility.appearance_thumbnails_nsfw_show();
 
 							final boolean showSpoilerThumbnails
-									= PrefsUtility.appearance_thumbnails_spoiler_show(
-											activity,
-											mSharedPreferences);
+									= PrefsUtility.appearance_thumbnails_spoiler_show();
 
 							final boolean precacheImages
 									= !inlinePreviews
-											&& PrefsUtility.cache_precache_images(
-													activity,
-													mSharedPreferences).isEnabled(isConnectionWifi)
+											&& PrefsUtility.cache_precache_images()
+									.isEnabled(isConnectionWifi)
 											&& !FileUtils.isCacheDiskFull(activity);
 
-							final boolean precacheComments = PrefsUtility.cache_precache_comments(
-									activity,
-									mSharedPreferences).isEnabled(isConnectionWifi);
+							final boolean precacheComments = PrefsUtility.cache_precache_comments()
+									.isEnabled(isConnectionWifi);
 
 							final PrefsUtility.ImageViewMode imageViewMode
-									= PrefsUtility.pref_behaviour_imageview_mode(
-											activity,
-											mSharedPreferences);
+									= PrefsUtility.pref_behaviour_imageview_mode();
 
 							final PrefsUtility.GifViewMode gifViewMode
-									= PrefsUtility.pref_behaviour_gifview_mode(
-											activity,
-											mSharedPreferences);
+									= PrefsUtility.pref_behaviour_gifview_mode();
 
 							final PrefsUtility.VideoViewMode videoViewMode
-									= PrefsUtility.pref_behaviour_videoview_mode(
-											activity,
-											mSharedPreferences);
+									= PrefsUtility.pref_behaviour_videoview_mode();
 
-							final boolean leftHandedMode = PrefsUtility.pref_appearance_left_handed(
-									activity,
-									mSharedPreferences);
+							final boolean leftHandedMode
+									= PrefsUtility.pref_appearance_left_handed();
 
 							final boolean subredditFilteringEnabled =
 									mPostListingURL.pathType()
@@ -789,9 +755,7 @@ public class PostListingFragment extends RRFragment
 
 							// Grab this so we don't have to pull from the prefs every post
 							final HashSet<SubredditCanonicalId> blockedSubreddits
-									= new HashSet<>(PrefsUtility.pref_blocked_subreddits(
-									activity,
-									mSharedPreferences));
+									= new HashSet<>(PrefsUtility.pref_blocked_subreddits());
 
 							Log.i(TAG, "Inline previews: "
 									+ (inlinePreviews ? "ON" : "OFF"));
@@ -1028,8 +992,7 @@ public class PostListingFragment extends RRFragment
 			final int positionInList) {
 
 		final CommentListingController controller = new CommentListingController(
-				PostCommentListingURL.forPostId(preparedPost.src.getIdAlone()),
-				activity);
+				PostCommentListingURL.forPostId(preparedPost.src.getIdAlone()));
 
 		final URI url = General.uriFromString(controller.getUri().toString());
 

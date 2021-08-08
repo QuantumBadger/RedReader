@@ -78,8 +78,7 @@ public class CommentListingActivity extends RefreshableActivity
 			final String url = intent.getDataString();
 			final String searchString = intent.getStringExtra(EXTRA_SEARCH_STRING);
 			controller = new CommentListingController(
-					RedditURLParser.parseProbableCommentListing(Uri.parse(url)),
-					this);
+					RedditURLParser.parseProbableCommentListing(Uri.parse(url)));
 			controller.setSearchString(searchString);
 
 			Bundle fragmentSavedInstanceState = null;

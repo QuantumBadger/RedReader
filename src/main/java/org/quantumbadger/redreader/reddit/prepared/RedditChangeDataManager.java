@@ -187,12 +187,7 @@ public final class RedditChangeDataManager {
 	}
 
 	public static void pruneAllUsers() {
-		pruneAllUsers(0);
-	}
-
-	public static void pruneAllUsers(final Context context) {
-		pruneAllUsers(PrefsUtility.pref_cache_maxage_entry(
-				context, General.getSharedPrefs(context)));
+		pruneAllUsers(PrefsUtility.pref_cache_maxage_entry());
 	}
 
 	public static void pruneAllUsers(final long maxAge) {

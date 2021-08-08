@@ -103,9 +103,8 @@ public class RedditRenderableComment
 			final long postCreated,
 			final long parentCommentCreated) {
 
-		final PrefsUtility.CommentAgeMode commentAgeMode = PrefsUtility.appearance_comment_age_mode(
-				context,
-				General.getSharedPrefs(context));
+		final PrefsUtility.CommentAgeMode commentAgeMode
+				= PrefsUtility.appearance_comment_age_mode();
 
 		final BetterSSB sb = new BetterSSB();
 
@@ -284,9 +283,8 @@ public class RedditRenderableComment
 			final long parentCommentCreated,
 			final boolean collapsed) {
 
-		final PrefsUtility.CommentAgeMode commentAgeMode = PrefsUtility.appearance_comment_age_mode(
-				context,
-				General.getSharedPrefs(context));
+		final PrefsUtility.CommentAgeMode commentAgeMode
+				= PrefsUtility.appearance_comment_age_mode();
 
 		final StringBuilder accessibilityHeader = new StringBuilder();
 

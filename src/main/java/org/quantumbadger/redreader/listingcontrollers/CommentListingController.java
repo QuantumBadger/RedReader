@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.listingcontrollers;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,17 +45,15 @@ public class CommentListingController {
 		mSession = session;
 	}
 
-	public CommentListingController(
-			RedditURLParser.RedditURL url,
-			final Context context) {
+	public CommentListingController(RedditURLParser.RedditURL url) {
 
 		if(url.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			if(url.asPostCommentListURL().order == null) {
-				url = url.asPostCommentListURL().order(defaultOrder(context));
+				url = url.asPostCommentListURL().order(defaultOrder());
 			}
 		} else if(url.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL) {
 			if(url.asUserCommentListURL().order == null) {
-				url = url.asUserCommentListURL().order(defaultUserOrder(context));
+				url = url.asUserCommentListURL().order(defaultUserOrder());
 			}
 		}
 
@@ -67,16 +64,12 @@ public class CommentListingController {
 		this.mUrl = (CommentListingURL)url;
 	}
 
-	private PostCommentListingURL.Sort defaultOrder(final Context context) {
-		return PrefsUtility.pref_behaviour_commentsort(
-				context,
-				General.getSharedPrefs(context));
+	private PostCommentListingURL.Sort defaultOrder() {
+		return PrefsUtility.pref_behaviour_commentsort();
 	}
 
-	private UserCommentListingURL.Sort defaultUserOrder(final Context context) {
-		return PrefsUtility.pref_behaviour_user_commentsort(
-				context,
-				General.getSharedPrefs(context));
+	private UserCommentListingURL.Sort defaultUserOrder() {
+		return PrefsUtility.pref_behaviour_user_commentsort();
 	}
 
 	public void setSort(final PostCommentListingURL.Sort s) {

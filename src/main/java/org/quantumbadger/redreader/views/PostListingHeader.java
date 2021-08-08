@@ -117,9 +117,7 @@ public final class PostListingHeader extends LinearLayout
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		if(subreddit != null
-				&& !PrefsUtility.pref_appearance_hide_headertoolbar_postlist(
-				activity,
-				sharedPreferences)) {
+				&& !PrefsUtility.pref_appearance_hide_headertoolbar_postlist()) {
 
 			final LinearLayout buttons = (LinearLayout)inflate(
 					activity,
@@ -191,8 +189,6 @@ public final class PostListingHeader extends LinearLayout
 			mRunnableOnPinnedChange = () -> {
 
 				final boolean pinned = PrefsUtility.pref_pinned_subreddits_check(
-						mContext,
-						sharedPreferences,
 						subredditCanonicalId);
 
 				if(pinned) {
@@ -255,12 +251,10 @@ public final class PostListingHeader extends LinearLayout
 
 			buttonPin.setOnClickListener(v -> PrefsUtility.pref_pinned_subreddits_add(
 					mContext,
-					sharedPreferences,
 					subredditCanonicalId));
 
 			buttonUnpin.setOnClickListener(v -> PrefsUtility.pref_pinned_subreddits_remove(
 					mContext,
-					sharedPreferences,
 					subredditCanonicalId));
 
 			buttonShare.setOnClickListener(v -> LinkHandler.shareText(

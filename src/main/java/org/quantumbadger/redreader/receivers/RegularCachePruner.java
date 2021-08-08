@@ -34,7 +34,7 @@ public class RegularCachePruner extends BroadcastReceiver {
 		new Thread() {
 			@Override
 			public void run() {
-				RedditChangeDataManager.pruneAllUsers(context);
+				RedditChangeDataManager.pruneAllUsers();
 				CacheManager.getInstance(context).pruneCache();
 			}
 		}.start();

@@ -22,6 +22,7 @@ import android.util.Log;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.Alarms;
 import org.quantumbadger.redreader.common.Fonts;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.io.RedditChangeDataIO;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
@@ -35,6 +36,8 @@ public class RedReader extends Application {
 		super.onCreate();
 
 		Log.i("RedReader", "Application created.");
+
+		PrefsUtility.init(this, getResources());
 
 		Fonts.onAppCreate(getAssets());
 
@@ -56,7 +59,7 @@ public class RedReader extends Application {
 			public void run() {
 				RedditChangeDataIO.getInstance(RedReader.this)
 						.runInitialReadInThisThread();
-				RedditChangeDataManager.pruneAllUsers(RedReader.this);
+				RedditChangeDataManager.pruneAllUsers();
 			}
 		}.start();
 

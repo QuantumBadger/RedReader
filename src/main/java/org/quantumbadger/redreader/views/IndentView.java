@@ -81,9 +81,7 @@ class IndentView extends View {
 		mPaint.setColor(rrIndentLineCol);
 		mPaint.setStrokeWidth(mPixelsPerLine);
 
-		mPrefDrawLines = PrefsUtility.pref_appearance_indentlines(
-				context,
-				General.getSharedPrefs(context));
+		mPrefDrawLines = PrefsUtility.pref_appearance_indentlines();
 	}
 
 	@Override

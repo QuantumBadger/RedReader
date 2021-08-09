@@ -785,7 +785,9 @@ public class PostListingFragment extends RRFragment
 											|| mPostListingURL.asSubredditPostListURL().type
 													== SubredditPostListURL.Type.ALL_SUBTRACTION
 											|| mPostListingURL.asSubredditPostListURL().type
-													== SubredditPostListURL.Type.POPULAR);
+													== SubredditPostListURL.Type.POPULAR
+											|| mPostListingURL.asSubredditPostListURL().type
+													== SubredditPostListURL.Type.FRONTPAGE);
 
 							// Grab this so we don't have to pull from the prefs every post
 							final HashSet<SubredditCanonicalId> blockedSubreddits

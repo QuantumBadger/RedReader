@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.TooltipCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -112,14 +113,20 @@ public class RedditPostHeaderView extends LinearLayout {
 
 			// A user is logged in
 
-			final RedditChangeDataManager changeDataManager =
-					RedditChangeDataManager.getInstance(currentUser);
+			final RedditChangeDataManager changeDataManager
+					= RedditChangeDataManager.getInstance(currentUser);
 			final RedditChangeDataManager.Listener changeListener;
 
 			if(!PrefsUtility.pref_appearance_hide_headertoolbar_commentlist()) {
 
 				final LinearLayout buttons =
-						(LinearLayout)inflate(activity, R.layout.post_header_toolbar, this);
+						inflate(activity, R.layout.post_header_toolbar, this)
+								.findViewById(R.id.post_toolbar_layout);
+
+				for(int i = 0; i < buttons.getChildCount(); i++) {
+					final ImageButton button = (ImageButton)buttons.getChildAt(i);
+					TooltipCompat.setTooltipText(button, button.getContentDescription());
+				}
 
 				final ImageButton buttonAddUpvote =
 						buttons.findViewById(R.id.post_toolbar_botton_add_upvote);

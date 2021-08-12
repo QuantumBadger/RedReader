@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -119,10 +121,9 @@ public final class PostListingHeader extends LinearLayout
 		if(subreddit != null
 				&& !PrefsUtility.pref_appearance_hide_headertoolbar_postlist()) {
 
-			final LinearLayout buttons = (LinearLayout)inflate(
-					activity,
-					R.layout.subreddit_header_toolbar,
-					this);
+			final LinearLayout buttons =
+					inflate(activity, R.layout.subreddit_header_toolbar, this)
+							.findViewById(R.id.subreddit_toolbar_layout);
 
 			final ImageButton buttonSubscribe =
 					buttons.findViewById(R.id.subreddit_toolbar_button_subscribe);
@@ -142,6 +143,11 @@ public final class PostListingHeader extends LinearLayout
 					buttons.findViewById(R.id.subreddit_toolbar_button_share);
 			final ImageButton buttonInfo =
 					buttons.findViewById(R.id.subreddit_toolbar_button_info);
+
+			for(int i = 0; i < buttons.getChildCount(); i++) {
+				final View button = buttons.getChildAt(i);
+				TooltipCompat.setTooltipText(button, button.getContentDescription());
+			}
 
 			buttonSubscribeLoading.addView(new ButtonLoadingSpinnerView(activity));
 

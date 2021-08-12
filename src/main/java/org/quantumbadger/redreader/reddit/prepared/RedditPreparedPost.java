@@ -37,6 +37,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -1865,14 +1866,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					accessibilityAction = Action.UNHIDE;
 				}
 
-				final int textRes = accessibilityAction.descriptionResId;
+				final String text = activity.getString(accessibilityAction.descriptionResId);
 
-				ib.setContentDescription(activity.getString(textRes));
-
-				ib.setOnLongClickListener(view -> {
-					General.quickToast(activity, textRes);
-					return true;
-				});
+				ib.setContentDescription(text);
+				TooltipCompat.setTooltipText(ib, text);
 
 				toolbar.addItem(ib);
 			}

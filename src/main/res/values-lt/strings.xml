@@ -690,7 +690,7 @@
     <string name="error_upload_fail_imgur_title">Įkelti nepavyko</string>
     <string name="error_parse_imgur_message">Imgur atsiuntė keletą duomenų, kurių negalėjau suprasti.</string>
     <string name="error_parse_imgur_title">Nagrinėjimo klaida</string>
-    <string name="error_tor_setting_failed">Nepavyko nustatyti tarpinio serverio.</string>
+    <string name="error_tor_setting_failed">Nepavyko nustatyti įgaliotojo serverio.</string>
     <string name="error_tor_not_installed">Tor neveiks, jei nebus įdiegtas Orbot. Įdiegti dabar\?</string>
     <string name="pref_network_tor_title">Naudoti Tor</string>
     <string name="open_with">Atidaryti naudojant</string>

@@ -52,7 +52,7 @@ public class PostListingController {
 		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 			if(url.asSubredditPostListURL().order == null) {
 
-				PostSort order = defaultSubredditOrder();
+				PostSort order = PrefsUtility.pref_behaviour_postsort();
 
 				if(order == PostSort.BEST
 						&& url.asSubredditPostListURL().type
@@ -65,12 +65,12 @@ public class PostListingController {
 			}
 		} else if(url.pathType() == RedditURLParser.USER_POST_LISTING_URL) {
 			if(url.asUserPostListURL().order == null) {
-				url = url.asUserPostListURL().sort(defaultUserOrder());
+				url = url.asUserPostListURL().sort(PrefsUtility.pref_behaviour_user_postsort());
 			}
 		} else if(url.pathType() == RedditURLParser.MULTIREDDIT_POST_LISTING_URL) {
 			if(url.asMultiredditPostListURL().order == null) {
 				url = url.asMultiredditPostListURL()
-						.sort(defaultMultiredditOrder());
+						.sort(PrefsUtility.pref_behaviour_multi_postsort());
 			}
 		}
 
@@ -108,18 +108,6 @@ public class PostListingController {
 		} else {
 			throw new RuntimeException("Cannot set sort for this URL");
 		}
-	}
-
-	private PostSort defaultSubredditOrder() {
-		return PrefsUtility.pref_behaviour_postsort();
-	}
-
-	private PostSort defaultUserOrder() {
-		return PrefsUtility.pref_behaviour_user_postsort();
-	}
-
-	private PostSort defaultMultiredditOrder() {
-		return PrefsUtility.pref_behaviour_multi_postsort();
 	}
 
 	public final PostSort getSort() {

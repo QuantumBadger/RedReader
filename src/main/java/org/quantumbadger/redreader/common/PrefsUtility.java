@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.common;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.util.DisplayMetrics;
@@ -27,7 +26,6 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-import androidx.preference.PreferenceManager;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
@@ -54,11 +52,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class PrefsUtility {
 
-	private static SharedPreferences sharedPrefs;
+	private static SharedPrefsWrapper sharedPrefs;
 	private static Resources mRes;
 
 	public static void init(final Context context, final Resources res) {
-		sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+		sharedPrefs = General.getSharedPrefs(context);
 		mRes = res;
 	}
 

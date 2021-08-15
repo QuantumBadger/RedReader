@@ -16,12 +16,6 @@ jobs:
             -   name: Install NDK
                 run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;22.1.7171670" --sdk_root=${ANDROID_SDK_ROOT}
 
-            -   name: Run PMD
-                run: ./gradlew pmd
-
-            -   name: Run checkstyle
-                run: ./gradlew checkstyle --stacktrace --info
-
             -   name: Run release build
                 run: ./gradlew assembleRelease
 
@@ -33,3 +27,9 @@ jobs:
                 with:
                     name: RedReader-debug.apk
                     path: build/outputs/apk/debug/RedReader-debug.apk
+
+            -   name: Run PMD
+                run: ./gradlew pmd
+
+            -   name: Run checkstyle
+                run: ./gradlew checkstyle --stacktrace --info

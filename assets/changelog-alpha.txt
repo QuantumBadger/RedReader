@@ -1,3 +1,6 @@
+/Alpha 291 (2021-08-15)
+Various code cleanup (thanks to TacoTheDank)
+
 /Alpha 290 (2021-07-25)
 Show message when no posts are available (thanks to Cameron Merkel)
 Allow specifying date range for searches (thanks to Cameron Merkel)

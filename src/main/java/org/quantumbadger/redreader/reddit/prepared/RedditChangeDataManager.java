@@ -186,11 +186,11 @@ public final class RedditChangeDataManager {
 		Log.i(TAG, "All entries read from stream.");
 	}
 
-	public static void pruneAllUsers() {
-		pruneAllUsers(PrefsUtility.pref_cache_maxage_entry());
+	public static void pruneAllUsersDefaultMaxAge() {
+		pruneAllUsersWhereOlderThan(PrefsUtility.pref_cache_maxage_entry());
 	}
 
-	public static void pruneAllUsers(final long maxAge) {
+	public static void pruneAllUsersWhereOlderThan(final long maxAge) {
 
 		Log.i(TAG, "Pruning for all users...");
 

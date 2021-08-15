@@ -706,7 +706,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 								cachesToClear.get(CacheType.IMAGES));
 
 						if(Objects.requireNonNull(cachesToClear.get(CacheType.FLAGS))) {
-							RedditChangeDataManager.pruneAllUsers(0);
+							RedditChangeDataManager.pruneAllUsersWhereOlderThan(0);
 						}
 					}
 				}.start())

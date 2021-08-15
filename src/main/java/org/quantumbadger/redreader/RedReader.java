@@ -59,7 +59,7 @@ public class RedReader extends Application {
 			public void run() {
 				RedditChangeDataIO.getInstance(RedReader.this)
 						.runInitialReadInThisThread();
-				RedditChangeDataManager.pruneAllUsers();
+				RedditChangeDataManager.pruneAllUsersDefaultMaxAge();
 			}
 		}.start();
 

@@ -191,9 +191,7 @@ public final class CacheManager {
 	}
 
 	public synchronized void pruneCache() {
-		pruneCache(PrefsUtility.pref_cache_maxage(
-				context,
-				General.getSharedPrefs(context)));
+		pruneCache(PrefsUtility.pref_cache_maxage());
 	}
 
 	public synchronized void pruneCache(
@@ -293,9 +291,7 @@ public final class CacheManager {
 
 	public File getPreferredCacheLocation() {
 		return new File(
-				PrefsUtility.pref_cache_location(
-						context,
-						General.getSharedPrefs(context)));
+				PrefsUtility.pref_cache_location(context));
 	}
 
 	@NonNull

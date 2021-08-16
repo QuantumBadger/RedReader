@@ -96,9 +96,8 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 		final LinkedList<ResolveInfo> orderedList = new LinkedList<>(unorderedList);
 
 		final List<String> prioritizedAppNames
-				= Arrays.asList(PrefsUtility.pref_behaviour_sharing_dialog_data_get(
-				context,
-				General.getSharedPrefs(context)).split(";"));
+				= Arrays.asList(PrefsUtility.pref_behaviour_sharing_dialog_data_get()
+				.split(";"));
 		final ResolveInfo[] prioritizedApps = new ResolveInfo[prioritizedAppNames.size()];
 
 		// get the ResolveInfos for the available prioritized Apps and save them in order
@@ -140,9 +139,8 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 
 	private void persistPriority(final ActivityInfo selectedApplication) {
 		final LinkedList<String> priorityAppList =
-				new LinkedList<>(Arrays.asList(PrefsUtility.pref_behaviour_sharing_dialog_data_get(
-						context,
-						General.getSharedPrefs(context)).split(";")));
+				new LinkedList<>(Arrays.asList(PrefsUtility.pref_behaviour_sharing_dialog_data_get()
+						.split(";")));
 		priorityAppList.remove(selectedApplication.name);
 		priorityAppList.add(0, selectedApplication.name);
 		if(priorityAppList.size() > amountOfPrioritizedApps) {
@@ -151,7 +149,6 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 
 		PrefsUtility.pref_behaviour_sharing_dialog_data_set(
 				context,
-				General.getSharedPrefs(context),
 				StringUtils.join(priorityAppList, ";"));
 	}
 }

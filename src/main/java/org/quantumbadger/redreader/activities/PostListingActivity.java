@@ -227,13 +227,9 @@ public class PostListingActivity extends RefreshableActivity
 
 			try {
 				subredditPinState = PrefsUtility.pref_pinned_subreddits_check(
-						this,
-						General.getSharedPrefs(this),
 						fragment.getSubreddit().getCanonicalId());
 
 				subredditBlockedState = PrefsUtility.pref_blocked_subreddits_check(
-						this,
-						General.getSharedPrefs(this),
 						fragment.getSubreddit().getCanonicalId());
 
 			} catch(final InvalidSubredditNameException e) {
@@ -406,7 +402,7 @@ public class PostListingActivity extends RefreshableActivity
 			intent.putExtra(
 					"html",
 					fragment.getSubreddit()
-							.getSidebarHtml(PrefsUtility.isNightMode(this)));
+							.getSidebarHtml(PrefsUtility.isNightMode()));
 			intent.putExtra("title", String.format(Locale.US, "%s: %s",
 					getString(R.string.sidebar_activity_title),
 					fragment.getSubreddit().url));
@@ -432,7 +428,6 @@ public class PostListingActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_pinned_subreddits_add(
 					this,
-					General.getSharedPrefs(this),
 					fragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -460,7 +455,6 @@ public class PostListingActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_pinned_subreddits_remove(
 					this,
-					General.getSharedPrefs(this),
 					fragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -487,7 +481,6 @@ public class PostListingActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_blocked_subreddits_add(
 					this,
-					General.getSharedPrefs(this),
 					fragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -514,7 +507,6 @@ public class PostListingActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_blocked_subreddits_remove(
 					this,
-					General.getSharedPrefs(this),
 					fragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -546,10 +538,8 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onBackPressed() {
 
-		if(PrefsUtility.pref_behaviour_back_again(
-				this,
-				General.getSharedPrefs(this))
-						&& (mDoubleTapBack_lastTapMs < SystemClock.uptimeMillis() - 5000)) {
+		if(PrefsUtility.pref_behaviour_back_again()
+				&& (mDoubleTapBack_lastTapMs < SystemClock.uptimeMillis() - 5000)) {
 
 			mDoubleTapBack_lastTapMs = SystemClock.uptimeMillis();
 			Toast.makeText(this, R.string.press_back_again, Toast.LENGTH_SHORT).show();

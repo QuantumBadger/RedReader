@@ -46,9 +46,7 @@ public class BezelSwipeOverlay extends View {
 		super(context);
 		this.listener = listener;
 
-		final int swipeZoneDp = PrefsUtility.pref_behaviour_bezel_toolbar_swipezone_dp(
-				context,
-				General.getSharedPrefs(context));
+		final int swipeZoneDp = PrefsUtility.pref_behaviour_bezel_toolbar_swipezone_dp();
 
 		mSwipeZonePixels = General.dpToPixels(getContext(), swipeZoneDp);
 	}

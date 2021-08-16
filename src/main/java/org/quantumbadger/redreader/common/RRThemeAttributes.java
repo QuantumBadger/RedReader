@@ -75,17 +75,10 @@ public class RRThemeAttributes {
 
 		appearance.recycle();
 
-		final SharedPrefsWrapper prefs = General.getSharedPrefs(
-				context);
+		mCommentHeaderItems = PrefsUtility.appearance_comment_header_items();
 
-		mCommentHeaderItems = PrefsUtility.appearance_comment_header_items(
-				context,
-				prefs);
-
-		rrCommentFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
-		rrCommentHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(
-				context,
-				prefs);
+		rrCommentFontScale = PrefsUtility.appearance_fontscale_bodytext();
+		rrCommentHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers();
 	}
 
 	public boolean shouldShow(final PrefsUtility.AppearanceCommentHeaderItem type) {

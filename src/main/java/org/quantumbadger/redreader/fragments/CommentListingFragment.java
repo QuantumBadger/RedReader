@@ -55,7 +55,6 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
@@ -150,11 +149,9 @@ public class CommentListingFragment extends RRFragment
 
 		final Context context = getActivity();
 
-		final SharedPrefsWrapper prefs = General.getSharedPrefs(context);
+		mSelfTextFontScale = PrefsUtility.appearance_fontscale_bodytext();
 
-		mSelfTextFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
-
-		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, prefs);
+		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons();
 
 		mOverlayFrame = new FrameLayout(context);
 
@@ -162,7 +159,7 @@ public class CommentListingFragment extends RRFragment
 				= new ScrollbarRecyclerViewManager(context, null, false);
 
 		if(parent instanceof OptionsMenuUtility.OptionsMenuCommentsListener
-				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(context, prefs)) {
+				&& PrefsUtility.pref_behaviour_enable_swipe_refresh()) {
 
 			recyclerViewManager.enablePullToRefresh(
 					((OptionsMenuUtility.OptionsMenuCommentsListener)parent)::onRefreshComments);
@@ -177,7 +174,7 @@ public class CommentListingFragment extends RRFragment
 
 		mRecyclerView.setItemAnimator(null);
 
-		if(!PrefsUtility.pref_appearance_comments_show_floating_toolbar(context, prefs)) {
+		if(!PrefsUtility.pref_appearance_comments_show_floating_toolbar()) {
 			mFloatingToolbar = null;
 
 		} else {
@@ -192,7 +189,7 @@ public class CommentListingFragment extends RRFragment
 			floatingToolbarContainer.addView(mFloatingToolbar);
 			mOverlayFrame.addView(floatingToolbarContainer);
 
-			if(PrefsUtility.isNightMode(context)) {
+			if(PrefsUtility.isNightMode()) {
 				mFloatingToolbar.setBackgroundColor(Color.argb(0xCC, 0x33, 0x33, 0x33));
 			}
 
@@ -409,9 +406,7 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCommentClicked(final RedditCommentView view) {
-		switch(PrefsUtility.pref_behaviour_actions_comment_tap(
-				getActivity(),
-				General.getSharedPrefs(getActivity()))) {
+		switch(PrefsUtility.pref_behaviour_actions_comment_tap()) {
 
 			case COLLAPSE:
 				handleCommentVisibilityToggle(view);
@@ -435,9 +430,7 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCommentLongClicked(final RedditCommentView view) {
-		switch(PrefsUtility.pref_behaviour_actions_comment_longclick(
-				getActivity(),
-				General.getSharedPrefs(getActivity()))) {
+		switch(PrefsUtility.pref_behaviour_actions_comment_longclick()) {
 
 			case ACTION_MENU: {
 				final RedditCommentListItem item = view.getComment();
@@ -531,9 +524,7 @@ public class CommentListingFragment extends RRFragment
 				paddingLayout.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 
 				final PrefsUtility.SelfpostAction actionOnClick
-						= PrefsUtility.pref_behaviour_self_post_tap_actions(
-								activity,
-								General.getSharedPrefs(activity));
+						= PrefsUtility.pref_behaviour_self_post_tap_actions();
 				if(actionOnClick == PrefsUtility.SelfpostAction.COLLAPSE) {
 					paddingLayout.setOnClickListener(v -> {
 						if(selfText.getVisibility() == View.GONE) {
@@ -555,9 +546,7 @@ public class CommentListingFragment extends RRFragment
 				mCommentListingManager.addPostSelfText(paddingLayout);
 			}
 
-			if(!General.isTablet(
-					activity,
-					General.getSharedPrefs(activity))) {
+			if(!General.isTablet(activity)) {
 				activity.setTitle(post.src.getTitle());
 			}
 
@@ -667,9 +656,7 @@ public class CommentListingFragment extends RRFragment
 	public void onCreateOptionsMenu(final Menu menu) {
 
 		final Map<OptionsMenuUtility.AppbarItemsPref, Integer> appbarItemsPrefs =
-				PrefsUtility.pref_menus_appbar_items(
-						getActivity(),
-						General.getSharedPrefs(getActivity()));
+				PrefsUtility.pref_menus_appbar_items();
 		final int replyShowAsAction = OptionsMenuUtility.getOrThrow(
 				appbarItemsPrefs,
 				OptionsMenuUtility.AppbarItemsPref.REPLY);

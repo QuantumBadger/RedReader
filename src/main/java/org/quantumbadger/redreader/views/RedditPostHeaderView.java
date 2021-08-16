@@ -31,7 +31,6 @@ import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
@@ -48,9 +47,6 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		super(activity);
 
-		final SharedPrefsWrapper sharedPreferences =
-				General.getSharedPrefs(activity);
-
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
 
 		setOrientation(LinearLayout.VERTICAL);
@@ -63,9 +59,7 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		greyHeader.setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
 
-		final float titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles(
-				activity,
-				sharedPreferences);
+		final float titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles();
 
 		final TextView title = new TextView(activity);
 		title.setTextSize(19.0f * titleFontScale);
@@ -75,9 +69,7 @@ public class RedditPostHeaderView extends LinearLayout {
 		greyHeader.addView(title);
 
 		final float subtitleFontScale =
-				PrefsUtility.appearance_fontscale_post_header_subtitles(
-						activity,
-						sharedPreferences);
+				PrefsUtility.appearance_fontscale_post_header_subtitles();
 
 		subtitle = new TextView(activity);
 		subtitle.setTextSize(13.0f * subtitleFontScale);
@@ -124,9 +116,7 @@ public class RedditPostHeaderView extends LinearLayout {
 					RedditChangeDataManager.getInstance(currentUser);
 			final RedditChangeDataManager.Listener changeListener;
 
-			if(!PrefsUtility.pref_appearance_hide_headertoolbar_commentlist(
-					activity,
-					sharedPreferences)) {
+			if(!PrefsUtility.pref_appearance_hide_headertoolbar_commentlist()) {
 
 				final LinearLayout buttons =
 						(LinearLayout)inflate(activity, R.layout.post_header_toolbar, this);

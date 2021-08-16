@@ -147,9 +147,8 @@ public class CommentListingRequest {
 									timestamp);
 						}
 
-						final Integer minimumCommentScore = PrefsUtility.pref_behaviour_comment_min(
-								mContext,
-								General.getSharedPrefs(mContext));
+						final Integer minimumCommentScore
+								= PrefsUtility.pref_behaviour_comment_min();
 
 						if(fromCache) {
 							AndroidCommon.runOnUiThread(()

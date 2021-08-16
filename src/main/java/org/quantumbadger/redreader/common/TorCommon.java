@@ -54,10 +54,7 @@ public class TorCommon {
 
 		General.checkThisIsUIThread();
 
-		final SharedPrefsWrapper sharedPreferences
-				= General.getSharedPrefs(context);
-
-		final boolean torEnabled = PrefsUtility.network_tor(context, sharedPreferences);
+		final boolean torEnabled = PrefsUtility.network_tor();
 		final boolean torChanged = (torEnabled != isTorEnabled());
 
 		sIsTorEnabled.set(torEnabled);

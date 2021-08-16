@@ -21,7 +21,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.PostSort;
@@ -53,7 +52,7 @@ public class PostListingController {
 		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL) {
 			if(url.asSubredditPostListURL().order == null) {
 
-				PostSort order = defaultSubredditOrder(context);
+				PostSort order = PrefsUtility.pref_behaviour_postsort();
 
 				if(order == PostSort.BEST
 						&& url.asSubredditPostListURL().type
@@ -66,12 +65,12 @@ public class PostListingController {
 			}
 		} else if(url.pathType() == RedditURLParser.USER_POST_LISTING_URL) {
 			if(url.asUserPostListURL().order == null) {
-				url = url.asUserPostListURL().sort(defaultUserOrder(context));
+				url = url.asUserPostListURL().sort(PrefsUtility.pref_behaviour_user_postsort());
 			}
 		} else if(url.pathType() == RedditURLParser.MULTIREDDIT_POST_LISTING_URL) {
 			if(url.asMultiredditPostListURL().order == null) {
 				url = url.asMultiredditPostListURL()
-						.sort(defaultMultiredditOrder(context));
+						.sort(PrefsUtility.pref_behaviour_multi_postsort());
 			}
 		}
 
@@ -109,24 +108,6 @@ public class PostListingController {
 		} else {
 			throw new RuntimeException("Cannot set sort for this URL");
 		}
-	}
-
-	private PostSort defaultSubredditOrder(final Context context) {
-		return PrefsUtility.pref_behaviour_postsort(
-				context,
-				General.getSharedPrefs(context));
-	}
-
-	private PostSort defaultUserOrder(final Context context) {
-		return PrefsUtility.pref_behaviour_user_postsort(
-				context,
-				General.getSharedPrefs(context));
-	}
-
-	private PostSort defaultMultiredditOrder(final Context context) {
-		return PrefsUtility.pref_behaviour_multi_postsort(
-				context,
-				General.getSharedPrefs(context));
 	}
 
 	public final PostSort getSort() {

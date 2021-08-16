@@ -8,6 +8,7 @@ Show message when no posts are available (thanks to Cameron Merkel)
 Show parent comment after submitting reply
 More detail in errors for failed API requests
 Wrap long text in preferences (thanks to Cameron Merkel)
+Subreddit blocking now applies to /r/popular and the front page (thanks to Cameron Merkel)
 Update post header even when the toolbar is disabled (thanks to Cameron Merkel)
 Various code cleanup (thanks to TacoTheDank)
 

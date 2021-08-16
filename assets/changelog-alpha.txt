@@ -1,5 +1,6 @@
-/Alpha 291 (2021-08-15)
+/Alpha 291 (2021-08-16)
 Various code cleanup (thanks to TacoTheDank)
+Update post header even when the toolbar is disabled (thanks to Cameron Merkel)
 
 /Alpha 290 (2021-07-25)
 Show message when no posts are available (thanks to Cameron Merkel)

@@ -36,7 +36,7 @@ public final class SearchListingHeader extends FrameLayout {
 
 	final SearchPostListURL mUrl;
 	final EditText mQuery;
-	final EditText mSubreddit;
+	final EditText mLocation;
 	final Button mSearchButton;
 
 	public SearchListingHeader(
@@ -53,36 +53,45 @@ public final class SearchListingHeader extends FrameLayout {
 		mQuery.setText(url.query);
 		mQuery.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
-		mSubreddit = findViewById(R.id.search_listing_header_sub_editText);
-		// null and "all" are isomorphic; but SearchPostListURL takes null
-		if(url.subreddit == null) {
-			//noinspection SetTextI18n
-			mSubreddit.setText("all");
+		mLocation = findViewById(R.id.search_listing_header_sub_editText);
+
+		if(url.type == SearchPostListURL.Type.SUB_OR_SUB_COMBO && url.subreddit != null) {
+			mLocation.setText(url.subreddit);
+		} else if(url.type == SearchPostListURL.Type.MULTI && url.name != null) {
+			if(url.username != null) {
+				//noinspection SetTextI18n
+				mLocation.setText("/u/" + url.username + "/m/" + url.name);
+			} else {
+				//noinspection SetTextI18n
+				mLocation.setText("/me/m/" + url.name);
+			}
 		} else {
-			mSubreddit.setText(url.subreddit);
+			// null and "all" are isomorphic; but SearchPostListURL takes null
+			//noinspection SetTextI18n
+			mLocation.setText("all");
 		}
 
 		final TextView.OnEditorActionListener onEnter = (v, actionId, event) -> {
-			performSearch(parentActivity, mSubreddit, mQuery);
+			performSearch(parentActivity, mLocation, mQuery);
 			return true;
 		};
-		mSubreddit.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-		mSubreddit.setOnEditorActionListener(onEnter);
+		mLocation.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+		mLocation.setOnEditorActionListener(onEnter);
 
 		mSearchButton = findViewById(R.id.search_listing_header_search);
-		mSearchButton.setOnClickListener(v -> performSearch(parentActivity, mSubreddit, mQuery));
+		mSearchButton.setOnClickListener(v -> performSearch(parentActivity, mLocation, mQuery));
 	}
 
 	private static void performSearch(
 			final Activity parentActivity,
-			final EditText mSubreddit,
+			final EditText mLocation,
 			final EditText mQuery) {
-		String subreddit = mSubreddit.getText().toString().trim();
-		if(StringUtils.isEmpty(subreddit)) {
-			subreddit = null;
+		String location = mLocation.getText().toString().trim();
+		if(StringUtils.isEmpty(location)) {
+			location = null;
 		}
 		final SearchPostListURL url = SearchPostListURL.build(
-				subreddit,
+				location,
 				mQuery.getText().toString().trim());
 
 		final Intent intent = new Intent(parentActivity, PostListingActivity.class);

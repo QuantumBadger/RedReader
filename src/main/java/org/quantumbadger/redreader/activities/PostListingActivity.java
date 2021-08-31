@@ -359,6 +359,7 @@ public class PostListingActivity extends RefreshableActivity
 			final SearchPostListURL url;
 
 			if(controller != null && (controller.isSubreddit()
+					|| controller.isSubredditCombination()
 					|| controller.isSubredditSearchResults())) {
 
 				final SubredditCanonicalId subredditCanonicalId

@@ -223,7 +223,7 @@ public class MultiredditPostListURL extends PostListingURL {
 
 		} else {
 
-			if(!pathSegments[0].equalsIgnoreCase("user")
+			if(!(pathSegments[0].equalsIgnoreCase("user") || pathSegments[0].equalsIgnoreCase("u"))
 					|| !pathSegments[2].equalsIgnoreCase("m")
 					|| pathSegments.length < 4) {
 

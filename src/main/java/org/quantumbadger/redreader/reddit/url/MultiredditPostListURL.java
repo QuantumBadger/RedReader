@@ -207,6 +207,10 @@ public class MultiredditPostListURL extends PostListingURL {
 			return null;
 		}
 
+		if(pathSegments[pathSegments.length - 1].equalsIgnoreCase("search")) {
+			return null;
+		}
+
 		if(pathSegments[0].equalsIgnoreCase("me")) {
 
 			if(!pathSegments[1].equalsIgnoreCase("m")) {

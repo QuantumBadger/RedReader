@@ -1024,7 +1024,7 @@
 
 	<!-- 2018-02-10 -->
 	<string name="search_listing_header_query">Search Query</string>
-	<string name="search_listing_header_sub">Limit to Subreddit</string>
+	<string name="search_listing_header_sub">Limit to Location</string>
 
 	<!-- 2018-02-11 -->
 	<string name="pref_behaviour_sharing_header">Sharing</string>
@@ -1149,9 +1149,9 @@
 
 	<!-- 2020-02-13 -->
 	<string name="search_results_short">Search Results</string>
-	<string name="search_results_all">Search for \"%1$s\" on /r/%2$s</string>
+	<string name="search_results_all">Search for \"%1$s\" on %2$s</string>
 	<string name="search_results_query_only">Search for \"%s\"</string>
-	<string name="search_results_subreddit_only">Search on /r/%s</string>
+	<string name="search_results_subreddit_only">Search on %s</string>
 
 	<!-- 2020-02-17 -->
 	<string name="pref_network_tor_summary">When using an external browser or Custom Tabs, links will not be opened using Tor (unless your browser is configured to use Tor)</string>

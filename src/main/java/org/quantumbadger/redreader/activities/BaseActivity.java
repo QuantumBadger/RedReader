@@ -172,7 +172,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		mSharedPreferences = General.getSharedPrefs(this);
 
-		if(PrefsUtility.pref_appearance_hide_android_status()) {
+		if(PrefsUtility.pref_appearance_android_status()
+				== PrefsUtility.AppearanceStatusBarMode.ALWAYS_HIDE) {
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);

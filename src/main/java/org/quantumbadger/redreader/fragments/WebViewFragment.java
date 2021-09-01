@@ -200,7 +200,8 @@ public class WebViewFragment extends Fragment
 				final WindowManager.LayoutParams attrs = mActivity.getWindow()
 						.getAttributes();
 				//only re-enable status bar if there is no contradicting preference set
-				if(!PrefsUtility.pref_appearance_hide_android_status()) {
+				if(PrefsUtility.pref_appearance_android_status()
+						== PrefsUtility.AppearanceStatusBarMode.NEVER_HIDE) {
 					attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
 				}
 				attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;

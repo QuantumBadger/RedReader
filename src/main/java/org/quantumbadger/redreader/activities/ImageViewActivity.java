@@ -151,6 +151,13 @@ public class ImageViewActivity extends BaseActivity
 
 		super.onCreate(savedInstanceState);
 
+		if(PrefsUtility.pref_appearance_android_status()
+				== PrefsUtility.AppearanceStatusBarMode.HIDE_ON_MEDIA) {
+			getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			getWindow().setNavigationBarColor(Color.BLACK);
 		}

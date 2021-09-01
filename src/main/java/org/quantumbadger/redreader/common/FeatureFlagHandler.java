@@ -47,7 +47,8 @@ public final class FeatureFlagHandler {
 	private enum FeatureFlag {
 
 		COMMENT_HEADER_SUBREDDIT_FEATURE("commentHeaderSubredditFeature"),
-		CONTROVERSIAL_DATE_SORTS_FEATURE("controversialDateSortsFeature");
+		CONTROVERSIAL_DATE_SORTS_FEATURE("controversialDateSortsFeature"),
+		HIDE_STATUS_BAR_FOR_MEDIA_FEATURE("hideStatusBarForMediaFeature");
 
 		@NonNull private final String id;
 
@@ -59,6 +60,15 @@ public final class FeatureFlagHandler {
 		public final String getId() {
 			return "rr_feature_flag_" + id;
 		}
+	}
+
+	private static boolean getBoolean(
+			@StringRes final int id,
+			final boolean defaultBoolean,
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+
+		return sharedPreferences.getBoolean(context.getString(id), defaultBoolean);
 	}
 
 	private static String getString(
@@ -165,6 +175,30 @@ public final class FeatureFlagHandler {
 					prefs.edit().putString(
 							context.getString(R.string.pref_behaviour_user_commentsort_key),
 							"controversial_all")
+							.apply();
+				}
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.HIDE_STATUS_BAR_FOR_MEDIA_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, add setting to hide status bar on media.");
+
+				final boolean existingHideStatusSetting = getBoolean(
+						R.string.pref_appearance_hide_android_status_key,
+						false,
+						context,
+						prefs);
+
+				if(existingHideStatusSetting) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_appearance_android_status_key),
+							"always_hide")
+							.apply();
+				} else {
+					prefs.edit().putString(
+							context.getString(R.string.pref_appearance_android_status_key),
+							"never_hide")
 							.apply();
 				}
 			}

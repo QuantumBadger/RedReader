@@ -111,8 +111,6 @@ public class MainActivity extends RefreshableActivity
 
 	private boolean isMenuShown = true;
 
-	private SharedPrefsWrapper sharedPreferences;
-
 	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
 
@@ -123,7 +121,7 @@ public class MainActivity extends RefreshableActivity
 
 	@Override
 	protected boolean baseActivityAllowToolbarHideOnScroll() {
-		return !General.isTablet(this, General.getSharedPrefs(this));
+		return !General.isTablet(this);
 	}
 
 	@Override
@@ -145,13 +143,13 @@ public class MainActivity extends RefreshableActivity
 			return;
 		}
 
-		sharedPreferences = General.getSharedPrefs(this);
-		twoPane = General.isTablet(this, sharedPreferences);
+		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(this);
+		twoPane = General.isTablet(this);
 
 		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
 		if(savedInstanceState == null
-				&& (PrefsUtility.pref_behaviour_skiptofrontpage(this, sharedPreferences))) {
+				&& PrefsUtility.pref_behaviour_skiptofrontpage()) {
 			onSelected(SubredditPostListURL.getFrontPage());
 		}
 
@@ -571,7 +569,7 @@ public class MainActivity extends RefreshableActivity
 				mRightPane.removeAllViews();
 			}
 
-			twoPane = General.isTablet(this, sharedPreferences);
+			twoPane = General.isTablet(this);
 
 			if(twoPane) {
 				final View layout = getLayoutInflater().inflate(R.layout.main_double, null);
@@ -674,8 +672,7 @@ public class MainActivity extends RefreshableActivity
 			commentListingController
 					= new CommentListingController(
 					PostCommentListingURL.forPostId(post.src
-							.getIdAlone()),
-					this);
+							.getIdAlone()));
 			showBackButton(true);
 
 			if(isMenuShown) {
@@ -765,13 +762,9 @@ public class MainActivity extends RefreshableActivity
 
 			try {
 				subredditPinState = PrefsUtility.pref_pinned_subreddits_check(
-						this,
-						sharedPreferences,
 						postListingFragment.getSubreddit().getCanonicalId());
 
 				subredditBlockedState = PrefsUtility.pref_blocked_subreddits_check(
-						this,
-						sharedPreferences,
 						postListingFragment.getSubreddit().getCanonicalId());
 
 			} catch(final InvalidSubredditNameException e) {
@@ -921,7 +914,6 @@ public class MainActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_pinned_subreddits_add(
 					this,
-					sharedPreferences,
 					postListingFragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -941,7 +933,6 @@ public class MainActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_pinned_subreddits_remove(
 					this,
-					sharedPreferences,
 					postListingFragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -960,7 +951,6 @@ public class MainActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_blocked_subreddits_add(
 					this,
-					sharedPreferences,
 					postListingFragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {
@@ -979,7 +969,6 @@ public class MainActivity extends RefreshableActivity
 		try {
 			PrefsUtility.pref_blocked_subreddits_remove(
 					this,
-					sharedPreferences,
 					postListingFragment.getSubreddit().getCanonicalId());
 
 		} catch(final InvalidSubredditNameException e) {

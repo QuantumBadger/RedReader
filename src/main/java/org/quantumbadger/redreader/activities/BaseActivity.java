@@ -172,7 +172,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		mSharedPreferences = General.getSharedPrefs(this);
 
-		if(PrefsUtility.pref_appearance_hide_android_status(this, mSharedPreferences)) {
+		if(PrefsUtility.pref_appearance_hide_android_status()) {
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -187,14 +187,12 @@ public abstract class BaseActivity extends AppCompatActivity
 
 			final View outerView;
 
-			final boolean isTablet = General.isTablet(this, mSharedPreferences);
+			final boolean isTablet = General.isTablet(this);
 
 			final boolean prefBottomToolbar
-					= PrefsUtility.pref_appearance_bottom_toolbar(this, mSharedPreferences);
+					= PrefsUtility.pref_appearance_bottom_toolbar();
 
-			final boolean prefHideOnScroll = PrefsUtility.pref_appearance_hide_toolbar_on_scroll(
-					this,
-					mSharedPreferences);
+			final boolean prefHideOnScroll = PrefsUtility.pref_appearance_hide_toolbar_on_scroll();
 
 			final int layoutRes;
 
@@ -243,9 +241,7 @@ public abstract class BaseActivity extends AppCompatActivity
 			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
 				final PrefsUtility.AppearanceNavbarColour navbarColour
-						= PrefsUtility.appearance_navbar_colour(
-								this,
-								mSharedPreferences);
+						= PrefsUtility.appearance_navbar_colour();
 
 				if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
 					getWindow().setNavigationBarColor(Color.BLACK);
@@ -402,9 +398,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 	private void setOrientationFromPrefs() {
 		final PrefsUtility.ScreenOrientation orientation
-				= PrefsUtility.pref_behaviour_screen_orientation(
-				this,
-				mSharedPreferences);
+				= PrefsUtility.pref_behaviour_screen_orientation();
 
 		if(orientation == PrefsUtility.ScreenOrientation.AUTO) {
 			//noinspection SourceLockedOrientationActivity

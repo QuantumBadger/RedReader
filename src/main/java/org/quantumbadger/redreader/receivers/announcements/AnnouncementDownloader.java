@@ -52,9 +52,7 @@ public final class AnnouncementDownloader {
 
 	public static void performDownload(@NonNull final Context context) {
 
-		final boolean announcementsEnabled = PrefsUtility.pref_menus_mainmenu_dev_announcements(
-				context,
-				General.getSharedPrefs(context));
+		final boolean announcementsEnabled = PrefsUtility.pref_menus_mainmenu_dev_announcements();
 
 		if(!announcementsEnabled) {
 			return;

@@ -341,12 +341,8 @@ public final class RedditPostView extends FlingableItemView
 
 		final float dpScale = context.getResources().getDisplayMetrics().density;
 
-		final float titleFontScale = PrefsUtility.appearance_fontscale_posts(
-				context,
-				General.getSharedPrefs(context));
-		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles(
-				context,
-				General.getSharedPrefs(context));
+		final float titleFontScale = PrefsUtility.appearance_fontscale_posts();
+		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles();
 
 		final View rootView =
 				LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
@@ -390,11 +386,8 @@ public final class RedditPostView extends FlingableItemView
 		title = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_title));
 		subtitle = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_subtitle));
 
-		final SharedPrefsWrapper sharedPreferences =
-				General.getSharedPrefs(context);
-
 		mCommentsButtonPref =
-				PrefsUtility.appearance_post_show_comments_button(context, sharedPreferences);
+				PrefsUtility.appearance_post_show_comments_button();
 
 		mCommentsButton = rootView.findViewById(R.id.reddit_post_comments_button);
 		mCommentsText = mCommentsButton.findViewById(R.id.reddit_post_comments_text);
@@ -428,10 +421,7 @@ public final class RedditPostView extends FlingableItemView
 			mCommentsButton.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
 		}
 
-		final boolean postTitleOpensPost = PrefsUtility.pref_behaviour_post_title_opens_comments(
-				getContext(),
-				General.getSharedPrefs(getContext())
-		);
+		final boolean postTitleOpensPost = PrefsUtility.pref_behaviour_post_title_opens_comments();
 
 		if(postTitleOpensPost) {
 			title.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
@@ -445,9 +435,9 @@ public final class RedditPostView extends FlingableItemView
 				subtitle.getTextSize() * subtitleFontScale);
 
 		mLeftFlingPref =
-				PrefsUtility.pref_behaviour_fling_post_left(context, sharedPreferences);
+				PrefsUtility.pref_behaviour_fling_post_left();
 		mRightFlingPref =
-				PrefsUtility.pref_behaviour_fling_post_right(context, sharedPreferences);
+				PrefsUtility.pref_behaviour_fling_post_right();
 
 		{
 			final TypedArray attr = context.obtainStyledAttributes(new int[] {
@@ -464,9 +454,7 @@ public final class RedditPostView extends FlingableItemView
 			attr.recycle();
 		}
 
-		mThumbnailSizePrefPixels = (int)(dpScale * PrefsUtility.images_thumbnail_size_dp(
-				context,
-				sharedPreferences));
+		mThumbnailSizePrefPixels = (int)(dpScale * PrefsUtility.images_thumbnail_size_dp());
 	}
 
 	@UiThread

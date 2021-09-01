@@ -77,9 +77,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 		Log.i("RedReader", "Checking for new messages.");
 
-		final boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(
-				context,
-				General.getSharedPrefs(context));
+		final boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications();
 		if(!notificationsEnabled) {
 			return;
 		}

@@ -305,6 +305,16 @@ public class WebViewFragment extends Fragment
 					if(RedditURLParser.parse(Uri.parse(url)) != null) {
 						LinkHandler.onLinkClicked(mActivity, url, false);
 					} else {
+						if (!url.startsWith("http:") && !url.startsWith("https:")) {
+							Intent nativeAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+							try {
+								startActivity(nativeAppIntent);
+								return true;
+							} catch (ActivityNotFoundException err) {
+								// fall through and open the URL as though it's a regular HTTP URL
+							}
+						}
+
 						if(!PrefsUtility.pref_behaviour_useinternalbrowser()) {
 							LinkHandler.openWebBrowser(
 									mActivity,

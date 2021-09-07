@@ -790,6 +790,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				break;
 
 			case REPLY:
+				if(post.isArchived) {
+					General.quickToast(activity, R.string.error_archived_reply, Toast.LENGTH_SHORT);
+					break;
+				}
+
 				final Intent intent = new Intent(activity, CommentReplyActivity.class);
 				intent.putExtra(
 						CommentReplyActivity.PARENT_ID_AND_TYPE_KEY,

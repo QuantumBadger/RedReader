@@ -1605,5 +1605,8 @@
 	<string name="sort_posts_comments_month">Comments: This Month</string>
 	<string name="sort_posts_comments_year">Comments: This Year</string>
 	<string name="sort_posts_comments_all">Comments: All Time</string>
+
+	<!-- 2021-09-07 -->
+	<string name="error_archived_reply">This has been archived and can no longer be replied to.</string>
 	
 </resources>

@@ -329,6 +329,11 @@ public class RedditAPICommentAction {
 				break;
 
 			case REPLY: {
+				if(renderableComment.getParsedComment().getRawComment().isArchived()) {
+					General.quickToast(activity, R.string.error_archived_reply, Toast.LENGTH_SHORT);
+					break;
+				}
+
 				final Intent intent = new Intent(activity, CommentReplyActivity.class);
 				intent.putExtra(
 						CommentReplyActivity.PARENT_ID_AND_TYPE_KEY,

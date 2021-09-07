@@ -336,6 +336,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						R.string.action_report,
 						Action.REPORT));
 			}
+
+			if(itemPref.contains(Action.REPLY) && !post.isArchived) {
+				menu.add(new RPVMenuItem(
+						activity,
+						R.string.action_reply,
+						Action.REPLY));
+			}
 		}
 
 		if(itemPref.contains(Action.EXTERNAL)) {

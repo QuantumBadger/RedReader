@@ -443,6 +443,7 @@
         <item>@string/action_hide</item>
         <item>@string/action_delete</item>
         <item>@string/action_report</item>
+        <item>@string/action_reply</item>
         <item>@string/action_external</item>
         <item>@string/action_selftext_links</item>
         <item>@string/action_save_image</item>
@@ -469,6 +470,7 @@
         <item>hide</item>
         <item>delete</item>
         <item>report</item>
+        <item>reply</item>
         <item>external</item>
         <item>selftext_links</item>
         <item>save_image</item>
@@ -1100,6 +1102,7 @@
 		<item>hide</item>
 		<item>delete</item>
 		<item>report</item>
+		<item>reply</item>
 		<item>external</item>
 		<item>selftext_links</item>
 		<item>save_image</item>

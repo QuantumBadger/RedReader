@@ -1611,5 +1611,8 @@
 	<string name="pref_appearance_android_status_always_hide">Always</string>
 	<string name="pref_appearance_android_status_hide_on_media">When viewing media</string>
 	<string name="pref_appearance_android_status_never_hide">Never</string>
+
+	<!-- 2021-09-07 -->
+	<string name="error_archived_reply">This has been archived and can no longer be replied to.</string>
 	
 </resources>

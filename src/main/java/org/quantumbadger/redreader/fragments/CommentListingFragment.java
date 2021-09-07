@@ -34,6 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -696,6 +697,11 @@ public class CommentListingFragment extends RRFragment
 	private void onParentReply() {
 
 		if(mPost != null) {
+			if(mPost.isArchived) {
+				General.quickToast(getContext(), R.string.error_archived_reply, Toast.LENGTH_SHORT);
+				return;
+			}
+
 			final Intent intent = new Intent(getActivity(), CommentReplyActivity.class);
 			intent.putExtra(
 					CommentReplyActivity.PARENT_ID_AND_TYPE_KEY,

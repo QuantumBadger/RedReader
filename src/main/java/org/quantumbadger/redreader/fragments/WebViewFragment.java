@@ -305,7 +305,7 @@ public class WebViewFragment extends Fragment
 						LinkHandler.onLinkClicked(mActivity, url, false);
 					} else {
 						if (!url.startsWith("http:") && !url.startsWith("https:")) {
-							Intent nativeAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+							final Intent nativeAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 							try {
 								startActivity(nativeAppIntent);
 								return true;

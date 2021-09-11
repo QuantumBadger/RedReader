@@ -362,7 +362,7 @@ public class WebViewFragment extends Fragment
 				final Intent nativeAppIntent;
 				try {
 					nativeAppIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
-				} catch (URISyntaxException e) {
+				} catch (final URISyntaxException e) {
 					return false;
 				}
 
@@ -389,7 +389,7 @@ public class WebViewFragment extends Fragment
 				try {
 					startActivity(nativeAppIntent);
 					return true;
-				} catch (ActivityNotFoundException err) {
+				} catch (final ActivityNotFoundException e) {
 					return false;
 				}
 			}

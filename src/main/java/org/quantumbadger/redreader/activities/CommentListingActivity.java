@@ -34,10 +34,11 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.UUID;
@@ -91,7 +92,7 @@ public class CommentListingActivity extends RefreshableActivity
 				}
 
 				if(savedInstanceState.containsKey(SAVEDSTATE_SORT)) {
-					controller.setSort(PostCommentListingURL.Sort.valueOf(
+					controller.setSort(PostCommentSort.valueOf(
 							savedInstanceState.getString(SAVEDSTATE_SORT)));
 				}
 
@@ -117,7 +118,7 @@ public class CommentListingActivity extends RefreshableActivity
 			outState.putString(SAVEDSTATE_SESSION, session.toString());
 		}
 
-		final PostCommentListingURL.Sort sort = controller.getSort();
+		final PostCommentSort sort = controller.getSort();
 		if(sort != null) {
 			outState.putString(SAVEDSTATE_SORT, sort.name());
 		}
@@ -188,13 +189,13 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	public void onSortSelected(final PostCommentListingURL.Sort order) {
+	public void onSortSelected(final PostCommentSort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}
 
 	@Override
-	public void onSortSelected(final UserCommentListingURL.Sort order) {
+	public void onSortSelected(final UserCommentSort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}

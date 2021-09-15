@@ -58,8 +58,10 @@ import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -71,7 +73,6 @@ import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
-import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -821,13 +822,13 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
-	public void onSortSelected(final PostCommentListingURL.Sort order) {
+	public void onSortSelected(final PostCommentSort order) {
 		commentListingController.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}
 
 	@Override
-	public void onSortSelected(final UserCommentListingURL.Sort order) {
+	public void onSortSelected(final UserCommentSort order) {
 		commentListingController.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}

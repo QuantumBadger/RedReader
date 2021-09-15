@@ -31,13 +31,13 @@ import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.io.WritableHashSet;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
 import org.quantumbadger.redreader.reddit.PostSort;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -1025,14 +1025,14 @@ public final class PrefsUtility {
 				"hot")));
 	}
 
-	public static PostCommentListingURL.Sort pref_behaviour_commentsort() {
-		return PostCommentListingURL.Sort.valueOf(StringUtils.asciiUppercase(getString(
+	public static PostCommentSort pref_behaviour_commentsort() {
+		return PostCommentSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_commentsort_key,
 				"best")));
 	}
 
-	public static UserCommentListingURL.Sort pref_behaviour_user_commentsort() {
-		return UserCommentListingURL.Sort.valueOf(StringUtils.asciiUppercase(getString(
+	public static UserCommentSort pref_behaviour_user_commentsort() {
+		return UserCommentSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_user_commentsort_key,
 				"new")));
 	}

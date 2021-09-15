@@ -23,10 +23,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 
 import java.util.UUID;
 
@@ -64,27 +64,27 @@ public class CommentListingController {
 		this.mUrl = (CommentListingURL)url;
 	}
 
-	private PostCommentListingURL.Sort defaultOrder() {
+	private PostCommentSort defaultOrder() {
 		return PrefsUtility.pref_behaviour_commentsort();
 	}
 
-	private UserCommentListingURL.Sort defaultUserOrder() {
+	private UserCommentSort defaultUserOrder() {
 		return PrefsUtility.pref_behaviour_user_commentsort();
 	}
 
-	public void setSort(final PostCommentListingURL.Sort s) {
+	public void setSort(final PostCommentSort s) {
 		if(mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			mUrl = mUrl.asPostCommentListURL().order(s);
 		}
 	}
 
-	public void setSort(final UserCommentListingURL.Sort s) {
+	public void setSort(final UserCommentSort s) {
 		if(mUrl.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL) {
 			mUrl = mUrl.asUserCommentListURL().order(s);
 		}
 	}
 
-	public PostCommentListingURL.Sort getSort() {
+	public PostCommentSort getSort() {
 
 		if(mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			return mUrl.asPostCommentListURL().order;

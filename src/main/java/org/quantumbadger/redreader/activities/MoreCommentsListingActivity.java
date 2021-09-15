@@ -31,10 +31,11 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.ArrayList;
@@ -160,11 +161,11 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	public void onSortSelected(final PostCommentListingURL.Sort order) {
+	public void onSortSelected(final PostCommentSort order) {
 	}
 
 	@Override
-	public void onSortSelected(final UserCommentListingURL.Sort order) {
+	public void onSortSelected(final UserCommentSort order) {
 	}
 
 	@Override

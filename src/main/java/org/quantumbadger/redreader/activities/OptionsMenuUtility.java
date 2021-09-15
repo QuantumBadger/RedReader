@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.WindowManager;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -36,10 +37,10 @@ import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
 import org.quantumbadger.redreader.reddit.PostSort;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.settings.SettingsActivity;
 
 import java.util.ArrayList;
@@ -1013,6 +1014,82 @@ public final class OptionsMenuUtility {
 		}
 	}
 
+	public interface Sort {
+		@StringRes int getMenuTitle();
+
+		void onSortSelected(final AppCompatActivity activity);
+	}
+
+	private static class SortGroup {
+		final Sort[] sorts;
+		@StringRes final int subMenuTitle;
+
+		SortGroup(final Sort[] sorts, final int subMenuTitle) {
+			this.sorts = sorts;
+			this.subMenuTitle = subMenuTitle;
+		}
+	}
+
+	final static SortGroup CONTROVERSIAL_SORTS = new SortGroup(
+			new PostSort[] {
+					PostSort.CONTROVERSIAL_HOUR,
+					PostSort.CONTROVERSIAL_DAY,
+					PostSort.CONTROVERSIAL_WEEK,
+					PostSort.CONTROVERSIAL_MONTH,
+					PostSort.CONTROVERSIAL_YEAR,
+					PostSort.CONTROVERSIAL_ALL},
+			R.string.sort_posts_controversial);
+
+	final static SortGroup TOP_SORTS = new SortGroup(
+			new PostSort[] {
+					PostSort.TOP_HOUR,
+					PostSort.TOP_DAY,
+					PostSort.TOP_WEEK,
+					PostSort.TOP_MONTH,
+					PostSort.TOP_YEAR,
+					PostSort.TOP_ALL},
+			R.string.sort_posts_top);
+
+	final static SortGroup RELEVANCE_SORTS = new SortGroup(
+			new PostSort[] {
+					PostSort.RELEVANCE_HOUR,
+					PostSort.RELEVANCE_DAY,
+					PostSort.RELEVANCE_WEEK,
+					PostSort.RELEVANCE_MONTH,
+					PostSort.RELEVANCE_YEAR,
+					PostSort.RELEVANCE_ALL},
+			R.string.sort_posts_relevance);
+
+	final static SortGroup NEW_SORTS = new SortGroup(
+			new PostSort[] {
+					PostSort.NEW_HOUR,
+					PostSort.NEW_DAY,
+					PostSort.NEW_WEEK,
+					PostSort.NEW_MONTH,
+					PostSort.NEW_YEAR,
+					PostSort.NEW_ALL},
+			R.string.sort_posts_new);
+
+	final static SortGroup HOT_SORTS = new SortGroup(
+			new PostSort[] {
+					PostSort.HOT_HOUR,
+					PostSort.HOT_DAY,
+					PostSort.HOT_WEEK,
+					PostSort.HOT_MONTH,
+					PostSort.HOT_YEAR,
+					PostSort.HOT_ALL},
+			R.string.sort_posts_hot);
+
+	final static SortGroup COMMENTS_SORTS = new SortGroup(
+			new PostSort[] {
+					PostSort.COMMENTS_HOUR,
+					PostSort.COMMENTS_DAY,
+					PostSort.COMMENTS_WEEK,
+					PostSort.COMMENTS_MONTH,
+					PostSort.COMMENTS_YEAR,
+					PostSort.COMMENTS_ALL},
+			R.string.sort_posts_comments);
+
 	private static void addAllPostSorts(
 			final AppCompatActivity activity,
 			final Menu menu,
@@ -1024,72 +1101,22 @@ public final class OptionsMenuUtility {
 			return;
 		}
 
-		final SubMenu sortPosts = menu.addSubMenu(
-				Menu.NONE,
-				AppbarItemsPref.SORT.ordinal(),
-				Menu.NONE,
-				R.string.options_sort_posts);
+		final SubMenu sortPosts = addSortSubMenu(menu, R.string.options_sort_posts, showAsAction);
 
-		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
-			sortPosts.getItem().setIcon(R.drawable.ic_sort_dark);
-			sortPosts.getItem().setShowAsAction(handleShowAsActionIfRoom(showAsAction));
-		}
+		addSort(activity, sortPosts, PostSort.HOT);
+		addSort(activity, sortPosts, PostSort.NEW);
 
-		addSort(activity, sortPosts, R.string.sort_posts_hot, PostSort.HOT);
-		addSort(activity, sortPosts, R.string.sort_posts_new, PostSort.NEW);
 		if(includeRising) {
-			addSort(activity, sortPosts, R.string.sort_posts_rising, PostSort.RISING);
+			addSort(activity, sortPosts, PostSort.RISING);
 		}
 
-		final SubMenu sortsPostsControversial =
-				sortPosts.addSubMenu(R.string.sort_posts_controversial);
-
-		addSort(
-				activity,
-				sortsPostsControversial,
-				R.string.sort_posts_controversial_hour,
-				PostSort.CONTROVERSIAL_HOUR);
-		addSort(
-				activity,
-				sortsPostsControversial,
-				R.string.sort_posts_controversial_today,
-				PostSort.CONTROVERSIAL_DAY);
-		addSort(
-				activity,
-				sortsPostsControversial,
-				R.string.sort_posts_controversial_week,
-				PostSort.CONTROVERSIAL_WEEK);
-		addSort(
-				activity,
-				sortsPostsControversial,
-				R.string.sort_posts_controversial_month,
-				PostSort.CONTROVERSIAL_MONTH);
-		addSort(
-				activity,
-				sortsPostsControversial,
-				R.string.sort_posts_controversial_year,
-				PostSort.CONTROVERSIAL_YEAR);
-		addSort(
-				activity, sortsPostsControversial,
-				R.string.sort_posts_controversial_all,
-				PostSort.CONTROVERSIAL_ALL);
+		addSortsToNewSubmenu(activity, sortPosts, CONTROVERSIAL_SORTS);
 
 		if(includeBest) {
-			addSort(activity, sortPosts, R.string.sort_posts_best, PostSort.BEST);
+			addSort(activity, sortPosts, PostSort.BEST);
 		}
 
-		final SubMenu sortPostsTop = sortPosts.addSubMenu(R.string.sort_posts_top);
-
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_hour, PostSort.TOP_HOUR);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_today, PostSort.TOP_DAY);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_week, PostSort.TOP_WEEK);
-		addSort(
-				activity,
-				sortPostsTop,
-				R.string.sort_posts_top_month,
-				PostSort.TOP_MONTH);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_year, PostSort.TOP_YEAR);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostSort.TOP_ALL);
+		addSortsToNewSubmenu(activity, sortPosts, TOP_SORTS);
 	}
 
 	private static void addAllSearchSorts(
@@ -1101,122 +1128,13 @@ public final class OptionsMenuUtility {
 			return;
 		}
 
-		final SubMenu sortPosts = menu.addSubMenu(
-				Menu.NONE,
-				AppbarItemsPref.SORT.ordinal(),
-				Menu.NONE,
-				R.string.options_sort_posts);
+		final SubMenu sortPosts = addSortSubMenu(menu, R.string.options_sort_posts, showAsAction);
 
-		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
-			sortPosts.getItem().setIcon(R.drawable.ic_sort_dark);
-			sortPosts.getItem().setShowAsAction(handleShowAsActionIfRoom(showAsAction));
-		}
-
-		final SubMenu sortPostsRelevance = sortPosts.addSubMenu(R.string.sort_posts_relevance);
-
-		addSort(
-				activity,
-				sortPostsRelevance,
-				R.string.sort_posts_relevance_hour,
-				PostSort.RELEVANCE_HOUR);
-		addSort(
-				activity,
-				sortPostsRelevance,
-				R.string.sort_posts_relevance_today,
-				PostSort.RELEVANCE_DAY);
-		addSort(
-				activity,
-				sortPostsRelevance,
-				R.string.sort_posts_relevance_week,
-				PostSort.RELEVANCE_WEEK);
-		addSort(
-				activity,
-				sortPostsRelevance,
-				R.string.sort_posts_relevance_month,
-				PostSort.RELEVANCE_MONTH);
-		addSort(
-				activity,
-				sortPostsRelevance,
-				R.string.sort_posts_relevance_year,
-				PostSort.RELEVANCE_YEAR);
-		addSort(
-				activity,
-				sortPostsRelevance,
-				R.string.sort_posts_relevance_all,
-				PostSort.RELEVANCE_ALL);
-
-		final SubMenu sortPostsNew = sortPosts.addSubMenu(R.string.sort_posts_new);
-
-		addSort(activity, sortPostsNew, R.string.sort_posts_new_hour, PostSort.NEW_HOUR);
-		addSort(activity, sortPostsNew, R.string.sort_posts_new_today, PostSort.NEW_DAY);
-		addSort(activity, sortPostsNew, R.string.sort_posts_new_week, PostSort.NEW_WEEK);
-		addSort(activity, sortPostsNew, R.string.sort_posts_new_month, PostSort.NEW_MONTH);
-		addSort(activity, sortPostsNew, R.string.sort_posts_new_year, PostSort.NEW_YEAR);
-		addSort(activity, sortPostsNew, R.string.sort_posts_new_all, PostSort.NEW_ALL);
-
-		final SubMenu sortPostsHot = sortPosts.addSubMenu(R.string.sort_posts_hot);
-
-		addSort(activity, sortPostsHot, R.string.sort_posts_hot_hour, PostSort.HOT_HOUR);
-		addSort(activity, sortPostsHot, R.string.sort_posts_hot_today, PostSort.HOT_DAY);
-		addSort(activity, sortPostsHot, R.string.sort_posts_hot_week, PostSort.HOT_WEEK);
-		addSort(activity, sortPostsHot, R.string.sort_posts_hot_month, PostSort.HOT_MONTH);
-		addSort(activity, sortPostsHot, R.string.sort_posts_hot_year, PostSort.HOT_YEAR);
-		addSort(activity, sortPostsHot, R.string.sort_posts_hot_all, PostSort.HOT_ALL);
-
-		final SubMenu sortPostsTop = sortPosts.addSubMenu(R.string.sort_posts_top);
-
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_hour, PostSort.TOP_HOUR);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_today, PostSort.TOP_DAY);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_week, PostSort.TOP_WEEK);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_month, PostSort.TOP_MONTH);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_year, PostSort.TOP_YEAR);
-		addSort(activity, sortPostsTop, R.string.sort_posts_top_all, PostSort.TOP_ALL);
-
-		final SubMenu sortPostsComments = sortPosts.addSubMenu(R.string.sort_posts_comments);
-
-		addSort(
-				activity,
-				sortPostsComments,
-				R.string.sort_posts_comments_hour,
-				PostSort.COMMENTS_HOUR);
-		addSort(
-				activity,
-				sortPostsComments,
-				R.string.sort_posts_comments_today,
-				PostSort.COMMENTS_DAY);
-		addSort(
-				activity,
-				sortPostsComments,
-				R.string.sort_posts_comments_week,
-				PostSort.COMMENTS_WEEK);
-		addSort(
-				activity,
-				sortPostsComments,
-				R.string.sort_posts_comments_month,
-				PostSort.COMMENTS_MONTH);
-		addSort(
-				activity,
-				sortPostsComments,
-				R.string.sort_posts_comments_year,
-				PostSort.COMMENTS_YEAR);
-		addSort(
-				activity,
-				sortPostsComments,
-				R.string.sort_posts_comments_all,
-				PostSort.COMMENTS_ALL);
-	}
-
-	private static void addSort(
-			final AppCompatActivity activity,
-			final Menu menu,
-			final int name,
-			final PostSort order) {
-
-		menu.add(activity.getString(name))
-				.setOnMenuItemClickListener(item -> {
-					((OptionsMenuPostsListener)activity).onSortSelected(order);
-					return true;
-				});
+		addSortsToNewSubmenu(activity, sortPosts, RELEVANCE_SORTS);
+		addSortsToNewSubmenu(activity, sortPosts, NEW_SORTS);
+		addSortsToNewSubmenu(activity, sortPosts, HOT_SORTS);
+		addSortsToNewSubmenu(activity, sortPosts, TOP_SORTS);
+		addSortsToNewSubmenu(activity, sortPosts, COMMENTS_SORTS);
 	}
 
 	private static void addAllCommentSorts(
@@ -1228,67 +1146,45 @@ public final class OptionsMenuUtility {
 			return;
 		}
 
-		final SubMenu sortComments = menu.addSubMenu(
-				Menu.NONE,
-				AppbarItemsPref.SORT.ordinal(),
-				Menu.NONE,
-				R.string.options_sort_comments);
+		final SubMenu sortComments = addSortSubMenu(
+				menu,
+				R.string.options_sort_comments,
+				showAsAction);
 
-		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
-			sortComments.getItem().setIcon(R.drawable.ic_sort_dark);
-			sortComments.getItem()
-					.setShowAsAction(handleShowAsActionIfRoom(showAsAction));
+		final PostCommentSort[] postCommentSorts = {
+				PostCommentSort.BEST,
+				PostCommentSort.HOT,
+				PostCommentSort.NEW,
+				PostCommentSort.OLD,
+				PostCommentSort.CONTROVERSIAL,
+				PostCommentSort.TOP,
+				PostCommentSort.QA
+		};
+
+		for(final PostCommentSort sort : postCommentSorts) {
+			addSort(activity, sortComments, sort);
 		}
-
-		addSort(
-				activity,
-				sortComments,
-				R.string.sort_comments_best,
-				PostCommentListingURL.Sort.BEST);
-		addSort(
-				activity,
-				sortComments,
-				R.string.sort_comments_hot,
-				PostCommentListingURL.Sort.HOT);
-		addSort(
-				activity,
-				sortComments,
-				R.string.sort_comments_new,
-				PostCommentListingURL.Sort.NEW);
-		addSort(
-				activity,
-				sortComments,
-				R.string.sort_comments_old,
-				PostCommentListingURL.Sort.OLD);
-		addSort(
-				activity,
-				sortComments,
-				R.string.sort_comments_controversial,
-				PostCommentListingURL.Sort.CONTROVERSIAL);
-		addSort(
-				activity,
-				sortComments,
-				R.string.sort_comments_top,
-				PostCommentListingURL.Sort.TOP);
-		addSort(
-				activity,
-				sortComments,
-				R.string.sort_comments_qa,
-				PostCommentListingURL.Sort.QA);
 	}
 
-	private static void addSort(
-			final AppCompatActivity activity,
-			final Menu menu,
-			final int name,
-			final PostCommentListingURL.Sort order) {
+	final static SortGroup CONTROVERSIAL_COMMENT_SORTS = new SortGroup(
+			new UserCommentSort[] {
+					UserCommentSort.CONTROVERSIAL_HOUR,
+					UserCommentSort.CONTROVERSIAL_DAY,
+					UserCommentSort.CONTROVERSIAL_WEEK,
+					UserCommentSort.CONTROVERSIAL_MONTH,
+					UserCommentSort.CONTROVERSIAL_YEAR,
+					UserCommentSort.CONTROVERSIAL_ALL},
+			R.string.sort_comments_controversial);
 
-		menu.add(activity.getString(name))
-				.setOnMenuItemClickListener(item -> {
-					((OptionsMenuCommentsListener)activity).onSortSelected(order);
-					return true;
-				});
-	}
+	final static SortGroup TOP_COMMENT_SORTS = new SortGroup(
+			new UserCommentSort[] {
+					UserCommentSort.TOP_HOUR,
+					UserCommentSort.TOP_DAY,
+					UserCommentSort.TOP_WEEK,
+					UserCommentSort.TOP_MONTH,
+					UserCommentSort.TOP_YEAR,
+					UserCommentSort.TOP_ALL},
+			R.string.sort_comments_top);
 
 	private static void addAllUserCommentSorts(
 			final AppCompatActivity activity,
@@ -1299,109 +1195,59 @@ public final class OptionsMenuUtility {
 			return;
 		}
 
-		final SubMenu sortComments = menu.addSubMenu(
-				Menu.NONE,
-				AppbarItemsPref.SORT.ordinal(),
-				Menu.NONE,
-				R.string.options_sort_comments);
+		final SubMenu sortComments = addSortSubMenu(
+				menu,
+				R.string.options_sort_comments,
+				showAsAction);
 
-		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
-			sortComments.getItem().setIcon(R.drawable.ic_sort_dark);
-			sortComments.getItem()
-					.setShowAsAction(handleShowAsActionIfRoom(showAsAction));
-		}
+		addSort(activity, sortComments, UserCommentSort.HOT);
+		addSort(activity, sortComments, UserCommentSort.NEW);
 
-		addSort(
-				activity,
-				sortComments,
-				R.string.sort_comments_hot,
-				UserCommentListingURL.Sort.HOT);
-		addSort(
-				activity,
-				sortComments,
-				R.string.sort_comments_new,
-				UserCommentListingURL.Sort.NEW);
-
-		final SubMenu sortCommentsControversial
-				= sortComments.addSubMenu(R.string.sort_comments_controversial);
-
-		addSort(
-				activity,
-				sortCommentsControversial,
-				R.string.sort_posts_controversial_hour,
-				UserCommentListingURL.Sort.CONTROVERSIAL_HOUR);
-		addSort(
-				activity,
-				sortCommentsControversial,
-				R.string.sort_posts_controversial_today,
-				UserCommentListingURL.Sort.CONTROVERSIAL_DAY);
-		addSort(
-				activity,
-				sortCommentsControversial,
-				R.string.sort_posts_controversial_week,
-				UserCommentListingURL.Sort.CONTROVERSIAL_WEEK);
-		addSort(
-				activity,
-				sortCommentsControversial,
-				R.string.sort_posts_controversial_month,
-				UserCommentListingURL.Sort.CONTROVERSIAL_MONTH);
-		addSort(
-				activity,
-				sortCommentsControversial,
-				R.string.sort_posts_controversial_year,
-				UserCommentListingURL.Sort.CONTROVERSIAL_YEAR);
-		addSort(
-				activity,
-				sortCommentsControversial,
-				R.string.sort_posts_controversial_all,
-				UserCommentListingURL.Sort.CONTROVERSIAL_ALL);
-
-		final SubMenu sortCommentsTop
-				= sortComments.addSubMenu(R.string.sort_comments_top);
-
-		addSort(
-				activity,
-				sortCommentsTop,
-				R.string.sort_posts_top_hour,
-				UserCommentListingURL.Sort.TOP_HOUR);
-		addSort(
-				activity,
-				sortCommentsTop,
-				R.string.sort_posts_top_today,
-				UserCommentListingURL.Sort.TOP_DAY);
-		addSort(
-				activity,
-				sortCommentsTop,
-				R.string.sort_posts_top_week,
-				UserCommentListingURL.Sort.TOP_WEEK);
-		addSort(
-				activity,
-				sortCommentsTop,
-				R.string.sort_posts_top_month,
-				UserCommentListingURL.Sort.TOP_MONTH);
-		addSort(
-				activity,
-				sortCommentsTop,
-				R.string.sort_posts_top_year,
-				UserCommentListingURL.Sort.TOP_YEAR);
-		addSort(
-				activity,
-				sortCommentsTop,
-				R.string.sort_posts_top_all,
-				UserCommentListingURL.Sort.TOP_ALL);
+		addSortsToNewSubmenu(activity, sortComments, CONTROVERSIAL_COMMENT_SORTS);
+		addSortsToNewSubmenu(activity, sortComments, TOP_COMMENT_SORTS);
 	}
 
 	private static void addSort(
 			final AppCompatActivity activity,
 			final Menu menu,
-			final int name,
-			final UserCommentListingURL.Sort order) {
+			final Sort order) {
 
-		menu.add(activity.getString(name))
-				.setOnMenuItemClickListener(menuItem -> {
-					((OptionsMenuCommentsListener)activity).onSortSelected(order);
+		menu.add(activity.getString(order.getMenuTitle()))
+				.setOnMenuItemClickListener(item -> {
+					order.onSortSelected(activity);
 					return true;
 				});
+	}
+
+	private static void addSortsToNewSubmenu(
+			final AppCompatActivity activity,
+			final Menu menu,
+			final SortGroup sortGroup) {
+
+		final SubMenu subMenu = menu.addSubMenu(activity.getString(sortGroup.subMenuTitle));
+
+		for(final Sort sort : sortGroup.sorts) {
+			addSort(activity, subMenu, sort);
+		}
+	}
+
+	private static SubMenu addSortSubMenu(
+			final Menu menu,
+			@StringRes final int subMenuTitle,
+			final int showAsAction) {
+
+		final SubMenu sortMenu = menu.addSubMenu(
+				Menu.NONE,
+				AppbarItemsPref.SORT.ordinal(),
+				Menu.NONE,
+				subMenuTitle);
+
+		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
+			sortMenu.getItem().setIcon(R.drawable.ic_sort_dark);
+			sortMenu.getItem().setShowAsAction(handleShowAsActionIfRoom(showAsAction));
+		}
+
+		return sortMenu;
 	}
 
 	private static class QuickAccountsSort {
@@ -1536,9 +1382,9 @@ public final class OptionsMenuUtility {
 
 		void onPastComments();
 
-		void onSortSelected(PostCommentListingURL.Sort order);
+		void onSortSelected(PostCommentSort order);
 
-		void onSortSelected(UserCommentListingURL.Sort order);
+		void onSortSelected(UserCommentSort order);
 
 		void onSearchComments();
 	}

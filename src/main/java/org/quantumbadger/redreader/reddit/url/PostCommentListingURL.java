@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class PostCommentListingURL extends CommentListingURL {
 	public final Integer context;
 	public final Integer limit;
 
-	public final Sort order;
+	public final PostCommentSort order;
 
 	public static PostCommentListingURL forPostId(final String postId) {
 		return new PostCommentListingURL(null, postId, null, null, null, null);
@@ -49,7 +50,7 @@ public class PostCommentListingURL extends CommentListingURL {
 			String commentId,
 			final Integer context,
 			final Integer limit,
-			final Sort order) {
+			final PostCommentSort order) {
 
 		if(postId != null && postId.startsWith("t3_")) {
 			postId = postId.substring(3);
@@ -81,7 +82,7 @@ public class PostCommentListingURL extends CommentListingURL {
 		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
-	public PostCommentListingURL order(final Sort order) {
+	public PostCommentListingURL order(final PostCommentSort order) {
 		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
 	}
 
@@ -208,7 +209,7 @@ public class PostCommentListingURL extends CommentListingURL {
 		String after = null;
 		Integer limit = null;
 		Integer context = null;
-		Sort order = null;
+		PostCommentSort order = null;
 
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
@@ -228,7 +229,7 @@ public class PostCommentListingURL extends CommentListingURL {
 				}
 
 			} else if(parameterKey.equalsIgnoreCase("sort")) {
-				order = Sort.lookup(uri.getQueryParameter(parameterKey));
+				order = PostCommentSort.lookup(uri.getQueryParameter(parameterKey));
 			}
 		}
 
@@ -246,35 +247,4 @@ public class PostCommentListingURL extends CommentListingURL {
 		return super.humanReadableName(context, shorter);
 	}
 
-	public enum Sort {
-
-		BEST("confidence"),
-		HOT("hot"),
-		NEW("new"),
-		OLD("old"),
-		TOP("top"),
-		CONTROVERSIAL("controversial"),
-		QA("qa");
-
-		public final String key;
-
-		Sort(final String key) {
-			this.key = key;
-		}
-
-		public static Sort lookup(String name) {
-
-			name = StringUtils.asciiUppercase(name);
-
-			if(name.equals("CONFIDENCE")) {
-				return BEST; // oh, reddit...
-			}
-
-			try {
-				return Sort.valueOf(name);
-			} catch(final IllegalArgumentException e) {
-				return null;
-			}
-		}
-	}
 }

@@ -19,12 +19,11 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +31,13 @@ import java.util.List;
 public class UserCommentListingURL extends CommentListingURL {
 
 	public final String user;
-	public final Sort order;
+	public final UserCommentSort order;
 	public final Integer limit;
 	public final String after;
 
 	UserCommentListingURL(
 			final String user,
-			final Sort order,
+			final UserCommentSort order,
 			final Integer limit,
 			final String after) {
 		this.user = user;
@@ -57,7 +56,7 @@ public class UserCommentListingURL extends CommentListingURL {
 		return new UserCommentListingURL(user, order, newLimit, after);
 	}
 
-	public UserCommentListingURL order(final Sort newOrder) {
+	public UserCommentListingURL order(final UserCommentSort newOrder) {
 		return new UserCommentListingURL(user, newOrder, limit, after);
 	}
 
@@ -85,9 +84,10 @@ public class UserCommentListingURL extends CommentListingURL {
 					= pathSegmentsFiltered.toArray(new String[0]);
 		}
 
-		final Sort order;
+		final UserCommentSort order;
 		if(pathSegments.length > 0) {
-			order = Sort.parse(uri.getQueryParameter("sort"), uri.getQueryParameter("t"));
+			order = UserCommentSort.parse(
+					uri.getQueryParameter("sort"), uri.getQueryParameter("t"));
 		} else {
 			order = null;
 		}
@@ -174,109 +174,4 @@ public class UserCommentListingURL extends CommentListingURL {
 		}
 	}
 
-	public enum Sort {
-		NEW,
-		HOT,
-		CONTROVERSIAL_HOUR,
-		CONTROVERSIAL_DAY,
-		CONTROVERSIAL_WEEK,
-		CONTROVERSIAL_MONTH,
-		CONTROVERSIAL_YEAR,
-		CONTROVERSIAL_ALL,
-		TOP_HOUR,
-		TOP_DAY,
-		TOP_WEEK,
-		TOP_MONTH,
-		TOP_YEAR,
-		TOP_ALL;
-
-		@Nullable
-		public static Sort parse(@Nullable String sort, @Nullable String t) {
-
-			if(sort == null) {
-				return null;
-			}
-
-			sort = StringUtils.asciiLowercase(sort);
-			t = t != null ? StringUtils.asciiLowercase(t) : null;
-
-			if(sort.equals("hot")) {
-				return HOT;
-
-			} else if(sort.equals("new")) {
-				return NEW;
-
-			} else if(sort.equals("controversial")) {
-				if(t == null) {
-					return CONTROVERSIAL_ALL;
-				} else if(t.equals("all")) {
-					return CONTROVERSIAL_ALL;
-				} else if(t.equals("hour")) {
-					return CONTROVERSIAL_HOUR;
-				} else if(t.equals("day")) {
-					return CONTROVERSIAL_DAY;
-				} else if(t.equals("week")) {
-					return CONTROVERSIAL_WEEK;
-				} else if(t.equals("month")) {
-					return CONTROVERSIAL_MONTH;
-				} else if(t.equals("year")) {
-					return CONTROVERSIAL_YEAR;
-				} else {
-					return CONTROVERSIAL_ALL;
-				}
-
-			} else if(sort.equals("top")) {
-
-				if(t == null) {
-					return TOP_ALL;
-				} else if(t.equals("all")) {
-					return TOP_ALL;
-				} else if(t.equals("hour")) {
-					return TOP_HOUR;
-				} else if(t.equals("day")) {
-					return TOP_DAY;
-				} else if(t.equals("week")) {
-					return TOP_WEEK;
-				} else if(t.equals("month")) {
-					return TOP_MONTH;
-				} else if(t.equals("year")) {
-					return TOP_YEAR;
-				} else {
-					return TOP_ALL;
-				}
-
-			} else {
-				return null;
-			}
-		}
-
-		public void addToUserCommentListingUri(@NonNull final Uri.Builder builder) {
-
-			switch(this) {
-				case HOT:
-				case NEW:
-					builder.appendQueryParameter("sort", StringUtils.asciiLowercase(name()));
-					break;
-
-				case CONTROVERSIAL_HOUR:
-				case CONTROVERSIAL_DAY:
-				case CONTROVERSIAL_WEEK:
-				case CONTROVERSIAL_MONTH:
-				case CONTROVERSIAL_YEAR:
-				case CONTROVERSIAL_ALL:
-				case TOP_HOUR:
-				case TOP_DAY:
-				case TOP_WEEK:
-				case TOP_MONTH:
-				case TOP_YEAR:
-				case TOP_ALL:
-					final String[] parts = name().split("_");
-					builder.appendQueryParameter(
-							"sort",
-							StringUtils.asciiLowercase(parts[0]));
-					builder.appendQueryParameter("t", StringUtils.asciiLowercase(parts[1]));
-					break;
-			}
-		}
-	}
 }

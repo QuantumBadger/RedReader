@@ -20,50 +20,59 @@ package org.quantumbadger.redreader.reddit;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.common.StringUtils;
 
-public enum PostSort {
-	HOT,
-	NEW,
-	RISING,
-	TOP_HOUR,
-	TOP_DAY,
-	TOP_WEEK,
-	TOP_MONTH,
-	TOP_YEAR,
-	TOP_ALL,
-	CONTROVERSIAL_HOUR,
-	CONTROVERSIAL_DAY,
-	CONTROVERSIAL_WEEK,
-	CONTROVERSIAL_MONTH,
-	CONTROVERSIAL_YEAR,
-	CONTROVERSIAL_ALL,
-	BEST,
+public enum PostSort implements OptionsMenuUtility.Sort {
+	HOT(R.string.sort_posts_hot),
+	NEW(R.string.sort_posts_new),
+	RISING(R.string.sort_posts_rising),
+	TOP_HOUR(R.string.sort_posts_top_hour),
+	TOP_DAY(R.string.sort_posts_top_today),
+	TOP_WEEK(R.string.sort_posts_top_week),
+	TOP_MONTH(R.string.sort_posts_top_month),
+	TOP_YEAR(R.string.sort_posts_top_year),
+	TOP_ALL(R.string.sort_posts_top_all),
+	CONTROVERSIAL_HOUR(R.string.sort_posts_controversial_hour),
+	CONTROVERSIAL_DAY(R.string.sort_posts_controversial_today),
+	CONTROVERSIAL_WEEK(R.string.sort_posts_controversial_week),
+	CONTROVERSIAL_MONTH(R.string.sort_posts_controversial_month),
+	CONTROVERSIAL_YEAR(R.string.sort_posts_controversial_year),
+	CONTROVERSIAL_ALL(R.string.sort_posts_controversial_all),
+	BEST(R.string.sort_posts_best),
 	// Sorts related to Search Listings
-	RELEVANCE_HOUR,
-	RELEVANCE_DAY,
-	RELEVANCE_WEEK,
-	RELEVANCE_MONTH,
-	RELEVANCE_YEAR,
-	RELEVANCE_ALL,
-	NEW_HOUR,
-	NEW_DAY,
-	NEW_WEEK,
-	NEW_MONTH,
-	NEW_YEAR,
-	NEW_ALL,
-	COMMENTS_HOUR,
-	COMMENTS_DAY,
-	COMMENTS_WEEK,
-	COMMENTS_MONTH,
-	COMMENTS_YEAR,
-	COMMENTS_ALL,
-	HOT_HOUR,
-	HOT_DAY,
-	HOT_WEEK,
-	HOT_MONTH,
-	HOT_YEAR,
-	HOT_ALL;
+	RELEVANCE_HOUR(R.string.sort_posts_relevance_hour),
+	RELEVANCE_DAY(R.string.sort_posts_relevance_today),
+	RELEVANCE_WEEK(R.string.sort_posts_relevance_week),
+	RELEVANCE_MONTH(R.string.sort_posts_relevance_month),
+	RELEVANCE_YEAR(R.string.sort_posts_relevance_year),
+	RELEVANCE_ALL(R.string.sort_posts_relevance_all),
+	NEW_HOUR(R.string.sort_posts_new_hour),
+	NEW_DAY(R.string.sort_posts_new_today),
+	NEW_WEEK(R.string.sort_posts_new_week),
+	NEW_MONTH(R.string.sort_posts_new_month),
+	NEW_YEAR(R.string.sort_posts_new_year),
+	NEW_ALL(R.string.sort_posts_new_all),
+	COMMENTS_HOUR(R.string.sort_posts_comments_hour),
+	COMMENTS_DAY(R.string.sort_posts_comments_today),
+	COMMENTS_WEEK(R.string.sort_posts_comments_week),
+	COMMENTS_MONTH(R.string.sort_posts_comments_month),
+	COMMENTS_YEAR(R.string.sort_posts_comments_year),
+	COMMENTS_ALL(R.string.sort_posts_comments_all),
+	HOT_HOUR(R.string.sort_posts_hot_hour),
+	HOT_DAY(R.string.sort_posts_hot_today),
+	HOT_WEEK(R.string.sort_posts_hot_week),
+	HOT_MONTH(R.string.sort_posts_hot_month),
+	HOT_YEAR(R.string.sort_posts_hot_year),
+	HOT_ALL(R.string.sort_posts_hot_all);
+
+	@StringRes private final int menuTitle;
+	PostSort(@StringRes final int menuTitle) {
+		this.menuTitle = menuTitle;
+	}
 
 	@Nullable
 	public static PostSort valueOfOrNull(@NonNull final String string) {
@@ -311,5 +320,15 @@ public enum PostSort {
 				builder.appendQueryParameter("t", StringUtils.asciiLowercase(parts[1]));
 				break;
 		}
+	}
+
+	@Override
+	public int getMenuTitle() {
+		return menuTitle;
+	}
+
+	@Override
+	public void onSortSelected(final AppCompatActivity activity) {
+		((OptionsMenuUtility.OptionsMenuPostsListener)activity).onSortSelected(this);
 	}
 }

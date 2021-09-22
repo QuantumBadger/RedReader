@@ -58,6 +58,7 @@ public final class RedditComment implements
 	public int ups;
 	public int downs;
 	public int gilded;
+	public int controversiality;
 
 	@Nullable public JsonValue edited;
 
@@ -118,6 +119,7 @@ public final class RedditComment implements
 
 		saved = in.readInt() != 0;
 		gilded = in.readInt();
+		controversiality = in.readInt();
 
 		distinguished = in.readString();
 	}
@@ -159,6 +161,7 @@ public final class RedditComment implements
 
 		parcel.writeInt(saved ? 1 : 0);
 		parcel.writeInt(gilded);
+		parcel.writeInt(controversiality);
 
 		parcel.writeString(distinguished);
 	}
@@ -229,5 +232,9 @@ public final class RedditComment implements
 
 	public boolean wasEdited() {
 		return edited != null && !Boolean.FALSE.equals(edited.asBoolean());
+	}
+
+	public boolean isControversial() {
+		return controversiality == 1;
 	}
 }

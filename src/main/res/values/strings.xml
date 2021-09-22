@@ -1605,5 +1605,10 @@
 	<string name="sort_posts_comments_month">Comments: This Month</string>
 	<string name="sort_posts_comments_year">Comments: This Year</string>
 	<string name="sort_posts_comments_all">Comments: All Time</string>
+
+	<!-- 2021-09-22 -->
+	<string name="pref_appearance_comment_header_items_controversiality">Controversial indicator (†)</string>
+	<string name="props_controversial_symbol">†</string>
+	<string name="accessibility_subtitle_controversiality_withperiod">Voted controversial.</string>
 	
 </resources>

@@ -205,7 +205,25 @@ public class RedditRenderableComment
 						1f);
 			}
 
-			sb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
+			sb.append(" " + context.getString(R.string.subtitle_points), 0);
+
+			if(!theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.CONTROVERSIALITY)) {
+				sb.append(" ", 0);
+			}
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.CONTROVERSIALITY)) {
+
+			if(rawComment.isControversial()) {
+				sb.append(
+						context.getString(R.string.props_controversial_symbol),
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						theme.rrCommentHeaderBoldCol,
+						0,
+						1f);
+			}
+
+			sb.append(" ", 0);
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.GOLD)) {
@@ -357,6 +375,16 @@ public class RedditRenderableComment
 						.append(context.getString(
 								R.string.accessibility_subtitle_points_withperiod,
 								computeScore(changeDataManager)))
+						.append(separator);
+			}
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.CONTROVERSIALITY)) {
+
+			if(rawComment.isControversial()) {
+				accessibilityHeader
+						.append(context.getString(
+								R.string.accessibility_subtitle_controversiality_withperiod))
 						.append(separator);
 			}
 		}

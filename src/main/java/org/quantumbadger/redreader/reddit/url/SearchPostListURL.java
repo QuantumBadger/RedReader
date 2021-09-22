@@ -22,6 +22,7 @@ import android.net.Uri;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.PostSort;
 
@@ -264,9 +265,10 @@ public class SearchPostListURL extends PostListingURL {
 
 		builder.appendEncodedPath(".json");
 
-		// if the user doesn't have NSFW content disabled, it won't show up anyway
-		// leaving this on by default doesn't hurt
-		builder.appendQueryParameter("include_over_18", "on");
+		// Only set over18 when NSFW content is enabled, to save on bandwidth and loading times
+		if(PrefsUtility.pref_behaviour_nsfw()) {
+			builder.appendQueryParameter("include_over_18", "on");
+		}
 
 		return builder.build();
 	}

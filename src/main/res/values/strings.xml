@@ -1614,5 +1614,10 @@
 
 	<!-- 2021-09-07 -->
 	<string name="error_archived_reply">This has been archived and can no longer be replied to.</string>
+
+	<!-- 2021-09-22 -->
+	<string name="pref_appearance_comment_header_items_controversiality">Controversial indicator (†)</string>
+	<string name="props_controversial_symbol" translatable="false">†</string>
+	<string name="accessibility_subtitle_controversiality_withperiod">Voted controversial.</string>
 	
 </resources>

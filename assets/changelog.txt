@@ -1,6 +1,7 @@
 101/1.18
 Imgur upload reliability improved
-Search multireddits and subreddit combinations  (thanks to Cameron Merkel)
+Search multireddits and subreddit combinations (thanks to Cameron Merkel)
+Allow status bar to be hidden only when viewing media (thanks to Cameron Merkel)
 Highlight moderator/admin username for distinguished posts (thanks to Cameron Merkel)
 Allow specifying date range when sorting by controversial (thanks to Cameron Merkel)
 Allow specifying date range for searches (thanks to Cameron Merkel)

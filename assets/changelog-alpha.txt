@@ -1,5 +1,6 @@
 /Alpha 292 (2021-09-24)
-Search multireddits and subreddit combinations  (thanks to Cameron Merkel)
+Search multireddits and subreddit combinations (thanks to Cameron Merkel)
+Allow status bar to be hidden only when viewing media (thanks to Cameron Merkel)
 
 /Alpha 291 (2021-08-16)
 Various code cleanup (thanks to TacoTheDank)

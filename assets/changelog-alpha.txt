@@ -1,3 +1,6 @@
+/Alpha 292 (2021-09-24)
+Search multireddits and subreddit combinations  (thanks to Cameron Merkel)
+
 /Alpha 291 (2021-08-16)
 Various code cleanup (thanks to TacoTheDank)
 Update post header even when the toolbar is disabled (thanks to Cameron Merkel)

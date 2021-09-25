@@ -1,7 +1,12 @@
+/Alpha 292 (2021-09-24)
+Search multireddits and subreddit combinations (thanks to Cameron Merkel)
+Allow status bar to be hidden only when viewing media (thanks to Cameron Merkel)
+
 /Alpha 291 (2021-08-16)
 Various code cleanup (thanks to TacoTheDank)
 Update post header even when the toolbar is disabled (thanks to Cameron Merkel)
 Subreddit blocking now applies to /r/popular and the front page (thanks to Cameron Merkel)
+Handle non-HTTP URLs using native apps in WebView (thanks to Avik Das)
 
 /Alpha 290 (2021-07-25)
 Show message when no posts are available (thanks to Cameron Merkel)

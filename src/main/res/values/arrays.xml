@@ -1249,4 +1249,19 @@
 		<item>properties</item>
 	</string-array>
 
+	<!-- 2021-09-01 -->
+
+	<string-array name="pref_appearance_android_status_items">
+		<item>@string/pref_appearance_android_status_always_hide</item>
+		<item>@string/pref_appearance_android_status_hide_on_media</item>
+		<item>@string/pref_appearance_android_status_never_hide</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_appearance_android_status_items_return">
+		<item>always_hide</item>
+		<item>hide_on_media</item>
+		<item>never_hide</item>
+	</string-array>
+
 </resources>

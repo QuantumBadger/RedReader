@@ -359,6 +359,7 @@ public class PostListingActivity extends RefreshableActivity
 			final SearchPostListURL url;
 
 			if(controller != null && (controller.isSubreddit()
+					|| controller.isSubredditCombination()
 					|| controller.isSubredditSearchResults())) {
 
 				final SubredditCanonicalId subredditCanonicalId
@@ -375,6 +376,12 @@ public class PostListingActivity extends RefreshableActivity
 				url = SearchPostListURL.build(
 						subredditCanonicalId.toString(),
 						query);
+			} else if(controller != null && controller.isMultireddit()) {
+
+				final String multiName = controller.multiredditName();
+				final String multiUsername = controller.multiredditUsername();
+
+				url = SearchPostListURL.build(multiUsername, multiName, query);
 			} else {
 				url = SearchPostListURL.build(null, query);
 			}

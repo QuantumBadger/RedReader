@@ -227,7 +227,7 @@
     <string name="error_toast_no_urls_in_comment">Ez da URLrik aurkitu iruzkin honetan.</string>
     <string name="download_subreddits">Subredditak deskargatzen…</string>
     <string name="subtitle_points">pt</string>
-    <string name="subtitle_by">" "</string>
+    <string name="subtitle_by"> </string>
     <string name="subtitle_to">(e)k hona</string>
     <string name="general_unknown">ezezaguna</string>
     <string name="action_search">Bilatu</string>

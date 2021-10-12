@@ -217,7 +217,7 @@ public class RedditRenderableComment
 			if(rawComment.isControversial()) {
 				sb.append(
 						context.getString(R.string.props_controversial_symbol),
-						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD | BetterSSB.SUPERSCRIPT,
 						theme.rrCommentHeaderBoldCol,
 						0,
 						1f);

@@ -13,8 +13,9 @@ Wrap long text in preferences (thanks to Cameron Merkel)
 Subreddit blocking now applies to /r/popular and the front page (thanks to Cameron Merkel)
 Update post header even when the toolbar is disabled (thanks to Cameron Merkel)
 Show tooltips when long-pressing toolbar buttons (thanks to Cameron Merkel)
+Search queries are no longer forced to lowercase (thanks to Cameron Merkel)
 Handle non-HTTP URLs using native apps in WebView (thanks to Avik Das)
-Various code cleanup (thanks to TacoTheDank)
+Various code cleanup (thanks to TacoTheDank and Cameron Merkel)
 
 100/1.17.3
 Adding workaround for TLS 1.2 support on Android 4

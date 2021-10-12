@@ -490,7 +490,6 @@
     <string name="error_no_suitable_apps_available">没有合适的应用。</string>
     <string name="mainmenu_random">随机版块</string>
     <string name="pref_menus_show_random_main_menu_title">在主菜单显示/r/random</string>
-    <string name="search_listing_header_sub">限于版块</string>
     <string name="share_comments_for">%s的评论</string>
     <string name="share_comment_by_on_reddit">%s的Reddit评论</string>
     <string name="options_past_posts">过去的帖子列表</string>
@@ -588,9 +587,7 @@
     <string name="pref_appearance_fontscale_header">字体大小</string>
     <string name="prefs_category_fonts">字体</string>
     <string name="pref_network_tor_summary">当使用外部浏览器或自定义选项卡时，将不会使用Tor打开链接(除非您的浏览器配置为使用Tor)</string>
-    <string name="search_results_subreddit_only">在/r/%s内搜索</string>
     <string name="search_results_query_only">搜索\"%s\"</string>
-    <string name="search_results_all">在/r/%2$s中搜索\"%1$s\"</string>
     <string name="search_results_short">搜索结果</string>
     <string name="error_nsfw_subreddits_disabled_message">当前在设置中禁用了 NSFW 内容。</string>
     <string name="error_nsfw_subreddits_disabled_title">已屏蔽的NSFW子版块</string>

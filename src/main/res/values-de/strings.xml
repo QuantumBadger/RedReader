@@ -574,7 +574,6 @@
     <string name="mainmenu_custom_destination_search">Suche</string>
     <string name="mainmenu_custom_empty_search_query">Leere Suchanfrage.</string>
     <string name="search_listing_header_query">Suchanfrage</string>
-    <string name="search_listing_header_sub">Auf Subreddit beschränken</string>
     <string name="pref_behaviour_sharing_header">Teilen</string>
     <string name="pref_behaviour_sharing_include_desc_title">Titel/Beschreibung beim Teilen mit einschließen</string>
     <string name="share_comments_for">Kommentare für %s</string>
@@ -661,9 +660,7 @@
     <string name="pref_appearance_fontscale_global_title">Global</string>
     <string name="pref_appearance_fontscale_header">Schriftgröße</string>
     <string name="prefs_category_fonts">Schriftart</string>
-    <string name="search_results_subreddit_only">Suche in /r/%s</string>
     <string name="search_results_query_only">Suche für \"%s\"</string>
-    <string name="search_results_all">Suche für \"%1$s\" in /r/%2$s</string>
     <string name="search_results_short">Suchergebnisse</string>
     <string name="pref_appearance_post_subtitle_items_subreddit">Subreddit</string>
     <string name="pref_appearance_posts_header">Beiträge</string>

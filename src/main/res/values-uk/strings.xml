@@ -529,7 +529,6 @@
     <string name="pref_menus_show_random_main_menu_title">Показувати /r/random у головному меню</string>
     <string name="mainmenu_custom_empty_search_query">Порожній пошуковий запит.</string>
     <string name="search_listing_header_query">Пошуковий запит</string>
-    <string name="search_listing_header_sub">Обмежити сабреддітом</string>
     <string name="pref_behaviour_sharing_header">Поширення</string>
     <string name="pref_behaviour_sharing_include_desc_title">Додавати заголовок/опис під час поширення</string>
     <string name="share_comments_for">Коментарі до %s</string>
@@ -718,7 +717,6 @@
     <string name="pref_menus_appbar_items_overflow_only">Показувати лише в меню з трьома крапками</string>
     <string name="pref_menus_appbar_items_if_room">Показати кнопку, якщо кімната</string>
     <string name="pref_menus_appbar_items_always">Завжди показувати кнопку</string>
-    <string name="pref_menus_appbar_screen_title">Елементи панелі дій</string>
     <string name="copied_to_clipboard">Скопійовано до буфера обміну</string>
     <string name="subreddit_link_copied_to_clipboard">Посилання на сабредіт скопійовано до буфера обміну</string>
     <string name="comment_text_copied_to_clipboard">Текст коментаря скопійований до буфера обміну</string>
@@ -750,9 +748,7 @@
     <string name="pref_appearance_fontscale_header">Масштаб шрифту</string>
     <string name="prefs_category_fonts">Шрифт</string>
     <string name="pref_network_tor_summary">У разі застосування зовнішнього переглядача або користувацьких вкладок посилання не відкриватимуться за допомогою Tor (якщо у переглядачі не сконфігуровано використання Tor)</string>
-    <string name="search_results_subreddit_only">Шукати у /r/%s</string>
     <string name="search_results_query_only">Шукати «%s»</string>
-    <string name="search_results_all">Шукати «%1$s» у /r/%2$s</string>
     <string name="search_results_short">Результати пошуку</string>
     <string name="error_nsfw_subreddits_disabled_message">Вміст NSFW наразі вимкнуто в налаштуваннях.</string>
     <string name="error_nsfw_subreddits_disabled_title">Заблокований сабреддіт NSFW</string>

@@ -410,7 +410,6 @@
     <string name="mainmenu_random">Ausazko subreddita</string>
     <string name="mainmenu_custom_empty_search_query">Bilaketa gaia hutsik.</string>
     <string name="search_listing_header_query">Bilaketa gaia</string>
-    <string name="search_listing_header_sub">Mugatu subredditera</string>
     <string name="pref_behaviour_sharing_header">Partekatzea</string>
     <string name="pref_behaviour_sharing_include_desc_title">Gehitu izenburua/deskribapena partekatzean</string>
     <string name="pref_behaviour_fling_post_left_title">Ezkerrera lerratzean</string>
@@ -630,9 +629,7 @@
     <string name="pref_appearance_fontscale_header">Letra-tipo eskala</string>
     <string name="prefs_category_fonts">Letra-tipoa</string>
     <string name="pref_network_tor_summary">Kanpoko nabigatzaile bat edo fitxa pertsonalizatuak erabiltzean, estekak ez dira Tor erabiliz irekiko (zure nabigatzailea Tor erabiltzeko konfiguratuta ez badago)</string>
-    <string name="search_results_subreddit_only">Bilatu /r/%s subredditean</string>
     <string name="search_results_query_only">Bilatu \"%s\"</string>
-    <string name="search_results_all">Bilatu \"%1$s\" /r/%2$s subredditean</string>
     <string name="search_results_short">Bilaketa emaitzak</string>
     <string name="error_nsfw_subreddits_disabled_message">NSFW edukia ezarpenetan desgaituta dago.</string>
     <string name="error_nsfw_subreddits_disabled_title">Blokeatutako NSFW subreddita</string>

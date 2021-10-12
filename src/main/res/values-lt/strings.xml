@@ -347,7 +347,6 @@
     <string name="comment_link_copied_to_clipboard">Komentaro nuoroda nukopijuota į iškarpinę</string>
     <string name="post_link_copied_to_clipboard">Įrašo nuoroda nukopijuota į iškarpinę</string>
     <string name="pin_successful">%s prisegta prie pagrindinio meniu</string>
-    <string name="search_results_all">Ieškoti \"%1$s\" /r/%2$s</string>
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Pasirinkti bendrinimui skirtą programą</string>
     <string name="pref_accessibility_separate_body_text_lines_title">Atskirti teksto eilutes</string>
     <string name="accessibility_subtitle_nsfw_withperiod">Nesaugu darbe.</string>
@@ -373,7 +372,6 @@
     <string name="sort_comments_top_hour">Populiariausi: Šią valandą</string>
     <string name="pref_appearance_post_show_comments_button_title">Rodyti komentarų mygtuką</string>
     <string name="subscription_successful">Užsiprenumeruota %s</string>
-    <string name="search_results_subreddit_only">Paieška /r/%s</string>
     <string name="search_results_query_only">Ieškoti \"%s\"</string>
     <string name="list_yes_no_or_wifi_wifionly">Tik per Wi-Fi</string>
     <string name="pref_item_restore_preferences_title">Atkurti nuostatas</string>
@@ -462,7 +460,6 @@
     <string name="accessibility_subtitle_age_withperiod">Amžius: %s.</string>
     <string name="pref_menus_subreddit_context_items_title">Subreddit\'o veiksmų meniu elementai</string>
     <string name="pref_menus_comment_context_items_title">Veiksmų meniu elementai</string>
-    <string name="pref_menus_appbar_screen_title">Veiksmų juostos elementai</string>
     <string name="prefs_category_accessibility">Pritaikymas neįgaliesiems</string>
     <string name="pref_menus_mainmenu_dev_announcements_title">Rodyti kūrėjo pranešimus</string>
     <string name="button_dismiss">Atsisakyti</string>
@@ -543,7 +540,6 @@
     <string name="title_license">Licencija</string>
     <string name="pref_behaviour_sharing_include_desc_title">Bendrinant įtraukti pavadinimą/aprašymą</string>
     <string name="pref_behaviour_sharing_header">Bendrinimas</string>
-    <string name="search_listing_header_sub">Apsiriboti subreddit\'u</string>
     <string name="search_listing_header_query">Paieškos užklausa</string>
     <string name="mainmenu_custom_empty_search_query">Tuščia paieškos užklausa.</string>
     <string name="pref_menus_show_random_main_menu_title">Rodyti /r/random pagrindiniame meniu</string>

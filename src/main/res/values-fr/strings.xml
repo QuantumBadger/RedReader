@@ -613,7 +613,6 @@
     <string name="selected_link_is_not_image">Le lien sélectionné n\'est pas une image.</string>
     <string name="sort_blocked_subreddit_name">Par nom</string>
     <string name="theme_name_night_lowcontrast">Nuit (bas contraste)</string>
-    <string name="search_listing_header_sub">Limiter au subreddit</string>
     <string name="time_secs">secs</string>
     <string name="pref_behaviour_postcount_title">Restreindre le nombre de posts</string>
     <string name="pref_menus_show_random_main_menu_title">Afficher /r/random dans le menu principal</string>
@@ -706,9 +705,7 @@
     <string name="pref_appearance_fontscale_header">Taille de la police</string>
     <string name="prefs_category_fonts">Police</string>
     <string name="pref_network_tor_summary">En utilisant un navigateur externe ou les onglets personnalisés, Tor ne sera pas ouvert avec les liens (à moins que Tor soit votre navigateur par défaut)</string>
-    <string name="search_results_subreddit_only">Chercher sur r/%s</string>
     <string name="search_results_query_only">Résultats pour « %s »</string>
-    <string name="search_results_all">Résultats pour « %1$s » sur r/%2$s</string>
     <string name="search_results_short">Résultats de recherche</string>
     <string name="error_nsfw_subreddits_disabled_message">Le contenu NSFW est actuellement désactivé dans les paramètres.</string>
     <string name="error_nsfw_subreddits_disabled_title">Subreddits NSFW bloqués</string>

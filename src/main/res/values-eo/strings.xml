@@ -638,7 +638,6 @@
     <string name="pref_behaviour_sharing_share_text_title">Ampleksi tekston kiam kunhavigi komenton</string>
     <string name="mainmenu_custom_empty_search_query">Malplena serĉpeto.</string>
     <string name="search_listing_header_query">Serĉpeto</string>
-    <string name="search_listing_header_sub">Nur en redditero</string>
     <string name="pref_behaviour_sharing_header">Kunhavigi</string>
     <string name="pref_behaviour_sharing_include_desc_title">Ampleksi titolon/priskribon dum kunhavigi</string>
     <string name="share_comments_for">Komentoj por %s</string>
@@ -699,9 +698,7 @@
     <string name="pref_appearance_fontscale_header">Grando de tiparo</string>
     <string name="prefs_category_fonts">Tiparo</string>
     <string name="pref_network_tor_summary">Dum uzi eksteran ret‑foliumilon aŭ proprajn langetojn, ligiloj ne estos malfermataj uzante Tor-reton (escepte se via ret‑foliumilo estos agordita por uzi Tor)</string>
-    <string name="search_results_subreddit_only">Serĉado ĉe /r/%s</string>
     <string name="search_results_query_only">Serĉado de “%s”</string>
-    <string name="search_results_all">Serĉado de “%1$s” ĉe /r/%2$s</string>
     <string name="search_results_short">Serĉ-rezultoj</string>
     <string name="error_nsfw_subreddits_disabled_message">Maldeca enhavo estas nuntempe malaktivigita en la agordoj.</string>
     <string name="error_nsfw_subreddits_disabled_title">Blokita maldeca redditero</string>

@@ -371,7 +371,6 @@
     <string name="pref_menus_appbar_items_overflow_only">Näytä vain kolmipisteisissä valikoissa</string>
     <string name="pref_menus_appbar_items_if_room">Näytä painike, jos on tilaa</string>
     <string name="pref_menus_appbar_items_always">Näytä aina painike</string>
-    <string name="pref_menus_appbar_screen_title">Toimintavalikon kohteet</string>
     <string name="copied_to_clipboard">Kopioitu leikepöydälle</string>
     <string name="subreddit_link_copied_to_clipboard">Subredditin linkki kopioitu leikepöydälle</string>
     <string name="comment_text_copied_to_clipboard">Kommentin teksti kopioitu leikepöydälle</string>
@@ -396,7 +395,6 @@
     <string name="share_comments_for">Kommentit kohteelle %s</string>
     <string name="pref_behaviour_sharing_include_desc_title">Sisällytä otsikko/kuvaus, kun jaetaan</string>
     <string name="pref_behaviour_sharing_header">Jaetaan</string>
-    <string name="search_listing_header_sub">Rajoita subredditiin</string>
     <string name="search_listing_header_query">Hakupyyntö</string>
     <string name="mainmenu_custom_empty_search_query">Tyhjä hakupyyntö.</string>
     <string name="pref_menus_show_random_main_menu_title">Näytä /r/random päävalikossa</string>
@@ -532,9 +530,7 @@
     <string name="pref_appearance_fontscale_header">Fontin koko</string>
     <string name="prefs_category_fonts">Fontti</string>
     <string name="pref_network_tor_summary">Kun käyttää ulkoista selaamista ja muokattuja välilehtiä, linkit eivät avaudu Tor-verkossa (ellet olet säätänyt selaintasi toimimaan Torin kautta)</string>
-    <string name="search_results_subreddit_only">Hae kohteesta /r/%s</string>
     <string name="search_results_query_only">Tulokset haulle \"%s\"</string>
-    <string name="search_results_all">Tulokset haulle \"%1$s\" sijainnissa /r/%2$s</string>
     <string name="search_results_short">Hakutulokset</string>
     <string name="error_nsfw_subreddits_disabled_message">Sopimaton sisältö on poistettu käytöstä asetuksissa.</string>
     <string name="error_nsfw_subreddits_disabled_title">Estetyt sopimattomat subredditit</string>

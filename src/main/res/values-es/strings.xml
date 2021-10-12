@@ -635,7 +635,6 @@
     <string name="pref_menus_show_random_main_menu_title">Mostrar /r/random en el menú principal</string>
     <string name="mainmenu_custom_empty_search_query">Búsqueda vacía.</string>
     <string name="search_listing_header_query">Búsqueda</string>
-    <string name="search_listing_header_sub">Limitar al Subreddit</string>
     <string name="pref_behaviour_sharing_header">Compartiendo</string>
     <string name="pref_behaviour_sharing_include_desc_title">Incluir título/descripción al compartir</string>
     <string name="share_comments_for">Comentarios para %s</string>
@@ -730,8 +729,6 @@
     <string name="pref_appearance_fontscale_linkbuttons_title">Botones de enlace</string>
     <string name="pref_appearance_fontscale_use_global">Utilizar la escala global de fuentes</string>
     <string name="pref_appearance_fontscale_header">Escala de la fuente</string>
-    <string name="search_results_subreddit_only">Buscar /r/%s</string>
-    <string name="search_results_all">Buscar \"%1$s\" en /r/%2$s</string>
     <string name="pref_appearance_post_header_subtitle_items_title">Entradas de subtítulos de puestos abiertos</string>
     <string name="video_zoom_out">Alejar</string>
     <string name="video_zoom_in">Ampliar</string>

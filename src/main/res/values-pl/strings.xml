@@ -638,7 +638,6 @@
     <string name="pref_behaviour_sharing_share_text_title">Umieść tekst podczas dzielenia się komentarzem</string>
     <string name="mainmenu_custom_empty_search_query">Puste zapytanie wyszukiwania.</string>
     <string name="search_listing_header_query">Zapytanie</string>
-    <string name="search_listing_header_sub">Tylko w subreddicie</string>
     <string name="pref_behaviour_sharing_header">Udostępnij</string>
     <string name="pref_behaviour_sharing_include_desc_title">Umieść tytuł/opis podczas udostępniania</string>
     <string name="share_comments_for">Komentarze dla %s</string>
@@ -835,7 +834,6 @@
     <string name="image_gallery_no_data_present_title">Galeria nie odnaleziona</string>
     <string name="image_gallery_removed_message">Ta galeria została usunięta i nie jest dłużej dostępna.</string>
     <string name="image_gallery_removed_title">Galeria usunięta</string>
-    <string name="pref_menus_appbar_screen_title">Elementy paska działań</string>
     <string name="props_body_html">Treść (HTML)</string>
     <string name="unsubscription_successful">Odsubskrybowano %s</string>
     <string name="subscription_successful">Zasubskrybowano %s</string>
@@ -843,7 +841,6 @@
     <string name="error_toast_no_email_apps">Brak zainstalowanych aplikacji email!</string>
     <string name="pref_appearance_fontscale_use_global">Użyj globalnej skali czcionki</string>
     <string name="pref_appearance_fontscale_header">Skala Czcionki</string>
-    <string name="search_results_all">Szukaj \"%1$s\" na /r/%2$s</string>
     <string name="pref_appearance_post_subtitle_items_spoiler">Znacznik spojlera</string>
     <string name="pin_successful">Przypięto %s do menu głównego</string>
     <string name="unpin_successful">Odpięto %s od menu głównego</string>
@@ -855,7 +852,6 @@
     <string name="must_login_message">Musisz być zalogowany do Reddita, żeby to zrobić.</string>
     <string name="pref_appearance_fontscale_global_title">Globalne</string>
     <string name="prefs_category_fonts">Czcionka</string>
-    <string name="search_results_subreddit_only">Wyszukaj na /r/%s</string>
     <string name="search_results_query_only">Wyszukaj \"%s\"</string>
     <string name="search_results_short">Wyniki Wyszukiwania</string>
     <string name="error_nsfw_subreddits_disabled_message">Kontent NSFW jest obecnie wyłączony w ustawieniach.</string>

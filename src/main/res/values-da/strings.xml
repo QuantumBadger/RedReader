@@ -638,7 +638,6 @@
     <string name="pref_behaviour_sharing_share_text_title">Inkluder tekst når kommentaren deles</string>
     <string name="mainmenu_random">Tilfældigt Subreddit</string>
     <string name="pref_menus_show_random_main_menu_title">Vis /r/random i hovedmenuen</string>
-    <string name="search_listing_header_sub">Begræns til Subreddit</string>
     <string name="pref_behaviour_sharing_header">Deler</string>
     <string name="pref_behaviour_sharing_include_desc_title">"Inkludér title/beskrivelse når deles "</string>
 	<plurals name="load_more_comments_button_reply_count">

@@ -534,7 +534,6 @@
     <string name="pref_menus_show_random_main_menu_title">Отображать /r/random в главном меню</string>
     <string name="mainmenu_custom_empty_search_query">Пустой поисковый запрос.</string>
     <string name="search_listing_header_query">Поисковый запрос</string>
-    <string name="search_listing_header_sub">Ограничить сабреддитом</string>
     <string name="pref_behaviour_sharing_header">Распространение</string>
     <string name="pref_behaviour_sharing_include_desc_title">Добавлять заголовок/описание при распространении</string>
     <string name="share_comments_for">Комментарии к %s</string>
@@ -560,9 +559,7 @@
     <string name="pref_appearance_fontscale_header">Масштаб шрифта</string>
     <string name="prefs_category_fonts">Шрифт</string>
     <string name="pref_network_tor_summary">При использовании внешнего браузера ссылки не будут открываться с помощью Tor (если только ваш браузер не настроен на использование Tor)</string>
-    <string name="search_results_subreddit_only">Искать на /r/%s</string>
     <string name="search_results_query_only">Искать \"%s\"</string>
-    <string name="search_results_all">Искать \"%1$s\" на /r/%2$s</string>
     <string name="search_results_short">Результаты поиска</string>
     <string name="error_nsfw_subreddits_disabled_message">Контент NSFW отключен в настройках.</string>
     <string name="error_nsfw_subreddits_disabled_title">Заблокированный субреддит NSFW</string>

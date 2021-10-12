@@ -493,7 +493,6 @@
     <string name="pref_menus_show_random_main_menu_title">Mostra /r/random nel menu principale</string>
     <string name="mainmenu_custom_empty_search_query">Query di ricerca vuota.</string>
     <string name="search_listing_header_query">Query di Ricerca</string>
-    <string name="search_listing_header_sub">Limita a Subreddit</string>
     <string name="pref_behaviour_sharing_header">Condivisione</string>
     <string name="pref_behaviour_sharing_include_desc_title">Includi titolo/descrizione quando condividi</string>
     <string name="share_comments_for">Commenti per %s</string>
@@ -606,9 +605,7 @@
     <string name="pref_appearance_fontscale_header">Dimensione Font</string>
     <string name="prefs_category_fonts">Font</string>
     <string name="pref_network_tor_summary">Quando usi un browser esterno o dei tab personalizzati, i link non verranno aperti usando tor (ad eccezione se il tuo browser è configurato per usare tor)</string>
-    <string name="search_results_subreddit_only">Cerca su /r/%s</string>
     <string name="search_results_query_only">Cerca per \"%s\"</string>
-    <string name="search_results_all">Cerca per \"%1$s\" su /r/%2$s</string>
     <string name="error_message_malformed_html">Impossibile analizzare il contenuto. Per favore segnalalo allo sviluppatore.</string>
     <string name="button_view">Visualizza</string>
     <string name="button_dismiss">Scarta</string>

@@ -12,6 +12,7 @@ More detail in errors for failed API requests
 Wrap long text in preferences (thanks to Cameron Merkel)
 Subreddit blocking now applies to /r/popular and the front page (thanks to Cameron Merkel)
 Update post header even when the toolbar is disabled (thanks to Cameron Merkel)
+Show tooltips when long-pressing toolbar buttons (thanks to Cameron Merkel)
 Handle non-HTTP URLs using native apps in WebView (thanks to Avik Das)
 Various code cleanup (thanks to TacoTheDank)
 

@@ -6,6 +6,7 @@ Search queries are no longer forced to lowercase (thanks to Cameron Merkel)
 Take NSFW preference into account in API requests (thanks to Cameron Merkel)
 Prevent replying to archived posts and comments (thanks to Cameron Merkel)
 Add optional indicator (†) for comments voted controversial (thanks to Cameron Merkel)
+Add reply option to post action menu (off by default, thanks to Cameron Merkel)
 
 /Alpha 291 (2021-08-16)
 Various code cleanup (thanks to TacoTheDank)

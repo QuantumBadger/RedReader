@@ -15,6 +15,7 @@ Update post header even when the toolbar is disabled (thanks to Cameron Merkel)
 Show tooltips when long-pressing toolbar buttons (thanks to Cameron Merkel)
 Search queries are no longer forced to lowercase (thanks to Cameron Merkel)
 Take NSFW preference into account in API requests (thanks to Cameron Merkel)
+Prevent replying to archived posts and comments (thanks to Cameron Merkel)
 Handle non-HTTP URLs using native apps in WebView (thanks to Avik Das)
 Various code cleanup (thanks to TacoTheDank and Cameron Merkel)
 

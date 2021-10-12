@@ -20,6 +20,7 @@ Add optional indicator (†) for comments voted controversial (thanks to Cameron
 Add reply option to post action menu (off by default, thanks to Cameron Merkel)
 Handle non-HTTP URLs using native apps in WebView (thanks to Avik Das)
 Various code cleanup (thanks to TacoTheDank and Cameron Merkel)
+Translation updates (thanks to Andrey F, Atrate, Dan McElroy, Dwaris, Gediminas Murauskas, GM, Gontzal Manuel Pujana Onaindia, Ihor Hordiichuk, Jurijus, Kaantaja, lucanomax, ndrnry, Panda Coder, Sergio Varela, and Verdulo)
 
 100/1.17.3
 Adding workaround for TLS 1.2 support on Android 4

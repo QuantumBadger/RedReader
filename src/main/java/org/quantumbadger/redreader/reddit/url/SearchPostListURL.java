@@ -444,7 +444,7 @@ public class SearchPostListURL extends PostListingURL {
 
 		if(query != null && formattedLocation != null) {
 			return String.format(
-					context.getString(R.string.search_results_all),
+					context.getString(R.string.search_results_query_and_location),
 					query,
 					formattedLocation);
 		} else if(query != null) {
@@ -453,7 +453,7 @@ public class SearchPostListURL extends PostListingURL {
 					query);
 		} else if(formattedLocation != null) {
 			return String.format(
-					context.getString(R.string.search_results_subreddit_only),
+					context.getString(R.string.search_results_location_only),
 					formattedLocation);
 		}
 

@@ -104,6 +104,9 @@ android {
 
 		// Caused by 3rd party dependencies/jetification
 		disable 'ObsoleteLintCustomCheck'
+
+		// Temporarily disabled until latest translations are merged
+		disable 'ExtraTranslation'
 	}
 
 	packagingOptions {

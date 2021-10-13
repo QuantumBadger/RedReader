@@ -1,3 +1,6 @@
+/Alpha 293 (2021-10-13)
+Show radio buttons on sort menus (thanks to Cameron Merkel)
+
 /Alpha 292 (2021-10-12)
 Search multireddits and subreddit combinations (thanks to Cameron Merkel)
 Allow status bar to be hidden only when viewing media (thanks to Cameron Merkel)

@@ -1015,11 +1015,14 @@ public final class OptionsMenuUtility {
 	}
 
 	public interface Sort {
+		String name();
+
 		@StringRes int getMenuTitle();
 
 		void onSortSelected(final AppCompatActivity activity);
 	}
 
+	//The sorts of a SortGroup should always be of the same "base type" (e.g. only top post sorts).
 	private static class SortGroup {
 		final Sort[] sorts;
 		@StringRes final int subMenuTitle;
@@ -1027,6 +1030,17 @@ public final class OptionsMenuUtility {
 		SortGroup(final Sort[] sorts, final int subMenuTitle) {
 			this.sorts = sorts;
 			this.subMenuTitle = subMenuTitle;
+		}
+
+		boolean equalsBaseAndType(final Sort sort) {
+			if(!sort.getClass().equals(sorts[0].getClass())) {
+				return false;
+			}
+
+			final String baseSort1 = sorts[0].name().split("_")[0];
+			final String baseSort2 = sort.name().split("_")[0];
+
+			return baseSort1.equals(baseSort2);
 		}
 	}
 
@@ -1117,6 +1131,8 @@ public final class OptionsMenuUtility {
 		}
 
 		addSortsToNewSubmenu(activity, sortPosts, TOP_SORTS);
+
+		sortPosts.setGroupCheckable(Menu.NONE, true, true);
 	}
 
 	private static void addAllSearchSorts(
@@ -1135,6 +1151,8 @@ public final class OptionsMenuUtility {
 		addSortsToNewSubmenu(activity, sortPosts, HOT_SORTS);
 		addSortsToNewSubmenu(activity, sortPosts, TOP_SORTS);
 		addSortsToNewSubmenu(activity, sortPosts, COMMENTS_SORTS);
+
+		sortPosts.setGroupCheckable(Menu.NONE, true, true);
 	}
 
 	private static void addAllCommentSorts(
@@ -1164,6 +1182,8 @@ public final class OptionsMenuUtility {
 		for(final PostCommentSort sort : postCommentSorts) {
 			addSort(activity, sortComments, sort);
 		}
+
+		sortComments.setGroupCheckable(Menu.NONE, true, true);
 	}
 
 	final static SortGroup CONTROVERSIAL_COMMENT_SORTS = new SortGroup(
@@ -1205,6 +1225,8 @@ public final class OptionsMenuUtility {
 
 		addSortsToNewSubmenu(activity, sortComments, CONTROVERSIAL_COMMENT_SORTS);
 		addSortsToNewSubmenu(activity, sortComments, TOP_COMMENT_SORTS);
+
+		sortComments.setGroupCheckable(Menu.NONE, true, true);
 	}
 
 	private static void addSort(
@@ -1212,11 +1234,21 @@ public final class OptionsMenuUtility {
 			final Menu menu,
 			final Sort order) {
 
-		menu.add(activity.getString(order.getMenuTitle()))
+		final MenuItem menuItem = menu.add(activity.getString(order.getMenuTitle()))
 				.setOnMenuItemClickListener(item -> {
 					order.onSortSelected(activity);
 					return true;
 				});
+
+		if(activity instanceof OptionsMenuPostsListener
+				&& ((OptionsMenuPostsListener)activity).getPostSort() != null
+				&& ((OptionsMenuPostsListener)activity).getPostSort().equals(order)) {
+			menuItem.setChecked(true);
+		} else if(activity instanceof OptionsMenuCommentsListener
+				&& ((OptionsMenuCommentsListener)activity).getCommentSort() != null
+				&& ((OptionsMenuCommentsListener)activity).getCommentSort().equals(order)) {
+			menuItem.setChecked(true);
+		}
 	}
 
 	private static void addSortsToNewSubmenu(
@@ -1228,6 +1260,19 @@ public final class OptionsMenuUtility {
 
 		for(final Sort sort : sortGroup.sorts) {
 			addSort(activity, subMenu, sort);
+		}
+
+		subMenu.setGroupCheckable(Menu.NONE, true, true);
+
+		final Sort activeSort;
+		if(sortGroup.sorts instanceof PostSort[]) {
+			activeSort = ((OptionsMenuPostsListener)activity).getPostSort();
+		} else {
+			activeSort = ((OptionsMenuCommentsListener)activity).getCommentSort();
+		}
+
+		if(sortGroup.equalsBaseAndType(activeSort)) {
+			menu.getItem(menu.size() - 1).setChecked(true);
 		}
 	}
 
@@ -1375,6 +1420,8 @@ public final class OptionsMenuUtility {
 		void onBlock();
 
 		void onUnblock();
+
+		PostSort getPostSort();
 	}
 
 	public interface OptionsMenuCommentsListener extends OptionsMenuListener {
@@ -1387,5 +1434,7 @@ public final class OptionsMenuUtility {
 		void onSortSelected(UserCommentSort order);
 
 		void onSearchComments();
+
+		Sort getCommentSort();
 	}
 }

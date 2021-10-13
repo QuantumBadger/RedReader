@@ -206,4 +206,9 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 			super.onBackPressed();
 		}
 	}
+
+	@Override
+	public OptionsMenuUtility.Sort getCommentSort() {
+		return null;
+	}
 }

@@ -1083,4 +1083,22 @@ public class MainActivity extends RefreshableActivity
 	private void showBackButton(final boolean isVisible) {
 		configBackButton(isVisible, v -> onBackPressed());
 	}
+
+	@Override
+	public PostSort getPostSort() {
+		if(postListingController == null) {
+			return null;
+		}
+
+		return postListingController.getSort();
+	}
+
+	@Override
+	public OptionsMenuUtility.Sort getCommentSort() {
+		if(commentListingController == null) {
+			return null;
+		}
+
+		return commentListingController.getSort();
+	}
 }

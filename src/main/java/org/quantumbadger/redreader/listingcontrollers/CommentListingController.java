@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.listingcontrollers;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
@@ -84,10 +85,12 @@ public class CommentListingController {
 		}
 	}
 
-	public PostCommentSort getSort() {
+	public OptionsMenuUtility.Sort getSort() {
 
 		if(mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			return mUrl.asPostCommentListURL().order;
+		} else if(mUrl.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL) {
+			return mUrl.asUserCommentListURL().order;
 		}
 
 		return null;

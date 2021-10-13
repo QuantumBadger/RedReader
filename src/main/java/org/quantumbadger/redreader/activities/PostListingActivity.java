@@ -340,6 +340,7 @@ public class PostListingActivity extends RefreshableActivity
 	public void onSortSelected(final PostSort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.POSTS, false);
+		invalidateOptionsMenu();
 	}
 
 	@Override
@@ -581,5 +582,10 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	protected boolean baseActivityAllowToolbarHideOnScroll() {
 		return true;
+	}
+
+	@Override
+	public PostSort getPostSort() {
+		return controller.getSort();
 	}
 }

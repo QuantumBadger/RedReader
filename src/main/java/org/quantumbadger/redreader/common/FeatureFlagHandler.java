@@ -48,7 +48,8 @@ public final class FeatureFlagHandler {
 
 		COMMENT_HEADER_SUBREDDIT_FEATURE("commentHeaderSubredditFeature"),
 		CONTROVERSIAL_DATE_SORTS_FEATURE("controversialDateSortsFeature"),
-		HIDE_STATUS_BAR_FOR_MEDIA_FEATURE("hideStatusBarForMediaFeature");
+		HIDE_STATUS_BAR_FOR_MEDIA_FEATURE("hideStatusBarForMediaFeature"),
+		REPLY_IN_POST_ACTION_MENU_FEATURE("replyInPostActionMenuFeature");
 
 		@NonNull private final String id;
 
@@ -201,6 +202,27 @@ public final class FeatureFlagHandler {
 							"never_hide")
 							.apply();
 				}
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.REPLY_IN_POST_ACTION_MENU_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, add reply button to post action menu.");
+
+				final Set<String> existingPostActionMenuItems = getStringSet(
+						R.string.pref_menus_post_context_items_key,
+						R.array.pref_menus_post_context_items_default,
+						context,
+						prefs);
+
+				existingPostActionMenuItems.add("reply");
+
+				prefs.edit()
+						.putStringSet(
+								context.getString(
+										R.string.pref_menus_post_context_items_key),
+								existingPostActionMenuItems)
+						.apply();
 			}
 		});
 	}

@@ -84,6 +84,7 @@ public class CommentListingFragment extends RRFragment
 		CommentListingRequest.Listener {
 
 	private static final String SAVEDSTATE_FIRST_VISIBLE_POS = "firstVisiblePosition";
+	private static final String SAVEDSTATE_SELFTEXT_VISIBLE = "selftextVisible";
 
 	private final RedditAccount mUser;
 	private final ArrayList<RedditURLParser.RedditURL> mAllUrls;
@@ -93,6 +94,8 @@ public class CommentListingFragment extends RRFragment
 
 	private RedditPreparedPost mPost = null;
 	private boolean isArchived;
+
+	private boolean mSelfTextVisible = true;
 
 	private final FilteredCommentListingManager mCommentListingManager;
 
@@ -122,6 +125,10 @@ public class CommentListingFragment extends RRFragment
 		if(savedInstanceState != null) {
 			mPreviousFirstVisibleItemPosition = savedInstanceState.getInt(
 					SAVEDSTATE_FIRST_VISIBLE_POS);
+
+			if(savedInstanceState.containsKey(SAVEDSTATE_SELFTEXT_VISIBLE)) {
+				mSelfTextVisible = savedInstanceState.getBoolean(SAVEDSTATE_SELFTEXT_VISIBLE);
+			}
 		}
 
 		mCommentListingManager = new FilteredCommentListingManager(parent, searchString);
@@ -383,6 +390,10 @@ public class CommentListingFragment extends RRFragment
 				SAVEDSTATE_FIRST_VISIBLE_POS,
 				layoutManager.findFirstVisibleItemPosition());
 
+		if(mPost != null && mPost.isSelf()) {
+			bundle.putBoolean(SAVEDSTATE_SELFTEXT_VISIBLE, mSelfTextVisible);
+		}
+
 		return bundle;
 	}
 
@@ -529,14 +540,22 @@ public class CommentListingFragment extends RRFragment
 				if(actionOnClick == PrefsUtility.SelfpostAction.COLLAPSE) {
 					paddingLayout.setOnClickListener(v -> {
 						if(selfText.getVisibility() == View.GONE) {
+							mSelfTextVisible = true;
 							selfText.setVisibility(View.VISIBLE);
 							collapsedView.setVisibility(View.GONE);
 						} else {
+							mSelfTextVisible = false;
 							selfText.setVisibility(View.GONE);
 							collapsedView.setVisibility(View.VISIBLE);
 							layoutManager.scrollToPositionWithOffset(0, 0);
 						}
 					});
+				}
+
+				if(!mSelfTextVisible) {
+					selfText.setVisibility(View.GONE);
+					collapsedView.setVisibility(View.VISIBLE);
+					layoutManager.scrollToPositionWithOffset(0, 0);
 				}
 
 				paddingLayout.setOnLongClickListener(v -> {

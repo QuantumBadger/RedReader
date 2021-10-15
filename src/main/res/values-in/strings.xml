@@ -469,8 +469,8 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Blokir Subreddit</string>
     <string name="unblock_subreddit">Buka Blokir Subreddit</string>
-    <string name="block_done">Subreddit diblokir. Subreddit akan dikecualikan saat kunjungan ke /r/all berikutnya.</string>
-    <string name="unblock_done">Subreddit dihapus dari daftar blokir. Subreddit akan disertakan saat kunjungan ke /r/all berikutnya.</string>
+    <string name="block_done">Subreddit diblokir. Kunjungan berikutnya ke halaman beranda, /r/popular, dan /r/all akan mengecualikan subreddit ini.</string>
+    <string name="unblock_done">Subreddit dihapus dari daftar blokir. Kunjungan berikutnya ke halaman beranda, /r/popular, dan /r/all akan menyertakan subreddit ini.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Komentar</string>
     <string name="pref_behaviour_comment_min_title">Skor minimum komentar</string>
@@ -901,4 +901,10 @@
     <string name="pref_item_restore_preferences_title">Preferensi pemulihan</string>
     <string name="pref_item_backup_preferences_title">Preferensi cadangan</string>
     <string name="prefs_category_backup_restore">Pencadangan/Pemulihan</string>
+    <string name="accessibility_subtitle_author_moderator_withperiod">Penulis: %s, moderator.</string>
+    <string name="accessibility_subtitle_author_admin_withperiod">Penulis: %s, admin.</string>
+    <string name="error_comment_submit_title">Terjadi kesalahan saat mengirim komentar</string>
+    <string name="accessibility_subtitle_author_submitter_withperiod">Penulis: %s, pengirim.</string>
+    <string name="accessibility_subtitle_author_submitter_moderator_withperiod">Penulis: %s, pengirim dan moderator.</string>
+    <string name="accessibility_subtitle_author_submitter_admin_withperiod">Penulis: %s, pengirim dan admin.</string>
 </resources>

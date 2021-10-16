@@ -83,4 +83,18 @@
     <string name="accounts_loggingin">Giriş yapılıyor…</string>
     <string name="accounts_delete">Sil</string>
     <string name="pref_menus_post_toolbar_items_title">Yan araç çubuğu öğeleri</string>
+    <string name="dialog_yes">Evet</string>
+    <string name="dialog_cancel">İptal et</string>
+    <string name="action_vote_remove">Oyu Kaldır</string>
+    <string name="sort_posts_top_all">En İyi: Tüm Zamanlar</string>
+    <string name="sort_comments_best">En iyisi</string>
+    <string name="sort_comments_new">Yeni</string>
+    <string name="sort_comments_old">Eski</string>
+    <string name="dialog_no">Hayır</string>
+    <string name="dialog_go">Git</string>
+    <string name="sort_posts_top_month">En İyi: Bu Ay</string>
+    <string name="sort_posts_top_year">En İyi: Bu Yıl</string>
+    <string name="dialog_close">Kapat</string>
+    <string name="action_upvote">Artıla</string>
+    <string name="action_downvote">Eksile</string>
 </resources>

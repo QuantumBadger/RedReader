@@ -464,8 +464,8 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Bloquear Subreddit</string>
     <string name="unblock_subreddit">Desbloquear Subreddit</string>
-    <string name="block_done">Subreddit bloqueado. Las próximas visitas a /r/all excluirán este subreddit.</string>
-    <string name="unblock_done">Subreddit desbloqueado. Las próximas visitas a /r/all incluirán este subreddit.</string>
+    <string name="block_done">Subreddit bloqueado. Las próximas visitas a la página principal, /r/popular y /r/all excluirán este subreddit.</string>
+    <string name="unblock_done">Subreddit desbloqueado. Las próximas visitas a la página principal, /r/popular y /r/all incluirán este subreddit.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Comentarios</string>
     <string name="pref_behaviour_comment_min_title">Puntaje mínimo de comentarios</string>
@@ -894,4 +894,7 @@
     <string name="pref_item_restore_preferences_title">Restablecer las preferencias</string>
     <string name="pref_item_backup_preferences_title">Preferencias de copia de seguridad</string>
     <string name="prefs_category_backup_restore">Copia de seguridad/restauración</string>
+    <string name="accessibility_subtitle_author_submitter_withperiod">Autor: %s, remitente.</string>
+    <string name="error_comment_submit_title">Error al enviar el comentario</string>
+    <string name="accessibility_subtitle_author_moderator_withperiod">Autor: %s, moderador.</string>
 </resources>

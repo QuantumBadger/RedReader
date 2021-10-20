@@ -694,8 +694,12 @@ public class PostListingFragment extends RRFragment
 							final JsonArray posts = listing.getArray("children");
 
 							final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw();
+
 							final boolean hideReadPosts
-									= PrefsUtility.pref_behaviour_hide_read_posts();
+									= PrefsUtility.pref_behaviour_hide_read_posts()
+									&& mPostListingURL.pathType()
+									!= RedditURLParser.USER_POST_LISTING_URL;
+
 							final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
 							final boolean inlinePreviews
@@ -827,8 +831,7 @@ public class PostListingFragment extends RRFragment
 											downloadThisPreview);
 
 									// Skip adding this post (go to next iteration) if it
-									// has been clicked on AND user preference
-									// "hideReadPosts" is true
+									// has been clicked on AND read posts should be hidden
 									if(hideReadPosts && preparedPost.isRead()) {
 										mPostsNotShown = true;
 										continue;

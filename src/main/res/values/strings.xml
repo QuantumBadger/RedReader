@@ -1630,4 +1630,7 @@
 	<string name="error_title_report_previous_crash">Report previous crash</string>
 	<string name="error_message_report_previous_crash">RedReader crashed the last time it was run. Would you like to report this?</string>
 
+	<!-- 2021-01-21 -->
+	<string name="error_locked_reply">This has been locked and can no longer be replied to.</string>
+
 </resources>

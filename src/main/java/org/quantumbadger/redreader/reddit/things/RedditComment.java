@@ -45,6 +45,8 @@ public final class RedditComment implements
 	public Boolean archived;
 	public Boolean likes;
 	public Boolean score_hidden;
+	public Boolean locked;
+	public Boolean can_mod_post;
 
 	public JsonValue replies;
 
@@ -95,6 +97,9 @@ public final class RedditComment implements
 				break;
 		}
 
+		locked = in.readInt() == 1;
+		can_mod_post = in.readInt() == 1;
+
 		replies = null;
 
 		id = in.readString();
@@ -140,6 +145,9 @@ public final class RedditComment implements
 			parcel.writeInt(likes ? 1 : -1);
 		}
 
+		parcel.writeInt(locked ? 1 : 0);
+		parcel.writeInt(can_mod_post ? 1 : 0);
+
 		parcel.writeString(id);
 		parcel.writeString(subreddit_id);
 		parcel.writeString(link_id);
@@ -178,6 +186,14 @@ public final class RedditComment implements
 
 	public boolean isArchived() {
 		return Boolean.TRUE.equals(archived);
+	}
+
+	public boolean isLocked() {
+		return Boolean.TRUE.equals(locked);
+	}
+
+	public boolean canModerate() {
+		return Boolean.TRUE.equals(can_mod_post);
 	}
 
 	@Nullable

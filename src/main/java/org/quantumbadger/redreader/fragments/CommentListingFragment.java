@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -34,7 +33,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,7 +41,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.FilteredCommentListingManager;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
@@ -93,7 +90,6 @@ public class CommentListingFragment extends RRFragment
 	private final DownloadStrategy mDownloadStrategy;
 
 	private RedditPreparedPost mPost = null;
-	private boolean isArchived;
 
 	private boolean mSelfTextVisible = true;
 
@@ -433,7 +429,7 @@ public class CommentListingFragment extends RRFragment
 							item.asComment(),
 							view,
 							RedditChangeDataManager.getInstance(mUser),
-							isArchived);
+							mPost != null && mPost.isLocked);
 				}
 				break;
 			}
@@ -453,7 +449,7 @@ public class CommentListingFragment extends RRFragment
 							item.asComment(),
 							view,
 							RedditChangeDataManager.getInstance(mUser),
-							isArchived);
+							mPost != null && mPost.isLocked);
 				}
 				break;
 			}
@@ -498,7 +494,6 @@ public class CommentListingFragment extends RRFragment
 			final RRThemeAttributes attr = new RRThemeAttributes(activity);
 
 			mPost = post;
-			isArchived = post.isArchived;
 
 			final RedditPostHeaderView postHeader = new RedditPostHeaderView(
 					activity,
@@ -706,35 +701,14 @@ public class CommentListingFragment extends RRFragment
 				&& item.getTitle()
 				.equals(getActivity().getString(R.string.action_reply))) {
 
-			onParentReply();
+			RedditPreparedPost.onActionMenuItemSelected(
+					mPost,
+					(BaseActivity)getActivity(),
+					RedditPreparedPost.Action.REPLY);
 			return true;
 		}
 
 		return false;
-	}
-
-	private void onParentReply() {
-
-		if(mPost != null) {
-			if(mPost.isArchived) {
-				General.quickToast(getContext(), R.string.error_archived_reply, Toast.LENGTH_SHORT);
-				return;
-			}
-
-			final Intent intent = new Intent(getActivity(), CommentReplyActivity.class);
-			intent.putExtra(
-					CommentReplyActivity.PARENT_ID_AND_TYPE_KEY,
-					mPost.src.getIdAndType());
-			intent.putExtra(
-					CommentReplyActivity.PARENT_MARKDOWN_KEY,
-					mPost.src.getUnescapedSelfText());
-			startActivity(intent);
-
-		} else {
-			General.quickToast(
-					getActivity(),
-					R.string.error_toast_parent_post_not_downloaded);
-		}
 	}
 
 	@Override

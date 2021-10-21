@@ -511,8 +511,7 @@ public class RedditRenderableComment
 				this,
 				null,
 				changeDataManager,
-				// TODO instead of assuming that it isn't an archived post,
-				//  somehow find out if it actually is
+				// There's no reasonable way for us to know from here.
 				false);
 	}
 

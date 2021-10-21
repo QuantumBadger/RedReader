@@ -101,6 +101,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	private final RedditChangeDataManager mChangeDataManager;
 
 	public final boolean isArchived;
+	public final boolean isLocked;
+	public final boolean canModerate;
 	public final boolean hasThumbnail;
 	public final boolean mIsProbablyAnImage;
 
@@ -183,6 +185,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		mChangeDataManager = RedditChangeDataManager.getInstance(user);
 
 		isArchived = post.isArchived();
+		isLocked = post.isLocked();
+		canModerate = post.canModerate();
 
 		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(post.getUrl());
 
@@ -337,7 +341,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						Action.REPORT));
 			}
 
-			if(itemPref.contains(Action.REPLY) && !post.isArchived) {
+			if(itemPref.contains(Action.REPLY)
+					&& !post.isArchived
+					&& !(post.isLocked && !post.canModerate)) {
 				menu.add(new RPVMenuItem(
 						activity,
 						R.string.action_reply,
@@ -805,6 +811,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			case REPLY:
 				if(post.isArchived) {
 					General.quickToast(activity, R.string.error_archived_reply, Toast.LENGTH_SHORT);
+					break;
+				} else if(post.isLocked && !post.canModerate) {
+					General.quickToast(activity, R.string.error_locked_reply, Toast.LENGTH_SHORT);
 					break;
 				}
 

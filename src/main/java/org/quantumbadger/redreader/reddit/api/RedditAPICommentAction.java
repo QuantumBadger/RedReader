@@ -344,14 +344,9 @@ public class RedditAPICommentAction {
 				if(comment.isArchived()) {
 					General.quickToast(activity, R.string.error_archived_reply, Toast.LENGTH_SHORT);
 					break;
-				} else {
-					if((comment.isLocked() || postLocked) && !comment.canModerate()) {
-						General.quickToast(
-								activity,
-								R.string.error_locked_reply,
-								Toast.LENGTH_SHORT);
-						break;
-					}
+				} else if((comment.isLocked() || postLocked) && !comment.canModerate()) {
+					General.quickToast(activity, R.string.error_locked_reply, Toast.LENGTH_SHORT);
+					break;
 				}
 
 				final Intent intent = new Intent(activity, CommentReplyActivity.class);

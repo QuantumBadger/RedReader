@@ -89,7 +89,6 @@ public class CommentListingFragment extends RRFragment
 	private final DownloadStrategy mDownloadStrategy;
 
 	private RedditPreparedPost mPost = null;
-	private boolean isArchived;
 
 	private final FilteredCommentListingManager mCommentListingManager;
 
@@ -418,8 +417,7 @@ public class CommentListingFragment extends RRFragment
 							this,
 							item.asComment(),
 							view,
-							RedditChangeDataManager.getInstance(mUser),
-							isArchived);
+							RedditChangeDataManager.getInstance(mUser));
 				}
 				break;
 			}
@@ -438,8 +436,7 @@ public class CommentListingFragment extends RRFragment
 							this,
 							item.asComment(),
 							view,
-							RedditChangeDataManager.getInstance(mUser),
-							isArchived);
+							RedditChangeDataManager.getInstance(mUser));
 				}
 				break;
 			}
@@ -484,7 +481,6 @@ public class CommentListingFragment extends RRFragment
 			final RRThemeAttributes attr = new RRThemeAttributes(activity);
 
 			mPost = post;
-			isArchived = post.isArchived;
 
 			final RedditPostHeaderView postHeader = new RedditPostHeaderView(
 					activity,

@@ -100,8 +100,7 @@ public class RedditAPICommentAction {
 			final CommentListingFragment commentListingFragment,
 			final RedditRenderableComment comment,
 			final RedditCommentView commentView,
-			final RedditChangeDataManager changeDataManager,
-			final boolean isArchived) {
+			final RedditChangeDataManager changeDataManager) {
 
 		final EnumSet<RedditCommentAction> itemPref
 				= PrefsUtility.pref_menus_comment_context_items();
@@ -109,6 +108,10 @@ public class RedditAPICommentAction {
 		if(itemPref.isEmpty()) {
 			return;
 		}
+
+		// These will be false for comments in the inbox. There seems to be no way around this,
+		// unless we do a lot of work to download the associated post and check there.
+		final boolean isArchived = comment.getParsedComment().getRawComment().isArchived();
 
 		final RedditAccount user =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
@@ -499,8 +502,7 @@ public class RedditAPICommentAction {
 						commentListingFragment,
 						renderableComment,
 						commentView,
-						changeDataManager,
-						comment.isArchived());
+						changeDataManager);
 				break;
 
 			case BACK:

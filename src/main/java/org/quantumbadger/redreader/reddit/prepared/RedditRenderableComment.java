@@ -510,10 +510,7 @@ public class RedditRenderableComment
 				null,
 				this,
 				null,
-				changeDataManager,
-				// TODO instead of assuming that it isn't an archived post,
-				//  somehow find out if it actually is
-				false);
+				changeDataManager);
 	}
 
 	@Override

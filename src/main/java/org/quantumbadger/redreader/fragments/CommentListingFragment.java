@@ -417,7 +417,8 @@ public class CommentListingFragment extends RRFragment
 							this,
 							item.asComment(),
 							view,
-							RedditChangeDataManager.getInstance(mUser));
+							RedditChangeDataManager.getInstance(mUser),
+							mPost != null && mPost.isLocked);
 				}
 				break;
 			}
@@ -436,7 +437,8 @@ public class CommentListingFragment extends RRFragment
 							this,
 							item.asComment(),
 							view,
-							RedditChangeDataManager.getInstance(mUser));
+							RedditChangeDataManager.getInstance(mUser),
+							mPost != null && mPost.isLocked);
 				}
 				break;
 			}

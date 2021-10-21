@@ -100,7 +100,8 @@ public class RedditAPICommentAction {
 			final CommentListingFragment commentListingFragment,
 			final RedditRenderableComment comment,
 			final RedditCommentView commentView,
-			final RedditChangeDataManager changeDataManager) {
+			final RedditChangeDataManager changeDataManager,
+			final boolean isPostLocked) {
 
 		final EnumSet<RedditCommentAction> itemPref
 				= PrefsUtility.pref_menus_comment_context_items();
@@ -112,6 +113,8 @@ public class RedditAPICommentAction {
 		// These will be false for comments in the inbox. There seems to be no way around this,
 		// unless we do a lot of work to download the associated post and check there.
 		final boolean isArchived = comment.getParsedComment().getRawComment().isArchived();
+		final boolean isCommentLocked = comment.getParsedComment().getRawComment().isLocked();
+		final boolean canModerate = comment.getParsedComment().getRawComment().canModerate();
 
 		final RedditAccount user =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
@@ -172,7 +175,9 @@ public class RedditAPICommentAction {
 						RedditCommentAction.REPORT));
 			}
 
-			if(itemPref.contains(RedditCommentAction.REPLY) && !isArchived) {
+			if(itemPref.contains(RedditCommentAction.REPLY)
+					&& !isArchived
+					&& !((isCommentLocked || isPostLocked) && !canModerate)) {
 				menu.add(new RCVMenuItem(
 						activity,
 						R.string.action_reply,
@@ -292,6 +297,10 @@ public class RedditAPICommentAction {
 		final RedditComment comment =
 				renderableComment.getParsedComment().getRawComment();
 
+		final boolean postLocked = commentListingFragment != null
+				&& commentListingFragment.getPost() != null
+				&& commentListingFragment.getPost().isLocked;
+
 		switch(action) {
 
 			case UPVOTE:
@@ -336,10 +345,6 @@ public class RedditAPICommentAction {
 					General.quickToast(activity, R.string.error_archived_reply, Toast.LENGTH_SHORT);
 					break;
 				} else {
-					final boolean postLocked = commentListingFragment != null
-							&& commentListingFragment.getPost() != null
-							&& commentListingFragment.getPost().isLocked;
-
 					if((comment.isLocked() || postLocked) && !comment.canModerate()) {
 						General.quickToast(
 								activity,
@@ -502,7 +507,8 @@ public class RedditAPICommentAction {
 						commentListingFragment,
 						renderableComment,
 						commentView,
-						changeDataManager);
+						changeDataManager,
+						postLocked);
 				break;
 
 			case BACK:

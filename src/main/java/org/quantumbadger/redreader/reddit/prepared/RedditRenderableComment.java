@@ -510,7 +510,9 @@ public class RedditRenderableComment
 				null,
 				this,
 				null,
-				changeDataManager);
+				changeDataManager,
+				// There's no reasonable way for us to know from here.
+				false);
 	}
 
 	@Override

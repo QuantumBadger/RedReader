@@ -341,7 +341,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						Action.REPORT));
 			}
 
-			if(itemPref.contains(Action.REPLY) && !post.isArchived) {
+			if(itemPref.contains(Action.REPLY)
+					&& !post.isArchived
+					&& !(post.isLocked && !post.canModerate)) {
 				menu.add(new RPVMenuItem(
 						activity,
 						R.string.action_reply,

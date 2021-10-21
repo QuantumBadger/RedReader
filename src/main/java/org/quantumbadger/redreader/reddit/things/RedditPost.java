@@ -53,6 +53,7 @@ public final class RedditPost implements
 	public boolean is_self;
 	public boolean clicked;
 	public boolean stickied;
+	public boolean can_mod_post;
 	@Nullable public JsonValue edited;
 	@Nullable public Boolean likes;
 	@Nullable public Boolean spoiler;
@@ -140,6 +141,7 @@ public final class RedditPost implements
 		is_self = in.readInt() == 1;
 		clicked = in.readInt() == 1;
 		stickied = in.readInt() == 1;
+		can_mod_post = in.readInt() == 1;
 
 		final long inEdited = in.readLong();
 		if(inEdited == -1) {
@@ -191,6 +193,7 @@ public final class RedditPost implements
 		parcel.writeInt(is_self ? 1 : 0);
 		parcel.writeInt(clicked ? 1 : 0);
 		parcel.writeInt(stickied ? 1 : 0);
+		parcel.writeInt(can_mod_post ? 1 : 0);
 
 		if(edited instanceof JsonLong) {
 			parcel.writeLong(edited.asLong());

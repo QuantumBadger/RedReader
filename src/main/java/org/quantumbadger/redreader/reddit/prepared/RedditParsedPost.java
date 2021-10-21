@@ -252,6 +252,14 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return mSrc.archived;
 	}
 
+	public boolean isLocked() {
+		return Boolean.TRUE.equals(mSrc.locked);
+	}
+
+	public boolean canModerate() {
+		return mSrc.can_mod_post;
+	}
+
 	public String getAuthor() {
 		return mSrc.author;
 	}

@@ -1621,5 +1621,8 @@
 	<string name="search_listing_header_limit_location">Limit to Location</string>
 	<string name="search_results_query_and_location">Search for \"%1$s\" on %2$s</string>
 	<string name="search_results_location_only">Search on %s</string>
+
+	<!-- 2021-10-20 -->
+	<string name="error_locked_reply">This has been locked and can no longer be replied to.</string>
 	
 </resources>

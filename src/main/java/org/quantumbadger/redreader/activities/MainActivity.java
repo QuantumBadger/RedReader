@@ -1101,4 +1101,13 @@ public class MainActivity extends RefreshableActivity
 
 		return commentListingController.getSort();
 	}
+
+	@Override
+	public PostCommentSort getSuggestedCommentSort() {
+		if(commentListingFragment == null || commentListingFragment.getPost() == null) {
+			return null;
+		}
+
+		return commentListingFragment.getPost().src.getSuggestedCommentSort();
+	}
 }

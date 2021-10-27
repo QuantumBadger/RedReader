@@ -1234,7 +1234,17 @@ public final class OptionsMenuUtility {
 			final Menu menu,
 			final Sort order) {
 
-		final MenuItem menuItem = menu.add(activity.getString(order.getMenuTitle()))
+		@StringRes final int menuTitle;
+		if(activity instanceof OptionsMenuCommentsListener
+				&& ((OptionsMenuCommentsListener)activity).getSuggestedCommentSort() != null
+				&& ((OptionsMenuCommentsListener)activity).getSuggestedCommentSort()
+				.equals(order)) {
+			menuTitle = ((PostCommentSort)order).getSuggestedTitle();
+		} else {
+			menuTitle = order.getMenuTitle();
+		}
+
+		final MenuItem menuItem = menu.add(activity.getString(menuTitle))
 				.setOnMenuItemClickListener(item -> {
 					order.onSortSelected(activity);
 					return true;
@@ -1436,5 +1446,7 @@ public final class OptionsMenuUtility {
 		void onSearchComments();
 
 		Sort getCommentSort();
+
+		PostCommentSort getSuggestedCommentSort();
 	}
 }

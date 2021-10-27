@@ -24,6 +24,7 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -246,6 +247,14 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 				StringEscapeUtils.unescapeHtml4(bestUrl),
 				bestWidth,
 				bestHeight);
+	}
+
+	public PostCommentSort getSuggestedCommentSort() {
+		if(mSrc.suggested_sort == null) {
+			return null;
+		}
+
+		return PostCommentSort.lookup(mSrc.suggested_sort);
 	}
 
 	public boolean isArchived() {

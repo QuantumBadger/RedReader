@@ -211,4 +211,9 @@ public class MoreCommentsListingActivity extends RefreshableActivity
 	public OptionsMenuUtility.Sort getCommentSort() {
 		return null;
 	}
+
+	@Override
+	public PostCommentSort getSuggestedCommentSort() {
+		return null;
+	}
 }

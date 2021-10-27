@@ -1621,5 +1621,14 @@
 	<string name="search_listing_header_limit_location">Limit to Location</string>
 	<string name="search_results_query_and_location">Search for \"%1$s\" on %2$s</string>
 	<string name="search_results_location_only">Search on %s</string>
+
+	<!-- 2021-10-23 -->
+	<string name="sort_comments_best_suggested">Best (suggested)</string>
+	<string name="sort_comments_hot_suggested">Hot (suggested)</string>
+	<string name="sort_comments_new_suggested">New (suggested)</string>
+	<string name="sort_comments_old_suggested">Old (suggested)</string>
+	<string name="sort_comments_controversial_suggested">Controversial (suggested)</string>
+	<string name="sort_comments_top_suggested">Top (suggested)</string>
+	<string name="sort_comments_qa_suggested">Q&amp;A (suggested)</string>
 	
 </resources>

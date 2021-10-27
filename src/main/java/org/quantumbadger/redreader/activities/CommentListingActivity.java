@@ -282,4 +282,13 @@ public class CommentListingActivity extends RefreshableActivity
 	public OptionsMenuUtility.Sort getCommentSort() {
 		return controller.getSort();
 	}
+
+	@Override
+	public PostCommentSort getSuggestedCommentSort() {
+		if(mFragment == null || mFragment.getPost() == null) {
+			return null;
+		}
+
+		return mFragment.getPost().src.getSuggestedCommentSort();
+	}
 }

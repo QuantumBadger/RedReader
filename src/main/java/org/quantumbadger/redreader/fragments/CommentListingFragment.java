@@ -495,6 +495,9 @@ public class CommentListingFragment extends RRFragment
 
 			mPost = post;
 
+			// Invalidate the options menu, so the suggested sort will be shown if needed.
+			activity.invalidateOptionsMenu();
+
 			final RedditPostHeaderView postHeader = new RedditPostHeaderView(
 					activity,
 					this.mPost);

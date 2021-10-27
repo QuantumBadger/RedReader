@@ -25,21 +25,27 @@ import org.quantumbadger.redreader.common.StringUtils;
 
 public enum PostCommentSort implements OptionsMenuUtility.Sort {
 
-	BEST("confidence", R.string.sort_comments_best),
-	HOT("hot", R.string.sort_comments_hot),
-	NEW("new", R.string.sort_comments_new),
-	OLD("old", R.string.sort_comments_old),
-	TOP("top", R.string.sort_comments_top),
-	CONTROVERSIAL("controversial", R.string.sort_comments_controversial),
-	QA("qa", R.string.sort_comments_qa);
+	BEST("confidence", R.string.sort_comments_best, R.string.sort_comments_best_suggested),
+	HOT("hot", R.string.sort_comments_hot, R.string.sort_comments_hot_suggested),
+	NEW("new", R.string.sort_comments_new, R.string.sort_comments_new_suggested),
+	OLD("old", R.string.sort_comments_old, R.string.sort_comments_old_suggested),
+	TOP("top", R.string.sort_comments_top, R.string.sort_comments_top_suggested),
+	CONTROVERSIAL("controversial",
+			R.string.sort_comments_controversial,
+			R.string.sort_comments_controversial_suggested),
+	QA("qa", R.string.sort_comments_qa, R.string.sort_comments_qa_suggested);
 
 	public final String key;
-	@StringRes
-	private final int menuTitle;
+	@StringRes private final int menuTitle;
+	@StringRes private final int suggestedTitle;
 
-	PostCommentSort(final String key, @StringRes final int menuTitle) {
+	PostCommentSort(
+			final String key,
+			@StringRes final int menuTitle,
+			@StringRes final int suggestedTitle) {
 		this.key = key;
 		this.menuTitle = menuTitle;
+		this.suggestedTitle = suggestedTitle;
 	}
 
 	public static PostCommentSort lookup(String name) {
@@ -60,6 +66,10 @@ public enum PostCommentSort implements OptionsMenuUtility.Sort {
 	@Override
 	public int getMenuTitle() {
 		return menuTitle;
+	}
+
+	public int getSuggestedTitle() {
+		return suggestedTitle;
 	}
 
 	@Override

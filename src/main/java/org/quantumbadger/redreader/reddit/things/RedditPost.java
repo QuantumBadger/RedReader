@@ -76,6 +76,7 @@ public final class RedditPost implements
 	@Nullable public Boolean is_video;
 
 	@Nullable public String distinguished;
+	@Nullable public String suggested_sort;
 
 	public RedditPost() {
 	}
@@ -163,6 +164,7 @@ public final class RedditPost implements
 		locked = ParcelUtils.readNullableBoolean(in);
 		rr_internal_dash_url = in.readString();
 		distinguished = in.readString();
+		suggested_sort = in.readString();
 	}
 
 	@Override
@@ -216,6 +218,7 @@ public final class RedditPost implements
 		getDashUrl();
 		parcel.writeString(rr_internal_dash_url);
 		parcel.writeString(distinguished);
+		parcel.writeString(suggested_sort);
 	}
 
 	public static final Parcelable.Creator<RedditPost> CREATOR

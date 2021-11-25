@@ -93,6 +93,8 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 		mVideoPlayer.prepare(mediaSource);
 
+		mVideoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+
 		mVideoPlayer.setPlayWhenReady(true);
 		videoPlayerView.setUseController(false);
 
@@ -302,19 +304,6 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				ViewGroup.LayoutParams.MATCH_PARENT));
 
 		mVideoPlayer.addListener(new Player.EventListener() {
-			@Override
-			public void onPlayerStateChanged(
-					final boolean playWhenReady,
-					final int playbackState) {
-
-				// Loop
-				if(playbackState == Player.STATE_ENDED) {
-					mVideoPlayer.seekTo(0);
-				}
-
-				updateProgress();
-			}
-
 			@Override
 			public void onPlayerError(final ExoPlaybackException error) {
 

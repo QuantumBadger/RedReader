@@ -1,3 +1,6 @@
+/Alpha 294 (2021-11-26)
+Preserve self-text collapse state if activity gets recreated (thanks to Cameron Merkel)
+
 /Alpha 293 (2021-10-13)
 Show radio buttons on sort menus (thanks to Cameron Merkel)
 

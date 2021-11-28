@@ -1621,5 +1621,9 @@
 	<string name="search_listing_header_limit_location">Limit to Location</string>
 	<string name="search_results_query_and_location">Search for \"%1$s\" on %2$s</string>
 	<string name="search_results_location_only">Search on %s</string>
-	
+
+	<!-- 2021-11-28 -->
+	<string name="error_title_muxing_failed">Video generation failed</string>
+	<string name="error_message_muxing_failed">Failed to combine the video and audio tracks into a single file.</string>
+
 </resources>

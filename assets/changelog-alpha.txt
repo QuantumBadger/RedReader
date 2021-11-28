@@ -1,3 +1,6 @@
+/Alpha 295 (2021-11-28)
+Saved/shared videos from v.redd.it now have audio attached
+
 /Alpha 294 (2021-11-28)
 Preserve self-text collapse state if activity gets recreated (thanks to Cameron Merkel)
 Reply option in post action menu is now on by default (thanks to Cameron Merkel)

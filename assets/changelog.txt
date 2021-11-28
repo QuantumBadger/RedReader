@@ -1,4 +1,5 @@
 101/1.18
+Saved/shared videos from v.redd.it now have audio attached
 Imgur upload reliability improved
 Search multireddits and subreddit combinations (thanks to Cameron Merkel)
 Allow status bar to be hidden only when viewing media (thanks to Cameron Merkel)

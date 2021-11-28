@@ -2,6 +2,7 @@
 Preserve self-text collapse state if activity gets recreated (thanks to Cameron Merkel)
 Reply option in post action menu is now on by default (thanks to Cameron Merkel)
 Disable hiding of read posts in user post lists (thanks to Cameron Merkel)
+Make videos loop more smoothly (thanks to Cameron Merkel)
 
 /Alpha 293 (2021-10-13)
 Show radio buttons on sort menus (thanks to Cameron Merkel)

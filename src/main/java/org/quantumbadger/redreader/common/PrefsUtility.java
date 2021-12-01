@@ -56,9 +56,9 @@ public final class PrefsUtility {
 	private static SharedPrefsWrapper sharedPrefs;
 	private static Resources mRes;
 
-	public static void init(final Context context, final Resources res) {
+	public static void init(final Context context) {
 		sharedPrefs = General.getSharedPrefs(context);
-		mRes = Objects.requireNonNull(res);
+		mRes = Objects.requireNonNull(context.getResources());
 	}
 
 	private static String getPrefKey(@StringRes final int prefKey) {

@@ -40,7 +40,7 @@ public class RedReader extends Application {
 
 		GlobalExceptionHandler.init(this);
 
-		PrefsUtility.init(this, getResources());
+		PrefsUtility.init(this);
 
 		Fonts.onAppCreate(getAssets());
 

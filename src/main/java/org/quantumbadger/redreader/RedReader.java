@@ -37,7 +37,7 @@ public class RedReader extends Application {
 
 		Log.i("RedReader", "Application created.");
 
-		PrefsUtility.init(this, getResources());
+		PrefsUtility.init(this);
 
 		Fonts.onAppCreate(getAssets());
 

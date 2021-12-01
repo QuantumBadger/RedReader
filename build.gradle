@@ -45,14 +45,14 @@ dependencies {
 }
 
 android {
-	compileSdkVersion 29
+	compileSdkVersion 30
 	buildToolsVersion "30.0.3"
 	ndkVersion "22.1.7171670"
 
 	defaultConfig {
 		applicationId "org.quantumbadger.redreader"
 		minSdkVersion 16
-		targetSdkVersion 29
+		targetSdkVersion 30
 		versionCode 99
 		versionName "1.17.2"
 

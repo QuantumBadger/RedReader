@@ -1,3 +1,6 @@
+/Alpha 295 (2021-12-01)
+Increasing target Android SDK version in preparation for release
+
 /Alpha 294 (2021-11-28)
 Saved/shared videos from v.redd.it now have audio attached
 Preserve self-text collapse state if activity gets recreated (thanks to Cameron Merkel)

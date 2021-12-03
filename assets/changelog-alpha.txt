@@ -1,3 +1,6 @@
+/Alpha 296 (2021-12-03)
+Fixing rare crash when saving video
+
 /Alpha 295 (2021-12-01)
 Increasing target Android SDK version in preparation for release
 

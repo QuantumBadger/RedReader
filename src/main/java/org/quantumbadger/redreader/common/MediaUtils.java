@@ -179,6 +179,7 @@ public final class MediaUtils {
 									iterator.remove();
 									Log.i(TAG, "No bytes to read from "
 											+ file.getFile().getAbsolutePath());
+									break;
 
 								} else {
 
@@ -203,6 +204,7 @@ public final class MediaUtils {
 									if(!extractor.advance()) {
 										iterator.remove();
 										Log.i(TAG, "Finished writing track " + outputTrackId);
+										break;
 									}
 								}
 							}

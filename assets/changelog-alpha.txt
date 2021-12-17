@@ -1,3 +1,6 @@
+/Alpha 297 (2021-12-17)
+Alpha fix for Android 11 devices (APK signature version)
+
 /Alpha 296 (2021-12-03)
 Fixing rare crash when saving video
 

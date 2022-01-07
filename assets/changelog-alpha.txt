@@ -1,5 +1,7 @@
 /Alpha 298
 Disable repeated Orbot installation prompts when Tor is enabled
+Rename "Share/Save Image" to "Share/Save Media"
+Sharing a link to a v.redd.it post now uses comments page
 
 /Alpha 297 (2021-12-17)
 Alpha fix for Android 11 devices (APK signature version)

@@ -244,7 +244,7 @@
     <string name="action_report">Report</string>
     <string name="action_report_sure">Are you sure you want to report this?</string>
 
-    <string name="action_save_image">Save Image</string>
+    <string name="action_save_image">Save Media</string>
     <string name="action_save_image_success">Saved to Pictures folder as</string>
 
     <!-- Download Messages -->
@@ -927,7 +927,7 @@
 	<string name="send_replies_to_inbox">Send replies to my inbox</string>
 
 	<!-- 2016-12-11 -->
-	<string name="action_share_image">Share Image</string>
+	<string name="action_share_image">Share Media</string>
 
 	<!-- 2017-01-15 -->
 	<string name="error_403_title_nonreddit">Permission Denied</string>

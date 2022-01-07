@@ -444,8 +444,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 		}
 
+		final boolean isRedditVideo = post.src.getUrl().contains("v.redd.it");
+
 		if(itemPref.contains(Action.SHARE)) {
-			menu.add(new RPVMenuItem(activity, R.string.action_share, Action.SHARE));
+			menu.add(new RPVMenuItem(
+					activity,
+					R.string.action_share,
+					isRedditVideo ? Action.SHARE_COMMENTS : Action.SHARE));
 		}
 		if(itemPref.contains(Action.SHARE_COMMENTS)) {
 			menu.add(new RPVMenuItem(

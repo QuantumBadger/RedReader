@@ -1,5 +1,7 @@
 102/1.18.1
 Disable repeated Orbot installation prompts when Tor is enabled
+Rename "Share/Save Image" to "Share/Save Media"
+Sharing a link to a v.redd.it post now uses comments page
 
 101/1.18
 Saved/shared videos from v.redd.it now have audio attached

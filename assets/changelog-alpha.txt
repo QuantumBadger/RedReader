@@ -1,4 +1,4 @@
-/Alpha 298
+/Alpha 298 (2022-01-07)
 Disable repeated Orbot installation prompts when Tor is enabled
 Rename "Share/Save Image" to "Share/Save Media"
 Sharing a link to a v.redd.it post now uses comments page

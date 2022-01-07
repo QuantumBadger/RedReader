@@ -273,7 +273,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 
 				// Run this after the preference has actually changed
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-					TorCommon.updateTorStatus(context);
+					TorCommon.updateTorStatus();
 					if(TorCommon.isTorEnabled()
 							!= Boolean.TRUE.equals(newValue)) {
 						throw new RuntimeException(

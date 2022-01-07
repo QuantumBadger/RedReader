@@ -1,3 +1,6 @@
+102/1.18.1
+Disable repeated Orbot installation prompts when Tor is enabled
+
 101/1.18
 Saved/shared videos from v.redd.it now have audio attached
 Imgur upload reliability improved

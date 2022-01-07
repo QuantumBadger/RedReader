@@ -1151,7 +1151,7 @@
 	<string name="search_results_query_only">Search for \"%s\"</string>
 
 	<!-- 2020-02-17 -->
-	<string name="pref_network_tor_summary">When using an external browser or Custom Tabs, links will not be opened using Tor (unless your browser is configured to use Tor)</string>
+	<string name="pref_network_tor_summary">Orbot must be installed. When using an external browser or Custom Tabs, links will not be opened using Tor (unless your browser is configured to use Tor).</string>
 
 	<!-- 2020-03-05 -->
 	<string name="prefs_category_fonts">Font</string>

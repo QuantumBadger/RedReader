@@ -302,7 +302,7 @@ public abstract class BaseActivity extends AppCompatActivity
 		super.onResume();
 		setOrientationFromPrefs();
 		closeIfNecessary();
-		TorCommon.updateTorStatus(this);
+		TorCommon.updateTorStatus();
 	}
 
 

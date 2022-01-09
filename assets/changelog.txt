@@ -1,5 +1,6 @@
 103/1.19
 Allows reporting uncaught exceptions
+Fix to sample flag handling when saving Reddit videos
 Dependency updates
 
 102/1.18.1

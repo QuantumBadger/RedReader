@@ -146,17 +146,9 @@ public final class MediaUtils {
 
 					long minTime = Long.MAX_VALUE;
 
-					{
-						final Iterator<InputFile> iterator = inputFilesToRead.iterator();
-
-						while(iterator.hasNext()) {
-
-							final InputFile file = iterator.next();
-
-							final long sampleTime = file.getExtractor().getSampleTime();
-
-							minTime = Math.min(minTime, sampleTime);
-						}
+					for(final InputFile file : inputFilesToRead) {
+						final long sampleTime = file.getExtractor().getSampleTime();
+						minTime = Math.min(minTime, sampleTime);
 					}
 
 					{
@@ -190,11 +182,26 @@ public final class MediaUtils {
 											readResult);
 									sampleBuffer.position(0);
 
+									int flags = 0;
+
+									if((extractor.getSampleFlags()
+											& MediaExtractor.SAMPLE_FLAG_SYNC) != 0) {
+										//noinspection deprecation
+										flags |= MediaCodec.BUFFER_FLAG_SYNC_FRAME;
+									}
+
+									if((extractor.getSampleFlags()
+											& MediaExtractor.SAMPLE_FLAG_PARTIAL_FRAME) != 0) {
+										if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+											flags |= MediaCodec.BUFFER_FLAG_PARTIAL_FRAME;
+										}
+									}
+
 									bufferInfo.set(
 											0,
 											sampleBuffer.remaining(),
 											extractor.getSampleTime(),
-											extractor.getSampleFlags());
+											flags);
 
 									muxer.writeSampleData(
 											outputTrackId,

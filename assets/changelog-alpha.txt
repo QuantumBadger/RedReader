@@ -1,5 +1,6 @@
 /Alpha 299 (2022-01-09)
 Allows reporting uncaught exceptions
+Fix to sample flag handling when saving Reddit videos
 Dependency updates
 
 /Alpha 298 (2022-01-07)

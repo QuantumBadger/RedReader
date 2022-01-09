@@ -45,9 +45,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.UiThread;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -1164,8 +1165,9 @@ public class ImageViewActivity extends BaseActivity
 			final MediaSource mediaSource;
 
 			final MediaSource videoMediaSource
-					= new ExtractorMediaSource.Factory(videoDataSourceFactory)
-							.createMediaSource(ExoPlayerSeekableInputStreamDataSource.URI);
+					= new ProgressiveMediaSource.Factory(videoDataSourceFactory)
+							.createMediaSource(MediaItem.fromUri(
+									ExoPlayerSeekableInputStreamDataSource.URI));
 
 			if(audioStream == null) {
 				mediaSource = videoMediaSource;
@@ -1177,8 +1179,9 @@ public class ImageViewActivity extends BaseActivity
 
 				mediaSource = new MergingMediaSource(
 						videoMediaSource,
-						new ExtractorMediaSource.Factory(audioDataSourceFactory)
-								.createMediaSource(ExoPlayerSeekableInputStreamDataSource.URI));
+						new ProgressiveMediaSource.Factory(audioDataSourceFactory)
+								.createMediaSource(MediaItem.fromUri(
+										ExoPlayerSeekableInputStreamDataSource.URI)));
 			}
 
 			mVideoPlayerWrapper = new ExoPlayerWrapperView(

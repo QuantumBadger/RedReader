@@ -1,5 +1,6 @@
 103/1.19
 Allows reporting uncaught exceptions
+Dependency updates
 
 102/1.18.1
 Disable repeated Orbot installation prompts when Tor is enabled

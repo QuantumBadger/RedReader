@@ -1,5 +1,6 @@
 /Alpha 299 (2022-01-09)
 Allows reporting uncaught exceptions
+Dependency updates
 
 /Alpha 298 (2022-01-07)
 Disable repeated Orbot installation prompts when Tor is enabled

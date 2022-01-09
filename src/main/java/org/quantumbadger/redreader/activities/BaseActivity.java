@@ -38,6 +38,7 @@ import androidx.core.text.TextUtilsCompat;
 import androidx.core.view.ViewCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GlobalExceptionHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TorCommon;
@@ -280,6 +281,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
 			super.setContentView(outer);
 		}
+
+		GlobalExceptionHandler.handleLastCrash(this);
 	}
 
 	public void setBaseActivityListing(@NonNull final View view) {

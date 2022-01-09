@@ -1626,4 +1626,8 @@
 	<string name="error_title_muxing_failed">Video generation failed</string>
 	<string name="error_message_muxing_failed">Failed to combine the video and audio tracks into a single file.</string>
 
+	<!-- 2022-01-09 -->
+	<string name="error_title_report_previous_crash">Report previous crash</string>
+	<string name="error_message_report_previous_crash">RedReader crashed the last time it was run. Would you like to report this?</string>
+
 </resources>

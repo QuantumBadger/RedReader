@@ -1,3 +1,6 @@
+/Alpha 299 (2022-01-09)
+Allows reporting uncaught exceptions
+
 /Alpha 298 (2022-01-07)
 Disable repeated Orbot installation prompts when Tor is enabled
 Rename "Share/Save Image" to "Share/Save Media"

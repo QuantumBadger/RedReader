@@ -22,6 +22,7 @@ import android.util.Log;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.Alarms;
 import org.quantumbadger.redreader.common.Fonts;
+import org.quantumbadger.redreader.common.GlobalExceptionHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.io.RedditChangeDataIO;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
@@ -36,6 +37,8 @@ public class RedReader extends Application {
 		super.onCreate();
 
 		Log.i("RedReader", "Application created.");
+
+		GlobalExceptionHandler.init(this);
 
 		PrefsUtility.init(this, getResources());
 

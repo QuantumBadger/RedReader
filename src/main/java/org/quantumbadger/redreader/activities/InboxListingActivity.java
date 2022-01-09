@@ -286,7 +286,6 @@ public final class InboxListingActivity extends BaseActivity {
 										paddingPx);
 								cacheNotif.setTextSize(13f);
 								notifications.addView(cacheNotif);
-								adapter.notifyDataSetChanged();
 							});
 						}
 

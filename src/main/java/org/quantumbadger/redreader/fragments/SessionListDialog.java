@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -113,6 +114,7 @@ public class SessionListDialog extends AppCompatDialogFragment
 		return builder.create();
 	}
 
+	@SuppressLint("NotifyDataSetChanged")
 	@Override
 	public void onRedditAccountChanged() {
 		AndroidCommon.UI_THREAD_HANDLER.post(() -> rv.getAdapter().notifyDataSetChanged());

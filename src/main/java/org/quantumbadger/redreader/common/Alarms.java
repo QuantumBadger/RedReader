@@ -17,11 +17,13 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.receivers.RegularCachePruner;
 
@@ -70,19 +72,24 @@ public class Alarms {
 
 	/**
 	 * Starts the specified alarm
-	 *
-	 * @param alarm   alarm to start
-	 * @param context
 	 */
 
 	public static void startAlarm(final Alarm alarm, final Context context) {
 		if(!alarmMap.containsKey(alarm)) {
 			final Intent alarmIntent = new Intent(context, alarm.alarmClass());
+
+			int flags = 0;
+
+			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+				flags |= PendingIntent.FLAG_IMMUTABLE;
+			}
+
+			@SuppressLint("UnspecifiedImmutableFlag")
 			final PendingIntent pendingIntent = PendingIntent.getBroadcast(
 					context,
 					0,
 					alarmIntent,
-					0);
+					flags);
 
 			final AlarmManager alarmManager
 					= (AlarmManager)(context.getSystemService(Context.ALARM_SERVICE));

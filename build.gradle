@@ -71,6 +71,12 @@ android {
 		proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 	}
 
+	buildTypes {
+		debug {
+			applicationIdSuffix '.development'
+		}
+	}
+
 	compileOptions {
 		encoding = "UTF-8"
 		sourceCompatibility JavaVersion.VERSION_1_8

@@ -17,19 +17,18 @@
 
 package org.quantumbadger.redreader.reddit;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.http.FailedRequestBody;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class APIResponseHandler {
 
@@ -134,82 +133,6 @@ public abstract class APIResponseHandler {
 		}
 
 		protected abstract void onSuccess();
-	}
-
-	public static abstract class NewCaptchaResponseHandler extends APIResponseHandler {
-
-		protected NewCaptchaResponseHandler(final AppCompatActivity context) {
-			super(context);
-		}
-
-		public final void notifySuccess(final String captchaId) {
-			try {
-				onSuccess(captchaId);
-			} catch(final Throwable t1) {
-				try {
-					onCallbackException(t1);
-				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
-					BugReportActivity.handleGlobalError(context, t2);
-				}
-			}
-		}
-
-		protected abstract void onSuccess(String captchaId);
-	}
-
-	public static abstract class SubredditResponseHandler extends APIResponseHandler {
-
-		protected SubredditResponseHandler(final AppCompatActivity context) {
-			super(context);
-		}
-
-		public final void notifySuccess(
-				final List<RedditSubreddit> result,
-				final long timestamp) {
-			try {
-				onSuccess(result, timestamp);
-			} catch(final Throwable t1) {
-				try {
-					onCallbackException(t1);
-				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
-					BugReportActivity.handleGlobalError(context, t2);
-				}
-			}
-		}
-
-		public final void notifyDownloadNecessary() {
-			try {
-				onDownloadNecessary();
-			} catch(final Throwable t1) {
-				try {
-					onCallbackException(t1);
-				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
-					BugReportActivity.handleGlobalError(context, t2);
-				}
-			}
-		}
-
-		public final void notifyDownloadStarted() {
-			try {
-				onDownloadStarted();
-			} catch(final Throwable t1) {
-				try {
-					onCallbackException(t1);
-				} catch(final Throwable t2) {
-					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
-					BugReportActivity.handleGlobalError(context, t2);
-				}
-			}
-		}
-
-		protected abstract void onDownloadNecessary();
-
-		protected abstract void onDownloadStarted();
-
-		protected abstract void onSuccess(List<RedditSubreddit> result, long timestamp);
 	}
 
 	public static abstract class UserResponseHandler extends APIResponseHandler {

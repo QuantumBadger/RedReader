@@ -1633,7 +1633,6 @@
 	<!-- 2021-01-21 -->
 	<string name="error_locked_reply">This has been locked and can no longer be replied to.</string>
 
-	<!-- 2021-10-23 -->
 	<string name="sort_comments_best_suggested">Best (suggested)</string>
 	<string name="sort_comments_hot_suggested">Hot (suggested)</string>
 	<string name="sort_comments_new_suggested">New (suggested)</string>
@@ -1641,5 +1640,8 @@
 	<string name="sort_comments_controversial_suggested">Controversial (suggested)</string>
 	<string name="sort_comments_top_suggested">Top (suggested)</string>
 	<string name="sort_comments_qa_suggested">Q&amp;A (suggested)</string>
+
+	<string name="pref_appearance_hide_comments_from_blocked_users_key" translatable="false">pref_appearance_hide_comments_from_blocked_users</string>
+	<string name="pref_appearance_hide_comments_from_blocked_users_title">Hide comment chains from blocked users</string>
 
 </resources>

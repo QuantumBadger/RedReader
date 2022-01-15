@@ -116,6 +116,8 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(
 						R.string.pref_appearance_hide_headertoolbar_commentlist_key))
 				|| key.equals(context.getString(
+						R.string.pref_appearance_hide_comments_from_blocked_users_key))
+				|| key.equals(context.getString(
 						R.string.pref_appearance_hide_headertoolbar_postlist_key))
 				|| key.equals(context.getString(R.string.pref_images_thumbnail_size_key))
 				|| key.equals(context.getString(R.string.pref_images_inline_image_previews_key))
@@ -533,6 +535,12 @@ public final class PrefsUtility {
 	public static boolean pref_appearance_hide_headertoolbar_commentlist() {
 		return getBoolean(
 				R.string.pref_appearance_hide_headertoolbar_commentlist_key,
+				false);
+	}
+
+	public static boolean pref_appearance_hide_comments_from_blocked_users() {
+		return getBoolean(
+				R.string.pref_appearance_hide_comments_from_blocked_users_key,
 				false);
 	}
 

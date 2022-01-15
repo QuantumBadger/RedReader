@@ -317,6 +317,10 @@ public class CommentListingRequest {
 					mActivity,
 					mCommentListingURL);
 
+			if (comment.isBlockedByUser() && PrefsUtility.pref_appearance_hide_comments_from_blocked_users()) {
+				return;
+			}
+
 			output.add(item);
 
 			if(comment.replies.asObject() != null) {

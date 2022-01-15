@@ -37,6 +37,7 @@ public final class RedditComment implements
 		Parcelable,
 		RedditThingWithIdAndType,
 		JsonObject.JsonDeserializable {
+	private static final String COLLAPSED_REASON_BLOCKED_AUTHOR = "BLOCKED_AUTHOR";
 
 	public String body;
 	public String body_html;
@@ -71,6 +72,9 @@ public final class RedditComment implements
 	@Nullable public Boolean saved;
 
 	@Nullable public String distinguished;
+
+	@Nullable public String collapsed_reason;
+	@Nullable public String collapsed_reason_code;
 
 	public RedditComment() {
 	}
@@ -116,6 +120,9 @@ public final class RedditComment implements
 		controversiality = in.readInt();
 
 		distinguished = in.readString();
+
+		collapsed_reason = in.readString();
+		collapsed_reason_code = in.readString();
 	}
 
 	@Override
@@ -157,6 +164,9 @@ public final class RedditComment implements
 		parcel.writeInt(controversiality);
 
 		parcel.writeString(distinguished);
+
+		parcel.writeString(collapsed_reason);
+		parcel.writeString(collapsed_reason_code);
 	}
 
 	@Override
@@ -237,5 +247,9 @@ public final class RedditComment implements
 
 	public boolean isControversial() {
 		return controversiality == 1;
+	}
+
+	public boolean isBlockedByUser() {
+		return COLLAPSED_REASON_BLOCKED_AUTHOR.equals(collapsed_reason_code);
 	}
 }

@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
 public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
@@ -35,6 +36,7 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 	public boolean is_gold;
 	public boolean is_mod;
 	public boolean over_18;
+	public boolean is_blocked;
 
 	public String id;
 	public String modhash;
@@ -75,6 +77,7 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 		is_gold = in.readInt() == 1;
 		is_mod = in.readInt() == 1;
 		over_18 = in.readInt() == 1;
+		is_blocked = in.readInt() == 1;
 
 		id = in.readString();
 		modhash = in.readString();
@@ -106,6 +109,7 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 		parcel.writeInt(is_gold ? 1 : 0);
 		parcel.writeInt(is_mod ? 1 : 0);
 		parcel.writeInt(over_18 ? 1 : 0);
+		parcel.writeInt(is_blocked ? 1 : 0);
 
 		parcel.writeString(id);
 		parcel.writeString(modhash);

@@ -1,5 +1,5 @@
 container:
-    image: cirrusci/android-sdk:29
+    image: cirrusci/android-sdk:30
     cpu: 6
     memory: 10G
     kvm: true

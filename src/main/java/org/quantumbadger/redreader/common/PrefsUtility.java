@@ -47,6 +47,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -57,7 +58,7 @@ public final class PrefsUtility {
 
 	public static void init(final Context context, final Resources res) {
 		sharedPrefs = General.getSharedPrefs(context);
-		mRes = res;
+		mRes = Objects.requireNonNull(res);
 	}
 
 	private static String getPrefKey(@StringRes final int prefKey) {

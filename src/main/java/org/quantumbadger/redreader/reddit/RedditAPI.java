@@ -733,6 +733,46 @@ public final class RedditAPI {
 				}));
 	}
 
+	public static void unblockUser(
+			final CacheManager cm,
+			final String usernameToUnblock,
+			final String currentUserFullname,
+			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final RedditAccount user,
+			final Context context
+	) {
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("name", usernameToUnblock));
+		postFields.add(new PostField("container", currentUserFullname));
+		postFields.add(new PostField("type", "enemy"));
+
+		cm.makeRequest(createPostRequest(
+				Constants.Reddit.getUri("/api/unfriend"),
+				user,
+				postFields,
+				context,
+				new GenericResponseHandler(responseHandler)));
+	}
+
+	public static void blockUser(
+		final CacheManager cm,
+		final String usernameToBlock,
+		final APIResponseHandler.ActionResponseHandler responseHandler,
+		final RedditAccount user,
+		final Context context
+	) {
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("name", usernameToBlock));
+		postFields.add(new PostField("api_type", "json"));
+
+		cm.makeRequest(createPostRequest(
+				Constants.Reddit.getUri("/api/block_user"),
+				user,
+				postFields,
+				context,
+				new GenericResponseHandler(responseHandler)));
+	}
+
 	public static void sendReplies(
 			final CacheManager cm,
 			final APIResponseHandler.ActionResponseHandler responseHandler,
@@ -744,6 +784,7 @@ public final class RedditAPI {
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("id", fullname));
 		postFields.add(new PostField("state", String.valueOf(state)));
+
 		cm.makeRequest(createPostRequest(
 				Constants.Reddit.getUri("/api/sendreplies"),
 				user,

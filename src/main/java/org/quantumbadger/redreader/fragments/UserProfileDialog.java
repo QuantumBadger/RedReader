@@ -22,11 +22,12 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.widget.Toast;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -50,10 +51,18 @@ import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+
 public class UserProfileDialog extends PropertiesDialog {
 
 	private String username;
 	private boolean active = true;
+
+	private Button blockButton;
+	private LoadingView blockLoadingView;
 
 	public static UserProfileDialog newInstance(final String user) {
 
@@ -70,6 +79,8 @@ public class UserProfileDialog extends PropertiesDialog {
 	public void onDestroy() {
 		super.onDestroy();
 		active = false;
+		blockButton = null;
+		blockLoadingView = null;
 	}
 
 	@Override
@@ -241,6 +252,26 @@ public class UserProfileDialog extends PropertiesDialog {
 								});
 								items.addView(pmButton);
 								pmButton.setPadding(20, 20, 20, 20);
+
+								if (!username.equals(RedditAccountManager.getInstance(context).getDefaultAccount().username)) {
+									blockButton = new Button(context);
+									blockLoadingView = new LoadingView(
+											context,
+											R.string.block_loading,
+											true,
+											true);
+
+									blockLoadingView.setVisibility(View.GONE);
+									blockButton.setPadding(20, 20, 20, 20);
+
+									if (user.is_blocked) {
+										setBlockButtonText(R.string.unblock);
+									} else {
+										setBlockButtonText(R.string.block);
+									}
+									items.addView(blockButton);
+									items.addView(blockLoadingView);
+								}
 							}
 						});
 					}
@@ -304,5 +335,172 @@ public class UserProfileDialog extends PropertiesDialog {
 				RedditAccountManager.getInstance(context).getDefaultAccount(),
 				DownloadStrategyAlways.INSTANCE,
 				context);
+	}
+
+	private void setBlockButtonLoading() {
+		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+			if (blockButton != null) {
+				blockButton.setVisibility(View.GONE);
+				blockLoadingView.setVisibility(View.VISIBLE);
+			}
+		});
+	}
+
+	private void setBlockButtonText(final int textResource) {
+		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+			if (blockButton != null) {
+				blockButton.setText(textResource);
+				blockButton.setVisibility(View.VISIBLE);
+				blockLoadingView.setVisibility(View.GONE);
+
+				if (textResource == R.string.block) {
+					blockButton.setOnClickListener(v -> blockUser());
+				} else if (textResource == R.string.unblock) {
+					blockButton.setOnClickListener(v -> prepareUnblock());
+				}
+			}
+		});
+	}
+
+	private void blockUser() {
+		final Context context = getContext();
+		final CacheManager cm = CacheManager.getInstance(context);
+		setBlockButtonLoading();
+		RedditAPI.blockUser(
+				cm,
+				username,
+				blockHandler(),
+				RedditAccountManager.getInstance(context).getDefaultAccount(),
+				context);
+	}
+
+	private APIResponseHandler.ActionResponseHandler blockHandler() {
+		final FragmentActivity context = getActivity();
+
+		return new APIResponseHandler.ActionResponseHandler((AppCompatActivity) context) {
+			@Override
+			protected void onSuccess() {
+				setBlockButtonText(R.string.unblock);
+			}
+
+			@Override
+			protected void onCallbackException(final Throwable t) {
+				BugReportActivity.handleGlobalError(context, t);
+				setBlockButtonText(R.string.block);
+			}
+
+			@Override
+			protected void onFailure(
+					@CacheRequest.RequestFailureType final int type,
+					final Throwable t,
+					final Integer status,
+					final String readableMessage,
+					@NonNull final Optional<FailedRequestBody> response) {
+				Toast.makeText(
+						context,
+						getString(R.string.block_user_failed),
+						Toast.LENGTH_SHORT).show();
+				setBlockButtonText(R.string.block);
+			}
+
+			@Override
+			protected void onFailure(
+					@NonNull final APIFailureType type,
+					@Nullable final String readableMessage,
+					@NonNull final Optional<FailedRequestBody> response) {
+				Toast.makeText(
+						context,
+						getString(R.string.block_user_failed),
+						Toast.LENGTH_SHORT).show();
+				setBlockButtonText(R.string.block);
+			}
+		};
+	}
+
+	private void prepareUnblock() {
+		final Context context = getContext();
+		setBlockButtonLoading();
+		RedditAPI.getUser(
+				CacheManager.getInstance(context),
+				RedditAccountManager.getInstance(context).getDefaultAccount().username,
+				unblockPreparedHandler(username),
+				RedditAccountManager.getInstance(context).getDefaultAccount(),
+				DownloadStrategyAlways.INSTANCE,
+				context);
+	}
+
+	private APIResponseHandler.UserResponseHandler unblockPreparedHandler(final String usernameToUnblock) {
+		return new APIResponseHandler.UserResponseHandler((AppCompatActivity) getActivity()) {
+			@Override
+			protected void onDownloadStarted() { }
+
+			@Override
+			protected void onSuccess(final RedditUser result, final long timestamp) {
+				RedditAPI.unblockUser(
+						CacheManager.getInstance(context),
+						usernameToUnblock,
+						result.fullname(),
+						unblockHandler(),
+						RedditAccountManager.getInstance(context).getDefaultAccount(),
+						context);
+			}
+
+			@Override
+			protected void onCallbackException(final Throwable t) {
+				BugReportActivity.handleGlobalError(context, t);
+				setBlockButtonText(R.string.unblock);
+			}
+
+			@Override
+			protected void onFailure(final int type, final @Nullable Throwable t, final @Nullable Integer status, final @Nullable String readableMessage, final @NonNull Optional<FailedRequestBody> response) {
+				Toast.makeText(
+						context,
+						getString(R.string.unblock_user_failed),
+						Toast.LENGTH_SHORT).show();
+				setBlockButtonText(R.string.unblock);
+			}
+
+			@Override
+			protected void onFailure(final @NonNull APIFailureType type, final @Nullable String debuggingContext, final @NonNull Optional<FailedRequestBody> response) {
+				Toast.makeText(
+						context,
+						getString(R.string.unblock_user_failed),
+						Toast.LENGTH_SHORT).show();
+				setBlockButtonText(R.string.unblock);
+			}
+		};
+	}
+
+	private APIResponseHandler.ActionResponseHandler unblockHandler() {
+		return new APIResponseHandler.ActionResponseHandler((AppCompatActivity) getActivity()) {
+			@Override
+			protected void onSuccess() {
+				setBlockButtonText(R.string.block);
+			}
+
+			@Override
+			protected void onCallbackException(final Throwable t) {
+				BugReportActivity.handleGlobalError(context, t);
+				setBlockButtonText(R.string.unblock);
+			}
+
+			@Override
+			protected void onFailure(final int type, final @Nullable Throwable t, final @Nullable Integer status, final @Nullable String readableMessage, final @NonNull Optional<FailedRequestBody> response) {
+				Toast.makeText(
+						context,
+						getString(R.string.unblock_user_failed),
+						Toast.LENGTH_SHORT).show();
+				setBlockButtonText(R.string.unblock);
+			}
+
+			@Override
+			protected void onFailure(final @NonNull APIFailureType type, final @Nullable String debuggingContext, final @NonNull Optional<FailedRequestBody> response) {
+				Toast.makeText(
+						context,
+						getString(R.string.unblock_user_failed),
+						Toast.LENGTH_SHORT).show();
+				setBlockButtonText(R.string.unblock);
+			}
+		};
 	}
 }

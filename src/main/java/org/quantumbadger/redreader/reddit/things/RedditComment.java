@@ -23,6 +23,7 @@ import android.os.Parcelable;
 import androidx.annotation.Nullable;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.ParcelHelper;
 import org.quantumbadger.redreader.jsonwrap.JsonBoolean;
 import org.quantumbadger.redreader.jsonwrap.JsonLong;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -74,7 +75,6 @@ public final class RedditComment implements
 	public RedditComment() {
 	}
 
-	// one of the many reasons why the Android API is awful
 	private RedditComment(final Parcel in) {
 
 		body = in.readString();
@@ -83,22 +83,11 @@ public final class RedditComment implements
 		subreddit = in.readString();
 		author_flair_text = in.readString();
 
-
-		archived = in.readInt() == 1;
-		switch(in.readInt()) {
-			case -1:
-				likes = false;
-				break;
-			case 0:
-				likes = null;
-				break;
-			case 1:
-				likes = true;
-				break;
-		}
-
-		locked = in.readInt() == 1;
-		can_mod_post = in.readInt() == 1;
+		archived = ParcelHelper.readNullableBoolean(in);
+		likes = ParcelHelper.readNullableBoolean(in);
+		score_hidden = ParcelHelper.readNullableBoolean(in);
+		locked = ParcelHelper.readNullableBoolean(in);
+		can_mod_post = ParcelHelper.readNullableBoolean(in);
 
 		replies = null;
 
@@ -122,7 +111,7 @@ public final class RedditComment implements
 		created = in.readLong();
 		created_utc = in.readLong();
 
-		saved = in.readInt() != 0;
+		saved = ParcelHelper.readNullableBoolean(in);
 		gilded = in.readInt();
 		controversiality = in.readInt();
 
@@ -137,16 +126,12 @@ public final class RedditComment implements
 		parcel.writeString(author);
 		parcel.writeString(subreddit);
 		parcel.writeString(author_flair_text);
-		parcel.writeInt(archived ? 1 : 0);
 
-		if(likes == null) {
-			parcel.writeInt(0);
-		} else {
-			parcel.writeInt(likes ? 1 : -1);
-		}
-
-		parcel.writeInt(locked ? 1 : 0);
-		parcel.writeInt(can_mod_post ? 1 : 0);
+		ParcelHelper.writeNullableBoolean(parcel, archived);
+		ParcelHelper.writeNullableBoolean(parcel, likes);
+		ParcelHelper.writeNullableBoolean(parcel, score_hidden);
+		ParcelHelper.writeNullableBoolean(parcel, locked);
+		ParcelHelper.writeNullableBoolean(parcel, can_mod_post);
 
 		parcel.writeString(id);
 		parcel.writeString(subreddit_id);
@@ -167,7 +152,7 @@ public final class RedditComment implements
 		parcel.writeLong(created);
 		parcel.writeLong(created_utc);
 
-		parcel.writeInt(saved ? 1 : 0);
+		ParcelHelper.writeNullableBoolean(parcel, saved);
 		parcel.writeInt(gilded);
 		parcel.writeInt(controversiality);
 

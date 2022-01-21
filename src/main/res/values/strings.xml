@@ -1643,9 +1643,11 @@
 
 	<string name="pref_appearance_hide_comments_from_blocked_users_key" translatable="false">pref_appearance_hide_comments_from_blocked_users</string>
 	<string name="pref_appearance_hide_comments_from_blocked_users_title">Hide comment chains from blocked users</string>
-	<string name="block_user_failed">Failed to block user. You may have to log out and re-add your account.</string>
-	<string name="unblock_user_failed">Failed to unblock user</string>
-	<string name="block_loading">Loading</string>
+	<string name="block_user_failed_title">Failed to block user</string>
+	<string name="block_user_failed_message">Could not block user. You may have to log out and re-add your account to give RedReader the necessary permissions.</string>
+	<string name="unblock_user_failed_title">Failed to unblock user</string>
+	<string name="unblock_user_failed_message">Could not unblock user. You may have to log out and re-add your account to give RedReader the necessary permissions.</string>
+	<string name="block_loading">Loading…</string>
 	<string name="block">Block User</string>
 	<string name="unblock">Unblock User</string>
 

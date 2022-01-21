@@ -26,7 +26,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +41,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
@@ -397,10 +397,10 @@ public class UserProfileDialog extends PropertiesDialog {
 					final Integer status,
 					final String readableMessage,
 					@NonNull final Optional<FailedRequestBody> response) {
-				Toast.makeText(
+				DialogUtils.showDialog(
 						context,
-						getString(R.string.block_user_failed),
-						Toast.LENGTH_SHORT).show();
+						R.string.block_user_failed_title,
+						R.string.block_user_failed_message);
 				setBlockButtonText(R.string.block);
 			}
 
@@ -409,10 +409,10 @@ public class UserProfileDialog extends PropertiesDialog {
 					@NonNull final APIFailureType type,
 					@Nullable final String readableMessage,
 					@NonNull final Optional<FailedRequestBody> response) {
-				Toast.makeText(
+				DialogUtils.showDialog(
 						context,
-						getString(R.string.block_user_failed),
-						Toast.LENGTH_SHORT).show();
+						R.string.block_user_failed_title,
+						R.string.block_user_failed_message);
 				setBlockButtonText(R.string.block);
 			}
 		};
@@ -461,10 +461,10 @@ public class UserProfileDialog extends PropertiesDialog {
 					final @Nullable String readableMessage,
 					final @NonNull Optional<FailedRequestBody> response) {
 
-				Toast.makeText(
+				DialogUtils.showDialog(
 						context,
-						getString(R.string.unblock_user_failed),
-						Toast.LENGTH_SHORT).show();
+						R.string.unblock_user_failed_title,
+						R.string.unblock_user_failed_message);
 				setBlockButtonText(R.string.unblock);
 			}
 
@@ -473,10 +473,10 @@ public class UserProfileDialog extends PropertiesDialog {
 					final @NonNull APIFailureType type,
 					final @Nullable String debuggingContext,
 					final @NonNull Optional<FailedRequestBody> response) {
-				Toast.makeText(
+				DialogUtils.showDialog(
 						context,
-						getString(R.string.unblock_user_failed),
-						Toast.LENGTH_SHORT).show();
+						R.string.unblock_user_failed_title,
+						R.string.unblock_user_failed_message);
 				setBlockButtonText(R.string.unblock);
 			}
 		};
@@ -502,10 +502,10 @@ public class UserProfileDialog extends PropertiesDialog {
 					final @Nullable Integer status,
 					final @Nullable String readableMessage,
 					final @NonNull Optional<FailedRequestBody> response) {
-				Toast.makeText(
+				DialogUtils.showDialog(
 						context,
-						getString(R.string.unblock_user_failed),
-						Toast.LENGTH_SHORT).show();
+						R.string.unblock_user_failed_title,
+						R.string.unblock_user_failed_message);
 				setBlockButtonText(R.string.unblock);
 			}
 
@@ -514,10 +514,10 @@ public class UserProfileDialog extends PropertiesDialog {
 					final @NonNull APIFailureType type,
 					final @Nullable String debuggingContext,
 					final @NonNull Optional<FailedRequestBody> response) {
-				Toast.makeText(
+				DialogUtils.showDialog(
 						context,
-						getString(R.string.unblock_user_failed),
-						Toast.LENGTH_SHORT).show();
+						R.string.unblock_user_failed_title,
+						R.string.unblock_user_failed_message);
 				setBlockButtonText(R.string.unblock);
 			}
 		};

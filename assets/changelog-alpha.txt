@@ -1,5 +1,8 @@
 /Alpha 300 (2022-01-21)
+Highlight suggested sort in sort menu (thanks to Cameron Merkel)
 Prevent replying to locked posts (thanks to Cameron Merkel)
+Block users (thanks to Joe Mahon)
+Preference to hide comments by blocked users (thanks to Joe Mahon)
 
 /Alpha 299 (2022-01-09)
 Allows reporting uncaught exceptions

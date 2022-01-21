@@ -1,4 +1,5 @@
 103/1.19
+Prevent replying to locked posts (thanks to Cameron Merkel)
 Allows reporting uncaught exceptions
 Fix to sample flag handling when saving Reddit videos
 Dependency updates

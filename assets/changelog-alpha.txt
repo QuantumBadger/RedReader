@@ -1,3 +1,6 @@
+/Alpha 300 (2022-01-21)
+Prevent replying to locked posts (thanks to Cameron Merkel)
+
 /Alpha 299 (2022-01-09)
 Allows reporting uncaught exceptions
 Fix to sample flag handling when saving Reddit videos

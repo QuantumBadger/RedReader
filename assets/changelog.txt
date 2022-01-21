@@ -1,7 +1,7 @@
 103/1.19
 Highlight suggested sort in sort menu (thanks to Cameron Merkel)
 Prevent replying to locked posts (thanks to Cameron Merkel)
-Added "Block user" option to user profile (thanks to Joe Mahon)
+Added "Block user" option to user profile (May require re-login to get permission. Thanks to Joe Mahon)
 Preference to hide comments by blocked users (thanks to Joe Mahon)
 Allows reporting uncaught exceptions
 Fix to sample flag handling when saving Reddit videos

@@ -27,8 +27,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -50,11 +54,6 @@ import org.quantumbadger.redreader.reddit.things.RedditUser;
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 
 public class UserProfileDialog extends PropertiesDialog {
 
@@ -236,9 +235,11 @@ public class UserProfileDialog extends PropertiesDialog {
 							// TODO use margin? or framelayout? scale padding dp
 							postsButton.setPadding(20, 20, 20, 20);
 
-							if(!RedditAccountManager.getInstance(context)
-									.getDefaultAccount()
-									.isAnonymous()) {
+							final RedditAccount defaultAccount
+									= RedditAccountManager.getInstance(context)
+											.getDefaultAccount();
+
+							if(!defaultAccount.isAnonymous()) {
 								final Button pmButton = new Button(context);
 								pmButton.setText(R.string.userprofile_pm);
 								pmButton.setOnClickListener(v -> {
@@ -253,7 +254,7 @@ public class UserProfileDialog extends PropertiesDialog {
 								items.addView(pmButton);
 								pmButton.setPadding(20, 20, 20, 20);
 
-								if (!username.equals(RedditAccountManager.getInstance(context).getDefaultAccount().username)) {
+								if (!username.equals(defaultAccount.username)) {
 									blockButton = new Button(context);
 									blockLoadingView = new LoadingView(
 											context,
@@ -429,7 +430,8 @@ public class UserProfileDialog extends PropertiesDialog {
 				context);
 	}
 
-	private APIResponseHandler.UserResponseHandler unblockPreparedHandler(final String usernameToUnblock) {
+	private APIResponseHandler.UserResponseHandler unblockPreparedHandler(
+			final String usernameToUnblock) {
 		return new APIResponseHandler.UserResponseHandler((AppCompatActivity) getActivity()) {
 			@Override
 			protected void onDownloadStarted() { }
@@ -452,7 +454,13 @@ public class UserProfileDialog extends PropertiesDialog {
 			}
 
 			@Override
-			protected void onFailure(final int type, final @Nullable Throwable t, final @Nullable Integer status, final @Nullable String readableMessage, final @NonNull Optional<FailedRequestBody> response) {
+			protected void onFailure(
+					final int type,
+					final @Nullable Throwable t,
+					final @Nullable Integer status,
+					final @Nullable String readableMessage,
+					final @NonNull Optional<FailedRequestBody> response) {
+
 				Toast.makeText(
 						context,
 						getString(R.string.unblock_user_failed),
@@ -461,7 +469,10 @@ public class UserProfileDialog extends PropertiesDialog {
 			}
 
 			@Override
-			protected void onFailure(final @NonNull APIFailureType type, final @Nullable String debuggingContext, final @NonNull Optional<FailedRequestBody> response) {
+			protected void onFailure(
+					final @NonNull APIFailureType type,
+					final @Nullable String debuggingContext,
+					final @NonNull Optional<FailedRequestBody> response) {
 				Toast.makeText(
 						context,
 						getString(R.string.unblock_user_failed),
@@ -485,7 +496,12 @@ public class UserProfileDialog extends PropertiesDialog {
 			}
 
 			@Override
-			protected void onFailure(final int type, final @Nullable Throwable t, final @Nullable Integer status, final @Nullable String readableMessage, final @NonNull Optional<FailedRequestBody> response) {
+			protected void onFailure(
+					final int type,
+					final @Nullable Throwable t,
+					final @Nullable Integer status,
+					final @Nullable String readableMessage,
+					final @NonNull Optional<FailedRequestBody> response) {
 				Toast.makeText(
 						context,
 						getString(R.string.unblock_user_failed),
@@ -494,7 +510,10 @@ public class UserProfileDialog extends PropertiesDialog {
 			}
 
 			@Override
-			protected void onFailure(final @NonNull APIFailureType type, final @Nullable String debuggingContext, final @NonNull Optional<FailedRequestBody> response) {
+			protected void onFailure(
+					final @NonNull APIFailureType type,
+					final @Nullable String debuggingContext,
+					final @NonNull Optional<FailedRequestBody> response) {
 				Toast.makeText(
 						context,
 						getString(R.string.unblock_user_failed),

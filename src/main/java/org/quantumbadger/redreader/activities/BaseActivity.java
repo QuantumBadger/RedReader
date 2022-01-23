@@ -32,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GlobalExceptionHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TorCommon;
@@ -165,7 +166,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		mSharedPreferences = General.getSharedPrefs(this);
 
-		if (PrefsUtility.pref_appearance_hide_android_status(this, mSharedPreferences)) {
+		if(PrefsUtility.pref_appearance_android_status()
+				== PrefsUtility.AppearanceStatusBarMode.ALWAYS_HIDE) {
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -279,6 +281,9 @@ public abstract class BaseActivity extends AppCompatActivity
 
 			super.setContentView(outer);
 //		}
+
+		GlobalExceptionHandler.handleLastCrash(this);
+//		}
 	}
 
 	public void setBaseActivityListing(@NonNull final View view) {
@@ -303,7 +308,7 @@ public abstract class BaseActivity extends AppCompatActivity
 		super.onResume();
 		setOrientationFromPrefs();
 		closeIfNecessary();
-		TorCommon.updateTorStatus(this);
+		TorCommon.updateTorStatus();
 	}
 
 
@@ -400,9 +405,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 	private void setOrientationFromPrefs() {
 		final PrefsUtility.ScreenOrientation orientation
-				= PrefsUtility.pref_behaviour_screen_orientation(
-				this,
-				mSharedPreferences);
+				= PrefsUtility.pref_behaviour_screen_orientation();
 
 		if(orientation == PrefsUtility.ScreenOrientation.AUTO) {
 			//noinspection SourceLockedOrientationActivity

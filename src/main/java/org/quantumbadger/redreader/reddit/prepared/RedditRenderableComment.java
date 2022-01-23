@@ -103,9 +103,8 @@ public class RedditRenderableComment
 			final long postCreated,
 			final long parentCommentCreated) {
 
-		final PrefsUtility.CommentAgeMode commentAgeMode = PrefsUtility.appearance_comment_age_mode(
-				context,
-				General.getSharedPrefs(context));
+		final PrefsUtility.CommentAgeMode commentAgeMode
+				= PrefsUtility.appearance_comment_age_mode();
 
 		final BetterSSB sb = new BetterSSB();
 
@@ -206,7 +205,25 @@ public class RedditRenderableComment
 						1f);
 			}
 
-			sb.append(" " + context.getString(R.string.subtitle_points) + " ", 0);
+			sb.append(" " + context.getString(R.string.subtitle_points), 0);
+
+			if(!theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.CONTROVERSIALITY)) {
+				sb.append(" ", 0);
+			}
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.CONTROVERSIALITY)) {
+
+			if(rawComment.isControversial()) {
+				sb.append(
+						context.getString(R.string.props_controversial_symbol),
+						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD | BetterSSB.SUPERSCRIPT,
+						theme.rrCommentHeaderBoldCol,
+						0,
+						1f);
+			}
+
+			sb.append(" ", 0);
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.GOLD)) {
@@ -284,9 +301,8 @@ public class RedditRenderableComment
 			final long parentCommentCreated,
 			final boolean collapsed) {
 
-		final PrefsUtility.CommentAgeMode commentAgeMode = PrefsUtility.appearance_comment_age_mode(
-				context,
-				General.getSharedPrefs(context));
+		final PrefsUtility.CommentAgeMode commentAgeMode
+				= PrefsUtility.appearance_comment_age_mode();
 
 		final StringBuilder accessibilityHeader = new StringBuilder();
 
@@ -359,6 +375,16 @@ public class RedditRenderableComment
 						.append(context.getString(
 								R.string.accessibility_subtitle_points_withperiod,
 								computeScore(changeDataManager)))
+						.append(separator);
+			}
+		}
+
+		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.CONTROVERSIALITY)) {
+
+			if(rawComment.isControversial()) {
+				accessibilityHeader
+						.append(context.getString(
+								R.string.accessibility_subtitle_controversiality_withperiod))
 						.append(separator);
 			}
 		}
@@ -485,8 +511,7 @@ public class RedditRenderableComment
 				this,
 				null,
 				changeDataManager,
-				// TODO instead of assuming that it isn't an archived post,
-				//  somehow find out if it actually is
+				// There's no reasonable way for us to know from here.
 				false);
 	}
 

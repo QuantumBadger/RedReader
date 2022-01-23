@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -14,95 +14,60 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
-	<string name="firstrun_login_title">Prisijungti</string>
+  --><resources>
+    <string name="firstrun_login_title">Prisijungti</string>
     <string name="firstrun_login_message">Jūs neprisijungęs. Naudodamiesi meniu, galite pasiekti paskyrų sąrašą.</string>
     <string name="firstrun_login_button_now">Prisijungti dabar</string>
     <string name="firstrun_login_button_later">Anonimiškai</string>
-
     <string name="prefs_category_appearance">Išvaizda</string>
     <string name="prefs_category_behaviour">Elgsena</string>
     <string name="prefs_category_cache">Talpykla</string>
     <string name="prefs_category_menus">Meniu</string>
-
     <string name="pref_appearance_theme_header">Tema</string>
     <string name="pref_appearance_thumbnails_header">Miniatiūros</string>
     <string name="pref_appearance_comments_header">Komentarai</string>
-
     <string name="pref_appearance_twopane_title">Planšetės režimas (dvieilis)</string>
-
     <string name="pref_appearance_theme_title">Tema</string>
-
-
-    <string name="pref_appearance_fontscale_posts_title">Įrašų šrifto mastelis</string>
-
-
+    <string name="pref_appearance_fontscale_posts_title">Įrašų pavadinimai</string>
     <string name="pref_appearance_thumbnails_show_title">Rodyti miniatiūras</string>
-
     <string name="pref_appearance_thumbnails_nsfw_show_title">Rodyti nesaugias miniatiūras</string>
-
     <string name="pref_appearance_thumbnails_wifionly_title">Miniatiūros tik prisijungus prie Wi-Fi</string>
-
-
-    <string name="pref_appearance_comment_header_items_title">Komentaro antraštė</string>
-
+    <string name="pref_appearance_comment_header_items_title">Komentaro antraštės įrašai</string>
     <string name="pref_behaviour_notifications_title">Pranešimai</string>
-
     <string name="pref_behaviour_actions_post_header">Įrašų veiksenos</string>
     <string name="pref_behaviour_actions_comment_header">Komentarų veiksenos</string>
     <string name="pref_behaviour_posts_header">Įrašai</string>
-
-    <string name="pref_behaviour_fling_post_left_title">Įrašo sviedimo į kairę veiksena</string>
-
-    <string name="pref_behaviour_fling_post_right_title">Įrašo sviedimo į dešinę veiksena</string>
-
-    <string name="pref_behaviour_actions_comment_tap_title">Komentaro paspaudimo veiksmas</string>
-
+    <string name="pref_behaviour_fling_post_left_title">Truktelėti kairėn</string>
+    <string name="pref_behaviour_fling_post_right_title">Truktelėti dešinėn</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Spausti</string>
     <string name="pref_behaviour_nsfw_title">Rodyti nesaugų turinį</string>
-
     <string name="pref_cache_pruning">Talpyklos valymas</string>
-
     <string name="pref_cache_maxage_listing_title">Išvalyti išsaugotus įrašus po</string>
-
     <string name="pref_cache_maxage_thumb_title">Išvalyti išsaugotas miniatiūras po</string>
-
     <string name="pref_cache_maxage_image_title">Išvalyti išsaugotus paveikslėlius po</string>
-
-	<string name="pref_cache_maxage_entry_title">Ištrinti išsaugotą veiklą (perskaityta, teigiamai įvertinta ir t.t.) po</string>
-
+    <string name="pref_cache_maxage_entry_title">Ištrinti išsaugotą veiklą (perskaityta, teigiamai įvertinta ir t.t.) po</string>
     <string name="pref_cache_precache_images_header">Išsaugoti paveikslėlius į talpyklą</string>
-
     <string name="pref_cache_precache_images_title">Išsaugoti paveikslėlius į talpyklą</string>
-
     <string name="pref_cache_precache_images_wifionly_title">Tik per Wi-Fi</string>
-
-    <string name="pref_menus_post_context_items_title">Įrašų konteksto meniu veiksenos</string>
-
-    <string name="pref_menus_post_toolbar_items_title">Įrašų įrankių juostos veiksenos</string>
-
+    <string name="pref_menus_post_context_items_title">Veiksmų meniu veiksenos</string>
+    <string name="pref_menus_post_toolbar_items_title">Šoninės įrankių juostos veiksenos</string>
     <string name="options_accounts">Paskyros</string>
     <string name="options_accounts_long">Reddit paskyros</string>
     <string name="options_theme">Temos</string>
     <string name="options_settings">Nustatymai</string>
-
     <string name="options_submit_post">Įkelti įrašą</string>
-
     <string name="options_refresh">Perkrauti</string>
     <string name="options_refresh_subreddits">Perkrauti subreddit\'us</string>
     <string name="options_refresh_posts">Perkrauti įrašus</string>
     <string name="options_refresh_comments">Perkrauti komentarus</string>
-
     <string name="options_past">Išsaugotos versijos</string>
     <string name="options_past_posts">Išsaugotos įrašų sąrašo versijos</string>
     <string name="options_past_comments">Išsaugotos komentarų sąrašo versijos</string>
-
     <string name="options_sort">Rūšiuoti</string>
     <string name="options_sort_subreddits">Rūšiuoti subreddit\'us</string>
     <string name="options_sort_posts">Rūšiuoti įrašus</string>
     <string name="options_sort_comments">Rūšiuoti komentarus</string>
-
-    <string name="mainmenu_frontpage">Pradinis puslapis</string>
+    <string name="mainmenu_frontpage">Pagrindinis puslapis</string>
     <string name="mainmenu_all">Visi subreddit\'ai</string>
     <string name="mainmenu_custom">Savas subreddit\'as</string>
     <string name="mainmenu_custom_invalid_name">Neteisingas subreddit\'o pavadinimas.</string>
@@ -112,53 +77,42 @@
     <string name="mainmenu_inbox">Gautieji</string>
     <string name="mainmenu_profile">Mano profilis</string>
     <string name="mainmenu_header_subreddits">Subreddit\'ai</string>
-
     <string name="listing_cached">Rodoma išsaugota %s kopija</string>
-
     <string name="accounts_anon">Anonimas</string>
     <string name="accounts_active">Aktyvi</string>
     <string name="accounts_add">Pridėti Reddit paskyrą</string>
     <string name="accounts_setactive">Pažymėti kaip aktyvią</string>
     <string name="accounts_reauth">Prisijungti iš naujo</string>
     <string name="accounts_delete">Ištrinti</string>
-
     <string name="accounts_loggingin">Prisijungiama…</string>
     <string name="accounts_loggingin_msg">Minutėlę…</string>
-
     <string name="accounts_username">Slapyvardis</string>
     <string name="accounts_password">Slaptažodis</string>
-
     <string name="accounts_login">Prisijungti</string>
-
     <string name="accounts_delete_sure">Ar tikrai norite pašalinti šią paskyrą?</string>
-
     <string name="sort_posts_hot">Karšti</string>
     <string name="sort_posts_new">Nauji</string>
     <string name="sort_posts_rising">Kylantys</string>
     <string name="sort_posts_controversial">Kontraversiški</string>
-    <string name="sort_posts_top">Populiarūs</string>
-    <string name="sort_posts_top_hour">Populiarūs šią valandą</string>
-    <string name="sort_posts_top_today">Populiarūs šiandien</string>
-    <string name="sort_posts_top_week">Populiarūs šią savaitę</string>
-    <string name="sort_posts_top_month">Populiarūs šį mėnesį</string>
-    <string name="sort_posts_top_year">Populiarūs šiais metais</string>
-    <string name="sort_posts_top_all">Populiarūs visą laiką</string>
-
+    <string name="sort_posts_top">Populiariausi</string>
+    <string name="sort_posts_top_hour">Populiariausi: Šią valandą</string>
+    <string name="sort_posts_top_today">Populiariausi: Šiandien</string>
+    <string name="sort_posts_top_week">Populiariausi: Šią savaitę</string>
+    <string name="sort_posts_top_month">Populiariausi: Šį mėnesį</string>
+    <string name="sort_posts_top_year">Populiariausi: Šiais metais</string>
+    <string name="sort_posts_top_all">Populiariausi: Visų laikų</string>
     <string name="sort_comments_best">Geriausi</string>
     <string name="sort_comments_hot">Karšti</string>
     <string name="sort_comments_new">Nauji</string>
     <string name="sort_comments_old">Seni</string>
     <string name="sort_comments_controversial">Kontraversiški</string>
     <string name="sort_comments_top">Populiarūs</string>
-
     <string name="dialog_close">Užverti</string>
     <string name="dialog_cancel">Atšaukti</string>
     <string name="dialog_yes">Taip</string>
     <string name="dialog_no">Ne</string>
     <string name="dialog_go">Eiti</string>
-
     <string name="action_menu_post_title">Įrašų veiksenos</string>
-
     <string name="action_upvote">Įvertinti teigiamai</string>
     <string name="action_downvote">Įvertinti neigiamai</string>
     <string name="action_vote_remove">Pašalinti įvertinimą</string>
@@ -191,24 +145,19 @@
     <string name="action_link_short">Nuorodą</string>
     <string name="action_collapse">Perjungti sutraukimą</string>
     <string name="action_nothing">Nieko nedaryti</string>
-
     <string name="action_report">Pranešti</string>
     <string name="action_report_sure">Ar tikrai norite pranešti apie šį įrašą?</string>
-
     <string name="action_save_image">Išsaugoti paveikslėlį</string>
     <string name="action_save_image_success">Išsaugota į Pictures katalogą kaip</string>
-
     <string name="download_waiting">Laukiama…</string>
     <string name="download_connecting">Jungiamasi…</string>
     <string name="download_downloadstarting">Pradedamas atsisiuntimas…</string>
     <string name="download_downloading">Parsisiunčiama…</string>
-    <string name="download_loading">Kraunama…</string>
+    <string name="download_loading">Įkeliama…</string>
     <string name="download_done">Baigta.</string>
     <string name="download_failed">Nepavyko.</string>
-
     <string name="imageview_oom">Baigėsi atmintis. Bandoma atverti per naršyklę.</string>
     <string name="imageview_invalid_gif">Neteisingas GIF. Bandoma atverti per naršyklę.</string>
-
     <string name="comment_reply_send">Išsiųsti</string>
     <string name="comment_edit_save">Išsaugoti</string>
     <string name="comment_reply_preview">Peržiūra</string>
@@ -219,65 +168,672 @@
     <string name="comment_edit_done">Komentaras redaguotas. Pakeitimai pasirodys perkrovus komentarų sąrašą.</string>
     <string name="post_submit_title_hint">Pavadinimas</string>
     <string name="subreddit_selection_textbox_hint">Subreddit\'as</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Įkelti</string>
     <string name="post_submit_done">Įrašas įkeltas.</string>
-
     <string name="bug_title">Įvyko klaida.</string>
     <string name="bug_message">Su RedReader įvyko klaida.
 \n
 \nAr norėtumėte pateikti klaidos aprašą kūrėjui? Jei taip, bus sugeneruotas el. laiškas su visa svarbia informacija, ir jūs galėsite peržiūrėti jo turinį.</string>
     <string name="bug_button_send">Išsiųsti klaidos aprašą el. paštu</string>
     <string name="bug_button_ignore">Nesiųsti klaidos aprašo</string>
-
-    <string name="error_403_title">Neteisinga vartotojo paskyra</string>
-    <string name="error_403_message">Reddit nedavė leidimo vartotojo paskyrai. Pabandykite atsijungti ir vėl prisijungti (ištrindami paskyrą iš paskyrų sąrašo ir vėl ją pridėdami).</string>
-
+    <string name="error_403_title">Leidimas nesuteiktas</string>
+    <string name="error_403_message">Reddit teigia, kad dabartinis vartotojas neturi tam leidimo.</string>
     <string name="error_subreddit_required_title">Reikalingas subreddit\'as</string>
     <string name="error_subreddit_required_message">Reikia pateikti subreddit\'ą.</string>
-
     <string name="error_bad_captcha_title">Neteisinga CAPTCHA</string>
     <string name="error_bad_captcha_message">Įvesta neteisinga CAPTCHA. Bandykite vėl.</string>
-
     <string name="error_404_title">Nerasta (404)</string>
     <string name="error_404_message">Jūsų pateikti duomenys nerasti.</string>
-
     <string name="error_unknown_api_title">Klaida</string>
     <string name="error_unknown_api_message">Serveris atmetė prašymą dėl nenumatytų priežasčių. Bandykite vėl.</string>
-
     <string name="error_redditdown_title">Reddit neatsako</string>
     <string name="error_redditdown_message">Reddit apkrautas. Bandykite vėliau.</string>
-
     <string name="error_cancelled_title">Veiksmas atšauktas</string>
     <string name="error_cancelled_message">Dabartinis veiksmas atšauktas.</string>
-
     <string name="error_parse_title">Nagrinėjimo klaida</string>
     <string name="error_parse_message">Reddit išsiuntė man nesuprantamų duomenų.</string>
-
-    <string name="error_unexpected_cache_title">Nenumatyta talpyklos klaida</string>
+    <string name="error_unexpected_cache_title">Nenumatyta Cache Miss klaida</string>
     <string name="error_unexpected_cache_message">Įvyko nežinoma talpyklos klaida.</string>
-
     <string name="error_unexpected_storage_title">Nežinoma išsaugojimo klaida</string>
     <string name="error_unexpected_storage_message">Įvyko nežinoma talpyklos klaida. Jums, turbūt, trūksta vietos.</string>
-
     <string name="error_connection_title">Prisijungimo klaida</string>
     <string name="error_connection_message">Nepavyko prisijungti prie serverio. Patikrinkite jungtį ir bandykite vėl.</string>
-
     <string name="error_malformed_url_title">Neteisinga nuoroda</string>
     <string name="error_malformed_url_message">Atliktas bandymas pasiekti neteisingą nuorodą.</string>
-
     <string name="error_unknown_title">Nežinoma klaida</string>
     <string name="error_unknown_message">Įvyko nežinoma klaida. Bandykite vėl.</string>
-
     <string name="error_postlist_cache_title">Išsaugotų duomenų pabaiga</string>
     <string name="error_postlist_cache_message">Jūs žiūrite į senesnę šio turinio versiją. Naujų įrašų parsisiuntimui perkraukite, arba pasirinkite kitą versiją.</string>
-
     <string name="error_postlist_redditdown_title">Reddit neatsako</string>
     <string name="error_postlist_redditdown_message">Reddit apkrautas. Naujų įrašų parsisiuntimui perkraukite, arba pasirinkite kitą versiją.</string>
-
     <string name="session_active">Aktyvi</string>
-
     <string name="time_ago">Prieš %s</string>
-
     <string name="userprofile_created">Sukurta</string>
-    </resources>
+    <string name="options_subscribing">Prenumeruojama…</string>
+    <string name="options_unsubscribe">Nutraukti prenumeratą</string>
+    <string name="options_subscribe">Prenumeruoti</string>
+    <string name="time_ms">ms</string>
+    <string name="time_secs">sek</string>
+    <string name="time_sec">sek</string>
+    <string name="time_mins">min</string>
+    <string name="time_min">min</string>
+    <string name="time_hours">valandos</string>
+    <string name="time_hour">valanda</string>
+    <string name="time_days">dienos</string>
+    <string name="time_day">diena</string>
+    <string name="time_months">mėnesiai</string>
+    <string name="time_month">mėnesis</string>
+    <string name="time_years">metai</string>
+    <string name="time_year">metai</string>
+    <string name="pref_behaviour_postcount_items_all">Viskas</string>
+    <string name="pref_behaviour_postcount_title">Apriboti įrašų skaičių</string>
+    <string name="load_more_posts">Įkelti daugiau pranešimų</string>
+    <string name="pref_appearance_indentlines_title">Rodyti įtraukos eilutes</string>
+    <string name="pref_appearance_linkbuttons_title">Rodyti nuorodų mygtukus</string>
+    <string name="pref_behaviour_useinternalbrowser_title">Naudokite vidinę naršyklę</string>
+    <string name="web_view_open_browser">Peržiūrėti naršyklėje</string>
+    <string name="pref_network_https_title">Naudoti HTTPS</string>
+    <string name="prefs_category_network">Tinklas</string>
+    <string name="lang_auto">Automatiškai</string>
+    <string name="pref_appearance_langforce_title">Kalba</string>
+    <string name="pref_appearance_locale_header">Vieta</string>
+    <string name="pref_behaviour_sort_header">Rikiavimas</string>
+    <string name="prefs_category_about">Apie</string>
+    <string name="pref_about_version_title">Versija</string>
+    <string name="action_fling_disabled">išjungta</string>
+    <string name="pref_behaviour_commentsort">Komentarai (numatytasis)</string>
+    <string name="title_changelog">Nauja</string>
+    <string name="search_subreddit_restrict">Apriboti paiešką</string>
+    <string name="action_search">Paieška</string>
+    <string name="general_unknown">nežinoma</string>
+    <string name="subtitle_to">į</string>
+    <string name="subtitle_by">nuo</string>
+    <string name="subtitle_points">tšk.</string>
+    <string name="download_subreddits">Atsisiunčiami subredditai…</string>
+    <string name="error_toast_parent_post_not_downloaded">Pagrindinis įrašas dar neatsisiųstas.</string>
+    <string name="error_toast_no_urls_in_self">Šiame savarankiškame tekste nerasta jokių URL.</string>
+    <string name="error_toast_no_urls_in_comment">Šiame komentare nerasta jokių URL.</string>
+    <string name="message_cannotlogin">Nepavyko prisijungti.</string>
+    <string name="message_nowloggedin">Dabar esate prisijungę.</string>
+    <string name="general_success">Pavyko</string>
+    <string name="error_ratelimit_message">Užblokuota dėl per daug negaliojančių bandymų prisijungti iš šio IP. Redditas sako:</string>
+    <string name="error_ratelimit_title">Per daug negaliojančių bandymų.</string>
+    <string name="error_invalid_password_message">Jūsų vardas arba slaptažodis neteisingas.</string>
+    <string name="error_invalid_password_title">Slaptažodis netinkamas</string>
+    <string name="pref_appearance_scale_normal">Normalus</string>
+    <string name="button_moredetail">Daugiau detalių</string>
+    <string name="error_toast_notloggedin">Norėdami tai padaryti, turite būti prisijungę.</string>
+    <string name="pref_appearance_comment_header_items_age">Amžius</string>
+    <string name="pref_appearance_comment_header_items_upsdowns">aukštyn/žemyn</string>
+    <string name="pref_appearance_comment_header_items_score">Taškai</string>
+    <string name="pref_appearance_comment_header_items_flair">Prierašas</string>
+    <string name="pref_appearance_comment_header_items_author">Autorius</string>
+    <string name="time_3month">3 mėnesiai</string>
+    <string name="time_1month">1 mėnuo</string>
+    <string name="time_1week">1 savaitė</string>
+    <string name="time_3day">3 dienos</string>
+    <string name="time_1day">1 diena</string>
+    <string name="time_6hr">6 valandos</string>
+    <string name="time_1hr">1 valanda</string>
+    <string name="theme_name_gray">Pilka</string>
+    <string name="theme_name_orange">Oranžinė</string>
+    <string name="theme_name_ltblue">Žydra</string>
+    <string name="theme_name_blue">Mėlyna</string>
+    <string name="theme_name_green">Žalia</string>
+    <string name="theme_name_night">Naktis</string>
+    <string name="theme_name_red">Raudona</string>
+    <string name="pref_appearance_twopane_force">Visada (gali atrodyti keistai)</string>
+    <string name="pref_appearance_twopane_landscape">Tik horizontaliai</string>
+    <string name="pref_appearance_twopane_auto">Aptikti automatiškai</string>
+    <string name="pref_appearance_twopane_never">Niekada</string>
+    <string name="general_false">Ne</string>
+    <string name="general_true">Taip</string>
+    <string name="notification_message_action">Palieskite, kad peržiūrėtumėte</string>
+    <string name="notification_message_multiple">Naujos žinutės Reddit</string>
+    <string name="notification_message">%s atsiuntė tau žinutę</string>
+    <string name="notification_comment">%s tau atsakė</string>
+    <string name="props_down">Žemyn</string>
+    <string name="props_up">Viršun</string>
+    <string name="props_never">Niekada</string>
+    <string name="props_self_markdown">Self text (Raw Markdown)</string>
+    <string name="props_body_markdown">Teksto kūnas (Raw Markdown)</string>
+    <string name="props_num_comments">Komentarų skaičius</string>
+    <string name="props_url">URL</string>
+    <string name="props_subreddit">Subredditas</string>
+    <string name="props_score">Taškai</string>
+    <string name="props_edited">Redaguota</string>
+    <string name="props_created">Sukurta</string>
+    <string name="props_author_flair">Autoriaus prierašo tekstas</string>
+    <string name="props_author">Autorius</string>
+    <string name="props_title">Pavadinimas</string>
+    <string name="props_error_title">Klaidų savybės</string>
+    <string name="props_post_title">Įrašų savybės</string>
+    <string name="props_comment_title">Komentarų savybės</string>
+    <string name="userprofile_viewposts">Žiūrėti įrašus</string>
+    <string name="userprofile_viewcomments">Žiūrėti komentarus</string>
+    <string name="userprofile_moderator">Yra moderatorius</string>
+    <string name="userprofile_isgold">Reddit auksas</string>
+    <string name="userprofile_isfriend">Yra draugas</string>
+    <string name="error_title_login_unknown_reddit_error">Nežinoma Reddit klaida: %s</string>
+    <string name="error_message_login_user_denied_permission">Leidimas pasiekti paskyrą buvo atmestas. Prašome, bandyti dar kartą.</string>
+    <string name="error_title_login_user_denied_permission">Leidimas nesuteiktas</string>
+    <string name="mark_all_as_read_success">Visi pranešimai pažymėti kaip skaityti.</string>
+    <string name="mark_all_as_read">Pažymėti visus kaip skaitytus</string>
+    <string name="sort_posts_comments">Komentarai</string>
+    <string name="sort_posts_relevance">Tinkamumas</string>
+    <string name="webview_use_https">Naudoti HTTPS</string>
+    <string name="webview_https_unknownprotocol">Nežinomas protokolas, tikėtasi \'http: //\'</string>
+    <string name="webview_https_already">Dabartinis URL jau naudoja HTTPS.</string>
+    <string name="action_comment_go_to">Eiti prie komentaro</string>
+    <string name="action_comment_context">Kontekstas</string>
+    <string name="comment_header_specific_thread_message">Spustelėkite čia, jei norite peržiūrėti visus šio įrašo komentarus.</string>
+    <string name="comment_header_specific_thread_title">Šiuo metu žiūrite konkretaus komentaro giją.</string>
+    <string name="user_comments">Komentarai</string>
+    <string name="pref_appearance_comment_header_items_gold">Reddit auksas</string>
+    <string name="gold">Auksas</string>
+    <string name="web_view_clear_cache_success_toast">Išvalyta talpykla, istorija, slapukai ir formos duomenys.</string>
+    <string name="web_view_clear_cache">Išvalyti talpyklą</string>
+    <string name="invalid_subreddit_name">Netinkamas subreddito pavadinimas</string>
+    <string name="header_subscriber_count_unknown">Nežinomas prenumeratorių skaičius</string>
+    <string name="header_subscriber_count">%s prenumeratorių</string>
+    <string name="options_unsubscribing">Nutraukiama prenumerata…</string>
+    <string name="error_disk_space_message">Atsisiųsti nepavyko, nes jūsų įrenginys yra pilnas. Atlaisvinkite vietos ir bandykite dar kartą.</string>
+    <string name="error_disk_space_title">Nebėra vietos diske</string>
+    <string name="pref_appearance_not_possible_in_tablet_mode">Neįmanoma planšetinio kompiuterio režime</string>
+    <string name="pref_menus_appbar_items_overflow_only">Rodyti tik trijų taškų meniu</string>
+    <string name="subreddit_link_copied_to_clipboard">Subreddit\'o nuoroda nukopijuota į iškarpinę</string>
+    <string name="comment_text_copied_to_clipboard">Komentaro tekstas nukopijuotas į iškarpinę</string>
+    <string name="comment_link_copied_to_clipboard">Komentaro nuoroda nukopijuota į iškarpinę</string>
+    <string name="post_link_copied_to_clipboard">Įrašo nuoroda nukopijuota į iškarpinę</string>
+    <string name="pin_successful">%s prisegta prie pagrindinio meniu</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Pasirinkti bendrinimui skirtą programą</string>
+    <string name="pref_accessibility_separate_body_text_lines_title">Atskirti teksto eilutes</string>
+    <string name="accessibility_subtitle_nsfw_withperiod">Nesaugu darbe.</string>
+    <string name="cache_clear_dialog_loaded">Įkelti duomenų naudojimo dydžiai</string>
+    <string name="cache_clear_dialog_loading">Įkeliami duomenų naudojimo dydžiai</string>
+    <string name="pref_appearance_age_units_1">Vienas vienetas (x valandų)</string>
+    <string name="pref_menus_quick_account_switcher_title">Naudoti greitą paskyros keitimą</string>
+    <string name="pref_behaviour_imagevideo_tap_close_title">Bakstelėti, kad uždaryti vaizdus/vaizdo įrašus</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Naudoti išorinę naršyklę (rekomenduojama)</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Naudoti vidinę naršyklę (rekomenduojama)</string>
+    <string name="pref_menus_appbar_items_if_room">Rodyti mygtuką, jei yra vietos</string>
+    <string name="link_copied_to_clipboard">Nuoroda nukopijuota į iškarpinę</string>
+    <string name="error_toast_no_email_apps">Nėra įdiegtų el. pašto programų!</string>
+    <string name="pref_images_inline_image_previews_nsfw_title">Rodyti NSFW peržiūras</string>
+    <string name="pref_images_inline_image_previews_title">Įterptinės vaizdų peržiūros</string>
+    <string name="pref_header_inline_image_previews">Įterptinės vaizdų peržiūros</string>
+    <string name="time_after_reply">atsakė %s vėliau</string>
+    <string name="press_back_again">Paspauskite atgal dar kartą</string>
+    <string name="sort_comments_top_all">Populiariausi: Visų laikų</string>
+    <string name="sort_comments_top_year">Populiariausi: Šiais metais</string>
+    <string name="sort_comments_top_month">Populiariausi: Šį mėnesį</string>
+    <string name="sort_comments_top_week">Populiariausi: Šią savaitę</string>
+    <string name="sort_comments_top_hour">Populiariausi: Šią valandą</string>
+    <string name="pref_appearance_post_show_comments_button_title">Rodyti komentarų mygtuką</string>
+    <string name="subscription_successful">Užsiprenumeruota %s</string>
+    <string name="search_results_query_only">Ieškoti \"%s\"</string>
+    <string name="list_yes_no_or_wifi_wifionly">Tik per Wi-Fi</string>
+    <string name="pref_item_restore_preferences_title">Atkurti nuostatas</string>
+    <string name="accessibility_subtitle_points_unknown_withperiod">Įvertinimas paslėptas.</string>
+    <string name="accessibility_subtitle_subreddit_withperiod">Subredit\'as: %s.</string>
+    <string name="accessibility_subtitle_points_withperiod">Įvertinimas: %d.</string>
+    <string name="accessibility_image_viewer_title">Peržiūrimas vaizdas</string>
+    <string name="pref_images_thumbnail_size_title">Miniatiūros dydis</string>
+    <string name="three_dots_menu">Daugiau pasirinkimų</string>
+    <string name="cache_clear_dialog_thumbnails_data">Miniatiūros (%s)</string>
+    <string name="cache_clear_dialog_listings_data">Sąrašai (%s)</string>
+    <string name="sort_comments_top_today">Populiariausi: Šiandien</string>
+    <string name="action_search_posts">Ieškoti įrašų</string>
+    <string name="error_title_malformed_html">Neteisingai suformuotas HTML</string>
+    <string name="pref_menus_mainmenu_header">Pagrindinis meniu</string>
+    <string name="pref_appearance_fontscale_linkbuttons_title">Nuorodų mygtukai</string>
+    <string name="search_results_short">Paieškos rezultatai</string>
+    <string name="cache_clear_dialog_thumbnails">Miniatiūros</string>
+    <string name="cache_clear_dialog_listings">Sąrašai</string>
+    <string name="pref_appearance_inbox_header">Gautieji</string>
+    <string name="options_account_manager">Tvarkyti…</string>
+    <string name="pref_appearance_toolbar_header">Įrankių juosta</string>
+    <string name="button_error_send_report">Pranešti</string>
+    <string name="pref_menus_posts_header">Įrašai</string>
+    <string name="pref_header_image_viewer">Vaizdų peržiūros programa</string>
+    <string name="cache_clear_dialog_images_data">Vaizdai (%s)</string>
+    <string name="action_save_image_success_no_path">Vaizdas sėkmingai išsaugotas</string>
+    <string name="cache_clear_dialog_images">Vaizdai</string>
+    <string name="image_gallery_no_image_present_title">Vaizdas nerastas</string>
+    <string name="pref_cache_clear_title">Išvalyti talpyklą</string>
+    <string name="dialog_clear">Išvalyti</string>
+    <string name="time_after">po %s</string>
+    <string name="imageview_download_failed">Atsisiuntimas buvo pertrauktas. Bandoma naudoti interneto naršyklę.</string>
+    <string name="pref_appearance_comment_age_mode_absolute">Laikas nuo komentaro (prieš x min.)</string>
+    <string name="pref_appearance_age_units_2">Du vienetai (x valandų, x minučių)</string>
+    <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Naudokite skirtingus nustatymus atidarytiems įrašams</string>
+    <string name="pref_behaviour_postlist_back_again">Du kartus paspauskite atgal, kad išeitumėte iš įrašų sąrašo</string>
+    <string name="pref_appearance_age_units_3">Trys vienetai (x valandų, x minučių, x sekundžių)</string>
+    <string name="error_toast_failed_open_external_browser">Nepavyko atidaryti url \"%s\" išorinėje naršyklėje</string>
+    <string name="pref_behaviour_imagevideo_tap_close_summary">Neturi įtakos vaizdo įrašams, jei įjungti atkūrimo valdikliai</string>
+    <string name="error_nsfw_subreddits_disabled_message">NSFW turinys šiuo metu yra išjungtas nustatymuose.</string>
+    <string name="link_does_not_exist">Ši nuoroda neegzistuoja. Ji galėjo būti ištrinta.</string>
+    <string name="image_gallery_removed_message">Ši galerija buvo pašalinta ir nebėra prieinama.</string>
+    <string name="image_gallery_no_image_present_message">Nurodyto vaizdo nepavyko rasti. Jis galėjo būti ištrintas.</string>
+    <string name="error_message_malformed_html">Nepavyko išnarplioti pastraipos teksto. Praneškite apie tai programėlės kūrėjui.</string>
+    <string name="reddit_login_browser_popup_line_1">Norint prisijungti, būsite dabar perkelti į Reddit interneto naršyklėje.</string>
+    <string name="image_gallery_no_data_present_message">Nurodytoje nuorodoje nerasta paveikslėlių galerijos. Ji galėjo būti ištrinta.</string>
+    <string name="pref_accessibility_separate_body_text_lines_summary">Komentarų ir savarankiškų pranešimų tekste kiekvieną eilutę padaryti fokusuojamą atskirai, vietoje to, kad skaityti visą komentarą iš karto</string>
+    <string name="accessibility_image_viewer_view_comments">Rodyti komentarus</string>
+    <string name="accessibility_image_viewer_go_back">Grįžti</string>
+    <string name="accessibility_subtitle_domain_withperiod">Domenas: %s.</string>
+    <string name="accessibility_subtitle_selfpost_withperiod">Tekstinis įrašas.</string>
+    <string name="accessibility_subtitle_edited_since_being_posted">Tekstas redaguotas po to, kai buvo paskelbtas.</string>
+    <string name="accessibility_subtitle_comment_collapsed">Komentaro tekstas paslėptas.</string>
+    <string name="accessibility_subtitle_domain_i_redd_it">Reddit vaizdai</string>
+    <string name="accessibility_subtitle_domain_v_redd_it">Reddit vaizdo įrašai</string>
+    <string name="pref_images_high_res_thumbnails_title">Didelės raiškos miniatiūros</string>
+    <string name="error_inline_preview_failed_title">Atsisiuntimo klaida</string>
+    <string name="error_inline_preview_failed_message">Nepavyko atsisiųsti vaizdo peržiūros.</string>
+    <string name="inline_preview_prompt_title">Vaizdų peržiūros</string>
+    <string name="inline_preview_prompt_message">Ar ir toliau rodyti tokias eilučių vaizdų peržiūras, kaip pirmiau pateiktoji\? Tai galite bet kada pakeisti nustatymuose.</string>
+    <string name="inline_preview_prompt_keep_showing">Toliau rodyti</string>
+    <string name="edittext_hint_comment_body_text">Komentaro tekstas</string>
+    <string name="album_image_default_text">Vaizdas %d</string>
+    <string name="imageview_image_info_failed">Nepavyko atsisiųsti paveikslėlio metaduomenų. Bandoma naudoti žiniatinklio naršyklę.</string>
+    <string name="pref_videos_download_before_playing_title">Visiškai atsisiųsti vaizdo įrašus prieš pradėdami atkūrimą</string>
+    <string name="inline_preview_prompt_turn_off">Išjungti</string>
+    <string name="unpin_successful">Atsegtas %s iš pagrindinio meniu</string>
+    <string name="unsubscription_successful">Atšaukta %s prenumerata</string>
+    <string name="upgrade_message">Atnaujinta versija %s</string>
+    <string name="pref_appearance_fontscale_use_global">Naudoti visuotinę šrifto skalę</string>
+    <string name="pref_behaviour_user_commentsort_title">Vartotojo komentarai (numatytasis)</string>
+    <string name="pref_behaviour_user_postsort_title">Vartotojo įrašai (numatytasis)</string>
+    <string name="pref_behaviour_save_location_system_default">Naudoti sistemos numatytąjį nustatymą</string>
+    <string name="action_comments_with_count">Peržiūrėti komentarus (%d)</string>
+    <string name="pref_appearance_navbar_color_option_white">Balta</string>
+    <string name="must_login_message">Norėdami tai padaryti, turite būti prisijungę prie Reddit paskyros.</string>
+    <string name="error_nsfw_subreddits_disabled_title">Užblokuotas NSFW subreddit\'as</string>
+    <string name="pref_item_backup_preferences_title">Atsarginės kopijos nuostatos</string>
+    <string name="pref_behaviour_back_button_title">Mygtukas Atgal</string>
+    <string name="accessibility_subtitle_gold_withperiod">Apdovanota auksu: %d.</string>
+    <string name="accessibility_subtitle_author_withperiod">Autorius: %s.</string>
+    <string name="pref_behaviour_save_location_prompt_every_time">Klausti kiekvieną kartą</string>
+    <string name="pref_menus_appbar_items_always">Visada rodyti mygtuką</string>
+    <string name="list_yes_no_or_wifi_always">Visada</string>
+    <string name="accessibility_subtitle_age_withperiod">Amžius: %s.</string>
+    <string name="pref_menus_subreddit_context_items_title">Subreddit\'o veiksmų meniu elementai</string>
+    <string name="pref_menus_comment_context_items_title">Veiksmų meniu elementai</string>
+    <string name="prefs_category_accessibility">Pritaikymas neįgaliesiems</string>
+    <string name="pref_menus_mainmenu_dev_announcements_title">Rodyti kūrėjo pranešimus</string>
+    <string name="button_dismiss">Atsisakyti</string>
+    <string name="button_view">Žiūrėti</string>
+    <string name="action_not_handled_by_installed_app_toast">Nerastos jokios programos šiam veiksmui atlikti</string>
+    <string name="pref_accessibility_min_comment_height_title">Minimalus komentaro aukštis</string>
+    <string name="pref_accessibility_min_comment_height_none">Nėra</string>
+    <string name="pref_menus_comments_header">Komentarai</string>
+    <string name="pref_behaviour_post_title_opens_comments_title">Įrašo pavadinimas atveria komentarus</string>
+    <string name="mainmenu_sent_messages">Išsiųsti pranešimai</string>
+    <string name="subreddit_selector_title">Pasirinkti subreddit\'ą</string>
+    <string name="post_submit_heading">Pateikti įrašą %1$s kaip naudotojas %2$s.</string>
+    <string name="error_subreddit_does_not_exist_title">Netinkamas subreddit\'as</string>
+    <string name="error_subreddit_does_not_exist_message">Nurodytas subreddit\'as neegzistuoja.</string>
+    <string name="error_subreddit_info_permission_denied_title">Leidimas nesuteiktas</string>
+    <string name="error_subreddit_info_permission_denied_message">Prisijungęs naudotojas negali pasiekti informacijos apie tą subreddit\'ą.</string>
+    <string name="invalid_subreddit_name_message">Įveskite galiojantį subreddit\'o pavadinimą.</string>
+    <string name="accessibility_subtitle_recipient_withperiod">Gavėjas: %s.</string>
+    <string name="video_mute">Nutildyti</string>
+    <string name="video_unmute">Įjungti garsą</string>
+    <string name="video_restart">Iš naujo paleisti vaizdo įrašą</string>
+    <string name="video_rewind">Atsukti</string>
+    <string name="video_play">Groti</string>
+    <string name="video_pause">Pauzė</string>
+    <string name="video_fast_forward">Prasukti</string>
+    <string name="video_zoom_in">Pritraukti</string>
+    <string name="video_zoom_out">Atitolinti</string>
+    <string name="prefs_category_backup_restore">Atsarginė kopija/atkūrimas</string>
+    <string name="restore_preferences_error_invalid_file_title">Netinkamas failas</string>
+    <string name="restore_preferences_error_invalid_file_version_message">Pasirinktas failas buvo sukurtas naujesne RedReader versija ir jo negalima atidaryti.</string>
+    <string name="restore_preferences_error_version_warning_title">Perspėjimas</string>
+    <string name="button_continue_anyway">Vis tiek tęsti</string>
+    <string name="button_cancel">Atšaukti</string>
+    <string name="button_restore_preferences">Atkurti</string>
+    <string name="backup_preferences_success">Atsarginė kopija sukurta sėkmingai</string>
+    <string name="restore_preferences_success">Atkurta sėkmingai</string>
+    <string name="backup_preferences_error_old_android_title">Per sena sistema</string>
+    <string name="backup_preferences_error_old_android_message">Šiai funkcijai reikalinga 4.4 ar naujesnės versijos Android.</string>
+    <string name="error_no_file_manager_title">Nėra failų tvarkyklės</string>
+    <string name="error_post_submit_title">Pateikiant įrašą įvyko klaida</string>
+    <string name="error_tor_connection_title">Tor klaida</string>
+    <string name="error_tor_connection_message">Nepavyksta prisijungti prie Tor. Įsitikinkite, kad veikia Orbot programa, arba išjunkite Tor tinklo nustatymuose.</string>
+    <string name="error_imgur_400_title">Imgur klaida</string>
+    <string name="error_content_blocker_title">Aptiktas turinio blokatorius</string>
+    <string name="error_http_429_title">Per daug užklausų</string>
+    <string name="error_http_429_message">Serveris atmetė užklausą dėl greičio apribojimo. Prašome po akimirkos pabandyti dar kartą.</string>
+    <string name="error_imgur_400_message">Imgur atmeta šį vaizdą, galbūt dėl greičio apribojimo. Prašome naudoti kitą vaizdų talpyklą arba bandyti vėliau.</string>
+    <string name="restore_preferences_error_version_warning_message">Pasirinktas failas buvo sukurtas naujesnėje RedReader versijoje. Atkuriant nuostatas iš šio failo gali įvykti klaida ir nestabilumas.</string>
+    <string name="pref_network_tor_summary">Kai naudojate išorinę naršyklę arba pasirinktinius skirtukus, nuorodos nebus atidarytos naudojant Tor (nebent jūsų naršyklė yra sukonfigūruota naudoti Tor)</string>
+    <string name="error_content_blocker_message">Atrodo, kad dabartinis tinklas blokuoja šią užklausą naudodamas DNS. Apsvarstykite galimybę naudoti VPN arba Android tinklo nustatymuose įjunkite DNS per HTTPS.</string>
+    <string name="reddit_login_browser_popup_line_2">Kai prisijungimas bus baigtas, turėtumėte būti nukreipti atgal į RedReader. Jei prisijungimas nepavyksta, galite pabandyti naudoti kitą naršyklę naudodami toliau esantį žymimąjį langelį.</string>
+    <string name="error_no_file_manager_message">Šio prietaiso operacinėje sistemoje nėra failų tvarkyklės, suderinamos su Android Storage Access Framework. Jei failų tvarkyklė yra, ji gali būti išjungta.</string>
+    <string name="pref_appearance_post_subtitle_items_domain">Domenas</string>
+    <string name="pref_appearance_posts_header">Įrašai</string>
+    <string name="pref_appearance_fontscale_comment_headers_title">Komentarų/gautų laiškų antraštės</string>
+    <string name="pref_appearance_fontscale_post_header_titles_title">Atidarytų įrašų pavadinimai</string>
+    <string name="error_toast_no_share_app_installed">Nėra įdiegtos tinkamos programos, kuria būtų galima tai bendrinti.</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Naudoti integruotą bendrinimo dialogo langą</string>
+    <string name="notification_channel_name_reddit_messages">Įeinančios Reddit žinutės</string>
+    <string name="prefs_category_images_video">Vaizdai/Vaizdo įrašai</string>
+    <string name="pref_behaviour_video_mute_default_title">Nutildyti vaizdo įrašus pagal automatiškai</string>
+    <string name="pref_appearance_bottom_toolbar_title">Rodyti įrankių juostą apačioje</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Rodyti laikmenos įkėlimo vaizdą, kai jis yra pasiekiamas</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Rodyti vaizdo formato indikatorių</string>
+    <string name="mainmenu_random_nsfw">Atsitiktinis NSFW subreddit\'as</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Rodyti prenumeruojamus subreddit\'us</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Rodyti multireddit\'us</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">Nuorodos</string>
+    <string name="pref_behaviour_hide_read_posts_title">Paslėpti perskaitytus įrašus</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Naudokite Android pasirinktinius skirtukus, kai tai įmanoma</string>
+    <string name="pref_behaviour_usecustomtabs_title">Naudokite Android pasirinktinius skirtukus</string>
+    <string name="sort_posts_best">Geriausi</string>
+    <string name="comment_reply_done_norefresh">Atsakymas išsiųstas.</string>
+    <string name="error_already_submitted_message">Šis įrašas jau buvo pateiktas šiam subreddit\'ui.</string>
+    <string name="error_already_submitted_title">Jau pateikta</string>
+    <string name="post_submit_mark_nsfw">Pažymėti kaip NSFW</string>
+    <string name="pref_appearance_left_handed_title">Kairiarankis režimas</string>
+    <string name="title_license">Licencija</string>
+    <string name="pref_behaviour_sharing_include_desc_title">Bendrinant įtraukti pavadinimą/aprašymą</string>
+    <string name="pref_behaviour_sharing_header">Bendrinimas</string>
+    <string name="search_listing_header_query">Paieškos užklausa</string>
+    <string name="mainmenu_custom_empty_search_query">Tuščia paieškos užklausa.</string>
+    <string name="pref_menus_show_random_main_menu_title">Rodyti /r/random pagrindiniame meniu</string>
+    <string name="mainmenu_random">Atsitiktinis subreddit\'as</string>
+    <string name="disable_replies_to_infobox_failed">Nepavyko išjungti atsakymų į aplanką Gauta</string>
+    <string name="pref_behaviour_sharing_share_text_title">Įtraukti tekstą, kai bendrinant komentarą</string>
+    <string name="error_no_suitable_apps_available">Tinkamų programėlių nėra.</string>
+    <string name="pref_behaviour_video_playback_controls_title">Įjungti vaizdo įrašų atkūrimo valdiklius</string>
+    <string name="pref_menus_show_popular_main_menu_title">Rodyti /r/popular pagrindiniame meniu</string>
+    <string name="download_link_message">Tai atsisiuntimo nuoroda. Ar norite ją įkelti išorinėje naršyklėje\?</string>
+    <string name="download_link_title">Atsisiųsti failą</string>
+    <string name="pref_appearance_comments_show_floating_toolbar_title">Rodyti naršymo mygtukus virš komentarų</string>
+    <string name="button_prev_comment_parent">Ankstesnis pirminis komentaras</string>
+    <string name="button_next_comment_parent">Kitas pirminis komentaras</string>
+    <string name="action_unsubscribe_subreddit">Atsisakyti subreddit\'ą prenumeratos</string>
+    <string name="action_subscribe_subreddit">Prenumeruoti Subreddit\'ą</string>
+    <string name="action_unpin_subreddit">Atsegti subreddit\'ą iš pagrindinio meniu</string>
+    <string name="action_pin_subreddit">Prisegti Subreddit\'ą į pagrindinį meniu</string>
+    <string name="action_unblock_subreddit">Atblokuoti Subreddit\'ą</string>
+    <string name="action_block_subreddit">Blokuoti Subreddit\'ą</string>
+    <string name="post_edit_done">Įrašas redaguotas. Pakeitimai pasirodys perkrovus.</string>
+    <string name="edit_post_actionbar">Redaguoti įrašą</string>
+    <string name="mainmenu_toast_blocked">Šis subreddit\'as jau užblokuotas!</string>
+    <string name="mainmenu_toast_not_blocked">Šis subreddit\'as nėra užblokuotas!</string>
+    <string name="mainmenu_toast_pinned">Šis subreddita\'s jau prisegtas prie pagrindinio meniu!</string>
+    <string name="mainmenu_toast_not_pinned">Šis subreddit\'as nėra prisegtas prie pagrindinio meniu!</string>
+    <string name="mainmenu_toast_subscribed">Jūs jau esate užsiprenumeravę šį subreddit\'ą!</string>
+    <string name="mainmenu_toast_not_subscribed">Jūs dar nesate užsiprenumeravę šio subreddit\'o!</string>
+    <string name="pref_menus_link_context_items_title">Susieti veiksmų meniu elementus</string>
+    <string name="action_back">Atgal</string>
+    <string name="mainmenu_popular">Populiarūs subreddit\'ai</string>
+    <string name="pm_reply_done">Atsakymas išsiųstas.</string>
+    <string name="submit_pmreply_actionbar">Atsakyti</string>
+    <string name="error_403_message_nonreddit">Serveris atsakė su leidimo atmetimo klaida.</string>
+    <string name="error_403_title_nonreddit">Leidimas nesuteiktas</string>
+    <string name="action_share_image">Bendrinti vaizdą</string>
+    <string name="send_replies_to_inbox">Siųsti atsakymus į mano pašto dėžutę</string>
+    <string name="theme_name_ultrablack">Itin juoda</string>
+    <string name="theme_name_night_lowcontrast">Naktis (mažas kontrastas)</string>
+    <string name="time_every_time">Kiekvieną kartą</string>
+    <string name="time_3hr">3 valandos</string>
+    <string name="time_2hr">2 valandos</string>
+    <string name="pref_cache_rerequest_postlist_age_title">Atnaujinti pranešimus, jei talpykla senesnė nei</string>
+    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Rodyti užblokuotus subreddit\'us</string>
+    <string name="sort_blocked_subreddit_date">Pagal pridėjimo datą</string>
+    <string name="sort_blocked_subreddit_name">Pagal pavadinimą</string>
+    <string name="pref_behaviour_blocked_subredditsort">Blokuoti Subreddi\'tai</string>
+    <string name="mainmenu_header_subreddits_blocked">Blokuoti Subreddi\'tai</string>
+    <string name="pref_behaviour_enable_swipe_refresh_title">Braukti žemyn, kad atnaujintu</string>
+    <string name="pref_appearance_hide_android_status_title">Slėpti būsenos juostą</string>
+    <string name="pref_appearance_link_text_clickable_title">Padarykite nuorodos tekstą spustelėjamą</string>
+    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Rodyti slankius mygtukus virš vaizdų ir vaizdo įrašų</string>
+    <string name="pref_appearance_image_viewer_header">Vaizdų peržiūros programa</string>
+    <string name="load_more_comments_failed_unknown_url_type">Negalima įkelti daugiau komentarų: nežinomas URL tipas.</string>
+    <string name="sort_pinned_subreddit_date">Pagal pridėjimo datą</string>
+    <string name="sort_pinned_subreddit_name">Pagal pavadinimą</string>
+    <string name="pref_behaviour_pinned_subredditsort">Prisegti Subreddit\'ai</string>
+    <string name="error_cache_dir_does_not_exist_message">Nepavyko pasiekti talpyklos katalogo. Talpyklos nustatymuose pasirinkite kitą vietą.</string>
+    <string name="error_cache_dir_does_not_exist_title">Trūksta talpyklos katalogo</string>
+    <string name="pref_cache_location_title">Talpyklos saugojimo vieta</string>
+    <string name="pref_cache_general_header">Bendrieji</string>
+    <string name="pref_behaviour_share_permalink_title">Dalintis kaip nuolatinę nuorodą</string>
+    <string name="mainmenu_header_multireddits">Multireddit\'ai</string>
+    <string name="mainmenu_custom_destination_search">Paieška</string>
+    <string name="mainmenu_custom_destination_url">URL</string>
+    <string name="mainmenu_custom_destination_user">Vartotojas</string>
+    <string name="mainmenu_custom_destination_subreddit">Subreddit\'as</string>
+    <string name="mainmenu_custom_destination">Pasirinktinė vieta</string>
+    <string name="pref_behaviour_postsort">Pranešimai (numatytasis)</string>
+    <string name="action_copy_link">Kopijuoti nuorodą</string>
+    <string name="action_copy_text">Kopijuoti tekstą</string>
+    <string name="pref_not_supported_before_lollipop">Nepalaikomas iki Android Lollipop</string>
+    <string name="pref_appearance_navbar_color_option_primarydark">Pirminė (tamsi)</string>
+    <string name="pref_appearance_navbar_color_option_primary">Pirminė (šviesi)</string>
+    <string name="pref_appearance_navbar_color_option_black">Juoda</string>
+    <string name="pref_appearance_navbar_color_title">Naršymo ir būsenos juostos spalva</string>
+    <string name="action_search_comments">Ieškoti komentarų</string>
+    <string name="no_search_results">Paieškos rezultatų nerasta.</string>
+    <string name="comment_header_search_thread_title">Šiuo metu žiūrite komentarų gijos paieškos rezultatus.</string>
+    <string name="pref_behaviour_fling_comment_right_title">Truktelėti dešinėn</string>
+    <string name="pref_behaviour_fling_comment_left_title">Truktelėti kairėn</string>
+    <string name="edit_comment_actionbar">Redaguoti komentarą</string>
+    <string name="submit_comment_actionbar">Pateikti komentarą</string>
+    <string name="submit_post_actionbar">Įkelti įrašą</string>
+    <string name="pm_send_actionbar">Siųsti pranešimą</string>
+    <string name="error_too_long_message">Reddit teigia, kad įvestas tekstas yra per ilgas.</string>
+    <string name="error_too_long_title">Per ilgas</string>
+    <string name="userprofile_pm">Siųsti pranešimą</string>
+    <string name="pm_send_done">Pranešimas išsiųstas.</string>
+    <string name="pm_send_hint_message_text">Pranešimo tekstas</string>
+    <string name="pm_send_hint_subject">Tema</string>
+    <string name="pm_send_hint_recipient">Gavėjas</string>
+    <string name="no_comments_yet">Kol kas nėra komentarų.</string>
+    <string name="pref_behaviour_actions_comment_longclick_title">Ilgas paspaudimas</string>
+    <string name="inbox_unread_only">Tik neperskaityti pranešimai</string>
+    <string name="error_tor_start_failed">Nepavyko paleisti Orbot. Tor tinkamai neveiks.</string>
+    <string name="pref_behaviour_albumview_mode_internal_list">Vidinė peržiūros programa (sąrašas)</string>
+    <string name="pref_behaviour_albumview_mode_title">Albumo peržiūros programa</string>
+    <string name="pref_behaviour_imageview_mode_internal_opengl">Vidinė peržiūros programa (OpenGL)</string>
+    <string name="pref_behaviour_imageview_mode_title">Vaizdų peržiūros programa</string>
+    <string name="save_image_permission_denied">Leidimas nesuteiktas: nepavyko išsaugoti vaizdo.</string>
+    <string name="submit_post_url_hint">URL</string>
+    <string name="submit_post_self_text_hint">Savarankiškas tekstas</string>
+    <string name="submit_post_url_empty">URL negali būti tuščias</string>
+    <string name="submit_post_title_empty">Pavadinimas negali būti tuščias</string>
+    <string name="submit_post_specify_subreddit">Nurodyti Subreddit\'ą</string>
+    <string name="image_selected_summary">Pasirinktas vaizdas: %1$dx%2$d, %3$s</string>
+    <string name="error_file_open_failed_message">Bandant atidaryti failą įvyko klaida.</string>
+    <string name="error_file_open_failed_title">Nepavyko atidaryti failo</string>
+    <string name="error_file_too_big_title">Failas per didelis</string>
+    <string name="button_browse">Naršyti…</string>
+    <string name="button_upload">Įkelti</string>
+    <string name="error_archived_vote">Tai buvo archyvuota, todėl balsuoti nebegalima.</string>
+    <string name="pref_behaviour_skiptofrontpage_title">Pereiti į pirmąjį puslapį</string>
+    <string name="download_authorizing">Autentifikuojama…</string>
+    <string name="imageview_invalid_video">Netinkamas vaizdo įrašas. Bandoma naudoti interneto naršyklę.</string>
+    <string name="imageview_decode_failed">Nepavyko iššifruoti vaizdo. Bandoma naudoti interneto naršyklę.</string>
+    <string name="karma_comment">Komentarų Karma</string>
+    <string name="karma_link">Nuorodų Karma</string>
+    <string name="sidebar_activity_title">Šoninė juosta</string>
+    <string name="mainmenu_downvoted">Neigiamai įvertinti įrašai</string>
+    <string name="mainmenu_submitted">Pateikti įrašai</string>
+    <string name="pref_menus_mainmenu_useritems_title">Naudotojo elementai</string>
+    <string name="options_sidebar">Peržiūrėti šoninę juostą</string>
+    <string name="pref_appearance_hide_toolbar_on_scroll_title">Slėpti įrankių juostą slinkimo metu</string>
+    <string name="pref_appearance_hide_headertoolbar_postlist_title">Paslėpti postų sąrašo antraštės įrankių juostą</string>
+    <string name="pref_appearance_hide_headertoolbar_commentlist_title">Paslėpti komentarų sąrašo antraštės įrankių juostą</string>
+    <string name="image_gallery_removed_title">Galerija pašalinta</string>
+    <string name="image_gallery_no_data_present_title">Galerija nerasta</string>
+    <string name="image_gallery">Galerija</string>
+    <string name="pref_appearance_fontscale_header">Šrifto mastelis</string>
+    <string name="prefs_category_fonts">Šriftas</string>
+    <string name="bug_chooser_title">Pranešimas apie klaidą el. paštu</string>
+    <string name="pref_menus_appbar_items_never">Nerodyti</string>
+    <string name="button_error_details">Išsami informacija</string>
+    <string name="pref_behaviour_video_zoom_default_title">Apkarpyti vaizdo įrašus, kad užpildytų ekraną</string>
+    <string name="action_copy_selftext">Kopijuoti savarankišką tekstą</string>
+    <string name="copied_to_clipboard">Nukopijuota į iškarpinę</string>
+    <string name="dialog_continue">Tęsti</string>
+    <string name="error_file_too_big_message">Failo dydis (%1$s) yra didesnis už įkėlimo limitą (%2$s).</string>
+    <string name="no_file_selected">Nepasirinktas joks failas</string>
+    <string name="upload_to_imgur">Įkelti į Imgur</string>
+    <string name="error_upload_fail_imgur_message">Dėl nežinomos priežasties Imgur atmetė įkėlimą.</string>
+    <string name="error_upload_fail_imgur_title">Įkelti nepavyko</string>
+    <string name="error_parse_imgur_message">Imgur atsiuntė keletą duomenų, kurių negalėjau suprasti.</string>
+    <string name="error_parse_imgur_title">Nagrinėjimo klaida</string>
+    <string name="error_tor_setting_failed">Nepavyko nustatyti įgaliotojo serverio.</string>
+    <string name="error_tor_not_installed">Tor neveiks, jei nebus įdiegtas Orbot. Įdiegti dabar\?</string>
+    <string name="pref_network_tor_title">Naudoti Tor</string>
+    <string name="open_with">Atidaryti naudojant</string>
+    <string name="pref_behaviour_comment_min_dialog_title">Suskleisti komentarą, jei įvertinimas yra mažesnis už (tuščia, kad būtų rodomi visi)</string>
+    <string name="pref_behaviour_comment_min_title">Minimalus komentaro įvertinimo balas</string>
+    <string name="pref_behaviour_comments_header">Komentarai</string>
+    <string name="unblock_done">Subreddit\'as atblokuotas. Būsimi apsilankymai pagrindiniame puslapyje, /r/popular ir /r/all apims ir šį subreddit\'ą.</string>
+    <string name="block_done">Subreddit\'as užblokuotas. Būsimi apsilankymai pagrindiniame puslapyje, /r/popular ir /r/all neįtrauks šio subreddit\'o.</string>
+    <string name="unblock_subreddit">Atblokuoti Subreddit\'ą</string>
+    <string name="block_subreddit">Blokuoti Subredditą</string>
+    <string name="error_too_fast_message">Reddit teigia, kad per greitai pateikiate paraiškas. Prieš bandydami dar kartą, palaukite kelias minutes.</string>
+    <string name="error_too_fast_title">Per greitai</string>
+    <string name="props_resolution">Rezoliucija</string>
+    <string name="props_caption">Antraštė</string>
+    <string name="props_image_title">Paveikslo informacija</string>
+    <string name="unpin_subreddit">Atsegti nuo pagrindinio meniu</string>
+    <string name="pin_subreddit">Prisegti prie pagrindinio meniu</string>
+    <string name="mainmenu_header_subreddits_pinned">Prisegti Subreddit\'ai</string>
+    <string name="mainmenu_header_subreddits_subscribed">Prenumeruojami Subreddit\'ai</string>
+    <string name="pref_cache_precache_comments_wifionly_title">Tik per Wi-Fi</string>
+    <string name="pref_cache_precache_comments_title">Iš anksto užkrauti komentarus</string>
+    <string name="pref_cache_precache_comments_header">Iš anksto užkrauti komentarus</string>
+    <string name="pref_behaviour_gallery_swipe_length_title">Galerijos perbraukimo ilgis</string>
+    <string name="sort_comments_qa">Klausimai ir atsakymai</string>
+    <string name="error_url_required_message">Turite nurodyti URL.</string>
+    <string name="error_url_required_title">Būtinas URL</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Nepavyko paleisti VLC. Atnaujinkite VLC arba pakeiskite vaizdo peržiūros programos nuostatas.</string>
+    <string name="pref_behaviour_videoview_mode_external_app_vlc">Išorinė programa: VLC</string>
+    <string name="pref_behaviour_videoview_mode_internal_videoview">Vidinis VideoView (rekomenduojama)</string>
+    <string name="pref_behaviour_videoview_mode_title">Vaizdo įrašų peržiūros programa</string>
+    <string name="upgrade_v190_login_message">RedReader atnaujinta ir dabar Reddit autentifikavimui naudoja OAuth. Jei prieš atnaujinimą buvote prisijungę prie paskyros, dabar esate iš jos atjungti.</string>
+    <string name="album_already_last_image">Jau prie paskutinio atvaizdo albume.</string>
+    <string name="album_already_first_image">Jau prie pirmo atvaizdo albume.</string>
+    <string name="imgur_album">Imgur albumas</string>
+    <string name="selected_link_is_not_image">Pasirinkta nuoroda nėra paveikslėlis.</string>
+    <string name="mainmenu_useritems">Naudotojo elementai</string>
+    <string name="pref_appearance_hide_username_main_menu_title">Slėpti vartotojo vardą</string>
+    <string name="delete_success">Sėkmingai ištrintas. Elementas vis dar bus matomas, kol neperkrausite.</string>
+    <string name="delete_confirm">Ar tikrai norite tai ištrinti\?</string>
+    <string name="action_delete">Ištrinti</string>
+    <string name="pref_behaviour_view_mode_external_browser">Išorinė naršyklė</string>
+    <string name="pref_behaviour_view_mode_internal_browser">Vidinė naršyklė</string>
+    <string name="pref_behaviour_gifview_mode_title">GIF peržiūros programa</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Įrašo šoninės juostos ir įrankių juostos perbraukimo zonos dydis</string>
+    <string name="pref_behaviour_bezel_toolbar_header">Įrašo šoninė įrankių juosta</string>
+    <string name="pref_menus_optionsmenu_items_title">Trijų taškų meniu elementai</string>
+    <string name="options_close_all">Uždaryti viską</string>
+    <string name="screen_orientation_landscape">Gulsčias</string>
+    <string name="screen_orientation_portrait">Portretas</string>
+    <string name="screen_orientation_auto">Auto</string>
+    <string name="pref_behaviour_screenorientation_title">Ekrano padėtis</string>
+    <string name="accessibility_subtitle_spoiler_withperiod">Yra spoiler\'ių.</string>
+    <string name="cache_clear_dialog_flags">Vėliavėlės</string>
+    <string name="pref_appearance_comment_age_mode_relative_parent">Palygintu su pirminiu komentaru (atsakė x min. vėliau)</string>
+    <string name="pref_appearance_comment_age_mode_relative_post">Palyginti su įrašu (po x min.)</string>
+    <string name="pref_behaviour_save_location_title">Išsaugoti paskirties vietą</string>
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">Įkelti daugiau komentarų (%d atsakymas)</item>
+        <item quantity="few">Įkelti daugiau komentarų (%d atsakymai)</item>
+        <item quantity="other">Įkelti daugiau komentarų (%d atsakymų)</item>
+    </plurals>
+    <string name="title_attribution">Autoriai/ autorių teisės</string>
+    <string name="pref_behaviour_multi_postsort_title">Multireddit įrašai (pagal nutylėjimą)</string>
+    <string name="props_self_html">Savarankiškas tekstas (HTML)</string>
+    <string name="props_body_html">Kūnas (HTML)</string>
+    <string name="pref_appearance_fontscale_bodytext_title">Teksto kūnas</string>
+    <string name="pref_appearance_fontscale_global_title">Visuotiniai</string>
+    <string name="pref_appearance_post_header_subtitle_items_title">Atidaryto įrašo subtitrų įrašai</string>
+    <string name="pref_appearance_post_subtitle_items_nsfw">NSFW žyma</string>
+    <string name="pref_appearance_post_subtitle_items_spoiler">Spoiler\'io žyma</string>
+    <string name="pref_appearance_post_subtitle_items_sticky">Lipni žyma</string>
+    <string name="pref_appearance_post_subtitle_items_title">Įrašo subtitrų įrašai</string>
+    <string name="error_post_flair_required_message">Pagal šio subreddit\'o taisykles savo įrašui reikia nustatyti prierašą.</string>
+    <string name="error_post_flair_required_title">Reikalingas prierašas</string>
+    <string name="restore_preferences_error_invalid_file_contents_message">Pasirinktas failas nėra tinkamas nuostatų atsarginės kopijos failas.</string>
+    <string name="pref_appearance_thumbnails_spoiler_show_title">Rodyti spoiler\'io miniatiūras</string>
+    <string name="pref_images_inline_image_previews_spoiler_title">Rodyti spoiler\'io peržiūras</string>
+    <string name="post_submit_flair_none_selected">Nepasirinktas joks prierašas</string>
+    <string name="post_submit_flair_none_available">Nėra jokių prierašų</string>
+    <string name="accessibility_subtitle_flair_withperiod">Prierašas: %s.</string>
+    <string name="accessibility_subtitle_sticky_withperiod">Lipnus.</string>
+    <string name="pref_appearance_comment_age_mode_title">Komentaro amžiaus režimas</string>
+    <string name="pref_appearance_inbox_age_units_title">Gauto pašto dėžutės įrašo amžiaus tikslumas</string>
+    <string name="pref_appearance_comment_age_units_title">Komentaro amžiaus tikslumas</string>
+    <string name="pref_appearance_post_header_age_units_title">Atidaryto įrašo amžiaus tikslumas</string>
+    <string name="pref_appearance_post_age_units_title">Įrašo amžiaus tikslumas</string>
+    <string name="spoiler">Spoiler\'is</string>
+    <string name="list_yes_no_or_wifi_never">Niekada</string>
+    <string name="pref_appearance_post_subtitle_items_subreddit">Subreddit\'as</string>
+    <string name="pref_appearance_fontscale_post_header_subtitles_title">Atidarytų įrašų subtitrai</string>
+    <string name="pref_appearance_fontscale_post_subtitles_title">Įrašo subtitrai</string>
+    <string name="post_text_copied_to_clipboard">Įrašo savarankiškas tekstas nukopijuotas į iškarpinę</string>
+    <string name="post_submit_mark_spoiler">Pažymėti, kaip spoiler\'į</string>
+    <string name="share_comments_for">Komentarai skirti %s</string>
+    <string name="share_comment_by_on_reddit">%s komentarai Reddit\'e</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Savarankiško įrašo suskleidimas paspaudus</string>
+    <string name="collapsed_self_post">Savarankiškas įrašas suskleistas</string>
+    <string name="pref_behaviour_gifview_mode_internal_legacy">Vidinė peržiūros programa (Senoji versija)</string>
+    <string name="pref_behaviour_gifview_mode_internal_movie">Vidinė peržiūros programa (Movie, Android 4.0+)</string>
+    <string name="mainmenu_modmail">Moderatorių pranešimai</string>
+    <string name="sort_posts_new_all">Nauja: per visą laiką</string>
+    <string name="sort_posts_new_week">Nauja: šią savaitę</string>
+    <string name="sort_posts_new_month">Nauja: šį mėnesį</string>
+    <string name="sort_posts_new_year">Nauja: šiais metais</string>
+    <string name="sort_posts_controversial_hour">Prieštaringai vertinama: šią valandą</string>
+    <string name="sort_posts_relevance_today">Aktualu: šiandien</string>
+    <string name="sort_posts_relevance_week">Aktualu: šią savaitę</string>
+    <string name="sort_posts_relevance_month">Aktualu: šį mėnesį</string>
+    <string name="sort_posts_relevance_year">Aktualu: šiais metais</string>
+    <string name="accessibility_subtitle_author_submitter_withperiod">Autorius: %s, pateikėjas.</string>
+    <string name="sort_posts_hot_month">Karščiausia: šį mėnesį</string>
+    <string name="sort_posts_hot_all">Karščiausia: per visą laiką</string>
+    <string name="pref_appearance_android_status_always_hide">Visada</string>
+    <string name="error_archived_reply">Tai buvo archyvuota, todėl atsakyti nebegalima.</string>
+    <string name="search_results_location_only">Paieška %s</string>
+    <string name="search_listing_header_limit_location">Apriboti paieškos vietą</string>
+    <string name="search_results_query_and_location">Ieškoti „%1$s“ %2$s</string>
+    <string name="sort_posts_comments_hour">Komentarai: šią valandą</string>
+    <string name="sort_posts_comments_today">Komentarai: šiandien</string>
+    <string name="sort_posts_comments_week">Komentarai: šią savaitę</string>
+    <string name="sort_posts_comments_month">Komentarai: šį mėnesį</string>
+    <string name="sort_posts_comments_year">Komentarai: šiais metais</string>
+    <string name="error_comment_submit_title">Pateikiant komentarą įvyko klaida</string>
+    <string name="prefs_category_menus_appbar_screen">Veiksmų juostos elementai</string>
+    <string name="sort_posts_hot_week">Karščiausia: šią savaitę</string>
+    <string name="sort_posts_new_hour">Nauja: šią valandą</string>
+    <string name="sort_posts_new_today">Nauja: šiandien</string>
+    <string name="sort_posts_hot_today">Karščiausia: šiandien</string>
+    <string name="sort_posts_hot_year">Karščiausia: šiais metais</string>
+    <string name="sort_posts_hot_hour">Karščiausia: šią valandą</string>
+    <string name="pref_appearance_android_status_hide_on_media">Peržiūrint mediją</string>
+    <string name="accessibility_subtitle_controversiality_withperiod">Įvertinta prieštaringai.</string>
+    <string name="pref_appearance_android_status_never_hide">Niekada</string>
+    <string name="pref_appearance_comment_header_items_controversiality">Prieštaringumo indikatorius (†)</string>
+    <string name="sort_posts_comments_all">Komentarai: per visą laiką</string>
+    <string name="accessibility_subtitle_author_moderator_withperiod">Autorius: %s, moderatorius.</string>
+    <string name="no_search_results_hidden">Dėl nustatymų nerodomi jokie paieškos rezultatai.</string>
+    <string name="accessibility_subtitle_author_submitter_moderator_withperiod">Autorius: %s, pateikėjas ir moderatorius.</string>
+    <string name="accessibility_subtitle_author_submitter_admin_withperiod">Autorius: %s, pateikėjas ir administratorius.</string>
+    <string name="no_posts_yet_hidden">Dėl nustatymų nerodomi jokie įrašai.</string>
+    <string name="sort_posts_controversial_week">Prieštaringai vertinama: šią savaitę</string>
+    <string name="sort_posts_controversial_month">Prieštaringai vertinama: šį mėnesį</string>
+    <string name="sort_posts_controversial_today">Prieštaringai vertinama: šiandien</string>
+    <string name="sort_posts_controversial_year">Prieštaringai vertinama: šiais metais</string>
+    <string name="sort_posts_controversial_all">Prieštaringai vertinama: per visą laiką</string>
+    <string name="sort_posts_relevance_hour">Aktualu: šią valandą</string>
+    <string name="sort_posts_relevance_all">Aktualu: per visą laiką</string>
+    <string name="accessibility_subtitle_author_admin_withperiod">Autorius: %s, administratorius.</string>
+    <string name="no_posts_yet">Kol kas jokių įrašų.</string>
+</resources>

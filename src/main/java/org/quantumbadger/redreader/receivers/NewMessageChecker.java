@@ -77,9 +77,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 		Log.i("RedReader", "Checking for new messages.");
 
-		final boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications(
-				context,
-				General.getSharedPrefs(context));
+		final boolean notificationsEnabled = PrefsUtility.pref_behaviour_notifications();
 		if(!notificationsEnabled) {
 			return;
 		}
@@ -295,7 +293,14 @@ public class NewMessageChecker extends BroadcastReceiver {
 		}
 
 		final Intent intent = new Intent(context, InboxListingActivity.class);
-		notification.setContentIntent(PendingIntent.getActivity(context, 0, intent, 0));
+
+		int flags = 0;
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			flags |= PendingIntent.FLAG_IMMUTABLE;
+		}
+
+		notification.setContentIntent(PendingIntent.getActivity(context, 0, intent, flags));
 
 		nm.notify(0, notification.getNotification());
 	}

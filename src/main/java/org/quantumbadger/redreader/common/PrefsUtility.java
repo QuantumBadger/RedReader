@@ -25,18 +25,19 @@ import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.io.WritableHashSet;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
 import org.quantumbadger.redreader.reddit.PostSort;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
-import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,47 +47,52 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class PrefsUtility {
+
+	private static SharedPrefsWrapper sharedPrefs;
+	private static Resources mRes;
+
+	public static void init(final Context context) {
+		sharedPrefs = General.getSharedPrefs(context);
+		mRes = Objects.requireNonNull(context.getResources());
+	}
+
+	private static String getPrefKey(@StringRes final int prefKey) {
+		return mRes.getString(prefKey);
+	}
 
 	@NonNull private static final AtomicReference<Locale> mDefaultLocale = new AtomicReference<>();
 
 	@Nullable
 	public static String getString(
 			final int id,
-			@Nullable final String defaultValue,
-			@NonNull final Context context,
-			@NonNull final SharedPrefsWrapper sharedPreferences) {
-		return sharedPreferences.getString(context.getString(id), defaultValue);
+			@Nullable final String defaultValue) {
+		return sharedPrefs.getString(getPrefKey(id), defaultValue);
 	}
 
 	public static Set<String> getStringSet(
 			final int id,
-			final int defaultArrayRes,
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
-		return sharedPreferences.getStringSet(
-				context.getString(id),
-				General.hashsetFromArray(context.getResources().getStringArray(defaultArrayRes)));
+			final int defaultArrayRes) {
+		return sharedPrefs.getStringSet(
+				getPrefKey(id),
+				General.hashsetFromArray(mRes.getStringArray(defaultArrayRes)));
 	}
 
 	private static boolean getBoolean(
 			final int id,
-			final boolean defaultValue,
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
-		return sharedPreferences.getBoolean(context.getString(id), defaultValue);
+			final boolean defaultValue) {
+		return sharedPrefs.getBoolean(getPrefKey(id), defaultValue);
 	}
 
 	@SuppressWarnings("unused")
 	private static long getLong(
 			final int id,
-			final long defaultValue,
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
-		return sharedPreferences.getLong(context.getString(id), defaultValue);
+			final long defaultValue) {
+		return sharedPrefs.getLong(getPrefKey(id), defaultValue);
 	}
 
 	public static boolean isReLayoutRequired(final Context context, final String key) {
@@ -135,7 +141,7 @@ public final class PrefsUtility {
 						.equals(key)
 				|| context.getString(R.string.pref_appearance_hide_username_main_menu_key)
 						.equals(key)
-				|| context.getString(R.string.pref_appearance_hide_android_status_key).equals(key)
+				|| context.getString(R.string.pref_appearance_android_status_key).equals(key)
 				|| context.getString(R.string.pref_appearance_comments_show_floating_toolbar_key)
 						.equals(key)
 				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key).equals(key)
@@ -158,60 +164,44 @@ public final class PrefsUtility {
 		NEVER, AUTO, FORCE
 	}
 
-	public static AppearanceTwopane appearance_twopane(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static AppearanceTwopane appearance_twopane() {
 		return AppearanceTwopane.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_twopane_key,
-				"auto",
-				context,
-				sharedPreferences)));
+				"auto")));
 	}
 
 	public enum AppearanceTheme {
 		RED, GREEN, BLUE, LTBLUE, ORANGE, GRAY, NIGHT, NIGHT_LOWCONTRAST, ULTRABLACK
 	}
 
-	public static boolean isNightMode(final Context context) {
+	public static boolean isNightMode() {
 
-		final AppearanceTheme theme = appearance_theme(
-				context,
-				General.getSharedPrefs(context));
+		final AppearanceTheme theme = appearance_theme();
 
 		return theme == AppearanceTheme.NIGHT
 				|| theme == AppearanceTheme.NIGHT_LOWCONTRAST
 				|| theme == AppearanceTheme.ULTRABLACK;
 	}
 
-	public static AppearanceTheme appearance_theme(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static AppearanceTheme appearance_theme() {
 		return AppearanceTheme.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_theme_key,
-				"night_lowcontrast",
-				context,
-				sharedPreferences)));
+				"red")));
 	}
 
 	public enum AppearanceNavbarColour {
 		BLACK, WHITE, PRIMARY, PRIMARYDARK
 	}
 
-	public static AppearanceNavbarColour appearance_navbar_colour(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static AppearanceNavbarColour appearance_navbar_colour() {
 		return AppearanceNavbarColour.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_navbar_color_key,
-				"black",
-				context,
-				sharedPreferences)));
+				"black")));
 	}
 
 	public static void applyTheme(@NonNull final Activity activity) {
 
-		final SharedPrefsWrapper prefs = General.getSharedPrefs(activity);
-
-		final AppearanceTheme theme = appearance_theme(activity, prefs);
+		final AppearanceTheme theme = appearance_theme();
 
 		switch(theme) {
 			case RED:
@@ -251,17 +241,15 @@ public final class PrefsUtility {
 				break;
 		}
 
-		applyLanguage(activity, prefs);
+		applyLanguage(activity);
 	}
 
 	public static void applySettingsTheme(@NonNull final Activity activity) {
 		activity.setTheme(R.style.RR_Settings);
-		applyLanguage(activity, General.getSharedPrefs(activity));
+		applyLanguage(activity);
 	}
 
-	private static void applyLanguage(
-			final Activity activity,
-			final SharedPrefsWrapper prefs) {
+	private static void applyLanguage(final Activity activity) {
 
 		synchronized(mDefaultLocale) {
 			if(mDefaultLocale.get() == null) {
@@ -271,9 +259,7 @@ public final class PrefsUtility {
 
 		final String lang = getString(
 				R.string.pref_appearance_langforce_key,
-				"auto",
-				activity,
-				prefs);
+				"auto");
 
 		for(final Resources res : new Resources[] {
 				activity.getResources(),
@@ -315,390 +301,250 @@ public final class PrefsUtility {
 
 	}
 
-	public static NeverAlwaysOrWifiOnly appearance_thumbnails_show(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static NeverAlwaysOrWifiOnly appearance_thumbnails_show() {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_appearance_thumbnails_show_list_key,
-						"always",
-						context,
-						sharedPreferences)));
+						"always")));
 	}
 
-	public static NeverAlwaysOrWifiOnly appearance_thumbnails_show_old(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static NeverAlwaysOrWifiOnly appearance_thumbnails_show_old() {
 
 		if(!getBoolean(
 				R.string.pref_appearance_thumbnails_show_key,
-				true,
-				context,
-				sharedPreferences)) {
+				true)) {
 			return NeverAlwaysOrWifiOnly.NEVER;
 		} else if(getBoolean(
 				R.string.pref_appearance_thumbnails_wifionly_key,
-				false,
-				context,
-				sharedPreferences)) {
+				false)) {
 			return NeverAlwaysOrWifiOnly.WIFIONLY;
 		} else {
 			return NeverAlwaysOrWifiOnly.ALWAYS;
 		}
 	}
 
-	public static boolean appearance_thumbnails_nsfw_show(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean appearance_thumbnails_nsfw_show() {
 		return getBoolean(
 				R.string.pref_appearance_thumbnails_nsfw_show_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean appearance_thumbnails_spoiler_show(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean appearance_thumbnails_spoiler_show() {
 		return getBoolean(
 				R.string.pref_appearance_thumbnails_spoiler_show_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static float appearance_fontscale_global(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static float appearance_fontscale_global() {
 		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_global_key,
-				"1",
-				context,
-				sharedPreferences));
+				"1"));
 	}
 
-	public static float appearance_fontscale_bodytext(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static float appearance_fontscale_bodytext() {
 		if(getString(
 				R.string.pref_appearance_fontscale_bodytext_key,
-				"-1",
-				context,
-				sharedPreferences).equals("-1")) {
-			return appearance_fontscale_global(context, sharedPreferences);
+				"-1").equals("-1")) {
+			return appearance_fontscale_global();
 		}
 		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_bodytext_key,
-				"-1",
-				context,
-				sharedPreferences));
+				"-1"));
 	}
 
-	public static float appearance_fontscale_comment_headers(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static float appearance_fontscale_comment_headers() {
 		if(getString(
 				R.string.pref_appearance_fontscale_comment_headers_key,
-				"-1",
-				context,
-				sharedPreferences).equals("-1")) {
-			return appearance_fontscale_global(context, sharedPreferences);
+				"-1").equals("-1")) {
+			return appearance_fontscale_global();
 		}
 		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_comment_headers_key,
-				"-1",
-				context,
-				sharedPreferences));
+				"-1"));
 	}
 
-	public static float appearance_fontscale_linkbuttons(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static float appearance_fontscale_linkbuttons() {
 		if(getString(
 				R.string.pref_appearance_fontscale_linkbuttons_key,
-				"-1",
-				context,
-				sharedPreferences).equals("-1")) {
-			return appearance_fontscale_global(context, sharedPreferences);
+				"-1").equals("-1")) {
+			return appearance_fontscale_global();
 		}
 		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_linkbuttons_key,
-				"-1",
-				context,
-				sharedPreferences));
+				"-1"));
 	}
 
-	public static float appearance_fontscale_posts(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static float appearance_fontscale_posts() {
 		if(getString(
 				R.string.pref_appearance_fontscale_posts_key,
-				"-1",
-				context,
-				sharedPreferences).equals("-1")) {
-			return appearance_fontscale_global(context, sharedPreferences);
+				"-1").equals("-1")) {
+			return appearance_fontscale_global();
 		}
 		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_posts_key,
-				"-1",
-				context,
-				sharedPreferences));
+				"-1"));
 	}
 
-	public static float appearance_fontscale_post_subtitles(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static float appearance_fontscale_post_subtitles() {
 		if(getString(
 				R.string.pref_appearance_fontscale_post_subtitles_key,
-				"-1",
-				context,
-				sharedPreferences).equals("-1")) {
-			return appearance_fontscale_global(context, sharedPreferences);
+				"-1").equals("-1")) {
+			return appearance_fontscale_global();
 		}
 		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_post_subtitles_key,
-				"-1",
-				context,
-				sharedPreferences));
+				"-1"));
 	}
 
-	public static float appearance_fontscale_post_header_titles(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static float appearance_fontscale_post_header_titles() {
 		if(getString(
 				R.string.pref_appearance_fontscale_post_header_titles_key,
-				"-1",
-				context,
-				sharedPreferences).equals("-1")) {
-			return appearance_fontscale_global(context, sharedPreferences);
+				"-1").equals("-1")) {
+			return appearance_fontscale_global();
 		}
 		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_post_header_titles_key,
-				"-1",
-				context,
-				sharedPreferences));
+				"-1"));
 	}
 
-	public static float appearance_fontscale_post_header_subtitles(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static float appearance_fontscale_post_header_subtitles() {
 		if(getString(
 				R.string.pref_appearance_fontscale_post_header_subtitles_key,
-				"-1",
-				context,
-				sharedPreferences).equals("-1")) {
-			return appearance_fontscale_global(context, sharedPreferences);
+				"-1").equals("-1")) {
+			return appearance_fontscale_global();
 		}
 		return Float.parseFloat(getString(
 				R.string.pref_appearance_fontscale_post_header_subtitles_key,
-				"-1",
-				context,
-				sharedPreferences));
+				"-1"));
 	}
 
-	public static boolean pref_appearance_hide_username_main_menu(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_hide_username_main_menu() {
 		return getBoolean(
 				R.string.pref_appearance_hide_username_main_menu_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_show_popular_main_menu(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_show_popular_main_menu() {
 		return getBoolean(
 				R.string.pref_menus_show_popular_main_menu_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_show_random_main_menu(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_show_random_main_menu() {
 		return getBoolean(
 				R.string.pref_menus_show_random_main_menu_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_show_multireddit_main_menu(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_show_multireddit_main_menu() {
 		return getBoolean(
 				R.string.pref_menus_show_multireddit_main_menu_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_show_subscribed_subreddits_main_menu(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_show_subscribed_subreddits_main_menu() {
 		return getBoolean(
 				R.string.pref_menus_show_subscribed_subreddits_main_menu_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_menus_mainmenu_dev_announcements(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_menus_mainmenu_dev_announcements() {
 		return getBoolean(
 				R.string.pref_menus_mainmenu_dev_announcements_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_appearance_show_blocked_subreddits_main_menu(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_show_blocked_subreddits_main_menu() {
 		return getBoolean(
 				R.string.pref_appearance_show_blocked_subreddits_main_menu_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_appearance_linkbuttons(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_linkbuttons() {
 		return getBoolean(
 				R.string.pref_appearance_linkbuttons_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_appearance_hide_android_status(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
-		return getBoolean(
-				R.string.pref_appearance_hide_android_status_key,
-				false,
-				context,
-				sharedPreferences);
+	public enum AppearanceStatusBarMode {
+		ALWAYS_HIDE, HIDE_ON_MEDIA, NEVER_HIDE
 	}
 
-	public static boolean pref_appearance_link_text_clickable(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static AppearanceStatusBarMode pref_appearance_android_status() {
+		return AppearanceStatusBarMode.valueOf(StringUtils.asciiUppercase(getString(
+				R.string.pref_appearance_android_status_key,
+				"never_hide")));
+	}
+
+	public static boolean pref_appearance_link_text_clickable() {
 		return getBoolean(
 				R.string.pref_appearance_link_text_clickable_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_appearance_image_viewer_show_floating_toolbar(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_image_viewer_show_floating_toolbar() {
 		return getBoolean(
 				R.string.pref_appearance_image_viewer_show_floating_toolbar_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_appearance_show_aspect_ratio_indicator(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_show_aspect_ratio_indicator() {
 		return getBoolean(
 				R.string.pref_appearance_show_aspect_ratio_indicator_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_appearance_comments_show_floating_toolbar(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_comments_show_floating_toolbar() {
 		return getBoolean(
 				R.string.pref_appearance_comments_show_floating_toolbar_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_appearance_indentlines(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_indentlines() {
 		return getBoolean(
 				R.string.pref_appearance_indentlines_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_appearance_left_handed(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_left_handed() {
 		return getBoolean(
 				R.string.pref_appearance_left_handed_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_appearance_bottom_toolbar(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_bottom_toolbar() {
 		return getBoolean(
 				R.string.pref_appearance_bottom_toolbar_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_appearance_hide_toolbar_on_scroll(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_hide_toolbar_on_scroll() {
 		return getBoolean(
 				R.string.pref_appearance_hide_toolbar_on_scroll_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_appearance_hide_headertoolbar_postlist(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_hide_headertoolbar_postlist() {
 		return getBoolean(
 				R.string.pref_appearance_hide_headertoolbar_postlist_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_appearance_hide_headertoolbar_commentlist(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_appearance_hide_headertoolbar_commentlist() {
 		return getBoolean(
 				R.string.pref_appearance_hide_headertoolbar_commentlist_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
 	public enum AppearancePostSubtitleItem {
 		AUTHOR, FLAIR, SCORE, AGE, GOLD, SUBREDDIT, DOMAIN, STICKY, SPOILER, NSFW
 	}
 
-	public static EnumSet<AppearancePostSubtitleItem> appearance_post_subtitle_items(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static EnumSet<AppearancePostSubtitleItem> appearance_post_subtitle_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_appearance_post_subtitle_items_key,
-				R.array.pref_appearance_post_subtitle_items_default,
-				context,
-				sharedPreferences);
+				R.array.pref_appearance_post_subtitle_items_default);
 
 		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(
 				AppearancePostSubtitleItem.class);
@@ -709,39 +555,27 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static int appearance_post_age_units(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static int appearance_post_age_units() {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_appearance_post_age_units_key,
-					"2",
-					context,
-					sharedPreferences));
+					"2"));
 		} catch(final Throwable e) {
 			return 2;
 		}
 	}
 
-	public static boolean appearance_post_subtitle_items_use_different_settings(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean appearance_post_subtitle_items_use_different_settings() {
 		return getBoolean(
 				R.string.pref_appearance_post_subtitle_items_use_different_settings_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static EnumSet<AppearancePostSubtitleItem> appearance_post_header_subtitle_items(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static EnumSet<AppearancePostSubtitleItem> appearance_post_header_subtitle_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_appearance_post_header_subtitle_items_key,
-				R.array.pref_appearance_post_subtitle_items_default,
-				context,
-				sharedPreferences);
+				R.array.pref_appearance_post_subtitle_items_default);
 
 		final EnumSet<AppearancePostSubtitleItem> result = EnumSet.noneOf(
 				AppearancePostSubtitleItem.class);
@@ -752,43 +586,31 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static int appearance_post_header_age_units(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static int appearance_post_header_age_units() {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_appearance_post_header_age_units_key,
-					"2",
-					context,
-					sharedPreferences));
+					"2"));
 		} catch(final Throwable e) {
 			return 2;
 		}
 	}
 
-	public static boolean appearance_post_show_comments_button(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean appearance_post_show_comments_button() {
 		return getBoolean(
 				R.string.pref_appearance_post_show_comments_button_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
 	public enum AppearanceCommentHeaderItem {
-		AUTHOR, FLAIR, SCORE, AGE, GOLD, SUBREDDIT
+		AUTHOR, FLAIR, SCORE, CONTROVERSIALITY, AGE, GOLD, SUBREDDIT
 	}
 
-	public static EnumSet<AppearanceCommentHeaderItem> appearance_comment_header_items(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static EnumSet<AppearanceCommentHeaderItem> appearance_comment_header_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_appearance_comment_header_items_key,
-				R.array.pref_appearance_comment_header_items_default,
-				context,
-				sharedPreferences);
+				R.array.pref_appearance_comment_header_items_default);
 
 		final EnumSet<AppearanceCommentHeaderItem> result = EnumSet.noneOf(
 				AppearanceCommentHeaderItem.class);
@@ -808,15 +630,11 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static int appearance_comment_age_units(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static int appearance_comment_age_units() {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_appearance_comment_age_units_key,
-					"2",
-					context,
-					sharedPreferences));
+					"2"));
 		} catch(final Throwable e) {
 			return 2;
 		}
@@ -826,234 +644,150 @@ public final class PrefsUtility {
 		ABSOLUTE, RELATIVE_POST, RELATIVE_PARENT
 	}
 
-	public static CommentAgeMode appearance_comment_age_mode(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static CommentAgeMode appearance_comment_age_mode() {
 		return CommentAgeMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_comment_age_mode_key,
-				"absolute",
-				context,
-				sharedPreferences)));
+				"absolute")));
 	}
 
-	public static int appearance_inbox_age_units(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static int appearance_inbox_age_units() {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_appearance_inbox_age_units_key,
-					"2",
-					context,
-					sharedPreferences));
+					"2"));
 		} catch(final Throwable e) {
 			return 2;
 		}
 	}
 
-	public static int images_thumbnail_size_dp(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static int images_thumbnail_size_dp() {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_images_thumbnail_size_key,
-					"64",
-					context,
-					sharedPreferences));
+					"64"));
 		} catch(final Throwable e) {
 			return 64;
 		}
 	}
 
-	public static NeverAlwaysOrWifiOnly images_inline_image_previews(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static NeverAlwaysOrWifiOnly images_inline_image_previews() {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_images_inline_image_previews_key,
-						"always",
-						context,
-						sharedPreferences)));
+						"always")));
 	}
 
-	public static boolean images_inline_image_previews_nsfw(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean images_inline_image_previews_nsfw() {
 		return getBoolean(
 				R.string.pref_images_inline_image_previews_nsfw_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean images_inline_image_previews_spoiler(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean images_inline_image_previews_spoiler() {
 		return getBoolean(
 				R.string.pref_images_inline_image_previews_spoiler_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static NeverAlwaysOrWifiOnly images_high_res_thumbnails(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static NeverAlwaysOrWifiOnly images_high_res_thumbnails() {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_images_high_res_thumbnails_key,
-						"wifionly",
-						context,
-						sharedPreferences)));
+						"wifionly")));
 	}
 
 	///////////////////////////////
 	// pref_behaviour
 	///////////////////////////////
 
-	public static boolean pref_behaviour_skiptofrontpage(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_skiptofrontpage() {
 		return getBoolean(
 				R.string.pref_behaviour_skiptofrontpage_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_behaviour_useinternalbrowser(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_useinternalbrowser() {
 		return getBoolean(
 				R.string.pref_behaviour_useinternalbrowser_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_behaviour_usecustomtabs(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_usecustomtabs() {
 		return getBoolean(
 				R.string.pref_behaviour_usecustomtabs_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_behaviour_notifications(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_notifications() {
 		return getBoolean(
 				R.string.pref_behaviour_notifications_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_behaviour_enable_swipe_refresh(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_enable_swipe_refresh() {
 		return getBoolean(
 				R.string.pref_behaviour_enable_swipe_refresh_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_behaviour_video_playback_controls(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_video_playback_controls() {
 		return getBoolean(
 				R.string.pref_behaviour_video_playback_controls_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_behaviour_video_mute_default(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_video_mute_default() {
 		return getBoolean(
 				R.string.pref_behaviour_video_mute_default_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_behaviour_video_zoom_default(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_video_zoom_default() {
 		return getBoolean(R.string.pref_behaviour_video_zoom_default_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_videos_download_before_playing(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_videos_download_before_playing() {
 		return getBoolean(R.string.pref_videos_download_before_playing_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_behaviour_imagevideo_tap_close(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_imagevideo_tap_close() {
 		return getBoolean(R.string.pref_behaviour_imagevideo_tap_close_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static int pref_behaviour_bezel_toolbar_swipezone_dp(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static int pref_behaviour_bezel_toolbar_swipezone_dp() {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_behaviour_bezel_toolbar_swipezone_key,
-					"10",
-					context,
-					sharedPreferences));
+					"10"));
 		} catch(final Throwable e) {
 			return 10;
 		}
 	}
 
-	public static boolean pref_behaviour_back_again(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_back_again() {
 		return getBoolean(R.string.pref_behaviour_postlist_back_again_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static int pref_behaviour_gallery_swipe_length_dp(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static int pref_behaviour_gallery_swipe_length_dp() {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_behaviour_gallery_swipe_length_key,
-					"150",
-					context,
-					sharedPreferences));
+					"150"));
 		} catch(final Throwable e) {
 			return 150;
 		}
 	}
 
-	public static Integer pref_behaviour_comment_min(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static Integer pref_behaviour_comment_min() {
 		final Integer defaultValue = -4;
 
 		final String value = getString(
 				R.string.pref_behaviour_comment_min_key,
-				defaultValue.toString(),
-				context,
-				sharedPreferences);
+				defaultValue.toString());
 
 		if(value == null || value.trim().isEmpty()) {
 			return null;
@@ -1066,14 +800,10 @@ public final class PrefsUtility {
 		}
 	}
 
-	public static boolean pref_behaviour_post_title_opens_comments(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_post_title_opens_comments() {
 		return getBoolean(
 				R.string.pref_behaviour_post_title_opens_comments_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
 	// pref_behaviour_imageview_mode
@@ -1090,14 +820,10 @@ public final class PrefsUtility {
 		}
 	}
 
-	public static ImageViewMode pref_behaviour_imageview_mode(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static ImageViewMode pref_behaviour_imageview_mode() {
 		return ImageViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_imageview_mode_key,
-				"internal_opengl",
-				context,
-				sharedPreferences)));
+				"internal_opengl")));
 	}
 
 	// pref_behaviour_albumview_mode
@@ -1108,14 +834,10 @@ public final class PrefsUtility {
 		EXTERNAL_BROWSER
 	}
 
-	public static AlbumViewMode pref_behaviour_albumview_mode(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static AlbumViewMode pref_behaviour_albumview_mode() {
 		return AlbumViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_albumview_mode_key,
-				"internal_list",
-				context,
-				sharedPreferences)));
+				"internal_list")));
 	}
 
 	// pref_behaviour_gifview_mode
@@ -1133,14 +855,10 @@ public final class PrefsUtility {
 		}
 	}
 
-	public static GifViewMode pref_behaviour_gifview_mode(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static GifViewMode pref_behaviour_gifview_mode() {
 		return GifViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_gifview_mode_key,
-				"internal_movie",
-				context,
-				sharedPreferences)));
+				"internal_movie")));
 	}
 
 	// pref_behaviour_videoview_mode
@@ -1158,14 +876,10 @@ public final class PrefsUtility {
 		}
 	}
 
-	public static VideoViewMode pref_behaviour_videoview_mode(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static VideoViewMode pref_behaviour_videoview_mode() {
 		return VideoViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_videoview_mode_key,
-				"internal_videoview",
-				context,
-				sharedPreferences)));
+				"internal_videoview")));
 	}
 
 	// pref_behaviour_fling_post
@@ -1192,38 +906,26 @@ public final class PrefsUtility {
 		DISABLED
 	}
 
-	public static PostFlingAction pref_behaviour_fling_post_left(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static PostFlingAction pref_behaviour_fling_post_left() {
 		return PostFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_post_left_key,
-				"downvote",
-				context,
-				sharedPreferences)));
+				"downvote")));
 	}
 
-	public static PostFlingAction pref_behaviour_fling_post_right(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static PostFlingAction pref_behaviour_fling_post_right() {
 		return PostFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_post_right_key,
-				"upvote",
-				context,
-				sharedPreferences)));
+				"upvote")));
 	}
 
 	public enum SelfpostAction {
 		COLLAPSE, NOTHING
 	}
 
-	public static SelfpostAction pref_behaviour_self_post_tap_actions(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static SelfpostAction pref_behaviour_self_post_tap_actions() {
 		return SelfpostAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_self_post_tap_actions_key,
-				"collapse",
-				context,
-				sharedPreferences)));
+				"collapse")));
 	}
 
 	// pref_behaviour_fling_comment
@@ -1248,251 +950,166 @@ public final class PrefsUtility {
 		DISABLED
 	}
 
-	public static CommentFlingAction pref_behaviour_fling_comment_left(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static CommentFlingAction pref_behaviour_fling_comment_left() {
 		return CommentFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_comment_left_key,
-				"downvote",
-				context,
-				sharedPreferences)));
+				"downvote")));
 	}
 
-	public static CommentFlingAction pref_behaviour_fling_comment_right(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static CommentFlingAction pref_behaviour_fling_comment_right() {
 		return CommentFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_comment_right_key,
-				"upvote",
-				context,
-				sharedPreferences)));
+				"upvote")));
 	}
 
 	public enum CommentAction {
 		COLLAPSE, ACTION_MENU, NOTHING
 	}
 
-	public static CommentAction pref_behaviour_actions_comment_tap(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static CommentAction pref_behaviour_actions_comment_tap() {
 		return CommentAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_actions_comment_tap_key,
-				"collapse",
-				context,
-				sharedPreferences)));
+				"collapse")));
 	}
 
-	public static CommentAction pref_behaviour_actions_comment_longclick(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static CommentAction pref_behaviour_actions_comment_longclick() {
 		return CommentAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_actions_comment_longclick_key,
-				"action_menu",
-				context,
-				sharedPreferences)));
+				"action_menu")));
 	}
 
-	public static boolean pref_behaviour_sharing_share_text(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_sharing_share_text() {
 		return getBoolean(
 				R.string.pref_behaviour_sharing_share_text_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_behaviour_sharing_include_desc(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_sharing_include_desc() {
 		return getBoolean(
 				R.string.pref_behaviour_sharing_include_desc_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
-	public static boolean pref_behaviour_sharing_dialog(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_sharing_dialog() {
 		return getBoolean(
 				R.string.pref_behaviour_sharing_share_dialog_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static String pref_behaviour_sharing_dialog_data_get(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static String pref_behaviour_sharing_dialog_data_get() {
 		return getString(
 				R.string.pref_behaviour_sharing_share_dialog_data,
-				"",
-				context,
-				sharedPreferences);
+				"");
 	}
 
 	public static void pref_behaviour_sharing_dialog_data_set(
 			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
 			final String appNames) {
-		sharedPreferences.edit()
+		sharedPrefs.edit()
 				.putString(
 						context.getString(R.string.pref_behaviour_sharing_share_dialog_data),
 						appNames)
 				.apply();
 	}
 
-	public static PostSort pref_behaviour_postsort(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static PostSort pref_behaviour_postsort() {
 		return PostSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_postsort_key,
-				"hot",
-				context,
-				sharedPreferences)));
+				"hot")));
 	}
 
-	public static PostSort pref_behaviour_user_postsort(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static PostSort pref_behaviour_user_postsort() {
 		return PostSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_user_postsort_key,
-				"new",
-				context,
-				sharedPreferences)));
+				"new")));
 	}
 
-	public static PostSort pref_behaviour_multi_postsort(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static PostSort pref_behaviour_multi_postsort() {
 		return PostSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_multi_postsort_key,
-				"hot",
-				context,
-				sharedPreferences)));
+				"hot")));
 	}
 
-	public static PostCommentListingURL.Sort pref_behaviour_commentsort(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
-		return PostCommentListingURL.Sort.valueOf(StringUtils.asciiUppercase(getString(
+	public static PostCommentSort pref_behaviour_commentsort() {
+		return PostCommentSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_commentsort_key,
-				"best",
-				context,
-				sharedPreferences)));
+				"best")));
 	}
 
-	public static UserCommentListingURL.Sort pref_behaviour_user_commentsort(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
-		return UserCommentListingURL.Sort.valueOf(StringUtils.asciiUppercase(getString(
+	public static UserCommentSort pref_behaviour_user_commentsort() {
+		return UserCommentSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_user_commentsort_key,
-				"new",
-				context,
-				sharedPreferences)));
+				"new")));
 	}
 
 	public enum PinnedSubredditSort {
 		NAME, DATE
 	}
 
-	public static PinnedSubredditSort pref_behaviour_pinned_subredditsort(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static PinnedSubredditSort pref_behaviour_pinned_subredditsort() {
 		return PinnedSubredditSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_pinned_subredditsort_key,
-				"name",
-				context,
-				sharedPreferences)));
+				"name")));
 	}
 
 	public enum BlockedSubredditSort {
 		NAME, DATE
 	}
 
-	public static BlockedSubredditSort pref_behaviour_blocked_subredditsort(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static BlockedSubredditSort pref_behaviour_blocked_subredditsort() {
 		return BlockedSubredditSort.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_blocked_subredditsort_key,
-				"name",
-				context,
-				sharedPreferences)));
+				"name")));
 	}
 
-	public static boolean pref_behaviour_nsfw(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_nsfw() {
 		return getBoolean(
 				R.string.pref_behaviour_nsfw_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
 	//Show Visited Posts? True hides them.
 	// See strings.xml, prefs_behaviour.xml, PostListingFragment.java
-	public static boolean pref_behaviour_hide_read_posts(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_hide_read_posts() {
 		return getBoolean(
 				R.string.pref_behaviour_hide_read_posts_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static boolean pref_behaviour_share_permalink(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_behaviour_share_permalink() {
 		return getBoolean(
 				R.string.pref_behaviour_share_permalink_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
 	public enum PostCount {
 		R25, R50, R100, ALL
 	}
 
-	public static PostCount pref_behaviour_post_count(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static PostCount pref_behaviour_post_count() {
 		return PostCount.valueOf(getString(
 				R.string.pref_behaviour_postcount_key,
-				"ALL",
-				context,
-				sharedPreferences));
+				"ALL"));
 	}
 
 	public enum ScreenOrientation {
 		AUTO, PORTRAIT, LANDSCAPE
 	}
 
-	public static ScreenOrientation pref_behaviour_screen_orientation(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static ScreenOrientation pref_behaviour_screen_orientation() {
 		return ScreenOrientation.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_screenorientation_key,
-				StringUtils.asciiLowercase(ScreenOrientation.AUTO.name()),
-				context,
-				sharedPreferences)));
+				StringUtils.asciiLowercase(ScreenOrientation.AUTO.name()))));
 	}
 
 	public enum SaveLocation {
 		PROMPT_EVERY_TIME, SYSTEM_DEFAULT
 	}
 
-	public static SaveLocation pref_behaviour_save_location(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static SaveLocation pref_behaviour_save_location() {
 		return SaveLocation.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_save_location_key,
-				StringUtils.asciiLowercase(SaveLocation.PROMPT_EVERY_TIME.name()),
-				context,
-				sharedPreferences)));
+				StringUtils.asciiLowercase(SaveLocation.PROMPT_EVERY_TIME.name()))));
 	}
 
 	///////////////////////////////
@@ -1502,35 +1119,29 @@ public final class PrefsUtility {
 	// pref_cache_location
 
 	public static String pref_cache_location(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+			final Context context) {
 		File defaultCacheDir = context.getExternalCacheDir();
 		if(defaultCacheDir == null) {
 			defaultCacheDir = context.getCacheDir();
 		}
 		return getString(R.string.pref_cache_location_key,
-				defaultCacheDir.getAbsolutePath(),
-				context, sharedPreferences);
+				defaultCacheDir.getAbsolutePath());
 	}
 
 	public static void pref_cache_location(
 			final Context context,
-			final SharedPrefsWrapper sharedPreferences, final String path) {
-		sharedPreferences.edit()
+			final String path) {
+		sharedPrefs.edit()
 				.putString(context.getString(R.string.pref_cache_location_key), path)
 				.apply();
 	}
 
-	public static long pref_cache_rerequest_postlist_age_ms(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static long pref_cache_rerequest_postlist_age_ms() {
 		try {
 			final int hours = Integer.parseInt(
 					getString(
 							R.string.pref_cache_rerequest_postlist_age_key,
-							"1",
-							context,
-							sharedPreferences));
+							"1"));
 
 			return General.hoursToMs(hours);
 
@@ -1566,83 +1177,61 @@ public final class PrefsUtility {
 		return maxAgeMap;
 	}
 
-	public static HashMap<Integer, Long> pref_cache_maxage(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static HashMap<Integer, Long> pref_cache_maxage() {
 
 		final long maxAgeListing = 1000L
 				* 60L
 				* 60L
 				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_listing_key,
-				"168",
-				context,
-				sharedPreferences));
+				"168"));
 		final long maxAgeThumb = 1000L
 				* 60L
 				* 60L
 				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_thumb_key,
-				"168",
-				context,
-				sharedPreferences));
+				"168"));
 		final long maxAgeImage = 1000L
 				* 60L
 				* 60L
 				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_image_key,
-				"72",
-				context,
-				sharedPreferences));
+				"72"));
 
 		return createFileTypeToLongMap(maxAgeListing, maxAgeThumb, maxAgeImage);
 	}
 
-	public static Long pref_cache_maxage_entry(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static Long pref_cache_maxage_entry() {
 		return 1000L
 				* 60L
 				* 60L
 				* Long.parseLong(getString(
 				R.string.pref_cache_maxage_entry_key,
-				"168",
-				context,
-				sharedPreferences));
+				"168"));
 	}
 
 	// pref_cache_precache_images
 
-	public static NeverAlwaysOrWifiOnly cache_precache_images(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static NeverAlwaysOrWifiOnly cache_precache_images() {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_cache_precache_images_list_key,
-						"wifionly",
-						context,
-						sharedPreferences)));
+						"wifionly")));
 	}
 
-	public static NeverAlwaysOrWifiOnly cache_precache_images_old(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static NeverAlwaysOrWifiOnly cache_precache_images_old() {
 
-		if(network_tor(context, sharedPreferences)) {
+		if(network_tor()) {
 			return NeverAlwaysOrWifiOnly.NEVER;
 		}
 
 		if(!getBoolean(
 				R.string.pref_cache_precache_images_key,
-				true,
-				context,
-				sharedPreferences)) {
+				true)) {
 			return NeverAlwaysOrWifiOnly.NEVER;
 		} else if(getBoolean(
 				R.string.pref_cache_precache_images_wifionly_key,
-				true,
-				context,
-				sharedPreferences)) {
+				true)) {
 			return NeverAlwaysOrWifiOnly.WIFIONLY;
 		} else {
 			return NeverAlwaysOrWifiOnly.ALWAYS;
@@ -1651,32 +1240,22 @@ public final class PrefsUtility {
 
 	// pref_cache_precache_comments
 
-	public static NeverAlwaysOrWifiOnly cache_precache_comments(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static NeverAlwaysOrWifiOnly cache_precache_comments() {
 		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
 				getString(
 						R.string.pref_cache_precache_comments_list_key,
-						"always",
-						context,
-						sharedPreferences)));
+						"always")));
 	}
 
-	public static NeverAlwaysOrWifiOnly cache_precache_comments_old(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static NeverAlwaysOrWifiOnly cache_precache_comments_old() {
 
 		if(!getBoolean(
 				R.string.pref_cache_precache_comments_key,
-				true,
-				context,
-				sharedPreferences)) {
+				true)) {
 			return NeverAlwaysOrWifiOnly.NEVER;
 		} else if(getBoolean(
 				R.string.pref_cache_precache_comments_wifionly_key,
-				false,
-				context,
-				sharedPreferences)) {
+				false)) {
 			return NeverAlwaysOrWifiOnly.WIFIONLY;
 		} else {
 			return NeverAlwaysOrWifiOnly.ALWAYS;
@@ -1687,29 +1266,21 @@ public final class PrefsUtility {
 	// pref_network
 	///////////////////////////////
 
-	public static boolean network_tor(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean network_tor() {
 		return getBoolean(
 				R.string.pref_network_tor_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
 	///////////////////////////////
 	// pref_menus
 	///////////////////////////////
 
-	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_context_items(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_context_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_post_context_items_key,
-				R.array.pref_menus_post_context_items_return,
-				context,
-				sharedPreferences);
+				R.array.pref_menus_post_context_items_return);
 
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
 				RedditPreparedPost.Action.class);
@@ -1720,15 +1291,11 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_toolbar_items(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_toolbar_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_post_toolbar_items_key,
-				R.array.pref_menus_post_toolbar_items_return,
-				context,
-				sharedPreferences);
+				R.array.pref_menus_post_toolbar_items_return);
 
 		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
 				RedditPreparedPost.Action.class);
@@ -1739,15 +1306,11 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static EnumSet<LinkHandler.LinkAction> pref_menus_link_context_items(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static EnumSet<LinkHandler.LinkAction> pref_menus_link_context_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_link_context_items_key,
-				R.array.pref_menus_link_context_items_return,
-				context,
-				sharedPreferences);
+				R.array.pref_menus_link_context_items_return);
 
 		final EnumSet<LinkHandler.LinkAction> result
 				= EnumSet.noneOf(LinkHandler.LinkAction.class);
@@ -1759,15 +1322,11 @@ public final class PrefsUtility {
 	}
 
 	public static EnumSet<MainMenuListingManager.SubredditAction>
-	pref_menus_subreddit_context_items(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	pref_menus_subreddit_context_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_subreddit_context_items_key,
-				R.array.pref_menus_subreddit_context_items_return,
-				context,
-				sharedPreferences);
+				R.array.pref_menus_subreddit_context_items_return);
 
 		final EnumSet<MainMenuListingManager.SubredditAction> result = EnumSet.noneOf(
 				MainMenuListingManager.SubredditAction.class);
@@ -1779,15 +1338,11 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static EnumSet<MainMenuFragment.MainMenuUserItems> pref_menus_mainmenu_useritems(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static EnumSet<MainMenuFragment.MainMenuUserItems> pref_menus_mainmenu_useritems() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_mainmenu_useritems_key,
-				R.array.pref_menus_mainmenu_useritems_items_default,
-				context,
-				sharedPreferences);
+				R.array.pref_menus_mainmenu_useritems_items_default);
 
 		final EnumSet<MainMenuFragment.MainMenuUserItems> result = EnumSet.noneOf(
 				MainMenuFragment.MainMenuUserItems.class);
@@ -1798,15 +1353,12 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static EnumSet<MainMenuFragment.MainMenuShortcutItems> pref_menus_mainmenu_shortcutitems(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static EnumSet<MainMenuFragment.MainMenuShortcutItems>
+	pref_menus_mainmenu_shortcutitems() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_mainmenu_shortcutitems_key,
-				R.array.pref_menus_mainmenu_shortcutitems_items_default,
-				context,
-				sharedPreferences);
+				R.array.pref_menus_mainmenu_shortcutitems_items_default);
 
 		final EnumSet<MainMenuFragment.MainMenuShortcutItems> result = EnumSet.noneOf(
 				MainMenuFragment.MainMenuShortcutItems.class);
@@ -1833,9 +1385,7 @@ public final class PrefsUtility {
 		}
 	}
 
-	public static EnumMap<OptionsMenuUtility.AppbarItemsPref, Integer> pref_menus_appbar_items(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static EnumMap<OptionsMenuUtility.AppbarItemsPref, Integer> pref_menus_appbar_items() {
 
 		final AppbarItemInfo[] appbarItemsInfo = {
 				new AppbarItemInfo(
@@ -1904,9 +1454,7 @@ public final class PrefsUtility {
 			try {
 				appbarItemsPrefs.put(item.itemPref, Integer.parseInt(getString(
 						item.stringRes,
-						Integer.toString(item.defaultValue),
-						context,
-						sharedPreferences)));
+						Integer.toString(item.defaultValue))));
 			} catch(final NumberFormatException | NullPointerException e) {
 				appbarItemsPrefs.put(item.itemPref, item.defaultValue);
 			}
@@ -1915,26 +1463,18 @@ public final class PrefsUtility {
 		return appbarItemsPrefs;
 	}
 
-	public static boolean pref_menus_quick_account_switcher(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_menus_quick_account_switcher() {
 		return getBoolean(
 				R.string.pref_menus_quick_account_switcher_key,
-				true,
-				context,
-				sharedPreferences);
+				true);
 	}
 
 	public static EnumSet<RedditAPICommentAction.RedditCommentAction>
-				pref_menus_comment_context_items(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+				pref_menus_comment_context_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_comment_context_items_key,
-				R.array.pref_menus_comment_context_items_return,
-				context,
-				sharedPreferences);
+				R.array.pref_menus_comment_context_items_return);
 
 		final EnumSet<RedditAPICommentAction.RedditCommentAction> result = EnumSet.noneOf(
 				RedditAPICommentAction.RedditCommentAction.class);
@@ -1951,23 +1491,16 @@ public final class PrefsUtility {
 	// pref_pinned_subreddits
 	///////////////////////////////
 
-	public static List<SubredditCanonicalId> pref_pinned_subreddits(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
-		return pref_subreddits_list(
-				context,
-				sharedPreferences,
-				R.string.pref_pinned_subreddits_key);
+	public static List<SubredditCanonicalId> pref_pinned_subreddits() {
+		return pref_subreddits_list(R.string.pref_pinned_subreddits_key);
 	}
 
 	public static void pref_pinned_subreddits_add(
 			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_add(
 				context,
-				sharedPreferences,
 				subreddit,
 				R.string.pref_pinned_subreddits_key);
 
@@ -1978,12 +1511,10 @@ public final class PrefsUtility {
 
 	public static void pref_pinned_subreddits_remove(
 			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_remove(
 				context,
-				sharedPreferences,
 				subreddit,
 				R.string.pref_pinned_subreddits_key);
 
@@ -1992,36 +1523,26 @@ public final class PrefsUtility {
 				subreddit.toString()));
 	}
 
-	public static boolean pref_pinned_subreddits_check(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
-			final SubredditCanonicalId id) {
+	public static boolean pref_pinned_subreddits_check(final SubredditCanonicalId id) {
 
-		return pref_pinned_subreddits(context, sharedPreferences).contains(id);
+		return pref_pinned_subreddits().contains(id);
 	}
 
 	///////////////////////////////
 	// pref_blocked_subreddits
 	///////////////////////////////
 
-	public static List<SubredditCanonicalId> pref_blocked_subreddits(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static List<SubredditCanonicalId> pref_blocked_subreddits() {
 
-		return pref_subreddits_list(
-				context,
-				sharedPreferences,
-				R.string.pref_blocked_subreddits_key);
+		return pref_subreddits_list(R.string.pref_blocked_subreddits_key);
 	}
 
 	public static void pref_blocked_subreddits_add(
 			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_add(
 				context,
-				sharedPreferences,
 				subreddit,
 				R.string.pref_blocked_subreddits_key);
 
@@ -2030,24 +1551,19 @@ public final class PrefsUtility {
 
 	public static void pref_blocked_subreddits_remove(
 			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit) {
 
 		pref_subreddits_remove(
 				context,
-				sharedPreferences,
 				subreddit,
 				R.string.pref_blocked_subreddits_key);
 
 		General.quickToast(context, R.string.unblock_done);
 	}
 
-	public static boolean pref_blocked_subreddits_check(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
-			final SubredditCanonicalId subreddit) {
+	public static boolean pref_blocked_subreddits_check(final SubredditCanonicalId subreddit) {
 
-		return pref_blocked_subreddits(context, sharedPreferences).contains(subreddit);
+		return pref_blocked_subreddits().contains(subreddit);
 	}
 
 	///////////////////////////////
@@ -2056,27 +1572,25 @@ public final class PrefsUtility {
 
 	private static void pref_subreddits_add(
 			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit,
 			final int prefId) {
 
-		final String value = getString(prefId, "", context, sharedPreferences);
+		final String value = getString(prefId, "");
 		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
 
 		if(!list.contains(subreddit.toString())) {
 			list.add(subreddit.toString());
 			final String result = WritableHashSet.listToEscapedString(list);
-			sharedPreferences.edit().putString(context.getString(prefId), result).apply();
+			sharedPrefs.edit().putString(context.getString(prefId), result).apply();
 		}
 	}
 
 	private static void pref_subreddits_remove(
 			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
 			final SubredditCanonicalId subreddit,
 			final int prefId) {
 
-		final String value = getString(prefId, "", context, sharedPreferences);
+		final String value = getString(prefId, "");
 		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
 
 		final Iterator<String> iterator = list.iterator();
@@ -2093,15 +1607,12 @@ public final class PrefsUtility {
 
 		final String resultStr = WritableHashSet.listToEscapedString(list);
 
-		sharedPreferences.edit().putString(context.getString(prefId), resultStr).apply();
+		sharedPrefs.edit().putString(context.getString(prefId), resultStr).apply();
 	}
 
-	public static List<SubredditCanonicalId> pref_subreddits_list(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences,
-			final int prefId) {
+	public static List<SubredditCanonicalId> pref_subreddits_list(final int prefId) {
 
-		final String value = getString(prefId, "", context, sharedPreferences);
+		final String value = getString(prefId, "");
 		final ArrayList<String> list = WritableHashSet.escapedStringToList(value);
 
 		final ArrayList<SubredditCanonicalId> result = new ArrayList<>(list.size());
@@ -2117,25 +1628,17 @@ public final class PrefsUtility {
 		return result;
 	}
 
-	public static boolean pref_accessibility_separate_body_text_lines(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static boolean pref_accessibility_separate_body_text_lines() {
 		return getBoolean(
 				R.string.pref_accessibility_separate_body_text_lines_key,
-				false,
-				context,
-				sharedPreferences);
+				false);
 	}
 
-	public static int pref_accessibility_min_comment_height(
-			final Context context,
-			final SharedPrefsWrapper sharedPreferences) {
+	public static int pref_accessibility_min_comment_height() {
 		try {
 			return Integer.parseInt(getString(
 					R.string.pref_accessibility_min_comment_height_key,
-					"0",
-					context,
-					sharedPreferences));
+					"0"));
 		} catch(final Throwable e) {
 			return 0;
 		}

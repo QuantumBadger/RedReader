@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,7 +41,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.FilteredCommentListingManager;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
@@ -55,7 +53,6 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
@@ -84,6 +81,7 @@ public class CommentListingFragment extends RRFragment
 		CommentListingRequest.Listener {
 
 	private static final String SAVEDSTATE_FIRST_VISIBLE_POS = "firstVisiblePosition";
+	private static final String SAVEDSTATE_SELFTEXT_VISIBLE = "selftextVisible";
 
 	private final RedditAccount mUser;
 	private final ArrayList<RedditURLParser.RedditURL> mAllUrls;
@@ -92,7 +90,8 @@ public class CommentListingFragment extends RRFragment
 	private final DownloadStrategy mDownloadStrategy;
 
 	private RedditPreparedPost mPost = null;
-	private boolean isArchived;
+
+	private boolean mSelfTextVisible = true;
 
 	private final FilteredCommentListingManager mCommentListingManager;
 
@@ -122,6 +121,10 @@ public class CommentListingFragment extends RRFragment
 		if(savedInstanceState != null) {
 			mPreviousFirstVisibleItemPosition = savedInstanceState.getInt(
 					SAVEDSTATE_FIRST_VISIBLE_POS);
+
+			if(savedInstanceState.containsKey(SAVEDSTATE_SELFTEXT_VISIBLE)) {
+				mSelfTextVisible = savedInstanceState.getBoolean(SAVEDSTATE_SELFTEXT_VISIBLE);
+			}
 		}
 
 		mCommentListingManager = new FilteredCommentListingManager(parent, searchString);
@@ -150,11 +153,9 @@ public class CommentListingFragment extends RRFragment
 
 		final Context context = getActivity();
 
-		final SharedPrefsWrapper prefs = General.getSharedPrefs(context);
+		mSelfTextFontScale = PrefsUtility.appearance_fontscale_bodytext();
 
-		mSelfTextFontScale = PrefsUtility.appearance_fontscale_bodytext(context, prefs);
-
-		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(context, prefs);
+		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons();
 
 		mOverlayFrame = new FrameLayout(context);
 
@@ -162,7 +163,7 @@ public class CommentListingFragment extends RRFragment
 				= new ScrollbarRecyclerViewManager(context, null, false, false);
 
 		if(parent instanceof OptionsMenuUtility.OptionsMenuCommentsListener
-				&& PrefsUtility.pref_behaviour_enable_swipe_refresh(context, prefs)) {
+				&& PrefsUtility.pref_behaviour_enable_swipe_refresh()) {
 
 			recyclerViewManager.enablePullToRefresh(
 					((OptionsMenuUtility.OptionsMenuCommentsListener)parent)::onRefreshComments);
@@ -177,8 +178,28 @@ public class CommentListingFragment extends RRFragment
 
 		mRecyclerView.setItemAnimator(null);
 
+//		if(!PrefsUtility.pref_appearance_comments_show_floating_toolbar()) {
+//			mFloatingToolbar = null;
 		mFloatingToolbar = null;
-
+//
+//		} else {
+//			mFloatingToolbar = (LinearLayout)LayoutInflater.from(context).inflate(
+//					R.layout.floating_toolbar,
+//					mOverlayFrame,
+//					false);
+//
+//			// We need a container so that setVisible() doesn't mess with the Z-order
+//			final FrameLayout floatingToolbarContainer = new FrameLayout(context);
+//
+//			floatingToolbarContainer.addView(mFloatingToolbar);
+//			mOverlayFrame.addView(floatingToolbarContainer);
+//
+//			if(PrefsUtility.isNightMode()) {
+//				mFloatingToolbar.setBackgroundColor(Color.argb(0xCC, 0x33, 0x33, 0x33));
+//			}
+//
+//			final int buttonVPadding = General.dpToPixels(context, 12);
+//			final int buttonHPadding = General.dpToPixels(context, 16);
 //		getListingView().setBackgroundColor(Color.parseColor("#222222"));
 
 
@@ -390,6 +411,10 @@ public class CommentListingFragment extends RRFragment
 				SAVEDSTATE_FIRST_VISIBLE_POS,
 				layoutManager.findFirstVisibleItemPosition());
 
+		if(mPost != null && mPost.isSelf()) {
+			bundle.putBoolean(SAVEDSTATE_SELFTEXT_VISIBLE, mSelfTextVisible);
+		}
+
 		return bundle;
 	}
 
@@ -414,9 +439,7 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCommentClicked(final RedditCommentView view) {
-		switch(PrefsUtility.pref_behaviour_actions_comment_tap(
-				getActivity(),
-				General.getSharedPrefs(getActivity()))) {
+		switch(PrefsUtility.pref_behaviour_actions_comment_tap()) {
 
 			case COLLAPSE:
 				handleCommentVisibilityToggle(view);
@@ -431,7 +454,7 @@ public class CommentListingFragment extends RRFragment
 							item.asComment(),
 							view,
 							RedditChangeDataManager.getInstance(mUser),
-							isArchived);
+							mPost != null && mPost.isLocked);
 				}
 				break;
 			}
@@ -440,9 +463,7 @@ public class CommentListingFragment extends RRFragment
 
 	@Override
 	public void onCommentLongClicked(final RedditCommentView view) {
-		switch(PrefsUtility.pref_behaviour_actions_comment_longclick(
-				getActivity(),
-				General.getSharedPrefs(getActivity()))) {
+		switch(PrefsUtility.pref_behaviour_actions_comment_longclick()) {
 
 			case ACTION_MENU: {
 				final RedditCommentListItem item = view.getComment();
@@ -453,7 +474,7 @@ public class CommentListingFragment extends RRFragment
 							item.asComment(),
 							view,
 							RedditChangeDataManager.getInstance(mUser),
-							isArchived);
+							mPost != null && mPost.isLocked);
 				}
 				break;
 			}
@@ -498,7 +519,9 @@ public class CommentListingFragment extends RRFragment
 			final RRThemeAttributes attr = new RRThemeAttributes(activity);
 
 			mPost = post;
-			isArchived = post.isArchived;
+
+			// Invalidate the options menu, so the suggested sort will be shown if needed.
+			activity.invalidateOptionsMenu();
 
 			final RedditPostHeaderView postHeader = new RedditPostHeaderView(
 					activity,
@@ -536,20 +559,26 @@ public class CommentListingFragment extends RRFragment
 				paddingLayout.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 
 				final PrefsUtility.SelfpostAction actionOnClick
-						= PrefsUtility.pref_behaviour_self_post_tap_actions(
-								activity,
-								General.getSharedPrefs(activity));
+						= PrefsUtility.pref_behaviour_self_post_tap_actions();
 				if(actionOnClick == PrefsUtility.SelfpostAction.COLLAPSE) {
 					paddingLayout.setOnClickListener(v -> {
 						if(selfText.getVisibility() == View.GONE) {
+							mSelfTextVisible = true;
 							selfText.setVisibility(View.VISIBLE);
 							collapsedView.setVisibility(View.GONE);
 						} else {
+							mSelfTextVisible = false;
 							selfText.setVisibility(View.GONE);
 							collapsedView.setVisibility(View.VISIBLE);
 							layoutManager.scrollToPositionWithOffset(0, 0);
 						}
 					});
+				}
+
+				if(!mSelfTextVisible) {
+					selfText.setVisibility(View.GONE);
+					collapsedView.setVisibility(View.VISIBLE);
+					layoutManager.scrollToPositionWithOffset(0, 0);
 				}
 
 				paddingLayout.setOnLongClickListener(v -> {
@@ -560,9 +589,7 @@ public class CommentListingFragment extends RRFragment
 				mCommentListingManager.addPostSelfText(paddingLayout);
 			}
 
-			if(!General.isTablet(
-					activity,
-					General.getSharedPrefs(activity))) {
+			if(!General.isTablet(activity)) {
 				activity.setTitle(post.src.getTitle());
 			}
 
@@ -672,9 +699,7 @@ public class CommentListingFragment extends RRFragment
 	public void onCreateOptionsMenu(final Menu menu) {
 
 		final Map<OptionsMenuUtility.AppbarItemsPref, Integer> appbarItemsPrefs =
-				PrefsUtility.pref_menus_appbar_items(
-						getActivity(),
-						General.getSharedPrefs(getActivity()));
+				PrefsUtility.pref_menus_appbar_items();
 		final int replyShowAsAction = OptionsMenuUtility.getOrThrow(
 				appbarItemsPrefs,
 				OptionsMenuUtility.AppbarItemsPref.REPLY);
@@ -704,30 +729,14 @@ public class CommentListingFragment extends RRFragment
 				&& item.getTitle()
 				.equals(getActivity().getString(R.string.action_reply))) {
 
-			onParentReply();
+			RedditPreparedPost.onActionMenuItemSelected(
+					mPost,
+					(BaseActivity)getActivity(),
+					RedditPreparedPost.Action.REPLY);
 			return true;
 		}
 
 		return false;
-	}
-
-	private void onParentReply() {
-
-		if(mPost != null) {
-			final Intent intent = new Intent(getActivity(), CommentReplyActivity.class);
-			intent.putExtra(
-					CommentReplyActivity.PARENT_ID_AND_TYPE_KEY,
-					mPost.src.getIdAndType());
-			intent.putExtra(
-					CommentReplyActivity.PARENT_MARKDOWN_KEY,
-					mPost.src.getUnescapedSelfText());
-			startActivity(intent);
-
-		} else {
-			General.quickToast(
-					getActivity(),
-					R.string.error_toast_parent_post_not_downloaded);
-		}
 	}
 
 	@Override

@@ -529,7 +529,6 @@
     <string name="pref_behaviour_sharing_share_text_title">Inkluder tekst ved deling av kommentar</string>
     <string name="mainmenu_custom_empty_search_query">Tomt søkefilter.</string>
     <string name="search_listing_header_query">Søkefilter</string>
-    <string name="search_listing_header_sub">Begrens til subreddit</string>
     <string name="pref_behaviour_sharing_header">Deling</string>
     <string name="pref_behaviour_sharing_include_desc_title">Inkluder tittel/beskrivelse ved deling</string>
     <string name="share_comments_for">Kommentarer for %s</string>
@@ -563,9 +562,7 @@
     <string name="pref_menus_mainmenu_header">Hovedmeny</string>
     <string name="pref_appearance_fontscale_header">Skriftstørrelse</string>
     <string name="prefs_category_fonts">Skrift</string>
-    <string name="search_results_subreddit_only">Søk etter /r/%s</string>
     <string name="search_results_query_only">Søk etter \"%s\"</string>
-    <string name="search_results_all">Søk etter \"%1$s\" på /r/%2$s</string>
     <string name="search_results_short">Søkeresultater</string>
     <string name="button_error_details">Detaljer</string>
     <string name="image_gallery_no_data_present_title">Fant ikke galleriet</string>

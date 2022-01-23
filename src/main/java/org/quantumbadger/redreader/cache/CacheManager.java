@@ -191,9 +191,7 @@ public final class CacheManager {
 	}
 
 	public synchronized void pruneCache() {
-		pruneCache(PrefsUtility.pref_cache_maxage(
-				context,
-				General.getSharedPrefs(context)));
+		pruneCache(PrefsUtility.pref_cache_maxage());
 	}
 
 	public synchronized void pruneCache(
@@ -293,9 +291,7 @@ public final class CacheManager {
 
 	public File getPreferredCacheLocation() {
 		return new File(
-				PrefsUtility.pref_cache_location(
-						context,
-						General.getSharedPrefs(context)));
+				PrefsUtility.pref_cache_location(context));
 	}
 
 	@NonNull
@@ -309,8 +305,11 @@ public final class CacheManager {
 
 		private final OutputStream mOutStream;
 		private ReadableCacheFile readableCacheFile = null;
-		private final CacheRequest mRequest;
+		@NonNull final URI mUrl;
+		@NonNull final RedditAccount mUser;
+		final int mFileType;
 		private final File location;
+		private boolean mWriteExternally = false;
 
 		@NonNull private final UUID mSession;
 		@Nullable private final String mMimetype;
@@ -322,12 +321,16 @@ public final class CacheManager {
 		private long mCompressedLength = 0;
 
 		private WritableCacheFile(
-				final CacheRequest request,
+				@NonNull final URI url,
+				@NonNull final RedditAccount user,
+				final int fileType,
 				@NonNull final UUID session,
 				@Nullable final String mimetype,
 				@NonNull final CacheCompressionType cacheCompressionType) throws IOException {
 
-			mRequest = request;
+			mUrl = url;
+			mUser = user;
+			mFileType = fileType;
 			mSession = session;
 			mMimetype = mimetype;
 			mCacheCompressionType = cacheCompressionType;
@@ -381,18 +384,24 @@ public final class CacheManager {
 
 		public void onWriteFinished() throws IOException {
 
+			if(mWriteExternally) {
+				mCompressedLength = mTmpFile.length();
+				mUncompressedLength = mCompressedLength;
+
+			} else {
+				mOutStream.flush();
+				mOutStream.close();
+			}
+
 			final long cacheFileId = dbManager.newEntry(
-					mRequest.url,
-					mRequest.user,
-					mRequest.fileType,
+					mUrl,
+					mUser,
+					mFileType,
 					mSession,
 					mMimetype,
 					mCacheCompressionType,
 					mCompressedLength,
 					mUncompressedLength);
-
-			mOutStream.flush();
-			mOutStream.close();
 
 			final File subdir = getSubdirForCacheFile(location, cacheFileId);
 			FileUtils.mkdirs(subdir);
@@ -403,6 +412,12 @@ public final class CacheManager {
 			dbManager.setEntryDone(cacheFileId);
 
 			readableCacheFile = new ReadableCacheFile(cacheFileId, mCacheCompressionType);
+		}
+
+		public File writeExternally() throws IOException {
+			mWriteExternally = true;
+			mOutStream.close();
+			return mTmpFile;
 		}
 
 		public void onWriteCancelled() {
@@ -499,11 +514,13 @@ public final class CacheManager {
 
 	@NonNull
 	public WritableCacheFile openNewCacheFile(
-			final CacheRequest request,
+			@NonNull final URI url,
+			@NonNull final RedditAccount user,
+			final int fileType,
 			final UUID session,
 			final String mimetype,
 			@NonNull final CacheCompressionType cacheCompressionType) throws IOException {
-		return new WritableCacheFile(request, session, mimetype, cacheCompressionType);
+		return new WritableCacheFile(url, user, fileType, session, mimetype, cacheCompressionType);
 	}
 
 	@Nullable

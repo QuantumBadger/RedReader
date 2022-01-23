@@ -171,7 +171,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				R.string.pref_images_thumbnail_size_key,
 				R.string.pref_images_inline_image_previews_key,
 				R.string.pref_images_high_res_thumbnails_key,
-				R.string.pref_accessibility_min_comment_height_key
+				R.string.pref_accessibility_min_comment_height_key,
+				R.string.pref_appearance_android_status_key
 		};
 
 		final int[] editTextPrefsToUpdate = {
@@ -272,7 +273,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 
 				// Run this after the preference has actually changed
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-					TorCommon.updateTorStatus(context);
+					TorCommon.updateTorStatus();
 					if(TorCommon.isTorEnabled()
 							!= Boolean.TRUE.equals(newValue)) {
 						throw new RuntimeException(
@@ -423,9 +424,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				showChooseStorageLocationDialog();
 				return true;
 			});
-			updateStorageLocationText(PrefsUtility.pref_cache_location(
-					context,
-					General.getSharedPrefs(context)));
+			updateStorageLocationText(PrefsUtility.pref_cache_location(context));
 		}
 
 		//This disables the "Show NSFW thumbnails" setting when Show thumbnails is set to Never
@@ -494,7 +493,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 
 				final Runnable update = () -> {
 
-					if(General.isTablet(context, General.getSharedPrefs(context))) {
+					if(General.isTablet(context)) {
 						hideOnScrollPref.setEnabled(false);
 						hideOnScrollPref.setSummary(
 								R.string.pref_appearance_not_possible_in_tablet_mode);
@@ -586,7 +585,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 		final Context context = getActivity();
 
 		final String currentStorage
-				= PrefsUtility.pref_cache_location(context, General.getSharedPrefs(context));
+				= PrefsUtility.pref_cache_location(context);
 
 		final List<File> checkPaths = CacheManager.getCacheDirs(context);
 
@@ -628,8 +627,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 						(dialog, i) -> {
 							dialog.dismiss();
 							final String path = folders.get(i).getAbsolutePath();
-							PrefsUtility.pref_cache_location(context,
-									General.getSharedPrefs(context), path);
+							PrefsUtility.pref_cache_location(context, path);
 							updateStorageLocationText(path);
 						})
 				.setNegativeButton(
@@ -709,7 +707,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 								cachesToClear.get(CacheType.IMAGES));
 
 						if(Objects.requireNonNull(cachesToClear.get(CacheType.FLAGS))) {
-							RedditChangeDataManager.pruneAllUsers();
+							RedditChangeDataManager.pruneAllUsersWhereOlderThan(0);
 						}
 					}
 				}.start())

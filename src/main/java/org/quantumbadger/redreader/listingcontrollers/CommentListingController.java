@@ -17,17 +17,17 @@
 
 package org.quantumbadger.redreader.listingcontrollers;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.url.CommentListingURL;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 
 import java.util.UUID;
 
@@ -46,17 +46,15 @@ public class CommentListingController {
 		mSession = session;
 	}
 
-	public CommentListingController(
-			RedditURLParser.RedditURL url,
-			final Context context) {
+	public CommentListingController(RedditURLParser.RedditURL url) {
 
 		if(url.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			if(url.asPostCommentListURL().order == null) {
-				url = url.asPostCommentListURL().order(defaultOrder(context));
+				url = url.asPostCommentListURL().order(defaultOrder());
 			}
 		} else if(url.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL) {
 			if(url.asUserCommentListURL().order == null) {
-				url = url.asUserCommentListURL().order(defaultUserOrder(context));
+				url = url.asUserCommentListURL().order(defaultUserOrder());
 			}
 		}
 
@@ -67,34 +65,32 @@ public class CommentListingController {
 		this.mUrl = (CommentListingURL)url;
 	}
 
-	private PostCommentListingURL.Sort defaultOrder(final Context context) {
-		return PrefsUtility.pref_behaviour_commentsort(
-				context,
-				General.getSharedPrefs(context));
+	private PostCommentSort defaultOrder() {
+		return PrefsUtility.pref_behaviour_commentsort();
 	}
 
-	private UserCommentListingURL.Sort defaultUserOrder(final Context context) {
-		return PrefsUtility.pref_behaviour_user_commentsort(
-				context,
-				General.getSharedPrefs(context));
+	private UserCommentSort defaultUserOrder() {
+		return PrefsUtility.pref_behaviour_user_commentsort();
 	}
 
-	public void setSort(final PostCommentListingURL.Sort s) {
+	public void setSort(final PostCommentSort s) {
 		if(mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			mUrl = mUrl.asPostCommentListURL().order(s);
 		}
 	}
 
-	public void setSort(final UserCommentListingURL.Sort s) {
+	public void setSort(final UserCommentSort s) {
 		if(mUrl.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL) {
 			mUrl = mUrl.asUserCommentListURL().order(s);
 		}
 	}
 
-	public PostCommentListingURL.Sort getSort() {
+	public OptionsMenuUtility.Sort getSort() {
 
 		if(mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 			return mUrl.asPostCommentListURL().order;
+		} else if(mUrl.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL) {
+			return mUrl.asUserCommentListURL().order;
 		}
 
 		return null;

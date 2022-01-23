@@ -45,9 +45,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.UiThread;
 import com.github.lzyzsd.circleprogress.DonutProgress;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -63,7 +64,6 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -152,19 +152,21 @@ public class ImageViewActivity extends BaseActivity
 
 		super.onCreate(savedInstanceState);
 
+		if(PrefsUtility.pref_appearance_android_status()
+				== PrefsUtility.AppearanceStatusBarMode.HIDE_ON_MEDIA) {
+			getWindow().setFlags(
+					WindowManager.LayoutParams.FLAG_FULLSCREEN,
+					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			getWindow().setNavigationBarColor(Color.BLACK);
 		}
 
 		setTitle(R.string.accessibility_image_viewer_title);
 
-		final SharedPrefsWrapper sharedPreferences
-				= General.getSharedPrefs(this);
-
 		final int gallerySwipeLengthDp
-				= PrefsUtility.pref_behaviour_gallery_swipe_length_dp(
-				this,
-				sharedPreferences);
+				= PrefsUtility.pref_behaviour_gallery_swipe_length_dp();
 		mGallerySwipeLengthPx = General.dpToPixels(this, gallerySwipeLengthDp);
 
 		final Intent intent = getIntent();
@@ -369,9 +371,7 @@ public class ImageViewActivity extends BaseActivity
 		outerFrame.addView(mLayout);
 		General.setLayoutMatchParent(mLayout);
 
-		if(PrefsUtility.pref_appearance_image_viewer_show_floating_toolbar(
-				this,
-				General.getSharedPrefs(this))) {
+		if(PrefsUtility.pref_appearance_image_viewer_show_floating_toolbar()) {
 
 			mFloatingToolbar = Objects.requireNonNull(
 					(LinearLayout)LayoutInflater.from(this).inflate(
@@ -450,8 +450,6 @@ public class ImageViewActivity extends BaseActivity
 
 			Log.i(TAG, "Image stream ready");
 
-			final SharedPrefsWrapper sharedPrefs = General.getSharedPrefs(this);
-
 			if(mimetype == null) {
 				revertToWeb();
 				return;
@@ -485,9 +483,7 @@ public class ImageViewActivity extends BaseActivity
 			}
 
 			final boolean fullyDownloadBeforePlaying
-					= PrefsUtility.pref_videos_download_before_playing(
-							this,
-							sharedPrefs);
+					= PrefsUtility.pref_videos_download_before_playing();
 
 			if(isNetwork && fullyDownloadBeforePlaying && (isVideo || isGif)) {
 
@@ -514,9 +510,7 @@ public class ImageViewActivity extends BaseActivity
 					}
 
 					final PrefsUtility.VideoViewMode videoViewMode
-							= PrefsUtility.pref_behaviour_videoview_mode(
-									this,
-									sharedPrefs);
+							= PrefsUtility.pref_behaviour_videoview_mode();
 
 					if(videoViewMode == PrefsUtility.VideoViewMode.INTERNAL_BROWSER) {
 						revertToWeb();
@@ -536,9 +530,7 @@ public class ImageViewActivity extends BaseActivity
 			} else if(isGif) {
 
 				final PrefsUtility.GifViewMode gifViewMode
-						= PrefsUtility.pref_behaviour_gifview_mode(
-						this,
-						sharedPrefs);
+						= PrefsUtility.pref_behaviour_gifview_mode();
 
 				if(gifViewMode == PrefsUtility.GifViewMode.INTERNAL_BROWSER) {
 					revertToWeb();
@@ -559,9 +551,7 @@ public class ImageViewActivity extends BaseActivity
 			} else {
 
 				final PrefsUtility.ImageViewMode imageViewMode
-						= PrefsUtility.pref_behaviour_imageview_mode(
-						this,
-						sharedPrefs);
+						= PrefsUtility.pref_behaviour_imageview_mode();
 
 				if(imageViewMode == PrefsUtility.ImageViewMode.INTERNAL_BROWSER) {
 					revertToWeb();
@@ -710,9 +700,7 @@ public class ImageViewActivity extends BaseActivity
 
 	@Override
 	public void onSingleTap() {
-		if(PrefsUtility.pref_behaviour_video_playback_controls(
-				this,
-				General.getSharedPrefs(this))
+		if(PrefsUtility.pref_behaviour_video_playback_controls()
 				&& mVideoPlayerWrapper != null) {
 
 			mVideoPlayerWrapper.handleTap();
@@ -725,9 +713,7 @@ public class ImageViewActivity extends BaseActivity
 				}
 			}
 
-		} else if(PrefsUtility.pref_behaviour_imagevideo_tap_close(
-				this,
-				General.getSharedPrefs(this))) {
+		} else if(PrefsUtility.pref_behaviour_imagevideo_tap_close()) {
 
 			finish();
 		}
@@ -840,9 +826,7 @@ public class ImageViewActivity extends BaseActivity
 			if(mImageInfo.mediaType == ImageInfo.MediaType.IMAGE) {
 
 				final PrefsUtility.ImageViewMode imageViewMode
-						= PrefsUtility.pref_behaviour_imageview_mode(
-						this,
-						General.getSharedPrefs(this));
+						= PrefsUtility.pref_behaviour_imageview_mode();
 
 				if(imageViewMode == PrefsUtility.ImageViewMode.EXTERNAL_BROWSER) {
 					openInExternalBrowser();
@@ -857,9 +841,7 @@ public class ImageViewActivity extends BaseActivity
 			} else if(mImageInfo.mediaType == ImageInfo.MediaType.GIF) {
 
 				final PrefsUtility.GifViewMode gifViewMode
-						= PrefsUtility.pref_behaviour_gifview_mode(
-						this,
-						General.getSharedPrefs(this));
+						= PrefsUtility.pref_behaviour_gifview_mode();
 
 				if(gifViewMode == PrefsUtility.GifViewMode.EXTERNAL_BROWSER) {
 					openInExternalBrowser();
@@ -873,9 +855,7 @@ public class ImageViewActivity extends BaseActivity
 			} else if(mImageInfo.mediaType == ImageInfo.MediaType.VIDEO) {
 
 				final PrefsUtility.VideoViewMode videoViewMode
-						= PrefsUtility.pref_behaviour_videoview_mode(
-						this,
-						General.getSharedPrefs(this));
+						= PrefsUtility.pref_behaviour_videoview_mode();
 
 				if(videoViewMode == PrefsUtility.VideoViewMode.EXTERNAL_BROWSER) {
 					openInExternalBrowser();
@@ -898,9 +878,7 @@ public class ImageViewActivity extends BaseActivity
 
 	private void manageAspectRatioIndicator(final DonutProgress progressBar) {
 		findAspectRatio:
-		if(PrefsUtility.pref_appearance_show_aspect_ratio_indicator(
-				this,
-				General.getSharedPrefs(this))) {
+		if(PrefsUtility.pref_appearance_show_aspect_ratio_indicator()) {
 
 			if(mImageInfo.width != null
 					&& mImageInfo.height != null
@@ -1187,8 +1165,9 @@ public class ImageViewActivity extends BaseActivity
 			final MediaSource mediaSource;
 
 			final MediaSource videoMediaSource
-					= new ExtractorMediaSource.Factory(videoDataSourceFactory)
-							.createMediaSource(ExoPlayerSeekableInputStreamDataSource.URI);
+					= new ProgressiveMediaSource.Factory(videoDataSourceFactory)
+							.createMediaSource(MediaItem.fromUri(
+									ExoPlayerSeekableInputStreamDataSource.URI));
 
 			if(audioStream == null) {
 				mediaSource = videoMediaSource;
@@ -1200,8 +1179,9 @@ public class ImageViewActivity extends BaseActivity
 
 				mediaSource = new MergingMediaSource(
 						videoMediaSource,
-						new ExtractorMediaSource.Factory(audioDataSourceFactory)
-								.createMediaSource(ExoPlayerSeekableInputStreamDataSource.URI));
+						new ProgressiveMediaSource.Factory(audioDataSourceFactory)
+								.createMediaSource(MediaItem.fromUri(
+										ExoPlayerSeekableInputStreamDataSource.URI)));
 			}
 
 			mVideoPlayerWrapper = new ExoPlayerWrapperView(
@@ -1226,9 +1206,7 @@ public class ImageViewActivity extends BaseActivity
 			layout.setOnTouchListener(gestureHandler);
 
 			final boolean muteByDefault
-					= PrefsUtility.pref_behaviour_video_mute_default(
-					this,
-					General.getSharedPrefs(this));
+					= PrefsUtility.pref_behaviour_video_mute_default();
 
 			mVideoPlayerWrapper.setMuted(muteByDefault);
 

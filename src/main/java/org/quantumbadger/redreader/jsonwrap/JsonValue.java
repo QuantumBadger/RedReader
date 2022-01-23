@@ -43,6 +43,10 @@ public abstract class JsonValue {
 			parser.nextToken();
 		}
 
+		if(parser.currentToken() == null) {
+			throw new IOException("Invalid input: no JSON tokens available");
+		}
+
 		switch(parser.currentToken()) {
 
 			case START_OBJECT:

@@ -47,7 +47,9 @@ public final class FeatureFlagHandler {
 	private enum FeatureFlag {
 
 		COMMENT_HEADER_SUBREDDIT_FEATURE("commentHeaderSubredditFeature"),
-		CONTROVERSIAL_DATE_SORTS_FEATURE("controversialDateSortsFeature");
+		CONTROVERSIAL_DATE_SORTS_FEATURE("controversialDateSortsFeature"),
+		HIDE_STATUS_BAR_FOR_MEDIA_FEATURE("hideStatusBarForMediaFeature"),
+		REPLY_IN_POST_ACTION_MENU_FEATURE("replyInPostActionMenuFeature");
 
 		@NonNull private final String id;
 
@@ -59,6 +61,15 @@ public final class FeatureFlagHandler {
 		public final String getId() {
 			return "rr_feature_flag_" + id;
 		}
+	}
+
+	private static boolean getBoolean(
+			@StringRes final int id,
+			final boolean defaultBoolean,
+			final Context context,
+			final SharedPreferences sharedPreferences) {
+
+		return sharedPreferences.getBoolean(context.getString(id), defaultBoolean);
 	}
 
 	private static String getString(
@@ -168,6 +179,51 @@ public final class FeatureFlagHandler {
 							.apply();
 				}
 			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.HIDE_STATUS_BAR_FOR_MEDIA_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, add setting to hide status bar on media.");
+
+				final boolean existingHideStatusSetting = getBoolean(
+						R.string.pref_appearance_hide_android_status_key,
+						false,
+						context,
+						prefs);
+
+				if(existingHideStatusSetting) {
+					prefs.edit().putString(
+							context.getString(R.string.pref_appearance_android_status_key),
+							"always_hide")
+							.apply();
+				} else {
+					prefs.edit().putString(
+							context.getString(R.string.pref_appearance_android_status_key),
+							"never_hide")
+							.apply();
+				}
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.REPLY_IN_POST_ACTION_MENU_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, add reply button to post action menu.");
+
+				final Set<String> existingPostActionMenuItems = getStringSet(
+						R.string.pref_menus_post_context_items_key,
+						R.array.pref_menus_post_context_items_default,
+						context,
+						prefs);
+
+				existingPostActionMenuItems.add("reply");
+
+				prefs.edit()
+						.putStringSet(
+								context.getString(
+										R.string.pref_menus_post_context_items_key),
+								existingPostActionMenuItems)
+						.apply();
+			}
 		});
 	}
 
@@ -247,9 +303,7 @@ public final class FeatureFlagHandler {
 				final Set<String> existingCommentHeaderItems
 						= PrefsUtility.getStringSet(
 								R.string.pref_appearance_comment_header_items_key,
-								R.array.pref_appearance_comment_header_items_default,
-								activity,
-								sharedPreferences);
+								R.array.pref_appearance_comment_header_items_default);
 
 				existingCommentHeaderItems.add("gold");
 
@@ -268,9 +322,7 @@ public final class FeatureFlagHandler {
 				final Set<String> existingPostContextItems
 						= PrefsUtility.getStringSet(
 						R.string.pref_menus_post_context_items_key,
-						R.array.pref_menus_post_context_items_return,
-						activity,
-						sharedPreferences
+						R.array.pref_menus_post_context_items_return
 				);
 
 				existingPostContextItems.add("share_image");
@@ -290,9 +342,7 @@ public final class FeatureFlagHandler {
 				final Set<String> existingPostContextItems
 						= PrefsUtility.getStringSet(
 						R.string.pref_menus_post_context_items_key,
-						R.array.pref_menus_post_context_items_return,
-						activity,
-						sharedPreferences
+						R.array.pref_menus_post_context_items_return
 				);
 
 				existingPostContextItems.add("edit");
@@ -315,23 +365,15 @@ public final class FeatureFlagHandler {
 				final Set<String> existingShortcutPreferences
 						= PrefsUtility.getStringSet(
 						R.string.pref_menus_mainmenu_shortcutitems_key,
-						R.array.pref_menus_mainmenu_shortcutitems_items_default,
-						activity,
-						sharedPreferences
+						R.array.pref_menus_mainmenu_shortcutitems_items_default
 				);
 
-				if(PrefsUtility.pref_show_popular_main_menu(
-						activity,
-						sharedPreferences
-				)) {
+				if(PrefsUtility.pref_show_popular_main_menu()) {
 					existingShortcutPreferences.add("popular");
 				}
 
 
-				if(PrefsUtility.pref_show_random_main_menu(
-						activity,
-						sharedPreferences
-				)) {
+				if(PrefsUtility.pref_show_random_main_menu()) {
 					existingShortcutPreferences.add("random");
 				}
 
@@ -348,9 +390,7 @@ public final class FeatureFlagHandler {
 				final Set<String> existingPostContextItems
 						= PrefsUtility.getStringSet(
 						R.string.pref_menus_post_context_items_key,
-						R.array.pref_menus_post_context_items_return,
-						activity,
-						sharedPreferences);
+						R.array.pref_menus_post_context_items_return);
 
 				existingPostContextItems.add("copy_selftext");
 
@@ -368,16 +408,12 @@ public final class FeatureFlagHandler {
 
 				final String existingPostFontscalePreference = PrefsUtility.getString(
 						R.string.pref_appearance_fontscale_posts_key,
-						"-1",
-						activity,
-						sharedPreferences);
+						"-1");
 
 				final String existingCommentSelfTextFontscalePreference
 						= PrefsUtility.getString(
 								R.string.pref_appearance_fontscale_bodytext_key,
-								"-1",
-								activity,
-								sharedPreferences);
+								"-1");
 
 				if(existingPostFontscalePreference.equals(
 						existingCommentSelfTextFontscalePreference)) {
@@ -440,19 +476,13 @@ public final class FeatureFlagHandler {
 				//appearance_thumbnails_show, cache_precache_images, cache_precache_comments
 
 				final String existingThumbnailsShowPreference = StringUtils.asciiLowercase(
-						PrefsUtility.appearance_thumbnails_show_old(
-								activity,
-								sharedPreferences).toString());
+						PrefsUtility.appearance_thumbnails_show_old().toString());
 
 				final String existingPrecacheImagesPreference = StringUtils.asciiLowercase(
-						PrefsUtility.cache_precache_images_old(
-								activity,
-								sharedPreferences).toString());
+						PrefsUtility.cache_precache_images_old().toString());
 
 				final String existingPrecacheCommentsPreference = StringUtils.asciiLowercase(
-						PrefsUtility.cache_precache_comments_old(
-								activity,
-								sharedPreferences).toString());
+						PrefsUtility.cache_precache_comments_old().toString());
 
 				sharedPreferences.edit().putString(
 						activity.getString(R.string.pref_appearance_thumbnails_show_list_key),
@@ -476,9 +506,7 @@ public final class FeatureFlagHandler {
 				final Set<String> existingOptionsMenuItems
 						= PrefsUtility.getStringSet(
 						R.string.pref_menus_optionsmenu_items_key,
-						R.array.pref_menus_optionsmenu_items_items_return,
-						activity,
-						sharedPreferences);
+						R.array.pref_menus_optionsmenu_items_items_return);
 
 				class AppbarItemStrings {
 					final int stringRes;

@@ -25,7 +25,6 @@ import android.text.style.ClickableSpan;
 import android.view.MotionEvent;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
 public class LinkifiedTextView extends AppCompatTextView {
@@ -50,9 +49,7 @@ public class LinkifiedTextView extends AppCompatTextView {
 			return false;
 		}
 
-		if(!PrefsUtility.pref_appearance_link_text_clickable(
-				mActivity,
-				General.getSharedPrefs(mActivity))) {
+		if(!PrefsUtility.pref_appearance_link_text_clickable()) {
 
 			return false;
 		}

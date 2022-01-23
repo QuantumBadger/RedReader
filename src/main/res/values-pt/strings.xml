@@ -531,7 +531,6 @@
     <string name="pref_appearance_comments_show_floating_toolbar_title">Mostrar barra de ferramentas flutuante sobre comentários</string>
     <string name="pref_behaviour_self_post_tap_actions_title">Ação de toque Auto-post</string>
     <string name="mainmenu_random">Subreddit aleatório</string>
-    <string name="search_listing_header_sub">Limite para Subreddit</string>
     <string name="pref_behaviour_sharing_header">Compartilhar</string>
     <string name="share_comments_for">Comentários para %s</string>
     <string name="share_comment_by_on_reddit">Comentário por %s no Reddit</string>

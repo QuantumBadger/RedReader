@@ -32,11 +32,9 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
-
-import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
@@ -61,7 +59,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 	@NonNull private final Listener mListener;
 
-	@NonNull private final SimpleExoPlayer mVideoPlayer;
+	@NonNull private final ExoPlayer mVideoPlayer;
 
 	@Nullable private final RelativeLayout mControlView;
 
@@ -79,9 +77,11 @@ public class ExoPlayerWrapperView extends FrameLayout {
 		super(context);
 		mListener = listener;
 
-		final DefaultTrackSelector trackSelector = new DefaultTrackSelector();
+		final DefaultTrackSelector trackSelector = new DefaultTrackSelector(context);
 
-		mVideoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
+		mVideoPlayer = new ExoPlayer.Builder(context)
+				.setTrackSelector(trackSelector)
+				.build();
 
 		final PlayerView videoPlayerView = new PlayerView(context);
 
@@ -91,22 +91,21 @@ public class ExoPlayerWrapperView extends FrameLayout {
 		videoPlayerView.setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS);
 		videoPlayerView.requestFocus();
 
-		mVideoPlayer.prepare(mediaSource);
+		mVideoPlayer.setMediaSource(mediaSource);
+		mVideoPlayer.prepare();
+
+		mVideoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
 
 		mVideoPlayer.setPlayWhenReady(true);
 		videoPlayerView.setUseController(false);
 
-		if(PrefsUtility.pref_behaviour_video_zoom_default(
-				context,
-				General.getSharedPrefs(context))) {
+		if(PrefsUtility.pref_behaviour_video_zoom_default()) {
 			videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
 		} else {
 			videoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 		}
 
-		if(PrefsUtility.pref_behaviour_video_playback_controls(
-				context,
-				General.getSharedPrefs(context))) {
+		if(PrefsUtility.pref_behaviour_video_playback_controls()) {
 
 			mControlView = new RelativeLayout(context);
 			addView(mControlView);
@@ -305,29 +304,19 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT));
 
-		mVideoPlayer.addListener(new Player.EventListener() {
+		mVideoPlayer.addListener(new Player.Listener() {
 			@Override
-			public void onPlayerStateChanged(
-					final boolean playWhenReady,
-					final int playbackState) {
-
-				// Loop
-				if(playbackState == Player.STATE_ENDED) {
-					mVideoPlayer.seekTo(0);
-				}
-
-				updateProgress();
-			}
-
-			@Override
-			public void onPlayerError(final ExoPlaybackException error) {
-
+			public void onPlayerError(@NonNull final PlaybackException error) {
 				Log.e(TAG, "ExoPlayer error", error);
 				mListener.onError();
 			}
 
 			@Override
-			public void onSeekProcessed() {
+			public void onPositionDiscontinuity(
+					@NonNull final Player.PositionInfo oldPosition,
+					@NonNull final Player.PositionInfo newPosition,
+					final int reason) {
+
 				updateProgress();
 			}
 		});

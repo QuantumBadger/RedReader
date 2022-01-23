@@ -149,9 +149,6 @@ public class LinkHandler {
 			return;
 		}
 
-		final SharedPrefsWrapper sharedPreferences
-				= General.getSharedPrefs(activity);
-
 		if(url.startsWith("rr://")) {
 
 			final Uri rrUri = Uri.parse(url);
@@ -201,9 +198,7 @@ public class LinkHandler {
 				|| redditGalleryPattern.matcher(url).matches())) {
 
 			final PrefsUtility.AlbumViewMode albumViewMode
-					= PrefsUtility.pref_behaviour_albumview_mode(
-					activity,
-					sharedPreferences);
+					= PrefsUtility.pref_behaviour_albumview_mode();
 
 			switch(albumViewMode) {
 
@@ -290,10 +285,9 @@ public class LinkHandler {
 			}
 		}
 
-
-		// TODO: Not supported Use a browser
+		// Use a browser
 //
-//		if(!PrefsUtility.pref_behaviour_useinternalbrowser(activity, sharedPreferences)) {
+//		if(!PrefsUtility.pref_behaviour_useinternalbrowser()) {
 //			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
 //				return;
 //			}
@@ -320,7 +314,7 @@ public class LinkHandler {
 //			}
 //		}
 //
-//		if(PrefsUtility.pref_behaviour_usecustomtabs(activity, sharedPreferences)
+//		if(PrefsUtility.pref_behaviour_usecustomtabs()
 //				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 //			openCustomTab(activity, Uri.parse(url), post);
 //
@@ -343,9 +337,7 @@ public class LinkHandler {
 		}
 
 		final EnumSet<LinkHandler.LinkAction> itemPref
-				= PrefsUtility.pref_menus_link_context_items(
-				activity,
-				General.getSharedPrefs(activity));
+				= PrefsUtility.pref_menus_link_context_items();
 
 		if(itemPref.isEmpty()) {
 			return;
@@ -1294,9 +1286,7 @@ public class LinkHandler {
 			mailer.putExtra(Intent.EXTRA_SUBJECT, subject);
 		}
 
-		if(PrefsUtility.pref_behaviour_sharing_dialog(
-				activity,
-				General.getSharedPrefs(activity))) {
+		if(PrefsUtility.pref_behaviour_sharing_dialog()) {
 			ShareOrderDialog.newInstance(mailer).show(
 					activity.getSupportFragmentManager(),
 					null);

@@ -226,9 +226,7 @@ public class RedditCommentView extends FlingableItemView
 		final Context context = getContext();
 
 		final PrefsUtility.CommentFlingAction pref =
-				PrefsUtility.pref_behaviour_fling_comment_left(
-						context,
-						General.getSharedPrefs(context));
+				PrefsUtility.pref_behaviour_fling_comment_left();
 
 		mLeftFlingAction = chooseFlingAction(pref);
 
@@ -246,9 +244,7 @@ public class RedditCommentView extends FlingableItemView
 		final Context context = getContext();
 
 		final PrefsUtility.CommentFlingAction pref =
-				PrefsUtility.pref_behaviour_fling_comment_right(
-						context,
-						General.getSharedPrefs(context));
+				PrefsUtility.pref_behaviour_fling_comment_right();
 
 		mRightFlingAction = chooseFlingAction(pref);
 
@@ -331,26 +327,18 @@ public class RedditCommentView extends FlingableItemView
 		mBodyHolder = rootView.findViewById(R.id.view_reddit_comment_bodyholder);
 		mIndentedContent = rootView.findViewById(R.id.view_reddit_comment_indented_content);
 
-		final int minimumCommentHeight = PrefsUtility.pref_accessibility_min_comment_height(
-				context,
-				General.getSharedPrefs(context));
+		final int minimumCommentHeight = PrefsUtility.pref_accessibility_min_comment_height();
 
 		mIndentedContent.setMinimumHeight(General.dpToPixels(context, minimumCommentHeight));
 
-		mBodyFontScale = PrefsUtility.appearance_fontscale_bodytext(
-				context,
-				General.getSharedPrefs(context));
-		final float mHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers(
-				context,
-				General.getSharedPrefs(context));
+		mBodyFontScale = PrefsUtility.appearance_fontscale_bodytext();
+		final float mHeaderFontScale = PrefsUtility.appearance_fontscale_comment_headers();
 
 		mHeader.setTextSize(
 				TypedValue.COMPLEX_UNIT_PX,
 				mHeader.getTextSize() * mHeaderFontScale);
 
-		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons(
-				context,
-				General.getSharedPrefs(context));
+		mShowLinkButtons = PrefsUtility.pref_appearance_linkbuttons();
 
 		setOnClickListener(view -> mListener.onCommentClicked(this));
 
@@ -416,9 +404,7 @@ public class RedditCommentView extends FlingableItemView
 
 		final RedditRenderableComment renderableComment = mComment.asComment();
 
-		final int ageUnits = PrefsUtility.appearance_comment_age_units(
-				activity,
-				General.getSharedPrefs(activity));
+		final int ageUnits = PrefsUtility.appearance_comment_age_units();
 
 		final long postTimestamp = (mFragment != null && mFragment.getPost() != null)
 				? mFragment.getPost().src.getCreatedTimeSecsUTC()

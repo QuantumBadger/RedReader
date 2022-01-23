@@ -125,9 +125,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 						applicationContext,
 						src.created_utc * 1000L,
 						R.string.time_ago,
-						PrefsUtility.appearance_inbox_age_units(
-								applicationContext,
-								General.getSharedPrefs(applicationContext))),
+						PrefsUtility.appearance_inbox_age_units()),
 				BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
 				rrCommentHeaderBoldCol,
 				0,
@@ -222,9 +220,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 								context,
 								src.created_utc * 1000L,
 								R.string.time_ago,
-								PrefsUtility.appearance_inbox_age_units(
-										context,
-										General.getSharedPrefs(context)))))
+								PrefsUtility.appearance_inbox_age_units())))
 				.append(separator);
 
 		return accessibilityHeader.toString();

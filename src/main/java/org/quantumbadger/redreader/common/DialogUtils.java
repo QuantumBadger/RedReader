@@ -75,7 +75,7 @@ public class DialogUtils {
 	private static void performSearch(
 			final EditText editText,
 			final OnSearchListener listener) {
-		final String query = StringUtils.asciiLowercase(editText.getText().toString()).trim();
+		final String query = editText.getText().toString().trim();
 		if(StringUtils.isEmpty(query)) {
 			listener.onSearch(null);
 		} else {

@@ -76,9 +76,7 @@ public class LinkDetailsView extends FrameLayout {
 				marginPx,
 				marginPx);
 
-		final float linkFontScale = PrefsUtility.appearance_fontscale_linkbuttons(
-				context,
-				General.getSharedPrefs(context));
+		final float linkFontScale = PrefsUtility.appearance_fontscale_linkbuttons();
 
 		{
 			final TextView titleView = new TextView(context);

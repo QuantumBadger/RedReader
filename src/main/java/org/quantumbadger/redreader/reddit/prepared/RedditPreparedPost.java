@@ -37,6 +37,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.TooltipCompat;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -65,7 +66,6 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
@@ -101,6 +101,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	private final RedditChangeDataManager mChangeDataManager;
 
 	public final boolean isArchived;
+	public final boolean isLocked;
+	public final boolean canModerate;
 	public final boolean hasThumbnail;
 	public final boolean mIsProbablyAnImage;
 
@@ -183,6 +185,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		mChangeDataManager = RedditChangeDataManager.getInstance(user);
 
 		isArchived = post.isArchived();
+		isLocked = post.isLocked();
+		canModerate = post.canModerate();
 
 		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(post.getUrl());
 
@@ -190,9 +194,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		final int thumbnailWidth = General.dpToPixels(
 				context,
-				PrefsUtility.images_thumbnail_size_dp(
-						context,
-						General.getSharedPrefs(context)));
+				PrefsUtility.images_thumbnail_size_dp());
 
 		if(hasThumbnail && hasThumbnail(post) && !shouldShowInlinePreview()) {
 			downloadThumbnail(context, allowHighResThumbnails, thumbnailWidth, cm, listId);
@@ -235,11 +237,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final BaseActivity activity,
 			final RedditPreparedPost post) {
 
-		final SharedPrefsWrapper sharedPreferences =
-				General.getSharedPrefs(activity);
-
 		final EnumSet<Action> itemPref
-				= PrefsUtility.pref_menus_post_context_items(activity, sharedPreferences);
+				= PrefsUtility.pref_menus_post_context_items();
 
 		if(itemPref.isEmpty()) {
 			return;
@@ -341,6 +340,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						R.string.action_report,
 						Action.REPORT));
 			}
+
+			if(itemPref.contains(Action.REPLY)
+					&& !post.isArchived
+					&& !(post.isLocked && !post.canModerate)) {
+				menu.add(new RPVMenuItem(
+						activity,
+						R.string.action_reply,
+						Action.REPLY));
+			}
 		}
 
 		if(itemPref.contains(Action.EXTERNAL)) {
@@ -379,10 +387,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						new SubredditCanonicalId(post.src.getSubreddit());
 
 				if(itemPref.contains(Action.BLOCK)) {
-					if(PrefsUtility.pref_blocked_subreddits_check(
-							activity,
-							sharedPreferences,
-							subredditCanonicalId)) {
+					if(PrefsUtility.pref_blocked_subreddits_check(subredditCanonicalId)) {
 						menu.add(new RPVMenuItem(
 								activity,
 								R.string.action_unblock_subreddit,
@@ -396,10 +401,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				}
 
 				if(itemPref.contains(Action.PIN)) {
-					if(PrefsUtility.pref_pinned_subreddits_check(
-							activity,
-							sharedPreferences,
-							subredditCanonicalId)) {
+					if(PrefsUtility.pref_pinned_subreddits_check(subredditCanonicalId)) {
 						menu.add(new RPVMenuItem(
 								activity,
 								R.string.action_unpin_subreddit,
@@ -448,8 +450,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 		}
 
+		final boolean isRedditVideo = post.src.getUrl().contains("v.redd.it");
+
 		if(itemPref.contains(Action.SHARE)) {
-			menu.add(new RPVMenuItem(activity, R.string.action_share, Action.SHARE));
+			menu.add(new RPVMenuItem(
+					activity,
+					R.string.action_share,
+					isRedditVideo ? Action.SHARE_COMMENTS : Action.SHARE));
 		}
 		if(itemPref.contains(Action.SHARE_COMMENTS)) {
 			menu.add(new RPVMenuItem(
@@ -643,9 +650,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			case SHARE: {
 
 				final String subject
-						= PrefsUtility.pref_behaviour_sharing_dialog(
-						activity,
-						General.getSharedPrefs(activity))
+						= PrefsUtility.pref_behaviour_sharing_dialog()
 						? post.src.getTitle()
 						: null;
 
@@ -660,15 +665,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			case SHARE_COMMENTS: {
 
 				final boolean shareAsPermalink =
-						PrefsUtility.pref_behaviour_share_permalink(
-								activity,
-								General.getSharedPrefs(activity));
+						PrefsUtility.pref_behaviour_share_permalink();
 
 				final Intent mailer = new Intent(Intent.ACTION_SEND);
 				mailer.setType("text/plain");
-				if(PrefsUtility.pref_behaviour_sharing_include_desc(
-						activity,
-						General.getSharedPrefs(activity))) {
+				if(PrefsUtility.pref_behaviour_sharing_include_desc()) {
 					mailer.putExtra(
 							Intent.EXTRA_SUBJECT,
 							String.format(activity.getText(R.string.share_comments_for)
@@ -687,9 +688,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 									+ post.src.getIdAlone())
 									.toString());
 				}
-				if(PrefsUtility.pref_behaviour_sharing_dialog(
-						activity,
-						General.getSharedPrefs(activity))) {
+				if(PrefsUtility.pref_behaviour_sharing_dialog()) {
 					ShareOrderDialog.newInstance(mailer)
 							.show(activity.getSupportFragmentManager(), null);
 				} else {
@@ -810,6 +809,14 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				break;
 
 			case REPLY:
+				if(post.isArchived) {
+					General.quickToast(activity, R.string.error_archived_reply, Toast.LENGTH_SHORT);
+					break;
+				} else if(post.isLocked && !post.canModerate) {
+					General.quickToast(activity, R.string.error_locked_reply, Toast.LENGTH_SHORT);
+					break;
+				}
+
 				final Intent intent = new Intent(activity, CommentReplyActivity.class);
 				intent.putExtra(
 						CommentReplyActivity.PARENT_ID_AND_TYPE_KEY,
@@ -829,7 +836,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_pinned_subreddits_add(
 							activity,
-							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -843,7 +849,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_pinned_subreddits_remove(
 							activity,
-							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -857,7 +862,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_blocked_subreddits_add(
 							activity,
-							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -871,7 +875,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				try {
 					PrefsUtility.pref_blocked_subreddits_remove(
 							activity,
-							General.getSharedPrefs(activity),
 							new SubredditCanonicalId(post.src.getSubreddit()));
 
 				} catch(final InvalidSubredditNameException e) {
@@ -961,22 +964,12 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final EnumSet<PrefsUtility.AppearancePostSubtitleItem> mPostSubtitleItems;
 		final int mPostAgeUnits;
 		if(headerMode
-				&& PrefsUtility.appearance_post_subtitle_items_use_different_settings(
-				context,
-				General.getSharedPrefs(context))) {
-			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items(
-					context,
-					General.getSharedPrefs(context));
-			mPostAgeUnits = PrefsUtility.appearance_post_header_age_units(
-					context,
-					General.getSharedPrefs(context));
+				&& PrefsUtility.appearance_post_subtitle_items_use_different_settings()) {
+			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items();
+			mPostAgeUnits = PrefsUtility.appearance_post_header_age_units();
 		} else {
-			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items(
-					context,
-					General.getSharedPrefs(context));
-			mPostAgeUnits = PrefsUtility.appearance_post_age_units(
-					context,
-					General.getSharedPrefs(context));
+			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items();
+			mPostAgeUnits = PrefsUtility.appearance_post_age_units();
 		}
 
 		final TypedArray appearance = context.obtainStyledAttributes(new int[] {
@@ -1189,22 +1182,12 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final EnumSet<PrefsUtility.AppearancePostSubtitleItem> mPostSubtitleItems;
 		final int mPostAgeUnits;
 		if(headerMode
-				&& PrefsUtility.appearance_post_subtitle_items_use_different_settings(
-						context,
-						General.getSharedPrefs(context))) {
-			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items(
-					context,
-					General.getSharedPrefs(context));
-			mPostAgeUnits = PrefsUtility.appearance_post_header_age_units(
-					context,
-					General.getSharedPrefs(context));
+				&& PrefsUtility.appearance_post_subtitle_items_use_different_settings()) {
+			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items();
+			mPostAgeUnits = PrefsUtility.appearance_post_header_age_units();
 		} else {
-			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items(
-					context,
-					General.getSharedPrefs(context));
-			mPostAgeUnits = PrefsUtility.appearance_post_age_units(
-					context,
-					General.getSharedPrefs(context));
+			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items();
+			mPostAgeUnits = PrefsUtility.appearance_post_age_units();
 		}
 
 		final StringBuilder accessibilitySubtitle = new StringBuilder();
@@ -1725,9 +1708,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final SideToolbarOverlay overlay) {
 
 		final VerticalToolbar toolbar = new VerticalToolbar(activity);
-		final EnumSet<Action> itemsPref = PrefsUtility.pref_menus_post_toolbar_items(
-				activity,
-				General.getSharedPrefs(activity));
+		final EnumSet<Action> itemsPref = PrefsUtility.pref_menus_post_toolbar_items();
 
 		final Action[] possibleItems = {
 				Action.ACTION_MENU,
@@ -1865,14 +1846,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					accessibilityAction = Action.UNHIDE;
 				}
 
-				final int textRes = accessibilityAction.descriptionResId;
+				final String text = activity.getString(accessibilityAction.descriptionResId);
 
-				ib.setContentDescription(activity.getString(textRes));
-
-				ib.setOnLongClickListener(view -> {
-					General.quickToast(activity, textRes);
-					return true;
-				});
+				ib.setContentDescription(text);
+				TooltipCompat.setTooltipText(ib, text);
 
 				toolbar.addItem(ib);
 			}

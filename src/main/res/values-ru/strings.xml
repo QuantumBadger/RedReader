@@ -176,8 +176,8 @@
 \nХотите отправить отчет об ошибке разработчику? Если да, будет создано письмо с информацией о ней, и вы можете проверить содержимое перед отправкой.</string>
     <string name="bug_button_send">Отправить отчет об ошибке по электронной почте</string>
     <string name="bug_button_ignore">Не отправлять отчет об ошибке</string>
-    <string name="error_403_title">Недопустимый пользователь</string>
-    <string name="error_403_message">Reddit говорит, что текущий пользователь не имеет разрешений для этого. Попробуйте выйти, а затем снова войти в систему (удалив учетную запись из списка, а затем снова добавив ее).</string>
+    <string name="error_403_title">В разрешении отказано</string>
+    <string name="error_403_message">Reddit говорит, что у текущего пользователя нет разрешения на это.</string>
     <string name="error_subreddit_required_title">Сабреддит обязателен</string>
     <string name="error_subreddit_required_message">Необходимо указать сабреддит.</string>
     <string name="error_bad_captcha_title">Неверный код</string>
@@ -534,7 +534,6 @@
     <string name="pref_menus_show_random_main_menu_title">Отображать /r/random в главном меню</string>
     <string name="mainmenu_custom_empty_search_query">Пустой поисковый запрос.</string>
     <string name="search_listing_header_query">Поисковый запрос</string>
-    <string name="search_listing_header_sub">Ограничить сабреддитом</string>
     <string name="pref_behaviour_sharing_header">Распространение</string>
     <string name="pref_behaviour_sharing_include_desc_title">Добавлять заголовок/описание при распространении</string>
     <string name="share_comments_for">Комментарии к %s</string>
@@ -560,9 +559,7 @@
     <string name="pref_appearance_fontscale_header">Масштаб шрифта</string>
     <string name="prefs_category_fonts">Шрифт</string>
     <string name="pref_network_tor_summary">При использовании внешнего браузера ссылки не будут открываться с помощью Tor (если только ваш браузер не настроен на использование Tor)</string>
-    <string name="search_results_subreddit_only">Искать на /r/%s</string>
     <string name="search_results_query_only">Искать \"%s\"</string>
-    <string name="search_results_all">Искать \"%1$s\" на /r/%2$s</string>
     <string name="search_results_short">Результаты поиска</string>
     <string name="error_nsfw_subreddits_disabled_message">Контент NSFW отключен в настройках.</string>
     <string name="error_nsfw_subreddits_disabled_title">Заблокированный субреддит NSFW</string>
@@ -763,4 +760,32 @@
     <string name="accessibility_subtitle_nsfw_withperiod">Небезопасно для работы.</string>
     <string name="accessibility_subtitle_sticky_withperiod">Стики.</string>
     <string name="cache_clear_dialog_flags">Флаги</string>
+    <string name="error_http_429_message">Сервер отклонил запрос из-за ограничения скорости. Попробуйте еще раз через минуту.</string>
+    <string name="error_http_429_title">Слишком много запросов</string>
+    <string name="error_content_blocker_message">Текущая сеть блокирует этот запрос с помощью DNS. Рассмотрите возможность использования VPN или включения DNS по протоколу HTTPS в настройках сети Android.</string>
+    <string name="error_content_blocker_title">Обнаружен блокировщик контента</string>
+    <string name="error_imgur_400_message">Imgur отклоняет загрузку этого изображения, возможно, из-за ограничения скорости. Используйте другой хост изображений или повторите попытку позже.</string>
+    <string name="error_imgur_400_title">Ошибка Imgur</string>
+    <string name="error_tor_connection_message">Не удается подключиться к Tor. Убедитесь, что приложение Orbot запущено, или отключите Tor в настройках сети.</string>
+    <string name="error_tor_connection_title">Ошибка Tor</string>
+    <string name="error_post_submit_title">Ошибка при отправке сообщения</string>
+    <string name="error_post_flair_required_message">Правила субреддита требуют, чтобы в вашем посте был указан вкус.</string>
+    <string name="error_post_flair_required_title">Требуется вкус</string>
+    <string name="error_no_file_manager_message">На этом устройстве отсутствует файловый менеджер, совместимый с Android Storage Access Framework. Если файловый менеджер присутствует, возможно он отключен.</string>
+    <string name="error_no_file_manager_title">Нет файлового менеджера</string>
+    <string name="backup_preferences_error_old_android_message">Эта функция требует Android 4.4 или выше.</string>
+    <string name="backup_preferences_error_old_android_title">Система слишком старая</string>
+    <string name="restore_preferences_success">Восстановлено успешно</string>
+    <string name="backup_preferences_success">Резервное копирование успешно</string>
+    <string name="button_restore_preferences">Восстановить</string>
+    <string name="button_cancel">Отмена</string>
+    <string name="button_continue_anyway">Продолжить в любом случае</string>
+    <string name="restore_preferences_error_version_warning_message">Выбранный файл был создан более новой версией Redreader. Восстановление из этого файла может привести к сбоям и нестабильности.</string>
+    <string name="restore_preferences_error_version_warning_title">Предупреждение</string>
+    <string name="restore_preferences_error_invalid_file_version_message">Выбранный файл был создан более новой версией Redreader и не может быть открыт.</string>
+    <string name="restore_preferences_error_invalid_file_contents_message">Выбранный файл не является действительным файлом резервного копирования .</string>
+    <string name="restore_preferences_error_invalid_file_title">Неверный файл</string>
+    <string name="pref_item_restore_preferences_title">Восстановление настроек</string>
+    <string name="pref_item_backup_preferences_title">Параметры резервного копирования</string>
+    <string name="prefs_category_backup_restore">Резервное копирование/Восстановление</string>
 </resources>

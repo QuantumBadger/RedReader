@@ -294,7 +294,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 					try {
 						writableCacheFile = manager.openNewCacheFile(
-								mInitiator,
+								mInitiator.url,
+								mInitiator.user,
+								mInitiator.fileType,
 								session,
 								mimetype,
 								cacheCompressionType);

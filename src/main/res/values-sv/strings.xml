@@ -549,7 +549,6 @@
     <string name="sort_blocked_subreddit_name">Efter namn</string>
     <string name="comment_header_search_thread_title">Du visar för närvarande sökresultat för en kommentarstråd.</string>
     <string name="theme_name_night_lowcontrast">Natt (låg kontrast)</string>
-    <string name="search_listing_header_sub">Begränsa till subreddit</string>
     <string name="error_upload_fail_imgur_message">Uppladdningen avvisades av Imgur av okänd anledning.</string>
     <string name="error_file_open_failed_title">Misslyckades att öppna fil</string>
     <string name="download_link_message">Detta är en nedladdningslänk. Vill du ladda detta i en extern webbläsare?</string>

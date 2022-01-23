@@ -40,7 +40,6 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -102,23 +101,26 @@ public class RedditAPICommentAction {
 			final RedditRenderableComment comment,
 			final RedditCommentView commentView,
 			final RedditChangeDataManager changeDataManager,
-			final boolean isArchived) {
-
-		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(activity);
+			final boolean isPostLocked) {
 
 		final EnumSet<RedditCommentAction> itemPref
-				= PrefsUtility.pref_menus_comment_context_items(activity, sharedPreferences);
+				= PrefsUtility.pref_menus_comment_context_items();
 
 		if(itemPref.isEmpty()) {
 			return;
 		}
 
+		// These will be false for comments in the inbox. There seems to be no way around this,
+		// unless we do a lot of work to download the associated post and check there.
+		final boolean isArchived = comment.getParsedComment().getRawComment().isArchived();
+		final boolean isCommentLocked = comment.getParsedComment().getRawComment().isLocked();
+		final boolean canModerate = comment.getParsedComment().getRawComment().canModerate();
+
 		final RedditAccount user =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		final ArrayList<RCVMenuItem> menu = new ArrayList<>();
-
-		// TODO: Not supported
+//
 //		if(!user.isAnonymous()) {
 //
 //			if(!isArchived) {
@@ -173,7 +175,9 @@ public class RedditAPICommentAction {
 //						RedditCommentAction.REPORT));
 //			}
 //
-//			if(itemPref.contains(RedditCommentAction.REPLY) && !isArchived) {
+//			if(itemPref.contains(RedditCommentAction.REPLY)
+//					&& !isArchived
+//					&& !((isCommentLocked || isPostLocked) && !canModerate)) {
 //				menu.add(new RCVMenuItem(
 //						activity,
 //						R.string.action_reply,
@@ -295,8 +299,12 @@ public class RedditAPICommentAction {
 		final RedditComment comment =
 				renderableComment.getParsedComment().getRawComment();
 
-		switch(action) {
+		final boolean postLocked = commentListingFragment != null
+				&& commentListingFragment.getPost() != null
+				&& commentListingFragment.getPost().isLocked;
 
+		switch(action) {
+//
 //			case UPVOTE:
 //				action(activity, comment, RedditAPI.ACTION_UPVOTE, changeDataManager);
 //				break;
@@ -335,6 +343,14 @@ public class RedditAPICommentAction {
 //				break;
 //
 //			case REPLY: {
+//				if(comment.isArchived()) {
+//					General.quickToast(activity, R.string.error_archived_reply, Toast.LENGTH_SHORT);
+//					break;
+//				} else if((comment.isLocked() || postLocked) && !comment.canModerate()) {
+//					General.quickToast(activity, R.string.error_locked_reply, Toast.LENGTH_SHORT);
+//					break;
+//				}
+//
 //				final Intent intent = new Intent(activity, CommentReplyActivity.class);
 //				intent.putExtra(
 //						CommentReplyActivity.PARENT_ID_AND_TYPE_KEY,
@@ -402,9 +418,7 @@ public class RedditAPICommentAction {
 //				String body = "";
 //				String subject = null;
 //
-//				if(PrefsUtility.pref_behaviour_sharing_include_desc(
-//						activity,
-//						General.getSharedPrefs(activity))) {
+//				if(PrefsUtility.pref_behaviour_sharing_include_desc()) {
 //					subject = String.format(
 //							Locale.US,
 //							activity.getText(R.string.share_comment_by_on_reddit)
@@ -413,9 +427,7 @@ public class RedditAPICommentAction {
 //				}
 //
 //				// TODO this currently just dumps the markdown (only if sharing text is enabled)
-//				if(PrefsUtility.pref_behaviour_sharing_share_text(
-//						activity,
-//						General.getSharedPrefs(activity))) {
+//				if(PrefsUtility.pref_behaviour_sharing_share_text()) {
 //					body = StringEscapeUtils.unescapeHtml4(comment.body)
 //							+ "\r\n\r\n";
 //				}
@@ -481,7 +493,7 @@ public class RedditAPICommentAction {
 						comment.getContextUrl().context(null).toString());
 				break;
 			}
-
+//
 //			case CONTEXT: {
 //				LinkHandler.onLinkClicked(activity, comment.getContextUrl().toString());
 //				break;
@@ -493,7 +505,7 @@ public class RedditAPICommentAction {
 //						renderableComment,
 //						commentView,
 //						changeDataManager,
-//						comment.isArchived());
+//						postLocked);
 //				break;
 
 			case BACK:

@@ -62,10 +62,11 @@
 		<meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
 
 		<activity android:name=".activities.MainActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:clearTaskOnLaunch="false"
-                  android:finishOnTaskLaunch="false"
-                  android:alwaysRetainTaskState="true">
+				  android:configChanges="orientation|screenSize|keyboardHidden"
+				  android:clearTaskOnLaunch="false"
+				  android:finishOnTaskLaunch="false"
+				  android:alwaysRetainTaskState="true"
+				  android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -78,7 +79,8 @@
         <activity android:name=".settings.SettingsActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden" />
 
-        <activity android:name=".activities.LinkDispatchActivity">
+        <activity android:name=".activities.LinkDispatchActivity"
+				  android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -204,6 +206,25 @@
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:theme="@style/RR.Dark"/>
 
+        <activity android:name=".activities.CommentReplyActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <activity android:name=".activities.CommentEditActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+		<activity android:name=".activities.PMSendActivity"
+				  android:configChanges="orientation|screenSize|keyboardHidden"/>
+
+        <activity android:name=".activities.PostSubmitActivity"
+				  android:configChanges="orientation|screenSize|keyboardHidden"
+				  android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".activities.BugReportActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:launchMode="singleInstance"/>
@@ -212,8 +233,11 @@
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <receiver android:name=".receivers.NewMessageChecker"/>
+
         <receiver android:name=".receivers.RegularCachePruner"/>
-        <receiver android:name=".receivers.BootReceiver">
+
+        <receiver android:name=".receivers.BootReceiver"
+				  android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>

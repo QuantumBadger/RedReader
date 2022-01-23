@@ -58,12 +58,12 @@ dependencies {
 
 android {
 
-	compileSdkVersion 30
+	compileSdkVersion 32
 
 	defaultConfig {
 		applicationId "dev.steenbakker.wearreader"
 		minSdkVersion 23
-		targetSdkVersion 30
+		targetSdkVersion 32
 		versionCode 10
 		versionName "1.0.0"
 

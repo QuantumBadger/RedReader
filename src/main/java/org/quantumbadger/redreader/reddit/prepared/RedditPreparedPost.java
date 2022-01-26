@@ -1083,9 +1083,23 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					0);
 		}
 
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.UPVOTE_RATIO)) {
+			postListDescSb.append("(", 0);
+			postListDescSb.append(
+					src.getUpvotePercentage() + "%",
+					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
+					boldCol,
+					0,
+					1f);
+			postListDescSb.append(
+					" " + context.getString(R.string.subtitle_upvote_ratio) + ") ", 0);
+		}
+
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.GOLD)) {
 			if(src.getGoldAmount() > 0) {
-				if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
+				if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)
+						|| mPostSubtitleItems.contains(
+								PrefsUtility.AppearancePostSubtitleItem.UPVOTE_RATIO)) {
 					postListDescSb.append(" ", 0);
 				}
 				postListDescSb.append(
@@ -1239,6 +1253,14 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					.append(context.getString(
 							R.string.accessibility_subtitle_points_withperiod,
 							score))
+					.append(separator);
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.UPVOTE_RATIO)) {
+			accessibilitySubtitle
+					.append(context.getString(
+							R.string.accessibility_subtitle_upvote_ratio_withperiod,
+							src.getUpvotePercentage()))
 					.append(separator);
 		}
 

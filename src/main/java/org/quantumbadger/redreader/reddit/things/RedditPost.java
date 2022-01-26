@@ -46,6 +46,7 @@ public final class RedditPost implements
 	public int ups;
 	public int downs;
 	public int gilded;
+	public double upvote_ratio;
 	public boolean archived;
 	public boolean over_18;
 	public boolean hidden;
@@ -135,6 +136,7 @@ public final class RedditPost implements
 		ups = in.readInt();
 		downs = in.readInt();
 		gilded = in.readInt();
+		upvote_ratio = in.readDouble();
 		archived = in.readInt() == 1;
 		over_18 = in.readInt() == 1;
 		hidden = in.readInt() == 1;
@@ -188,6 +190,7 @@ public final class RedditPost implements
 		parcel.writeInt(ups);
 		parcel.writeInt(downs);
 		parcel.writeInt(gilded);
+		parcel.writeDouble(upvote_ratio);
 		parcel.writeInt(archived ? 1 : 0);
 		parcel.writeInt(over_18 ? 1 : 0);
 		parcel.writeInt(hidden ? 1 : 0);

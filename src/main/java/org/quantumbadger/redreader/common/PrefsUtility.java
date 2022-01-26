@@ -537,7 +537,7 @@ public final class PrefsUtility {
 	}
 
 	public enum AppearancePostSubtitleItem {
-		AUTHOR, FLAIR, SCORE, AGE, GOLD, SUBREDDIT, DOMAIN, STICKY, SPOILER, NSFW
+		AUTHOR, FLAIR, SCORE, AGE, GOLD, SUBREDDIT, DOMAIN, STICKY, SPOILER, NSFW, UPVOTE_RATIO
 	}
 
 	public static EnumSet<AppearancePostSubtitleItem> appearance_post_subtitle_items() {

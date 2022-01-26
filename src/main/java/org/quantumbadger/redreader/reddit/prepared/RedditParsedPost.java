@@ -334,4 +334,8 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 	public BodyElement getSelfText() {
 		return mSelfText;
 	}
+
+	public int getUpvotePercentage() {
+		return (int)(mSrc.upvote_ratio * 100.0);
+	}
 }

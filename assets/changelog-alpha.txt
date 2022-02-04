@@ -1,3 +1,6 @@
+/Alpha 301 (2022-02-04)
+Ability to show upvote percentage in post subtitle (thanks to Cameron Merkel)
+
 /Alpha 300 (2022-01-21)
 Highlight suggested sort in sort menu (thanks to Cameron Merkel)
 Prevent replying to locked posts (thanks to Cameron Merkel)

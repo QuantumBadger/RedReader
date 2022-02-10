@@ -1647,4 +1647,9 @@
 	<string name="subtitle_upvote_ratio">upvoted</string>
 	<string name="accessibility_subtitle_upvote_ratio_withperiod">Percent upvoted: %d.</string>
 
+	<!-- 2022-02-10 -->
+	<string name="pref_behaviour_block_screenshots_key">pref_behaviour_block_screenshots</string>
+	<string name="pref_behaviour_block_screenshots_title">Block screenshots</string>
+	<string name="pref_behaviour_block_screenshots_summary">Prevent screenshots from being taken, and hide the app content in the recents menu</string>
+
 </resources>

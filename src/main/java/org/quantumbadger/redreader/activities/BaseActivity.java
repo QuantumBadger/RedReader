@@ -180,6 +180,9 @@ public abstract class BaseActivity extends AppCompatActivity
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 
+		if(PrefsUtility.behaviour_block_screenshots()) {
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+		}
 
 		mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
 		setOrientationFromPrefs();

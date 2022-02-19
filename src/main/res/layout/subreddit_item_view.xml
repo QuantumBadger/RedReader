@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<com.google.android.material.card.MaterialCardView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+		android:layout_height="wrap_content" xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_margin="10dp">
+
+	<androidx.appcompat.widget.LinearLayoutCompat
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/subreddit_item_view_go"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:paddingBottom="8dp"
+				android:clickable="true"
+				android:focusable="true"
+				android:background="@drawable/rr_list_item_selector">
+
+			<TextView
+					android:id="@+id/subreddit_item_view_primary_text"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toStartOf="@id/subreddit_item_view_go_icon"
+					android:layout_marginTop="8dp"
+					android:layout_marginStart="16dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginLeft="16dp"
+					android:layout_marginRight="16dp"
+					android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+					android:textColor="?rrMainTextCol" />
+
+			<TextView
+					android:id="@+id/subreddit_item_view_sub_text"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					app:layout_constraintTop_toBottomOf="@id/subreddit_item_view_primary_text"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintEnd_toStartOf="@id/subreddit_item_view_go_icon"
+					android:layout_marginStart="16dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginLeft="16dp"
+					android:layout_marginRight="16dp"
+					android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+					android:textColor="?rrSubTextCol" />
+
+			<ImageView
+					android:id="@+id/subreddit_item_view_go_icon"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_margin="16dp"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					android:src="?rrIconChevronRight"
+					tools:ignore="ContentDescription"/>
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+		<FrameLayout
+				android:id="@+id/subreddit_item_view_supporting_text"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="16dp"
+				android:layout_marginEnd="16dp"
+				android:layout_marginLeft="16dp"
+				android:layout_marginRight="16dp"
+				android:layout_marginTop="4dp"
+				android:lineSpacingExtra="8dp" />
+
+		<include
+			layout="@layout/subreddit_header_toolbar"
+			android:id="@+id/subreddit_item_view_actions"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="16dp"/>
+
+	</androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.google.android.material.card.MaterialCardView>

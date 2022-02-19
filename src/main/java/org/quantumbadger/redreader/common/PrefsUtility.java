@@ -145,6 +145,7 @@ public final class PrefsUtility {
 				|| context.getString(R.string.pref_appearance_comments_show_floating_toolbar_key)
 						.equals(key)
 				|| context.getString(R.string.pref_behaviour_enable_swipe_refresh_key).equals(key)
+				|| context.getString(R.string.pref_menus_show_subreddit_search_key).equals(key)
 				|| context.getString(R.string.pref_menus_show_multireddit_main_menu_key).equals(key)
 				|| context.getString(R.string.pref_menus_show_subscribed_subreddits_main_menu_key)
 						.equals(key)
@@ -439,6 +440,12 @@ public final class PrefsUtility {
 	public static boolean pref_show_multireddit_main_menu() {
 		return getBoolean(
 				R.string.pref_menus_show_multireddit_main_menu_key,
+				true);
+	}
+
+	public static boolean pref_menus_show_subreddit_search() {
+		return getBoolean(
+				R.string.pref_menus_show_subreddit_search_key,
 				true);
 	}
 

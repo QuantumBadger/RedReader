@@ -105,7 +105,7 @@ public abstract class RedditListingManager {
 		doWorkaround();
 	}
 
-	public void addItems(final Collection<GroupedRecyclerViewAdapter.Item> items) {
+	public void addItems(final Collection<GroupedRecyclerViewAdapter.Item<?>> items) {
 		General.checkThisIsUIThread();
 		mAdapter.appendToGroup(GROUP_ITEMS, items);
 		doWorkaround();

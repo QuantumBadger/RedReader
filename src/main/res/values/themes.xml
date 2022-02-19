@@ -17,19 +17,21 @@
   -->
 
 <resources>
-
-    <style name="RR.Dark" parent="Theme.AppCompat.NoActionBar">
+	
+    <style name="RR.Dark" parent="Theme.MaterialComponents.NoActionBar">
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
-        <item name="colorPrimary">#222222</item>
+        <item name="colorPrimary">#CCCCCC</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#99DDDD</item>
+		<item name="rrActionBarCol">#222222</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#323232</item>
 
         <item name="rrMainTextCol">#FFFFFF</item>
 		<item name="rrSubTextCol">#AAAAAA</item>
+		<item name="rrMaterialButtonTextCol">#CCCCCC</item>
 
         <item name="android:windowBackground">@color/darkWindowBackground</item>
 
@@ -50,8 +52,8 @@
         <item name="rrLoadingRingForegroundCol">#C8C8C8</item>
         <item name="rrLoadingRingBackgroundCol">#323232</item>
 
-        <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="alertDialogTheme">@style/Theme.MaterialComponents.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Dark</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -115,6 +117,8 @@
 		<item name="rrIconPin">@drawable/pin_dark</item>
 		<item name="rrIconPinOff">@drawable/pin_off_dark</item>
 		<item name="rrIconMessagePlus">@drawable/message_plus_dark</item>
+		<item name="rrIconChevronRight">@drawable/chevron_right_dark</item>
+		<item name="rrIconMagnify">@drawable/magnify_dark</item>
 		
     </style>
 
@@ -122,14 +126,15 @@
 
 		<item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
-		<item name="colorPrimary">#333333</item>
 		<item name="colorPrimaryDark">#000000</item>
 		<item name="colorAccent">#99DDDD</item>
+		<item name="rrActionBarCol">#333333</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#444444</item>
 
 		<item name="rrMainTextCol">#999999</item>
 		<item name="rrSubTextCol">#777777</item>
+		<item name="rrMaterialButtonTextCol">#CCCCCC</item>
 
 		<item name="android:windowBackground">@color/darkWindowBackground</item>
 
@@ -150,8 +155,7 @@
 		<item name="rrLoadingRingForegroundCol">#AAAAAA</item>
 		<item name="rrLoadingRingBackgroundCol">#323232</item>
 
-		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Dark</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Dark</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -189,14 +193,16 @@
 
 		<item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
-		<item name="colorPrimary">#000000</item>
+		<item name="colorPrimary">#CCCCCC</item>
 		<item name="colorPrimaryDark">#000000</item>
 		<item name="colorAccent">#99DDDD</item>
+		<item name="rrActionBarCol">#000000</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#000000</item>
 
 		<item name="rrMainTextCol">#FFFFFF</item>
 		<item name="rrSubTextCol">#AAAAAA</item>
+		<item name="rrMaterialButtonTextCol">#CCCCCC</item>
 
 		<item name="android:windowBackground">@color/darkWindowBackground</item>
 
@@ -217,8 +223,7 @@
 		<item name="rrLoadingRingForegroundCol">#C8C8C8</item>
 		<item name="rrLoadingRingBackgroundCol">#000000</item>
 
-		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Dark</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Dark</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -254,31 +259,32 @@
 
 	</style>
 
-	<style name="RR.Settings" parent="Theme.AppCompat.NoActionBar">
+	<style name="RR.Settings" parent="Theme.MaterialComponents.NoActionBar">
 
-		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
-
-		<item name="colorPrimary">#555555</item>
+		<item name="colorPrimary">#CCCCCC</item>
 		<item name="colorPrimaryDark">#555555</item>
 		<item name="colorAccent">#99DDDD</item>
+		<item name="rrActionBarCol">#555555</item>
 		<item name="android:windowBackground">@color/settingsWindowBackground</item>
 	</style>
 
     <style name="RR.Startup" parent="RR.Dark">
     </style>
 
-    <style name="RR.Light.DarkActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="RR.Light.DarkActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
         <item name="colorPrimary">#222222</item>
         <item name="colorPrimaryDark">#111111</item>
         <item name="colorAccent">?colorPrimaryDark</item>
+		<item name="rrActionBarCol">?colorPrimary</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#323232</item>
 
         <item name="rrMainTextCol">#000000</item>
 		<item name="rrSubTextCol">#777777</item>
+		<item name="rrMaterialButtonTextCol">?colorPrimaryDark</item>
 
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:textColorSecondary">#000000</item>
@@ -295,8 +301,8 @@
         <item name="rrListItemBackgroundHighlightCol">#DDDDDD</item>
         <item name="rrListBackgroundCol">#F5F5F5</item>
 
-        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="alertDialogTheme">@style/Theme.MaterialComponents.Light.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Light</item>
 
         <item name="rrListDividerCol">#CCCCCC</item>
         <item name="rrListHeaderTextCol">?colorAccent</item>
@@ -367,6 +373,8 @@
 		<item name="rrIconPin">@drawable/pin_light</item>
 		<item name="rrIconPinOff">@drawable/pin_off_light</item>
 		<item name="rrIconMessagePlus">@drawable/message_plus_light</item>
+		<item name="rrIconChevronRight">@drawable/chevron_right_light</item>
+		<item name="rrIconMagnify">@drawable/magnify_light</item>
 
     </style>
 

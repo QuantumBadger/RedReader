@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ import androidx.core.content.ContextCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.SubredditSearchActivity;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -74,17 +76,18 @@ public class MainMenuListingManager {
 	private static final int GROUP_USER_HEADER = 2;
 	private static final int GROUP_USER_ITEMS = 3;
 	private static final int GROUP_ANNOUNCEMENTS = 4;
-	private static final int GROUP_PINNED_SUBREDDITS_HEADER = 5;
-	private static final int GROUP_PINNED_SUBREDDITS_ITEMS = 6;
-	private static final int GROUP_BLOCKED_SUBREDDITS_HEADER = 7;
-	private static final int GROUP_BLOCKED_SUBREDDITS_ITEMS = 8;
-	private static final int GROUP_MULTIREDDITS_HEADER = 9;
-	private static final int GROUP_MULTIREDDITS_ITEMS = 10;
-	private static final int GROUP_SUBREDDITS_HEADER = 11;
-	private static final int GROUP_SUBREDDITS_ITEMS = 12;
+	private static final int GROUP_SEARCH_BAR = 5;
+	private static final int GROUP_PINNED_SUBREDDITS_HEADER = 6;
+	private static final int GROUP_PINNED_SUBREDDITS_ITEMS = 7;
+	private static final int GROUP_BLOCKED_SUBREDDITS_HEADER = 8;
+	private static final int GROUP_BLOCKED_SUBREDDITS_ITEMS = 9;
+	private static final int GROUP_MULTIREDDITS_HEADER = 10;
+	private static final int GROUP_MULTIREDDITS_ITEMS = 11;
+	private static final int GROUP_SUBREDDITS_HEADER = 12;
+	private static final int GROUP_SUBREDDITS_ITEMS = 13;
 
 	@NonNull private final GroupedRecyclerViewAdapter mAdapter
-			= new GroupedRecyclerViewAdapter(13);
+			= new GroupedRecyclerViewAdapter(14);
 	@NonNull private final Context mContext;
 	@NonNull private final AppCompatActivity mActivity;
 
@@ -356,6 +359,26 @@ public class MainMenuListingManager {
 									isFirst.getAndSet(false)));
 				}
 			}
+		}
+
+		if(PrefsUtility.pref_menus_show_subreddit_search()) {
+			mAdapter.appendToGroup(GROUP_SEARCH_BAR, new GroupedRecyclerViewItemView(
+					SubredditSearchActivity.class,
+					parent -> {
+						final View view = LayoutInflater.from(parent.getContext())
+								.inflate(
+										R.layout.main_menu_subreddit_search_view,
+										parent,
+										false);
+
+						view.findViewById(R.id.subreddit_search_link)
+								.setOnClickListener(v -> activity.startActivity(
+										new Intent(
+												activity,
+												SubredditSearchActivity.class)));
+
+						return view;
+					}));
 		}
 
 		setPinnedSubreddits();

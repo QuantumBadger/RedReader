@@ -1,4 +1,5 @@
 103/1.19
+Ability to search for subreddits
 Ability to show upvote percentage in post subtitle (thanks to Cameron Merkel)
 Highlight suggested sort in sort menu (thanks to Cameron Merkel)
 Prevent replying to locked posts (thanks to Cameron Merkel)

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<FrameLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="12dp"
+		android:background="?rrListDividerCol"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		tools:ignore="UnusedAttribute,Overdraw">
+
+	<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="1dp"
+			android:background="?rrListItemBackgroundCol">
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+				android:id="@+id/subreddit_search_link"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="8dp"
+				android:background="@drawable/rr_list_item_selector"
+				android:clickable="true"
+				android:focusable="true">
+
+			<ImageView
+					android:id="@+id/search_icon"
+					android:layout_height="wrap_content"
+					android:layout_width="wrap_content"
+					android:paddingRight="12dp"
+					android:paddingEnd="12dp"
+					android:src="?rrIconMagnify"
+					android:scaleType="fitCenter"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					android:importantForAccessibility="no"
+					tools:ignore="ContentDescription,RtlSymmetry"/>
+
+			<TextView
+					android:id="@+id/announcement_view_title"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					app:layout_constrainedWidth="true"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toEndOf="@id/search_icon"
+					app:layout_constraintEnd_toEndOf="parent"
+					android:text="@string/find_subreddit"
+					android:textSize="18sp"
+					android:textColor="?rrSubTextCol"/>
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+	</FrameLayout>
+
+</FrameLayout>

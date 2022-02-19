@@ -1,3 +1,6 @@
+/Alpha 302 (2022-02-19)
+Ability to search for subreddits
+
 /Alpha 301 (2022-02-04)
 Ability to show upvote percentage in post subtitle (thanks to Cameron Merkel)
 

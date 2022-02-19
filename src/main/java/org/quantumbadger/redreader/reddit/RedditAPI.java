@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
+import android.net.Uri;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,9 +31,12 @@ import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfTimestampOutsideBounds;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
@@ -752,7 +756,238 @@ public final class RedditAPI {
 				new GenericResponseHandler(responseHandler)));
 	}
 
-	// lol, reddit api
+	public static void popularSubreddits(
+			@NonNull final CacheManager cm,
+			@NonNull final RedditAccount user,
+			@NonNull final Context context,
+			@NonNull final APIResponseHandler.ValueResponseHandler<
+					SubredditListResponse> handler,
+			@NonNull final Optional<String> after) {
+
+		// 1 hour
+		final long maxCacheAgeMs = 60 * 60 * 1000;
+
+		final Uri.Builder builder = Constants.Reddit.getUriBuilder(
+				Constants.Reddit.PATH_SUBREDDITS_POPULAR);
+
+		builder.appendQueryParameter("limit", "100");
+
+		after.apply(value -> builder.appendQueryParameter("after", value));
+
+		final URI uri = Objects.requireNonNull(General.uriFromString(builder.build().toString()));
+
+		requestSubredditList(
+				cm,
+				uri,
+				user,
+				context,
+				handler,
+				new DownloadStrategyIfTimestampOutsideBounds(
+						TimestampBound.notOlderThan(maxCacheAgeMs)));
+	}
+
+	public static void searchSubreddits(
+			@NonNull final CacheManager cm,
+			@NonNull final RedditAccount user,
+			@NonNull final String queryString,
+			@NonNull final Context context,
+			@NonNull final APIResponseHandler.ValueResponseHandler<
+					SubredditListResponse> handler,
+			@NonNull final Optional<String> after) {
+
+		// 60 seconds
+		final long maxCacheAgeMs = 60 * 1000;
+
+		final Uri.Builder builder = Constants.Reddit.getUriBuilder(
+				"/subreddits/search.json");
+
+		builder.appendQueryParameter("q", queryString);
+		builder.appendQueryParameter("limit", "100");
+
+		if(PrefsUtility.pref_behaviour_nsfw()) {
+			builder.appendQueryParameter("include_over_18", "on");
+		}
+
+		after.apply(value -> builder.appendQueryParameter("after", value));
+
+		final URI uri = Objects.requireNonNull(General.uriFromString(builder.build().toString()));
+
+		requestSubredditList(
+				cm,
+				uri,
+				user,
+				context,
+				handler,
+				new DownloadStrategyIfTimestampOutsideBounds(
+						TimestampBound.notOlderThan(maxCacheAgeMs)));
+	}
+
+	public static void subscribedSubreddits(
+			@NonNull final CacheManager cm,
+			@NonNull final RedditAccount user,
+			@NonNull final AppCompatActivity context,
+			@NonNull final APIResponseHandler.ValueResponseHandler<
+					ArrayList<RedditSubreddit>> handler) {
+
+		subscribedSubredditsInternal(
+				cm,
+				user,
+				context,
+				handler,
+				Optional.empty(),
+				new ArrayList<>(128));
+	}
+
+	private static void subscribedSubredditsInternal(
+			@NonNull final CacheManager cm,
+			@NonNull final RedditAccount user,
+			@NonNull final AppCompatActivity context,
+			@NonNull final APIResponseHandler.ValueResponseHandler<
+					ArrayList<RedditSubreddit>> handler,
+			@NonNull final Optional<String> after,
+			@NonNull final ArrayList<RedditSubreddit> results) {
+
+		final Uri.Builder builder = Constants.Reddit.getUriBuilder(
+				Constants.Reddit.PATH_SUBREDDITS_MINE_SUBSCRIBER);
+
+		after.apply(value -> builder.appendQueryParameter("after", value));
+
+		final URI uri = Objects.requireNonNull(General.uriFromString(builder.build().toString()));
+
+		requestSubredditList(
+				cm,
+				uri,
+				user,
+				context,
+				new APIResponseHandler.ValueResponseHandler<SubredditListResponse>(context) {
+					@Override
+					protected void onSuccess(@NonNull final SubredditListResponse value) {
+
+						results.addAll(value.subreddits);
+
+						if(value.after.isEmpty()) {
+							handler.onSuccess(results);
+						} else {
+							subscribedSubredditsInternal(
+									cm,
+									user,
+									context,
+									handler,
+									value.after,
+									results);
+						}
+					}
+
+					@Override
+					protected void onCallbackException(final Throwable t) {
+						handler.onCallbackException(t);
+					}
+
+					@Override
+					protected void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer status,
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> response) {
+
+						handler.onFailure(type, t, status, readableMessage, response);
+					}
+
+					@Override
+					protected void onFailure(
+							@NonNull final APIFailureType type,
+							@Nullable final String debuggingContext,
+							@NonNull final Optional<FailedRequestBody> response) {
+
+						handler.onFailure(type, debuggingContext, response);
+					}
+				},
+				DownloadStrategyAlways.INSTANCE);
+	}
+
+	public static class SubredditListResponse {
+		public final ArrayList<RedditSubreddit> subreddits;
+		public final Optional<String> after;
+
+		public SubredditListResponse(
+				final ArrayList<RedditSubreddit> subreddits,
+				final Optional<String> after) {
+			this.subreddits = subreddits;
+			this.after = after;
+		}
+	}
+
+	public static void requestSubredditList(
+			@NonNull final CacheManager cm,
+			@NonNull final URI uri,
+			@NonNull final RedditAccount user,
+			@NonNull final Context context,
+			@NonNull final APIResponseHandler.ValueResponseHandler<
+					SubredditListResponse> handler,
+			@NonNull final DownloadStrategy downloadStrategy) {
+
+		cm.makeRequest(createGetRequest(
+				uri,
+				user,
+				new Priority(Constants.Priority.API_SUBREDDIT_LIST),
+				Constants.FileType.SUBREDDIT_LIST,
+				downloadStrategy,
+				context,
+				new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
+
+						try {
+							final Optional<JsonArray> subreddits
+									= result.getArrayAtPath("data", "children");
+
+							final Optional<String> after
+									= result.getStringAtPath("data", "after");
+
+							if(subreddits.isEmpty()) {
+								throw new IOException("Subreddit data not found");
+							}
+
+							final ArrayList<RedditSubreddit> output = new ArrayList<>();
+
+							for(final JsonValue value : subreddits.get()) {
+								final RedditThing redditThing = value.asObject(RedditThing.class);
+								final RedditSubreddit subreddit = redditThing.asSubreddit();
+								output.add(subreddit);
+							}
+
+							handler.notifySuccess(
+									new SubredditListResponse(output, after));
+
+						} catch(final Exception e) {
+							onFailure(
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									e,
+									null,
+									null,
+									Optional.of(new FailedRequestBody(result)));
+						}
+					}
+
+					@Override
+					public void onFailure(
+							final @CacheRequest.RequestFailureType int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
+
+						handler.notifyFailure(type, t, httpStatus, readableMessage, body);
+					}
+				}
+		));
+	}
+
 	@Nullable
 	private static APIResponseHandler.APIFailureType findFailureType(final JsonValue response) {
 

@@ -32,6 +32,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -109,7 +110,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 			browserCheckbox.setText(R.string.reddit_login_browser_popup_use_external_browser);
 		}
 
-		new AlertDialog.Builder(context)
+		new MaterialAlertDialogBuilder(context)
 				.setMessage(String.format(
 						Locale.US,
 						"%s\n\n%s",
@@ -190,7 +191,8 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 								context.getString(R.string.accounts_delete)
 						};
 
-				final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				final MaterialAlertDialogBuilder builder
+						= new MaterialAlertDialogBuilder(context);
 
 				builder.setItems(items, new DialogInterface.OnClickListener() {
 					@Override
@@ -201,7 +203,7 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 							RedditAccountManager.getInstance(context)
 									.setDefaultAccount(account);
 						} else if(selected.equals(context.getString(R.string.accounts_delete))) {
-							new AlertDialog.Builder(context)
+							new MaterialAlertDialogBuilder(context)
 									.setTitle(R.string.accounts_delete)
 									.setMessage(R.string.accounts_delete_sure)
 									.setPositiveButton(

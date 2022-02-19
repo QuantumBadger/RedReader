@@ -86,6 +86,10 @@
 							android:key="@string/pref_appearance_show_blocked_subreddits_main_menu_key"
 							android:defaultValue="false"/>
 
+		<CheckBoxPreference android:title="@string/pref_menus_show_subreddit_search_title"
+							android:key="@string/pref_menus_show_subreddit_search_key"
+							android:defaultValue="true"/>
+
 		<CheckBoxPreference android:title="@string/pref_menus_show_multireddit_main_menu_title"
 							android:key="@string/pref_menus_show_multireddit_main_menu_key"
 							android:defaultValue="true"/>

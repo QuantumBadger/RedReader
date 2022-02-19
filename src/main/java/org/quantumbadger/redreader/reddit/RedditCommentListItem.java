@@ -33,7 +33,8 @@ import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.LoadMoreCommentsView;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
-public class RedditCommentListItem extends GroupedRecyclerViewAdapter.Item {
+public class RedditCommentListItem
+		extends GroupedRecyclerViewAdapter.Item<RecyclerView.ViewHolder> {
 
 	public enum Type {
 		COMMENT, LOAD_MORE

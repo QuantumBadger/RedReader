@@ -39,6 +39,7 @@ import androidx.core.view.ViewCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GlobalExceptionHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.TorCommon;
@@ -62,7 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity
 	private final HashMap<Integer, ActivityResultCallback> mActivityResultCallbacks
 			= new HashMap<>();
 
-	private TextView mActionbarTitleTextView;
+	@NonNull private Optional<TextView> mActionbarTitleTextView = Optional.empty();
 
 	private FrameLayout mContentListing;
 	private FrameLayout mContentOverlay;
@@ -74,6 +75,10 @@ public abstract class BaseActivity extends AppCompatActivity
 		return true;
 	}
 
+	protected boolean baseActivityIsToolbarSearchBarEnabled() {
+		return false;
+	}
+
 	protected boolean baseActivityIsActionBarBackEnabled() {
 		return true;
 	}
@@ -81,10 +86,7 @@ public abstract class BaseActivity extends AppCompatActivity
 	@Override
 	public void setTitle(final CharSequence text) {
 		super.setTitle(text);
-
-		if(mActionbarTitleTextView != null) {
-			mActionbarTitleTextView.setText(text);
-		}
+		mActionbarTitleTextView.apply(titleView -> titleView.setText(text));
 	}
 
 	@Override
@@ -127,8 +129,9 @@ public abstract class BaseActivity extends AppCompatActivity
 			mActionbarBackIconView.setImportantForAccessibility(
 					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
 
-			mActionbarTitleTextView.setImportantForAccessibility(
-					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+			mActionbarTitleTextView.apply(
+					titleView -> titleView.setImportantForAccessibility(
+							View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS));
 		}
 
 		if(isVisible) {
@@ -222,14 +225,25 @@ public abstract class BaseActivity extends AppCompatActivity
 			super.setContentView(outerView);
 			setSupportActionBar(toolbar);
 
-			getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_title);
+			if(baseActivityIsToolbarSearchBarEnabled()) {
+				getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_search);
+			} else {
+				getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_title);
+			}
+
 			getSupportActionBarOrThrow().setDisplayShowCustomEnabled(true);
 			getSupportActionBarOrThrow().setDisplayShowTitleEnabled(false);
 			toolbar.setContentInsetsAbsolute(0, 0);
 
-			mActionbarTitleTextView = toolbar.findViewById(R.id.actionbar_title_text);
 			mActionbarBackIconView = toolbar.findViewById(R.id.actionbar_title_back_image);
 			mActionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
+
+			if(baseActivityIsToolbarSearchBarEnabled()) {
+				mActionbarTitleTextView = Optional.empty();
+			} else {
+				mActionbarTitleTextView = Optional.of(
+						toolbar.findViewById(R.id.actionbar_title_text));
+			}
 
 			if(getTitle() != null) {
 				// Update custom action bar text

@@ -117,6 +117,13 @@ public final class Optional<E> {
 		}
 	}
 
+	public void apply(@NonNull final FunctionOneArgNoReturn<E> function) {
+
+		if(mValue != null) {
+			function.apply(mValue);
+		}
+	}
+
 	@NonNull
 	public <R> Optional<R> filter(
 			@NonNull final FunctionOneArgWithReturn<E, Optional<R>> function) {

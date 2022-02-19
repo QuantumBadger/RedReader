@@ -239,6 +239,10 @@
         <activity android:name=".activities.InboxListingActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
+		<activity android:name=".activities.SubredditSearchActivity"
+				  android:configChanges="orientation|screenSize|keyboardHidden"
+				  android:windowSoftInputMode="adjustResize"/>
+
         <receiver android:name=".receivers.NewMessageChecker"/>
 
         <receiver android:name=".receivers.RegularCachePruner"/>

@@ -17,53 +17,22 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.TooltipCompat;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccount;
-import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.PostSubmitActivity;
-import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
-import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
-import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
-import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 
 
-public final class PostListingHeader extends LinearLayout
-		implements
-		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener,
-		SharedPrefsWrapper.OnSharedPreferenceChangeListener {
-
-	@NonNull private final Context mContext;
-
-	// Field can't be local because the listener gets put in a weak map, and we want to stop it
-	// being garbage collected.
-	@Nullable private RedditSubredditSubscriptionManager.ListenerContext
-			mSubscriptionListenerContext;
-
-	@Nullable private final Runnable mRunnableOnAttach;
-	@Nullable private final Runnable mRunnableOnDetach;
-	@Nullable private final Runnable mRunnableOnSubscriptionsChange;
-	@Nullable private final Runnable mRunnableOnPinnedChange;
+public final class PostListingHeader extends LinearLayout {
 
 	public PostListingHeader(
 			final AppCompatActivity activity,
@@ -73,11 +42,6 @@ public final class PostListingHeader extends LinearLayout
 			@Nullable final RedditSubreddit subreddit) {
 
 		super(activity);
-
-		mContext = activity.getApplicationContext();
-
-		final SharedPrefsWrapper sharedPreferences
-				= General.getSharedPrefs(activity);
 
 		final float dpScale = activity.getResources().getDisplayMetrics().density;
 
@@ -115,223 +79,14 @@ public final class PostListingHeader extends LinearLayout
 
 		addView(greyHeader);
 
-		final RedditAccount currentUser =
-				RedditAccountManager.getInstance(activity).getDefaultAccount();
-
 		if(subreddit != null
 				&& !PrefsUtility.pref_appearance_hide_headertoolbar_postlist()) {
 
-			final LinearLayout buttons =
+			final SubredditToolbar buttons =
 					inflate(activity, R.layout.subreddit_header_toolbar, this)
 							.findViewById(R.id.subreddit_toolbar_layout);
 
-			final ImageButton buttonSubscribe =
-					buttons.findViewById(R.id.subreddit_toolbar_button_subscribe);
-			final ImageButton buttonUnsubscribe =
-					buttons.findViewById(R.id.subreddit_toolbar_button_unsubscribe);
-			final FrameLayout buttonSubscribeLoading =
-					buttons.findViewById(R.id.subreddit_toolbar_button_subscribe_loading);
-
-			final ImageButton buttonPin =
-					buttons.findViewById(R.id.subreddit_toolbar_button_pin);
-			final ImageButton buttonUnpin =
-					buttons.findViewById(R.id.subreddit_toolbar_button_unpin);
-
-			final ImageButton buttonSubmit =
-					buttons.findViewById(R.id.subreddit_toolbar_button_submit);
-			final ImageButton buttonShare =
-					buttons.findViewById(R.id.subreddit_toolbar_button_share);
-			final ImageButton buttonInfo =
-					buttons.findViewById(R.id.subreddit_toolbar_button_info);
-
-			for(int i = 0; i < buttons.getChildCount(); i++) {
-				final View button = buttons.getChildAt(i);
-				TooltipCompat.setTooltipText(button, button.getContentDescription());
-			}
-
-			buttonSubscribeLoading.addView(new ButtonLoadingSpinnerView(activity));
-
-			final RedditSubredditSubscriptionManager subscriptionManager
-					= RedditSubredditSubscriptionManager.getSingleton(
-					activity,
-					currentUser);
-
-			final SubredditCanonicalId subredditCanonicalId;
-
-			try {
-				subredditCanonicalId = subreddit.getCanonicalId();
-
-			} catch(final InvalidSubredditNameException e) {
-				throw new RuntimeException(e);
-			}
-
-			mRunnableOnSubscriptionsChange = () -> {
-
-				final SubredditSubscriptionState
-						subscriptionState = subscriptionManager.getSubscriptionState(
-						subredditCanonicalId);
-
-				if(subscriptionState == SubredditSubscriptionState
-						.SUBSCRIBED) {
-
-					buttonSubscribe.setVisibility(GONE);
-					buttonUnsubscribe.setVisibility(VISIBLE);
-					buttonSubscribeLoading.setVisibility(GONE);
-
-				} else if(subscriptionState == SubredditSubscriptionState
-						.NOT_SUBSCRIBED) {
-
-					buttonSubscribe.setVisibility(VISIBLE);
-					buttonUnsubscribe.setVisibility(GONE);
-					buttonSubscribeLoading.setVisibility(GONE);
-
-				} else {
-					buttonSubscribe.setVisibility(GONE);
-					buttonUnsubscribe.setVisibility(GONE);
-					buttonSubscribeLoading.setVisibility(VISIBLE);
-				}
-			};
-
-			mRunnableOnPinnedChange = () -> {
-
-				final boolean pinned = PrefsUtility.pref_pinned_subreddits_check(
-						subredditCanonicalId);
-
-				if(pinned) {
-					buttonPin.setVisibility(GONE);
-					buttonUnpin.setVisibility(VISIBLE);
-				} else {
-					buttonPin.setVisibility(VISIBLE);
-					buttonUnpin.setVisibility(GONE);
-				}
-			};
-
-			mRunnableOnSubscriptionsChange.run();
-			mRunnableOnPinnedChange.run();
-
-			mRunnableOnAttach = () -> {
-				mSubscriptionListenerContext = subscriptionManager.addListener(this);
-				sharedPreferences.registerOnSharedPreferenceChangeListener(this);
-
-				mRunnableOnSubscriptionsChange.run();
-				mRunnableOnPinnedChange.run();
-			};
-
-			mRunnableOnDetach = () -> {
-				mSubscriptionListenerContext.removeListener();
-				mSubscriptionListenerContext = null;
-
-				sharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
-			};
-
-			if(!subreddit.hasSidebar()) {
-				buttonInfo.setVisibility(GONE);
-			}
-
-			if(currentUser.isAnonymous()) {
-
-				final OnClickListener mustBeLoggedInListener
-						= v -> General.showMustBeLoggedInDialog(activity);
-
-				buttonSubscribe.setOnClickListener(mustBeLoggedInListener);
-				buttonUnsubscribe.setOnClickListener(mustBeLoggedInListener);
-				buttonSubmit.setOnClickListener(mustBeLoggedInListener);
-
-			} else {
-				buttonSubscribe.setOnClickListener(v -> subscriptionManager.subscribe(
-						subredditCanonicalId,
-						activity));
-
-				buttonUnsubscribe.setOnClickListener(v -> subscriptionManager.unsubscribe(
-						subredditCanonicalId,
-						activity));
-
-				buttonSubmit.setOnClickListener(v -> {
-					final Intent intent = new Intent(
-							activity,
-							PostSubmitActivity.class);
-					intent.putExtra("subreddit", subredditCanonicalId.toString());
-					activity.startActivity(intent);
-				});
-			}
-
-			buttonPin.setOnClickListener(v -> PrefsUtility.pref_pinned_subreddits_add(
-					mContext,
-					subredditCanonicalId));
-
-			buttonUnpin.setOnClickListener(v -> PrefsUtility.pref_pinned_subreddits_remove(
-					mContext,
-					subredditCanonicalId));
-
-			buttonShare.setOnClickListener(v -> LinkHandler.shareText(
-					activity,
-					subredditCanonicalId.toString(),
-					url.browserUrl()));
-
-			buttonInfo.setOnClickListener(v -> subreddit.showSidebarActivity(activity));
-
-		} else {
-			mSubscriptionListenerContext = null;
-			mRunnableOnAttach = null;
-			mRunnableOnDetach = null;
-			mRunnableOnSubscriptionsChange = null;
-			mRunnableOnPinnedChange = null;
-		}
-	}
-
-	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-
-		if(mRunnableOnAttach != null) {
-			mRunnableOnAttach.run();
-		}
-	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
-
-		if(mRunnableOnDetach != null) {
-			mRunnableOnDetach.run();
-		}
-	}
-
-	@Override
-	public void onSubredditSubscriptionListUpdated(
-			final RedditSubredditSubscriptionManager subredditSubscriptionManager) {
-
-		if(mRunnableOnSubscriptionsChange != null) {
-			AndroidCommon.UI_THREAD_HANDLER.post(mRunnableOnSubscriptionsChange);
-		}
-	}
-
-	@Override
-	public void onSubredditSubscriptionAttempted(
-			final RedditSubredditSubscriptionManager subredditSubscriptionManager) {
-
-		if(mRunnableOnSubscriptionsChange != null) {
-			AndroidCommon.UI_THREAD_HANDLER.post(mRunnableOnSubscriptionsChange);
-		}
-	}
-
-	@Override
-	public void onSubredditUnsubscriptionAttempted(
-			final RedditSubredditSubscriptionManager subredditSubscriptionManager) {
-
-		if(mRunnableOnSubscriptionsChange != null) {
-			AndroidCommon.UI_THREAD_HANDLER.post(mRunnableOnSubscriptionsChange);
-		}
-	}
-
-	@Override
-	public void onSharedPreferenceChanged(
-			@NonNull final SharedPrefsWrapper sharedPreferences,
-			@NonNull final String key) {
-
-		if(mRunnableOnPinnedChange != null
-				&& key.equals(mContext.getString(R.string.pref_pinned_subreddits_key))) {
-			mRunnableOnPinnedChange.run();
+			buttons.bindSubreddit(subreddit, Optional.of(url.browserUrl()));
 		}
 	}
 }

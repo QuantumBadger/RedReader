@@ -20,12 +20,14 @@ package org.quantumbadger.redreader.reddit.things;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
+import org.quantumbadger.redreader.common.HasUniqueId;
+import org.quantumbadger.redreader.common.ParcelHelper;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.io.WritableObject;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
@@ -37,7 +39,8 @@ public class RedditSubreddit implements
 		Parcelable,
 		Comparable<RedditSubreddit>,
 		WritableObject<SubredditCanonicalId>,
-		JsonObject.JsonDeserializable {
+		JsonObject.JsonDeserializable,
+		HasUniqueId {
 
 	@Override
 	public SubredditCanonicalId getKey() {
@@ -62,7 +65,7 @@ public class RedditSubreddit implements
 	@WritableField public String header_title;
 	@WritableField public String description;
 	@WritableField public String description_html;
-	@WritableField public String public_description;
+	public String public_description_html;
 	@WritableField public String id;
 	@WritableField public String name;
 	@WritableField public String title;
@@ -72,7 +75,7 @@ public class RedditSubreddit implements
 	@WritableField public long created_utc;
 	@WritableField public Integer accounts_active;
 	@WritableField public Integer subscribers;
-	@WritableField public boolean over18;
+	@WritableField public Boolean over18;
 
 	@WritableObjectTimestamp public long downloadTime;
 
@@ -108,6 +111,15 @@ public class RedditSubreddit implements
 		return new SubredditCanonicalId(url);
 	}
 
+	public String getUrl() {
+
+		if(url != null) {
+			return url;
+		}
+
+		return "https://reddit.com/r/" + display_name;
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;
@@ -119,7 +131,7 @@ public class RedditSubreddit implements
 		out.writeString(header_title);
 		out.writeString(description);
 		out.writeString(description_html);
-		out.writeString(public_description);
+		out.writeString(public_description_html);
 		out.writeString(id);
 		out.writeString(name);
 		out.writeString(title);
@@ -129,7 +141,7 @@ public class RedditSubreddit implements
 		out.writeLong(created_utc);
 		out.writeInt(accounts_active == null ? -1 : accounts_active);
 		out.writeInt(subscribers == null ? -1 : subscribers);
-		out.writeInt(over18 ? 1 : 0);
+		ParcelHelper.writeNullableBoolean(out, over18);
 	}
 
 	public RedditSubreddit() {
@@ -145,7 +157,7 @@ public class RedditSubreddit implements
 		header_title = parcel.readString();
 		description = parcel.readString();
 		description_html = parcel.readString();
-		public_description = parcel.readString();
+		public_description_html = parcel.readString();
 		id = parcel.readString();
 		name = parcel.readString();
 		title = parcel.readString();
@@ -164,7 +176,7 @@ public class RedditSubreddit implements
 			subscribers = null;
 		}
 
-		over18 = parcel.readInt() == 1;
+		over18 = ParcelHelper.readNullableBoolean(parcel);
 	}
 
 	public static final Parcelable.Creator<RedditSubreddit> CREATOR
@@ -182,8 +194,7 @@ public class RedditSubreddit implements
 
 	@Override
 	public int compareTo(final RedditSubreddit another) {
-		return StringUtils.asciiLowercase(display_name)
-				.compareTo(StringUtils.asciiLowercase(another.display_name));
+		return display_name.compareToIgnoreCase(another.display_name);
 	}
 
 	public String getSidebarHtml(final boolean nightMode) {
@@ -231,5 +242,11 @@ public class RedditSubreddit implements
 				url));
 
 		context.startActivityForResult(intent, 1);
+	}
+
+	@NonNull
+	@Override
+	public String getUniqueId() {
+		return id;
 	}
 }

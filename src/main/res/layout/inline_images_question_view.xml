@@ -62,6 +62,7 @@
 
 				<Button
 						android:id="@+id/inline_preview_prompt_turn_off_button"
+						style="@style/Widget.MaterialComponents.Button.TextButton"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/inline_preview_prompt_turn_off"
@@ -71,6 +72,7 @@
 
 				<Button
 						android:id="@+id/inline_preview_prompt_keep_showing_button"
+						style="@style/Widget.MaterialComponents.Button.TextButton"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/inline_preview_prompt_keep_showing"

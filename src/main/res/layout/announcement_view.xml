@@ -39,7 +39,7 @@
 					android:layout_height="wrap_content"
 					android:padding="15dp">
 
-				<ImageView android:id="@+id/announcement_view_icon"
+				<ImageView android:id="@+id/search_icon"
 						   android:layout_height="wrap_content"
 						   android:layout_width="wrap_content"
 						   android:src="@drawable/bullhorn_mid"
@@ -57,7 +57,7 @@
 						app:layout_constrainedWidth="true"
 						app:layout_constraintTop_toTopOf="parent"
 						app:layout_constraintBottom_toBottomOf="parent"
-						app:layout_constraintStart_toEndOf="@id/announcement_view_icon"
+						app:layout_constraintStart_toEndOf="@id/search_icon"
 						app:layout_constraintEnd_toEndOf="parent"
 						tools:ignore="RtlSymmetry">
 

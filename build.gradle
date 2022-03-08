@@ -43,7 +43,7 @@ dependencies {
 
 	implementation 'androidx.wear:wear:1.1.0'
 	implementation 'com.google.android.support:wearable:2.8.1'
-	compileOnly 'com.google.android.wearable:wearable:2.8.1'
+	compileOnly 'com.google.android.wearable:wearable:2.9.0'
 
 	testImplementation 'junit:junit:4.13'
 

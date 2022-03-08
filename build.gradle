@@ -41,7 +41,7 @@ dependencies {
 	implementation 'com.google.android.exoplayer:exoplayer-ui:2.13.3'
 	implementation "com.github.luben:zstd-jni:1.5.0-2@aar"
 
-	implementation 'androidx.wear:wear:1.1.0'
+	implementation 'androidx.wear:wear:1.2.0'
 	implementation 'com.google.android.support:wearable:2.8.1'
 	compileOnly 'com.google.android.wearable:wearable:2.9.0'
 

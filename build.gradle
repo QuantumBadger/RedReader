@@ -4,7 +4,7 @@ buildscript {
 		google()
 	}
 	dependencies {
-		classpath 'com.android.tools.build:gradle:4.2.2'
+		classpath 'com.android.tools.build:gradle:7.1.2'
 		classpath 'com.google.gms:google-services:4.3.10'
 		classpath 'com.google.firebase:firebase-crashlytics-gradle:2.7.1'
 		classpath 'com.android.tools.build:gradle:7.0.4'
@@ -43,7 +43,7 @@ dependencies {
 	implementation 'com.github.luben:zstd-jni:1.5.1-1@aar'
 
 	implementation 'androidx.wear:wear:1.2.0'
-	implementation 'com.google.android.support:wearable:2.8.1'
+	implementation 'com.google.android.support:wearable:2.9.0'
 	compileOnly 'com.google.android.wearable:wearable:2.9.0'
 
 	testImplementation 'junit:junit:4.13'

@@ -1,5 +1,20 @@
+103/1.19
+Highlight suggested sort in sort menu (thanks to Cameron Merkel)
+Prevent replying to locked posts (thanks to Cameron Merkel)
+Allows reporting uncaught exceptions
+Fix to sample flag handling when saving Reddit videos
+Dependency updates
+
+102/1.18.1
+Disable repeated Orbot installation prompts when Tor is enabled
+Rename "Share/Save Image" to "Share/Save Media"
+Sharing a link to a v.redd.it post now uses comments page
+
 101/1.18
+Saved/shared videos from v.redd.it now have audio attached
 Imgur upload reliability improved
+Search multireddits and subreddit combinations (thanks to Cameron Merkel)
+Allow status bar to be hidden only when viewing media (thanks to Cameron Merkel)
 Highlight moderator/admin username for distinguished posts (thanks to Cameron Merkel)
 Allow specifying date range when sorting by controversial (thanks to Cameron Merkel)
 Allow specifying date range for searches (thanks to Cameron Merkel)
@@ -8,6 +23,21 @@ Show message when no posts are available (thanks to Cameron Merkel)
 Show parent comment after submitting reply
 More detail in errors for failed API requests
 Wrap long text in preferences (thanks to Cameron Merkel)
+Subreddit blocking now applies to /r/popular and the front page (thanks to Cameron Merkel)
+Update post header even when the toolbar is disabled (thanks to Cameron Merkel)
+Show tooltips when long-pressing toolbar buttons (thanks to Cameron Merkel)
+Search queries are no longer forced to lowercase (thanks to Cameron Merkel)
+Take NSFW preference into account in API requests (thanks to Cameron Merkel)
+Prevent replying to archived posts and comments (thanks to Cameron Merkel)
+Add optional indicator (†) for comments voted controversial (thanks to Cameron Merkel)
+Add reply option to post action menu (thanks to Cameron Merkel)
+Show radio buttons on sort menus (thanks to Cameron Merkel)
+Preserve self-text collapse state if activity gets recreated (thanks to Cameron Merkel)
+Disable hiding of read posts in user post lists (thanks to Cameron Merkel)
+Make videos loop more smoothly (thanks to Cameron Merkel)
+Handle non-HTTP URLs using native apps in WebView (thanks to Avik Das)
+Various code cleanup (thanks to TacoTheDank and Cameron Merkel)
+Translation updates (thanks to Andrey F, Atrate, Dan McElroy, Dwaris, Eric, Gediminas Murauskas, GM, Gontzal Manuel Pujana Onaindia, Ihor Hordiichuk, Jurijus, Kaantaja, lucanomax, ndrnry, PandaCoderPL, phlostically, Sergio Varela, ToldYouThat, Verdulo, zeritti, and zmni)
 
 100/1.17.3
 Adding workaround for TLS 1.2 support on Android 4

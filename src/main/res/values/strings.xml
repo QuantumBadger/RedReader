@@ -244,7 +244,7 @@
     <string name="action_report">Report</string>
     <string name="action_report_sure">Are you sure you want to report this?</string>
 
-    <string name="action_save_image">Save Image</string>
+    <string name="action_save_image">Save Media</string>
     <string name="action_save_image_success">Saved to Pictures folder as</string>
 
     <!-- Download Messages -->
@@ -721,8 +721,8 @@
     <string name="block_subreddit">Block Subreddit</string>
     <string name="unblock_subreddit">Unblock Subreddit</string>
     <string name="pref_blocked_subreddits_key" translatable="false">pref_blocked_subreddits</string>
-    <string name="block_done">Subreddit blocked. Future visits to /r/all will exclude this subreddit.</string>
-    <string name="unblock_done">Subreddit unblocked. Future visits to /r/all will include this subreddit.</string>
+    <string name="block_done">Subreddit blocked. Future visits to the front page, /r/popular, and /r/all will exclude this subreddit.</string>
+    <string name="unblock_done">Subreddit unblocked. Future visits to the front page, /r/popular, and /r/all will include this subreddit.</string>
 
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comment_min_key" translatable="false">pref_behaviour_comment_min</string>
@@ -927,7 +927,7 @@
 	<string name="send_replies_to_inbox">Send replies to my inbox</string>
 
 	<!-- 2016-12-11 -->
-	<string name="action_share_image">Share Image</string>
+	<string name="action_share_image">Share Media</string>
 
 	<!-- 2017-01-15 -->
 	<string name="error_403_title_nonreddit">Permission Denied</string>
@@ -1024,7 +1024,6 @@
 
 	<!-- 2018-02-10 -->
 	<string name="search_listing_header_query">Search Query</string>
-	<string name="search_listing_header_sub">Limit to Subreddit</string>
 
 	<!-- 2018-02-11 -->
 	<string name="pref_behaviour_sharing_header">Sharing</string>
@@ -1149,12 +1148,10 @@
 
 	<!-- 2020-02-13 -->
 	<string name="search_results_short">Search Results</string>
-	<string name="search_results_all">Search for \"%1$s\" on /r/%2$s</string>
 	<string name="search_results_query_only">Search for \"%s\"</string>
-	<string name="search_results_subreddit_only">Search on /r/%s</string>
 
 	<!-- 2020-02-17 -->
-	<string name="pref_network_tor_summary">When using an external browser or Custom Tabs, links will not be opened using Tor (unless your browser is configured to use Tor)</string>
+	<string name="pref_network_tor_summary">Orbot must be installed. When using an external browser or Custom Tabs, links will not be opened using Tor (unless your browser is configured to use Tor).</string>
 
 	<!-- 2020-03-05 -->
 	<string name="prefs_category_fonts">Font</string>
@@ -1295,7 +1292,7 @@
 	</plurals>
 
 	<!-- 2020-09-19 -->
-	<string name="action_save_image_success_no_path">Image saved successfully</string>
+	<string name="action_save_image_success_no_path">File saved successfully</string>
 
 	<!-- 2020-10-20 -->
 	<string name="pref_behaviour_imagevideo_tap_close_key" translatable="false">pref_behaviour_imagevideo_tap_close</string>
@@ -1605,5 +1602,44 @@
 	<string name="sort_posts_comments_month">Comments: This Month</string>
 	<string name="sort_posts_comments_year">Comments: This Year</string>
 	<string name="sort_posts_comments_all">Comments: All Time</string>
-	
+
+	<!-- 2021-09-01 -->
+	<string name="pref_appearance_android_status_key" translatable="false">pref_appearance_android_status</string>
+	<string name="pref_appearance_android_status_always_hide">Always</string>
+	<string name="pref_appearance_android_status_hide_on_media">When viewing media</string>
+	<string name="pref_appearance_android_status_never_hide">Never</string>
+
+	<!-- 2021-09-07 -->
+	<string name="error_archived_reply">This has been archived and can no longer be replied to.</string>
+
+	<!-- 2021-09-22 -->
+	<string name="pref_appearance_comment_header_items_controversiality">Controversial indicator (†)</string>
+	<string name="props_controversial_symbol" translatable="false">†</string>
+	<string name="accessibility_subtitle_controversiality_withperiod">Voted controversial.</string>
+
+	<!-- 2021-10-12 -->
+	<string name="search_listing_header_limit_location">Limit to Location</string>
+	<string name="search_results_query_and_location">Search for \"%1$s\" on %2$s</string>
+	<string name="search_results_location_only">Search on %s</string>
+
+	<!-- 2021-11-28 -->
+	<string name="error_title_muxing_failed">Video generation failed</string>
+	<string name="error_message_muxing_failed">Failed to combine the video and audio tracks into a single file.</string>
+
+	<!-- 2022-01-09 -->
+	<string name="error_title_report_previous_crash">Report previous crash</string>
+	<string name="error_message_report_previous_crash">RedReader crashed the last time it was run. Would you like to report this?</string>
+
+	<!-- 2021-01-21 -->
+	<string name="error_locked_reply">This has been locked and can no longer be replied to.</string>
+
+	<!-- 2021-10-23 -->
+	<string name="sort_comments_best_suggested">Best (suggested)</string>
+	<string name="sort_comments_hot_suggested">Hot (suggested)</string>
+	<string name="sort_comments_new_suggested">New (suggested)</string>
+	<string name="sort_comments_old_suggested">Old (suggested)</string>
+	<string name="sort_comments_controversial_suggested">Controversial (suggested)</string>
+	<string name="sort_comments_top_suggested">Top (suggested)</string>
+	<string name="sort_comments_qa_suggested">Q&amp;A (suggested)</string>
+
 </resources>

@@ -39,6 +39,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.common.Void;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -99,39 +100,41 @@ public class OKHTTPBackend extends HTTPBackend {
 			}
 		}
 
-		// here we set the over18 cookie and return it whenever the url contains search
+		// here we set the over18 cookie if needed, and return it whenever the url contains search
 		// this is necessary to get the reddit API to return NSFW search results
-		final List<Cookie> list = new ArrayList<>();
-		final Cookie.Builder cookieBuilder = new Cookie.Builder();
+		if(PrefsUtility.pref_behaviour_nsfw()) {
+			final List<Cookie> list = new ArrayList<>();
+			final Cookie.Builder cookieBuilder = new Cookie.Builder();
 
-		cookieBuilder.domain("reddit.com");
-		cookieBuilder.name("over18");
-		cookieBuilder.value("1");
-		cookieBuilder.path("/");
+			cookieBuilder.domain("reddit.com");
+			cookieBuilder.name("over18");
+			cookieBuilder.value("1");
+			cookieBuilder.path("/");
 
-		list.add(cookieBuilder.build());
+			list.add(cookieBuilder.build());
 
 
-		final CookieJar cookieJar = new CookieJar() {
-			@Override
-			public void saveFromResponse(
-					@NonNull final HttpUrl url,
-					@NonNull final List<Cookie> cookies) {
-				//LOL we do not care
-			}
-
-			@NonNull
-			@Override
-			public List<Cookie> loadForRequest(final HttpUrl url) {
-				if(url.toString().contains("search")) {
-					return list;
-				} else {
-					return Collections.emptyList();
+			final CookieJar cookieJar = new CookieJar() {
+				@Override
+				public void saveFromResponse(
+						@NonNull final HttpUrl url,
+						@NonNull final List<Cookie> cookies) {
+					//LOL we do not care
 				}
-			}
-		};
 
-		builder.cookieJar(cookieJar);
+				@NonNull
+				@Override
+				public List<Cookie> loadForRequest(final HttpUrl url) {
+					if(url.toString().contains("search")) {
+						return list;
+					} else {
+						return Collections.emptyList();
+					}
+				}
+			};
+
+			builder.cookieJar(cookieJar);
+		}
 
 		if(TorCommon.isTorEnabled()) {
 			final Proxy tor = new Proxy(

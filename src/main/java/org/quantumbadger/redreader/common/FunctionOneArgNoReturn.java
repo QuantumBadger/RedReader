@@ -15,28 +15,8 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.receivers;
+package org.quantumbadger.redreader.common;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
-
-public class RegularCachePruner extends BroadcastReceiver {
-
-	@Override
-	public void onReceive(final Context context, final Intent intent) {
-
-		Log.i("RegularCachePruner", "Pruning cache...");
-
-		new Thread() {
-			@Override
-			public void run() {
-				RedditChangeDataManager.pruneAllUsersDefaultMaxAge();
-				CacheManager.getInstance(context).pruneCache();
-			}
-		}.start();
-	}
+public interface FunctionOneArgNoReturn<Param> {
+	void apply(Param input);
 }

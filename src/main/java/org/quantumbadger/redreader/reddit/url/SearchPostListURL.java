@@ -22,6 +22,7 @@ import android.net.Uri;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.PostSort;
 
@@ -30,13 +31,22 @@ import java.util.List;
 
 public class SearchPostListURL extends PostListingURL {
 
-	public final String subreddit;
-	public final String query;
+	public final Type type;
 
+	public final String subreddit;
+
+	public final String username;
+	public final String name;
+
+	public final String query;
 	public final PostSort order;
 	public final Integer limit;
 	public final String before;
 	public final String after;
+
+	public enum Type {
+		SUB_OR_SUB_COMBO, MULTI
+	}
 
 	SearchPostListURL(
 			final String subreddit,
@@ -51,6 +61,10 @@ public class SearchPostListURL extends PostListingURL {
 		this.limit = limit;
 		this.before = before;
 		this.after = after;
+
+		this.type = Type.SUB_OR_SUB_COMBO;
+		this.username = null;
+		this.name = null;
 	}
 
 	SearchPostListURL(
@@ -62,30 +76,108 @@ public class SearchPostListURL extends PostListingURL {
 		this(subreddit, query, PostSort.RELEVANCE_ALL, limit, before, after);
 	}
 
-	public static SearchPostListURL build(String subreddit, final String query) {
-		if(subreddit != null) {
-			while(subreddit.startsWith("/")) {
-				subreddit = subreddit.substring(1);
+	SearchPostListURL(
+			final String username,
+			final String name,
+			final String query,
+			final PostSort order,
+			final Integer limit,
+			final String before,
+			final String after) {
+		this.username = username;
+		this.name = name;
+		this.query = query;
+		this.order = order;
+		this.limit = limit;
+		this.before = before;
+		this.after = after;
+
+		this.type = Type.MULTI;
+		this.subreddit = null;
+	}
+
+	SearchPostListURL(
+			final String username,
+			final String name,
+			final String query,
+			final Integer limit,
+			final String before,
+			final String after) {
+		this(username, name, query, PostSort.RELEVANCE_ALL, limit, before, after);
+	}
+
+	public static SearchPostListURL build(String location, final String query) {
+		if(location != null) {
+			while(location.startsWith("/")) {
+				location = location.substring(1);
 			}
-			while(subreddit.startsWith("r/")) {
-				subreddit = subreddit.substring(2);
+
+			//Create a multi SearchPostListURL, if needed
+			if(location.startsWith("user/")
+					|| location.startsWith("u/")
+					|| location.startsWith("me/m/")
+					|| location.startsWith("m/")) {
+				final String[] locationSegments = location.split("/");
+
+				final String username;
+				final String name;
+				if((location.startsWith("user/") || location.startsWith("u/"))
+						&& locationSegments.length == 4) {
+					username = locationSegments[1];
+					name = locationSegments[3];
+				} else if(location.startsWith("me/m/") && locationSegments.length == 3) {
+					username = null;
+					name = locationSegments[2];
+				} else if(location.startsWith("m/") && locationSegments.length == 2) {
+					username = null;
+					name = locationSegments[1];
+				} else {
+					// This will fail, but the user can fix it instead of typing from scratch.
+					return new SearchPostListURL(location, query, null, null, null);
+				}
+
+				return new SearchPostListURL(username, name, query, null, null, null);
+			}
+
+			while(location.startsWith("r/")) {
+				location = location.substring(2);
 			}
 		}
-		return new SearchPostListURL(subreddit, query, null, null, null);
+
+		return new SearchPostListURL(location, query, null, null, null);
+	}
+
+	public static SearchPostListURL build(
+			final String username,
+			final String name,
+			final String query) {
+		return new SearchPostListURL(username, name, query, null, null, null);
 	}
 
 	@Override
 	public PostListingURL after(final String after) {
-		return new SearchPostListURL(subreddit, query, order, limit, before, after);
+		if(type == Type.SUB_OR_SUB_COMBO) {
+			return new SearchPostListURL(subreddit, query, order, limit, before, after);
+		} else {
+			return new SearchPostListURL(username, name, query, order, limit, before, after);
+		}
 	}
 
 	@Override
 	public PostListingURL limit(final Integer limit) {
-		return new SearchPostListURL(subreddit, query, order, limit, before, after);
+		if(type == Type.SUB_OR_SUB_COMBO) {
+			return new SearchPostListURL(subreddit, query, order, limit, before, after);
+		} else {
+			return new SearchPostListURL(username, name, query, order, limit, before, after);
+		}
 	}
 
 	public SearchPostListURL sort(final PostSort newOrder) {
-		return new SearchPostListURL(subreddit, query, newOrder, limit, before, after);
+		if(type == Type.SUB_OR_SUB_COMBO) {
+			return new SearchPostListURL(subreddit, query, newOrder, limit, before, after);
+		} else {
+			return new SearchPostListURL(username, name, query, newOrder, limit, before, after);
+		}
 	}
 
 	@Override
@@ -95,9 +187,20 @@ public class SearchPostListURL extends PostListingURL {
 		builder.scheme(Constants.Reddit.getScheme())
 				.authority(Constants.Reddit.getDomain());
 
-		if(subreddit != null) {
+		if(type == Type.SUB_OR_SUB_COMBO && subreddit != null) {
 			builder.encodedPath("/r/");
 			builder.appendPath(subreddit);
+			builder.appendQueryParameter("restrict_sr", "on");
+		} else if(type == Type.MULTI && name != null) {
+			if(username != null) {
+				builder.encodedPath("/user/");
+				builder.appendPath(username);
+			} else {
+				builder.encodedPath("/me/");
+			}
+
+			builder.appendPath("m");
+			builder.appendPath(name);
 			builder.appendQueryParameter("restrict_sr", "on");
 		} else {
 			builder.encodedPath("/");
@@ -162,9 +265,10 @@ public class SearchPostListURL extends PostListingURL {
 
 		builder.appendEncodedPath(".json");
 
-		// if the user doesn't have NSFW content disabled, it won't show up anyway
-		// leaving this on by default doesn't hurt
-		builder.appendQueryParameter("include_over_18", "on");
+		// Only set over18 when NSFW content is enabled, to save on bandwidth and loading times
+		if(PrefsUtility.pref_behaviour_nsfw()) {
+			builder.appendQueryParameter("include_over_18", "on");
+		}
 
 		return builder.build();
 	}
@@ -239,7 +343,7 @@ public class SearchPostListURL extends PostListingURL {
 					pathSegmentsFiltered.toArray(new String[0]);
 		}
 
-		if(pathSegments.length != 1 && pathSegments.length != 3) {
+		if(pathSegments.length != 1 && (pathSegments.length < 3 || pathSegments.length > 5)) {
 			return null;
 		}
 		if(!pathSegments[pathSegments.length - 1].equalsIgnoreCase("search")) {
@@ -266,6 +370,45 @@ public class SearchPostListURL extends PostListingURL {
 						limit,
 						before,
 						after);
+
+			}
+
+			case 4: {
+				if(pathSegments[0].equals("me")) {
+
+					if(!pathSegments[1].equals("m")) {
+						return null;
+					}
+
+					final String name = pathSegments[2];
+					return new SearchPostListURL(
+							null,
+							name,
+							query,
+							order,
+							limit,
+							before,
+							after);
+				}
+			}
+
+			case 5: {
+
+				if(!(pathSegments[0].equals("user") || pathSegments[0].equals("u"))
+						|| !pathSegments[2].equals("m")) {
+					return null;
+				}
+
+				final String username = pathSegments[1];
+				final String name = pathSegments[3];
+				return new SearchPostListURL(
+						username,
+						name,
+						query,
+						order,
+						limit,
+						before,
+						after);
 			}
 
 			default:
@@ -280,19 +423,38 @@ public class SearchPostListURL extends PostListingURL {
 			return context.getString(R.string.search_results_short);
 		}
 
-		if(query != null && subreddit != null) {
+		final String formattedLocation;
+		if(type == Type.SUB_OR_SUB_COMBO) {
+			if(subreddit != null) {
+				formattedLocation = "/r/" + subreddit;
+			} else {
+				formattedLocation = null;
+			}
+		} else {
+			if(name != null) {
+				if(username != null) {
+					formattedLocation = "/u/" + username + "/m/" + name;
+				} else {
+					formattedLocation = "/me/m/" + name;
+				}
+			} else {
+				formattedLocation = null;
+			}
+		}
+
+		if(query != null && formattedLocation != null) {
 			return String.format(
-					context.getString(R.string.search_results_all),
+					context.getString(R.string.search_results_query_and_location),
 					query,
-					subreddit);
+					formattedLocation);
 		} else if(query != null) {
 			return String.format(
 					context.getString(R.string.search_results_query_only),
 					query);
-		} else if(subreddit != null) {
+		} else if(formattedLocation != null) {
 			return String.format(
-					context.getString(R.string.search_results_subreddit_only),
-					subreddit);
+					context.getString(R.string.search_results_location_only),
+					formattedLocation);
 		}
 
 		return context.getString(R.string.action_search);

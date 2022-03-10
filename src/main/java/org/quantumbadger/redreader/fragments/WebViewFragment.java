@@ -56,6 +56,7 @@ import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay;
 import org.quantumbadger.redreader.views.webview.VideoEnabledWebChromeClient;
 import org.quantumbadger.redreader.views.webview.WebViewFixed;
 
+import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -200,9 +201,8 @@ public class WebViewFragment extends Fragment
 				final WindowManager.LayoutParams attrs = mActivity.getWindow()
 						.getAttributes();
 				//only re-enable status bar if there is no contradicting preference set
-				if(!PrefsUtility.pref_appearance_hide_android_status(
-						getContext(),
-						General.getSharedPrefs(getContext()))) {
+				if(PrefsUtility.pref_appearance_android_status()
+						== PrefsUtility.AppearanceStatusBarMode.NEVER_HIDE) {
 					attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
 				}
 				attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
@@ -306,16 +306,40 @@ public class WebViewFragment extends Fragment
 					if(RedditURLParser.parse(Uri.parse(url)) != null) {
 						LinkHandler.onLinkClicked(mActivity, url, false);
 					} else {
-						if(!PrefsUtility.pref_behaviour_useinternalbrowser(
-								mActivity,
-								General.getSharedPrefs(mActivity))) {
+						// When websites recognize the user agent is on Android, they sometimes
+						// redirect or offer deep links into native apps. These come in two flavors:
+						//
+						// 1. `intent://` URLs for arbitrary native apps. Launching these may be a
+						//    security vulnerability, because it's not clear what app is being
+						//    loaded with RedReader's permissions. Luckily, these URLs often have
+						//    fallback HTTP URLs, which can be loaded instead.
+						//
+						// 2. Custom scheme URLs, like `twitter://` or `market://` URLs. While these
+						//    can also launch arbitrary apps, the assumption is custom schemes are
+						//    only used for widely known apps (though even those can be replaced by
+						//    alternative apps). Often, these URLs don't have fallbacks, so take the
+						//    risk of loading these in their native apps.
+						//
+						// All this logic is in the `else` block because processing these URLs can
+						// fail, in which case the logic falls through and treats these URLs as
+						// HTTP URLs.
+
+						if (url.startsWith("intent:")) {
+							if (onEncounteredIntentUrl(url)) {
+								return true;
+							}
+						} else if (!url.startsWith("http:") && !url.startsWith("https:")) {
+							if (onEncounteredCustomSchemeUrl(url)) {
+								return true;
+							}
+						}
+
+						if(!PrefsUtility.pref_behaviour_useinternalbrowser()) {
 							LinkHandler.openWebBrowser(
 									mActivity,
 									Uri.parse(url),
 									true);
-						} else if(PrefsUtility.pref_behaviour_usecustomtabs(
-								mActivity,
-								General.getSharedPrefs(mActivity))
+						} else if(PrefsUtility.pref_behaviour_usecustomtabs()
 								&& Build.VERSION.SDK_INT
 										>= Build.VERSION_CODES.JELLY_BEAN_MR2) {
 							LinkHandler.openCustomTab(
@@ -330,6 +354,45 @@ public class WebViewFragment extends Fragment
 				}
 
 				return true;
+			}
+
+			/**
+			 * Assumes the {@code url} starts with `intent://`
+			 */
+			private boolean onEncounteredIntentUrl(final String url) {
+				final Intent nativeAppIntent;
+				try {
+					nativeAppIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+				} catch (final URISyntaxException e) {
+					return false;
+				}
+
+				if (nativeAppIntent == null) {
+					return false;
+				}
+
+				final String fallbackUrl = nativeAppIntent.getStringExtra("browser_fallback_url");
+				if (fallbackUrl == null) {
+					return false;
+				}
+
+				webView.loadUrl(fallbackUrl);
+				currentUrl = fallbackUrl;
+				return true;
+			}
+
+			/**
+			 * Assumes the {@code url} starts with something other than `intent://`, `http://` or
+			 * `https://`
+			 */
+			private boolean onEncounteredCustomSchemeUrl(final String url) {
+				final Intent nativeAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+				try {
+					startActivity(nativeAppIntent);
+					return true;
+				} catch (final ActivityNotFoundException e) {
+					return false;
+				}
 			}
 
 			@Override

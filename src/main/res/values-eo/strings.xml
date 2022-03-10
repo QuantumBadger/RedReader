@@ -141,8 +141,8 @@
     <string name="action_actionmenu">Menuo de agoj</string>
     <string name="action_comment_links">Ligiloj en komento</string>
     <string name="action_selftext_links">Ligiloj en memafiŝo</string>
-    <string name="action_share">Diskonigi</string>
-    <string name="action_share_comments">Diskonigi komentojn</string>
+    <string name="action_share">Kunhavigi</string>
+    <string name="action_share_comments">Kunhavigi komentojn</string>
     <string name="action_copy">Kopii</string>
     <string name="action_gotosubreddit">Iri al redditero</string>
     <string name="action_reply">Respondi</string>
@@ -466,8 +466,8 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Bloki redditeron</string>
     <string name="unblock_subreddit">Malbloki redditeron</string>
-    <string name="block_done">Redditero blokita. Estontaj vizitoj al /r/all esceptos tiun ĉi redditeron.</string>
-    <string name="unblock_done">Redditero malblokita. Estontaj vizitoj al /r/all ampleksos tiun ĉi redditeron.</string>
+    <string name="block_done">Redditero blokita. Estontaj vizitoj al la ĉefpaĝo, /r/popular kaj /r/all esceptos tiun ĉi redditeron.</string>
+    <string name="unblock_done">Redditero malblokita. Estontaj vizitoj al la ĉefpaĝo, /r/popular kaj /r/all ampleksos tiun ĉi redditeron.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Komentoj</string>
     <string name="pref_behaviour_comment_min_title">Minimuma poentaro de komento</string>
@@ -547,7 +547,7 @@
     <string name="mainmenu_custom_destination_user">Uzanto</string>
     <string name="mainmenu_custom_destination_url">URL</string>
     <string name="mainmenu_header_multireddits">Plurredditeroj</string>
-    <string name="pref_behaviour_share_permalink_title">Diskonigi kiel konstantan ligilon</string>
+    <string name="pref_behaviour_share_permalink_title">Kunhavigi kiel konstantan ligilon</string>
     <!-- 2016-08-10 -->
     <string name="pref_cache_general_header">Ĝeneralaj</string>
     <string name="pref_cache_location_title">Loko por kaŝmemoro</string>
@@ -586,7 +586,7 @@
     <!-- 2016-12-07 -->
     <string name="send_replies_to_inbox">Sendi respondojn al mia mesaĝujo</string>
     <!-- 2016-12-11 -->
-    <string name="action_share_image">Diskonigi bildon</string>
+    <string name="action_share_image">Kunhavigi bildon</string>
     <!-- 2017-01-15 -->
     <string name="error_403_title_nonreddit">Permeso rifuzita</string>
     <string name="error_403_message_nonreddit">La servilo respondis per permeso rifuzita eraro.</string>
@@ -635,12 +635,11 @@
     <string name="pref_menus_show_random_main_menu_title">Montri /r/random en la ĉefmenuo</string>
     <string name="pref_cache_maxage_entry_title">Forviŝi kaŝmemorigitajn indikojn (legita, voĉdonita, ktp.) post</string>
     <string name="mainmenu_custom_destination_search">Serĉi</string>
-    <string name="pref_behaviour_sharing_share_text_title">Ampleksi tekston kiam diskonigi komenton</string>
+    <string name="pref_behaviour_sharing_share_text_title">Ampleksi tekston kiam kunhavigi komenton</string>
     <string name="mainmenu_custom_empty_search_query">Malplena serĉpeto.</string>
     <string name="search_listing_header_query">Serĉpeto</string>
-    <string name="search_listing_header_sub">Nur en redditero</string>
-    <string name="pref_behaviour_sharing_header">Diskonigi</string>
-    <string name="pref_behaviour_sharing_include_desc_title">Ampleksi titolon/priskribon dum diskonigi</string>
+    <string name="pref_behaviour_sharing_header">Kunhavigi</string>
+    <string name="pref_behaviour_sharing_include_desc_title">Ampleksi titolon/priskribon dum kunhavigi</string>
     <string name="share_comments_for">Komentoj por %s</string>
     <string name="share_comment_by_on_reddit">Komento de %s ĉe Reddit</string>
     <string name="title_license">Permesilo</string>
@@ -666,9 +665,9 @@
     <string name="notification_channel_name_reddit_messages">Ricevitaj mesaĝoj el Reddit</string>
     <string name="post_text_copied_to_clipboard">Mamafiŝo kopiita al tondujo</string>
     <string name="action_copy_selftext">Kopii memtekston</string>
-    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Elektu aplikaĵon por diskonigi</string>
-    <string name="pref_behaviour_sharing_share_dialog_title">Uzi internan fenestron de diskonigo</string>
-    <string name="error_toast_no_share_app_installed">Neniu taŭga aplikaĵo instalita por diskonigi tion ĉi.</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Elektu aplikaĵon por kunhavigi</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Uzi internan fenestron de kunhavigo</string>
+    <string name="error_toast_no_share_app_installed">Neniu taŭga aplikaĵo instalita por kunhavigi tion ĉi.</string>
     <string name="subreddit_link_copied_to_clipboard">Kopiis ligilon de redditero al tondujo</string>
     <string name="comment_text_copied_to_clipboard">Kopiis tekston de komento al tondujo</string>
     <string name="comment_link_copied_to_clipboard">Kopiis ligilon de komento al tondujo</string>
@@ -699,9 +698,7 @@
     <string name="pref_appearance_fontscale_header">Grando de tiparo</string>
     <string name="prefs_category_fonts">Tiparo</string>
     <string name="pref_network_tor_summary">Dum uzi eksteran ret‑foliumilon aŭ proprajn langetojn, ligiloj ne estos malfermataj uzante Tor-reton (escepte se via ret‑foliumilo estos agordita por uzi Tor)</string>
-    <string name="search_results_subreddit_only">Serĉado ĉe /r/%s</string>
     <string name="search_results_query_only">Serĉado de “%s”</string>
-    <string name="search_results_all">Serĉado de “%1$s” ĉe /r/%2$s</string>
     <string name="search_results_short">Serĉ-rezultoj</string>
     <string name="error_nsfw_subreddits_disabled_message">Maldeca enhavo estas nuntempe malaktivigita en la agordoj.</string>
     <string name="error_nsfw_subreddits_disabled_title">Blokita maldeca redditero</string>
@@ -899,4 +896,52 @@
     <string name="backup_preferences_error_old_android_title">Sistemo estas tro malnova</string>
     <string name="button_cancel">Nuligi</string>
     <string name="restore_preferences_error_version_warning_title">Averto</string>
+    <string name="sort_posts_new_year">Novaj: ĉi-jare</string>
+    <string name="sort_posts_hot_hour">Bonaj: ĉi-hore</string>
+    <string name="sort_posts_hot_week">Bonaj: ĉi-semajne</string>
+    <string name="sort_posts_hot_today">Bonaj: hodiaŭ</string>
+    <string name="sort_posts_hot_month">Bonaj: ĉi-monate</string>
+    <string name="sort_posts_hot_year">Bonaj: ĉi-jare</string>
+    <string name="search_results_location_only">Serĉi en %s</string>
+    <string name="sort_posts_comments_month">Komentoj: ĉi-monate</string>
+    <string name="accessibility_subtitle_controversiality_withperiod">Debatata laŭ voĉdonoj.</string>
+    <string name="sort_posts_new_hour">Novaj: ĉi-hore</string>
+    <string name="sort_posts_new_month">Novaj: ĉi-monate</string>
+    <string name="pref_appearance_android_status_never_hide">Neniam</string>
+    <string name="error_comment_submit_title">Eraro dum afiŝado de komento</string>
+    <string name="sort_posts_hot_all">Bonaj: ĉiam</string>
+    <string name="pref_appearance_android_status_always_hide">Ĉiam</string>
+    <string name="accessibility_subtitle_author_moderator_withperiod">Aŭtoro: %s, kontrolanto.</string>
+    <string name="accessibility_subtitle_author_submitter_moderator_withperiod">Aŭtoro: %s, afiŝinto kaj kontrolanto.</string>
+    <string name="accessibility_subtitle_author_admin_withperiod">Aŭtoro: %s, administranto.</string>
+    <string name="accessibility_subtitle_author_submitter_admin_withperiod">Aŭtoro: %s, afiŝinto kaj administranto.</string>
+    <string name="sort_posts_new_today">Novaj: hodiaŭ</string>
+    <string name="sort_posts_new_week">Novaj: ĉi-semajne</string>
+    <string name="sort_posts_new_all">Novaj: ĉiam</string>
+    <string name="accessibility_subtitle_author_submitter_withperiod">Aŭtoro: %s, afiŝinto.</string>
+    <string name="sort_posts_controversial_hour">Debatataj: ĉi-hore</string>
+    <string name="sort_posts_controversial_today">Debatataj: hodiaŭ</string>
+    <string name="sort_posts_controversial_week">Debatataj: ĉi-semajne</string>
+    <string name="sort_posts_controversial_month">Debatataj: ĉi-monate</string>
+    <string name="sort_posts_controversial_year">Debatataj: ĉi-jare</string>
+    <string name="sort_posts_controversial_all">Debatataj: ĉiam</string>
+    <string name="sort_posts_relevance_today">Rilateco: hodiaŭ</string>
+    <string name="sort_posts_relevance_hour">Rilateco: ĉi-hore</string>
+    <string name="sort_posts_relevance_week">Rilateco: ĉi-semajne</string>
+    <string name="sort_posts_relevance_month">Rilateco: ĉi-monate</string>
+    <string name="sort_posts_relevance_year">Rilateco: ĉi-jare</string>
+    <string name="sort_posts_relevance_all">Rilateco: ĉiam</string>
+    <string name="sort_posts_comments_hour">Komentoj: ĉi-hore</string>
+    <string name="sort_posts_comments_today">Komentoj: hodiaŭ</string>
+    <string name="sort_posts_comments_week">Komentoj: ĉi-semajne</string>
+    <string name="no_posts_yet">Ankoraŭ afiŝoj mankas.</string>
+    <string name="no_posts_yet_hidden">Neniuj afiŝoj montrataj pro agordoj.</string>
+    <string name="no_search_results_hidden">Neniuj serĉrezultoj montrataj pro agordoj.</string>
+    <string name="sort_posts_comments_year">Komentoj: ĉi-jare</string>
+    <string name="sort_posts_comments_all">Komentoj: ĉiam</string>
+    <string name="search_listing_header_limit_location">Limigi al loko</string>
+    <string name="search_results_query_and_location">Serĉi «%1$s» en %2$s</string>
+    <string name="error_archived_reply">Ĉi tio estas enarkivigita kaj ne plu alrespondebla.</string>
+    <string name="pref_appearance_comment_header_items_controversiality">Indikilo de debatateco (†)</string>
+    <string name="pref_appearance_android_status_hide_on_media">Dum spektado de aŭdvidaĵo</string>
 </resources>

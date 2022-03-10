@@ -133,9 +133,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 		final boolean isConnectionWifi = General.isConnectionWifi(activity);
 
 		final NeverAlwaysOrWifiOnly thumbnailsPref
-				= PrefsUtility.appearance_thumbnails_show(
-				activity,
-				General.getSharedPrefs(activity));
+				= PrefsUtility.appearance_thumbnails_show();
 
 		final boolean downloadThumbnails
 				= thumbnailsPref == NeverAlwaysOrWifiOnly.ALWAYS

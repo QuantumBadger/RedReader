@@ -25,6 +25,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
+import android.text.style.SuperscriptSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
@@ -41,6 +42,7 @@ public class BetterSSB {
 	public static final int FOREGROUND_COLOR = 1 << 4;
 	public static final int BACKGROUND_COLOR = 1 << 5;
 	public static final int SIZE = 1 << 6;
+	public static final int SUPERSCRIPT = 1 << 7;
 
 	public static final char NBSP = '\u00A0';
 
@@ -128,6 +130,14 @@ public class BetterSSB {
 		if((flags & SIZE) != 0) {
 			sb.setSpan(
 					new RelativeSizeSpan(scale),
+					strStart,
+					strEnd,
+					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+		}
+
+		if((flags & SUPERSCRIPT) != 0) {
+			sb.setSpan(
+					new SuperscriptSpan(),
 					strStart,
 					strEnd,
 					Spanned.SPAN_INCLUSIVE_EXCLUSIVE);

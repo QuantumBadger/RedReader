@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments.postsubmit;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -125,6 +126,7 @@ public class PostSubmitSubredditSelectionFragment extends Fragment {
 			mCurrentSuggestions.addAll(mAllSuggestions);
 		}
 
+		@SuppressLint("NotifyDataSetChanged")
 		public void updateSuggestions() {
 
 			mCurrentSuggestions.clear();

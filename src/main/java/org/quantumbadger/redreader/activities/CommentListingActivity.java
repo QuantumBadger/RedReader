@@ -34,10 +34,11 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
+import org.quantumbadger.redreader.reddit.PostCommentSort;
+import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
-import org.quantumbadger.redreader.reddit.url.UserCommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.UUID;
@@ -54,6 +55,7 @@ public class CommentListingActivity extends RefreshableActivity
 
 	private static final String SAVEDSTATE_SESSION = "cla_session";
 	private static final String SAVEDSTATE_SORT = "cla_sort";
+	private static final String SAVEDSTATE_SORT_IS_USER = "cla_sort_user";
 	private static final String SAVEDSTATE_FRAGMENT = "cla_fragment";
 
 	private CommentListingController controller;
@@ -78,8 +80,7 @@ public class CommentListingActivity extends RefreshableActivity
 			final String url = intent.getDataString();
 			final String searchString = intent.getStringExtra(EXTRA_SEARCH_STRING);
 			controller = new CommentListingController(
-					RedditURLParser.parseProbableCommentListing(Uri.parse(url)),
-					this);
+					RedditURLParser.parseProbableCommentListing(Uri.parse(url)));
 			controller.setSearchString(searchString);
 
 			Bundle fragmentSavedInstanceState = null;
@@ -92,8 +93,13 @@ public class CommentListingActivity extends RefreshableActivity
 				}
 
 				if(savedInstanceState.containsKey(SAVEDSTATE_SORT)) {
-					controller.setSort(PostCommentListingURL.Sort.valueOf(
-							savedInstanceState.getString(SAVEDSTATE_SORT)));
+					if(savedInstanceState.getBoolean(SAVEDSTATE_SORT_IS_USER)) {
+						controller.setSort(UserCommentSort.valueOf(
+								savedInstanceState.getString(SAVEDSTATE_SORT)));
+					} else {
+						controller.setSort(PostCommentSort.valueOf(
+								savedInstanceState.getString(SAVEDSTATE_SORT)));
+					}
 				}
 
 				if(savedInstanceState.containsKey(SAVEDSTATE_FRAGMENT)) {
@@ -118,8 +124,9 @@ public class CommentListingActivity extends RefreshableActivity
 			outState.putString(SAVEDSTATE_SESSION, session.toString());
 		}
 
-		final PostCommentListingURL.Sort sort = controller.getSort();
+		final OptionsMenuUtility.Sort sort = controller.getSort();
 		if(sort != null) {
+			outState.putBoolean(SAVEDSTATE_SORT_IS_USER, controller.isUserCommentListing());
 			outState.putString(SAVEDSTATE_SORT, sort.name());
 		}
 
@@ -189,13 +196,13 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	public void onSortSelected(final PostCommentListingURL.Sort order) {
+	public void onSortSelected(final PostCommentSort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}
 
 	@Override
-	public void onSortSelected(final UserCommentListingURL.Sort order) {
+	public void onSortSelected(final UserCommentSort order) {
 		controller.setSort(order);
 		requestRefresh(RefreshableFragment.COMMENTS, false);
 	}
@@ -270,4 +277,22 @@ public class CommentListingActivity extends RefreshableActivity
 //	protected boolean baseActivityAllowToolbarHideOnScroll() {
 //		return true;
 //	}
+//	@Override
+//	protected boolean baseActivityAllowToolbarHideOnScroll() {
+//		return true;
+//	}
+
+	@Override
+	public OptionsMenuUtility.Sort getCommentSort() {
+		return controller.getSort();
+	}
+
+	@Override
+	public PostCommentSort getSuggestedCommentSort() {
+		if(mFragment == null || mFragment.getPost() == null) {
+			return null;
+		}
+
+		return mFragment.getPost().src.getSuggestedCommentSort();
+	}
 }

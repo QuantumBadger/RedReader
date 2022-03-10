@@ -466,8 +466,8 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Zakázat subreddit</string>
     <string name="unblock_subreddit">Povolit subreddit</string>
-    <string name="block_done">Subreddit je zakázán. Příští návštěvy na /r/all tento subreddit vyloučí.</string>
-    <string name="unblock_done">Subreddit je povolen. Příští návštevy na /r/all tento subreddit zahrnou.</string>
+    <string name="block_done">Subreddit je blokován. Příští návštěvy na titulní stranu, /r/all a /r/popular tento subreddit vyloučí.</string>
+    <string name="unblock_done">Subreddit je odblokován. Příští návštevy na titulní stranu, /r/all a /r/popular tento subreddit zahrnou.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Komentáře</string>
     <string name="pref_behaviour_comment_min_title">Minimální skóre komentáře</string>
@@ -646,7 +646,6 @@
     <string name="mainmenu_custom_empty_search_query">Vymaž dotaz hledání.</string>
     <!-- 2018-02-10 -->
     <string name="search_listing_header_query">Vyhledej</string>
-    <string name="search_listing_header_sub">Pouze subreddit</string>
     <!-- 2018-02-11 -->
     <string name="pref_behaviour_sharing_header">Sdílení</string>
     <string name="pref_behaviour_sharing_include_desc_title">Zahrň název/popis při sdílení</string>
@@ -717,9 +716,7 @@
     <string name="pref_appearance_fontscale_header">Proporce fontů</string>
     <string name="prefs_category_fonts">Font</string>
     <string name="pref_network_tor_summary">Při použití externího prohlížeče nebo vlastních panelů se odkazy neotevřou skrze Tor (pokud Váš prohlížeč není na Tor nastaven)</string>
-    <string name="search_results_subreddit_only">Hledat v /r/%s</string>
     <string name="search_results_query_only">Hledat \"%s\"</string>
-    <string name="search_results_all">Hledat \"%1$s\" v /r/%2$s</string>
     <string name="search_results_short">Výsledky hledání</string>
     <string name="error_nsfw_subreddits_disabled_message">Obsah NSFW je nyní vypnut v nastavení.</string>
     <string name="error_nsfw_subreddits_disabled_title">Blokovaný NSFW subreddit</string>
@@ -917,4 +914,52 @@
     <string name="restore_preferences_error_invalid_file_contents_message">Vybraný soubor není platný soubor možnosti zálohy.</string>
     <string name="restore_preferences_error_invalid_file_title">Neplatný soubor</string>
     <string name="pref_item_restore_preferences_title">Možnosti obnovení</string>
+    <string name="sort_posts_relevance_hour">Relevance: Tato hodina</string>
+    <string name="sort_posts_relevance_month">Relevance: Tento měsíc</string>
+    <string name="accessibility_subtitle_author_moderator_withperiod">Autor: %s, moderátor.</string>
+    <string name="no_search_results_hidden">Neukazuji výsledky hledání na základě nastavení.</string>
+    <string name="sort_posts_controversial_all">Kontroverzní: Celou dobu</string>
+    <string name="sort_posts_relevance_today">Relevance: Dnes</string>
+    <string name="sort_posts_relevance_week">Relevance: Tento týden</string>
+    <string name="sort_posts_relevance_year">Relevance: Tento rok</string>
+    <string name="sort_posts_relevance_all">Relevance: Celou dobu</string>
+    <string name="no_posts_yet">Dosud žádné příspěvky.</string>
+    <string name="no_posts_yet_hidden">Neukazuji příspěvky na základě nastavení.</string>
+    <string name="accessibility_subtitle_author_submitter_withperiod">Autor: %s, submitter.</string>
+    <string name="accessibility_subtitle_author_admin_withperiod">Autor: %s, správce.</string>
+    <string name="accessibility_subtitle_author_submitter_moderator_withperiod">Autor: %s, submitter a moderátor.</string>
+    <string name="accessibility_subtitle_author_submitter_admin_withperiod">Autor: %s, submitter a správce.</string>
+    <string name="sort_posts_controversial_hour">Kontroverzní: Tato hodina</string>
+    <string name="sort_posts_controversial_today">Kontroverzní: Dnes</string>
+    <string name="sort_posts_controversial_week">Kontroverzní: Tento týden</string>
+    <string name="sort_posts_controversial_month">Kontroverzní: Tento měsíc</string>
+    <string name="sort_posts_new_hour">Nové: Tato hodina</string>
+    <string name="sort_posts_new_today">Nové: Dnes</string>
+    <string name="sort_posts_new_week">Nové: Tento týden</string>
+    <string name="sort_posts_new_month">Nové: Tento měsíc</string>
+    <string name="sort_posts_new_year">Nové: Tento rok</string>
+    <string name="sort_posts_new_all">Nové: Celou dobu</string>
+    <string name="sort_posts_hot_hour">Hot: Tato hodina</string>
+    <string name="sort_posts_hot_today">Hot: Dnes</string>
+    <string name="sort_posts_hot_week">Hot: Tento týden</string>
+    <string name="sort_posts_hot_month">Hot: Tento měsíc</string>
+    <string name="sort_posts_hot_year">Hot: Tento rok</string>
+    <string name="sort_posts_hot_all">Hot: Celou dobu</string>
+    <string name="sort_posts_comments_hour">Komentáře: Tato hodina</string>
+    <string name="sort_posts_comments_today">Komentáře: Dnes</string>
+    <string name="sort_posts_comments_week">Komentáře: Tento týden</string>
+    <string name="sort_posts_comments_month">Komentáře: Tento měsíc</string>
+    <string name="sort_posts_comments_year">Komentáře: Tento rok</string>
+    <string name="sort_posts_comments_all">Komentáře: Celou dobu</string>
+    <string name="pref_appearance_android_status_always_hide">Vždy</string>
+    <string name="pref_appearance_android_status_hide_on_media">Při prohlížení médií</string>
+    <string name="pref_appearance_android_status_never_hide">Nikdy</string>
+    <string name="error_archived_reply">Bylo archivováno a nelze již odpovědět.</string>
+    <string name="pref_appearance_comment_header_items_controversiality">Indikátor kontroverzního (†)</string>
+    <string name="search_listing_header_limit_location">Omezit na lokaci</string>
+    <string name="search_results_query_and_location">Vyhledat \"%1$s\" na %2$s</string>
+    <string name="search_results_location_only">Vyhledat na %s</string>
+    <string name="accessibility_subtitle_controversiality_withperiod">Kontroverzní s hlasy.</string>
+    <string name="error_comment_submit_title">Chyba při odesílání komentáře</string>
+    <string name="sort_posts_controversial_year">Kontroverzní: Tento rok</string>
 </resources>

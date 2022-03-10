@@ -740,7 +740,6 @@
 	<string name="mainmenu_custom_empty_search_query">請輸入要搜尋的內容。</string>
 
 	<string name="search_listing_header_query">搜尋內容</string>
-	<string name="search_listing_header_sub">限於版塊</string>
   
 	<string name="pref_behaviour_sharing_header">分享</string>
 	<string name="pref_behaviour_sharing_include_desc_title">分享時同時分享標題和內容</string>

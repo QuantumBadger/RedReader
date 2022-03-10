@@ -207,6 +207,10 @@ public class MultiredditPostListURL extends PostListingURL {
 			return null;
 		}
 
+		if(pathSegments[pathSegments.length - 1].equalsIgnoreCase("search")) {
+			return null;
+		}
+
 		if(pathSegments[0].equalsIgnoreCase("me")) {
 
 			if(!pathSegments[1].equalsIgnoreCase("m")) {
@@ -223,7 +227,7 @@ public class MultiredditPostListURL extends PostListingURL {
 
 		} else {
 
-			if(!pathSegments[0].equalsIgnoreCase("user")
+			if(!(pathSegments[0].equalsIgnoreCase("user") || pathSegments[0].equalsIgnoreCase("u"))
 					|| !pathSegments[2].equalsIgnoreCase("m")
 					|| pathSegments.length < 4) {
 

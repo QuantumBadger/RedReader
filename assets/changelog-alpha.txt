@@ -1,3 +1,54 @@
+/Alpha 300 (2022-01-21)
+Highlight suggested sort in sort menu (thanks to Cameron Merkel)
+Prevent replying to locked posts (thanks to Cameron Merkel)
+
+/Alpha 299 (2022-01-09)
+Allows reporting uncaught exceptions
+Fix to sample flag handling when saving Reddit videos
+Dependency updates
+
+/Alpha 298 (2022-01-07)
+Disable repeated Orbot installation prompts when Tor is enabled
+Rename "Share/Save Image" to "Share/Save Media"
+Sharing a link to a v.redd.it post now uses comments page
+
+/Alpha 297 (2021-12-17)
+Alpha fix for Android 11 devices (APK signature version)
+
+/Alpha 296 (2021-12-03)
+Fixing rare crash when saving video
+
+/Alpha 295 (2021-12-01)
+Increasing target Android SDK version in preparation for release
+
+/Alpha 294 (2021-11-28)
+Saved/shared videos from v.redd.it now have audio attached
+Preserve self-text collapse state if activity gets recreated (thanks to Cameron Merkel)
+Reply option in post action menu is now on by default (thanks to Cameron Merkel)
+Disable hiding of read posts in user post lists (thanks to Cameron Merkel)
+Make videos loop more smoothly (thanks to Cameron Merkel)
+Translation updates (thanks to Eric, Gediminas Murauskas, Ihor Hordiichuk, phlostically, Sergio Varela, ToldYouThat, zeritti, zmni)
+
+/Alpha 293 (2021-10-13)
+Show radio buttons on sort menus (thanks to Cameron Merkel)
+
+/Alpha 292 (2021-10-12)
+Search multireddits and subreddit combinations (thanks to Cameron Merkel)
+Allow status bar to be hidden only when viewing media (thanks to Cameron Merkel)
+Show tooltips when long-pressing toolbar buttons (thanks to Cameron Merkel)
+Search queries are no longer forced to lowercase (thanks to Cameron Merkel)
+Take NSFW preference into account in API requests (thanks to Cameron Merkel)
+Prevent replying to archived posts and comments (thanks to Cameron Merkel)
+Add optional indicator (†) for comments voted controversial (thanks to Cameron Merkel)
+Add reply option to post action menu (off by default, thanks to Cameron Merkel)
+Translation updates (thanks to Andrey F, Atrate, Dan McElroy, Dwaris, Gediminas Murauskas, GM, Gontzal Manuel Pujana Onaindia, Ihor Hordiichuk, Jurijus, Kaantaja, lucanomax, ndrnry, PandaCoderPL, Sergio Varela, and Verdulo)
+
+/Alpha 291 (2021-08-16)
+Various code cleanup (thanks to TacoTheDank)
+Update post header even when the toolbar is disabled (thanks to Cameron Merkel)
+Subreddit blocking now applies to /r/popular and the front page (thanks to Cameron Merkel)
+Handle non-HTTP URLs using native apps in WebView (thanks to Avik Das)
+
 /Alpha 290 (2021-07-25)
 Show message when no posts are available (thanks to Cameron Merkel)
 Allow specifying date range for searches (thanks to Cameron Merkel)

@@ -223,7 +223,7 @@ public class RedditSubreddit implements
 
 		final Intent intent = new Intent(context, HtmlViewActivity.class);
 
-		intent.putExtra("html", getSidebarHtml(PrefsUtility.isNightMode(context)));
+		intent.putExtra("html", getSidebarHtml(PrefsUtility.isNightMode()));
 
 		intent.putExtra("title", String.format(
 				Locale.US, "%s: %s",

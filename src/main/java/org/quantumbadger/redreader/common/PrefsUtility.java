@@ -152,7 +152,8 @@ public final class PrefsUtility {
 				|| context.getString(R.string.pref_menus_mainmenu_dev_announcements_key).equals(key)
 				|| context.getString(R.string.pref_appearance_bottom_toolbar_key).equals(key)
 				|| context.getString(R.string.pref_appearance_hide_toolbar_on_scroll_key)
-						.equals(key);
+						.equals(key)
+				|| context.getString(R.string.pref_behaviour_block_screenshots_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -1117,6 +1118,12 @@ public final class PrefsUtility {
 		return SaveLocation.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_save_location_key,
 				StringUtils.asciiLowercase(SaveLocation.PROMPT_EVERY_TIME.name()))));
+	}
+
+	public static boolean behaviour_block_screenshots() {
+		return getBoolean(
+				R.string.pref_behaviour_block_screenshots_key,
+				false);
 	}
 
 	///////////////////////////////

@@ -53,6 +53,11 @@
 					android:entryValues="@array/pref_behaviour_save_location_options_return"
 					android:defaultValue="prompt_every_time" />
 
+	<CheckBoxPreference android:title="@string/pref_behaviour_block_screenshots_title"
+						android:key="@string/pref_behaviour_block_screenshots_key"
+						android:summary="@string/pref_behaviour_block_screenshots_summary"
+						android:defaultValue="false" />
+
     <PreferenceCategory android:title="@string/pref_behaviour_sort_header">
 
 		<ListPreference android:title="@string/pref_behaviour_postsort"

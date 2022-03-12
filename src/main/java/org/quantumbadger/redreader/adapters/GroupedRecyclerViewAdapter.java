@@ -27,31 +27,37 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 @SuppressWarnings("ForLoopReplaceableByForEach")
-public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
+public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	private static final AtomicLong ITEM_UNIQUE_ID_GENERATOR = new AtomicLong(100_000);
 
-	public static abstract class Item {
+	public static abstract class Item<VH extends RecyclerView.ViewHolder> {
 
 		private final long mUniqueId = ITEM_UNIQUE_ID_GENERATOR.incrementAndGet();
 		private boolean mCurrentlyHidden = false;
 
-		public abstract Class getViewType();
+		public abstract Class<?> getViewType();
 
-		public abstract RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup);
+		public abstract VH onCreateViewHolder(final ViewGroup viewGroup);
 
-		public abstract void onBindViewHolder(final RecyclerView.ViewHolder viewHolder);
+		public abstract void onBindViewHolder(final VH viewHolder);
 
 		public abstract boolean isHidden();
+
+		private void onBindViewHolderInner(
+				final RecyclerView.ViewHolder viewHolder) {
+			//noinspection unchecked
+			onBindViewHolder((VH)viewHolder);
+		}
 	}
 
-	private final ArrayList<Item>[] mItems;
-	private final HashMap<Class, Integer> mItemViewTypeMap = new HashMap<>();
-	private final HashMap<Integer, Item> mViewTypeItemMap = new HashMap<>();
+	private final ArrayList<Item<?>>[] mItems;
+	private final HashMap<Class<?>, Integer> mItemViewTypeMap = new HashMap<>();
+	private final HashMap<Integer, Item<?>> mViewTypeItemMap = new HashMap<>();
 
 	public GroupedRecyclerViewAdapter(final int groups) {
 		//noinspection unchecked
-		mItems = (ArrayList<Item>[])new ArrayList[groups];
+		mItems = (ArrayList<Item<?>>[])new ArrayList[groups];
 
 		for(int i = 0; i < groups; i++) {
 			mItems[i] = new ArrayList<>();
@@ -60,9 +66,9 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 		setHasStableIds(true);
 	}
 
-	private int getItemPositionInternal(final int groupId, final Item item) {
+	private int getItemPositionInternal(final int groupId, final Item<?> item) {
 
-		final ArrayList<Item> group = mItems[groupId];
+		final ArrayList<Item<?>> group = mItems[groupId];
 
 		for(int i = 0; i < group.size(); i++) {
 			if(group.get(i) == item) {
@@ -91,7 +97,7 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 		return result;
 	}
 
-	private Item getItemInternal(final int desiredPosition) {
+	private Item<?> getItemInternal(final int desiredPosition) {
 
 		if(desiredPosition < 0) {
 			throw new RuntimeException("Item desiredPosition "
@@ -103,13 +109,13 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 		for(int groupId = 0; groupId < mItems.length; groupId++) {
 
-			final ArrayList<Item> group = mItems[groupId];
+			final ArrayList<Item<?>> group = mItems[groupId];
 
 			for(int positionInGroup = 0;
 				positionInGroup < group.size();
 				positionInGroup++) {
 
-				final Item item = group.get(positionInGroup);
+				final Item<?> item = group.get(positionInGroup);
 
 				if(!item.mCurrentlyHidden) {
 
@@ -140,6 +146,18 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT);
 
+		if(viewHolder.itemView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+
+			final ViewGroup.MarginLayoutParams oldLayoutParams
+					= (ViewGroup.MarginLayoutParams)viewHolder.itemView.getLayoutParams();
+
+			layoutParams.setMargins(
+					oldLayoutParams.leftMargin,
+					oldLayoutParams.topMargin,
+					oldLayoutParams.rightMargin,
+					oldLayoutParams.bottomMargin);
+		}
+
 		viewHolder.itemView.setLayoutParams(layoutParams);
 
 		return viewHolder;
@@ -149,13 +167,13 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 	public void onBindViewHolder(
 			@NonNull final RecyclerView.ViewHolder viewHolder,
 			final int position) {
-		getItemInternal(position).onBindViewHolder(viewHolder);
+		getItemInternal(position).onBindViewHolderInner(viewHolder);
 	}
 
 	@Override
 	public int getItemViewType(final int position) {
 
-		final Item item = getItemInternal(position);
+		final Item<?> item = getItemInternal(position);
 		final Class<?> viewTypeClass = item.getViewType();
 
 		Integer typeId = mItemViewTypeMap.get(viewTypeClass);
@@ -171,7 +189,7 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 	private int getGroupUnhiddenCount(final int groupId) {
 
-		final ArrayList<Item> group = mItems[groupId];
+		final ArrayList<Item<?>> group = mItems[groupId];
 
 		int result = 0;
 
@@ -201,11 +219,11 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 		return count;
 	}
 
-	public Item getItemAtPosition(final int position) {
+	public Item<?> getItemAtPosition(final int position) {
 		return getItemInternal(position);
 	}
 
-	public void appendToGroup(final int group, final Item item) {
+	public void appendToGroup(final int group, final Item<?> item) {
 
 		final int position = getItemPositionInternal(group + 1, 0);
 
@@ -216,13 +234,13 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 		}
 	}
 
-	public void appendToGroup(final int group, final Collection<Item> items) {
+	public void appendToGroup(final int group, final Collection<Item<?>> items) {
 
 		final int position = getItemPositionInternal(group + 1, 0);
 
 		mItems[group].addAll(items);
 
-		for(final Item item : items) {
+		for(final Item<?> item : items) {
 			item.mCurrentlyHidden = false;
 		}
 
@@ -231,11 +249,11 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 	public void removeAllFromGroup(final int groupId) {
 
-		final ArrayList<Item> group = mItems[groupId];
+		final ArrayList<Item<?>> group = mItems[groupId];
 
 		for(int i = group.size() - 1; i >= 0; i--) {
 
-			final Item item = group.get(i);
+			final Item<?> item = group.get(i);
 			final int position = getItemPositionInternal(groupId, i);
 
 			group.remove(i);
@@ -246,9 +264,9 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 		}
 	}
 
-	public void removeFromGroup(final int groupId, final Item item) {
+	public void removeFromGroup(final int groupId, final Item<?> item) {
 
-		final ArrayList<Item> group = mItems[groupId];
+		final ArrayList<Item<?>> group = mItems[groupId];
 
 		for(int i = 0; i < group.size(); i++) {
 			if(group.get(i) == item) {
@@ -274,13 +292,13 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 
 		for(int groupId = 0; groupId < mItems.length; groupId++) {
 
-			final ArrayList<Item> group = mItems[groupId];
+			final ArrayList<Item<?>> group = mItems[groupId];
 
 			for(int positionInGroup = 0;
 				positionInGroup < group.size();
 				positionInGroup++) {
 
-				final Item item = group.get(positionInGroup);
+				final Item<?> item = group.get(positionInGroup);
 
 				final boolean wasHidden = item.mCurrentlyHidden;
 				final boolean isHidden = item.isHidden();
@@ -300,7 +318,7 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter {
 		}
 	}
 
-	public void notifyItemChanged(final int groupId, final Item item) {
+	public void notifyItemChanged(final int groupId, final Item<?> item) {
 		final int position = getItemPositionInternal(groupId, item);
 		notifyItemChanged(position);
 	}

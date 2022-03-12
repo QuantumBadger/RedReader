@@ -17,7 +17,7 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
+<org.quantumbadger.redreader.views.SubredditToolbar
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
 		android:id="@+id/subreddit_toolbar_layout"
@@ -102,4 +102,4 @@
 			android:contentDescription="@string/options_sidebar"
 			android:src="?rrIconInfo"/>
 
-</LinearLayout>
+</org.quantumbadger.redreader.views.SubredditToolbar>

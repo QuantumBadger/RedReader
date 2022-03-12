@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
@@ -151,6 +152,10 @@ public final class Constants {
 			return DOMAIN_HTTPS_HUMAN;
 		}
 
+		public static Uri.Builder getUriBuilder(final String path) {
+			return Uri.parse(getUri(path).toString()).buildUpon();
+		}
+
 		public static URI getUri(final String path) {
 			return General.uriFromString(getScheme() + "://" + getDomain() + path);
 		}
@@ -222,6 +227,7 @@ public final class Constants {
 		public static final int API_ACTION = -500;
 		public static final int API_MULTIREDDIT_LIST = -200;
 		public static final int API_SUBREDDIT_LIST = -100;
+		public static final int API_SUBREDDIT_SEARCH = -500;
 		public static final int API_SUBREDDIT_INVIDIVUAL = -250;
 		public static final int API_POST_LIST = -200;
 		public static final int API_COMMENT_LIST = -300;

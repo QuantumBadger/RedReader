@@ -341,8 +341,12 @@ public class HtmlReader {
 	}
 
 	public static BodyElement parse(
-			@NonNull final String html,
+			@Nullable String html,
 			@NonNull final AppCompatActivity activity) {
+
+		if(html == null) {
+			html = "";
+		}
 
 		final Context applicationContext = activity.getApplicationContext();
 

@@ -65,6 +65,9 @@
 
     <attr name="rrMainTextCol" format="color" />
 	<attr name="rrSubTextCol" format="color" />
+	<attr name="rrMaterialButtonTextCol" format="color" />
+
+	<attr name="rrActionBarCol" format="color" />
 
 	<attr name="rrPostToolbarCol" format="color" />
 
@@ -98,5 +101,7 @@
 	<attr name="rrIconPin" format="reference" />
 	<attr name="rrIconPinOff" format="reference" />
 	<attr name="rrIconMessagePlus" format="reference" />
+	<attr name="rrIconChevronRight" format="reference" />
+	<attr name="rrIconMagnify" format="reference" />
 
 </resources>

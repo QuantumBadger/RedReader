@@ -17,6 +17,9 @@
 
 package org.quantumbadger.redreader.reddit;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Optional;
@@ -25,10 +28,6 @@ import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
 import java.util.ArrayList;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class APIResponseHandler {
 
@@ -133,6 +132,28 @@ public abstract class APIResponseHandler {
 		}
 
 		protected abstract void onSuccess();
+	}
+
+	public static abstract class ValueResponseHandler<E> extends APIResponseHandler {
+
+		protected ValueResponseHandler(final AppCompatActivity context) {
+			super(context);
+		}
+
+		public final void notifySuccess(@NonNull final E value) {
+			try {
+				onSuccess(value);
+			} catch(final Throwable t1) {
+				try {
+					onCallbackException(t1);
+				} catch(final Throwable t2) {
+					BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
+					BugReportActivity.handleGlobalError(context, t2);
+				}
+			}
+		}
+
+		protected abstract void onSuccess(@NonNull final E value);
 	}
 
 	public static abstract class UserResponseHandler extends APIResponseHandler {

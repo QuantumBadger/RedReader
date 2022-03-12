@@ -15,63 +15,53 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit;
+package org.quantumbadger.redreader.adapters;
 
+import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
-import org.quantumbadger.redreader.fragments.PostListingFragment;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.views.RedditPostView;
+import org.quantumbadger.redreader.common.FunctionOneArgWithReturn;
 
-public class RedditPostListItem
+public class GroupedRecyclerViewItemView
 		extends GroupedRecyclerViewAdapter.Item<RecyclerView.ViewHolder> {
 
-	private final PostListingFragment mFragment;
-	private final BaseActivity mActivity;
+	@NonNull private final FunctionOneArgWithReturn<ViewGroup, View> mFactory;
+	@NonNull private final Class<?> mViewType;
 
-	private final RedditPreparedPost mPost;
-	private final boolean mLeftHandedMode;
+	private boolean mHidden = false;
 
-	public RedditPostListItem(
-			final RedditPreparedPost post,
-			final PostListingFragment fragment,
-			final BaseActivity activity,
-			final boolean leftHandedMode) {
-
-		mFragment = fragment;
-		mActivity = activity;
-		mPost = post;
-		mLeftHandedMode = leftHandedMode;
+	public GroupedRecyclerViewItemView(
+			@NonNull final Class<?> viewType,
+			@NonNull final FunctionOneArgWithReturn<ViewGroup, View> factory) {
+		mFactory = factory;
+		mViewType = viewType;
 	}
 
+
+	@NonNull
 	@Override
-	public Class<RedditPostView> getViewType() {
-		return RedditPostView.class;
+	public Class<?> getViewType() {
+		return mViewType;
 	}
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup) {
-
-		final RedditPostView view = new RedditPostView(
-				mActivity,
-				mFragment,
-				mActivity,
-				mLeftHandedMode);
-
-		return new RecyclerView.ViewHolder(view) {
-		};
+		final View view = mFactory.apply(viewGroup);
+		return new RecyclerView.ViewHolder(view) {};
 	}
 
 	@Override
 	public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder) {
-		((RedditPostView)viewHolder.itemView).reset(mPost);
+		// Nothing to do here
 	}
 
 	@Override
 	public boolean isHidden() {
-		return false;
+		return mHidden;
 	}
 
+	public void setHidden(final boolean hidden) {
+		mHidden = hidden;
+	}
 }

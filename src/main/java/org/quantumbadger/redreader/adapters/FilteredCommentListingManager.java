@@ -42,13 +42,13 @@ public class FilteredCommentListingManager extends RedditListingManager {
 	}
 
 	public void addComments(final Collection<RedditCommentListItem> comments) {
-		final Collection<GroupedRecyclerViewAdapter.Item> filteredComments = filter(
+		final Collection<GroupedRecyclerViewAdapter.Item<?>> filteredComments = filter(
 				comments);
 		addItems(filteredComments);
 		mCommentCount += filteredComments.size();
 	}
 
-	private Collection<GroupedRecyclerViewAdapter.Item> filter(
+	private Collection<GroupedRecyclerViewAdapter.Item<?>> filter(
 			final Collection<RedditCommentListItem> comments) {
 
 		final Collection<RedditCommentListItem> searchComments;

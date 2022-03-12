@@ -31,7 +31,7 @@
 				android:id="@+id/rr_actionbar_toolbar"
 				android:layout_width="match_parent"
 				android:layout_height="?attr/actionBarSize"
-				android:background="?attr/colorPrimary"
+				android:background="?attr/rrActionBarCol"
 				app:titleTextAppearance="@style/RR.Toolbar.TitleText"
 				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
 				app:popupTheme="?rrActionBarPopupThemeStyle" />

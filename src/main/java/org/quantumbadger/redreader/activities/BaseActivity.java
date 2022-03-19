@@ -228,14 +228,18 @@ public abstract class BaseActivity extends AppCompatActivity
 			super.setContentView(outerView);
 			setSupportActionBar(toolbar);
 
+			final ActionBar supportActionBar = getSupportActionBarOrThrow();
+
 			if(baseActivityIsToolbarSearchBarEnabled()) {
-				getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_search);
+				supportActionBar.setCustomView(R.layout.actionbar_search);
+				General.setLayoutMatchParent(supportActionBar.getCustomView());
+
 			} else {
-				getSupportActionBarOrThrow().setCustomView(R.layout.actionbar_title);
+				supportActionBar.setCustomView(R.layout.actionbar_title);
 			}
 
-			getSupportActionBarOrThrow().setDisplayShowCustomEnabled(true);
-			getSupportActionBarOrThrow().setDisplayShowTitleEnabled(false);
+			supportActionBar.setDisplayShowCustomEnabled(true);
+			supportActionBar.setDisplayShowTitleEnabled(false);
 			toolbar.setContentInsetsAbsolute(0, 0);
 
 			mActionbarBackIconView = toolbar.findViewById(R.id.actionbar_title_back_image);

@@ -1,3 +1,6 @@
+/Alpha 305 (2022-03-19)
+Fix search bar width in find subreddit activity
+
 /Alpha 304 (2022-03-19)
 Fix for "find subreddit" feature flag upgrade
 

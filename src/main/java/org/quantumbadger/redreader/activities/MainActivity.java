@@ -147,13 +147,6 @@ public class MainActivity extends RefreshableActivity
 		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(this);
 		twoPane = General.isTablet(this);
 
-		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
-
-		if(savedInstanceState == null
-				&& PrefsUtility.pref_behaviour_skiptofrontpage()) {
-			onSelected(SubredditPostListURL.getFrontPage());
-		}
-
 		setTitle(R.string.app_name);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
@@ -209,6 +202,13 @@ public class MainActivity extends RefreshableActivity
 		final boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
 		if(startInbox) {
 			startActivity(new Intent(this, InboxListingActivity.class));
+		}
+
+		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
+
+		if(savedInstanceState == null
+				&& PrefsUtility.pref_behaviour_skiptofrontpage()) {
+			onSelected(SubredditPostListURL.getFrontPage());
 		}
 	}
 

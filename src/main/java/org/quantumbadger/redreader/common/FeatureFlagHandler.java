@@ -229,6 +229,8 @@ public final class FeatureFlagHandler {
 			if(getAndSetFeatureFlag(prefs, FeatureFlag.MAIN_MENU_FIND_SUBREDDIT_FEATURE)
 					== FeatureFlagStatus.UPGRADE_NEEDED) {
 
+				Log.i(TAG, "Upgrading, add find subreddit to main menu.");
+
 				final Set<String> existingShortcutPreferences
 						= PrefsUtility.getStringSet(
 								R.string.pref_menus_mainmenu_shortcutitems_key,

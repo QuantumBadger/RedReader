@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
+import org.quantumbadger.redreader.common.Optional;
 
 public class GroupedRecyclerViewItemListItemView extends GroupedRecyclerViewAdapter.Item {
 
@@ -35,13 +36,20 @@ public class GroupedRecyclerViewItemListItemView extends GroupedRecyclerViewAdap
 	@Nullable private final View.OnClickListener mClickListener;
 	@Nullable private final View.OnLongClickListener mLongClickListener;
 
+	@NonNull private final Optional<Drawable> mSecondaryIcon;
+	@NonNull private final Optional<View.OnClickListener> mSecondaryAction;
+	@NonNull private final Optional<String> mSecondaryContentDesc;
+
 	public GroupedRecyclerViewItemListItemView(
 			@Nullable final Drawable icon,
 			@NonNull final CharSequence text,
 			@Nullable final String contentDescription,
 			final boolean hideDivider,
 			@Nullable final View.OnClickListener clickListener,
-			@Nullable final View.OnLongClickListener longClickListener) {
+			@Nullable final View.OnLongClickListener longClickListener,
+			@NonNull final Optional<Drawable> secondaryIcon,
+			@NonNull final Optional<View.OnClickListener> secondaryAction,
+			@NonNull final Optional<String> secondaryContentDesc) {
 
 		mIcon = icon;
 		mText = text;
@@ -49,6 +57,9 @@ public class GroupedRecyclerViewItemListItemView extends GroupedRecyclerViewAdap
 		mHideDivider = hideDivider;
 		mClickListener = clickListener;
 		mLongClickListener = longClickListener;
+		mSecondaryIcon = secondaryIcon;
+		mSecondaryAction = secondaryAction;
+		mSecondaryContentDesc = secondaryContentDesc;
 	}
 
 	@Override
@@ -64,19 +75,16 @@ public class GroupedRecyclerViewItemListItemView extends GroupedRecyclerViewAdap
 	@Override
 	public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder) {
 
-		final ListItemView view = (ListItemView)viewHolder.itemView;
-
-		view.reset(mIcon, mText, mContentDescription, mHideDivider);
-		view.setOnClickListener(mClickListener);
-		view.setOnLongClickListener(mLongClickListener);
-
-		if(mClickListener == null) {
-			view.setClickable(false);
-		}
-
-		if(mLongClickListener == null) {
-			view.setLongClickable(false);
-		}
+		((ListItemView)viewHolder.itemView).reset(
+				mIcon,
+				mText,
+				mContentDescription,
+				mHideDivider,
+				mClickListener,
+				mLongClickListener,
+				mSecondaryIcon,
+				mSecondaryAction,
+				mSecondaryContentDesc);
 	}
 
 	@Override

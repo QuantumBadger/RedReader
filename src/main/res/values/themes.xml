@@ -119,6 +119,7 @@
 		<item name="rrIconMessagePlus">@drawable/message_plus_dark</item>
 		<item name="rrIconChevronRight">@drawable/chevron_right_dark</item>
 		<item name="rrIconMagnify">@drawable/magnify_dark</item>
+		<item name="rrIconAccountSearch">@drawable/account_search_dark</item>
 		
     </style>
 
@@ -375,6 +376,7 @@
 		<item name="rrIconMessagePlus">@drawable/message_plus_light</item>
 		<item name="rrIconChevronRight">@drawable/chevron_right_light</item>
 		<item name="rrIconMagnify">@drawable/magnify_light</item>
+		<item name="rrIconAccountSearch">@drawable/account_search_light</item>
 
     </style>
 

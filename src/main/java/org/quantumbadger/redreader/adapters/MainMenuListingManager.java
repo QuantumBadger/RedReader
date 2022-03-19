@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -36,7 +35,6 @@ import androidx.core.content.ContextCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.SubredditSearchActivity;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -65,6 +63,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainMenuListingManager {
@@ -76,18 +75,17 @@ public class MainMenuListingManager {
 	private static final int GROUP_USER_HEADER = 2;
 	private static final int GROUP_USER_ITEMS = 3;
 	private static final int GROUP_ANNOUNCEMENTS = 4;
-	private static final int GROUP_SEARCH_BAR = 5;
-	private static final int GROUP_PINNED_SUBREDDITS_HEADER = 6;
-	private static final int GROUP_PINNED_SUBREDDITS_ITEMS = 7;
-	private static final int GROUP_BLOCKED_SUBREDDITS_HEADER = 8;
-	private static final int GROUP_BLOCKED_SUBREDDITS_ITEMS = 9;
-	private static final int GROUP_MULTIREDDITS_HEADER = 10;
-	private static final int GROUP_MULTIREDDITS_ITEMS = 11;
-	private static final int GROUP_SUBREDDITS_HEADER = 12;
-	private static final int GROUP_SUBREDDITS_ITEMS = 13;
+	private static final int GROUP_PINNED_SUBREDDITS_HEADER = 5;
+	private static final int GROUP_PINNED_SUBREDDITS_ITEMS = 6;
+	private static final int GROUP_BLOCKED_SUBREDDITS_HEADER = 7;
+	private static final int GROUP_BLOCKED_SUBREDDITS_ITEMS = 8;
+	private static final int GROUP_MULTIREDDITS_HEADER = 9;
+	private static final int GROUP_MULTIREDDITS_ITEMS = 10;
+	private static final int GROUP_SUBREDDITS_HEADER = 11;
+	private static final int GROUP_SUBREDDITS_ITEMS = 12;
 
 	@NonNull private final GroupedRecyclerViewAdapter mAdapter
-			= new GroupedRecyclerViewAdapter(14);
+			= new GroupedRecyclerViewAdapter(13);
 	@NonNull private final Context mContext;
 	@NonNull private final AppCompatActivity mActivity;
 
@@ -145,6 +143,7 @@ public class MainMenuListingManager {
 		final Drawable rrIconCross;
 		final Drawable rrIconUpvote;
 		final Drawable rrIconDownvote;
+		final Drawable rrIconAccountSearch;
 
 		{
 			final TypedArray attr = activity.obtainStyledAttributes(new int[] {
@@ -155,7 +154,8 @@ public class MainMenuListingManager {
 					R.attr.rrIconStarFilled,
 					R.attr.rrIconCross,
 					R.attr.rrIconArrowUpBold,
-					R.attr.rrIconArrowDownBold
+					R.attr.rrIconArrowDownBold,
+					R.attr.rrIconAccountSearch
 			});
 
 			rrIconPerson = ContextCompat.getDrawable(activity, attr.getResourceId(0, 0));
@@ -170,6 +170,9 @@ public class MainMenuListingManager {
 			rrIconDownvote = ContextCompat.getDrawable(
 					activity,
 					attr.getResourceId(7, 0));
+			rrIconAccountSearch = Objects.requireNonNull(ContextCompat.getDrawable(
+					activity,
+					attr.getResourceId(8, 0)));
 
 			attr.recycle();
 		}
@@ -208,7 +211,44 @@ public class MainMenuListingManager {
 								false));
 			}
 
-			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.CUSTOM)) {
+			if(mainMenuShortcutItems.contains(
+					MainMenuFragment.MainMenuShortcutItems.SUBREDDIT_SEARCH)) {
+
+				if(mainMenuShortcutItems.contains(
+						MainMenuFragment.MainMenuShortcutItems.CUSTOM)) {
+
+					final View.OnClickListener clickListener = view -> mListener.onSelected(
+							MainMenuFragment.MENU_MENU_ACTION_FIND_SUBREDDIT);
+
+					final GroupedRecyclerViewItemListItemView item
+							= new GroupedRecyclerViewItemListItemView(
+									null,
+									activity.getString(R.string.find_subreddit),
+									null,
+									false,
+									clickListener,
+									null,
+									Optional.of(rrIconAccountSearch),
+									Optional.of(view -> mListener.onSelected(
+											MainMenuFragment.MENU_MENU_ACTION_CUSTOM)),
+									Optional.of(activity.getString(
+											R.string.mainmenu_custom_destination)));
+
+					mAdapter.appendToGroup(GROUP_MAIN_ITEMS, item);
+
+				} else {
+					mAdapter.appendToGroup(
+							GROUP_MAIN_ITEMS,
+							makeItem(
+									R.string.find_subreddit,
+									MainMenuFragment.MENU_MENU_ACTION_FIND_SUBREDDIT,
+									null,
+									false));
+				}
+
+			} else if(mainMenuShortcutItems.contains(
+					MainMenuFragment.MainMenuShortcutItems.CUSTOM)) {
+
 				mAdapter.appendToGroup(
 						GROUP_MAIN_ITEMS,
 						makeItem(
@@ -359,26 +399,6 @@ public class MainMenuListingManager {
 									isFirst.getAndSet(false)));
 				}
 			}
-		}
-
-		if(PrefsUtility.pref_menus_show_subreddit_search()) {
-			mAdapter.appendToGroup(GROUP_SEARCH_BAR, new GroupedRecyclerViewItemView(
-					SubredditSearchActivity.class,
-					parent -> {
-						final View view = LayoutInflater.from(parent.getContext())
-								.inflate(
-										R.layout.main_menu_subreddit_search_view,
-										parent,
-										false);
-
-						view.findViewById(R.id.subreddit_search_link)
-								.setOnClickListener(v -> activity.startActivity(
-										new Intent(
-												activity,
-												SubredditSearchActivity.class)));
-
-						return view;
-					}));
 		}
 
 		setPinnedSubreddits();
@@ -646,7 +666,10 @@ public class MainMenuListingManager {
 				null,
 				hideDivider,
 				clickListener,
-				null);
+				null,
+				Optional.empty(),
+				Optional.empty(),
+				Optional.empty());
 	}
 
 	private GroupedRecyclerViewItemListItemView makeSubredditItem(
@@ -787,7 +810,10 @@ public class MainMenuListingManager {
 				ScreenreaderPronunciation.getPronunciation(mContext, displayName),
 				hideDivider,
 				clickListener,
-				longClickListener);
+				longClickListener,
+				Optional.empty(),
+				Optional.empty(),
+				Optional.empty());
 	}
 
 	private void onSubredditActionMenuItemSelected(
@@ -909,7 +935,10 @@ public class MainMenuListingManager {
 				ScreenreaderPronunciation.getPronunciation(mContext, name),
 				hideDivider,
 				clickListener,
-				null);
+				null,
+				Optional.empty(),
+				Optional.empty(),
+				Optional.empty());
 	}
 
 	private static class SubredditMenuItem {

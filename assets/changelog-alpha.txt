@@ -1,5 +1,6 @@
-/Alpha 303 (2022-03-12)
+/Alpha 303 (2022-03-19)
 Added option to block screenshots (thanks to Cameron Merkel)
+Improved appearance of find subreddit option
 
 /Alpha 302 (2022-02-19)
 Ability to search for subreddits

@@ -49,7 +49,8 @@ public final class FeatureFlagHandler {
 		COMMENT_HEADER_SUBREDDIT_FEATURE("commentHeaderSubredditFeature"),
 		CONTROVERSIAL_DATE_SORTS_FEATURE("controversialDateSortsFeature"),
 		HIDE_STATUS_BAR_FOR_MEDIA_FEATURE("hideStatusBarForMediaFeature"),
-		REPLY_IN_POST_ACTION_MENU_FEATURE("replyInPostActionMenuFeature");
+		REPLY_IN_POST_ACTION_MENU_FEATURE("replyInPostActionMenuFeature"),
+		MAIN_MENU_FIND_SUBREDDIT_FEATURE("mainMenuFindSubreddit");
 
 		@NonNull private final String id;
 
@@ -223,6 +224,22 @@ public final class FeatureFlagHandler {
 										R.string.pref_menus_post_context_items_key),
 								existingPostActionMenuItems)
 						.apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.MAIN_MENU_FIND_SUBREDDIT_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				final Set<String> existingShortcutPreferences
+						= PrefsUtility.getStringSet(
+								R.string.pref_menus_mainmenu_shortcutitems_key,
+								R.array.pref_menus_mainmenu_shortcutitems_items_default
+				);
+
+				existingShortcutPreferences.add("subreddit_search");
+
+				prefs.edit().putStringSet(
+						context.getString(R.string.pref_menus_mainmenu_shortcutitems_key),
+						existingShortcutPreferences).apply();
 			}
 		});
 	}

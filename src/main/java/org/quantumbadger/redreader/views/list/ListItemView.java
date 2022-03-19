@@ -27,13 +27,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.Optional;
 
 // TODO just make this a linear layout
 public class ListItemView extends FrameLayout {
 
-	private final TextView textView;
-	private final ImageView imageView;
-	private final View divider;
+	private final View mDivider;
+
+	private final TextView mMainText;
+	private final ImageView mMainIcon;
+	private final LinearLayout mMainLink;
+
+	private final View mSecondaryLink;
+	private final ImageView mSecondaryIcon;
 
 	public ListItemView(final Context context) {
 
@@ -41,11 +47,14 @@ public class ListItemView extends FrameLayout {
 
 		final LinearLayout ll = (LinearLayout)inflate(context, R.layout.list_item, null);
 
-		divider = ll.findViewById(R.id.list_item_divider);
-		textView = ll.findViewById(R.id.list_item_text);
-		imageView = ll.findViewById(R.id.list_item_icon);
+		mDivider = ll.findViewById(R.id.list_item_divider);
 
-		setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+		mMainText = ll.findViewById(R.id.list_item_text);
+		mMainIcon = ll.findViewById(R.id.list_item_icon);
+		mMainLink = ll.findViewById(R.id.list_item_main_link);
+
+		mSecondaryLink = ll.findViewById(R.id.list_item_secondary_link_outer);
+		mSecondaryIcon = ll.findViewById(R.id.list_item_secondary_icon);
 
 		addView(ll);
 	}
@@ -54,23 +63,59 @@ public class ListItemView extends FrameLayout {
 			@Nullable final Drawable icon,
 			@NonNull final CharSequence text,
 			@Nullable final String contentDescription,
-			final boolean hideDivider) {
+			final boolean hideDivider,
+			@Nullable final OnClickListener clickListener,
+			@Nullable final OnLongClickListener longClickListener,
+			@NonNull final Optional<Drawable> secondaryIcon,
+			@NonNull final Optional<OnClickListener> secondaryAction,
+			@NonNull final Optional<String> secondaryContentDesc) {
 
 		if(hideDivider) {
-			divider.setVisibility(View.GONE);
+			mDivider.setVisibility(View.GONE);
 		} else {
-			divider.setVisibility(View.VISIBLE);
+			mDivider.setVisibility(View.VISIBLE);
 		}
 
-		textView.setText(text);
-		textView.setContentDescription(contentDescription);
+		mMainText.setText(text);
+		mMainText.setContentDescription(contentDescription);
 
 		if(icon != null) {
-			imageView.setImageDrawable(icon);
-			imageView.setVisibility(VISIBLE);
+			mMainIcon.setImageDrawable(icon);
+			mMainIcon.setVisibility(VISIBLE);
 		} else {
-			imageView.setImageBitmap(null);
-			imageView.setVisibility(GONE);
+			mMainIcon.setImageBitmap(null);
+			mMainIcon.setVisibility(GONE);
+		}
+
+		if(clickListener != null) {
+			mMainLink.setClickable(true);
+			mMainLink.setFocusable(true);
+			mMainLink.setOnClickListener(clickListener);
+		} else {
+			mMainLink.setClickable(false);
+			mMainLink.setFocusable(false);
+			mMainLink.setOnClickListener(null);
+		}
+
+		if(longClickListener != null) {
+			mMainLink.setLongClickable(true);
+			mMainLink.setOnLongClickListener(longClickListener);
+		} else {
+			mMainLink.setLongClickable(false);
+			mMainLink.setOnLongClickListener(null);
+		}
+
+		if(secondaryIcon.isPresent()) {
+			mSecondaryIcon.setImageDrawable(secondaryIcon.get());
+			mSecondaryIcon.setContentDescription(secondaryContentDesc.orElseNull());
+		}
+
+		if(secondaryAction.isPresent()) {
+			mSecondaryLink.setVisibility(VISIBLE);
+			mSecondaryIcon.setOnClickListener(secondaryAction.get());
+		} else {
+			mSecondaryLink.setVisibility(GONE);
+			mSecondaryIcon.setOnClickListener(null);
 		}
 	}
 }

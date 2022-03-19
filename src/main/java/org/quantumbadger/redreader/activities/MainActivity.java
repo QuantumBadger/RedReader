@@ -307,6 +307,17 @@ public class MainActivity extends RefreshableActivity
 				final String[] typeReturnValues = getResources().getStringArray(
 						R.array.mainmenu_custom_destination_type_return);
 
+				if(PrefsUtility.pref_menus_mainmenu_shortcutitems().contains(
+						MainMenuFragment.MainMenuShortcutItems.SUBREDDIT_SEARCH)) {
+
+					for(int i = 0; i < typeReturnValues.length; i++) {
+						if(typeReturnValues[i].equals("user")) {
+							destinationType.setSelection(i);
+							break;
+						}
+					}
+				}
+
 				final ArrayList<SubredditCanonicalId> subredditHistory
 						= RedditSubredditHistory.getSubredditsSorted(
 						RedditAccountManager.getInstance(this).getDefaultAccount());
@@ -439,6 +450,10 @@ public class MainActivity extends RefreshableActivity
 				intent.putExtra("inboxType", "modmail");
 				startActivity(intent);
 				break;
+			}
+
+			case MainMenuFragment.MENU_MENU_ACTION_FIND_SUBREDDIT: {
+				startActivity(new Intent(this, SubredditSearchActivity.class));
 			}
 		}
 	}

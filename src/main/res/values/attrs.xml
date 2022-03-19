@@ -103,5 +103,6 @@
 	<attr name="rrIconMessagePlus" format="reference" />
 	<attr name="rrIconChevronRight" format="reference" />
 	<attr name="rrIconMagnify" format="reference" />
+	<attr name="rrIconAccountSearch" format="reference" />
 
 </resources>

@@ -1648,9 +1648,7 @@
 	<string name="accessibility_subtitle_upvote_ratio_withperiod">Percent upvoted: %d.</string>
 
 	<!-- 2022-02-19 -->
-	<string name="find_subreddit">Find subreddit…</string>
-	<string name="pref_menus_show_subreddit_search_key" translatable="false">pref_menus_show_subreddit_search</string>
-	<string name="pref_menus_show_subreddit_search_title">Show subreddit search</string>
+	<string name="find_subreddit">Find Subreddit</string>
 
 	<!-- 2022-02-10 -->
 	<string name="pref_behaviour_block_screenshots_key">pref_behaviour_block_screenshots</string>

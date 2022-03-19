@@ -832,6 +832,7 @@
 		<item>@string/mainmenu_frontpage</item>
 		<item>@string/mainmenu_popular</item>
 		<item>@string/mainmenu_all</item>
+		<item>@string/find_subreddit</item>
 		<item>@string/mainmenu_custom_destination</item>
 		<item>@string/mainmenu_random</item>
 		<item>@string/mainmenu_random_nsfw</item>
@@ -842,6 +843,7 @@
 		<item>frontpage</item>
 		<item>popular</item>
 		<item>all</item>
+		<item>subreddit_search</item>
 		<item>custom</item>
 		<item>random</item>
 		<item>random_nsfw</item>
@@ -851,6 +853,7 @@
 	<string-array name="pref_menus_mainmenu_shortcutitems_items_default">
 		<item>frontpage</item>
 		<item>all</item>
+		<item>subreddit_search</item>
 		<item>custom</item>
 	</string-array>
 

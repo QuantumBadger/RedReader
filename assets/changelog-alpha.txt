@@ -1,3 +1,6 @@
+/Alpha 304 (2022-03-19)
+Fix for "find subreddit" feature flag upgrade
+
 /Alpha 303 (2022-03-19)
 Added option to block screenshots (thanks to Cameron Merkel)
 Improved appearance of find subreddit option

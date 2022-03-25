@@ -689,114 +689,7 @@ public class MainMenuListingManager {
 		};
 
 		final View.OnLongClickListener longClickListener = view -> {
-
-			final EnumSet<SubredditAction> itemPref
-					= PrefsUtility.pref_menus_subreddit_context_items();
-
-			if(itemPref.isEmpty()) {
-				return true;
-			}
-			final ArrayList<SubredditMenuItem> menu = new ArrayList<>();
-			if(itemPref.contains(SubredditAction.COPY_URL)) {
-				menu.add(new SubredditMenuItem(
-						mActivity,
-						R.string.action_copy_link,
-						SubredditAction.COPY_URL));
-			}
-			if(itemPref.contains(SubredditAction.EXTERNAL)) {
-				menu.add(new SubredditMenuItem(
-						mActivity,
-						R.string.action_external,
-						SubredditAction.EXTERNAL));
-			}
-			if(itemPref.contains(SubredditAction.SHARE)) {
-				menu.add(new SubredditMenuItem(
-						mActivity,
-						R.string.action_share,
-						SubredditAction.SHARE));
-			}
-
-			if(itemPref.contains(SubredditAction.BLOCK)) {
-
-				final boolean isBlocked = PrefsUtility.pref_blocked_subreddits_check(subreddit);
-
-				if(isBlocked) {
-					menu.add(new SubredditMenuItem(
-							mActivity,
-							R.string.unblock_subreddit,
-							SubredditAction.UNBLOCK));
-				} else {
-					menu.add(new SubredditMenuItem(
-							mActivity,
-							R.string.block_subreddit,
-							SubredditAction.BLOCK));
-				}
-			}
-
-			if(itemPref.contains(SubredditAction.PIN)) {
-
-				final boolean isPinned = PrefsUtility.pref_pinned_subreddits_check(subreddit);
-
-				if(isPinned) {
-					menu.add(new SubredditMenuItem(
-							mActivity,
-							R.string.unpin_subreddit,
-							SubredditAction.UNPIN));
-				} else {
-					menu.add(new SubredditMenuItem(
-							mActivity,
-							R.string.pin_subreddit,
-							SubredditAction.PIN));
-				}
-			}
-
-			if(!RedditAccountManager.getInstance(mActivity)
-					.getDefaultAccount()
-					.isAnonymous()) {
-
-				if(itemPref.contains(SubredditAction.SUBSCRIBE)) {
-
-					final RedditSubredditSubscriptionManager subscriptionManager
-							= RedditSubredditSubscriptionManager
-							.getSingleton(
-									mActivity,
-									RedditAccountManager.getInstance(mActivity)
-											.getDefaultAccount());
-
-					if(subscriptionManager.areSubscriptionsReady()) {
-						if(subscriptionManager.getSubscriptionState(subreddit)
-								== SubredditSubscriptionState.SUBSCRIBED) {
-							menu.add(new SubredditMenuItem(
-									mActivity,
-									R.string.options_unsubscribe,
-									SubredditAction.UNSUBSCRIBE));
-						} else {
-							menu.add(new SubredditMenuItem(
-									mActivity,
-									R.string.options_subscribe,
-									SubredditAction.SUBSCRIBE));
-						}
-					}
-				}
-			}
-
-			final String[] menuText = new String[menu.size()];
-
-			for(int i = 0; i < menuText.length; i++) {
-				menuText[i] = menu.get(i).title;
-			}
-
-			final AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-
-			builder.setItems(menuText, (dialog, which) -> onSubredditActionMenuItemSelected(
-					subreddit,
-					mActivity,
-					menu.get(which).action));
-
-			final AlertDialog alert = builder.create();
-			alert.setCanceledOnTouchOutside(true);
-			alert.show();
-
+			showActionMenu(mActivity, subreddit);
 			return true;
 		};
 
@@ -816,7 +709,119 @@ public class MainMenuListingManager {
 				Optional.empty());
 	}
 
-	private void onSubredditActionMenuItemSelected(
+	public static void showActionMenu(
+			final AppCompatActivity activity,
+			final SubredditCanonicalId subreddit) {
+		final EnumSet<SubredditAction> itemPref
+				= PrefsUtility.pref_menus_subreddit_context_items();
+
+		if(itemPref.isEmpty()) {
+			return;
+		}
+
+		final ArrayList<SubredditMenuItem> menu = new ArrayList<>();
+		if(itemPref.contains(SubredditAction.COPY_URL)) {
+			menu.add(new SubredditMenuItem(
+					activity,
+					R.string.action_copy_link,
+					SubredditAction.COPY_URL));
+		}
+		if(itemPref.contains(SubredditAction.EXTERNAL)) {
+			menu.add(new SubredditMenuItem(
+					activity,
+					R.string.action_external,
+					SubredditAction.EXTERNAL));
+		}
+		if(itemPref.contains(SubredditAction.SHARE)) {
+			menu.add(new SubredditMenuItem(
+					activity,
+					R.string.action_share,
+					SubredditAction.SHARE));
+		}
+
+		if(itemPref.contains(SubredditAction.BLOCK)) {
+
+			final boolean isBlocked = PrefsUtility.pref_blocked_subreddits_check(subreddit);
+
+			if(isBlocked) {
+				menu.add(new SubredditMenuItem(
+						activity,
+						R.string.unblock_subreddit,
+						SubredditAction.UNBLOCK));
+			} else {
+				menu.add(new SubredditMenuItem(
+						activity,
+						R.string.block_subreddit,
+						SubredditAction.BLOCK));
+			}
+		}
+
+		if(itemPref.contains(SubredditAction.PIN)) {
+
+			final boolean isPinned = PrefsUtility.pref_pinned_subreddits_check(subreddit);
+
+			if(isPinned) {
+				menu.add(new SubredditMenuItem(
+						activity,
+						R.string.unpin_subreddit,
+						SubredditAction.UNPIN));
+			} else {
+				menu.add(new SubredditMenuItem(
+						activity,
+						R.string.pin_subreddit,
+						SubredditAction.PIN));
+			}
+		}
+
+		if(!RedditAccountManager.getInstance(activity)
+				.getDefaultAccount()
+				.isAnonymous()) {
+
+			if(itemPref.contains(SubredditAction.SUBSCRIBE)) {
+
+				final RedditSubredditSubscriptionManager subscriptionManager
+						= RedditSubredditSubscriptionManager
+						.getSingleton(
+								activity,
+								RedditAccountManager.getInstance(activity)
+										.getDefaultAccount());
+
+				if(subscriptionManager.areSubscriptionsReady()) {
+					if(subscriptionManager.getSubscriptionState(subreddit)
+							== SubredditSubscriptionState.SUBSCRIBED) {
+						menu.add(new SubredditMenuItem(
+								activity,
+								R.string.options_unsubscribe,
+								SubredditAction.UNSUBSCRIBE));
+					} else {
+						menu.add(new SubredditMenuItem(
+								activity,
+								R.string.options_subscribe,
+								SubredditAction.SUBSCRIBE));
+					}
+				}
+			}
+		}
+
+		final String[] menuText = new String[menu.size()];
+
+		for(int i = 0; i < menuText.length; i++) {
+			menuText[i] = menu.get(i).title;
+		}
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+		builder.setItems(menuText, (dialog, which) -> onSubredditActionMenuItemSelected(
+				subreddit,
+				activity,
+				menu.get(which).action));
+
+		final AlertDialog alert = builder.create();
+		alert.setCanceledOnTouchOutside(true);
+		alert.show();
+	}
+
+	private static void onSubredditActionMenuItemSelected(
 			final SubredditCanonicalId subredditCanonicalId,
 			final AppCompatActivity activity,
 			final SubredditAction action) {
@@ -860,25 +865,25 @@ public class MainMenuListingManager {
 
 			case PIN:
 				PrefsUtility.pref_pinned_subreddits_add(
-						mActivity,
+						activity,
 						subredditCanonicalId);
 				break;
 
 			case UNPIN:
 				PrefsUtility.pref_pinned_subreddits_remove(
-						mActivity,
+						activity,
 						subredditCanonicalId);
 				break;
 
 			case BLOCK:
 				PrefsUtility.pref_blocked_subreddits_add(
-						mActivity,
+						activity,
 						subredditCanonicalId);
 				break;
 
 			case UNBLOCK:
 				PrefsUtility.pref_blocked_subreddits_remove(
-						mActivity,
+						activity,
 						subredditCanonicalId);
 				break;
 
@@ -887,15 +892,13 @@ public class MainMenuListingManager {
 				if(subMan.getSubscriptionState(subredditCanonicalId)
 						== SubredditSubscriptionState.NOT_SUBSCRIBED) {
 					subMan.subscribe(subredditCanonicalId, activity);
-					setPinnedSubreddits();
-					setBlockedSubreddits();
 					Toast.makeText(
-							mActivity,
+							activity,
 							R.string.options_subscribing,
 							Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(
-							mActivity,
+							activity,
 							R.string.mainmenu_toast_subscribed,
 							Toast.LENGTH_SHORT).show();
 				}
@@ -906,15 +909,13 @@ public class MainMenuListingManager {
 				if(subMan.getSubscriptionState(subredditCanonicalId)
 						== SubredditSubscriptionState.SUBSCRIBED) {
 					subMan.unsubscribe(subredditCanonicalId, activity);
-					setPinnedSubreddits();
-					setBlockedSubreddits();
 					Toast.makeText(
-							mActivity,
+							activity,
 							R.string.options_unsubscribing,
 							Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(
-							mActivity,
+							activity,
 							R.string.mainmenu_toast_not_subscribed,
 							Toast.LENGTH_SHORT).show();
 				}

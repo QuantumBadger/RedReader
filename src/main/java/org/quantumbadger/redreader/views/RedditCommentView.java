@@ -30,6 +30,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
@@ -429,7 +430,8 @@ public class RedditCommentView extends FlingableItemView
 				ageUnits,
 				postTimestamp,
 				parentCommentTimestamp,
-				isCollapsed));
+				isCollapsed,
+				Optional.of(comment.getIndent())));
 
 		if(isCollapsed) {
 			setFlingingEnabled(false);

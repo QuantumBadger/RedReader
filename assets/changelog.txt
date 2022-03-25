@@ -8,6 +8,7 @@ Added long-click menu to grey subreddit heading bar (thanks to Cameron Merkel)
 Updated default subreddit list (thanks to Cameron Merkel)
 Allows reporting uncaught exceptions
 Fix to sample flag handling when saving Reddit videos
+Accessibility: announce relative level of comments within a thread (on by default)
 Dependency updates
 
 102/1.18.1

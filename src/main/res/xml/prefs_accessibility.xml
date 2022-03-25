@@ -24,6 +24,11 @@
 						android:key="@string/pref_accessibility_separate_body_text_lines_key"
 						android:defaultValue="false"/>
 
+	<CheckBoxPreference android:title="@string/pref_accessibility_say_comment_indent_level_title"
+						android:summary="@string/pref_accessibility_say_comment_indent_level_summary"
+						android:key="@string/pref_accessibility_say_comment_indent_level_key"
+						android:defaultValue="true"/>
+
 	<ListPreference android:title="@string/pref_accessibility_min_comment_height_title"
 					android:key="@string/pref_accessibility_min_comment_height_key"
 					android:entries="@array/pref_accessibility_min_comment_height_items"

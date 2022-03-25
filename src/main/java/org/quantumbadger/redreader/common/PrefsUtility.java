@@ -129,7 +129,9 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(
 						R.string.pref_accessibility_min_comment_height_key))
 				|| key.equals(context.getString(
-						R.string.pref_behaviour_post_title_opens_comments_key));
+						R.string.pref_behaviour_post_title_opens_comments_key))
+				|| key.equals(context.getString(
+						R.string.pref_accessibility_say_comment_indent_level_key));
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -1649,5 +1651,11 @@ public final class PrefsUtility {
 		} catch(final Throwable e) {
 			return 0;
 		}
+	}
+
+	public static boolean pref_accessibility_say_comment_indent_level() {
+		return getBoolean(
+				R.string.pref_accessibility_say_comment_indent_level_key,
+				true);
 	}
 }

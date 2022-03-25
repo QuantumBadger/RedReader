@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -122,7 +123,8 @@ public class RedditInboxItemView extends LinearLayout {
 				PrefsUtility.appearance_inbox_age_units(),
 				RedditRenderableComment.NO_TIMESTAMP,
 				RedditRenderableComment.NO_TIMESTAMP,
-				false));
+				false,
+				Optional.empty()));
 
 		final View body = item.getBody(
 				context,

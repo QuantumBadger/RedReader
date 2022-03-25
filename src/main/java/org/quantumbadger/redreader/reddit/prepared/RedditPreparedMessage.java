@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.InboxListingActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
@@ -190,7 +191,8 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 			final int commentAgeUnits,
 			final long postCreated,
 			final long parentCommentCreated,
-			final boolean collapsed) {
+			final boolean collapsed,
+			@NonNull final Optional<Integer> indentLevel) {
 
 		final StringBuilder accessibilityHeader = new StringBuilder();
 		final String separator = " \n";

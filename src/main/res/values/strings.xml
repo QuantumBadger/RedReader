@@ -1655,4 +1655,11 @@
 	<string name="pref_behaviour_block_screenshots_title">Block screenshots</string>
 	<string name="pref_behaviour_block_screenshots_summary">Prevent screenshots from being taken, and hide the app content in the recents menu</string>
 
+	<!-- 2022-03-25 -->
+	<string name="pref_accessibility_say_comment_indent_level_key">pref_accessibility_say_comment_indent_level</string>
+	<string name="pref_accessibility_say_comment_indent_level_title">Announce comment indent</string>
+	<string name="pref_accessibility_say_comment_indent_level_summary">Announce relative level (indent) of comments within a thread</string>
+	<string name="accessibility_comment_indent_level">Comment reply, level %d.</string>
+	<string name="accessibility_comment_indent_level_top">Top level comment.</string>
+
 </resources>

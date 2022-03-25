@@ -30,6 +30,7 @@ import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
@@ -299,7 +300,8 @@ public class RedditRenderableComment
 			final int commentAgeUnits,
 			final long postCreated,
 			final long parentCommentCreated,
-			final boolean collapsed) {
+			final boolean collapsed,
+			@NonNull final Optional<Integer> indentLevel) {
 
 		final PrefsUtility.CommentAgeMode commentAgeMode
 				= PrefsUtility.appearance_comment_age_mode();
@@ -309,6 +311,22 @@ public class RedditRenderableComment
 		final RedditComment rawComment = mComment.getRawComment();
 
 		final String separator = " \n";
+
+		if(indentLevel.isPresent()
+				&& PrefsUtility.pref_accessibility_say_comment_indent_level()) {
+
+			if(indentLevel.get() == 0) {
+				accessibilityHeader
+						.append(context.getString(R.string.accessibility_comment_indent_level_top))
+						.append(separator);
+			} else {
+				accessibilityHeader
+						.append(context.getString(
+								R.string.accessibility_comment_indent_level,
+								indentLevel.get()))
+						.append(separator);
+			}
+		}
 
 		if(collapsed) {
 			accessibilityHeader

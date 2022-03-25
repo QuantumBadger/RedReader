@@ -63,12 +63,10 @@ public final class Constants {
 
 		static {
 			final String[] defaultSubredditStrings = {
-					"/r/announcements",
 					"/r/Art",
 					"/r/AskReddit",
 					"/r/askscience",
 					"/r/aww",
-					"/r/blog",
 					"/r/books",
 					"/r/creepy",
 					"/r/dataisbeautiful",
@@ -101,6 +99,7 @@ public final class Constants {
 					"/r/philosophy",
 					"/r/photoshopbattles",
 					"/r/pics",
+					"/r/reddit",
 					"/r/science",
 					"/r/Showerthoughts",
 					"/r/space",

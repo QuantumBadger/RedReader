@@ -40,6 +40,7 @@ import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
+import org.quantumbadger.redreader.adapters.MainMenuListingManager;
 import org.quantumbadger.redreader.adapters.PostListingManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -471,6 +472,19 @@ public class PostListingFragment extends RRFragment
 				subreddit);
 
 		setHeader(postListingHeader);
+
+		if(subreddit != null) {
+			postListingHeader.setOnLongClickListener(view -> {
+				try {
+					MainMenuListingManager.showActionMenu(
+							getActivity(),
+							subreddit.getCanonicalId());
+				} catch (final InvalidSubredditNameException e) {
+					throw new RuntimeException(e);
+				}
+				return true;
+			});
+		}
 	}
 
 	private void setHeader(final View view) {

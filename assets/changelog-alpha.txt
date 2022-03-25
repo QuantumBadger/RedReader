@@ -1,3 +1,6 @@
+/Alpha 306 (2022-03-25)
+Added long-click menu to grey subreddit heading bar (thanks to Cameron Merkel)
+
 /Alpha 305 (2022-03-19)
 Fix search bar width in find subreddit activity
 

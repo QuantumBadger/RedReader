@@ -16,7 +16,7 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_name" translatable="false">RedReader</string>
 
@@ -1659,7 +1659,7 @@
 	<string name="pref_accessibility_say_comment_indent_level_key">pref_accessibility_say_comment_indent_level</string>
 	<string name="pref_accessibility_say_comment_indent_level_title">Announce comment indent</string>
 	<string name="pref_accessibility_say_comment_indent_level_summary">Announce relative level (indent) of comments within a thread</string>
-	<string name="accessibility_comment_indent_level">Level %d comment.</string>
+	<string name="accessibility_comment_indent_level" tools:ignore="PluralsCandidate">Level %d comment.</string>
 	<string name="accessibility_comment_indent_level_top">Top level comment.</string>
 
 </resources>

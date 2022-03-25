@@ -185,6 +185,14 @@
                             android:maxLength="5"
                             android:defaultValue="-4"/>
 
+		<ListPreference android:title="@string/pref_behaviour_collapse_sticky_comments_title"
+						android:key="@string/pref_behaviour_collapse_sticky_comments_key"
+						android:entries="@array/pref_behaviour_collapse_sticky_comments_items"
+						android:entryValues="@array/pref_behaviour_collapse_sticky_comments_items_return"
+						android:defaultValue="only_bots"/>
+
+		pref_behaviour_collapse_sticky_comments_items
+
     </PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_behaviour_sharing_header">

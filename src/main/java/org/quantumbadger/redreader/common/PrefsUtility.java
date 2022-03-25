@@ -131,7 +131,9 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(
 						R.string.pref_behaviour_post_title_opens_comments_key))
 				|| key.equals(context.getString(
-						R.string.pref_accessibility_say_comment_indent_level_key));
+						R.string.pref_accessibility_say_comment_indent_level_key))
+				|| key.equals(context.getString(
+						R.string.pref_behaviour_collapse_sticky_comments_key));
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -1657,5 +1659,15 @@ public final class PrefsUtility {
 		return getBoolean(
 				R.string.pref_accessibility_say_comment_indent_level_key,
 				true);
+	}
+
+	public enum BehaviourCollapseStickyComments {
+		ALWAYS, ONLY_BOTS, NEVER
+	}
+
+	public static BehaviourCollapseStickyComments behaviour_collapse_sticky_comments() {
+		return BehaviourCollapseStickyComments.valueOf(StringUtils.asciiUppercase(getString(
+				R.string.pref_behaviour_collapse_sticky_comments_key,
+				"ONLY_BOTS")));
 	}
 }

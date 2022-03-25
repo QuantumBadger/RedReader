@@ -72,6 +72,8 @@ public final class RedditComment implements
 
 	@Nullable public String distinguished;
 
+	@Nullable public Boolean stickied;
+
 	public RedditComment() {
 	}
 
@@ -116,6 +118,8 @@ public final class RedditComment implements
 		controversiality = in.readInt();
 
 		distinguished = in.readString();
+
+		stickied = ParcelHelper.readNullableBoolean(in);
 	}
 
 	@Override
@@ -157,6 +161,8 @@ public final class RedditComment implements
 		parcel.writeInt(controversiality);
 
 		parcel.writeString(distinguished);
+
+		ParcelHelper.writeNullableBoolean(parcel, stickied);
 	}
 
 	@Override

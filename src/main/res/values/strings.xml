@@ -1662,4 +1662,10 @@
 	<string name="accessibility_comment_indent_level">Comment reply, level %d.</string>
 	<string name="accessibility_comment_indent_level_top">Top level comment.</string>
 
+	<string name="pref_behaviour_collapse_sticky_comments_key">pref_behaviour_collapse_sticky_comments</string>
+	<string name="pref_behaviour_collapse_sticky_comments_title">Collapse sticky comments</string>
+	<string name="pref_behaviour_collapse_sticky_comments_option_always">Always</string>
+	<string name="pref_behaviour_collapse_sticky_comments_option_only_bots">Only comments by bots</string>
+	<string name="pref_behaviour_collapse_sticky_comments_option_never">Never</string>
+
 </resources>

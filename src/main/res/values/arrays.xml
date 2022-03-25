@@ -1274,4 +1274,19 @@
 		<item>never_hide</item>
 	</string-array>
 
+	<!-- 2022-03-25 -->
+
+	<string-array name="pref_behaviour_collapse_sticky_comments_items">
+		<item>@string/pref_behaviour_collapse_sticky_comments_option_always</item>
+		<item>@string/pref_behaviour_collapse_sticky_comments_option_only_bots</item>
+		<item>@string/pref_behaviour_collapse_sticky_comments_option_never</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_collapse_sticky_comments_items_return">
+		<item>always</item>
+		<item>only_bots</item>
+		<item>never</item>
+	</string-array>
+
 </resources>

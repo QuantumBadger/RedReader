@@ -172,7 +172,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				R.string.pref_images_inline_image_previews_key,
 				R.string.pref_images_high_res_thumbnails_key,
 				R.string.pref_accessibility_min_comment_height_key,
-				R.string.pref_appearance_android_status_key
+				R.string.pref_appearance_android_status_key,
+				R.string.pref_behaviour_collapse_sticky_comments_key
 		};
 
 		final int[] editTextPrefsToUpdate = {

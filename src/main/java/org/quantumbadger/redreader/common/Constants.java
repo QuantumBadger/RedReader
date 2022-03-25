@@ -26,6 +26,7 @@ import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public final class Constants {
 
@@ -60,6 +61,8 @@ public final class Constants {
 	public static final class Reddit {
 
 		public static final ArrayList<SubredditCanonicalId> DEFAULT_SUBREDDITS;
+
+		public static final HashSet<String> BOT_USERNAMES_LOWERCASE;
 
 		static {
 			final String[] defaultSubredditStrings = {
@@ -117,6 +120,10 @@ public final class Constants {
 			DEFAULT_SUBREDDITS = new CollectionStream<>(defaultSubredditStrings)
 					.mapRethrowExceptions(SubredditCanonicalId::new)
 					.collect(new ArrayList<>(defaultSubredditStrings.length));
+
+			BOT_USERNAMES_LOWERCASE = new HashSet<>();
+			BOT_USERNAMES_LOWERCASE.add("automoderator");
+			BOT_USERNAMES_LOWERCASE.add("qualityvote");
 		}
 
 		public static final String SCHEME_HTTPS = "https";

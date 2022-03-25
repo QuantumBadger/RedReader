@@ -572,9 +572,31 @@ public class RedditRenderableComment
 			return false;
 		}
 
-		if(StringUtils.asciiLowercase(mComment.getRawComment().author.trim())
-				.equals(mCurrentCanonicalUserName)) {
+		final String authorLowercase = StringUtils.asciiLowercase(
+				mComment.getRawComment().author.trim());
+
+		if(authorLowercase.equals(mCurrentCanonicalUserName)) {
 			return false;
+		}
+
+		if(Boolean.TRUE.equals(mComment.getRawComment().stickied)) {
+			switch(PrefsUtility.behaviour_collapse_sticky_comments()) {
+
+				case ALWAYS:
+					return true;
+
+				case ONLY_BOTS:
+					if(Constants.Reddit.BOT_USERNAMES_LOWERCASE.contains(
+							authorLowercase)) {
+						return true;
+					}
+
+					break;
+
+				case NEVER:
+					// Do nothing
+					break;
+			}
 		}
 
 		return isScoreBelowThreshold(changeDataManager);

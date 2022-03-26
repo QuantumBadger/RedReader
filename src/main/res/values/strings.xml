@@ -1645,7 +1645,7 @@
 	<!-- 2022-01-26 -->
 	<string name="pref_appearance_post_subtitle_items_upvote_ratio">Percent upvoted</string>
 	<string name="subtitle_upvote_ratio">upvoted</string>
-	<string name="accessibility_subtitle_upvote_ratio_withperiod">Percent upvoted: %d.</string>
+	<string name="accessibility_subtitle_upvote_ratio_withperiod">%d percent up voted.</string>
 
 	<!-- 2022-02-19 -->
 	<string name="find_subreddit">Find Subreddit</string>

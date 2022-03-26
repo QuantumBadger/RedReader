@@ -1369,20 +1369,23 @@
 	<string name="accessibility_image_viewer_view_comments">View comments</string>
 	<string name="accessibility_image_viewer_go_back">Go back</string>
 
-	<string name="accessibility_subtitle_spoiler_withperiod">Contains spoilers.</string>
+	<string name="accessibility_subtitle_spoiler_withperiod">has spoilers.</string>
 	<string name="accessibility_subtitle_sticky_withperiod">Sticky.</string>
 	<string name="accessibility_subtitle_nsfw_withperiod">Not safe for work.</string>
 	<string name="accessibility_subtitle_flair_withperiod">Flair: %s.</string>
-	<string name="accessibility_subtitle_points_withperiod">Score: %d.</string>
-	<string name="accessibility_subtitle_gold_withperiod">Awarded gold: %d.</string>
+	<plurals name="accessibility_subtitle_points_withperiod_plural">
+		<item quantity="one">"%d up vote."</item>
+		<item quantity="other">"%d up votes."</item>
+	</plurals>
+	<string name="accessibility_subtitle_gold_withperiod">Gildings: %d.</string>
 	<string name="accessibility_subtitle_age_withperiod">Age: %s.</string>
 	<string name="accessibility_subtitle_author_withperiod">Author: %s.</string>
 	<string name="accessibility_subtitle_subreddit_withperiod">Sub-reddit: %s.</string>
 	<string name="accessibility_subtitle_domain_withperiod">Domain: %s.</string>
-	<string name="accessibility_subtitle_selfpost_withperiod">Text post.</string>
+	<string name="accessibility_subtitle_selfpost_withperiod">Self post.</string>
 	<string name="accessibility_subtitle_points_unknown_withperiod">Score hidden.</string>
-	<string name="accessibility_subtitle_edited_since_being_posted">Text edited since being posted.</string>
-	<string name="accessibility_subtitle_comment_collapsed">Comment text hidden.</string>
+	<string name="accessibility_subtitle_edited_since_being_posted">Edited.</string>
+	<string name="accessibility_subtitle_comment_collapsed">Comment collapsed.</string>
 
 	<string name="accessibility_subtitle_domain_i_redd_it">Reddit images</string>
 	<string name="accessibility_subtitle_domain_v_redd_it">Reddit videos</string>
@@ -1645,7 +1648,7 @@
 	<!-- 2022-01-26 -->
 	<string name="pref_appearance_post_subtitle_items_upvote_ratio">Percent upvoted</string>
 	<string name="subtitle_upvote_ratio">upvoted</string>
-	<string name="accessibility_subtitle_upvote_ratio_withperiod">Percent upvoted: %d.</string>
+	<string name="accessibility_subtitle_upvote_ratio_withperiod" tools:ignore="PluralsCandidate">%d percent up voted.</string>
 
 	<!-- 2022-02-19 -->
 	<string name="find_subreddit">Find Subreddit</string>

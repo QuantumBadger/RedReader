@@ -87,6 +87,7 @@ android {
 		// Translations are crowd-sourced
 		disable 'MissingTranslation'
 		disable 'MissingQuantity'
+		disable 'ExtraTranslation'
 
 		// Temporarily disabled
 		disable 'ImpliedQuantity'

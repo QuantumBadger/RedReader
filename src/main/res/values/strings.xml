@@ -1660,7 +1660,6 @@
 	<string name="pref_accessibility_say_comment_indent_level_title">Announce comment indent</string>
 	<string name="pref_accessibility_say_comment_indent_level_summary">Announce relative level (indent) of comments within a thread</string>
 	<string name="accessibility_comment_indent_level" tools:ignore="PluralsCandidate">Level %d comment.</string>
-	<string name="accessibility_comment_indent_level_top">Top level comment.</string>
 
 	<string name="pref_behaviour_collapse_sticky_comments_key">pref_behaviour_collapse_sticky_comments</string>
 	<string name="pref_behaviour_collapse_sticky_comments_title">Collapse sticky comments</string>

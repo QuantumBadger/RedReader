@@ -314,18 +314,12 @@ public class RedditRenderableComment
 
 		if(indentLevel.isPresent()
 				&& PrefsUtility.pref_accessibility_say_comment_indent_level()) {
-
-			if(indentLevel.get() == 0) {
-				accessibilityHeader
-						.append(context.getString(R.string.accessibility_comment_indent_level_top))
-						.append(separator);
-			} else {
-				accessibilityHeader
+					final Integer accessibilityLvl = indentLevel.get() + 1;
+					accessibilityHeader
 						.append(context.getString(
 								R.string.accessibility_comment_indent_level,
-								indentLevel.get()))
+								accessibilityLvl))
 						.append(separator);
-			}
 		}
 
 		if(collapsed) {

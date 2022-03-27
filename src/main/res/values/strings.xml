@@ -1369,7 +1369,7 @@
 	<string name="accessibility_image_viewer_view_comments">View comments</string>
 	<string name="accessibility_image_viewer_go_back">Go back</string>
 
-	<string name="accessibility_subtitle_spoiler_withperiod">Contains spoilers.</string>
+	<string name="accessibility_subtitle_spoiler_withperiod">has spoilers.</string>
 	<string name="accessibility_subtitle_sticky_withperiod">Sticky.</string>
 	<string name="accessibility_subtitle_nsfw_withperiod">Not safe for work.</string>
 	<string name="accessibility_subtitle_flair_withperiod">Flair: %s.</string>

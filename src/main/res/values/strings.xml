@@ -1373,7 +1373,10 @@
 	<string name="accessibility_subtitle_sticky_withperiod">Sticky.</string>
 	<string name="accessibility_subtitle_nsfw_withperiod">Not safe for work.</string>
 	<string name="accessibility_subtitle_flair_withperiod">Flair: %s.</string>
-	<string name="accessibility_subtitle_points_withperiod">%d up votes.</string>
+	<plurals name="accessibility_subtitle_points_withperiod">
+		<item quantity="one">"%d up vote."</item>
+		<item quantity="other">"%d up votes."</item>
+	</plurals>
 	<string name="accessibility_subtitle_gold_withperiod">Gilded: %d.</string>
 	<string name="accessibility_subtitle_age_withperiod">Age: %s.</string>
 	<string name="accessibility_subtitle_author_withperiod">Author: %s.</string>

@@ -1,3 +1,7 @@
+/Alpha 307 (2022-03-30)
+Collapse sticky comments from bots (on by default) -- this was actually in an earlier alpha but missing from the changelog
+Accessibility improvements (thanks to codeofdusk)
+
 /Alpha 306 (2022-03-25)
 Added long-click menu to grey subreddit heading bar (thanks to Cameron Merkel)
 Updated default subreddit list (thanks to Cameron Merkel)

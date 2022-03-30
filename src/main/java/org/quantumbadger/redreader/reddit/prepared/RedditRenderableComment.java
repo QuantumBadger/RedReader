@@ -389,10 +389,13 @@ public class RedditRenderableComment
 						.append(separator);
 
 			} else {
+				final int score = computeScore(changeDataManager);
+
 				accessibilityHeader
-						.append(context.getString(
-								R.plurals.accessibility_subtitle_points_withperiod,
-								computeScore(changeDataManager)))
+						.append(context.getResources().getQuantityString(
+								R.plurals.accessibility_subtitle_points_withperiod_plural,
+								score,
+								score))
 						.append(separator);
 			}
 		}

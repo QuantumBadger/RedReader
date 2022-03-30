@@ -1250,8 +1250,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
 			accessibilitySubtitle
-					.append(context.getString(
-							R.plurals.accessibility_subtitle_points_withperiod,
+					.append(context.getResources().getQuantityString(
+							R.plurals.accessibility_subtitle_points_withperiod_plural,
+							score,
 							score))
 					.append(separator);
 		}

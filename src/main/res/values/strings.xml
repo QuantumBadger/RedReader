@@ -1377,7 +1377,7 @@
 		<item quantity="one">"%d up vote."</item>
 		<item quantity="other">"%d up votes."</item>
 	</plurals>
-	<string name="accessibility_subtitle_gold_withperiod">Gilded: %d.</string>
+	<string name="accessibility_subtitle_gold_withperiod">Gildings: %d.</string>
 	<string name="accessibility_subtitle_age_withperiod">Age: %s.</string>
 	<string name="accessibility_subtitle_author_withperiod">Author: %s.</string>
 	<string name="accessibility_subtitle_subreddit_withperiod">Sub-reddit: %s.</string>

@@ -1,3 +1,6 @@
+/Alpha 308 (2022-03-30)
+More accessibility improvements (thanks to codeofdusk)
+
 /Alpha 307 (2022-03-30)
 Collapse sticky comments from bots (on by default) -- this was actually in an earlier alpha but missing from the changelog
 Accessibility improvements (thanks to codeofdusk)

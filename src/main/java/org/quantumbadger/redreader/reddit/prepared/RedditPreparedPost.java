@@ -1232,7 +1232,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			if(src.isNsfw()) {
 				accessibilitySubtitle
 						.append(context.getString(
-								R.string.accessibility_subtitle_nsfw_withperiod))
+								PrefsUtility.pref_accessibility_concise_mode()
+										? R.string.accessibility_subtitle_nsfw_withperiod_concise
+										: R.string.accessibility_subtitle_nsfw_withperiod))
 						.append(separator);
 			}
 		}
@@ -1241,7 +1243,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			if(src.getFlairText() != null) {
 				accessibilitySubtitle
 						.append(context.getString(
-								R.string.accessibility_subtitle_flair_withperiod,
+								PrefsUtility.pref_accessibility_concise_mode()
+										? R.string.accessibility_subtitle_flair_withperiod_concise
+										: R.string.accessibility_subtitle_flair_withperiod,
 								src.getFlairText()
 										+ General.LTR_OVERRIDE_MARK))
 						.append(separator);
@@ -1251,7 +1255,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
 			accessibilitySubtitle
 					.append(context.getResources().getQuantityString(
-							R.plurals.accessibility_subtitle_points_withperiod_plural,
+							PrefsUtility.pref_accessibility_concise_mode()
+									?(R.plurals.
+											accessibility_subtitle_points_withperiod_concise_plural
+									)
+									:R.plurals.accessibility_subtitle_points_withperiod_plural,
 							score,
 							score))
 					.append(separator);
@@ -1260,7 +1268,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.UPVOTE_RATIO)) {
 			accessibilitySubtitle
 					.append(context.getString(
-							R.string.accessibility_subtitle_upvote_ratio_withperiod,
+							PrefsUtility.pref_accessibility_concise_mode()
+									?R.string.accessibility_subtitle_upvote_ratio_withperiod_concise
+									: R.string.accessibility_subtitle_upvote_ratio_withperiod,
 							src.getUpvotePercentage()))
 					.append(separator);
 		}
@@ -1291,11 +1301,17 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			@StringRes final int authorString;
 
 			if("moderator".equals(src.getDistinguished())) {
-				authorString = R.string.accessibility_subtitle_author_moderator_withperiod;
+				authorString = PrefsUtility.pref_accessibility_concise_mode()
+					? R.string.accessibility_subtitle_author_moderator_withperiod_concise_post
+					: R.string.accessibility_subtitle_author_moderator_withperiod;
 			} else if("admin".equals(src.getDistinguished())) {
-				authorString = R.string.accessibility_subtitle_author_admin_withperiod;
+				authorString = PrefsUtility.pref_accessibility_concise_mode()
+					? R.string.accessibility_subtitle_author_admin_withperiod_concise_post
+					: R.string.accessibility_subtitle_author_admin_withperiod;
 			} else {
-				authorString = R.string.accessibility_subtitle_author_withperiod;
+				authorString = PrefsUtility.pref_accessibility_concise_mode()
+					? R.string.accessibility_subtitle_author_withperiod_concise_post
+					: R.string.accessibility_subtitle_author_withperiod;
 			}
 
 			accessibilitySubtitle
@@ -1311,7 +1327,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			if(showSubreddit) {
 				accessibilitySubtitle
 						.append(context.getString(
-								R.string.accessibility_subtitle_subreddit_withperiod,
+								PrefsUtility.pref_accessibility_concise_mode()
+										?(R.string.
+												accessibility_subtitle_subreddit_withperiod_concise
+										)
+										: R.string.accessibility_subtitle_subreddit_withperiod,
 								ScreenreaderPronunciation.getPronunciation(
 										context,
 										src.getSubreddit())))
@@ -1326,13 +1346,17 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			if(src.isSelfPost()) {
 				accessibilitySubtitle
 						.append(context.getString(
-								R.string.accessibility_subtitle_selfpost_withperiod))
+								PrefsUtility.pref_accessibility_concise_mode()
+										?R.string.accessibility_subtitle_selfpost_withperiod_concise
+										: R.string.accessibility_subtitle_selfpost_withperiod))
 						.append(separator);
 
 			} else {
 				accessibilitySubtitle
 						.append(context.getString(
-								R.string.accessibility_subtitle_domain_withperiod,
+								PrefsUtility.pref_accessibility_concise_mode()
+										?R.string.accessibility_subtitle_domain_withperiod_concise
+										: R.string.accessibility_subtitle_domain_withperiod,
 								ScreenreaderPronunciation.getPronunciation(context, domain)))
 						.append(separator);
 			}

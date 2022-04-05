@@ -29,6 +29,11 @@
 						android:key="@string/pref_accessibility_say_comment_indent_level_key"
 						android:defaultValue="true"/>
 
+	<CheckBoxPreference android:title="@string/pref_accessibility_concise_mode_title"
+						android:summary="@string/pref_accessibility_concise_mode_summary"
+						android:key="@string/pref_accessibility_concise_mode_key"
+						android:defaultValue="false"/>
+
 	<ListPreference android:title="@string/pref_accessibility_min_comment_height_title"
 					android:key="@string/pref_accessibility_min_comment_height_key"
 					android:entries="@array/pref_accessibility_min_comment_height_items"

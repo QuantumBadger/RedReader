@@ -424,6 +424,20 @@ public class RedditRenderableComment
 								score))
 						.append(separator);
 			}
+
+			if(changeDataManager.isUpvoted(mComment)) {
+				accessibilityHeader
+						.append(context.getString(
+								R.string.accessibility_subtitle_upvoted_withperiod))
+						.append(separator);
+			}
+
+			if(changeDataManager.isDownvoted(mComment)) {
+				accessibilityHeader
+						.append(context.getString(
+								R.string.accessibility_subtitle_downvoted_withperiod))
+						.append(separator);
+			}
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.CONTROVERSIALITY)) {

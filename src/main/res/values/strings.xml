@@ -1696,5 +1696,7 @@
 	<string name="accessibility_subtitle_controversiality_withperiod_concise">Controversial.</string>
 	<string name="accessibility_subtitle_upvote_ratio_withperiod_concise" tools:ignore="PluralsCandidate">%d percent up.</string>
 	<string name="accessibility_comment_indent_level_concise" tools:ignore="PluralsCandidate">l%d.</string>
+	<string name="accessibility_subtitle_upvoted_withperiod">Upvoted.</string>
+	<string name="accessibility_subtitle_downvoted_withperiod">Downvoted.</string>
 
 </resources>

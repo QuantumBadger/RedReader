@@ -1263,6 +1263,20 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							score,
 							score))
 					.append(separator);
+
+			if(isUpvoted()) {
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_upvoted_withperiod))
+						.append(separator);
+			}
+
+			if(isDownvoted()) {
+				accessibilitySubtitle
+						.append(context.getString(
+								R.string.accessibility_subtitle_downvoted_withperiod))
+						.append(separator);
+			}
 		}
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.UPVOTE_RATIO)) {

@@ -1,5 +1,6 @@
 /Alpha 309 (2022-04-06)
-Accessibility: Add "concise mode" for more efficient navigation (thanks to codeofdusk)
+Accessibility: add option to use concise language when possible (disabled by default) for more efficient navigation (thanks to codeofdusk)
+Accessibility: announce if the current user has upvoted/downvoted posts and comments (thanks to codeofdusk)
 
 /Alpha 308 (2022-03-30)
 More accessibility improvements (thanks to codeofdusk)

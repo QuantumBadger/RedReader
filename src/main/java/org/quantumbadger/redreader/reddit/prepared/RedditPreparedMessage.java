@@ -208,7 +208,9 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		} else if(src.author != null) {
 			accessibilityHeader
 					.append(context.getString(
-							R.string.accessibility_subtitle_author_withperiod,
+							PrefsUtility.pref_accessibility_concise_mode()
+									?R.string.accessibility_subtitle_author_withperiod_concise_post
+									: R.string.accessibility_subtitle_author_withperiod,
 							ScreenreaderPronunciation.getPronunciation(
 									context,
 									src.author)))

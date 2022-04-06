@@ -1670,4 +1670,31 @@
 	<string name="pref_behaviour_collapse_sticky_comments_option_only_bots">Only comments by bots</string>
 	<string name="pref_behaviour_collapse_sticky_comments_option_never">Never</string>
 
+	<!-- 2022-04-05 -->
+	<string name="pref_accessibility_concise_mode_key">pref_accessibility_concise_mode</string>
+	<string name="pref_accessibility_concise_mode_title">Use concise language when possible</string>
+	<string name="pref_accessibility_concise_mode_summary">Make accessibility labels less verbose to make navigation more efficient for experienced Redditors</string>
+	<string name="accessibility_subtitle_flair_withperiod_concise">[%s].</string>
+	<string name="accessibility_subtitle_nsfw_withperiod_concise">NSFW.</string>
+	<plurals name="accessibility_subtitle_points_withperiod_concise_plural">
+		<item quantity="one">"%d up."</item>
+		<item quantity="other">"%d up."</item>
+	</plurals>
+	<string name="accessibility_subtitle_author_withperiod_concise_post">u/%s.</string>
+	<string name="accessibility_subtitle_author_withperiod_concise_comment">%s.</string>
+	<string name="accessibility_subtitle_subreddit_withperiod_concise">r/%s.</string>
+	<string name="accessibility_subtitle_domain_withperiod_concise">%s.</string>
+	<string name="accessibility_subtitle_selfpost_withperiod_concise">Self.</string>
+	<string name="accessibility_subtitle_comment_collapsed_concise">Collapsed.</string>
+	<string name="accessibility_subtitle_author_submitter_withperiod_concise">%s, OP.</string>
+	<string name="accessibility_subtitle_author_moderator_withperiod_concise_post">u/%s, mod.</string>
+	<string name="accessibility_subtitle_author_moderator_withperiod_concise_comment">%s, mod.</string>
+	<string name="accessibility_subtitle_author_admin_withperiod_concise_post">u/%s, admin.</string>
+	<string name="accessibility_subtitle_author_admin_withperiod_concise_comment">%s, admin.</string>
+	<string name="accessibility_subtitle_author_submitter_moderator_withperiod_concise">%s, OP and mod.</string>
+	<string name="accessibility_subtitle_author_submitter_admin_withperiod_concise">%s, OP and admin.</string>
+	<string name="accessibility_subtitle_controversiality_withperiod_concise">Controversial.</string>
+	<string name="accessibility_subtitle_upvote_ratio_withperiod_concise" tools:ignore="PluralsCandidate">%d percent up.</string>
+	<string name="accessibility_comment_indent_level_concise" tools:ignore="PluralsCandidate">l%d.</string>
+
 </resources>

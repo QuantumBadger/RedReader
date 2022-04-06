@@ -10,6 +10,7 @@ Updated default subreddit list (thanks to Cameron Merkel)
 Allows reporting uncaught exceptions
 Fix to sample flag handling when saving Reddit videos
 Accessibility: announce relative level of comments within a thread (on by default)
+Accessibility: Add "concise mode" for more efficient navigation (thanks to codeofdusk)
 Accessibility text improvements (thanks to codeofdusk)
 Dependency updates
 

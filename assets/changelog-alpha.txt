@@ -1,3 +1,6 @@
+/Alpha 309 (2022-04-06)
+Accessibility: Add "concise mode" for more efficient navigation (thanks to codeofdusk)
+
 /Alpha 308 (2022-03-30)
 More accessibility improvements (thanks to codeofdusk)
 

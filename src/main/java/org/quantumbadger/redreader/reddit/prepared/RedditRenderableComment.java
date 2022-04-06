@@ -312,12 +312,15 @@ public class RedditRenderableComment
 
 		final String separator = " \n";
 
+		final boolean accessibilityConciseMode
+				= PrefsUtility.pref_accessibility_concise_mode();
+
 		if(indentLevel.isPresent()
 				&& PrefsUtility.pref_accessibility_say_comment_indent_level()) {
 					final Integer accessibilityLvl = indentLevel.get() + 1;
 					accessibilityHeader
 						.append(context.getString(
-								PrefsUtility.pref_accessibility_concise_mode()
+								accessibilityConciseMode
 										? R.string.accessibility_comment_indent_level_concise
 										: R.string.accessibility_comment_indent_level,
 								accessibilityLvl))
@@ -326,8 +329,8 @@ public class RedditRenderableComment
 
 		if(collapsed) {
 			accessibilityHeader
-					.append(context.getString(PrefsUtility.pref_accessibility_concise_mode()
-							? R.string.accessibility_subtitle_comment_collapsed_concise 
+					.append(context.getString(accessibilityConciseMode
+							? R.string.accessibility_subtitle_comment_collapsed_concise
 							: R.string.accessibility_subtitle_comment_collapsed))
 					.append(separator);
 		}
@@ -335,36 +338,46 @@ public class RedditRenderableComment
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AUTHOR)) {
 			@StringRes final int authorString;
 
+			final int authorSubmitterModConcise
+					= R.string.accessibility_subtitle_author_submitter_moderator_withperiod_concise;
+
+			final int authorSubmitterMod
+					= R.string.accessibility_subtitle_author_submitter_moderator_withperiod;
+
+			final int authorModConcise
+					= R.string.accessibility_subtitle_author_moderator_withperiod_concise_comment;
+
+			final int authorMod
+					= R.string.accessibility_subtitle_author_moderator_withperiod;
+
 			if(rawComment.author.equalsIgnoreCase(mParentPostAuthor)
 					&& !rawComment.author.equals("[deleted]")) {
 				if("moderator".equals(rawComment.distinguished)) {
-					authorString
-							= PrefsUtility.pref_accessibility_concise_mode()
-									? R.string.accessibility_subtitle_author_submitter_moderator_withperiod_concise
-									: R.string.accessibility_subtitle_author_submitter_moderator_withperiod;
+					authorString = accessibilityConciseMode
+						? authorSubmitterModConcise
+						: authorSubmitterMod;
 				} else if("admin".equals(rawComment.distinguished)) {
-					authorString
-							= PrefsUtility.pref_accessibility_concise_mode()
-									? R.string.accessibility_subtitle_author_submitter_admin_withperiod_concise
-									: R.string.accessibility_subtitle_author_submitter_admin_withperiod;
+					authorString = accessibilityConciseMode
+						? R.string.accessibility_subtitle_author_submitter_admin_withperiod_concise
+						: R.string.accessibility_subtitle_author_submitter_admin_withperiod;
 				} else {
-					authorString = PrefsUtility.pref_accessibility_concise_mode()
-							? R.string.accessibility_subtitle_author_submitter_withperiod_concise
-							: R.string.accessibility_subtitle_author_submitter_withperiod;
+					authorString = accessibilityConciseMode
+						? R.string.accessibility_subtitle_author_submitter_withperiod_concise
+						: R.string.accessibility_subtitle_author_submitter_withperiod;
 				}
 			} else {
 				if("moderator".equals(rawComment.distinguished)) {
-					authorString = PrefsUtility.pref_accessibility_concise_mode()
-							? R.string.accessibility_subtitle_author_moderator_withperiod_concise_comment
-							: R.string.accessibility_subtitle_author_moderator_withperiod;
+					authorString = accessibilityConciseMode
+						? authorModConcise
+						: authorMod;
 				} else if("admin".equals(rawComment.distinguished)) {
-					authorString = PrefsUtility.pref_accessibility_concise_mode()
-							? R.string.accessibility_subtitle_author_admin_withperiod_concise_comment
-							: R.string.accessibility_subtitle_author_admin_withperiod;
+					authorString = accessibilityConciseMode
+						? R.string.accessibility_subtitle_author_admin_withperiod_concise_comment
+						: R.string.accessibility_subtitle_author_admin_withperiod;
 				} else {
-					authorString = PrefsUtility.pref_accessibility_concise_mode()
-							? R.string.accessibility_subtitle_author_withperiod_concise_comment
-							: R.string.accessibility_subtitle_author_withperiod;
+					authorString = accessibilityConciseMode
+						? R.string.accessibility_subtitle_author_withperiod_concise_comment
+						: R.string.accessibility_subtitle_author_withperiod;
 				}
 			}
 
@@ -385,7 +398,7 @@ public class RedditRenderableComment
 
 			accessibilityHeader
 					.append(context.getString(
-							PrefsUtility.pref_accessibility_concise_mode()
+							accessibilityConciseMode
 									? R.string.accessibility_subtitle_flair_withperiod_concise
 									: R.string.accessibility_subtitle_flair_withperiod,
 							flair + General.LTR_OVERRIDE_MARK))
@@ -404,12 +417,9 @@ public class RedditRenderableComment
 				final int score = computeScore(changeDataManager);
 
 				accessibilityHeader
-						.append(context.getResources().getQuantityString(
-								PrefsUtility.pref_accessibility_concise_mode()
-										? (R.plurals.
-												accessibility_subtitle_points_withperiod_concise_plural
-										)
-										: R.plurals.accessibility_subtitle_points_withperiod_plural,
+						.append(context.getResources().getQuantityString(accessibilityConciseMode
+								? R.plurals.accessibility_subtitle_points_withperiod_concise_plural
+								: R.plurals.accessibility_subtitle_points_withperiod_plural,
 								score,
 								score))
 						.append(separator);
@@ -419,15 +429,9 @@ public class RedditRenderableComment
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.CONTROVERSIALITY)) {
 
 			if(rawComment.isControversial()) {
-				accessibilityHeader
-						.append(context.getString(
-								PrefsUtility.pref_accessibility_concise_mode()
-										? (R.string.
-												accessibility_subtitle_controversiality_withperiod_concise
-										)
-										: (R.string.
-												accessibility_subtitle_controversiality_withperiod
-										)))
+				accessibilityHeader.append(context.getString(accessibilityConciseMode
+						? R.string.accessibility_subtitle_controversiality_withperiod_concise
+						: R.string.accessibility_subtitle_controversiality_withperiod))
 						.append(separator);
 			}
 		}
@@ -472,7 +476,7 @@ public class RedditRenderableComment
 
 			accessibilityHeader
 					.append(context.getString(
-							PrefsUtility.pref_accessibility_concise_mode()
+							accessibilityConciseMode
 									? R.string.accessibility_subtitle_subreddit_withperiod_concise
 									: R.string.accessibility_subtitle_subreddit_withperiod,
 							ScreenreaderPronunciation.getPronunciation(

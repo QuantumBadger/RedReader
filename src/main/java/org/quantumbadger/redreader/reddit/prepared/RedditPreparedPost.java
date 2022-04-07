@@ -1379,6 +1379,26 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return accessibilitySubtitle.toString();
 	}
 
+	public String buildAccessibilityTitle(final Context context) {
+		final StringBuilder a11yTitle = new StringBuilder();
+		final String separator = " \n";
+
+		if (isRead()) {
+				a11yTitle
+						.append(
+								ScreenreaderPronunciation.getAccessibilityString(
+										context,
+										R.string.accessibility_read_withperiod
+								)
+						)
+						.append(separator);
+		}
+
+		a11yTitle.append(src.getTitle());
+
+		return a11yTitle.toString();
+	}
+
 	// lol, reddit api
 	private static boolean hasThumbnail(final RedditParsedPost post) {
 

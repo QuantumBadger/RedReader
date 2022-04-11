@@ -549,7 +549,7 @@ public final class RedditPostView extends FlingableItemView
 			title.setTextColor(rrPostTitleCol);
 		}
 
-		title.setContentDescription(mPost.buildAccessibilityTitle(mActivity));
+		title.setContentDescription(mPost.buildAccessibilityTitle(mActivity, false));
 
 		subtitle.setText(mPost.buildSubtitle(mActivity, false));
 		subtitle.setContentDescription(mPost.buildAccessibilitySubtitle(mActivity, false));

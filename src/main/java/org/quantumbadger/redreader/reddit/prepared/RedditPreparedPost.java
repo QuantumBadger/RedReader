@@ -1210,46 +1210,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		final String separator = " \n";
 
-		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SPOILER)) {
-			if(src.isSpoiler()) {
-				accessibilitySubtitle
-						.append(context.getString(
-								R.string.accessibility_subtitle_spoiler_withperiod))
-						.append(separator);
-			}
-		}
-
-		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.STICKY)) {
-			if(src.isStickied()) {
-				accessibilitySubtitle
-						.append(context.getString(
-								R.string.accessibility_subtitle_sticky_withperiod))
-						.append(separator);
-			}
-		}
-
-		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.NSFW)) {
-			if(src.isNsfw()) {
-				accessibilitySubtitle
-						.append(context.getString(
-								PrefsUtility.pref_accessibility_concise_mode()
-										? R.string.accessibility_subtitle_nsfw_withperiod_concise
-										: R.string.accessibility_subtitle_nsfw_withperiod))
-						.append(separator);
-			}
-		}
-
-		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.FLAIR)) {
-			if(src.getFlairText() != null) {
-				accessibilitySubtitle
-						.append(context.getString(
-								PrefsUtility.pref_accessibility_concise_mode()
-										? R.string.accessibility_subtitle_flair_withperiod_concise
-										: R.string.accessibility_subtitle_flair_withperiod,
-								src.getFlairText()
-										+ General.LTR_OVERRIDE_MARK))
-						.append(separator);
-			}
+		// When not in concise mode, add embellishments to the subtitle for greater clarity and
+		// retention of familiar behaviour.
+		if (!PrefsUtility.pref_accessibility_concise_mode()) {
+			accessibilitySubtitle.append(buildAccessibilityEmbellishments(context, headerMode));
 		}
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
@@ -1379,12 +1343,41 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return accessibilitySubtitle.toString();
 	}
 
-	public String buildAccessibilityTitle(final Context context) {
+	public String buildAccessibilityTitle(
+			final Context context,
+			final boolean headerMode) {
+
 		final StringBuilder a11yTitle = new StringBuilder();
+
+		// When in concise mode, add embellishments to the title for greater interruptability when
+		// navigating quickly.
+		if (PrefsUtility.pref_accessibility_concise_mode()) {
+			a11yTitle.append(buildAccessibilityEmbellishments(context, headerMode));
+		}
+
+		a11yTitle.append(src.getTitle());
+
+		return a11yTitle.toString();
+	}
+
+	private String buildAccessibilityEmbellishments(
+			final Context context,
+			final boolean headerMode) {
+
+		final EnumSet<PrefsUtility.AppearancePostSubtitleItem> mPostSubtitleItems;
+		if(headerMode
+				&& PrefsUtility.appearance_post_subtitle_items_use_different_settings()) {
+			mPostSubtitleItems = PrefsUtility.appearance_post_header_subtitle_items();
+		} else {
+			mPostSubtitleItems = PrefsUtility.appearance_post_subtitle_items();
+		}
+
+		final StringBuilder a11yEmbellish = new StringBuilder();
+
 		final String separator = " \n";
 
 		if (isRead()) {
-				a11yTitle
+				a11yEmbellish
 						.append(
 								ScreenreaderPronunciation.getAccessibilityString(
 										context,
@@ -1394,9 +1387,49 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						.append(separator);
 		}
 
-		a11yTitle.append(src.getTitle());
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SPOILER)) {
+			if(src.isSpoiler()) {
+				a11yEmbellish
+						.append(context.getString(
+								R.string.accessibility_subtitle_spoiler_withperiod))
+						.append(separator);
+			}
+		}
 
-		return a11yTitle.toString();
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.STICKY)) {
+			if(src.isStickied()) {
+				a11yEmbellish
+						.append(context.getString(
+								R.string.accessibility_subtitle_sticky_withperiod))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.NSFW)) {
+			if(src.isNsfw()) {
+				a11yEmbellish
+						.append(context.getString(
+								PrefsUtility.pref_accessibility_concise_mode()
+										? R.string.accessibility_subtitle_nsfw_withperiod_concise
+										: R.string.accessibility_subtitle_nsfw_withperiod))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.FLAIR)) {
+			if(src.getFlairText() != null) {
+				a11yEmbellish
+						.append(context.getString(
+								PrefsUtility.pref_accessibility_concise_mode()
+										? R.string.accessibility_subtitle_flair_withperiod_concise
+										: R.string.accessibility_subtitle_flair_withperiod,
+								src.getFlairText()
+										+ General.LTR_OVERRIDE_MARK))
+						.append(separator);
+			}
+		}
+
+		return a11yEmbellish.toString();
 	}
 
 	// lol, reddit api

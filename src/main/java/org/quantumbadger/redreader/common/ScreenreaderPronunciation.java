@@ -63,7 +63,7 @@ public class ScreenreaderPronunciation {
 		}
 
 		// Replace "read" with the English homophone "red" to work around bad speech synth handling
-		if(res == R.string.accessibility_read_withperiod) {
+		if(res == R.string.accessibility_post_already_read_withperiod) {
 			return "Red.";
 
 		} else {

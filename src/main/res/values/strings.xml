@@ -1700,6 +1700,6 @@
 	<string name="accessibility_subtitle_downvoted_withperiod">Downvoted.</string>
 
 	<!-- 2022-04-10 -->
-	<string name="accessibility_read_withperiod">Red.</string>
+	<string name="accessibility_post_already_read_withperiod">Read.</string>
 
 </resources>

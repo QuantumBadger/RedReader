@@ -1210,20 +1210,21 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		final String separator = " \n";
 
+		final boolean conciseMode = PrefsUtility.pref_accessibility_concise_mode();
+
 		// When not in concise mode, add embellishments to the subtitle for greater clarity and
 		// retention of familiar behaviour.
-		if (!PrefsUtility.pref_accessibility_concise_mode()) {
+		if (!conciseMode) {
 			accessibilitySubtitle.append(buildAccessibilityEmbellishments(context, headerMode));
 		}
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
 			accessibilitySubtitle
 					.append(context.getResources().getQuantityString(
-							PrefsUtility.pref_accessibility_concise_mode()
-									?(R.plurals.
+							conciseMode
+									? R.plurals.
 											accessibility_subtitle_points_withperiod_concise_plural
-									)
-									:R.plurals.accessibility_subtitle_points_withperiod_plural,
+									: R.plurals.accessibility_subtitle_points_withperiod_plural,
 							score,
 							score))
 					.append(separator);
@@ -1246,7 +1247,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.UPVOTE_RATIO)) {
 			accessibilitySubtitle
 					.append(context.getString(
-							PrefsUtility.pref_accessibility_concise_mode()
+							conciseMode
 									?R.string.accessibility_subtitle_upvote_ratio_withperiod_concise
 									: R.string.accessibility_subtitle_upvote_ratio_withperiod,
 							src.getUpvotePercentage()))
@@ -1279,15 +1280,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			@StringRes final int authorString;
 
 			if("moderator".equals(src.getDistinguished())) {
-				authorString = PrefsUtility.pref_accessibility_concise_mode()
+				authorString = conciseMode
 					? R.string.accessibility_subtitle_author_moderator_withperiod_concise_post
 					: R.string.accessibility_subtitle_author_moderator_withperiod;
 			} else if("admin".equals(src.getDistinguished())) {
-				authorString = PrefsUtility.pref_accessibility_concise_mode()
+				authorString = conciseMode
 					? R.string.accessibility_subtitle_author_admin_withperiod_concise_post
 					: R.string.accessibility_subtitle_author_admin_withperiod;
 			} else {
-				authorString = PrefsUtility.pref_accessibility_concise_mode()
+				authorString = conciseMode
 					? R.string.accessibility_subtitle_author_withperiod_concise_post
 					: R.string.accessibility_subtitle_author_withperiod;
 			}
@@ -1305,7 +1306,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			if(showSubreddit) {
 				accessibilitySubtitle
 						.append(context.getString(
-								PrefsUtility.pref_accessibility_concise_mode()
+								conciseMode
 										?(R.string.
 												accessibility_subtitle_subreddit_withperiod_concise
 										)
@@ -1324,7 +1325,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			if(src.isSelfPost()) {
 				accessibilitySubtitle
 						.append(context.getString(
-								PrefsUtility.pref_accessibility_concise_mode()
+								conciseMode
 										?R.string.accessibility_subtitle_selfpost_withperiod_concise
 										: R.string.accessibility_subtitle_selfpost_withperiod))
 						.append(separator);
@@ -1332,7 +1333,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			} else {
 				accessibilitySubtitle
 						.append(context.getString(
-								PrefsUtility.pref_accessibility_concise_mode()
+								conciseMode
 										?R.string.accessibility_subtitle_domain_withperiod_concise
 										: R.string.accessibility_subtitle_domain_withperiod,
 								ScreenreaderPronunciation.getPronunciation(context, domain)))
@@ -1381,7 +1382,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						.append(
 								ScreenreaderPronunciation.getAccessibilityString(
 										context,
-										R.string.accessibility_read_withperiod
+										R.string.accessibility_post_already_read_withperiod
 								)
 						)
 						.append(separator);

@@ -1377,6 +1377,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		final String separator = " \n";
 
+		final boolean conciseMode = PrefsUtility.pref_accessibility_concise_mode();
+
 		if (isRead()) {
 				a11yEmbellish
 						.append(
@@ -1410,7 +1412,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			if(src.isNsfw()) {
 				a11yEmbellish
 						.append(context.getString(
-								PrefsUtility.pref_accessibility_concise_mode()
+								conciseMode
 										? R.string.accessibility_subtitle_nsfw_withperiod_concise
 										: R.string.accessibility_subtitle_nsfw_withperiod))
 						.append(separator);
@@ -1421,7 +1423,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			if(src.getFlairText() != null) {
 				a11yEmbellish
 						.append(context.getString(
-								PrefsUtility.pref_accessibility_concise_mode()
+								conciseMode
 										? R.string.accessibility_subtitle_flair_withperiod_concise
 										: R.string.accessibility_subtitle_flair_withperiod,
 								src.getFlairText()

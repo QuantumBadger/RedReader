@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import org.quantumbadger.redreader.R;
 
 import java.util.Locale;
@@ -50,6 +51,24 @@ public class ScreenreaderPronunciation {
 		}
 
 		return pronounceSubreddit(textLowercase);
+	}
+
+	public static String getAccessibilityString(
+			@NonNull final Context context,
+			@StringRes final int res) {
+
+		// Only override for English for now
+		if(!Locale.getDefault().getDisplayLanguage().equals("en")) {
+			return context.getString(res);
+		}
+
+		// Replace "read" with the English homophone "red" to work around bad speech synth handling
+		if(res == R.string.accessibility_post_already_read_withperiod) {
+			return "Red.";
+
+		} else {
+			return context.getString(res);
+		}
 	}
 
 	@NonNull

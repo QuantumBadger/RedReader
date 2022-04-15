@@ -1,3 +1,6 @@
+/Alpha 310 (2022-04-15)
+Accessibility: In concise mode, move post embellishments to the title (thanks to codeofdusk)
+
 /Alpha 309 (2022-04-06)
 Accessibility: add option to use concise language when possible (disabled by default) for more efficient navigation (thanks to codeofdusk)
 Accessibility: announce if the current user has upvoted/downvoted posts and comments (thanks to codeofdusk)

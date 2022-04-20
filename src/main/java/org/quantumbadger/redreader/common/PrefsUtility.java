@@ -1644,7 +1644,7 @@ public final class PrefsUtility {
 	public static boolean pref_accessibility_separate_body_text_lines() {
 		return getBoolean(
 				R.string.pref_accessibility_separate_body_text_lines_key,
-				false);
+				true);
 	}
 
 	public static int pref_accessibility_min_comment_height() {

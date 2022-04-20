@@ -7,6 +7,7 @@ Prevent replying to locked posts (thanks to Cameron Merkel)
 Added option to block screenshots (thanks to Cameron Merkel)
 Added long-click menu to grey subreddit heading bar (thanks to Cameron Merkel)
 Updated default subreddit list (thanks to Cameron Merkel)
+Fix issue with copying links (thanks to Cameron Merkel)
 Allows reporting uncaught exceptions
 Fix to sample flag handling when saving Reddit videos
 Accessibility: announce relative level of comments within a thread (on by default)

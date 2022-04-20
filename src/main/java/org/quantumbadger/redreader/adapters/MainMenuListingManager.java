@@ -846,7 +846,7 @@ public class MainMenuListingManager {
 				final ClipboardManager clipboardManager
 						= (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					final ClipData data = ClipData.newRawUri(null, Uri.parse(url));
+					final ClipData data = ClipData.newPlainText(null, url);
 					clipboardManager.setPrimaryClip(data);
 
 					General.quickToast(

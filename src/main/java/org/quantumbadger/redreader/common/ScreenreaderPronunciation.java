@@ -26,6 +26,8 @@ import java.util.Locale;
 
 public class ScreenreaderPronunciation {
 
+	private static final String LANGUAGE_CODE_EN = new Locale("en").getLanguage();
+
 	@NonNull
 	public static String getPronunciation(
 			@NonNull final Context context,
@@ -58,7 +60,7 @@ public class ScreenreaderPronunciation {
 			@StringRes final int res) {
 
 		// Only override for English for now
-		if(!Locale.getDefault().getLanguage().equals(new Locale("en").getLanguage())) {
+		if(!Locale.getDefault().getLanguage().equals(LANGUAGE_CODE_EN)) {
 			return context.getString(res);
 		}
 

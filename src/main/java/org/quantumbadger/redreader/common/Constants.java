@@ -124,6 +124,7 @@ public final class Constants {
 			BOT_USERNAMES_LOWERCASE = new HashSet<>();
 			BOT_USERNAMES_LOWERCASE.add("automoderator");
 			BOT_USERNAMES_LOWERCASE.add("qualityvote");
+			BOT_USERNAMES_LOWERCASE.add("visualmod");
 		}
 
 		public static final String SCHEME_HTTPS = "https";

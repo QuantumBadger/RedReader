@@ -58,7 +58,7 @@ public class ScreenreaderPronunciation {
 			@StringRes final int res) {
 
 		// Only override for English for now
-		if(!Locale.getDefault().getDisplayLanguage().equals("en")) {
+		if(!Locale.getDefault().getLanguage().equals(new Locale("en").getLanguage())) {
 			return context.getString(res);
 		}
 

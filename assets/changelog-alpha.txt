@@ -1,6 +1,7 @@
 /Alpha 311 (2022-04-20)
 Accessibility: "read" should now be pronounced correctly (thanks to codeofdusk)
-Accessibility: Add pause in between post title and subtitle so they don't get combined into one sentence
+Accessibility: enable "separate body text lines" by default for new installs (thanks to codeofdusk)
+Accessibility: add pause in between post title and subtitle so they don't get combined into one sentence
 Adding "VisualMod" to the list of bot moderators (for hiding stickies)
 
 /Alpha 310 (2022-04-15)

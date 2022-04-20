@@ -1358,6 +1358,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		a11yTitle.append(src.getTitle());
 
+		// Append full stop so that subtitle doesn't become part of title
+		a11yTitle.append(".\n");
+
 		return a11yTitle.toString();
 	}
 

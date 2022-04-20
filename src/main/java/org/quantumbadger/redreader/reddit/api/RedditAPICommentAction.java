@@ -457,9 +457,9 @@ public class RedditAPICommentAction {
 				final ClipboardManager clipboardManager =
 						(ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					final ClipData data = ClipData.newRawUri(
+					final ClipData data = ClipData.newPlainText(
 							null,
-							comment.getContextUrl().context(null).generateNonJsonUri());
+							comment.getContextUrl().context(null).generateNonJsonUri().toString());
 					clipboardManager.setPrimaryClip(data);
 
 					General.quickToast(

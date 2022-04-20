@@ -709,9 +709,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				final ClipboardManager clipboardManager =
 						(ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					final ClipData data = ClipData.newRawUri(
+					final ClipData data = ClipData.newPlainText(
 							post.src.getAuthor(),
-							Uri.parse(post.src.getUrl()));
+							post.src.getUrl());
 					clipboardManager.setPrimaryClip(data);
 
 					General.quickToast(

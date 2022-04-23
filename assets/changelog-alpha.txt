@@ -1,3 +1,6 @@
+/Alpha 313 (2022-04-23)
+Accessibility: move subreddit and domain before author in accessibility subtitle (thanks to codeofdusk)
+
 /Alpha 312 (2022-04-23)
 Potential fix for login issue
 

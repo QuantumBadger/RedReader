@@ -16,7 +16,7 @@ Accessibility: announce if the current user has upvoted/downvoted posts and comm
 Accessibility: announce if a post has been previously read (thanks to codeofdusk)
 Accessibility: enable "separate body text lines" by default for new installs (thanks to codeofdusk)
 Accessibility: add pause in between post title and subtitle so they don't get combined into one sentence
-Accessibility text improvements (thanks to codeofdusk)
+Accessibility: text improvements (thanks to codeofdusk)
 Dependency updates
 
 102/1.18.1

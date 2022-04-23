@@ -1276,32 +1276,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					.append(separator);
 		}
 
-		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AUTHOR)) {
-			@StringRes final int authorString;
-
-			if("moderator".equals(src.getDistinguished())) {
-				authorString = conciseMode
-					? R.string.accessibility_subtitle_author_moderator_withperiod_concise_post
-					: R.string.accessibility_subtitle_author_moderator_withperiod;
-			} else if("admin".equals(src.getDistinguished())) {
-				authorString = conciseMode
-					? R.string.accessibility_subtitle_author_admin_withperiod_concise_post
-					: R.string.accessibility_subtitle_author_admin_withperiod;
-			} else {
-				authorString = conciseMode
-					? R.string.accessibility_subtitle_author_withperiod_concise_post
-					: R.string.accessibility_subtitle_author_withperiod;
-			}
-
-			accessibilitySubtitle
-					.append(context.getString(
-							authorString,
-							ScreenreaderPronunciation.getPronunciation(
-									context,
-									src.getAuthor())))
-					.append(separator);
-		}
-
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SUBREDDIT)) {
 			if(showSubreddit) {
 				accessibilitySubtitle
@@ -1339,6 +1313,32 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 								ScreenreaderPronunciation.getPronunciation(context, domain)))
 						.append(separator);
 			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AUTHOR)) {
+			@StringRes final int authorString;
+
+			if("moderator".equals(src.getDistinguished())) {
+				authorString = conciseMode
+					? R.string.accessibility_subtitle_author_moderator_withperiod_concise_post
+					: R.string.accessibility_subtitle_author_moderator_withperiod;
+			} else if("admin".equals(src.getDistinguished())) {
+				authorString = conciseMode
+					? R.string.accessibility_subtitle_author_admin_withperiod_concise_post
+					: R.string.accessibility_subtitle_author_admin_withperiod;
+			} else {
+				authorString = conciseMode
+					? R.string.accessibility_subtitle_author_withperiod_concise_post
+					: R.string.accessibility_subtitle_author_withperiod;
+			}
+
+			accessibilitySubtitle
+					.append(context.getString(
+							authorString,
+							ScreenreaderPronunciation.getPronunciation(
+									context,
+									src.getAuthor())))
+					.append(separator);
 		}
 
 		return accessibilitySubtitle.toString();

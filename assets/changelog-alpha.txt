@@ -1,3 +1,6 @@
+/Alpha 312 (2022-04-23)
+Potential fix for login issue
+
 /Alpha 311 (2022-04-20)
 Accessibility: "read" should now be pronounced correctly (thanks to codeofdusk)
 Accessibility: enable "separate body text lines" by default for new installs (thanks to codeofdusk)

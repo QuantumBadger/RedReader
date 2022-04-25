@@ -85,6 +85,8 @@
 								android:id="@+id/announcement_view_button_dismiss"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
+								android:layout_marginRight="6dp"
+								android:layout_marginEnd="6dp"
 								android:text="@string/button_dismiss"
 								android:textAllCaps="true"
 								app:layout_constraintTop_toTopOf="parent"

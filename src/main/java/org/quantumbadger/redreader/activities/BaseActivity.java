@@ -189,8 +189,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		if(PrefsUtility.pref_behaviour_keep_screen_awake()) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		}
-		else{
+		} else{
 			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
 

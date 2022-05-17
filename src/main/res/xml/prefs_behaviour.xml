@@ -58,6 +58,11 @@
 						android:summary="@string/pref_behaviour_block_screenshots_summary"
 						android:defaultValue="false" />
 
+	<CheckBoxPreference android:title="@string/pref_behaviour_keep_screen_awake_title"
+			android:key="@string/pref_behaviour_keep_screen_awake_key"
+			android:summary="@string/pref_behaviour_keep_screen_awake_summary"
+			android:defaultValue="false" />
+
     <PreferenceCategory android:title="@string/pref_behaviour_sort_header">
 
 		<ListPreference android:title="@string/pref_behaviour_postsort"

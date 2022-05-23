@@ -1079,7 +1079,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					0,
 					1f);
 			postListDescSb.append(
-					" " + context.getString(R.string.subtitle_points) + " ",
+					BetterSSB.NBSP + context.getString(R.string.subtitle_points) + " ",
 					0);
 		}
 
@@ -1092,7 +1092,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					0,
 					1f);
 			postListDescSb.append(
-					" " + context.getString(R.string.subtitle_upvote_ratio) + ") ", 0);
+					BetterSSB.NBSP + context.getString(R.string.subtitle_upvote_ratio) + ") ", 0);
 		}
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.GOLD)) {

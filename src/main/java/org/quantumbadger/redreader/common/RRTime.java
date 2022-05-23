@@ -92,6 +92,7 @@ public class RRTime {
 			final int unitsToDisplay) {
 
 		final String space = " ";
+		final String nbsp = String.valueOf(BetterSSB.NBSP);
 		final String comma = ",";
 		final String separator = comma + space;
 
@@ -101,43 +102,43 @@ public class RRTime {
 
 		final PeriodFormatter periodFormatter = new PeriodFormatterBuilder()
 				.appendYears()
-				.appendSuffix(space)
+				.appendSuffix(nbsp)
 				.appendSuffix(
 						context.getString(R.string.time_year),
 						context.getString(R.string.time_years))
 				.appendSeparator(separator)
 				.appendMonths()
-				.appendSuffix(space)
+				.appendSuffix(nbsp)
 				.appendSuffix(
 						context.getString(R.string.time_month),
 						context.getString(R.string.time_months))
 				.appendSeparator(separator)
 				.appendDays()
-				.appendSuffix(space)
+				.appendSuffix(nbsp)
 				.appendSuffix(
 						context.getString(R.string.time_day),
 						context.getString(R.string.time_days))
 				.appendSeparator(separator)
 				.appendHours()
-				.appendSuffix(space)
+				.appendSuffix(nbsp)
 				.appendSuffix(
 						context.getString(R.string.time_hour),
 						context.getString(R.string.time_hours))
 				.appendSeparator(separator)
 				.appendMinutes()
-				.appendSuffix(space)
+				.appendSuffix(nbsp)
 				.appendSuffix(
 						context.getString(R.string.time_min),
 						context.getString(R.string.time_mins))
 				.appendSeparator(separator)
 				.appendSeconds()
-				.appendSuffix(space)
+				.appendSuffix(nbsp)
 				.appendSuffix(
 						context.getString(R.string.time_sec),
 						context.getString(R.string.time_secs))
 				.appendSeparator(separator)
 				.appendMillis()
-				.appendSuffix(space)
+				.appendSuffix(nbsp)
 				.appendSuffix(context.getString(R.string.time_ms))
 				.toFormatter();
 

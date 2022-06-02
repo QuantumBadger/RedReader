@@ -1,3 +1,6 @@
+/Alpha 314 (2022-06-02)
+Added preference to keep screen awake (thanks to Thung Yong Han)
+
 /Alpha 313 (2022-04-23)
 Accessibility: move subreddit and domain before author in accessibility subtitle (thanks to codeofdusk)
 

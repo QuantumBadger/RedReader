@@ -307,6 +307,10 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return score;
 	}
 
+	public int getCommentCount() {
+		return mSrc.num_comments;
+	}
+
 	public int getGoldAmount() {
 		return mSrc.gilded;
 	}

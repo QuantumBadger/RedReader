@@ -864,6 +864,7 @@
 		<item>@string/pref_appearance_comment_header_items_flair</item>
 		<item>@string/pref_appearance_comment_header_items_score</item>
 		<item>@string/pref_appearance_post_subtitle_items_upvote_ratio</item>
+		<item>@string/pref_appearance_post_subtitle_items_comments</item>
 		<item>@string/pref_appearance_comment_header_items_age</item>
 		<item>@string/pref_appearance_comment_header_items_gold</item>
 		<item>@string/pref_appearance_post_subtitle_items_subreddit</item>
@@ -879,6 +880,7 @@
 		<item>flair</item>
 		<item>score</item>
 		<item>upvote_ratio</item>
+		<item>comments</item>
 		<item>age</item>
 		<item>gold</item>
 		<item>subreddit</item>

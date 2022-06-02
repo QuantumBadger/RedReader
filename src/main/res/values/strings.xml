@@ -1707,4 +1707,12 @@
 	<string name="pref_behaviour_keep_screen_awake_title">Keep screen awake</string>
 	<string name="pref_behaviour_keep_screen_awake_summary">Keep screen awake when RedReader is running in the foreground</string>
 
+	<!-- 2022-05-23 -->
+	<string name="subtitle_comments">cmts</string>
+	<string name="pref_appearance_post_subtitle_items_comments">Comments</string>
+	<plurals name="accessibility_subtitle_comments_withperiod_plural">
+		<item quantity="one">%d comment.</item>
+		<item quantity="other">%d comments.</item>
+	</plurals>
+
 </resources>

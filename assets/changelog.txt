@@ -1,5 +1,6 @@
 104/1.20
 Added preference to keep screen awake (thanks to Thung Yong Han)
+Ability to show comment count in post subtitle (thanks to Cameron Merkel)
 
 103/1.19
 Ability to search for subreddits

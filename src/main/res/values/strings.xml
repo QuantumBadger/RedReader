@@ -1702,4 +1702,9 @@
 	<!-- 2022-04-10 -->
 	<string name="accessibility_post_already_read_withperiod">Read.</string>
 
+	<!-- 2022-05-17 -->
+	<string name="pref_behaviour_keep_screen_awake_key">pref_behaviour_keep_screen_awake</string>
+	<string name="pref_behaviour_keep_screen_awake_title">Keep screen awake</string>
+	<string name="pref_behaviour_keep_screen_awake_summary">Keep screen awake when RedReader is running in the foreground</string>
+
 </resources>

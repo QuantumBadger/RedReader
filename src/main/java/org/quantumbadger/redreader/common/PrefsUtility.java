@@ -158,7 +158,8 @@ public final class PrefsUtility {
 				|| context.getString(R.string.pref_appearance_bottom_toolbar_key).equals(key)
 				|| context.getString(R.string.pref_appearance_hide_toolbar_on_scroll_key)
 						.equals(key)
-				|| context.getString(R.string.pref_behaviour_block_screenshots_key).equals(key);
+				|| context.getString(R.string.pref_behaviour_block_screenshots_key).equals(key)
+				|| context.getString(R.string.pref_behaviour_keep_screen_awake_key).equals(key);
 	}
 
 	///////////////////////////////
@@ -1676,6 +1677,12 @@ public final class PrefsUtility {
 	public static boolean pref_accessibility_concise_mode() {
 		return getBoolean(
 				R.string.pref_accessibility_concise_mode_key,
+				false);
+	}
+
+	public static boolean pref_behaviour_keep_screen_awake() {
+		return getBoolean(
+				R.string.pref_behaviour_keep_screen_awake_key,
 				false);
 	}
 }

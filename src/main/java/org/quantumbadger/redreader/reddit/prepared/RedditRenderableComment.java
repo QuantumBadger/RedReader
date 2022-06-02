@@ -206,7 +206,7 @@ public class RedditRenderableComment
 						1f);
 			}
 
-			sb.append(" " + context.getString(R.string.subtitle_points), 0);
+			sb.append(BetterSSB.NBSP + context.getString(R.string.subtitle_points), 0);
 
 			if(!theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.CONTROVERSIALITY)) {
 				sb.append(" ", 0);

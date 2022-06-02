@@ -1,6 +1,7 @@
 /Alpha 314 (2022-06-02)
 Added preference to keep screen awake (thanks to Thung Yong Han)
 Ability to show comment count in post subtitle (thanks to Cameron Merkel)
+Use non-breaking spaces for post/comment age (thanks to Cameron Merkel)
 
 /Alpha 313 (2022-04-23)
 Accessibility: move subreddit and domain before author in accessibility subtitle (thanks to codeofdusk)

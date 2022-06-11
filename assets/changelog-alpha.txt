@@ -1,3 +1,6 @@
+/Alpha 315 (2022-06-11)
+In post subtitle, move (optional) comment count indicator before score (thank to codeofdusk)
+
 /Alpha 314 (2022-06-02)
 Added preference to keep screen awake (thanks to Thung Yong Han)
 Ability to show comment count in post subtitle (thanks to Cameron Merkel)

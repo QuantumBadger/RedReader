@@ -1071,6 +1071,18 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 		}
 
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.COMMENTS)) {
+			postListDescSb.append(
+					String.valueOf(src.getCommentCount()),
+					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
+					boldCol,
+					0,
+					1f);
+			postListDescSb.append(
+					BetterSSB.NBSP + context.getString(R.string.subtitle_comments) + " ",
+					0);
+		}
+
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
 			postListDescSb.append(
 					String.valueOf(score),
@@ -1093,18 +1105,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					1f);
 			postListDescSb.append(
 					BetterSSB.NBSP + context.getString(R.string.subtitle_upvote_ratio) + ") ", 0);
-		}
-
-		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.COMMENTS)) {
-			postListDescSb.append(
-					String.valueOf(src.getCommentCount()),
-					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
-					boldCol,
-					0,
-					1f);
-			postListDescSb.append(
-					BetterSSB.NBSP + context.getString(R.string.subtitle_comments) + " ",
-					0);
 		}
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.GOLD)) {
@@ -1230,6 +1230,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			accessibilitySubtitle.append(buildAccessibilityEmbellishments(context, headerMode));
 		}
 
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.COMMENTS)) {
+			accessibilitySubtitle
+					.append(context.getResources().getQuantityString(
+							R.plurals.accessibility_subtitle_comments_withperiod_plural,
+							src.getCommentCount(),
+							src.getCommentCount()))
+					.append(separator);
+		}
+
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
 			accessibilitySubtitle
 					.append(context.getResources().getQuantityString(
@@ -1263,15 +1272,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 									?R.string.accessibility_subtitle_upvote_ratio_withperiod_concise
 									: R.string.accessibility_subtitle_upvote_ratio_withperiod,
 							src.getUpvotePercentage()))
-					.append(separator);
-		}
-
-		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.COMMENTS)) {
-			accessibilitySubtitle
-					.append(context.getResources().getQuantityString(
-							R.plurals.accessibility_subtitle_comments_withperiod_plural,
-							src.getCommentCount(),
-							src.getCommentCount()))
 					.append(separator);
 		}
 

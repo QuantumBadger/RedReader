@@ -537,7 +537,7 @@ public final class PrefsUtility {
 	public static boolean pref_appearance_post_hide_subreddit_header() {
 		return getBoolean(
 				R.string.pref_appearance_post_hide_subreddit_header_key,
-				true);
+				false);
 	}
 
 	public static boolean pref_appearance_hide_headertoolbar_postlist() {

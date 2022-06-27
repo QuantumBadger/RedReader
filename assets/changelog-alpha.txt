@@ -1,3 +1,6 @@
+/Alpha 317 (2022-06-27)
+Ability to hide subreddit header (thanks to Cameron Merkel)
+
 /Alpha 316 (2022-06-27)
 Renamed "Find Subreddit" to "Find Location"
 Find Location now lets you jump to a specific subreddit/user without waiting for the search

@@ -4,16 +4,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-	<org.quantumbadger.redreader.views.LoadingSpinnerView
-			android:id="@+id/subreddit_search_loading_spinner"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:visibility="gone"/>
-
 	<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/subreddit_search_recyclerview"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:visibility="gone"/>
+			android:background="?rrListBackgroundCol"/>
 
 </FrameLayout>

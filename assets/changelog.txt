@@ -1,4 +1,6 @@
 104/1.20
+Renamed "Find Subreddit" to "Find Location"
+Find Location now lets you jump to a specific subreddit/user without waiting for the search
 Added preference to keep screen awake (thanks to Thung Yong Han)
 Ability to show comment count in post subtitle (thanks to Cameron Merkel)
 

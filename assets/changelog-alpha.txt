@@ -1,3 +1,7 @@
+/Alpha 316 (2022-06-27)
+Renamed "Find Subreddit" to "Find Location"
+Find Location now lets you jump to a specific subreddit/user without waiting for the search
+
 /Alpha 315 (2022-06-11)
 In post subtitle, move (optional) comment count indicator before score (thank to codeofdusk)
 

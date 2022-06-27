@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.quantumbadger.redreader.views.SubredditSearchQuickLinks
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_margin="8dp"
+		android:layout_marginBottom="0dp"
+		app:flexWrap="wrap">
+
+	<com.google.android.material.button.MaterialButton
+			android:id="@+id/button_go_to_subreddit"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="6dp"
+			android:layout_marginEnd="6dp"
+			android:insetTop="0dp"
+			android:minHeight="36dp"
+			android:maxWidth="220dp"
+			android:maxLines="1"
+			android:ellipsize="end"
+			app:backgroundTint="@color/rr_color_quick_link_button"
+			app:iconTint="@color/rr_color_quick_link_button_foreground"
+			android:textColor="@color/rr_color_quick_link_button_foreground"
+			app:icon="?rrIconChevronRight"
+			android:text="@string/action_gotosubreddit"
+			app:cornerRadius="30dp" />
+
+	<com.google.android.material.button.MaterialButton
+			android:id="@+id/button_go_to_user"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="6dp"
+			android:layout_marginEnd="6dp"
+			android:insetTop="0dp"
+			android:minHeight="36dp"
+			app:backgroundTint="@color/rr_color_quick_link_button"
+			app:iconTint="@color/rr_color_quick_link_button_foreground"
+			android:textColor="@color/rr_color_quick_link_button_foreground"
+			app:icon="?rrIconPerson"
+			android:text="@string/find_location_button_goto_user"
+			app:cornerRadius="30dp" />
+
+	<com.google.android.material.button.MaterialButton
+			android:id="@+id/button_go_to_url"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="6dp"
+			android:layout_marginEnd="6dp"
+			android:insetTop="0dp"
+			android:minHeight="36dp"
+			app:backgroundTint="@color/rr_color_quick_link_button"
+			app:iconTint="@color/rr_color_quick_link_button_foreground"
+			android:textColor="@color/rr_color_quick_link_button_foreground"
+			app:icon="?rrIconLink"
+			android:text="@string/find_location_button_goto_url"
+			app:cornerRadius="30dp" />
+
+	<com.google.android.material.button.MaterialButton
+			android:id="@+id/button_go_to_search"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="6dp"
+			android:layout_marginEnd="6dp"
+			android:insetTop="0dp"
+			android:minHeight="36dp"
+			app:backgroundTint="@color/rr_color_quick_link_button"
+			app:iconTint="@color/rr_color_quick_link_button_foreground"
+			android:textColor="@color/rr_color_quick_link_button_foreground"
+			app:icon="?rrIconMagnify"
+			android:text="@string/find_location_button_search_posts"
+			app:cornerRadius="30dp" />
+
+</org.quantumbadger.redreader.views.SubredditSearchQuickLinks>

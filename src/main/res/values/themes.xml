@@ -57,6 +57,14 @@
 
 		<item name="actionBarSize">48dp</item>
 
+		<item name="rrQuickLinkButtonCol">#444</item>
+		<item name="rrQuickLinkButtonColDisabled">#222</item>
+		<item name="rrQuickLinkButtonColPressed">#777</item>
+
+		<item name="rrQuickLinkButtonColForeground">#DDD</item>
+		<item name="rrQuickLinkButtonColForegroundDisabled">#777</item>
+		<item name="rrQuickLinkButtonColForegroundPressed">#DDD</item>
+
         <!-- Post -->
 
         <item name="rrPostTitleCol">#DDDDDD</item>
@@ -313,6 +321,14 @@
 		<item name="rrAnnouncementBorderCol">#A0A0A0</item>
 
 		<item name="actionBarSize">48dp</item>
+
+		<item name="rrQuickLinkButtonCol">#DDD</item>
+		<item name="rrQuickLinkButtonColDisabled">#DDD</item>
+		<item name="rrQuickLinkButtonColPressed">#AAA</item>
+
+		<item name="rrQuickLinkButtonColForeground">#222</item>
+		<item name="rrQuickLinkButtonColForegroundDisabled">#999</item>
+		<item name="rrQuickLinkButtonColForegroundPressed">#222</item>
 
         <!-- Comment -->
 

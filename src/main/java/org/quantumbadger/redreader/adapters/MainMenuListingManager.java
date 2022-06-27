@@ -223,7 +223,7 @@ public class MainMenuListingManager {
 					final GroupedRecyclerViewItemListItemView item
 							= new GroupedRecyclerViewItemListItemView(
 									null,
-									activity.getString(R.string.find_subreddit),
+									activity.getString(R.string.find_location),
 									null,
 									false,
 									clickListener,
@@ -240,7 +240,7 @@ public class MainMenuListingManager {
 					mAdapter.appendToGroup(
 							GROUP_MAIN_ITEMS,
 							makeItem(
-									R.string.find_subreddit,
+									R.string.find_location,
 									MainMenuFragment.MENU_MENU_ACTION_FIND_SUBREDDIT,
 									null,
 									false));

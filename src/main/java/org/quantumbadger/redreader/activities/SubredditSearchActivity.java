@@ -20,7 +20,7 @@ package org.quantumbadger.redreader.activities;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.adapters.GroupedRecyclerViewItemLoadingSpinne
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewItemRRError;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.EventListenerSet;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenerationalCache;
 import org.quantumbadger.redreader.common.Optional;
@@ -47,7 +48,7 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.viewholders.SubredditItemViewHolder;
-import org.quantumbadger.redreader.views.LoadingSpinnerView;
+import org.quantumbadger.redreader.views.SubredditSearchQuickLinks;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -81,8 +82,6 @@ public class SubredditSearchActivity extends BaseActivity implements
 	@NonNull private Optional<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = Optional.empty();
 
-	private LoadingSpinnerView mLoadingSpinner;
-	private RecyclerView mRecyclerView;
 	private LinearLayoutManager mRecyclerViewLayout;
 	private GroupedRecyclerViewItemLoadingSpinner mLoadingItem;
 
@@ -93,8 +92,9 @@ public class SubredditSearchActivity extends BaseActivity implements
 			mQueryErrorItem = new ThreadCheckedVar<>(Optional.empty());
 
 	private GroupedRecyclerViewAdapter mRecyclerViewAdapter;
-	private static final int GROUP_SUBREDDITS = 0;
-	private static final int GROUP_LOADING_SPINNER = 1;
+	private static final int GROUP_QUICK_LINKS = 0;
+	private static final int GROUP_SUBREDDITS = 1;
+	private static final int GROUP_LOADING_SPINNER = 2;
 
 	@Override
 	public void onSubredditSubscriptionListUpdated(
@@ -169,28 +169,28 @@ public class SubredditSearchActivity extends BaseActivity implements
 					GROUP_SUBREDDITS,
 					mSubscriptionsErrorItem.get().get());
 
-			mRecyclerView.setVisibility(View.VISIBLE);
-			mLoadingSpinner.setVisibility(View.GONE);
+			mLoadingItem.setHidden(true);
+			mRecyclerViewAdapter.updateHiddenStatus();
 
 			return;
 		}
 
 		final String currentQuery = mSearchView.get().getQuery().toString();
 
+		mRecyclerViewAdapter.removeAllFromGroup(GROUP_SUBREDDITS);
+
 		if(mSubscriptions.get().isEmpty()) {
 
 			Log.i(TAG, "Subscriptions not downloaded yet");
 
-			mRecyclerView.setVisibility(View.GONE);
-			mLoadingSpinner.setVisibility(View.VISIBLE);
+			mLoadingItem.setHidden(false);
+			mRecyclerViewAdapter.updateHiddenStatus();
 
 			if(mSubscriptionListPending.get() != Boolean.TRUE) {
 				requestSubscriptions();
 			}
 
 		} else {
-
-			mRecyclerViewAdapter.removeAllFromGroup(GROUP_SUBREDDITS);
 
 			final HashSet<String> shownSubreddits = new HashSet<>(256);
 
@@ -265,8 +265,8 @@ public class SubredditSearchActivity extends BaseActivity implements
 			mRecyclerViewAdapter.notifyDataSetChanged();
 			mSubredditItemCache.nextGeneration();
 
-			mRecyclerView.setVisibility(View.VISIBLE);
-			mLoadingSpinner.setVisibility(View.GONE);
+			mLoadingItem.setHidden(true);
+			mRecyclerViewAdapter.updateHiddenStatus();
 		}
 	}
 
@@ -275,28 +275,61 @@ public class SubredditSearchActivity extends BaseActivity implements
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
 
+		final EventListenerSet<String> queryEventListeners = new EventListenerSet<>();
+
 		mLoadingItem = new GroupedRecyclerViewItemLoadingSpinner(this);
 
 		final SearchView searchView = findViewById(R.id.actionbar_search_view);
 		mSearchView.set(searchView);
-		searchView.setQueryHint(getString(R.string.find_subreddit));
+		searchView.setQueryHint(getString(R.string.find_location));
 		searchView.requestFocus();
 
 		setBaseActivityListing(R.layout.subreddit_search_listing);
 
-		mLoadingSpinner = findViewById(R.id.subreddit_search_loading_spinner);
-		mRecyclerView = findViewById(R.id.subreddit_search_recyclerview);
+		final RecyclerView recyclerView = findViewById(R.id.subreddit_search_recyclerview);
 
 		mRecyclerViewLayout = new LinearLayoutManager(
 				this,
 				RecyclerView.VERTICAL,
 				false);
 
-		mRecyclerViewAdapter = new GroupedRecyclerViewAdapter(2);
+		mRecyclerViewAdapter = new GroupedRecyclerViewAdapter(3);
 		mRecyclerViewAdapter.appendToGroup(GROUP_LOADING_SPINNER, mLoadingItem);
 
-		mRecyclerView.setLayoutManager(mRecyclerViewLayout);
-		mRecyclerView.setAdapter(mRecyclerViewAdapter);
+		recyclerView.setLayoutManager(mRecyclerViewLayout);
+		recyclerView.setAdapter(mRecyclerViewAdapter);
+
+		mRecyclerViewAdapter.appendToGroup(
+				GROUP_QUICK_LINKS,
+				new GroupedRecyclerViewAdapter.Item<RecyclerView.ViewHolder>() {
+			@Override
+			public Class<?> getViewType() {
+				return this.getClass();
+			}
+
+			@Override
+			public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup) {
+
+				final SubredditSearchQuickLinks quickLinks
+						= (SubredditSearchQuickLinks)LayoutInflater.from(viewGroup.getContext())
+								.inflate(
+										R.layout.subreddit_search_quick_links,
+										viewGroup,
+										false);
+
+				quickLinks.bind(SubredditSearchActivity.this, queryEventListeners);
+
+				return new RecyclerView.ViewHolder(quickLinks) {};
+			}
+
+			@Override
+			public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder) {}
+
+			@Override
+			public boolean isHidden() {
+				return false;
+			}
+		});
 
 		final RedditAccount user
 				= RedditAccountManager.getInstance(this).getDefaultAccount();
@@ -313,12 +346,14 @@ public class SubredditSearchActivity extends BaseActivity implements
 			@Override
 			public boolean onQueryTextSubmit(final String query) {
 				handleQueryChanged(query);
+				queryEventListeners.send(query);
 				return true;
 			}
 
 			@Override
 			public boolean onQueryTextChange(final String newText) {
 				handleQueryChanged(newText);
+				queryEventListeners.send(newText);
 				return true;
 			}
 		});

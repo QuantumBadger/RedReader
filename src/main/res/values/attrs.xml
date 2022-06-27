@@ -71,6 +71,14 @@
 
 	<attr name="rrPostToolbarCol" format="color" />
 
+	<attr name="rrQuickLinkButtonCol" format="color" />
+	<attr name="rrQuickLinkButtonColPressed" format="color" />
+	<attr name="rrQuickLinkButtonColDisabled" format="color" />
+
+	<attr name="rrQuickLinkButtonColForeground" format="color" />
+	<attr name="rrQuickLinkButtonColForegroundPressed" format="color" />
+	<attr name="rrQuickLinkButtonColForegroundDisabled" format="color" />
+
 	<attr name="rrThemedButtonSelector" format="reference" />
 
     <!-- icons -->

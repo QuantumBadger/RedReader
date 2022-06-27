@@ -1715,4 +1715,12 @@
 		<item quantity="other">%d comments.</item>
 	</plurals>
 
+	<!-- 2022-05-29 -->
+	<string name="find_location">Find Location</string>
+
+	<string name="find_location_button_goto_subreddit">Go to subreddit</string>
+	<string name="find_location_button_goto_user">User</string>
+	<string name="find_location_button_goto_url">URL</string>
+	<string name="find_location_button_search_posts">Search Posts</string>
+
 </resources>

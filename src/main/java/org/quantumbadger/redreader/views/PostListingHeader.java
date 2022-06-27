@@ -47,37 +47,40 @@ public final class PostListingHeader extends LinearLayout {
 
 		setOrientation(LinearLayout.VERTICAL);
 
-		final LinearLayout greyHeader = new LinearLayout(activity);
-		greyHeader.setOrientation(LinearLayout.VERTICAL);
+		if(!PrefsUtility.pref_appearance_post_hide_subreddit_header()) {
 
-		{
-			final TypedArray appearance = activity.obtainStyledAttributes(new int[] {
-					R.attr.rrPostListHeaderBackgroundCol});
+			final LinearLayout greyHeader = new LinearLayout(activity);
+			greyHeader.setOrientation(LinearLayout.VERTICAL);
 
-			greyHeader.setBackgroundColor(appearance.getColor(0, General.COLOR_INVALID));
+			{
+				final TypedArray appearance = activity.obtainStyledAttributes(new int[]{
+						R.attr.rrPostListHeaderBackgroundCol});
 
-			appearance.recycle();
+				greyHeader.setBackgroundColor(appearance.getColor(0, General.COLOR_INVALID));
+
+				appearance.recycle();
+			}
+
+			final int sidesPadding = (int)(15.0f * dpScale);
+			final int topPadding = (int)(10.0f * dpScale);
+
+			greyHeader.setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
+
+			final TextView title = new TextView(activity);
+			title.setText(titleText);
+			title.setTextSize(22.0f);
+			title.setTypeface(Fonts.getRobotoLightOrAlternative());
+			title.setTextColor(Color.WHITE);
+			greyHeader.addView(title);
+
+			final TextView subtitle = new TextView(activity);
+			subtitle.setTextSize(14.0f);
+			subtitle.setText(subtitleText);
+			subtitle.setTextColor(Color.rgb(200, 200, 200));
+			greyHeader.addView(subtitle);
+
+			addView(greyHeader);
 		}
-
-		final int sidesPadding = (int)(15.0f * dpScale);
-		final int topPadding = (int)(10.0f * dpScale);
-
-		greyHeader.setPadding(sidesPadding, topPadding, sidesPadding, topPadding);
-
-		final TextView title = new TextView(activity);
-		title.setText(titleText);
-		title.setTextSize(22.0f);
-		title.setTypeface(Fonts.getRobotoLightOrAlternative());
-		title.setTextColor(Color.WHITE);
-		greyHeader.addView(title);
-
-		final TextView subtitle = new TextView(activity);
-		subtitle.setTextSize(14.0f);
-		subtitle.setText(subtitleText);
-		subtitle.setTextColor(Color.rgb(200, 200, 200));
-		greyHeader.addView(subtitle);
-
-		addView(greyHeader);
 
 		if(subreddit != null
 				&& !PrefsUtility.pref_appearance_hide_headertoolbar_postlist()) {

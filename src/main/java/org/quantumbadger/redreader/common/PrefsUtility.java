@@ -135,7 +135,9 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(
 						R.string.pref_behaviour_collapse_sticky_comments_key))
 				|| key.equals(context.getString(
-						R.string.pref_accessibility_concise_mode_key));
+						R.string.pref_accessibility_concise_mode_key))
+				|| key.equals(context.getString(
+						R.string.pref_appearance_post_hide_subreddit_header_key));
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -529,6 +531,12 @@ public final class PrefsUtility {
 	public static boolean pref_appearance_hide_toolbar_on_scroll() {
 		return getBoolean(
 				R.string.pref_appearance_hide_toolbar_on_scroll_key,
+				false);
+	}
+
+	public static boolean pref_appearance_post_hide_subreddit_header() {
+		return getBoolean(
+				R.string.pref_appearance_post_hide_subreddit_header_key,
 				false);
 	}
 

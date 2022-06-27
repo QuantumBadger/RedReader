@@ -1,5 +1,6 @@
 /Alpha 317 (2022-06-27)
 Ability to hide subreddit header (thanks to Cameron Merkel)
+Find Location: Fix for missing loading spinner
 
 /Alpha 316 (2022-06-27)
 Renamed "Find Subreddit" to "Find Location"

@@ -157,11 +157,6 @@ public class SubredditSearchActivity extends BaseActivity implements
 
 		Log.i(TAG, "Updating list");
 
-		if(!mLoadingItem.isHidden()) {
-			mLoadingItem.setHidden(true);
-			mRecyclerViewAdapter.updateHiddenStatus();
-		}
-
 		if(mSubscriptionsErrorItem.get().isPresent()) {
 
 			mRecyclerViewAdapter.removeAllFromGroup(GROUP_SUBREDDITS);
@@ -189,6 +184,9 @@ public class SubredditSearchActivity extends BaseActivity implements
 			if(mSubscriptionListPending.get() != Boolean.TRUE) {
 				requestSubscriptions();
 			}
+
+			mLoadingItem.setHidden(false);
+			mRecyclerViewAdapter.updateHiddenStatus();
 
 		} else {
 
@@ -249,12 +247,19 @@ public class SubredditSearchActivity extends BaseActivity implements
 								mSubredditItemCache.get(subreddit));
 					}
 				}
+
+				mLoadingItem.setHidden(false);
+				mRecyclerViewAdapter.updateHiddenStatus();
+
 			} else if(!currentQuery.trim().isEmpty()) {
 
 				if(mQueryErrorItem.get().isPresent()) {
 					mRecyclerViewAdapter.appendToGroup(
 							GROUP_SUBREDDITS,
 							mQueryErrorItem.get().get());
+
+					mLoadingItem.setHidden(true);
+					mRecyclerViewAdapter.updateHiddenStatus();
 
 				} else {
 					mLoadingItem.setHidden(false);
@@ -264,9 +269,6 @@ public class SubredditSearchActivity extends BaseActivity implements
 
 			mRecyclerViewAdapter.notifyDataSetChanged();
 			mSubredditItemCache.nextGeneration();
-
-			mLoadingItem.setHidden(true);
-			mRecyclerViewAdapter.updateHiddenStatus();
 		}
 	}
 
@@ -333,7 +335,6 @@ public class SubredditSearchActivity extends BaseActivity implements
 
 		final RedditAccount user
 				= RedditAccountManager.getInstance(this).getDefaultAccount();
-
 		final RedditSubredditSubscriptionManager subscriptionManager
 				= RedditSubredditSubscriptionManager.getSingleton(this, user);
 

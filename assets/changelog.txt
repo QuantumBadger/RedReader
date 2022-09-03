@@ -1,6 +1,7 @@
 104/1.20
 Renamed "Find Subreddit" to "Find Location"
-Find Location now lets you jump to a specific subreddit/user without waiting for the search
+Find Location: Now lets you jump to a specific subreddit/user without waiting for the search
+Find Location: Existing subscriptions now appear immediately with no loading time, and descriptions are hidden
 Added preference to keep screen awake (thanks to Thung Yong Han)
 Ability to show comment count in post subtitle (thanks to Cameron Merkel)
 Ability to hide subreddit header (thanks to Cameron Merkel)

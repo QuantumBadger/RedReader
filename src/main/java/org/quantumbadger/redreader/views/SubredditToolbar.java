@@ -38,11 +38,9 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.reddit.SubredditDetails;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
-import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.util.Objects;
 
@@ -62,24 +60,17 @@ public class SubredditToolbar extends LinearLayout implements
 	private Runnable mRunnableOnSubscriptionsChange;
 	private Runnable mRunnableOnPinnedChange;
 
-	@NonNull private Optional<RedditSubreddit> mSubreddit = Optional.empty();
-	@NonNull private Optional<SubredditCanonicalId> mSubredditId = Optional.empty();
+	@NonNull private Optional<SubredditDetails> mSubredditDetails = Optional.empty();
 	@NonNull private Optional<String> mUrl = Optional.empty();
 
 	private ImageButton mButtonInfo;
 
 	public void bindSubreddit(
-			@NonNull final RedditSubreddit subreddit,
+			@NonNull final SubredditDetails subreddit,
 			@NonNull final Optional<String> url) {
 
-		mSubreddit = Optional.of(subreddit);
+		mSubredditDetails = Optional.of(subreddit);
 		mUrl = url;
-
-		try {
-			mSubredditId = Optional.of(subreddit.getCanonicalId());
-		} catch(final InvalidSubredditNameException e) {
-			throw new RuntimeException(e);
-		}
 
 		if(subreddit.hasSidebar()) {
 			mButtonInfo.setVisibility(VISIBLE);
@@ -158,7 +149,7 @@ public class SubredditToolbar extends LinearLayout implements
 
 			final SubredditSubscriptionState
 					subscriptionState = subscriptionManager.getSubscriptionState(
-					mSubredditId.get());
+					mSubredditDetails.get().id);
 
 			if(subscriptionState == SubredditSubscriptionState.SUBSCRIBED) {
 
@@ -182,7 +173,7 @@ public class SubredditToolbar extends LinearLayout implements
 		mRunnableOnPinnedChange = () -> {
 
 			final boolean pinned = PrefsUtility.pref_pinned_subreddits_check(
-					mSubredditId.get());
+					mSubredditDetails.get().id);
 
 			if(pinned) {
 				buttonPin.setVisibility(GONE);
@@ -219,37 +210,37 @@ public class SubredditToolbar extends LinearLayout implements
 
 		} else {
 			buttonSubscribe.setOnClickListener(v -> subscriptionManager.subscribe(
-					mSubredditId.get(),
+					mSubredditDetails.get().id,
 					activity));
 
 			buttonUnsubscribe.setOnClickListener(v -> subscriptionManager.unsubscribe(
-					mSubredditId.get(),
+					mSubredditDetails.get().id,
 					activity));
 
 			buttonSubmit.setOnClickListener(v -> {
 				final Intent intent = new Intent(
 						activity,
 						PostSubmitActivity.class);
-				intent.putExtra("subreddit", mSubredditId.get().toString());
+				intent.putExtra("subreddit", mSubredditDetails.get().id.toString());
 				activity.startActivity(intent);
 			});
 		}
 
 		buttonPin.setOnClickListener(v -> PrefsUtility.pref_pinned_subreddits_add(
 				mContext,
-				mSubredditId.get()));
+				mSubredditDetails.get().id));
 
 		buttonUnpin.setOnClickListener(v -> PrefsUtility.pref_pinned_subreddits_remove(
 				mContext,
-				mSubredditId.get()));
+				mSubredditDetails.get().id));
 
 		buttonShare.setOnClickListener(v -> LinkHandler.shareText(
 				activity,
-				mSubredditId.get().toString(),
-				mUrl.orElse(mSubreddit.get().getUrl())));
+				mSubredditDetails.get().id.toString(),
+				mUrl.orElse(mSubredditDetails.get().url)));
 
 		mButtonInfo.setOnClickListener(
-				v -> mSubreddit.get().showSidebarActivity(activity));
+				v -> mSubredditDetails.get().showSidebarActivity(activity));
 	}
 
 	@Override

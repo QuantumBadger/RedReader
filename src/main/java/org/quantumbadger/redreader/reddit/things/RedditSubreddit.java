@@ -197,8 +197,11 @@ public class RedditSubreddit implements
 		return display_name.compareToIgnoreCase(another.display_name);
 	}
 
-	public String getSidebarHtml(final boolean nightMode) {
-		final String unescaped = StringEscapeUtils.unescapeHtml4(description_html);
+	public static String getSidebarHtmlStatic(
+			final boolean nightMode,
+			@NonNull final String htmlEscaped) {
+
+		final String unescaped = StringEscapeUtils.unescapeHtml4(htmlEscaped);
 
 		final StringBuilder result = new StringBuilder(unescaped.length() + 512);
 
@@ -224,6 +227,10 @@ public class RedditSubreddit implements
 		result.append("</html>");
 
 		return result.toString();
+	}
+
+	public String getSidebarHtml(final boolean nightMode) {
+		return getSidebarHtmlStatic(nightMode, description_html);
 	}
 
 	public boolean hasSidebar() {

@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.reddit.SubredditDetails;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 
@@ -89,7 +90,9 @@ public final class PostListingHeader extends LinearLayout {
 					inflate(activity, R.layout.subreddit_header_toolbar, this)
 							.findViewById(R.id.subreddit_toolbar_layout);
 
-			buttons.bindSubreddit(subreddit, Optional.of(url.browserUrl()));
+			buttons.bindSubreddit(
+					SubredditDetails.newWithRuntimeException(subreddit),
+					Optional.of(url.browserUrl()));
 		}
 	}
 }

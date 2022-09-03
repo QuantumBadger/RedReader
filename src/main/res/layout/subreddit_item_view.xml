@@ -34,7 +34,8 @@
 				android:id="@+id/subreddit_item_view_go"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:paddingBottom="8dp"
+				android:paddingTop="12dp"
+				android:paddingBottom="12dp"
 				android:clickable="true"
 				android:focusable="true"
 				android:background="@drawable/rr_list_item_selector">
@@ -46,7 +47,6 @@
 					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintEnd_toStartOf="@id/subreddit_item_view_go_icon"
-					android:layout_marginTop="8dp"
 					android:layout_marginStart="16dp"
 					android:layout_marginEnd="16dp"
 					android:layout_marginLeft="16dp"
@@ -72,9 +72,11 @@
 					android:id="@+id/subreddit_item_view_go_icon"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_margin="16dp"
+					android:layout_marginEnd="16dp"
+					android:layout_marginRight="16dp"
 					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintEnd_toEndOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
 					android:src="?rrIconChevronRight"
 					tools:ignore="ContentDescription"/>
 
@@ -89,14 +91,14 @@
 				android:layout_marginLeft="16dp"
 				android:layout_marginRight="16dp"
 				android:layout_marginTop="4dp"
+				android:layout_marginBottom="16dp"
 				android:lineSpacingExtra="8dp" />
 
 		<include
 			layout="@layout/subreddit_header_toolbar"
 			android:id="@+id/subreddit_item_view_actions"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="16dp"/>
+			android:layout_height="wrap_content"/>
 
 	</androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.FunctionOneArgNoReturn;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
@@ -239,12 +240,38 @@ public class RedditSubredditSubscriptionManager {
 				.collect(new ArrayList<>());
 	}
 
-	public synchronized void triggerUpdateIfNotReady() {
+	public synchronized void triggerUpdateIfNotReady(
+			@Nullable final FunctionOneArgNoReturn<SubredditRequestFailure> onFailure) {
+
+		final RequestResponseHandler<HashSet<SubredditCanonicalId>, SubredditRequestFailure> handler
+				= new RequestResponseHandler<
+						HashSet<SubredditCanonicalId>,
+						SubredditRequestFailure>() {
+
+			@Override
+			public void onRequestFailed(final SubredditRequestFailure failureReason) {
+				if(onFailure != null) {
+					onFailure.apply(failureReason);
+				}
+			}
+
+			@Override
+			public void onRequestSuccess(
+					final HashSet<SubredditCanonicalId> result,
+					final long timeCached) {
+				// Do nothing
+			}
+		};
+
 		if(!areSubscriptionsReady()
 				&& (mLastUpdateRequestTime == 0
 				|| RRTime.since(mLastUpdateRequestTime) > RRTime.secsToMs(10))) {
-			triggerUpdate(null, TimestampBound.notOlderThan(RRTime.hoursToMs(1)));
+			triggerUpdate(handler, TimestampBound.notOlderThan(RRTime.hoursToMs(1)));
 		}
+	}
+
+	public synchronized void triggerUpdateIfNotReady() {
+		triggerUpdateIfNotReady(null);
 	}
 
 	public synchronized void triggerUpdate(

@@ -31,9 +31,9 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.reddit.SubredditDetails;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.views.SubredditToolbar;
 
 import java.text.NumberFormat;
@@ -69,13 +69,13 @@ public class SubredditItemViewHolder extends RecyclerView.ViewHolder {
 		mGoButton = this.itemView.findViewById(R.id.subreddit_item_view_go);
 	}
 
-	public void bind(@NonNull final RedditSubreddit subreddit) {
+	public void bind(@NonNull final SubredditDetails subreddit) {
 
-		mPrimaryText.setText(subreddit.display_name);
+		mPrimaryText.setText(subreddit.name);
 
 		final String subtitle;
 		if(subreddit.subscribers == null) {
-			subtitle = mActivity.getString(R.string.header_subscriber_count_unknown);
+			subtitle = null;
 		} else {
 			subtitle = mActivity.getString(
 					R.string.header_subscriber_count,
@@ -83,27 +83,36 @@ public class SubredditItemViewHolder extends RecyclerView.ViewHolder {
 							.format(subreddit.subscribers));
 		}
 
-		mSubText.setText(subtitle);
+		if(subtitle == null) {
+			mSubText.setVisibility(View.GONE);
+		} else {
+			mSubText.setVisibility(View.VISIBLE);
+			mSubText.setText(subtitle);
+		}
 
 		mSupportingText.removeAllViews();
 
-		if(subreddit.public_description_html != null
-				&& !subreddit.public_description_html.trim().isEmpty()) {
+		if(subreddit.publicDescriptionHtmlEscaped != null
+				&& !subreddit.publicDescriptionHtmlEscaped.trim().isEmpty()) {
 
 			final BodyElement body = HtmlReader.parse(
-					StringEscapeUtils.unescapeHtml4(subreddit.public_description_html),
+					StringEscapeUtils.unescapeHtml4(subreddit.publicDescriptionHtmlEscaped),
 					mActivity);
+
+			mSupportingText.setVisibility(View.VISIBLE);
 
 			mSupportingText.addView(body.generateView(
 					mActivity,
 					mTheme.rrCommentBodyCol,
 					13.0f * mBodyFontScale,
 					false));
+		} else {
+			mSupportingText.setVisibility(View.GONE);
 		}
 
 		mActions.bindSubreddit(subreddit, Optional.empty());
 
 		mGoButton.setOnClickListener(
-				v -> LinkHandler.onLinkClicked(mActivity, subreddit.getUrl()));
+				v -> LinkHandler.onLinkClicked(mActivity, subreddit.url));
 	}
 }

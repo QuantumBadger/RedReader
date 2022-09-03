@@ -36,17 +36,21 @@ import org.quantumbadger.redreader.adapters.GroupedRecyclerViewItemRRError;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.EventListenerSet;
+import org.quantumbadger.redreader.common.FunctionOneArgNoReturn;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenerationalCache;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.ThreadCheckedVar;
+import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.SubredditDetails;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.viewholders.SubredditItemViewHolder;
 import org.quantumbadger.redreader.views.SubredditSearchQuickLinks;
 
@@ -61,10 +65,12 @@ public class SubredditSearchActivity extends BaseActivity implements
 
 	private static final String TAG = "SubredditSearchActivity";
 
+	private RedditSubredditSubscriptionManager mSubredditSubscriptionManager;
+
 	@NonNull private final ThreadCheckedVar<SearchView> mSearchView
 			= new ThreadCheckedVar<>(null);
 
-	@NonNull private final ThreadCheckedVar<Optional<ArrayList<RedditSubreddit>>>
+	@NonNull private final ThreadCheckedVar<Optional<ArrayList<SubredditDetails>>>
 			mSubscriptions = new ThreadCheckedVar<>(Optional.empty());
 
 	@NonNull private final ThreadCheckedVar<HashSet<String>> mQueriesPending
@@ -73,10 +79,10 @@ public class SubredditSearchActivity extends BaseActivity implements
 	@NonNull private final ThreadCheckedVar<Boolean> mSubscriptionListPending
 			= new ThreadCheckedVar<>(false);
 
-	@NonNull private final ThreadCheckedVar<HashMap<String, ArrayList<RedditSubreddit>>>
+	@NonNull private final ThreadCheckedVar<HashMap<String, ArrayList<SubredditDetails>>>
 			mQueryResults = new ThreadCheckedVar<>(new HashMap<>());
 
-	@NonNull private final GenerationalCache<RedditSubreddit, SubredditItem>
+	@NonNull private final GenerationalCache<SubredditDetails, SubredditItem>
 			mSubredditItemCache = new GenerationalCache<>(SubredditItem::new);
 
 	@NonNull private Optional<RedditSubredditSubscriptionManager.ListenerContext>
@@ -118,9 +124,9 @@ public class SubredditSearchActivity extends BaseActivity implements
 	private class SubredditItem
 			extends GroupedRecyclerViewAdapter.Item<SubredditItemViewHolder> {
 
-		@NonNull private final RedditSubreddit mSubreddit;
+		@NonNull private final SubredditDetails mSubreddit;
 
-		private SubredditItem(@NonNull final RedditSubreddit subreddit) {
+		private SubredditItem(@NonNull final SubredditDetails subreddit) {
 			mSubreddit = subreddit;
 		}
 
@@ -192,19 +198,21 @@ public class SubredditSearchActivity extends BaseActivity implements
 
 			final HashSet<String> shownSubreddits = new HashSet<>(256);
 
-			final ArrayList<RedditSubreddit> possibleSuggestions
+			final ArrayList<SubredditDetails> possibleSuggestions
 					= new ArrayList<>(mSubscriptions.get().get());
+
+			Collections.sort(possibleSuggestions, (o1, o2) -> o1.name.compareTo(o2.name));
 
 			final String asciiLowercaseQuery = StringUtils.asciiLowercase(currentQuery);
 
 			{
-				final Iterator<RedditSubreddit> it = possibleSuggestions.iterator();
+				final Iterator<SubredditDetails> it = possibleSuggestions.iterator();
 
 				while(it.hasNext()) {
-					final RedditSubreddit entry = it.next();
+					final SubredditDetails entry = it.next();
 
 					final String lowercaseName
-							= StringUtils.asciiLowercase(entry.display_name);
+							= StringUtils.asciiLowercase(entry.name);
 
 					if(lowercaseName.startsWith(asciiLowercaseQuery)
 							&& shownSubreddits.add(lowercaseName)) {
@@ -217,13 +225,13 @@ public class SubredditSearchActivity extends BaseActivity implements
 			}
 
 			{
-				final Iterator<RedditSubreddit> it = possibleSuggestions.iterator();
+				final Iterator<SubredditDetails> it = possibleSuggestions.iterator();
 
 				while(it.hasNext()) {
-					final RedditSubreddit entry = it.next();
+					final SubredditDetails entry = it.next();
 
 					final String lowercaseName
-							= StringUtils.asciiLowercase(entry.display_name);
+							= StringUtils.asciiLowercase(entry.name);
 
 					if(lowercaseName.contains(asciiLowercaseQuery)
 							&& shownSubreddits.add(lowercaseName)) {
@@ -235,12 +243,12 @@ public class SubredditSearchActivity extends BaseActivity implements
 				}
 			}
 
-			final ArrayList<RedditSubreddit> currentQueryResults
+			final ArrayList<SubredditDetails> currentQueryResults
 					= mQueryResults.get().get(currentQuery);
 
 			if(currentQueryResults != null) {
-				for(final RedditSubreddit subreddit : currentQueryResults) {
-					final String name = StringUtils.asciiLowercase(subreddit.display_name);
+				for(final SubredditDetails subreddit : currentQueryResults) {
+					final String name = StringUtils.asciiLowercase(subreddit.name);
 					if(shownSubreddits.add(name)) {
 						mRecyclerViewAdapter.appendToGroup(
 								GROUP_SUBREDDITS,
@@ -276,6 +284,10 @@ public class SubredditSearchActivity extends BaseActivity implements
 	protected void onCreate(final Bundle savedInstanceState) {
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
+
+		mSubredditSubscriptionManager = RedditSubredditSubscriptionManager.getSingleton(
+				this,
+				RedditAccountManager.getInstance(this).getDefaultAccount());
 
 		final EventListenerSet<String> queryEventListeners = new EventListenerSet<>();
 
@@ -333,13 +345,8 @@ public class SubredditSearchActivity extends BaseActivity implements
 			}
 		});
 
-		final RedditAccount user
-				= RedditAccountManager.getInstance(this).getDefaultAccount();
-		final RedditSubredditSubscriptionManager subscriptionManager
-				= RedditSubredditSubscriptionManager.getSingleton(this, user);
-
 		mSubredditSubscriptionListenerContext
-				= Optional.of(subscriptionManager.addListener(this));
+				= Optional.of(mSubredditSubscriptionManager.addListener(this));
 
 		requestSubscriptions();
 
@@ -419,8 +426,13 @@ public class SubredditSearchActivity extends BaseActivity implements
 
 						Log.i(TAG, "Search results received");
 
+						final ArrayList<SubredditDetails> results
+								= new CollectionStream<>(value.subreddits)
+										.map(SubredditDetails::newWithRuntimeException)
+										.collect(new ArrayList<>());
+
 						AndroidCommon.runOnUiThread(() -> {
-							mQueryResults.get().put(text, value.subreddits);
+							mQueryResults.get().put(text, results);
 							mQueriesPending.get().remove(text);
 							updateList();
 						});
@@ -433,9 +445,7 @@ public class SubredditSearchActivity extends BaseActivity implements
 								SubredditSearchActivity.this,
 								t);
 
-						AndroidCommon.runOnUiThread(() -> {
-							mQueriesPending.get().remove(text);
-						});
+						AndroidCommon.runOnUiThread(() -> mQueriesPending.get().remove(text));
 					}
 
 					@Override
@@ -494,183 +504,53 @@ public class SubredditSearchActivity extends BaseActivity implements
 			return;
 		}
 
-		final CacheManager cacheManager = CacheManager.getInstance(this);
-
-		final RedditAccount user
-				= RedditAccountManager.getInstance(this).getDefaultAccount();
-
 		mSubscriptionListPending.set(true);
 
-		if(user.isNotAnonymous()) {
+		final FunctionOneArgNoReturn<ArrayList<SubredditCanonicalId>> onSuccess
+				= list -> AndroidCommon.runOnUiThread(() -> {
 
-			Log.i(TAG, "Requesting subscriptions");
+			if(mSubscriptionListPending.get() && list != null) {
 
-			RedditAPI.subscribedSubreddits(
-					cacheManager,
-					user,
-					this,
-					new APIResponseHandler.ValueResponseHandler<
-							ArrayList<RedditSubreddit>>(this) {
+				mSubscriptionListPending.set(false);
 
-						@Override
-						protected void onSuccess(
-								@NonNull final ArrayList<RedditSubreddit> value) {
+				final ArrayList<SubredditDetails> subscriptions = new CollectionStream<>(list)
+						.map(SubredditDetails::new)
+						.collect(new ArrayList<>());
 
-							Log.i(TAG, "Subscriptions received: " + value.size());
-							Collections.sort(value);
+				mSubscriptions.set(Optional.of(subscriptions));
+			}
+		});
 
-							AndroidCommon.runOnUiThread(() -> {
-								mSubscriptionListPending.set(false);
-								mSubscriptions.set(Optional.of(value));
-								updateList();
-							});
-						}
+		mSubredditSubscriptionManager.triggerUpdateIfNotReady(
+				error -> AndroidCommon.runOnUiThread(() -> {
 
-						@Override
-						protected void onCallbackException(
-								final Throwable t) {
+			mQueryErrorItem.set(Optional.of(
+					new GroupedRecyclerViewItemRRError(
+							this,
+							error.asError(this))));
+			updateList();
+		}));
 
-							AndroidCommon.runOnUiThread(() -> mSubscriptionListPending.set(false));
-							BugReportActivity.handleGlobalError(
-									SubredditSearchActivity.this,
-									t);
-						}
+		mSubredditSubscriptionManager.addListener(
+				new RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener() {
 
-						@Override
-						protected void onFailure(
-								final int type,
-								@Nullable final Throwable t,
-								@Nullable final Integer status,
-								@Nullable final String readableMessage,
-								@NonNull final Optional<FailedRequestBody> response) {
+			@Override
+			public void onSubredditSubscriptionListUpdated(
+					final RedditSubredditSubscriptionManager subredditSubscriptionManager) {
 
-							AndroidCommon.runOnUiThread(() -> {
-								mSubscriptionListPending.set(false);
-								mSubscriptionsErrorItem.set(Optional.of(
-										new GroupedRecyclerViewItemRRError(
-												SubredditSearchActivity.this,
-												General.getGeneralErrorForFailure(
-														SubredditSearchActivity.this,
-														type,
-														t,
-														status,
-														null,
-														response))));
-								updateList();
-							});
-						}
+				onSuccess.apply(subredditSubscriptionManager.getSubscriptionList());
+			}
 
-						@Override
-						protected void onFailure(
-								@NonNull final APIFailureType type,
-								@Nullable final String debuggingContext,
-								@NonNull final Optional<FailedRequestBody> response) {
+			@Override
+			public void onSubredditSubscriptionAttempted(
+					final RedditSubredditSubscriptionManager subredditSubscriptionManager) {}
 
-							AndroidCommon.runOnUiThread(() -> {
-								mSubscriptionListPending.set(false);
-								mSubscriptionsErrorItem.set(Optional.of(
-										new GroupedRecyclerViewItemRRError(
-												SubredditSearchActivity.this,
-												General.getGeneralErrorForFailure(
-														SubredditSearchActivity.this,
-														type,
-														debuggingContext,
-														response))));
-								updateList();
-							});
-						}
-					});
-		} else {
+			@Override
+			public void onSubredditUnsubscriptionAttempted(
+					final RedditSubredditSubscriptionManager subredditSubscriptionManager) {}
+		});
 
-			Log.i(TAG, "Requesting popular");
-
-			RedditAPI.popularSubreddits(
-					cacheManager,
-					user,
-					this,
-					new APIResponseHandler.ValueResponseHandler<
-							RedditAPI.SubredditListResponse>(this) {
-
-						@Override
-						protected void onSuccess(
-								@NonNull final RedditAPI.SubredditListResponse value) {
-
-							Collections.sort(value.subreddits, (a, b) -> {
-
-								final int subsA = a.subscribers != null
-										? a.subscribers
-										: 0;
-
-								final int subsB = b.subscribers != null
-										? b.subscribers
-										: 0;
-
-								return Integer.compare(subsB, subsA);
-							});
-
-							AndroidCommon.runOnUiThread(() -> {
-								mSubscriptionListPending.set(false);
-								mSubscriptions.set(Optional.of(value.subreddits));
-								updateList();
-							});
-						}
-
-						@Override
-						protected void onCallbackException(
-								final Throwable t) {
-
-							AndroidCommon.runOnUiThread(() -> mSubscriptionListPending.set(false));
-							BugReportActivity.handleGlobalError(
-									SubredditSearchActivity.this,
-									t);
-						}
-
-						@Override
-						protected void onFailure(
-								final int type,
-								@Nullable final Throwable t,
-								@Nullable final Integer status,
-								@Nullable final String readableMessage,
-								@NonNull final Optional<FailedRequestBody> response) {
-
-							AndroidCommon.runOnUiThread(() -> {
-								mSubscriptionListPending.set(false);
-								mSubscriptionsErrorItem.set(Optional.of(
-										new GroupedRecyclerViewItemRRError(
-												SubredditSearchActivity.this,
-												General.getGeneralErrorForFailure(
-														SubredditSearchActivity.this,
-														type,
-														t,
-														status,
-														null,
-														response))));
-								updateList();
-							});
-						}
-
-						@Override
-						protected void onFailure(
-								@NonNull final APIFailureType type,
-								@Nullable final String debuggingContext,
-								@NonNull final Optional<FailedRequestBody> response) {
-
-							AndroidCommon.runOnUiThread(() -> {
-								mSubscriptionListPending.set(false);
-								mSubscriptionsErrorItem.set(Optional.of(
-										new GroupedRecyclerViewItemRRError(
-												SubredditSearchActivity.this,
-												General.getGeneralErrorForFailure(
-														SubredditSearchActivity.this,
-														type,
-														debuggingContext,
-														response))));
-								updateList();
-							});
-						}
-					},
-					Optional.empty());
-		}
+		onSuccess.apply(mSubredditSubscriptionManager.getSubscriptionList());
 	}
 
 	@Override

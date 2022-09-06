@@ -117,14 +117,15 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 	}
 
 	public String getIconUrl() {
-		if (icon_img.contains(".png"))
+		if (icon_img.contains(".png")) {
 			return icon_img.split(".png")[0] + ".png";
-		else if (icon_img.contains(".jpg"))
+		} else if (icon_img.contains(".jpg")) {
 			return icon_img.split(".jpg")[0] + ".jpg";
-		else if (icon_img.contains(".jpeg"))
+		} else if (icon_img.contains(".jpeg")) {
 			return icon_img.split(".jpeg")[0] + ".jpeg";
-		else
+		} else {
 			return "";
+		}
 	}
 
 	public static final Parcelable.Creator<RedditUser> CREATOR

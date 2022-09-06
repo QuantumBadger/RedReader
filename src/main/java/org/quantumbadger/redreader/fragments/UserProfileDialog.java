@@ -135,22 +135,22 @@ public class UserProfileDialog extends PropertiesDialog {
 										= avatarLayout
 										.findViewById(R.id.layout_avatar_image);
 
-								ExecutorService executor = Executors.newSingleThreadExecutor();
-								executor.execute(() -> {
+								final ExecutorService exec = Executors.newSingleThreadExecutor();
+								exec.execute(() -> {
 									try {
-										URL splitUrl = new URL(user.getIconUrl());
-										InputStream stream = splitUrl.openStream();
-										Bitmap img = BitmapFactory.decodeStream(stream);
+										final URL splitUrl = new URL(user.getIconUrl());
+										final InputStream stream = splitUrl.openStream();
+										final Bitmap img = BitmapFactory.decodeStream(stream);
 
 										new Handler(Looper.getMainLooper()).post(() -> {
 											avatarImage.setImageBitmap(img);
 										});
-									} catch (Exception e) {
-										e.printStackTrace();
+									} catch (final Exception e) {
+										Log.e("UserProfileDialog", String.valueOf(e));
 									}
 								});
 							} else {
-								Log.d("UserDialog", "Unknown icon url: " + user.icon_img);
+								Log.d("UserProfileDialog", "Unknown icon url: " + user.icon_img);
 							}
 
 							final LinearLayout karmaLayout

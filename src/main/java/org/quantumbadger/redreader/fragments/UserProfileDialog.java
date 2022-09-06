@@ -21,8 +21,14 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -49,6 +55,10 @@ import org.quantumbadger.redreader.reddit.things.RedditUser;
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class UserProfileDialog extends PropertiesDialog {
 
@@ -114,6 +124,34 @@ public class UserProfileDialog extends PropertiesDialog {
 							}
 
 							loadingView.setDone(R.string.download_done);
+
+							if (user.getIconUrl() != "") {
+								final LinearLayout avatarLayout
+										= (LinearLayout) context.getLayoutInflater()
+										.inflate(R.layout.avatar, null);
+								items.addView(avatarLayout);
+
+								final ImageView avatarImage
+										= avatarLayout
+										.findViewById(R.id.layout_avatar_image);
+
+								ExecutorService executor = Executors.newSingleThreadExecutor();
+								executor.execute(() -> {
+									try {
+										URL splitUrl = new URL(user.getIconUrl());
+										InputStream stream = splitUrl.openStream();
+										Bitmap img = BitmapFactory.decodeStream(stream);
+
+										new Handler(Looper.getMainLooper()).post(() -> {
+											avatarImage.setImageBitmap(img);
+										});
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+								});
+							} else {
+								Log.d("UserDialog", "Unknown icon url: " + user.icon_img);
+							}
 
 							final LinearLayout karmaLayout
 									= (LinearLayout)context.getLayoutInflater()

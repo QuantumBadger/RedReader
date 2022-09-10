@@ -1,4 +1,5 @@
 -dontobfuscate
+-keepattributes LineNumberTable,SourceFile
 
 -keepclassmembers class * extends org.quantumbadger.redreader.io.WritableObject {
 	*;

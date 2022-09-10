@@ -1,3 +1,6 @@
+/Alpha 319 (2022-09-10)
+Fixed parse error when viewing deleted posts
+
 /Alpha 318 (2022-09-03)
 Find Location: Existing subscriptions now appear immediately with no loading time, and descriptions are hidden
 

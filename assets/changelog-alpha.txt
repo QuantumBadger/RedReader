@@ -1,3 +1,6 @@
+/Alpha 320 (2022-09-10)
+Use updated RedGIFs API
+
 /Alpha 319 (2022-09-10)
 Fixed parse error when viewing deleted posts
 

@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.http.body;
 
 import androidx.annotation.NonNull;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.http.PostField;
 
 import java.util.ArrayList;
@@ -28,6 +29,10 @@ public class HTTPRequestBodyPostFields implements HTTPRequestBody {
 	@NonNull private final ArrayList<PostField> mPostFields = new ArrayList<>();
 
 	public HTTPRequestBodyPostFields() {
+	}
+
+	public HTTPRequestBodyPostFields(final PostField... fields) {
+		this(General.listFromArray(fields));
 	}
 
 	public HTTPRequestBodyPostFields(@NonNull final Collection<PostField> postFields) {

@@ -263,4 +263,7 @@ public final class Constants {
 		public static final int INLINE_IMAGE_PREVIEW = 203;
 		public static final int IMAGE_INFO = 300;
 	}
+
+	public static final String OA_CS = "client_secret";
+	public static final String OA_CI = "client_id";
 }

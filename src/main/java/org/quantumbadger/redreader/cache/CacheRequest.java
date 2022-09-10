@@ -45,6 +45,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	public static final int DOWNLOAD_QUEUE_IMGUR_API = 1;
 	public static final int DOWNLOAD_QUEUE_IMMEDIATE = 2;
 	public static final int DOWNLOAD_QUEUE_IMAGE_PRECACHE = 3;
+	public static final int DOWNLOAD_QUEUE_REDGIFS_API_V2 = 4;
 
 	public static final int REQUEST_FAILURE_CONNECTION = 0;
 	public static final int REQUEST_FAILURE_REQUEST = 1;
@@ -61,7 +62,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 
 	@IntDef({
 			DOWNLOAD_QUEUE_REDDIT_API, DOWNLOAD_QUEUE_IMGUR_API, DOWNLOAD_QUEUE_IMMEDIATE,
-			DOWNLOAD_QUEUE_IMAGE_PRECACHE})
+			DOWNLOAD_QUEUE_IMAGE_PRECACHE, DOWNLOAD_QUEUE_REDGIFS_API_V2})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface DownloadQueueType {
 	}

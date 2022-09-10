@@ -842,6 +842,14 @@ public final class General {
 	}
 
 	@SafeVarargs
+	@NonNull
+	public static <E> ArrayList<E> listFromArray(@NonNull final E... data) {
+		final ArrayList<E> result = new ArrayList<>(data.length);
+		Collections.addAll(result, data);
+		return result;
+	}
+
+	@SafeVarargs
 	public static <E> E nullAlternative(
 			final E... values) {
 

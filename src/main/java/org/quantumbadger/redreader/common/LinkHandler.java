@@ -58,6 +58,7 @@ import org.quantumbadger.redreader.image.ImgurAPIV3;
 import org.quantumbadger.redreader.image.RedditGalleryAPI;
 import org.quantumbadger.redreader.image.RedditVideosAPI;
 import org.quantumbadger.redreader.image.RedgifsAPI;
+import org.quantumbadger.redreader.image.RedgifsAPIV2;
 import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.ComposeMessageURL;
@@ -995,7 +996,50 @@ public class LinkHandler {
 			if(matchRedgifs.find()) {
 				final String imgId = matchRedgifs.group(1);
 				if(imgId.length() > 5) {
-					RedgifsAPI.getImageInfo(context, imgId, priority, listener);
+					RedgifsAPIV2.getImageInfo(
+							context,
+							imgId,
+							priority,
+							new ImageInfoRetryListener(listener) {
+
+						@Override
+						public void onFailure(
+								final int type,
+								final Throwable t,
+								final Integer status,
+								final String readableMessage,
+								@NonNull final Optional<FailedRequestBody> body) {
+
+							Log.e(
+									"getImageInfo",
+									"RedGifs V2 failed, trying V1 (" + readableMessage + ")",
+									t);
+
+							RedgifsAPI.getImageInfo(
+									context,
+									imgId,
+									priority,
+									new ImageInfoRetryListener(listener) {
+								@Override
+								public void onFailure(
+										final int type,
+										final Throwable t,
+										final Integer status,
+										final String readableMessage,
+										@NonNull final Optional<FailedRequestBody> body) {
+
+									// Retry V2 so that the final error which is logged
+									// relates to the V2 API
+									Log.e(
+											"getImageInfo",
+											"RedGifs V1 also failed, retrying V2",
+											t);
+
+									RedgifsAPIV2.getImageInfo(context, imgId, priority, listener);
+								}
+							});
+						}
+					});
 					return;
 				}
 			}

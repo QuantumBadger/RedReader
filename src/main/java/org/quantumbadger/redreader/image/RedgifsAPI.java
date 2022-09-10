@@ -24,11 +24,13 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
-import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfTimestampOutsideBounds;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -50,7 +52,9 @@ public final class RedgifsAPI {
 				RedditAccountManager.getAnon(),
 				null,
 				priority,
-				DownloadStrategyIfNotCached.INSTANCE,
+				// RedGifs links expire after an undocumented period of time
+				new DownloadStrategyIfTimestampOutsideBounds(
+						TimestampBound.notOlderThan(RRTime.minsToMs(10))),
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				context,

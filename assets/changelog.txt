@@ -5,6 +5,7 @@ Find Location: Existing subscriptions now appear immediately with no loading tim
 Added preference to keep screen awake (thanks to Thung Yong Han)
 Ability to show comment count in post subtitle (thanks to Cameron Merkel)
 Ability to hide subreddit header (thanks to Cameron Merkel)
+Use updated RedGIFs API
 Fixed parse error when viewing deleted posts
 
 103/1.19

@@ -427,6 +427,36 @@ public class ImageInfo implements Parcelable {
 				null);
 	}
 
+	public static ImageInfo parseRedgifsV2(final JsonObject object) {
+
+		final Long width = object.getLong("width");
+		final Long height = object.getLong("height");
+
+		final String urlOriginal = object.getStringAtPath("urls", "hd")
+				.orElse(object.getStringAtPath("urls", "sd"))
+				.orThrow(() -> new RuntimeException("No URL found"));
+
+		@Nullable final Boolean hasAudio = object.getBoolean("hasAudio");
+
+		@Nullable final String urlPreview = object.getStringAtPath("urls", "poster").orElseNull();
+
+		return new ImageInfo(
+				urlOriginal,
+				null,
+				null,
+				null,
+				"video/mp4",
+				true,
+				width,
+				height,
+				null,
+				MediaType.VIDEO,
+				HasAudio.fromBoolean(hasAudio),
+				urlPreview,
+				null,
+				null);
+	}
+
 	@Override
 	public int describeContents() {
 		return 0;

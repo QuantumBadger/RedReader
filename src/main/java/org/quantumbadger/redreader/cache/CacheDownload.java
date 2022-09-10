@@ -30,6 +30,7 @@ import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.common.datastream.MemoryDataStream;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.HTTPBackend;
+import org.quantumbadger.redreader.image.RedgifsAPIV2;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.io.IOException;
@@ -151,11 +152,13 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			}
 
 			request.addHeader("Authorization", "bearer " + accessToken.token);
-
 		}
 
 		if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_IMGUR_API) {
 			request.addHeader("Authorization", "Client-ID c3713d9e7674477");
+
+		} else if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDGIFS_API_V2) {
+			request.addHeader("Authorization", "Bearer " + RedgifsAPIV2.getLatestToken());
 		}
 
 		mInitiator.notifyDownloadStarted();

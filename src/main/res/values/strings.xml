@@ -1727,4 +1727,7 @@
 	<string name="pref_appearance_post_hide_subreddit_header_key">pref_appearance_post_hide_subreddit_header</string>
 	<string name="pref_appearance_post_hide_subreddit_header_title">Hide subreddit header</string>
 
+	<!-- 2022-09-10 -->
+	<string name="post_domain_deleted">deleted</string>
+
 </resources>

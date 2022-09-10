@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -35,10 +36,11 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 	private final RedditPost mSrc;
 
 	private final String mTitle;
-	private final String mUrl;
+	@Nullable private final String mUrl;
 	private final String mPermalink;
 	private final BodyElement mSelfText;
 	private final String mFlairText;
+	@NonNull private final String mDomain;
 
 	public RedditParsedPost(
 			@NonNull final AppCompatActivity activity,
@@ -72,6 +74,12 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		} else {
 			mFlairText = null;
 		}
+
+		if(src.domain == null) {
+			mDomain = activity.getString(R.string.post_domain_deleted);
+		} else {
+			mDomain = StringEscapeUtils.unescapeHtml4(src.domain);
+		}
 	}
 
 	@Override
@@ -88,6 +96,7 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return mTitle;
 	}
 
+	@Nullable
 	public String getUrl() {
 		return mUrl;
 	}
@@ -327,8 +336,9 @@ public class RedditParsedPost implements RedditThingWithIdAndType {
 		return mSrc.created_utc;
 	}
 
+	@NonNull
 	public String getDomain() {
-		return mSrc.domain;
+		return mDomain;
 	}
 
 	public boolean isSelfPost() {

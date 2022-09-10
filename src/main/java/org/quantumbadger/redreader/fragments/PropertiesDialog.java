@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -112,7 +113,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 	protected final LinearLayout propView(
 			final Context context,
 			final int titleRes,
-			final CharSequence text,
+			@Nullable final CharSequence text,
 			final boolean firstInList) {
 		return propView(context, context.getString(titleRes), text, firstInList);
 	}
@@ -121,7 +122,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 	protected final LinearLayout propView(
 			final Context context,
 			final String title,
-			final CharSequence text,
+			@Nullable final CharSequence text,
 			final boolean firstInList) {
 
 		final int paddingPixels = General.dpToPixels(context, 12);
@@ -144,7 +145,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		prop.addView(titleView);
 
 		final TextView textView = new TextView(context);
-		textView.setText(text);
+		textView.setText(text == null ? "<null>" : text);
 		textView.setTextColor(rrCommentBodyCol);
 		textView.setTextSize(15.0f);
 		textView.setPadding(paddingPixels, 0, paddingPixels, paddingPixels);

@@ -579,7 +579,11 @@ public class LinkHandler {
 	public static final Pattern giphyPattern
 			= Pattern.compile(".*[^A-Za-z]giphy\\.com/gifs/(\\w+).*");
 
-	public static boolean isProbablyAnImage(final String url) {
+	public static boolean isProbablyAnImage(@Nullable final String url) {
+
+		if(url == null) {
+			return false;
+		}
 
 		{
 			final Matcher matchImgur = imgurPattern.matcher(url);
@@ -952,9 +956,14 @@ public class LinkHandler {
 
 	public static void getImageInfo(
 			final Context context,
-			final String url,
+			@Nullable final String url,
 			@NonNull final Priority priority,
 			final GetImageInfoListener listener) {
+
+		if(url == null) {
+			listener.onNotAnImage();
+			return;
+		}
 
 		{
 			final Matcher matchImgur = imgurPattern.matcher(url);
@@ -1276,7 +1285,11 @@ public class LinkHandler {
 	public static void shareText(
 			@NonNull final AppCompatActivity activity,
 			@Nullable final String subject,
-			@NonNull final String text) {
+			@Nullable String text) {
+
+		if(text == null) {
+			text = "<null>";
+		}
 
 		final Intent mailer = new Intent(Intent.ACTION_SEND);
 		mailer.setType("text/plain");

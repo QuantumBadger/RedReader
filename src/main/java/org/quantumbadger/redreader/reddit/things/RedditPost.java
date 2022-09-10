@@ -102,6 +102,7 @@ public final class RedditPost implements
 		return rr_internal_dash_url;
 	}
 
+	@Nullable
 	public String getUrl() {
 
 		if(getDashUrl() != null) {

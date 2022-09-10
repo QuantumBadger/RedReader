@@ -450,7 +450,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 		}
 
-		final boolean isRedditVideo = post.src.getUrl().contains("v.redd.it");
+		@Nullable final String url = post.src.getUrl();
+
+		final boolean isRedditVideo = url != null && url.contains("v.redd.it");
 
 		if(itemPref.contains(Action.SHARE)) {
 			menu.add(new RPVMenuItem(
@@ -594,10 +596,16 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 			case EXTERNAL: {
 				try {
-					final Intent intent = new Intent(Intent.ACTION_VIEW);
 					final String url = (activity instanceof WebViewActivity)
 							? ((WebViewActivity)activity).getCurrentUrl()
 							: post.src.getUrl();
+
+					if(url == null) {
+						General.quickToast(activity, R.string.link_does_not_exist);
+						return;
+					}
+
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
 					intent.setData(Uri.parse(url));
 					activity.startActivity(intent);
 

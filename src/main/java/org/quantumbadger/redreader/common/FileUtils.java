@@ -223,7 +223,11 @@ public class FileUtils {
 
 	public static void shareImageAtUri(
 			@NonNull final BaseActivity activity,
-			@NonNull final String uri) {
+			@Nullable final String uri) {
+
+		if(uri == null) {
+			return;
+		}
 
 		downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
 
@@ -408,7 +412,11 @@ public class FileUtils {
 
 	public static void saveImageAtUri(
 			@NonNull final BaseActivity activity,
-			@NonNull final String uri) {
+			@Nullable final String uri) {
+
+		if(uri == null) {
+			return;
+		}
 
 		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 

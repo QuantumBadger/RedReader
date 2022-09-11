@@ -44,6 +44,7 @@
 			android:id="@+id/layout_avatar_image"
 			android:layout_width="150dp"
 			android:layout_height="150dp"
+			android:layout_gravity="center"
 			android:layout_marginStart="12dp"
 			android:layout_marginLeft="12dp"
 			android:layout_marginEnd="12dp"

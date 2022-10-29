@@ -53,7 +53,7 @@ android {
 	defaultConfig {
 		applicationId "org.quantumbadger.redreader"
 		minSdkVersion 16
-		targetSdkVersion 30
+		targetSdkVersion 31
 		versionCode 103
 		versionName "1.19"
 

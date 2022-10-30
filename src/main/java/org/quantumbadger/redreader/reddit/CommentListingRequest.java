@@ -18,9 +18,11 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -46,6 +48,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
+import org.quantumbadger.redreader.reddit.things.EmoteMetadata;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
@@ -54,6 +57,9 @@ import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 public class CommentListingRequest {
@@ -296,6 +302,43 @@ public class CommentListingRequest {
 		} else if(thing.getKind() == RedditThing.Kind.COMMENT) {
 
 			final RedditComment comment = thing.asComment();
+
+			if (comment.media_metadata != null && comment.media_metadata.asObject() != null) {
+				try {
+					final JsonObject metadataObj = comment.media_metadata.asObject();
+
+					final Iterator<Map.Entry<String, JsonValue>> jsonIterator = metadataObj
+							.iterator();
+
+					while (jsonIterator.hasNext()) {
+						final String key = jsonIterator.next().getKey();
+
+						final EmoteMetadata emoteMetadata = metadataObj
+								.get(key).asObject()
+								.asObject(EmoteMetadata.class);
+
+						// id is always structured as emote|{subreddit_id}|{emote_id}
+						// for subreddit emotes
+						if (emoteMetadata.id.split("\\|")[0] == "emote") {
+							final String emoteId = emoteMetadata.id.split("\\|")[2];
+
+							final String emotePlaceholder = String.format(Locale.getDefault(),
+									":%s:", emoteId);
+
+							final String imgTag = String.format(Locale.getDefault(),
+									"<img src=\"%s\" title=\"%s\"></img>",
+									emoteMetadata.s.u,
+									emotePlaceholder);
+
+							comment.body_html = comment.body_html.replace(emotePlaceholder, imgTag);
+						}
+					}
+				} catch (final Exception e) {
+					// Including this try-catch to cover for edge cases where reddit might send
+					// different values under media_metadata
+				}
+			}
+
 			final String currentCanonicalUserName = RedditAccountManager.getInstance(mContext)
 					.getDefaultAccount().getCanonicalUsername();
 			final boolean showSubredditName = !(mCommentListingURL != null

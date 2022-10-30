@@ -269,7 +269,9 @@ public abstract class HtmlRawElement {
 					break;
 
 				case "img":
-					result = new HtmlRawElementPlainText("Image");
+					final String src = startToken.src;
+					final String title = startToken.title;
+					result = new HtmlRawElementImg(children, title, src);
 					break;
 
 				default:

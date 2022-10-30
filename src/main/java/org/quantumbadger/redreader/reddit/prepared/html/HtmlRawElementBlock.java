@@ -18,9 +18,11 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.text.SpannableStringBuilder;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementTextSpanned;
@@ -102,6 +104,12 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 
 				((HtmlRawElementStyledText)child).writeTo(currentSsb);
 
+			} else if (child instanceof  HtmlRawElementImg) {
+				if(currentSsb == null) {
+					currentSsb = new SpannableStringBuilder();
+				}
+
+				((HtmlRawElementImg) child).writeTo(currentSsb, activity);
 			} else {
 
 				if(currentSsb != null) {

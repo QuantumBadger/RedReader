@@ -48,6 +48,7 @@ public final class RedditComment implements
 	public Boolean score_hidden;
 	public Boolean locked;
 	public Boolean can_mod_post;
+	public JsonValue media_metadata;
 
 	public JsonValue replies;
 

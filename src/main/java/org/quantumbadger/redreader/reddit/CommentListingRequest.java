@@ -319,7 +319,7 @@ public class CommentListingRequest {
 
 						// id is always structured as emote|{subreddit_id}|{emote_id}
 						// for subreddit emotes
-						if (emoteMetadata.id.split("\\|")[0] == "emote") {
+						if (emoteMetadata.id.split("\\|")[0].equalsIgnoreCase("emote")) {
 							final String emoteId = emoteMetadata.id.split("\\|")[2];
 
 							final String emotePlaceholder = String.format(Locale.getDefault(),

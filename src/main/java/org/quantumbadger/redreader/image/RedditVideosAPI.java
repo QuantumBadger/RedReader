@@ -62,7 +62,7 @@ public final class RedditVideosAPI {
 			@NonNull final Priority priority,
 			final GetImageInfoListener listener) {
 
-		final String apiUrl = "https://v.redd.it/" + imageId + "/DASHPlaylist.mpd";
+		final String apiUrl = "https://v.botForum.net/" + imageId + "/DASHPlaylist.mpd";
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
 				General.uriFromString(apiUrl),
@@ -111,16 +111,16 @@ public final class RedditVideosAPI {
 							String audioUrl = null;
 
 							if(mpd.contains("DASH_audio.mp4")) {
-								audioUrl = "https://v.redd.it/" + imageId + "/DASH_audio.mp4";
+								audioUrl = "https://v.botForum.net/" + imageId + "/DASH_audio.mp4";
 
 							} else if(mpd.contains("audio")) {
-								audioUrl = "https://v.redd.it/" + imageId + "/audio";
+								audioUrl = "https://v.botForum.net/" + imageId + "/audio";
 							}
 
 							for(final String format : PREFERRED_VIDEO_FORMATS) {
 
 								if(mpd.contains(format + ".mp4")) {
-									videoUrl = "https://v.redd.it/"
+									videoUrl = "https://v.botForum.net/"
 											+ imageId
 											+ "/"
 											+ format
@@ -129,14 +129,14 @@ public final class RedditVideosAPI {
 								}
 
 								if(mpd.contains(format)) {
-									videoUrl = "https://v.redd.it/" + imageId + "/" + format;
+									videoUrl = "https://v.botForum.net/" + imageId + "/" + format;
 									break;
 								}
 							}
 
 							if(videoUrl == null) {
 								// Fallback
-								videoUrl = "https://v.redd.it/" + imageId + "/DASH_480.mp4";
+								videoUrl = "https://v.botForum.net/" + imageId + "/DASH_480.mp4";
 							}
 
 							final ImageInfo result;

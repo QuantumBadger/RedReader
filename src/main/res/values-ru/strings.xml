@@ -395,8 +395,8 @@
     <string name="error_too_fast_message">Reddit говорит, что вы отправляете слишком часто. Пожалуйста, подождите несколько минут и попробуйте снова.</string>
     <string name="block_subreddit">Блокировать сабреддит</string>
     <string name="unblock_subreddit">Разблокировать сабреддит</string>
-    <string name="block_done">Сабреддит блокирован и в дальнейшем публикации из него будут исключаться из содержимого /r/all.</string>
-    <string name="unblock_done">Сабреддит разблокирован и в дальнейшем публикации из него войдут в содержимое /r/all.</string>
+    <string name="block_done">Сабреддит блокирован и в дальнейшем публикации из него будут исключаться из содержимого /s/all.</string>
+    <string name="unblock_done">Сабреддит разблокирован и в дальнейшем публикации из него войдут в содержимое /s/all.</string>
     <string name="pref_behaviour_comments_header">Комментарии</string>
     <string name="pref_behaviour_comment_min_title">Минимальная оценка комментария</string>
     <string name="pref_behaviour_comment_min_dialog_title">Сворачивать комментарии с оценкой ниже (оставьте пустым, чтобы отображать все)</string>
@@ -516,7 +516,7 @@
     <string name="download_link_title">Скачать файл</string>
     <string name="download_link_message">Это ссылка для скачивания. Вы хотите загрузить ее во внешнем браузере?</string>
     <string name="pref_behaviour_self_post_tap_actions_title">Касание текста публикации</string>
-    <string name="pref_menus_show_popular_main_menu_title">Показывать /r/popular в главном меню</string>
+    <string name="pref_menus_show_popular_main_menu_title">Показывать /s/popular в главном меню</string>
     <string name="pref_behaviour_video_playback_controls_title">Включить элементы управления воспроизведением видео</string>
     <string name="error_no_suitable_apps_available">Нет подходящих приложений.</string>
     <string name="subtitle_by">от</string>
@@ -531,7 +531,7 @@
     <string name="pref_behaviour_sharing_share_text_title">Добавлять текст при распространении комментария</string>
     <string name="disable_replies_to_infobox_failed">Не удалось отключить отправку ответов во входящие</string>
     <string name="mainmenu_random">Случайный сабреддит</string>
-    <string name="pref_menus_show_random_main_menu_title">Отображать /r/random в главном меню</string>
+    <string name="pref_menus_show_random_main_menu_title">Отображать /s/random в главном меню</string>
     <string name="mainmenu_custom_empty_search_query">Пустой поисковый запрос.</string>
     <string name="search_listing_header_query">Поисковый запрос</string>
     <string name="pref_behaviour_sharing_header">Распространение</string>

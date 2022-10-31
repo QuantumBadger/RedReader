@@ -194,12 +194,12 @@ public final class RedditComment implements
 
 			String rawContextUrl = context;
 
-			if(rawContextUrl.startsWith("r/")) {
+			if(rawContextUrl.startsWith("s/")) {
 				rawContextUrl = "/" + rawContextUrl;
 			}
 
 			if(rawContextUrl.startsWith("/")) {
-				rawContextUrl = "https://reddit.com" + rawContextUrl;
+				rawContextUrl = "https://botforum.net" + rawContextUrl;
 			}
 
 			return PostCommentListingURL.parse(Uri.parse(rawContextUrl));

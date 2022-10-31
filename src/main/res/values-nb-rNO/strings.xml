@@ -397,8 +397,8 @@
     <string name="error_too_fast_message">Reddit sier at du sender forespørsler for raskt. Vent noen minutter før du prøver igjen.</string>
     <string name="block_subreddit">Blokker subreddit</string>
     <string name="unblock_subreddit">Fjern blokkering av subreddit</string>
-    <string name="block_done">Subreddit blokkert. Fremtidige besøk til /r/all vil utelukke denne subreddit-en.</string>
-    <string name="unblock_done">Blokkering av subreddit fjernet. Fremtidige besøk til /r/all vil innebefatte denne subreddit-en.</string>
+    <string name="block_done">Subreddit blokkert. Fremtidige besøk til /s/all vil utelukke denne subreddit-en.</string>
+    <string name="unblock_done">Blokkering av subreddit fjernet. Fremtidige besøk til /s/all vil innebefatte denne subreddit-en.</string>
     <string name="pref_behaviour_comments_header">Kommentarer</string>
     <string name="pref_behaviour_comment_min_title">Minimum for kommentarpoengsum</string>
     <string name="pref_behaviour_comment_min_dialog_title">Klapp sammen kommentar hvis poengsummen er under (blank for å vise alle)</string>
@@ -518,12 +518,12 @@
     <string name="download_link_title">Last ned fil</string>
     <string name="download_link_message">Dette er en nedlastet lenke. Ønsker du å laste den i en ekstern nettleser?</string>
     <string name="pref_behaviour_self_post_tap_actions_title">Handling for egeninnlegg</string>
-    <string name="pref_menus_show_popular_main_menu_title">Vis /r/populær i hovedmeny</string>
+    <string name="pref_menus_show_popular_main_menu_title">Vis /s/populær i hovedmeny</string>
     <string name="pref_behaviour_video_playback_controls_title">Skru på videoavspillingskontroller</string>
     <string name="error_no_suitable_apps_available">Ingen egnede programmer tilgjengelig.</string>
     <string name="disable_replies_to_infobox_failed">Klarte ikke å slå av svarfunksjon for innboks</string>
     <string name="mainmenu_random">Tilfeldig subreddit</string>
-    <string name="pref_menus_show_random_main_menu_title">Vis /r/random i hovedmenyen</string>
+    <string name="pref_menus_show_random_main_menu_title">Vis /s/random i hovedmenyen</string>
     <string name="pref_cache_maxage_entry_title">Slett hurtiglagrede flagg (lest, oppvotert, osv.) etter</string>
     <string name="mainmenu_custom_destination_search">Søk</string>
     <string name="pref_behaviour_sharing_share_text_title">Inkluder tekst ved deling av kommentar</string>

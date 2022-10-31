@@ -385,8 +385,8 @@
     <string name="error_too_fast_title">Troppo veloce</string>
     <string name="block_subreddit">Blocca Subreddit</string>
     <string name="unblock_subreddit">Sblocca Subreddit</string>
-    <string name="block_done">Subreddit bloccato. Le future visite a /r/all escluderanno questo subreddit.</string>
-    <string name="unblock_done">Subreddit sbloccato. Le future visite a /r/all includeranno questo subreddit.</string>
+    <string name="block_done">Subreddit bloccato. Le future visite a /s/all escluderanno questo subreddit.</string>
+    <string name="unblock_done">Subreddit sbloccato. Le future visite a /s/all includeranno questo subreddit.</string>
     <string name="pref_behaviour_comments_header">Commenti</string>
     <string name="pref_behaviour_comment_min_title">Punteggio minimo dei commenti</string>
     <string name="pref_behaviour_comment_min_dialog_title">Comprimi il commento se il punteggio è inferiore (lasciare vuoto per visualizzarli tutti)</string>
@@ -484,13 +484,13 @@
     <string name="action_unsubscribe_subreddit">Disiscriviti dal Subreddit</string>
     <string name="download_link_title">Scarica File</string>
     <string name="download_link_message">Questo è un link per il download. Vuoi caricarlo in un browser esterno?</string>
-    <string name="pref_menus_show_popular_main_menu_title">Mostra /r/popular nel menu principale</string>
+    <string name="pref_menus_show_popular_main_menu_title">Mostra /s/popular nel menu principale</string>
     <string name="pref_behaviour_video_playback_controls_title">Abilita i controlli di riproduzione video</string>
     <string name="error_no_suitable_apps_available">Nessuna app adatta disponibile.</string>
     <string name="pref_behaviour_sharing_share_text_title">Includi il testo quando condividi il commento</string>
     <string name="disable_replies_to_infobox_failed">Impossibile disabilitare le risposte nella posta in arrivo</string>
     <string name="mainmenu_random">Subreddit Random</string>
-    <string name="pref_menus_show_random_main_menu_title">Mostra /r/random nel menu principale</string>
+    <string name="pref_menus_show_random_main_menu_title">Mostra /s/random nel menu principale</string>
     <string name="mainmenu_custom_empty_search_query">Query di ricerca vuota.</string>
     <string name="search_listing_header_query">Query di Ricerca</string>
     <string name="pref_behaviour_sharing_header">Condivisione</string>

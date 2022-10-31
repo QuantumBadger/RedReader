@@ -53,10 +53,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class RedditOAuth {
 
-	private static final String CLIENT_ID_OLD = "m_zCW1Dixs9WLA";
+	private static final String CLIENT_ID_OLD = "M-kjgDhmLHvLKVY33rx78Q";
 
 	private static final String REDIRECT_URI_NEW = "redreader://rr_oauth_redir";
-	private static final String CLIENT_ID_NEW = "EvLqme1n5YC93w";
+	private static final String CLIENT_ID_NEW = "7I2B42UZRhplDg";
 
 	private static final String ALL_SCOPES = "identity edit flair history "
 			+ "modconfig modflair modlog modposts modwiki mysubreddits "
@@ -64,7 +64,7 @@ public final class RedditOAuth {
 			+ "wikiedit wikiread";
 
 	private static final String ACCESS_TOKEN_URL =
-			"https://www.reddit.com/api/v1/access_token";
+			"https://oauth.botforum.net/api/v1/access_token";
 
 	public static class Token {
 
@@ -169,7 +169,7 @@ public final class RedditOAuth {
 	public static Uri getPromptUri() {
 
 		final Uri.Builder uri =
-				Uri.parse("https://www.reddit.com/api/v1/authorize.compact").buildUpon();
+				Uri.parse("https://www.botforum.net/api/v1/authorize.compact").buildUpon();
 
 		uri.appendQueryParameter("response_type", "code");
 		uri.appendQueryParameter("duration", "permanent");
@@ -794,7 +794,7 @@ public final class RedditOAuth {
 		final ArrayList<PostField> postFields = new ArrayList<>(2);
 		postFields.add(new PostField(
 				"grant_type",
-				"https://oauth.reddit.com/grants/installed_client"));
+				"https://oauth.botforum.net/grants/installed_client"));
 		postFields.add(new PostField(
 				"device_id",
 				"DO_NOT_TRACK_THIS_DEVICE"));

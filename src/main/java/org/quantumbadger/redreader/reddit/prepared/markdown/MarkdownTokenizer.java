@@ -48,8 +48,8 @@ public final class MarkdownTokenizer {
 	};
 
 	private static final char[][] linkPrefixes_reddit = {
-			"/r/".toCharArray(),
-			"r/".toCharArray(),
+			"/s/".toCharArray(),
+			"s/".toCharArray(),
 			"/u/".toCharArray(),
 			"u/".toCharArray(),
 			"/user/".toCharArray()

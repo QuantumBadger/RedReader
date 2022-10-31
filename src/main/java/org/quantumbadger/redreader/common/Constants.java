@@ -66,55 +66,8 @@ public final class Constants {
 
 		static {
 			final String[] defaultSubredditStrings = {
-					"/r/Art",
-					"/r/AskReddit",
-					"/r/askscience",
-					"/r/aww",
-					"/r/books",
-					"/r/creepy",
-					"/r/dataisbeautiful",
-					"/r/DIY",
-					"/r/Documentaries",
-					"/r/EarthPorn",
-					"/r/explainlikeimfive",
-					"/r/Fitness",
-					"/r/food",
-					"/r/funny",
-					"/r/Futurology",
-					"/r/gadgets",
-					"/r/gaming",
-					"/r/GetMotivated",
-					"/r/gifs",
-					"/r/history",
-					"/r/IAmA",
-					"/r/InternetIsBeautiful",
-					"/r/Jokes",
-					"/r/LifeProTips",
-					"/r/listentothis",
-					"/r/mildlyinteresting",
-					"/r/movies",
-					"/r/Music",
-					"/r/news",
-					"/r/nosleep",
-					"/r/nottheonion",
-					"/r/oldschoolcool",
-					"/r/personalfinance",
-					"/r/philosophy",
-					"/r/photoshopbattles",
-					"/r/pics",
-					"/r/reddit",
-					"/r/science",
-					"/r/Showerthoughts",
-					"/r/space",
-					"/r/sports",
-					"/r/television",
-					"/r/tifu",
-					"/r/todayilearned",
-					"/r/TwoXChromosomes",
-					"/r/UpliftingNews",
-					"/r/videos",
-					"/r/worldnews",
-					"/r/writingprompts"
+					"/s/art",
+					"/s/subsimps"
 			};
 
 			DEFAULT_SUBREDDITS = new CollectionStream<>(defaultSubredditStrings)
@@ -128,8 +81,8 @@ public final class Constants {
 		}
 
 		public static final String SCHEME_HTTPS = "https";
-		public static final String DOMAIN_HTTPS = "oauth.reddit.com";
-		public static final String DOMAIN_HTTPS_HUMAN = "reddit.com";
+		public static final String DOMAIN_HTTPS = "oauth.botforum.net";
+		public static final String DOMAIN_HTTPS_HUMAN = "botforum.net";
 		public static final String PATH_VOTE = "/api/vote";
 		public static final String PATH_SAVE = "/api/save";
 		public static final String PATH_HIDE = "/api/hide";
@@ -142,7 +95,7 @@ public final class Constants {
 						= "/subreddits/mine/subscriber.json?limit=100";
 		public static final String PATH_SUBREDDITS_MINE_MODERATOR
 						= "/subreddits/mine/moderator.json?limit=100";
-		public static final String PATH_SUBREDDITS_POPULAR = "/subreddits/popular.json";
+		public static final String PATH_SUBREDDITS_POPULAR = "/subs/popular.json";
 		public static final String PATH_MULTIREDDITS_MINE = "/api/multi/mine.json";
 		public static final String PATH_COMMENTS = "/comments/";
 		public static final String PATH_ME = "/api/v1/me";
@@ -168,7 +121,7 @@ public final class Constants {
 		}
 
 		public static URI getNonAPIUri(final String path) {
-			return General.uriFromString(getScheme() + "://reddit.com" + path);
+			return General.uriFromString(getScheme() + "://botforum.net" + path);
 		}
 
 		public static boolean isApiErrorUser(final String str) {

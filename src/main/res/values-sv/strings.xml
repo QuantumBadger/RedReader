@@ -471,8 +471,8 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Blockera subreddit</string>
     <string name="unblock_subreddit">Sluta blockera subreddit</string>
-    <string name="block_done">Subreddit blockerad. Framtida besök på /r/all kommer att exkludera denna subreddit.</string>
-    <string name="unblock_done">Subreddit inte längre blockerad. Framtida besök på /r/all kommer att inkludera denna subreddit.</string>
+    <string name="block_done">Subreddit blockerad. Framtida besök på /s/all kommer att exkludera denna subreddit.</string>
+    <string name="unblock_done">Subreddit inte längre blockerad. Framtida besök på /s/all kommer att inkludera denna subreddit.</string>
     <!-- Weblate 2020-01-25 -->
     <string name="mainmenu_custom_destination_url">URL</string>
     <string name="pref_menus_subreddit_context_items_title">Element i kontextmenyn för subreddit</string>
@@ -532,7 +532,7 @@
     <string name="pm_send_hint_message_text">Meddelandetext</string>
     <string name="pref_behaviour_fling_comment_right_title">Kommando vid högerfling av kommentar</string>
     <string name="submit_post_url_empty">URL kan inte vara tom</string>
-    <string name="pref_menus_show_popular_main_menu_title">Visa /r/popular på huvudmenyn</string>
+    <string name="pref_menus_show_popular_main_menu_title">Visa /s/popular på huvudmenyn</string>
     <string name="pref_menus_link_context_items_title">Element i länkkontextmenyn</string>
     <string name="collapsed_self_post">Egeninlägg ihopfällt</string>
     <string name="submit_post_self_text_hint">Text</string>
@@ -552,7 +552,7 @@
     <string name="error_upload_fail_imgur_message">Uppladdningen avvisades av Imgur av okänd anledning.</string>
     <string name="error_file_open_failed_title">Misslyckades att öppna fil</string>
     <string name="download_link_message">Detta är en nedladdningslänk. Vill du ladda detta i en extern webbläsare?</string>
-    <string name="pref_menus_show_random_main_menu_title">Visa /r/random i huvudmenyn</string>
+    <string name="pref_menus_show_random_main_menu_title">Visa /s/random i huvudmenyn</string>
     <string name="share_comments_for">Kommentarer för %s</string>
     <string name="error_file_too_big_title">Filen för stor</string>
     <string name="edit_comment_actionbar">Redigera kommentar</string>

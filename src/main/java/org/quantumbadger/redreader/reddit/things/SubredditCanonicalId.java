@@ -39,7 +39,7 @@ public class SubredditCanonicalId implements
 		if(userSr != null) {
 			mId = "/user/" + userSr;
 		} else {
-			mId = "/r/" + RedditSubreddit.stripRPrefix(name);
+			mId = "/s/" + RedditSubreddit.stripRPrefix(name);
 		}
 	}
 

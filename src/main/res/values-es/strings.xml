@@ -464,7 +464,7 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Bloquear Subreddit</string>
     <string name="unblock_subreddit">Desbloquear Subreddit</string>
-    <string name="block_done">Subreddit bloqueado. Las próximas visitas a la página principal, /r/popular y /r/all excluirán este subreddit.</string>
+    <string name="block_done">Subreddit bloqueado. Las próximas visitas a la página principal, /s/popular y /r/all excluirán este subreddit.</string>
     <string name="unblock_done">Subreddit desbloqueado. Las próximas visitas a la página principal, /r/popular y /r/all incluirán este subreddit.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Comentarios</string>

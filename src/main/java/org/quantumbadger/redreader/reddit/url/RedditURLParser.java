@@ -66,7 +66,7 @@ public class RedditURLParser {
 		if("reddit".equals(uri.getScheme()) && "reddit".equals(uri.getHost())) {
 			return Optional.of(uri.buildUpon()
 					.scheme("https")
-					.authority("reddit.com")
+					.authority("botforum.net")
 					.build());
 		}
 
@@ -78,14 +78,14 @@ public class RedditURLParser {
 			}
 		}
 
-		final String ampPrefix = "/amp/s/amp.reddit.com";
+		final String ampPrefix = "/amp/s/amp.botforum.net";
 
 		if((("google.com".equals(uri.getHost())
 				|| uri.getHost().endsWith(".google.com"))
 						&& uri.getPath().startsWith(ampPrefix))) {
 
 			return Optional.ofNullable(Uri.parse(
-					"https://reddit.com" + uri.getPath().substring(ampPrefix.length())));
+					"https://botforum.net" + uri.getPath().substring(ampPrefix.length())));
 		}
 
 		final String[] hostSegments = StringUtils.asciiLowercase(uri.getHost()).split("\\.");
@@ -249,7 +249,7 @@ public class RedditURLParser {
 		}
 
 		public String humanReadableUrl() {
-			return "reddit.com" + humanReadablePath();
+			return "botforum.net" + humanReadablePath();
 		}
 
 		public String humanReadablePath() {

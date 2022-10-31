@@ -386,7 +386,7 @@
     <string name="action_share_image">Bild teilen</string>
     <string name="album_already_first_image">Bereits am ersten Bild des Albums angekommen.</string>
     <string name="album_already_last_image">Bereits am letzten Bild des Albums angekommen.</string>
-    <string name="block_done">Subreddit blockiert. Zukünftige Besuche von /r/all werden dieses Subreddit nicht anzeigen.</string>
+    <string name="block_done">Subreddit blockiert. Zukünftige Besuche von /s/all werden dieses Subreddit nicht anzeigen.</string>
     <string name="block_subreddit">Subreddit blockieren</string>
     <string name="button_browse">Durchsuchen …</string>
     <string name="button_upload">Hochladen</string>
@@ -532,7 +532,7 @@
     <string name="time_2hr">2 Stunden</string>
     <string name="time_3hr">3 Stunden</string>
     <string name="time_every_time">Jedes Mal</string>
-    <string name="unblock_done">Subreddit nicht mehr geblockt. Bei zukünftigen Besuchen von /r/all wird dieses Subreddit wieder angezeigt.</string>
+    <string name="unblock_done">Subreddit nicht mehr geblockt. Bei zukünftigen Besuchen von /s/all wird dieses Subreddit wieder angezeigt.</string>
     <string name="unblock_subreddit">Subreddit nicht mehr blockieren</string>
     <string name="unpin_subreddit">Von Hauptmenü entpinnen</string>
     <string name="upgrade_v190_login_message">RedReader wurde aktualisiert und benutzt jetzt OAuth zur Authentifizierung auf Reddit. Falls Sie vorher mit einem Benutzerkonto angemeldet waren, wurden Sie nun abgemeldet.</string>

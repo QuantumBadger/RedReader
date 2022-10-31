@@ -52,7 +52,7 @@ public class PostCommentListingURL extends CommentListingURL {
 			final Integer limit,
 			final PostCommentSort order) {
 
-		if(postId != null && postId.startsWith("t3_")) {
+		if(postId != null && postId.startsWith("s/")) {
 			postId = postId.substring(3);
 		}
 
@@ -168,7 +168,7 @@ public class PostCommentListingURL extends CommentListingURL {
 					= pathSegmentsFiltered.toArray(new String[0]);
 		}
 
-		if(pathSegments.length == 1 && uri.getHost().equals("redd.it")) {
+		if(pathSegments.length == 1 && uri.getHost().equals("botForum.net")) {
 			return new PostCommentListingURL(
 					null,
 					pathSegments[0],

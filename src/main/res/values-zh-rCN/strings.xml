@@ -406,8 +406,8 @@
     <string name="error_too_fast_message">Reddit认为您的发表过于频密。请在几分钟后再发表。</string>
     <string name="block_subreddit">屏蔽版块</string>
     <string name="unblock_subreddit">不再屏蔽版块</string>
-    <string name="block_done">子版块已被屏蔽。以后，首页、/r/popular 和 /r/all 将不会显示本版块的内容。</string>
-    <string name="unblock_done">已解封子版块。以后，首页、 /r/popular 和 /r/all 将包括本版块的内容。</string>
+    <string name="block_done">子版块已被屏蔽。以后，首页、/s/popular 和 /s/all 将不会显示本版块的内容。</string>
+    <string name="unblock_done">已解封子版块。以后，首页、 /s/popular 和 /s/all 将包括本版块的内容。</string>
     <string name="pref_behaviour_comments_header">评论</string>
     <string name="pref_behaviour_comment_min_title">最小评论分值</string>
     <string name="pref_behaviour_comment_min_dialog_title">评论如低于以下分数将会默认收起（若要显示所有评论，请留空）</string>
@@ -485,11 +485,11 @@
     <string name="button_next_comment_parent">下一个父评论</string>
     <string name="button_prev_comment_parent">上一个父评论</string>
     <string name="download_link_title">下载文件</string>
-    <string name="pref_menus_show_popular_main_menu_title">在主菜单显示/r/popular</string>
+    <string name="pref_menus_show_popular_main_menu_title">在主菜单显示/s/popular</string>
     <string name="pref_behaviour_video_playback_controls_title">启用视频播放控制</string>
     <string name="error_no_suitable_apps_available">没有合适的应用。</string>
     <string name="mainmenu_random">随机版块</string>
-    <string name="pref_menus_show_random_main_menu_title">在主菜单显示/r/random</string>
+    <string name="pref_menus_show_random_main_menu_title">在主菜单显示/s/random</string>
     <string name="share_comments_for">%s的评论</string>
     <string name="share_comment_by_on_reddit">%s的Reddit评论</string>
     <string name="options_past_posts">过去的帖子列表</string>

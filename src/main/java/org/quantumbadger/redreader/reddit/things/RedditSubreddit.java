@@ -80,7 +80,7 @@ public class RedditSubreddit implements
 	@WritableObjectTimestamp public long downloadTime;
 
 	private static final Pattern NAME_PATTERN = Pattern.compile(
-			"((/)?r/)?([\\w\\+\\-\\.:]+)/?");
+			"((/)?s/)?([\\w\\+\\-\\.:]+)/?");
 	private static final Pattern USER_PATTERN = Pattern.compile(
 			"/?(u/|user/)([\\w\\+\\-\\.:]+)/?");
 
@@ -117,7 +117,7 @@ public class RedditSubreddit implements
 			return url;
 		}
 
-		return "https://reddit.com/r/" + display_name;
+		return "https://botforum.net/s/" + display_name;
 	}
 
 	@Override

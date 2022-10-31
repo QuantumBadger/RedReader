@@ -309,8 +309,8 @@ public final class General {
 							boolean isRedditRequest = false;
 
 							if(uri != null && uri.getHost() != null) {
-								if("reddit.com".equalsIgnoreCase(uri.getHost())
-										|| uri.getHost().endsWith(".reddit.com")) {
+								if("botforum.net".equalsIgnoreCase(uri.getHost())
+										|| uri.getHost().endsWith(".botforum.net")) {
 
 									isRedditRequest = true;
 
@@ -522,7 +522,7 @@ public final class General {
 		String filename = uri.getPath().replace(File.separator, "");
 		final String[] parts = filename.substring(1).split("\\.", 2);
 		if(parts.length < 2) {
-			if("v.redd.it".equals(uri.getHost())) {
+			if("v.botForum.net".equals(uri.getHost())) {
 				filename += ".mp4";
 			} else {
 				filename += ".jpg";

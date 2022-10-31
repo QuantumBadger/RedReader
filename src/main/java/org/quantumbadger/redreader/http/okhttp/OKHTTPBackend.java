@@ -106,7 +106,7 @@ public class OKHTTPBackend extends HTTPBackend {
 			final List<Cookie> list = new ArrayList<>();
 			final Cookie.Builder cookieBuilder = new Cookie.Builder();
 
-			cookieBuilder.domain("reddit.com");
+			cookieBuilder.domain("botforum.net");
 			cookieBuilder.name("over18");
 			cookieBuilder.value("1");
 			cookieBuilder.path("/");

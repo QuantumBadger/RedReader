@@ -281,7 +281,7 @@
     <string name="mark_all_as_read_success">Mezu guztiak irakurriak bezala markatu dira.</string>
     <string name="error_title_login_unknown_reddit_error">Reddit errore ezezaguna: %s</string>
     <string name="screen_orientation_auto">Automatikoa</string>
-    <string name="pref_menus_show_random_main_menu_title">Erakutsi /r/random menu nagusian</string>
+    <string name="pref_menus_show_random_main_menu_title">Erakutsi /s/random menu nagusian</string>
     <string name="search_subreddit_restrict">Mugatu bilaketa honetara</string>
     <string name="title_changelog">Zer berri</string>
     <string name="pref_behaviour_commentsort">Iruzkinak (lehenetsia)</string>
@@ -404,7 +404,7 @@
     <string name="action_unsubscribe_subreddit">Harpidetza kendu subredditetik</string>
     <string name="download_link_title">Jaitsi fitxategia</string>
     <string name="download_link_message">Jaisteko esteka bat da hau. Kanpoko nabigatzaile batean kargatu nahi duzu?</string>
-    <string name="pref_menus_show_popular_main_menu_title">Erakutsi /r/popular menu nagusian</string>
+    <string name="pref_menus_show_popular_main_menu_title">Erakutsi /s/popular menu nagusian</string>
     <string name="pref_behaviour_video_playback_controls_title">Gaitu bideo erreprodukzio kontrolak</string>
     <string name="pref_behaviour_sharing_share_text_title">Gehitu testua iruzkina partekatzerakoan</string>
     <string name="mainmenu_random">Ausazko subreddita</string>
@@ -490,8 +490,8 @@
     <string name="pin_subreddit">Ainguratu menu nagusira</string>
     <string name="unpin_subreddit">Aingura kendu menu nagusitik</string>
     <string name="props_caption">Epigrafea</string>
-    <string name="block_done">Subreddita blokeatuta. Hurrengo bisitak /r/all-era subreddit hau baztertuko dute.</string>
-    <string name="unblock_done">Subreddita desblokeatuta. Hurrengo bisitak /r/all-era subreddit hau sartuko dute.</string>
+    <string name="block_done">Subreddita blokeatuta. Hurrengo bisitak /s/all-era subreddit hau baztertuko dute.</string>
+    <string name="unblock_done">Subreddita desblokeatuta. Hurrengo bisitak /s/all-era subreddit hau sartuko dute.</string>
     <string name="pref_behaviour_comment_min_title">Iruzkinen gutxieneko puntuazioa</string>
     <string name="pref_behaviour_comment_min_dialog_title">Itxi iruzkina puntuazioa hau baino baxuago (zuri utzi denak erakusteko)</string>
     <string name="error_tor_setting_failed">Ezin izan da proxia ezarri.</string>

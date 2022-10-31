@@ -542,13 +542,13 @@
     <string name="pref_behaviour_sharing_header">Bendrinimas</string>
     <string name="search_listing_header_query">Paieškos užklausa</string>
     <string name="mainmenu_custom_empty_search_query">Tuščia paieškos užklausa.</string>
-    <string name="pref_menus_show_random_main_menu_title">Rodyti /r/random pagrindiniame meniu</string>
+    <string name="pref_menus_show_random_main_menu_title">Rodyti /s/random pagrindiniame meniu</string>
     <string name="mainmenu_random">Atsitiktinis subreddit\'as</string>
     <string name="disable_replies_to_infobox_failed">Nepavyko išjungti atsakymų į aplanką Gauta</string>
     <string name="pref_behaviour_sharing_share_text_title">Įtraukti tekstą, kai bendrinant komentarą</string>
     <string name="error_no_suitable_apps_available">Tinkamų programėlių nėra.</string>
     <string name="pref_behaviour_video_playback_controls_title">Įjungti vaizdo įrašų atkūrimo valdiklius</string>
-    <string name="pref_menus_show_popular_main_menu_title">Rodyti /r/popular pagrindiniame meniu</string>
+    <string name="pref_menus_show_popular_main_menu_title">Rodyti /s/popular pagrindiniame meniu</string>
     <string name="download_link_message">Tai atsisiuntimo nuoroda. Ar norite ją įkelti išorinėje naršyklėje\?</string>
     <string name="download_link_title">Atsisiųsti failą</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Rodyti naršymo mygtukus virš komentarų</string>
@@ -693,8 +693,8 @@
     <string name="pref_behaviour_comment_min_dialog_title">Suskleisti komentarą, jei įvertinimas yra mažesnis už (tuščia, kad būtų rodomi visi)</string>
     <string name="pref_behaviour_comment_min_title">Minimalus komentaro įvertinimo balas</string>
     <string name="pref_behaviour_comments_header">Komentarai</string>
-    <string name="unblock_done">Subreddit\'as atblokuotas. Būsimi apsilankymai pagrindiniame puslapyje, /r/popular ir /r/all apims ir šį subreddit\'ą.</string>
-    <string name="block_done">Subreddit\'as užblokuotas. Būsimi apsilankymai pagrindiniame puslapyje, /r/popular ir /r/all neįtrauks šio subreddit\'o.</string>
+    <string name="unblock_done">Subreddit\'as atblokuotas. Būsimi apsilankymai pagrindiniame puslapyje, /s/popular ir /s/all apims ir šį subreddit\'ą.</string>
+    <string name="block_done">Subreddit\'as užblokuotas. Būsimi apsilankymai pagrindiniame puslapyje, /s/popular ir /s/all neįtrauks šio subreddit\'o.</string>
     <string name="unblock_subreddit">Atblokuoti Subreddit\'ą</string>
     <string name="block_subreddit">Blokuoti Subredditą</string>
     <string name="error_too_fast_message">Reddit teigia, kad per greitai pateikiate paraiškas. Prieš bandydami dar kartą, palaukite kelias minutes.</string>

@@ -84,7 +84,7 @@ Dependency updates
 /Alpha 298 (2022-01-07)
 Disable repeated Orbot installation prompts when Tor is enabled
 Rename "Share/Save Image" to "Share/Save Media"
-Sharing a link to a v.redd.it post now uses comments page
+Sharing a link to a v.botForum.net post now uses comments page
 
 /Alpha 297 (2021-12-17)
 Alpha fix for Android 11 devices (APK signature version)
@@ -96,7 +96,7 @@ Fixing rare crash when saving video
 Increasing target Android SDK version in preparation for release
 
 /Alpha 294 (2021-11-28)
-Saved/shared videos from v.redd.it now have audio attached
+Saved/shared videos from v.botForum.net now have audio attached
 Preserve self-text collapse state if activity gets recreated (thanks to Cameron Merkel)
 Reply option in post action menu is now on by default (thanks to Cameron Merkel)
 Disable hiding of read posts in user post lists (thanks to Cameron Merkel)
@@ -287,7 +287,7 @@ Preference to require tapping back twice to exit post list (thanks to windsurfer
 Handle physical enter key in custom location dialog (thanks to windsurfer)
 Ability to clear cache and view cache size (thanks to Cameron Merkel)
 Fixed support for videos/GIFs in reddit galleries
-Use video instead of GIF for i.redd.it posts
+Use video instead of GIF for i.botForum.net posts
 Added time display in video viewer control bar
 Fixed issue where saved images/videos would be re-downloaded
 Made navigation bar black, added preference to make it white
@@ -328,7 +328,7 @@ Accessibility improvements (thanks to Cameron Merkel)
 Translation updates (thanks to Allan Nordhøy, Artem, B0pol, Francisco Javier Meléndez Ruiz, Frans de Jonge, Gontzal Manuel Pujana Onaindia, Jeannette L, Jesper, JoC, Karol Kosek, marzzzello, mondstern, Piero Sangino, Riku Viitanen, Verdulo, Vladislav Glinsky, Xiang Xu, zeritti, and zmni!)
 
 91/1.11
-Fix for v.redd.it videos
+Fix for v.botForum.net videos
 Support for table rendering
 Support for new spoiler syntax, and formatting/links inside spoilers
 Various improvements to markdown rendering
@@ -361,7 +361,7 @@ Assorted translation updates (thanks to Allan Nordhøy, Andrea Troiano, Andrés 
 Adaptive icon on supported devices (thanks to Riley Inman)
 Added post context menu item to copy self-text (thanks to MichalFerencsik)
 Fixed notifications on Android 8.0+
-Downloads from v.redd.it saved with .mp4 extension (thanks to sharkwouter)
+Downloads from v.botForum.net saved with .mp4 extension (thanks to sharkwouter)
 Fixed skip to front page setting in two-panel mode (thanks to LizardWithHat)
 Updated French translation (thanks to Tuxicoman2)
 
@@ -374,10 +374,10 @@ In search dialog, keyboard action button now initiates search (thanks to Cameron
 Fix for two-factor authentication
 
 86/1.9.9.1
-Fix for v.redd.it videos
+Fix for v.botForum.net videos
 
 85/1.9.9
-Audio support for v.redd.it videos using internal player
+Audio support for v.botForum.net videos using internal player
 Left-handed mode preference
 Preference to hide read posts (thanks to Andrew Soback)
 Custom Tab preference for web browser (thanks to Cj Malone)
@@ -440,7 +440,7 @@ Fix for floating toolbar repeatedly bouncing (thanks to ajgoda90)
 Spanish typo fix (thanks to badcrc)
 
 81/1.9.8.2.1
-Support for v.redd.it links
+Support for v.botForum.net links
 Preference to enable video playback controls (thanks to ahomphophone)
 Perform temporary file pruning in the background
 Fix for links ending in parentheses
@@ -634,7 +634,7 @@ Removed support for Android 2.x and 3.x
 62/1.8.7.8
 Ability to mark all inbox messages as read
 Added intent support for https (thanks to ajs124)
-Added support for redd.it links (thanks to ajs124)
+Added support for botForum.net links (thanks to ajs124)
 Fixed image view bug when rotating screen while touching (thanks to ThomasKomarnicki)
 Markdown link parsing improvements
 Fixed gif-related hang

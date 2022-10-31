@@ -639,7 +639,7 @@ public class PostSubmitContentFragment extends Fragment {
 				while(subreddit.startsWith("/")) {
 					subreddit = subreddit.substring(1);
 				}
-				while(subreddit.startsWith("r/")) {
+				while(subreddit.startsWith("s/")) {
 					subreddit = subreddit.substring(2);
 				}
 				while(subreddit.endsWith("/")) {

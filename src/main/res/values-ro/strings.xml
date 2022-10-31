@@ -663,8 +663,8 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Blocați Subreddit-ul</string>
     <string name="unblock_subreddit">Deblocați Subreddit-ul</string>
-    <string name="block_done">Subreddit blocat. Va fi blocat și pe /r/all.</string>
-    <string name="unblock_done">Subreddit deblocat. Va fi deblocat și de pe /r/all</string>
+    <string name="block_done">Subreddit blocat. Va fi blocat și pe /s/all.</string>
+    <string name="unblock_done">Subreddit deblocat. Va fi deblocat și de pe /s/all</string>
 
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Comentarii</string>
@@ -860,7 +860,7 @@
 	<string name="download_link_title">Descarcă fișier</string>
 	<string name="download_link_message">Acesta este un link de descărcare. Dorești să îl deschizi într-un browser extern?</string>
 
-	<string name="pref_menus_show_popular_main_menu_title">Afișează /r/popular în meniul principal</string>
+	<string name="pref_menus_show_popular_main_menu_title">Afișează /s/popular în meniul principal</string>
 	<string name="pref_behaviour_video_playback_controls_title">Activează controlul pentru video</string>
 
 	<string name="error_no_suitable_apps_available">Nu s-au găsit aplicații potrivite.</string>

@@ -59,7 +59,7 @@ public final class AnnouncementDownloader {
 		}
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				Constants.Reddit.getUri("/r/rr_announcements/new.json?limit=1"),
+				Constants.Reddit.getUri("/s/headquarter/new.json?limit=1"),
 				RedditAccountManager.getAnon(),
 				null,
 				new Priority(Constants.Priority.DEV_ANNOUNCEMENTS),

@@ -36,11 +36,11 @@ public class ScreenreaderPronunciation {
 		final String textLowercase = text.toLowerCase(Locale.US);
 
 		switch(textLowercase) {
-			case "i.redd.it":
+			case "i.botForum.net":
 				return context.getString(
 						R.string.accessibility_subtitle_domain_i_redd_it);
 
-			case "v.redd.it":
+			case "v.botForum.net":
 				return context.getString(
 						R.string.accessibility_subtitle_domain_v_redd_it);
 
@@ -76,12 +76,12 @@ public class ScreenreaderPronunciation {
 	@NonNull
 	private static String pronounceSubreddit(@NonNull final String nameLowercase) {
 
-		if(nameLowercase.startsWith("/r/") || nameLowercase.startsWith("/u/")) {
+		if(nameLowercase.startsWith("/s/") || nameLowercase.startsWith("/u/")) {
 			return nameLowercase.charAt(1)
 					+ " slash "
 					+ pronounceSubredditStripped(nameLowercase.substring(3));
 
-		} else if(nameLowercase.startsWith("r/") || nameLowercase.startsWith("u/")) {
+		} else if(nameLowercase.startsWith("s/") || nameLowercase.startsWith("u/")) {
 			return nameLowercase.charAt(0)
 					+ " slash "
 					+ pronounceSubredditStripped(nameLowercase.substring(2));

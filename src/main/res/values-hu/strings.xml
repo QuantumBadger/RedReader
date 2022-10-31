@@ -658,8 +658,8 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Alreddit letiltássa</string>
     <string name="unblock_subreddit">Alreddit visszaállítása</string>
-    <string name="block_done">Alreddit letiltva. A jövőbeni /r/all látogatásoknál ki lesz zárva.</string>
-    <string name="unblock_done">Alreddit visszaállítva. A jövőbeni /r/all látogatásoknál mutatva lesz.</string>
+    <string name="block_done">Alreddit letiltva. A jövőbeni /s/all látogatásoknál ki lesz zárva.</string>
+    <string name="unblock_done">Alreddit visszaállítva. A jövőbeni /s/all látogatásoknál mutatva lesz.</string>
 
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Hozzászólások</string>
@@ -859,7 +859,7 @@
 	<string name="download_link_title">Fájl letöltése</string>
 	<string name="download_link_message">Ez egy letöltés linkje. A külső böngészőben akarod ezt betölteni\?</string>
 
-	<string name="pref_menus_show_popular_main_menu_title">/r/popular megjelenítése a főmenüben</string>
+	<string name="pref_menus_show_popular_main_menu_title">/s/popular megjelenítése a főmenüben</string>
 	<plurals name="load_more_comments_button_reply_count">
 		<item quantity="one">"További hozzászólások betöltése (%d válasz)"</item>
 		<item quantity="other">"További hozzászólások betöltése (%d válasz)"</item>

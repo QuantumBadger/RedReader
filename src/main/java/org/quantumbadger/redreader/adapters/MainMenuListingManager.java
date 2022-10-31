@@ -679,7 +679,7 @@ public class MainMenuListingManager {
 
 		final View.OnClickListener clickListener = view -> {
 
-			if(subreddit.toString().startsWith("/r/")) {
+			if(subreddit.toString().startsWith("/s/")) {
 				mListener.onSelected((PostListingURL)SubredditPostListURL.getSubreddit(
 						subreddit));
 

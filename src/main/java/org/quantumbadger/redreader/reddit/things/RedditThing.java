@@ -36,8 +36,8 @@ public final class RedditThing implements JsonObject.JsonDeserializable {
 		kinds = new HashMap<>();
 		kinds.put("t1", Kind.COMMENT);
 		kinds.put("t2", Kind.USER);
-		kinds.put("t3", Kind.POST);
-		kinds.put("t4", Kind.MESSAGE);
+		kinds.put("t7", Kind.POST);
+		kinds.put("t8", Kind.MESSAGE);
 		kinds.put("t5", Kind.SUBREDDIT);
 		kinds.put("more", Kind.MORE_COMMENTS);
 		kinds.put("Listing", Kind.LISTING);

@@ -146,7 +146,7 @@ public class SubredditSearchQuickLinks extends FlexboxLayout {
 			if(queryProcessed.querySubreddit != null) {
 				mButtonSubreddit.setVisibility(VISIBLE);
 
-				final String subredditPrefixed = "/r/" + queryProcessed.querySubreddit;
+				final String subredditPrefixed = "/s/" + queryProcessed.querySubreddit;
 				mButtonSubreddit.setText(subredditPrefixed);
 
 				mButtonSubreddit.setOnClickListener(
@@ -206,8 +206,8 @@ public class SubredditSearchQuickLinks extends FlexboxLayout {
 
 			querySearch = query;
 
-			final boolean startsWithSlashRSlash = query.startsWith("/r/");
-			final boolean startsWithRSlash = query.startsWith("r/");
+			final boolean startsWithSlashRSlash = query.startsWith("/s/");
+			final boolean startsWithRSlash = query.startsWith("s/");
 
 			final boolean startsWithSlashUSlash = query.startsWith("/u/");
 			final boolean startsWithUSlash = query.startsWith("u/");
@@ -242,7 +242,7 @@ public class SubredditSearchQuickLinks extends FlexboxLayout {
 			} else if(query.startsWith("/")) {
 				querySubreddit = null;
 				queryUser = null;
-				queryUrl = "https://reddit.com" + query;
+				queryUrl = "https://botforum.net" + query;
 
 			} else {
 				querySubreddit = query.replaceAll("[ \t]+", "_");

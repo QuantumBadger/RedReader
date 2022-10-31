@@ -267,7 +267,7 @@ public class WebViewFragment extends Fragment
 		if(mUrl != null) {
 			webView.loadUrl(mUrl);
 		} else {
-			webView.loadHtmlUTF8WithBaseURL("https://reddit.com/", html);
+			webView.loadHtmlUTF8WithBaseURL("https://botforum.net/", html);
 		}
 
 		webView.setWebViewClient(new WebViewClient() {

@@ -634,7 +634,7 @@
     <!--2017-05-21-->
     <string name="pref_behaviour_self_post_tap_actions_title">Tikactie eigen posts</string>
     <!-- 2017-06-05 -->
-    <string name="pref_menus_show_popular_main_menu_title">/r/popular in hoofdmenu weergeven</string>
+    <string name="pref_menus_show_popular_main_menu_title">/s/popular in hoofdmenu weergeven</string>
     <string name="pref_behaviour_video_playback_controls_title">Videobediening inschakelen</string>
     <!-- 2017-06-05 -->
     <string name="error_no_suitable_apps_available">Geen geschikte apps gevonden.</string>
@@ -644,7 +644,7 @@
     <string name="disable_replies_to_infobox_failed">Het uitschakelen van het verplaatsen van reacties naar het postvak is mislukt</string>
     <!-- 2017-12-03 -->
     <string name="mainmenu_random">Willekeurig subreddit</string>
-    <string name="pref_menus_show_random_main_menu_title">/r/random in hoofdmenu weergeven</string>
+    <string name="pref_menus_show_random_main_menu_title">/s/random in hoofdmenu weergeven</string>
     <!-- 2018-01-16 -->
     <!-- 2018-02-03 -->
     <string name="mainmenu_custom_empty_search_query">Lege zoekopdracht.</string>

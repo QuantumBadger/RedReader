@@ -372,7 +372,7 @@ public class MainActivity extends RefreshableActivity
 						if(value.startsWith("http://") || value.startsWith("https://")) {
 							type = "url";
 
-						} else if(value.startsWith("/r/") || value.startsWith("r/")) {
+						} else if(value.startsWith("/s/") || value.startsWith("s/")) {
 							type = "subreddit";
 
 						} else if(value.startsWith("/u/") || value.startsWith("u/")) {

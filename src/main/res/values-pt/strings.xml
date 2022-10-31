@@ -57,7 +57,7 @@
     <string name="action_user_profile">Perfil do utilizador</string>
     <string name="action_user_profile_short">Utilizador</string>
     <string name="action_vote_remove">Remover Voto</string>
-    <string name="block_done">Subreddit bloqueado. Visitas futuras ao /r/all não irão mostrar esse subreddit.</string>
+    <string name="block_done">Subreddit bloqueado. Visitas futuras ao /s/all não irão mostrar esse subreddit.</string>
     <string name="album_already_first_image">Já na primeira imagem no álbum.</string>
     <string name="album_already_last_image">Já na última imagem no álbum.</string>
     <string name="block_subreddit">Bloquear Subreddit</string>
@@ -234,7 +234,7 @@
     <string name="upgrade_v190_login_message">RedReader atualizou, e agora usa oAuth para a autenticação com o reddit. Se você tiver feito login em uma conta antes da atualização, você será desconectado.</string>
     <string name="unpin_subreddit">Desafixar do menu principal</string>
     <string name="unblock_subreddit">Desbloquear Subreddit</string>
-    <string name="unblock_done">Subreddit desbloqueado. Visitas futuras ao /r/all irão incluir este subreddit.</string>
+    <string name="unblock_done">Subreddit desbloqueado. Visitas futuras ao /s/all irão incluir este subreddit.</string>
     <string name="theme_name_red">Vermelho</string>
     <string name="theme_name_ultrablack">Ultra Preto</string>
     <string name="theme_name_orange">Laranja</string>
@@ -514,12 +514,12 @@
     <string name="button_prev_comment_parent">Comentário Pai Anterior</string>
     <string name="download_link_title">Descarregar ficheiro</string>
     <string name="download_link_message">Este é uma ligação de descarrega. Deseja carregá-lo num navegador externo\?</string>
-    <string name="pref_menus_show_popular_main_menu_title">Mostrar /r/popular no menu principal</string>
+    <string name="pref_menus_show_popular_main_menu_title">Mostrar /s/popular no menu principal</string>
     <string name="pref_behaviour_video_playback_controls_title">Ativar controles de reprodução de vídeo</string>
     <string name="error_no_suitable_apps_available">Nenhuma app adequada disponível.</string>
     <string name="pref_behaviour_sharing_share_text_title">Incluir texto ao compartilhar comentário</string>
     <string name="disable_replies_to_infobox_failed">A desativação de respostas à caixa de entrada falhou</string>
-    <string name="pref_menus_show_random_main_menu_title">Mostrar /r/random no menu principal</string>
+    <string name="pref_menus_show_random_main_menu_title">Mostrar /s/random no menu principal</string>
     <string name="mainmenu_custom_empty_search_query">Pesquisa vazia.</string>
     <string name="search_listing_header_query">Pesquisa</string>
     <string name="pref_behaviour_sharing_include_desc_title">"Incluir título/descrição ao compartilhar "</string>

@@ -139,7 +139,7 @@ public class SearchPostListURL extends PostListingURL {
 				return new SearchPostListURL(username, name, query, null, null, null);
 			}
 
-			while(location.startsWith("r/")) {
+			while(location.startsWith("s/")) {
 				location = location.substring(2);
 			}
 		}
@@ -188,7 +188,7 @@ public class SearchPostListURL extends PostListingURL {
 				.authority(Constants.Reddit.getDomain());
 
 		if(type == Type.SUB_OR_SUB_COMBO && subreddit != null) {
-			builder.encodedPath("/r/");
+			builder.encodedPath("/s/");
 			builder.appendPath(subreddit);
 			builder.appendQueryParameter("restrict_sr", "on");
 		} else if(type == Type.MULTI && name != null) {
@@ -426,7 +426,7 @@ public class SearchPostListURL extends PostListingURL {
 		final String formattedLocation;
 		if(type == Type.SUB_OR_SUB_COMBO) {
 			if(subreddit != null) {
-				formattedLocation = "/r/" + subreddit;
+				formattedLocation = "/s/" + subreddit;
 			} else {
 				formattedLocation = null;
 			}

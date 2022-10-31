@@ -466,8 +466,8 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Zablokuj subreddit</string>
     <string name="unblock_subreddit">Odblokuj subreddit</string>
-    <string name="block_done">Subreddit zablokowany. Przyszłe odwiedziny w /r/all pominą ten subreddit.</string>
-    <string name="unblock_done">Subreddit odblokowany. Przyszłe odwiedziny w /r/all uwzględnią ten subreddit.</string>
+    <string name="block_done">Subreddit zablokowany. Przyszłe odwiedziny w /s/all pominą ten subreddit.</string>
+    <string name="unblock_done">Subreddit odblokowany. Przyszłe odwiedziny w /s/all uwzględnią ten subreddit.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Komentarze</string>
     <string name="pref_behaviour_comment_min_title">Minimalny wynik komentarza</string>
@@ -626,13 +626,13 @@
     <!--2017-05-21-->
     <string name="pref_behaviour_self_post_tap_actions_title">Akcja stuknięcia w post tekstowy</string>
     <!-- 2017-06-05 -->
-    <string name="pref_menus_show_popular_main_menu_title">Pokaż /r/popular w menu głównym</string>
+    <string name="pref_menus_show_popular_main_menu_title">Pokaż /s/popular w menu głównym</string>
     <string name="pref_behaviour_video_playback_controls_title">Włącz kontrolki odtwarzania wideo</string>
     <string name="error_no_suitable_apps_available">Brak odpowiedniej aplikacji.</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Pokazuj przyciski nawigacyjne nad komentarzami</string>
     <string name="disable_replies_to_infobox_failed">Nie można wyłączyć odpowiedzi do skrzynki odbiorczej</string>
     <string name="mainmenu_random">Losowy subreddit</string>
-    <string name="pref_menus_show_random_main_menu_title">Pokaż /r/random w menu głównym</string>
+    <string name="pref_menus_show_random_main_menu_title">Pokaż /s/random w menu głównym</string>
     <string name="pref_cache_maxage_entry_title">Czyść buforowane flagi (przeczytano, zagłosowano, itp.) po</string>
     <string name="mainmenu_custom_destination_search">Wyszukaj</string>
     <string name="pref_behaviour_sharing_share_text_title">Umieść tekst podczas dzielenia się komentarzem</string>

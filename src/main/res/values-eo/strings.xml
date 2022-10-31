@@ -466,7 +466,7 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Bloki redditeron</string>
     <string name="unblock_subreddit">Malbloki redditeron</string>
-    <string name="block_done">Redditero blokita. Estontaj vizitoj al la ĉefpaĝo, /r/popular kaj /r/all esceptos tiun ĉi redditeron.</string>
+    <string name="block_done">Redditero blokita. Estontaj vizitoj al la ĉefpaĝo, /s/popular kaj /r/all esceptos tiun ĉi redditeron.</string>
     <string name="unblock_done">Redditero malblokita. Estontaj vizitoj al la ĉefpaĝo, /r/popular kaj /r/all ampleksos tiun ĉi redditeron.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Komentoj</string>

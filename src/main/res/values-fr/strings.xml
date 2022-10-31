@@ -417,7 +417,7 @@
     <string name="error_too_fast_message">Reddit considère que vous soumettez trop rapidement. Merci d\'attendre quelques minutes pour réessayer.</string>
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Bloquer le subreddit</string>
-    <string name="block_done">Subreddit bloqué. Les futures visites de /r/all excluront ce subreddit.</string>
+    <string name="block_done">Subreddit bloqué. Les futures visites de /s/all excluront ce subreddit.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Commentaires</string>
     <string name="pref_behaviour_comment_min_title">Score minimal de commentaire</string>
@@ -562,7 +562,7 @@
     <string name="pref_behaviour_gifview_mode_internal_movie">Lecteur interne (Film, Android 4.0+)</string>
     <string name="time_3hr">3 heures</string>
     <string name="sort_pinned_subreddit_name">Par nom</string>
-    <string name="unblock_done">Le subreddit a été débloqué. Aux prochaines visites, /r/all va inclure ce subreddit.</string>
+    <string name="unblock_done">Le subreddit a été débloqué. Aux prochaines visites, /s/all va inclure ce subreddit.</string>
     <string name="pref_menus_optionsmenu_items_title">Éléments du menu à trois points</string>
     <string name="time_year">année</string>
     <string name="pref_behaviour_videoview_mode_title">Lecteur de vidéos</string>
@@ -598,7 +598,7 @@
     <string name="time_min">min</string>
     <string name="pref_behaviour_fling_comment_right_title">Glisser vers la droite</string>
     <string name="web_view_clear_cache_success_toast">Vider le cache, l\'historique, les cookies et les données de formulaire.</string>
-    <string name="pref_menus_show_popular_main_menu_title">Afficher /r/popular dans le menu principal</string>
+    <string name="pref_menus_show_popular_main_menu_title">Afficher /s/popular dans le menu principal</string>
     <string name="pref_menus_link_context_items_title">Éléments du menu d\'action des liens</string>
     <string name="submit_post_self_text_hint">Text à soi-même</string>
     <string name="time_ms">ms</string>
@@ -615,7 +615,7 @@
     <string name="theme_name_night_lowcontrast">Nuit (bas contraste)</string>
     <string name="time_secs">secs</string>
     <string name="pref_behaviour_postcount_title">Restreindre le nombre de posts</string>
-    <string name="pref_menus_show_random_main_menu_title">Afficher /r/random dans le menu principal</string>
+    <string name="pref_menus_show_random_main_menu_title">Afficher /s/random dans le menu principal</string>
     <string name="share_comments_for">Commentaires pour %s</string>
     <string name="webview_https_already">L\'addresse actuelle est déjà en HTTPS.</string>
     <string name="pref_behaviour_pinned_subredditsort">Tri par défaut des sub. épinglés</string>

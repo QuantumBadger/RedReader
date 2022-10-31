@@ -397,13 +397,13 @@
     <string name="pref_behaviour_sharing_header">Jaetaan</string>
     <string name="search_listing_header_query">Hakupyyntö</string>
     <string name="mainmenu_custom_empty_search_query">Tyhjä hakupyyntö.</string>
-    <string name="pref_menus_show_random_main_menu_title">Näytä /r/random päävalikossa</string>
+    <string name="pref_menus_show_random_main_menu_title">Näytä /s/random päävalikossa</string>
     <string name="mainmenu_random">Satunnainen subreddit</string>
     <string name="disable_replies_to_infobox_failed">Ei voitu poistaa käytöstä vastauksia postilaatikkoon</string>
     <string name="pref_behaviour_sharing_share_text_title">Sisällytä teksti, kun jaetaan kommentti</string>
     <string name="error_no_suitable_apps_available">Ei kelvollisia sovelluksia saatavilla.</string>
     <string name="pref_behaviour_video_playback_controls_title">Ota käyttöön videon toistoasetukset</string>
-    <string name="pref_menus_show_popular_main_menu_title">Näytä /r/popular päävalikossa</string>
+    <string name="pref_menus_show_popular_main_menu_title">Näytä /s/popular päävalikossa</string>
     <string name="download_link_message">Tämä on tallennuslinkki. Haluatko ladata sen ulkoisessa selaimessa\?</string>
     <string name="download_link_title">Tallenna tiedosto</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Näytä navigointipainikkeet kommenttien päällä</string>
@@ -591,7 +591,7 @@
     <string name="pref_behaviour_comment_min_dialog_title">Kutista kommentti, jos pisteitä on vähemmän (tyhjä näyttää kaikki)</string>
     <string name="pref_behaviour_comment_min_title">Pienin kommenttien pistemäärä</string>
     <string name="pref_behaviour_comments_header">Kommentit</string>
-    <string name="unblock_done">Subreddit on estetty. Jatkossa /r/ -sijainnissa näytetään tämä subreddit.</string>
+    <string name="unblock_done">Subreddit on estetty. Jatkossa /s/ -sijainnissa näytetään tämä subreddit.</string>
     <string name="block_done">Subreddit estetty. Jatkossa /r/ -sijainnissa ei näytetä tätä subredditiä.</string>
     <string name="unblock_subreddit">Poista subredditin esto</string>
     <string name="block_subreddit">Estä subreddit</string>

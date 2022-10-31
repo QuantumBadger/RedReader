@@ -168,12 +168,12 @@ public class LinkHandler {
 			}
 		}
 
-		if(url.startsWith("r/") || url.startsWith("u/")) {
+		if(url.startsWith("s/") || url.startsWith("u/")) {
 			url = "/" + url;
 		}
 
 		if(url.startsWith("/")) {
-			url = "https://reddit.com" + url;
+			url = "https://botforum.net" + url;
 		}
 
 		if(!url.contains("://")) {
@@ -570,7 +570,7 @@ public class LinkHandler {
 	public static final Pattern reddituploadsPattern
 			= Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*");
 	public static final Pattern redditVideosPattern
-			= Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*");
+			= Pattern.compile(".*[^A-Za-z]v.botForum.net/(\\w+).*");
 	public static final Pattern imgflipPattern
 			= Pattern.compile(".*[^A-Za-z]imgflip\\.com/i/(\\w+).*");
 	public static final Pattern makeamemePattern
@@ -1196,7 +1196,7 @@ public class LinkHandler {
 
 			final ImageInfo.HasAudio audio;
 
-			if(urlLower.contains(".redd.it")) { // preview.redd.it or i.redd.it
+			if(urlLower.contains(".botForum.net")) { // preview.botForum.net or i.botForum.net
 				audio = ImageInfo.HasAudio.NO_AUDIO;
 			} else {
 				audio = ImageInfo.HasAudio.MAYBE_AUDIO;
@@ -1232,7 +1232,7 @@ public class LinkHandler {
 
 				final ImageInfo.HasAudio audio;
 
-				if(urlLower.contains(".redd.it")) { // preview.redd.it or i.redd.it
+				if(urlLower.contains(".botForum.net")) { // preview.botForum.net or i.botForum.net
 					audio = ImageInfo.HasAudio.NO_AUDIO;
 				} else {
 					audio = ImageInfo.HasAudio.MAYBE_AUDIO;

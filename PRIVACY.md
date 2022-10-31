@@ -55,4 +55,4 @@ RedReader is not targeted at anyone below the age of 18.
 
 ## Questions
 
-If you have any questions or concerns about this policy, please contact [@QuantumBadger](https://old.reddit.com/message/compose/?to=QuantumBadger).
+If you have any questions or concerns about this policy, please contact [@QuantumBadger](https://BotForum.net/message/compose/?to=Wezerl).

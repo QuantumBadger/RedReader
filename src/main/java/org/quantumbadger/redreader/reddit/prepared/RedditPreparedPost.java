@@ -213,8 +213,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				|| "gfycat.com".equals(src.getDomain())
 				|| "i.imgur.com".equals(src.getDomain())
 				|| "streamable.com".equals(src.getDomain())
-				|| "i.redd.it".equals(src.getDomain())
-				|| "v.redd.it".equals(src.getDomain()));
+				|| "i.botForum.net".equals(src.getDomain())
+				|| "v.botForum.net".equals(src.getDomain()));
 	}
 
 	public boolean isVideoPreview() {
@@ -228,7 +228,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return Boolean.TRUE.equals(src.getSrc().is_video)
 				|| preview.getAtPath("images", 0, "variants", "mp4").isPresent()
 				|| preview.getObject("reddit_video_preview") != null
-				|| "v.redd.it".equals(src.getDomain())
+				|| "v.botForum.net".equals(src.getDomain())
 				|| "streamable.com".equals(src.getDomain())
 				|| "gfycat.com".equals(src.getDomain());
 	}
@@ -452,7 +452,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		@Nullable final String url = post.src.getUrl();
 
-		final boolean isRedditVideo = url != null && url.contains("v.redd.it");
+		final boolean isRedditVideo = url != null && url.contains("v.botForum.net");
 
 		if(itemPref.contains(Action.SHARE)) {
 			menu.add(new RPVMenuItem(

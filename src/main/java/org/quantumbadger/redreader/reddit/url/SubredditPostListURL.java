@@ -129,19 +129,19 @@ public class SubredditPostListURL extends PostListingURL {
 				break;
 
 			case ALL:
-				builder.encodedPath("/r/all");
+				builder.encodedPath("/s/all");
 				break;
 
 			case SUBREDDIT:
 			case SUBREDDIT_COMBINATION:
 			case ALL_SUBTRACTION:
 			case RANDOM:
-				builder.encodedPath("/r/");
+				builder.encodedPath("/s/");
 				builder.appendPath(subreddit);
 				break;
 
 			case POPULAR:
-				builder.encodedPath("/r/popular");
+				builder.encodedPath("/s/popular");
 				break;
 		}
 

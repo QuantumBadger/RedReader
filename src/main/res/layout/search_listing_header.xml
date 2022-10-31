@@ -7,7 +7,7 @@
 		android:orientation="vertical"
 		android:focusableInTouchMode="true">
 
-	<com.google.android.material.textfield.TextInputLayout
+	<android.support.design.widget.TextInputLayout
 			android:id="@+id/search_listing_header_query"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
@@ -19,12 +19,11 @@
 				android:layout_weight="1"
 				android:hint="@string/search_listing_header_query"
 				android:maxLines="1"
-				android:inputType="text"
-				android:importantForAutofill="no"/>
+				android:inputType="text"/>
 
-	</com.google.android.material.textfield.TextInputLayout>
+	</android.support.design.widget.TextInputLayout>
 
-	<com.google.android.material.textfield.TextInputLayout
+	<android.support.design.widget.TextInputLayout
 			android:id="@+id/search_listing_header_sub"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
@@ -34,12 +33,11 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
-				android:hint="@string/search_listing_header_limit_location"
+				android:hint="@string/search_listing_header_sub"
 				android:maxLines="1"
-				android:inputType="textNoSuggestions"
-				android:importantForAutofill="no"/>
+				android:inputType="textNoSuggestions"/>
 
-	</com.google.android.material.textfield.TextInputLayout>
+	</android.support.design.widget.TextInputLayout>
 
 	<Button
 			android:id="@+id/search_listing_header_search"

@@ -14,96 +14,159 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  --><resources>
+  -->
+
+<resources>
+
+
     <!-- First Run Dialog -->
+
     <string name="firstrun_login_title">Inloggen</string>
     <string name="firstrun_login_message">Je bent niet ingelogd. Klik in het menu op \"Accounts\" om bij de accountlijst te komen.</string>
     <string name="firstrun_login_button_now">Nu inloggen</string>
     <string name="firstrun_login_button_later">Anoniem blijven</string>
+
     <!-- Preference Headers -->
+
     <string name="prefs_category_appearance">Weergave</string>
     <string name="prefs_category_behaviour">Gedrag</string>
     <string name="prefs_category_cache">Cache</string>
-    <string name="prefs_category_menus">Menu\'s</string>
+    <string name="prefs_category_menus">Menus</string>
+
     <!-- Appearance Prefs -->
+
     <string name="pref_appearance_theme_header">Thema</string>
+    <string name="pref_appearance_font_header">Lettertype</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
+    <string name="pref_appearance_tabletmode_header">Tabletmodus</string>
     <string name="pref_appearance_comments_header">Reacties</string>
+    <string name="pref_appearance_other_header">Overige</string>
+
     <string name="pref_appearance_twopane_title">Tabletmodus (twee panelen)</string>
+
     <string name="pref_appearance_theme_title">Thema</string>
-    <string name="pref_appearance_fontscale_posts_title">Post titels</string>
+
+    <string name="pref_appearance_solidblack_title">Effen zwart in nachtmodus</string>
+
+    <string name="pref_appearance_fontscale_posts_title">Tekengrootte posts</string>
+
+    <string name="pref_appearance_fontscale_comments_title">Tekengrootte reacties</string>
+
     <string name="pref_appearance_thumbnails_show_title">Thumbnails weergeven</string>
+
     <string name="pref_appearance_thumbnails_nsfw_show_title">NSFW-thumbnails weergeven</string>
-    <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails alleen downloaden over wifi</string>
-    <string name="pref_appearance_comment_header_items_title">Reactie header</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_title">Alleen thumbnails via wifi</string>
+
+    <string name="pref_appearance_loading_detail_title">Gedetailleerde laadberichten weergeven</string>
+
+    <string name="pref_appearance_comment_header_items_title">Reactiekoptekst</string>
+
     <!-- Behaviour Prefs -->
+
     <string name="pref_behaviour_notifications_title">Meldingen</string>
+
     <string name="pref_behaviour_actions_post_header">Post-acties</string>
     <string name="pref_behaviour_actions_comment_header">Reactie-acties</string>
     <string name="pref_behaviour_posts_header">Posts</string>
-    <string name="pref_behaviour_fling_post_left_title">Links vegen</string>
-    <string name="pref_behaviour_fling_post_right_title">Rechts vegen</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Druk-actie</string>
+
+    <string name="pref_behaviour_fling_post_left_title">Actie bij links vegen post</string>
+
+    <string name="pref_behaviour_fling_post_right_title">Actie bij rechts vegen post</string>
+
+    <string name="pref_behaviour_actions_comment_tap_title">Tik-actie reacties</string>
+
     <string name="pref_behaviour_nsfw_title">NSFW-inhoud weergeven</string>
+
     <!-- Cache Prefs -->
-    <string name="pref_cache_pruning">Cache opruiming</string>
+
+    <string name="pref_cache_pruning">Cache Pruning</string>
+
     <string name="pref_cache_maxage_listing_title">Gecachete lijsten verwijderen na</string>
+
     <string name="pref_cache_maxage_thumb_title">Gecachete thumbnails verwijderen na</string>
+
     <string name="pref_cache_maxage_image_title">Gecachete afbeeldingen verwijderen na</string>
-    <string name="pref_cache_maxage_entry_title">Gecachete markeringen (gelezen, geupvote, etc) verwijderen na</string>
+
+	<string name="pref_cache_maxage_entry_title">Verwijder gecachede eigenschappen (gelezen, geüpvotete, etc.) achteraf</string>
+
     <string name="pref_cache_precache_images_header">Afbeeldingen precachen</string>
+
     <string name="pref_cache_precache_images_title">Afbeeldingen precachen</string>
-    <string name="pref_cache_precache_images_wifionly_title">Alleen op Wi-Fi</string>
+
+    <!-- TODO use listpreference instead -->
+    <string name="pref_cache_precache_images_wifionly_title">Alleen via wifi</string>
+
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Actiemenu-items</string>
-    <string name="pref_menus_post_toolbar_items_title">Onderdelen zijwerkbalk</string>
+
+    <string name="pref_menus_post_context_items_title">Onderdelen postcontextmenu</string>
+
+    <string name="pref_menus_post_toolbar_items_title">Onderdelen postwerkbalk</string>
+
     <!-- Options Menu -->
+
     <string name="options_accounts">Accounts</string>
     <string name="options_accounts_long">Reddit-accounts</string>
     <string name="options_theme">Thema\'s</string>
     <string name="options_settings">Instellingen</string>
+
     <string name="options_submit_post">Post plaatsen</string>
+
     <string name="options_refresh">Verversen</string>
     <string name="options_refresh_subreddits">Subreddits verversen</string>
     <string name="options_refresh_posts">Posts verversen</string>
     <string name="options_refresh_comments">Reacties verversen</string>
+
     <string name="options_past">Vorige versies</string>
     <string name="options_past_posts">Vorige versie van postlijst</string>
     <string name="options_past_comments">Vorige versie van reactielijst</string>
+
     <string name="options_sort">Sorteren</string>
     <string name="options_sort_subreddits">Subreddits sorteren</string>
     <string name="options_sort_posts">Posts sorteren</string>
     <string name="options_sort_comments">Reacties sorteren</string>
+
     <!-- Main Menu -->
-    <string name="mainmenu_frontpage">Voorpagina</string>
+
+    <string name="mainmenu_frontpage">Front Page</string>
     <string name="mainmenu_all">Alle subreddits</string>
     <string name="mainmenu_custom">Specifieke subreddit</string>
-    <string name="mainmenu_custom_invalid_name">Ongeldige subredditnaam.</string>
+    <string name="mainmenu_custom_invalid_name">Ongeldige subreddit.</string>
     <string name="mainmenu_saved">Opgeslagen posts</string>
     <string name="mainmenu_hidden">Verborgen posts</string>
     <string name="mainmenu_upvoted">Upvoted posts</string>
-    <string name="mainmenu_inbox">Postvak</string>
+    <string name="mainmenu_inbox">Postvak IN</string>
     <string name="mainmenu_profile">Mijn profiel</string>
     <string name="mainmenu_header_subreddits">Subreddits</string>
+
     <!-- General Listing -->
+
     <string name="listing_cached">Gecachete kopie van %s aan het bekijken</string>
+
     <!-- Accounts Dialog -->
+
     <string name="accounts_anon">Anoniem</string>
     <string name="accounts_active">Geactiveerd</string>
     <string name="accounts_add">Reddit-account toevoegen</string>
     <string name="accounts_setactive">Activeren</string>
     <string name="accounts_reauth">Herverifiëren</string>
     <string name="accounts_delete">Verwijderen</string>
+
     <string name="accounts_loggingin">Inloggen…</string>
     <string name="accounts_loggingin_msg">Een momentje…</string>
+
     <string name="accounts_username">Gebruikersnaam</string>
     <string name="accounts_password">Wachtwoord</string>
-    <string name="accounts_login">Inloggen</string>
+
+    <string name="accounts_login">Aanmelden</string>
+
     <string name="accounts_delete_sure">Weet je zeker dat je deze account verwijderen wilt?</string>
+
     <!-- Post Sorts -->
+
     <string name="sort_posts_hot">Populair</string>
     <string name="sort_posts_new">Nieuw</string>
-    <string name="sort_posts_rising">Opkomend</string>
+    <string name="sort_posts_rising">Stijgend</string>
     <string name="sort_posts_controversial">Controversieel</string>
     <string name="sort_posts_top">Top</string>
     <string name="sort_posts_top_hour">Top: Afgelopen uur</string>
@@ -112,21 +175,28 @@
     <string name="sort_posts_top_month">Top: Afgelopen maand</string>
     <string name="sort_posts_top_year">Top: Afgelopen jaar</string>
     <string name="sort_posts_top_all">Top: Allertijden</string>
+
     <!-- Comment Sorts -->
+
     <string name="sort_comments_best">Beste</string>
     <string name="sort_comments_hot">Populair</string>
     <string name="sort_comments_new">Nieuw</string>
     <string name="sort_comments_old">Oud</string>
     <string name="sort_comments_controversial">Controversieel</string>
     <string name="sort_comments_top">Top</string>
+
     <!-- Dialog Buttons -->
+
     <string name="dialog_close">Sluiten</string>
     <string name="dialog_cancel">Annuleren</string>
     <string name="dialog_yes">Ja</string>
     <string name="dialog_no">Nee</string>
     <string name="dialog_go">Ga</string>
+
     <!-- Thing Actions -->
+
     <string name="action_menu_post_title">Post-acties</string>
+
     <string name="action_upvote">Upvote</string>
     <string name="action_downvote">Downvote</string>
     <string name="action_vote_remove">Stem verwijderen</string>
@@ -159,11 +229,15 @@
     <string name="action_link_short">Link</string>
     <string name="action_collapse">In- of uitklappen</string>
     <string name="action_nothing">Niets doen</string>
+
     <string name="action_report">Rapporteren</string>
-    <string name="action_report_sure">Weet je zeker dat je dit wilt rapporteren?</string>
+    <string name="action_report_sure">Weet je zeker dat je dit rapporteren wilt?</string>
+
     <string name="action_save_image">Afbeelding opslaan</string>
     <string name="action_save_image_success">Opgeslagen in de afbeeldingenmap als</string>
+
     <!-- Download Messages -->
+
     <string name="download_waiting">Wachten…</string>
     <string name="download_connecting">Verbinden…</string>
     <string name="download_downloadstarting">Download begint…</string>
@@ -171,10 +245,14 @@
     <string name="download_loading">Laden…</string>
     <string name="download_done">Gereed.</string>
     <string name="download_failed">Mislukt.</string>
+
     <!-- Image View -->
-    <string name="imageview_oom">Onvoldoende geheugen. Webbrowser proberen.</string>
-    <string name="imageview_invalid_gif">Ongeldige GIF. Webbrowser proberen.</string>
+
+    <string name="imageview_oom">Onvoldoende geheugen. Interne browser proberen.</string>
+    <string name="imageview_invalid_gif">Ongeldige GIF. Interne browser proberen.</string>
+
     <!-- Comment Reply/Edit, Post Submit -->
+
     <string name="comment_reply_send">Verzenden</string>
     <string name="comment_edit_save">Opslaan</string>
     <string name="comment_reply_preview">Preview</string>
@@ -184,62 +262,94 @@
     <string name="comment_reply_done">Reactie verstuurd. Deze wordt zichtbaar nadat je ververst.</string>
     <string name="comment_edit_done">Reactie bewerkt. Veranderingen worden zichtbaar nadat je ververst.</string>
     <string name="post_submit_title_hint">Titel</string>
-    <string name="subreddit_selection_textbox_hint">Subreddit</string>
-    <string name="post_captcha_title">CAPTCHA</string>
+    <string name="post_submit_subreddit_hint">Subreddit</string>
+    <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Verstuur</string>
     <string name="post_submit_done">Post verstuurd.</string>
+
     <!-- Bug Reporting -->
+
     <string name="bug_title">Een fout is opgestreden.</string>
-    <string name="bug_message">Er is een fout opgetreden in RedReader.\n\nWil je een foutrapportage opsturen naar de ontwikkelaar? Zo ja, dan wordt een e-mail opgesteld met de relevante informatie. Je kunt de informatie in deze e-mail bekijken voor het versturen.</string>
+    <string name="bug_message">Er is een fout opgetreden in RedReader.\n
+  \n
+  Wil je een foutrapportage opsturen naar de ontwikkelaar? Zo ja, dan wordt een e-mail opgesteld met de relevante informatie. Je kunt de informatie in deze e-mail bekijken voor het versturen.</string>
     <string name="bug_button_send">Foutrapport e-mailen</string>
     <string name="bug_button_ignore">Geen foutrapporten e-mailen</string>
+
     <!-- General errors -->
+
     <string name="error_403_title">Ongeldige gebruiken</string>
     <string name="error_403_message">Reddit meldt dat de huidige gebruiker dit niet mag doen. Probeer in- en uit te loggen (door het account uit de accountlijst te verwijderen en weer toe te voegen).</string>
+
     <string name="error_subreddit_required_title">Subreddit vereist</string>
     <string name="error_subreddit_required_message">Je moet een subreddit opgeven.</string>
+
     <string name="error_bad_captcha_title">Ongeldige CAPTCHA</string>
     <string name="error_bad_captcha_message">De opgegeven CAPTCHA was fout. Probeer het nog een keer.</string>
+
     <string name="error_404_title">Niet gevonden (404)</string>
     <string name="error_404_message">De gezochte data kon niet worden gevonden.</string>
+
     <string name="error_unknown_api_title">Fout</string>
     <string name="error_unknown_api_message">De server heeft het verzoek om onbekende reden afgewezen. Probeer het nog een keer.</string>
-    <string name="error_redditdown_title">Reddit is down</string>
+
+    <string name="error_redditdown_title">Reddit ligt er uit.</string>
     <string name="error_redditdown_message">Reddit wordt op dit moment zwaar belast. Probeer het nog een keer.</string>
+
     <string name="error_cancelled_title">Handeling afgebroken</string>
-    <string name="error_cancelled_message">De huidige handeling is afgebroken.</string>
+    <string name="error_cancelled_message">De huidige handeling is afgeborken.</string>
+
     <string name="error_parse_title">Verwerkingsfout</string>
     <string name="error_parse_message">Reddit heeft data gestuurd die ik niet begreep.</string>
+
     <string name="error_unexpected_cache_title">Onverwachte cachefout</string>
     <string name="error_unexpected_cache_message">Er heeft zich een onverwachte interne fout voorgedaan met de cache.</string>
+
     <string name="error_unexpected_storage_title">Onverwachte opslagfout</string>
     <string name="error_unexpected_storage_message">Er heeft zich een onverwachte interne fout opgedaan met de cache-opslag. Waarschijnlijk raakt je opslaggeheugen vol.</string>
+
     <string name="error_connection_title">Verbindingsfout</string>
     <string name="error_connection_message">Er was een probleem bij het verbinden met de server. Controleer je verbinding en probeer opnieuw.</string>
-    <string name="error_malformed_url_title">Ongeldige URL</string>
+
+    <string name="error_malformed_url_title">Verkeerde URL</string>
     <string name="error_malformed_url_message">Het lukte niet om deze ongeldige URL te bereiken.</string>
+
     <string name="error_unknown_title">Onbekende fout</string>
-    <string name="error_unknown_message">Er is een onbekende fout opgetreden. Probeer het nog een keer.</string>
+    <string name="error_unknown_message">Er was een onbekende fout. Probeer het nog een keer.</string>
+
     <!-- Post list specific errors -->
+
     <string name="error_postlist_cache_title">Einde van gecachete data</string>
     <string name="error_postlist_cache_message">Je bekijkt een oude versie van deze inhoud en er zijn niet meer posts in de cache. Ververs om nieuwe posts te downloaden of selecteer een andere pagina in het menu.</string>
+
     <string name="error_postlist_redditdown_title">Reddit ligt er uit</string>
     <string name="error_postlist_redditdown_message">Reddit wordt op het moment zwaar belast. Ververs om nieuwe posts te downloaden of selecteer een andere pagina in het menu.</string>
+
     <!-- Session List -->
+
     <string name="session_active">Actief</string>
+
     <!-- Time -->
+
     <string name="time_ago">%s geleden</string>
+
     <!-- User Profile -->
+
     <string name="userprofile_created">Aangemaakt</string>
+    <string name="userprofile_hasmail">Heeft Mail</string>
+    <string name="userprofile_hasmodmail">Heeft Mod Mail</string>
     <string name="userprofile_isfriend">Is vriend</string>
     <string name="userprofile_isgold">Redditgoud</string>
     <string name="userprofile_moderator">Is moderator</string>
     <string name="userprofile_viewcomments">Bekijk reacties</string>
     <string name="userprofile_viewposts">Bekijk posts</string>
+
     <!-- Comment/Post Properties -->
+
     <string name="props_comment_title">Reactie-eigenschappen</string>
     <string name="props_post_title">Post-eigenschappen</string>
     <string name="props_error_title">Fout-eigenschappen</string>
+
     <string name="props_title">Titel</string>
     <string name="props_author">Auteur</string>
     <string name="props_author_flair">Auteur flairtekst</string>
@@ -251,22 +361,30 @@
     <string name="props_num_comments">Aantal reacties</string>
     <string name="props_body_markdown">Body (Ruwe Markdown)</string>
     <string name="props_self_markdown">Zelftekst (Ruwe Markdown)</string>
+
     <string name="props_never">Nooit</string>
     <string name="props_up">Up</string>
     <string name="props_down">Down</string>
+
     <!-- Notifications -->
+
     <string name="notification_comment">%s heeft op jou gereageerd</string>
     <string name="notification_message">%s heeft jou een bericht gestuurd</string>
     <string name="notification_message_multiple">Nieuwe Redditberichten</string>
     <string name="notification_message_action">Tik om te bekijken</string>
+
     <!-- General -->
+
     <string name="general_true">Ja</string>
     <string name="general_false">Nee</string>
+
     <!-- 2013-05-17 Arrays -->
+
     <string name="pref_appearance_twopane_never">Nooit</string>
     <string name="pref_appearance_twopane_auto">Auto-detectie</string>
     <string name="pref_appearance_twopane_landscape">Alleen liggend</string>
     <string name="pref_appearance_twopane_force">Altijd (kan vreemd lijken)</string>
+
     <string name="theme_name_red">Rood</string>
     <string name="theme_name_night">Nacht</string>
     <string name="theme_name_green">Groen</string>
@@ -274,6 +392,7 @@
     <string name="theme_name_ltblue">Lichtblauw</string>
     <string name="theme_name_orange">Oranje</string>
     <string name="theme_name_gray">Grijs</string>
+
     <string name="time_1hr">1 uur</string>
     <string name="time_6hr">6 uur</string>
     <string name="time_1day">1 dag</string>
@@ -281,59 +400,105 @@
     <string name="time_1week">1 week</string>
     <string name="time_1month">1 maand</string>
     <string name="time_3month">3 maanden</string>
+
     <string name="pref_appearance_comment_header_items_author">Auteur</string>
     <string name="pref_appearance_comment_header_items_flair">Flair</string>
     <string name="pref_appearance_comment_header_items_score">Score</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Upvotes/downvotes</string>
     <string name="pref_appearance_comment_header_items_age">Leeftijd</string>
+
     <!-- 2013-05-17 -->
+
     <string name="error_toast_notloggedin">Je moet ingelogd zijn om dat the kunnen doen.</string>
+
     <string name="button_moredetail">Meer details</string>
+
     <string name="pref_appearance_scale_normal">Normaal</string>
+
     <string name="error_invalid_password_title">Ongeldig wachtwoord</string>
     <string name="error_invalid_password_message">Je gebruikersnaam of wachtwoord was onjuist.</string>
+
     <string name="error_ratelimit_title">Te veel ongeldige pogingen.</string>
-    <string name="error_ratelimit_message">Geblokkeerd als gevolg van te veel ongeldige inlogpogingen van dit IP-adres. Reddit meldt:</string>
+    <string name="error_ratelimit_message">Geblokkeerd als gevolg van te veel ongeldige inlogpogingen via dit IP-adres. Reddit meldt:</string>
+
     <string name="general_success">Succesvol</string>
+
     <string name="message_nowloggedin">Je bent nu ingelogd.</string>
     <string name="message_cannotlogin">Kan niet inloggen.</string>
+
     <string name="error_toast_no_urls_in_comment">Geen URLs gevonden in deze reactie.</string>
     <string name="error_toast_no_urls_in_self">Geen URLs gevonden in deze zelftekst.</string>
     <string name="error_toast_parent_post_not_downloaded">Oorspronkelijke post is nog niet gedownload.</string>
+
     <string name="download_subreddits">Subreddits downloaden…</string>
+
     <string name="subtitle_points">ptn</string>
     <string name="subtitle_by">door</string>
     <string name="subtitle_to">tot</string>
+	<plurals name="subtitle_replies">
+		<item quantity="zero">…</item>
+		<item quantity="one">" (%d reactie)"</item>
+		<item quantity="other">" (%d reacties)"</item>
+	</plurals>
+
     <string name="general_unknown">onbekend</string>
+
     <string name="action_search">Zoeken</string>
     <string name="search_subreddit_restrict">Zoekopdracht beperken tot</string>
+
     <string name="title_changelog">Wat is er nieuw</string>
-    <string name="pref_behaviour_commentsort">Reacties (standaard)</string>
+
+    <string name="pref_behaviour_commentsort">Standaardsortering reacties</string>
+
     <!-- 2013-05-18 -->
+
     <string name="action_fling_disabled">Uitgeschakeld</string>
+
     <string name="pref_about_version_title">Versie</string>
+
     <string name="prefs_category_about">Over</string>
+
     <!-- 2013-06-07 -->
+
     <string name="pref_behaviour_sort_header">Sorteren</string>
+
     <!-- 2013-06-09 -->
+
     <string name="pref_appearance_locale_header">Regio</string>
+
     <string name="pref_appearance_langforce_title">Taal</string>
+
     <string name="lang_auto">Automatisch</string>
+
     <!-- 2013-06-25 -->
+
     <string name="prefs_category_network">Netwerk</string>
-    <string name="pref_network_https_title">Gebruik HTTPS</string>
+    <string name="pref_network_https_title">HTTPS inschakelen</string>
+
     <!-- 2013-07-01 -->
+
     <string name="web_view_open_browser">Bekijk in webbrowser</string>
+
     <!-- 2013-07-26 -->
+
     <string name="pref_behaviour_useinternalbrowser_title">Gebruik interne browser</string>
+
     <!-- 2013-07-29 -->
+
     <string name="pref_appearance_linkbuttons_title">Linkknoppen weergeven</string>
+
     <!-- 2013-08-04 -->
+
     <string name="pref_appearance_indentlines_title">Inspringlijnen weergeven</string>
+
     <!-- 2014-03-14 -->
+
     <string name="load_more_posts">Meer posts laden</string>
+
     <string name="pref_behaviour_postcount_title">Post-aantal beperken</string>
-    <string name="pref_behaviour_postcount_items_all">Alle</string>
+
+    <string name="pref_behaviour_postcount_items_all">All</string>
+
     <!-- 2014-03-17 -->
     <string name="time_year">jaar</string>
     <string name="time_years">jaren</string>
@@ -348,324 +513,455 @@
     <string name="time_sec">s</string>
     <string name="time_secs">s</string>
     <string name="time_ms">ms</string>
+
     <!-- 2014-03-18 -->
+
     <string name="error_disk_space_title">Geen geheugen meer</string>
     <string name="error_disk_space_message">De download is mislukt omdat je apparaat vol is. Maak ruimte vrij om het opnieuw te proberen.</string>
+
     <!-- 2014-03-23 -->
+
     <string name="options_subscribe">Inschrijven</string>
     <string name="options_unsubscribe">Uitschrijven</string>
     <string name="options_subscribing">Inschrijven…</string>
     <string name="options_unsubscribing">Uitschrijven…</string>
     <string name="options_sidebar">Zijbalk weergeven</string>
+
     <!-- 2014-04-13 -->
-    <string name="pref_menus_mainmenu_useritems_title">Gebruikersonderdelen</string>
+
+    <string name="pref_menus_mainmenu_useritems_title">Onderdelen hoofdmenu</string>
+
     <string name="mainmenu_submitted">Geplaatste posts</string>
     <string name="mainmenu_downvoted">Gedownvote posts</string>
-    <string name="mainmenu_modmail">Modmail</string>
+    <string name="mainmenu_modmail">Mod Mail</string>
+
     <string name="sidebar_activity_title">Zijbalk</string>
+
     <!-- 2014-04-20 -->
+
     <string name="header_subscriber_count">%s lezers</string>
     <string name="header_subscriber_count_unknown">Onbekend lezersaantal</string>
+
     <!-- 2014-04-21 -->
+
     <string name="invalid_subreddit_name">Ongeldige subredditnaam</string>
+
     <!-- 2014-04-26 -->
+
     <string name="web_view_clear_cache">Cache legen</string>
     <string name="web_view_clear_cache_success_toast">Cache, geschiedenis, cookies en formulierdata geleegd.</string>
+
     <!-- 2014-09-21 -->
     <string name="gold">Goud</string>
     <string name="pref_appearance_comment_header_items_gold">Redditgoud</string>
+
     <!-- 2014-11-15 -->
     <string name="karma_link">Linkkarma</string>
     <string name="karma_comment">Reactie-karma</string>
+
     <!-- 2014-12-02 -->
     <string name="imageview_decode_failed">Decoderen afbeelding mislukt. Interne browser proberen.</string>
+
     <!-- 2014-12-06 -->
     <string name="user_comments">Reacties</string>
+
     <!-- 2014-12-07 -->
     <string name="comment_header_specific_thread_title">Je bekijkt een specifieke reactie-thread.</string>
     <string name="comment_header_specific_thread_message">Klik hier om alle reacties op deze post te bekijken.</string>
+
     <!-- 2014-12-18 -->
+    <string name="more_comments_button_text">Meer reacties laden</string>
     <string name="action_comment_context">Context</string>
     <string name="action_comment_go_to">Ga naar reactie</string>
+
     <!-- 2015-01-03 -->
     <string name="webview_https_already">Deze link gebruikt al HTTPS.</string>
-    <string name="webview_https_unknownprotocol">Onbekend protocol, \'http://\' werd verwacht</string>
+    <string name="webview_https_unknownprotocol">Onbekend protocol, \'http://\' was verwacht.</string>
     <string name="webview_use_https">HTTPS gebruiken</string>
+
     <!-- 2015-01-16 -->
+
     <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevantie</string>
     <string name="sort_posts_comments">Reacties</string>
+
     <!-- 2015-04-06 -->
     <string name="mark_all_as_read">Als gelezen markeren</string>
-    <string name="mark_all_as_read_success">Alle berichten als gelezen gemarkeerd.</string>
+    <string name="mark_all_as_read_success">Alle berichten als gelezen gemarkeerd</string>
+
     <!-- 2015-05-17 -->
     <string name="error_title_login_user_denied_permission">Permissie geweigerd</string>
     <string name="error_message_login_user_denied_permission">Openen van gebruikersaccount was geweigerd. Probeer het nog een keer.</string>
+
     <string name="error_title_login_unknown_reddit_error">Onbekende Redditfout: %s</string>
+
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Ongeldige video. Interne browser proberen.</string>
     <string name="download_authorizing">Verifiëren…</string>
+
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Direct naar de front page</string>
+
     <!-- 2015-06-07 -->
     <string name="error_archived_vote">Dit is gearchiveerd en kan dus niet op worden gestemd.</string>
+
     <!-- 2015-06-20 -->
     <string name="pref_behaviour_screenorientation_title">Scherm-oriëntatie</string>
+
     <string name="screen_orientation_auto">Automatisch</string>
     <string name="screen_orientation_portrait">Staand</string>
     <string name="screen_orientation_landscape">Liggend</string>
+
     <!-- 2015-06-28 -->
     <string name="options_close_all">Alles sluiten</string>
+
     <string name="pref_menus_optionsmenu_items_title">Onderdelen voorkeurenmenu</string>
+
     <!-- 2015-07-05 -->
     <string name="pref_behaviour_bezel_toolbar_header">Bezelwerkbalk</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">Veegzone-grootte bezelwerkbalk</string>
+
     <string name="pref_behaviour_gifview_mode_title">GIF-weergave</string>
+
     <string name="pref_behaviour_gifview_mode_internal_movie">Interne kijker (Video, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Intere kijker (Oud)</string>
+
     <string name="pref_behaviour_view_mode_internal_browser">Interne browser</string>
     <string name="pref_behaviour_view_mode_external_browser">Externe browser</string>
+
     <!-- 2015-08-15 -->
+    <string name="pref_appearance_fontscale_inbox_title">Lettergrootte Postvak IN</string>
+
     <string name="action_delete">Verwijderen</string>
     <string name="delete_confirm">Weet je zeker dat je dit verwijderen wilt?</string>
     <string name="delete_success">Verwijderen gelukt. Het zal zichtbaar blijven tot je ververst.</string>
+
     <string name="pref_appearance_hide_username_main_menu_title">Verberg gebruikersnaam in hoofdmenu</string>
     <string name="mainmenu_useritems">Gebruikersitems</string>
+
     <!-- 2015-09-13 -->
     <string name="selected_link_is_not_image">De geselecteerde link is geen afbeelding.</string>
+
     <!-- 2015-10-03 -->
     <string name="imgur_album">Imgur-album</string>
+
     <!-- 2015-10-04 -->
     <string name="album_already_first_image">Al op de eerste afbeelding in het album.</string>
     <string name="album_already_last_image">Al op de laatste afbeelding in het album.</string>
+
     <string name="upgrade_v190_login_message">RedReader is vernieuwd en gebruikt nu oAuth voor Redditverificatie. Als je ingelogd was vóór deze vernieuwing, dan ben je nu uitgelogd.</string>
+
     <string name="pref_behaviour_videoview_mode_title">Videospeler</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Interne VideoView (aanbevolen)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Externe App: VLC</string>
+
     <string name="videoview_mode_app_vlc_launch_failed">Starten van VLC is mislukt. Update VLC of verander je Videospeler-instellingen.</string>
+
     <!-- 2015-10-05 -->
     <string name="error_url_required_title">URL benodigd</string>
     <string name="error_url_required_message">Je moet een URL opgeven.</string>
+
     <!-- 2015-10-16 -->
     <string name="sort_comments_qa">V&amp;A</string>
+
     <!-- 2015-10-31 -->
     <string name="pref_behaviour_gallery_swipe_length_title">Veeglengte galerij</string>
+
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Precache reacties</string>
+
     <string name="pref_cache_precache_comments_title">Precache reacties</string>
+
     <string name="pref_cache_precache_comments_wifionly_title">Allen via wifi</string>
+
     <string name="mainmenu_header_subreddits_subscribed">Geabonneerde subreddits</string>
     <string name="mainmenu_header_subreddits_pinned">Vastgespelde subreddits</string>
+
     <string name="pin_subreddit">Aan hoofdmenu vastmaken</string>
     <string name="unpin_subreddit">Van hoofdmenu losmaken</string>
+
     <!-- 2015-11-22 -->
     <string name="props_image_title">Afbeeldingsinformatie</string>
     <string name="props_caption">Onderschrift</string>
     <string name="props_resolution">Resolutie</string>
+
     <!-- 2015-12-06 -->
     <string name="error_too_fast_title">Te snel</string>
     <string name="error_too_fast_message">Reddit meldt dat je te snel post. Gelieve een paar minuten wachten voor je het opnieuw probeert.</string>
+
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Subreddit blokkeren</string>
     <string name="unblock_subreddit">Subreddit deblokkeren</string>
     <string name="block_done">Subreddit geblokkeerd. Bij toekomstige bezoeken aan r/all zal deze subreddit niet worden weergegeven.</string>
     <string name="unblock_done">Subreddit gedeblokkeerd. Bij toekomstige bezoeken aan r/all zal deze subreddit weer worden weergegeven.</string>
+
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Reacties</string>
+
     <string name="pref_behaviour_comment_min_title">Minimale reactiescore</string>
     <string name="pref_behaviour_comment_min_dialog_title">Reactie inklappen als score minder is dan (leeg laten om allen weer te geven)</string>
+
     <!-- 2016-03-20 -->
+
     <!-- 2016-04-02 -->
     <string name="open_with">Openen met</string>
     <string name="pref_network_tor_title">Tor gebruiken</string>
+
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor werkt niet zonder Orbot. Wil je dit nu installeren?</string>
     <string name="error_tor_setting_failed">Instellen van proxy mislukt.</string>
+
     <!-- 2016-04-10 -->
     <string name="error_parse_imgur_title">Verwerkingsfout</string>
     <string name="error_parse_imgur_message">Imgur stuurde data die ik niet begreep.</string>
+
     <string name="error_upload_fail_imgur_title">Uploaden mislukt</string>
     <string name="error_upload_fail_imgur_message">Imgur heeft de upload om onbekende reden afgewezen.</string>
+
     <string name="upload_to_imgur">Naar Imgur uploaden</string>
     <string name="no_file_selected">Geen bestand geselecteerd</string>
     <string name="button_upload">Uploaden</string>
     <string name="button_browse">Bladeren…</string>
+
     <string name="error_file_too_big_title">Bestand te groot</string>
     <string name="error_file_too_big_message">De bestandsgrootte (%1$s) is groter dan de uploadlimiet (%2$s).</string>
+
     <string name="error_file_open_failed_title">Openen van bestand mislukt</string>
     <string name="error_file_open_failed_message">Een fout is opgetreden bij het openen van het bestand.</string>
+
     <string name="image_selected_summary">Afbeelding geselecteerd: %1$dx%2$d, %3$s</string>
-    <!-- 2016-06-10 -->
-    <string name="submit_post_specify_subreddit">Subreddit opgeven</string>
-    <string name="submit_post_title_empty">De titel kan niet leeg zijn</string>
-    <string name="submit_post_url_empty">URL kan niet leeg zijn</string>
-    <string name="submit_post_self_text_hint">Zelftekst</string>
-    <string name="submit_post_url_hint">URL</string>
-    <!-- 2016-06-24 -->
-    <string name="save_image_permission_denied">Toegang geweigerd: de afbeelding kon niet worden opgeslagen.</string>
-    <!-- 2016-06-25 -->
-    <string name="pref_behaviour_imageview_mode_title">Afbeeldingweergever</string>
-    <string name="pref_behaviour_imageview_mode_internal_opengl">Interne weergever (OpenGL)</string>
-    <string name="pref_behaviour_albumview_mode_title">Albumweergever</string>
-    <string name="pref_behaviour_albumview_mode_internal_list">Interne weergever (lijst)</string>
-    <string name="error_tor_start_failed">Kon Orbot niet starten. TOR zal niet werken.</string>
-    <!-- 2016-06-30 -->
-    <string name="inbox_unread_only">Alleen ongelezen berichten</string>
-    <!-- 2016-07-02 -->
-    <string name="pref_behaviour_actions_comment_longclick_title">Lange-klikactie reacties</string>
-    <string name="no_comments_yet">Nog geen reacties.</string>
-    <!-- 2016-07-09 -->
-    <string name="pm_send_hint_recipient">Ontvanger</string>
-    <string name="pm_send_hint_subject">Onderwerp</string>
-    <string name="pm_send_hint_message_text">Berichtekst</string>
-    <string name="pm_send_done">Bericht verzonden.</string>
-    <string name="userprofile_pm">Bericht verzenden</string>
-    <string name="error_too_long_title">Te lang</string>
-    <string name="error_too_long_message">Reddit meldt dat je tekst te lang is.</string>
-    <string name="pm_send_actionbar">Bericht verzenden</string>
-    <string name="submit_post_actionbar">Post toevoegen</string>
-    <string name="submit_comment_actionbar">Reactie toevoegen</string>
-    <string name="edit_comment_actionbar">Reactie wijzigen</string>
-    <!-- 2016-07-16 -->
-    <string name="pref_behaviour_fling_comment_left_title">Actie bij links vegen reactie</string>
-    <string name="pref_behaviour_fling_comment_right_title">Actie bij rechts vegen reactie</string>
-    <!-- 2016-07-17 -->
-    <string name="comment_header_search_thread_title">Je bekijkt nu de zoekresultaten voor een reactie-thread.</string>
-    <string name="no_search_results">Geen resultaten gevonden.</string>
-    <!-- 2016-07-24 -->
-    <string name="action_search_comments">Reacties doorzoeken</string>
-    <!-- 2016-07-29 -->
-    <string name="pref_appearance_navbar_color_title">Kleur Navbar</string>
-    <string name="pref_appearance_navbar_color_option_black">Zwart</string>
-    <string name="pref_appearance_navbar_color_option_primary">Primair (licht)</string>
-    <string name="pref_appearance_navbar_color_option_primarydark">Primair (donker)</string>
-    <string name="pref_not_supported_before_lollipop">Niet ondersteund voor versies ouder dan Android Lollipop</string>
-    <!-- 2016-08-03 -->
-    <string name="action_copy_text">Tekst kopiëren</string>
-    <string name="action_copy_link">Link kopiëren</string>
-    <string name="pref_behaviour_postsort">Standaardpostsortering</string>
-    <!-- 2016-08-06 -->
-    <string name="mainmenu_custom_destination">Specifieke locatie</string>
-    <string name="mainmenu_custom_destination_subreddit">Subreddit</string>
-    <string name="mainmenu_custom_destination_user">Gebruiker</string>
-    <string name="mainmenu_custom_destination_url">URL</string>
-    <string name="mainmenu_custom_destination_search">Zoeken</string>
-    <string name="mainmenu_header_multireddits">Multireddits</string>
-    <string name="pref_behaviour_share_permalink_title">Permalink delen</string>
-    <!-- 2016-08-10 -->
-    <string name="pref_cache_general_header">Algemeen</string>
-    <string name="pref_cache_location_title">Cacheopslaglocatie</string>
-    <string name="error_cache_dir_does_not_exist_title">Cachemap ontbreekt</string>
-    <string name="error_cache_dir_does_not_exist_message">Kon de cachemap niet openen. Gelieve een andere locatie kiezen in de cache-instellingen.</string>
-    <!-- 2016-08-15 -->
-    <string name="pref_behaviour_pinned_subredditsort">Vastgespelde subreddits sorteren</string>
-    <string name="sort_pinned_subreddit_name">Op naam</string>
-    <string name="sort_pinned_subreddit_date">Op toevoegingsdatum</string>
-    <!-- 2016-09-01 -->
-    <string name="load_more_comments_failed_unknown_url_type">Meer reacties laden mislukt: onbekende linktype.</string>
-    <!-- 2016-09-04 -->
-    <string name="pref_appearance_image_viewer_header">Afbeeldingsweergever</string>
-    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Zwevende werkbalk weergeven boven afbeeldingen</string>
-    <string name="pref_appearance_link_text_clickable_title">Linktekst klikbaar maken</string>
-    <!-- 2016-09-07 -->
-    <string name="pref_appearance_hide_android_status_title">Androids statusbalk verbergen</string>
-    <!-- 2016-09-08 -->
-    <string name="pref_behaviour_enable_swipe_refresh_title">Naar beneden vegen om te verversen</string>
-    <!-- 2016-09-10 -->
-    <string name="mainmenu_header_subreddits_blocked">Geblokkeerde subreddits</string>
-    <string name="pref_behaviour_blocked_subredditsort">Geblokkeerde subreddits sorteren</string>
-    <string name="sort_blocked_subreddit_name">Op naam</string>
-    <string name="sort_blocked_subreddit_date">Op toevoegdatum</string>
-    <!-- 2016-09-21 -->
-    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Geblokkeerde subreddits in het hoofdmenu weergeven</string>
-    <!-- 2016-10-02 -->
-    <string name="pref_cache_rerequest_postlist_age_title">Posts verversen als de cache ouder is dan</string>
-    <string name="time_2hr">2 uur</string>
-    <string name="time_3hr">3 uur</string>
-    <!-- 2016-10-08 -->
-    <string name="time_every_time">Altijd</string>
-    <!-- 2016-11-02 -->
-    <!-- 2016-11-14 -->
-    <!-- 2016-12-03 -->
-    <string name="theme_name_night_lowcontrast">Nacht (lage contrastwaarde)</string>
-    <string name="theme_name_ultrablack">Ultrazwart</string>
-    <!-- 2016-12-07 -->
-    <string name="send_replies_to_inbox">Reacties naar mijn postvak sturen</string>
-    <!-- 2016-12-11 -->
-    <string name="action_share_image">Afbeelding delen</string>
-    <!-- 2017-01-15 -->
-    <string name="error_403_title_nonreddit">Toegang geweigerd</string>
-    <string name="error_403_message_nonreddit">Toegang geweigerd.</string>
-    <!-- 2017-02-12 -->
-    <string name="submit_pmreply_actionbar">Reageer</string>
-    <string name="pm_reply_done">Reactie verstuurd.</string>
-    <!-- 2017-02-15 -->
-    <string name="mainmenu_popular">Populaire Subreddits</string>
-    <!-- 2017-02-23 -->
-    <string name="action_back">Gedetailleerde berichten weergeven bij laden</string>
-    <!-- 2017-03-02 -->
-    <string name="pref_menus_link_context_items_title">Opties in menu link</string>
-    <!-- 2017-03-07 -->
-    <string name="pref_menus_subreddit_context_items_title">Onderdelen linkcontextmenu</string>
-    <string name="mainmenu_toast_not_subscribed">Je bent nog niet op dit subreddit geabonneerd!</string>
-    <string name="mainmenu_toast_subscribed">Je bent al op dit subreddit geabonneerd!</string>
-    <string name="mainmenu_toast_not_pinned">Het subreddit is niet toegevoegd aan het hoofdmenu!</string>
-    <string name="mainmenu_toast_pinned">Het subreddit is al toegevoegd aan het hoofdmenu!</string>
-    <string name="mainmenu_toast_not_blocked">Het subreddit is niet geblokkeerd!</string>
-    <string name="mainmenu_toast_blocked">Het subreddit is al geblokkeerd!</string>
-    <!-- 2017-04-02 -->
-    <string name="edit_post_actionbar">Post aanpassen</string>
-    <string name="post_edit_done">Post aangepast. De aanpassing wordt zichtbaar na vernieuwen.</string>
-    <string name="action_block_subreddit">Subreddit blokkeren</string>
-    <string name="action_unblock_subreddit">Subreddit deblokkeren</string>
-    <string name="action_pin_subreddit">Subreddit aan hoofdmenu toevoegen</string>
-    <string name="action_unpin_subreddit">Subreddit van hoofdmenu verwijderen</string>
-    <string name="action_subscribe_subreddit">Abonneer op subreddit</string>
-    <string name="action_unsubscribe_subreddit">Niet meer abonneren op subreddit</string>
-    <!-- 2017-04-14 -->
-    <string name="collapsed_self_post">Eigen post opengeklapt</string>
-    <!-- 2017-05-08 -->
-    <string name="button_next_comment_parent">Volgende bovenliggende reactie</string>
-    <string name="button_prev_comment_parent">Vorige bovenliggende reactie</string>
-    <string name="pref_appearance_comments_show_floating_toolbar_title">Toolbar over reacties weergeven</string>
-    <!--2017-05-08-->
-    <string name="download_link_title">Bestand downloaden</string>
-    <string name="download_link_message">Dit is een downloadlink. Weet je zeker dat je deze wilt openen in een externe browser?</string>
-    <!--2017-05-21-->
-    <string name="pref_behaviour_self_post_tap_actions_title">Tikactie eigen posts</string>
-    <!-- 2017-06-05 -->
-    <string name="pref_menus_show_popular_main_menu_title">/s/popular in hoofdmenu weergeven</string>
-    <string name="pref_behaviour_video_playback_controls_title">Videobediening inschakelen</string>
-    <!-- 2017-06-05 -->
-    <string name="error_no_suitable_apps_available">Geen geschikte apps gevonden.</string>
-    <!-- 2017-10-22 -->
-    <string name="pref_behaviour_sharing_share_text_title">Tekst van reacties delen</string>
-    <!-- 2017-11-01 -->
-    <string name="disable_replies_to_infobox_failed">Het uitschakelen van het verplaatsen van reacties naar het postvak is mislukt</string>
-    <!-- 2017-12-03 -->
-    <string name="mainmenu_random">Willekeurig subreddit</string>
-    <string name="pref_menus_show_random_main_menu_title">/s/random in hoofdmenu weergeven</string>
-    <!-- 2018-01-16 -->
-    <!-- 2018-02-03 -->
-    <string name="mainmenu_custom_empty_search_query">Lege zoekopdracht.</string>
-    <!-- 2018-02-10 -->
-    <string name="search_listing_header_query">Zoekopdracht</string>
-    <!-- 2018-02-11 -->
-    <string name="pref_behaviour_sharing_header">Delen</string>
-    <string name="pref_behaviour_sharing_include_desc_title">Voeg titel/omschrijving toe bij delen</string>
-    <string name="share_comments_for">Reacties van %s</string>
-    <string name="share_comment_by_on_reddit">Reacties van %s op Reddit</string>
-    <!-- 2018-03-31 -->
-    <string name="post_submit_mark_nsfw">Markeren als NSFW</string>
-    <string name="sort_posts_best">Beste</string>
-    <string name="comment_reply_done_norefresh">Antwoord verstuurd.</string>
-    <string name="error_already_submitted_message">Deze post werd reeds ingediend op deze subreddit.</string>
-    <string name="error_already_submitted_title">Reeds ingediend</string>
-    <string name="post_submit_mark_spoiler">Markeren als spoiler</string>
-    <string name="pref_appearance_left_handed_title">Linkshandige modus</string>
-    <string name="title_license">Licentie</string>
-    <plurals name="load_more_comments_button_reply_count">
-        <item quantity="one">"Meer reacties laden (%d reactie)"</item>
-        <item quantity="other">"Meer reacties laden (%d reacties)"</item>
-    </plurals>
+
+	<!-- 2016-06-10 -->
+	<string name="submit_post_specify_subreddit">Subreddit opgeven</string>
+	<string name="submit_post_title_empty">De titel kan niet leeg zijn</string>
+	<string name="submit_post_url_empty">URL kan niet leeg zijn</string>
+	<string name="submit_post_self_text_hint">Zelftekst</string>
+	<string name="submit_post_url_hint">URL</string>
+
+	<!-- 2016-06-24 -->
+	<string name="save_image_permission_denied">Permissie geweigerd: afbeelding kon niet opgeslagen worden</string>
+	
+	<!-- 2016-06-25 -->
+	<string name="pref_behaviour_imageview_mode_title">Afbeeldingweergever</string>
+
+	<string name="pref_behaviour_imageview_mode_internal_opengl">Interne weergever (OpenGL)</string>
+
+	<string name="pref_behaviour_albumview_mode_title">Albumweergever</string>
+
+	<string name="pref_behaviour_albumview_mode_internal_list">Interne weergever (lijst)</string>
+
+	<string name="error_tor_start_failed">Kon Orbot niet starten. Tor zal niet werken.</string>
+
+	<!-- 2016-06-30 -->
+	<string name="inbox_unread_only">Alleen ongelezen berichten</string>
+	
+	<!-- 2016-07-02 -->
+	<string name="pref_behaviour_actions_comment_longclick_title">Lange-klikactie reacties</string>
+
+	<string name="no_comments_yet">Nog geen reacties.</string>
+
+	<!-- 2016-07-09 -->
+	<string name="pm_send_hint_recipient">Ontvanger</string>
+	<string name="pm_send_hint_subject">Onderwerp</string>
+	<string name="pm_send_hint_message_text">Berichtekst</string>
+
+	<string name="pm_send_done">Bericht verzonden.</string>
+
+	<string name="userprofile_pm">Bericht verzenden</string>
+
+	<string name="error_too_long_title">Te lang</string>
+	<string name="error_too_long_message">Reddit meldt dat je tekst te lang is.</string>
+
+	<string name="pm_send_actionbar">Bericht verzenden</string>
+	<string name="submit_post_actionbar">Post toevoegen</string>
+	<string name="submit_comment_actionbar">Reactie toevoegen</string>
+	<string name="edit_comment_actionbar">Reactie wijzigen</string>
+	
+	<!-- 2016-07-16 -->
+	<string name="pref_behaviour_fling_comment_left_title">Actie bij links vegen reactie</string>
+
+	<string name="pref_behaviour_fling_comment_right_title">Actie bij rechts vegen reactie</string>
+
+	<!-- 2016-07-17 -->
+	<string name="comment_header_search_thread_title">Je bekijkt nu de zoekresultaten voor een reactie-thread.</string>
+	<string name="no_search_results">Geen resultaten gevonden.</string>
+
+	<!-- 2016-07-24 -->
+	<string name="action_search_comments">Reacties doorzoeken</string>
+
+	<!-- 2016-07-29 -->
+	<string name="pref_appearance_navbar_color_title">Kleur Navbar</string>
+
+	<string name="pref_appearance_navbar_color_option_black">Zwart</string>
+	<string name="pref_appearance_navbar_color_option_primary">Primair (licht)</string>
+	<string name="pref_appearance_navbar_color_option_primarydark">Primair (donker)</string>
+
+	<string name="pref_not_supported_before_lollipop">Niet ondersteund voor versies ouder dan Android Lollipop</string>
+
+	<!-- 2016-08-03 -->
+	<string name="action_copy_text">Tekst kopiëren</string>
+	<string name="action_copy_link">Link kopiëren</string>
+
+	<string name="pref_behaviour_postsort">Standaardpostsortering</string>
+
+	<!-- 2016-08-06 -->
+	<string name="mainmenu_custom_destination">Specifieke locatie</string>
+	<string name="mainmenu_custom_destination_subreddit">Subreddit</string>
+	<string name="mainmenu_custom_destination_user">Gebruiker</string>
+	<string name="mainmenu_custom_destination_url">URL</string>
+	<string name="mainmenu_custom_destination_search">Zoeken</string>
+
+	<string name="mainmenu_header_multireddits">Multireddits</string>
+
+	<string name="pref_behaviour_share_permalink_title">Permalink delen</string>
+
+	<!-- 2016-08-10 -->
+	<string name="pref_cache_general_header">Algemeen</string>
+
+	<string name="pref_cache_location_title">Cacheopslaglocatie</string>
+
+	<string name="error_cache_dir_does_not_exist_title">Cachemap ontbreekt</string>
+	<string name="error_cache_dir_does_not_exist_message">Kon de cachemap niet openen. Gelieve een andere locatie kiezen in de cache-instellingen.</string>
+
+	<!-- 2016-08-15 -->
+	<string name="pref_behaviour_pinned_subredditsort">Vastgespelde subreddits sorteren</string>
+	<string name="sort_pinned_subreddit_name">Op naam</string>
+	<string name="sort_pinned_subreddit_date">Op toevoegingsdatum</string>
+
+	<!-- 2016-09-01 -->
+	<string name="load_more_comments_failed_unknown_url_type">Meer reacties laden mislukt: onbekende linktype.</string>
+
+	<!-- 2016-09-04 -->
+	<string name="pref_appearance_image_viewer_header">Image Viewer</string>
+
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Zwevende werkbalk weergeven boven afbeeldingen</string>
+
+	<string name="pref_appearance_link_text_clickable_title">Linktekst klikbaar maken</string>
+
+	<!-- 2016-09-07 -->
+	<string name="pref_appearance_hide_android_status_title">Androids statusbalk verbergen</string>
+
+	<!-- 2016-09-08 -->
+	<string name="pref_behaviour_enable_swipe_refresh_title">Naar beneden vegen om te verversen</string>
+
+	<!-- 2016-09-10 -->
+	<string name="mainmenu_header_subreddits_blocked">Geblokkeerde subreddits</string>
+	<string name="pref_behaviour_blocked_subredditsort">Geblokkeerde subreddits sorteren</string>
+	<string name="sort_blocked_subreddit_name">Op naam</string>
+	<string name="sort_blocked_subreddit_date">Op toevoegdatum</string>
+
+	<!-- 2016-09-21 -->
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Geblokkeerde subreddits in het hoofdmenu weergeven</string>
+
+	<!-- 2016-10-02 -->
+	<string name="pref_cache_rerequest_postlist_age_title">Posts verversen als de cache ouder is dan</string>
+
+	<string name="time_2hr">2 uur</string>
+	<string name="time_3hr">3 uur</string>
+
+
+	<!-- 2016-10-08 -->
+	<string name="time_every_time">Altijd</string>
+
+	<!-- 2016-11-02 -->
+
+	<!-- 2016-11-14 -->
+
+	<!-- 2016-12-03 -->
+	<string name="theme_name_night_lowcontrast">Nacht (lage contrastwaarde)</string>
+	<string name="theme_name_ultrablack">Ultrazwart</string>
+
+	<!-- 2016-12-07 -->
+	<string name="send_replies_to_inbox">Antwoorden naar mijn inbox sturen</string>
+
+	<!-- 2016-12-11 -->
+	<string name="action_share_image">Afbeelding delen</string>
+
+	<!-- 2017-01-15 -->
+	<string name="error_403_title_nonreddit">Verboden Toegang</string>
+	<string name="error_403_message_nonreddit">De server heeft geantwoord met een \"verboden toegang\" foutmelding.</string>
+
+	<!-- 2017-02-12 -->
+	<string name="submit_pmreply_actionbar">Beantwoord</string>
+	<string name="pm_reply_done">Antwoord verstuurd.</string>
+
+	<!-- 2017-02-15 -->
+	<string name="mainmenu_popular">Populaire Subreddits</string>
+
+	<!-- 2017-02-23 -->
+	<string name="action_back">Terug</string>
+
+	<!-- 2017-03-02 -->
+	<string name="pref_menus_link_context_items_title">Link Contextmenuitems</string>
+
+	<!-- 2017-03-07 -->
+	<string name="pref_menus_subreddit_context_items_title">Subreddit Contextmenuitems</string>
+	<string name="mainmenu_toast_not_subscribed">U bent nog niet ingeschreven voor deze subreddit!</string>
+	<string name="mainmenu_toast_subscribed">U bent al ingeschreven voor deze subreddit!</string>
+	<string name="mainmenu_toast_not_pinned">Deze subreddit is niet gepind aan het hoofdmenu!</string>
+	<string name="mainmenu_toast_pinned">Deze subreddit is al gepind aan het hoofdmenu!</string>
+	<string name="mainmenu_toast_not_blocked">Deze subreddit is niet geblokkeerd!</string>
+	<string name="mainmenu_toast_blocked">Deze subreddit is al geblokkeerd!</string>
+
+	<!-- 2017-04-02 -->
+	<string name="edit_post_actionbar">Post Bewerken</string>
+	<string name="post_edit_done">Post bewerkt. Wijzigingen zijn zichtbaar nadat u hebt ververst.</string>
+	<string name="action_block_subreddit">Blokkeer Subreddit</string>
+	<string name="action_unblock_subreddit">Deblokkeer Subreddit</string>
+	<string name="action_pin_subreddit">Pin Subreddit aan Hoofdmenu</string>
+	<string name="action_unpin_subreddit">Verwijder Subreddit van Hoofdmenu</string>
+	<string name="action_subscribe_subreddit">Abbonneer aan Subreddit</string>
+	<string name="action_unsubscribe_subreddit">Deabbonneer van Subreddit</string>
+
+	<!-- 2017-04-14 -->
+	<string name="collapsed_self_post">Zelf-post ingevouwen</string>
+
+	<!-- 2017-05-08 -->
+	<string name="button_next_comment_parent">Volgend Oudercommentaar</string>
+	<string name="button_prev_comment_parent">Vorig Oudercommentaar</string>
+
+	<string name="pref_appearance_comments_show_floating_toolbar_title">Toon statische toolbar boven comments</string>
+
+	<!--2017-05-08-->
+	<string name="download_link_title">Download Bestand</string>
+	<string name="download_link_message">Dit is een downloadlink. Wilt u dit openen in een externe browser?</string>
+
+	<!--2017-05-21-->
+	<string name="pref_behaviour_self_post_tap_actions_title">Zelf-Post Tikactie</string>
+
+	<!-- 2017-06-05 -->
+
+	<string name="pref_menus_show_popular_main_menu_title">Toon /r/popular in hoofdmenu</string>
+	<string name="pref_behaviour_video_playback_controls_title">Schakel videoafspeelbesturing in</string>
+
+	<!-- 2017-06-05 -->
+	<string name="error_no_suitable_apps_available">Geen geschikte apps beschikbaar.</string>
+
+	<!-- 2017-10-22 -->
+	<string name="pref_behaviour_sharing_share_text_title">Deel tekst mee met commentaar delen</string>
+
+	<!-- 2017-11-01 -->
+	<string name="disable_replies_to_infobox_failed">Uitschakelen van antwoord naar inbox mislukt</string>
+
+	<!-- 2017-12-03 -->
+	<string name="mainmenu_random">Willekeurige Subreddit</string>
+	<string name="pref_menus_show_random_main_menu_title">Toon /r/random in hoofdmenu</string>
+
+	<!-- 2018-01-16 -->
+
+	<!-- 2018-02-03 -->
+	<string name="mainmenu_custom_empty_search_query">Lege zoekopdracht.</string>
+
+	<!-- 2018-02-10 -->
+	<string name="search_listing_header_query">Zoekopdracht</string>
+	<string name="search_listing_header_sub">Alleen de Subreddit</string>
+  
+	<!-- 2018-02-11 -->
+	<string name="pref_behaviour_sharing_header">Delen</string>
+	<string name="pref_behaviour_sharing_include_desc_title">Deel ook de titel/beschrijving mee</string>
+	<string name="share_comments_for">Commentaar voor %s</string>
+	<string name="share_comment_by_on_reddit">Commentaar van %s op Reddit</string>
+
+	<!-- 2018-03-31 -->
+
 </resources>

@@ -1,153 +1,98 @@
 buildscript {
-	repositories {
-		mavenCentral()
+    repositories {
+        jcenter()
 		google()
 	}
-	dependencies {
-		classpath 'com.android.tools.build:gradle:7.0.4'
-	}
-}
-
-repositories {
-	mavenCentral()
-	google()
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+    }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'pmd'
-apply plugin: 'checkstyle'
+
+repositories {
+    jcenter()
+	google()
+}
 
 dependencies {
-	implementation 'androidx.annotation:annotation:1.3.0'
-	implementation 'androidx.appcompat:appcompat:1.4.0'
-	implementation 'androidx.recyclerview:recyclerview:1.2.1'
-	implementation 'com.google.android.flexbox:flexbox:3.0.0'
-	implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-	implementation 'androidx.preference:preference:1.1.1'
-	implementation 'com.google.android.material:material:1.4.0'
-	implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-	implementation 'androidx.fragment:fragment:1.4.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.9.3'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'joda-time:joda-time:2.9.9'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+	implementation 'com.android.support:support-media-compat:28.0.0'
+    // Force downgrade okhttp from 3.10.0 for improved Android 4.x TLS 1.0 compatibility, https://github.com/square/okhttp/issues/3894
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+    implementation 'info.guardianproject.netcipher:netcipher:1.2.1'
+	implementation 'com.google.android.exoplayer:exoplayer-core:2.9.1'
+	implementation 'com.google.android.exoplayer:exoplayer-ui:2.9.1'
 
-	implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
-	implementation 'org.apache.commons:commons-lang3:3.12.0'
-	implementation 'org.apache.commons:commons-text:1.9'
-	implementation 'joda-time:joda-time:2.10.13'
-	implementation 'com.squareup.okhttp3:okhttp:3.12.13'
-	implementation 'info.guardianproject.netcipher:netcipher:1.2.1'
-	implementation 'com.google.android.exoplayer:exoplayer-core:2.16.1'
-	implementation 'com.google.android.exoplayer:exoplayer-ui:2.16.1'
-	implementation 'com.github.luben:zstd-jni:1.5.1-1@aar'
 
-	testImplementation 'junit:junit:4.13.2'
-
-	androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-	androidTestImplementation 'androidx.test:rules:1.4.0'
-	androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+    testImplementation 'junit:junit:4.12'
 }
 
 android {
-	compileSdkVersion 31
-	buildToolsVersion "32.0.0"
-	ndkVersion "23.1.7779620"
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
 
-	defaultConfig {
-		applicationId "org.quantumbadger.redreader"
-		minSdkVersion 16
-		targetSdkVersion 30
-		versionCode 103
-		versionName "1.19"
+    defaultConfig {
+        vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
 
-		vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
-		testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+		minSdkVersion 14
+		targetSdkVersion 27
+
+		applicationId "org.saiditnet.redreader"
 	}
-	// Flag to tell aapt to keep the attribute ids around
-	aaptOptions {
-		additionalParameters "--no-version-vectors"
-	}
+    // Flag to tell aapt to keep the attribute ids around
+    aaptOptions {
+        additionalParameters "--no-version-vectors"
+    }
 
-	buildTypes.all {
-		minifyEnabled true
-		shrinkResources false
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
 
-		proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-	}
+    compileOptions {
+        compileOptions.encoding = "UTF-8"
 
-	compileOptions {
-		encoding = "UTF-8"
-		sourceCompatibility JavaVersion.VERSION_1_8
-		targetCompatibility JavaVersion.VERSION_1_8
-	}
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
 
-	lintOptions {
-		checkReleaseBuilds false
-		abortOnError true
-		warningsAsErrors true
+        // Translations are crowd-sourced
+        disable 'MissingTranslation'
+    }
 
-		error 'DefaultLocale'
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 
-		// Translations are crowd-sourced
-		disable 'MissingTranslation'
-		disable 'MissingQuantity'
-		disable 'ExtraTranslation'
-
-		// Temporarily disabled
-		disable 'ImpliedQuantity'
-		disable 'InflateParams'
-		disable 'ObsoleteSdkInt'
-		disable 'OldTargetApi'
-		disable 'AndroidGradlePluginVersion'
-
-		// Too many false positives
-		disable 'UnusedResources'
-
-		// Not an issue
-		disable 'ViewConstructor'
-		disable 'GradleDependency'
-
-		// Caused by 3rd party dependencies/jetification
-		disable 'ObsoleteLintCustomCheck'
-	}
-
-	packagingOptions {
-		exclude 'META-INF/*'
-	}
-
-	sourceSets {
-		main {
-			assets.srcDirs = ['assets']
-		}
-	}
-
-	testOptions {
-		animationsDisabled = true
-	}
+    sourceSets {
+        main {
+            assets.srcDirs = ['assets']
+        }
+    }
 }
 
 pmd {
-	toolVersion = '6.36.0'
-	consoleOutput = true
+    toolVersion = '5.6.0'
+    consoleOutput = true
 }
 
 task pmd(type: Pmd) {
-	dependsOn 'assembleDebug'
-	ruleSetFiles = files("${project.rootDir}/config/pmd/rules.xml")
-	ruleSets = [] // otherwise defaults clash with the list in rules.xml
-	source 'src/main/java/org/quantumbadger'
-	include '**/*.java'
-}
-
-checkstyle {
-	configFile rootProject.file("${project.rootDir}/config/checkstyle/checkstyle.xml")
-	ignoreFailures false
-	showViolations true
-	maxWarnings 0
-	toolVersion = "8.35"
-}
-
-task Checkstyle(type: Checkstyle) {
-	source 'src/main/java/org/quantumbadger'
-	ignoreFailures false
-	showViolations true
-	include '**/*.java'
-	classpath = files()
+    dependsOn 'assembleDebug'
+    ruleSetFiles = files("${project.rootDir}/config/pmd/rules.xml")
+    ruleSets = [] // otherwise defaults clash with the list in rules.xml
+    source 'src/main/java/org/saiditnet'
+    include '**/*.java'
 }

@@ -1,71 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ This file is part of RedReader.
-  ~
-  ~ RedReader is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ RedReader is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  --><resources>
-    <string name="firstrun_login_title">Войти</string>
+<?xml version='1.0' encoding='UTF-8'?>
+<resources><string name="firstrun_login_title">Войти</string>
     <string name="firstrun_login_message">Вы не вошли в систему. Вы можете открыть список учетных записей, выбрав «Учетные записи» в меню.</string>
     <string name="firstrun_login_button_now">Войти</string>
     <string name="firstrun_login_button_later">Быть анонимным</string>
+
     <string name="prefs_category_appearance">Внешний вид</string>
     <string name="prefs_category_behaviour">Поведение</string>
     <string name="prefs_category_cache">Кэш</string>
     <string name="prefs_category_menus">Меню</string>
-    <string name="pref_appearance_theme_header">Оформление</string>
+
+    <string name="pref_appearance_theme_header">Тема оформления</string>
+    <string name="pref_appearance_font_header">Шрифт</string>
     <string name="pref_appearance_thumbnails_header">Миниатюры</string>
+    <string name="pref_appearance_tabletmode_header">Режим планшета</string>
     <string name="pref_appearance_comments_header">Комментарии</string>
+    <string name="pref_appearance_other_header">Прочее</string>
+
     <string name="pref_appearance_twopane_title">Режим планшета (две панели)</string>
+
     <string name="pref_appearance_theme_title">Тема</string>
-    <string name="pref_appearance_fontscale_posts_title">Размер шрифта названий сообщений</string>
+
+    <string name="pref_appearance_solidblack_title">Чёрный в ночном режиме</string>
+
+    <string name="pref_appearance_fontscale_posts_title">Размер шрифта в публикациях</string>
+
+    <string name="pref_appearance_fontscale_comments_title">Размер шрифта в комментариях</string>
+
     <string name="pref_appearance_thumbnails_show_title">Показывать миниатюры</string>
+
     <string name="pref_appearance_thumbnails_nsfw_show_title">Показывать NSFW миниатюры</string>
-    <string name="pref_appearance_thumbnails_wifionly_title">Миниатюры только для Wi-Fi</string>
-    <string name="pref_appearance_comment_header_items_title">Заголовок записи комментария</string>
+
+    <string name="pref_appearance_thumbnails_wifionly_title">Миниатюры только через Wi-Fi</string>
+
+    <string name="pref_appearance_loading_detail_title">Отображать подробную информацию о загрузке</string>
+
+    <string name="pref_appearance_comment_header_items_title">Заголовок комментария</string>
+
     <string name="pref_behaviour_notifications_title">Уведомления</string>
-    <string name="pref_behaviour_actions_post_header">Действия публикации</string>
-    <string name="pref_behaviour_actions_comment_header">Действия комментария</string>
+
+    <string name="pref_behaviour_actions_post_header">Действия публикаций</string>
+    <string name="pref_behaviour_actions_comment_header">Действия комментариев</string>
     <string name="pref_behaviour_posts_header">Публикации</string>
-    <string name="pref_behaviour_fling_post_left_title">Смахивание влево</string>
-    <string name="pref_behaviour_fling_post_right_title">Смахивание вправо</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Нажать</string>
+
+    <string name="pref_behaviour_fling_post_left_title">Смахивание поста влево</string>
+
+    <string name="pref_behaviour_fling_post_right_title">Смахивание поста вправо</string>
+
+    <string name="pref_behaviour_actions_comment_tap_title">Касание комментария</string>
+
     <string name="pref_behaviour_nsfw_title">Показывать NSFW содержимое</string>
+
     <string name="pref_cache_pruning">Устаревание кэша</string>
+
     <string name="pref_cache_maxage_listing_title">Удалять кэш списков через</string>
+
     <string name="pref_cache_maxage_thumb_title">Удалять кэш миниатюр через</string>
+
     <string name="pref_cache_maxage_image_title">Удалять кэш изображений через</string>
-    <string name="pref_cache_precache_images_header">Кэширование изображений</string>
+
+    <string name="pref_cache_precache_images_header">Заранее кэшировать изображения</string>
+
     <string name="pref_cache_precache_images_title">Заранее кэшировать изображения</string>
+
     <string name="pref_cache_precache_images_wifionly_title">Только через Wi-Fi</string>
-    <string name="pref_menus_post_context_items_title">Пункты меню действий</string>
-    <string name="pref_menus_post_toolbar_items_title">Элементы боковой панели инструментов</string>
+
+    <string name="pref_menus_post_context_items_title">Пункты контекстного меню публикации</string>
+
+    <string name="pref_menus_post_toolbar_items_title">Кнопки на панели публикации</string>
+
     <string name="options_accounts">Учетные записи</string>
     <string name="options_accounts_long">Учетные записи Reddit</string>
     <string name="options_theme">Темы</string>
     <string name="options_settings">Настройки</string>
-    <string name="options_submit_post">Создать публикацию</string>
+
+    <string name="options_submit_post">Новая публикация</string>
+
     <string name="options_refresh">Обновить</string>
     <string name="options_refresh_subreddits">Обновить сабреддиты</string>
     <string name="options_refresh_posts">Обновить публикации</string>
     <string name="options_refresh_comments">Обновить комментарии</string>
+
     <string name="options_past">Предыдущие версии</string>
-    <string name="options_past_posts">Предыдущие версии списка публикаций</string>
-    <string name="options_past_comments">Предыдущие списки комментариев</string>
+    <string name="options_past_posts">Предыдущие версии списка постов</string>
+    <string name="options_past_comments">Предыдущие версии списка комментариев</string>
+
     <string name="options_sort">Сортировать</string>
     <string name="options_sort_subreddits">Сортировать сабреддиты</string>
     <string name="options_sort_posts">Сортировать публикации</string>
     <string name="options_sort_comments">Сортировать комментарии</string>
+
     <string name="mainmenu_frontpage">Главная страница</string>
     <string name="mainmenu_all">Все сабреддиты</string>
     <string name="mainmenu_custom">Другой сабреддит</string>
@@ -76,19 +99,26 @@
     <string name="mainmenu_inbox">Входящие</string>
     <string name="mainmenu_profile">Мой профиль</string>
     <string name="mainmenu_header_subreddits">Сабреддиты</string>
+
     <string name="listing_cached">Просмотр кэшированной копии за %s</string>
+
     <string name="accounts_anon">Анонимный</string>
     <string name="accounts_active">Активна</string>
     <string name="accounts_add">Добавить учетную запись Reddit</string>
     <string name="accounts_setactive">Сделать активной</string>
     <string name="accounts_reauth">Повторный вход</string>
     <string name="accounts_delete">Удалить</string>
+
     <string name="accounts_loggingin">Вход в систему…</string>
     <string name="accounts_loggingin_msg">Минутку…</string>
+
     <string name="accounts_username">Имя пользователя</string>
     <string name="accounts_password">Пароль</string>
+
     <string name="accounts_login">Войти</string>
+
     <string name="accounts_delete_sure">Вы действительно хотите удалить эту учетную запись?</string>
+
     <string name="sort_posts_hot">Горячее</string>
     <string name="sort_posts_new">Новое</string>
     <string name="sort_posts_rising">Набирающее популярность</string>
@@ -100,18 +130,22 @@
     <string name="sort_posts_top_month">Самое популярное за месяц</string>
     <string name="sort_posts_top_year">Самое популярное за год</string>
     <string name="sort_posts_top_all">Самое популярное за все время</string>
+
     <string name="sort_comments_best">Лучшие</string>
     <string name="sort_comments_hot">Горячие</string>
     <string name="sort_comments_new">Новые</string>
     <string name="sort_comments_old">Старые</string>
     <string name="sort_comments_controversial">Спорные</string>
-    <string name="sort_comments_top">Лучшие</string>
+    <string name="sort_comments_top">Наилучшие</string>
+
     <string name="dialog_close">Закрыть</string>
     <string name="dialog_cancel">Отменить</string>
     <string name="dialog_yes">Да</string>
     <string name="dialog_no">Нет</string>
     <string name="dialog_go">Перейти</string>
+
     <string name="action_menu_post_title">Действия публикации</string>
+
     <string name="action_upvote">Голосовать \"за\"</string>
     <string name="action_downvote">Голосовать \"против\"</string>
     <string name="action_vote_remove">Убрать голос</string>
@@ -144,10 +178,13 @@
     <string name="action_link_short">Ссылка</string>
     <string name="action_collapse">Свернуть/развернуть</string>
     <string name="action_nothing">Ничего не делать</string>
+
     <string name="action_report">Пожаловаться</string>
     <string name="action_report_sure">Вы действительно хотите пожаловаться на это?</string>
+
     <string name="action_save_image">Сохранить изображение</string>
     <string name="action_save_image_success">Сохранено в директорию с изображениями как</string>
+
     <string name="download_waiting">Подождите…</string>
     <string name="download_connecting">Подключение…</string>
     <string name="download_downloadstarting">Загрузка началась…</string>
@@ -155,68 +192,92 @@
     <string name="download_loading">Загрузка…</string>
     <string name="download_done">Готово.</string>
     <string name="download_failed">Не удалось.</string>
-    <string name="imageview_oom">Недостаточно памяти. Попытка использовать браузер.</string>
-    <string name="imageview_invalid_gif">Недопустимый GIF. Попытка использовать браузер.</string>
+
+    <string name="imageview_oom">Недостаточно памяти. Попытка использовать встроенный браузер.</string>
+    <string name="imageview_invalid_gif">Недопустимый GIF. Попытка использовать внутренний браузер.</string>
+
     <string name="comment_reply_send">Отправить</string>
     <string name="comment_edit_save">Сохранить</string>
     <string name="comment_reply_preview">Предварительный просмотр</string>
     <string name="comment_reply_submitting_title">Отправка…</string>
-    <string name="comment_reply_submitting_message">Минуту…</string>
+    <string name="comment_reply_submitting_message">Минутку…</string>
     <string name="comment_reply_oncancel">Ожидание результатов действия…</string>
     <string name="comment_reply_done">Ответ отправлен. Комментарий появится после обновления.</string>
     <string name="comment_edit_done">Комментарий отредактирован. Изменения появятся после обновления.</string>
     <string name="post_submit_title_hint">Заголовок</string>
-    <string name="subreddit_selection_textbox_hint">Сабреддит</string>
+    <string name="post_submit_subreddit_hint">Сабреддит</string>
     <string name="post_captcha_title">Защитный код</string>
     <string name="post_captcha_submit_button">Отправить</string>
     <string name="post_submit_done">Публикация создана.</string>
+
     <string name="bug_title">Произошла ошибка.</string>
     <string name="bug_message">RedReader обнаружила ошибку.
 \n
 \nХотите отправить отчет об ошибке разработчику? Если да, будет создано письмо с информацией о ней, и вы можете проверить содержимое перед отправкой.</string>
     <string name="bug_button_send">Отправить отчет об ошибке по электронной почте</string>
     <string name="bug_button_ignore">Не отправлять отчет об ошибке</string>
-    <string name="error_403_title">В разрешении отказано</string>
-    <string name="error_403_message">Reddit говорит, что у текущего пользователя нет разрешения на это.</string>
+
+    <string name="error_403_title">Недопустимый пользователь</string>
+    <string name="error_403_message">Reddit говорит, что текущий пользователь не имеет разрешений для этого. Попробуйте выйти, а затем снова войти в систему (удалив учетную запись из списка, а затем снова добавив ее).</string>
+
     <string name="error_subreddit_required_title">Сабреддит обязателен</string>
     <string name="error_subreddit_required_message">Необходимо указать сабреддит.</string>
+
     <string name="error_bad_captcha_title">Неверный код</string>
     <string name="error_bad_captcha_message">Введенный код неверен. Пожалуйста, попробуйте снова.</string>
+
     <string name="error_404_title">Не найден (404)</string>
     <string name="error_404_message">Не удалось найти данные, которые вы запросили.</string>
+
     <string name="error_unknown_api_title">Ошибка</string>
     <string name="error_unknown_api_message">Сервер не принял запрос по неизвестной причине. Пожалуйста, попробуйте снова.</string>
+
     <string name="error_redditdown_title">Reddit недоступен</string>
     <string name="error_redditdown_message">Reddit находится под большой нагрузкой в данный момент. Пожалуйста, попробуйте снова.</string>
+
     <string name="error_cancelled_title">Операция отменена</string>
     <string name="error_cancelled_message">Текущая операция была отменена.</string>
+
     <string name="error_parse_title">Ошибка синтаксического анализа</string>
     <string name="error_parse_message">Reddit прислал данные, которые мне непонятны.</string>
+
     <string name="error_unexpected_cache_title">Непредвиденный промах кэша</string>
     <string name="error_unexpected_cache_message">Произошла неизвестная внутренняя ошибка, связанная с кэшем.</string>
+
     <string name="error_unexpected_storage_title">Непредвиденная ошибка хранилища</string>
     <string name="error_unexpected_storage_message">Произошла неизвестная внутренняя ошибка, связанная с хранилищем кэша. Вероятно, закончилось место.</string>
+
     <string name="error_connection_title">Ошибка соединения</string>
     <string name="error_connection_message">Возникла проблема при подключении к серверу. Пожалуйста, проверьте ваше соединение и попробуйте снова.</string>
+
     <string name="error_malformed_url_title">Недопустимый URL</string>
     <string name="error_malformed_url_message">Была предпринята попытка получить доступ к недопустимому URL.</string>
+
     <string name="error_unknown_title">Неизвестная ошибка</string>
     <string name="error_unknown_message">Произошла неизвестная ошибка. Пожалуйста, попробуйте снова.</string>
-    <string name="error_postlist_cache_title">Кэшированные данные закончились</string>
-    <string name="error_postlist_cache_message">Вы просматриваете предыдущую версию содержимого и в этой кэшированной сессии нет публикаций. Нажмите обновить для загрузки последних публикаций, или выберите другую версию кэшированного содержимого из меню.</string>
+
+    <string name="error_postlist_cache_title">Конец данных в кэше</string>
+    <string name="error_postlist_cache_message">Вы просматривает предыдущую версию содержимого и в этой кэшированной сессии нет публикаций. Нажмите обновить, чтобы загрузить последние публикации, или выберите другую версию кэшированного содержимого из меню.</string>
+
     <string name="error_postlist_redditdown_title">Reddit недоступен</string>
-    <string name="error_postlist_redditdown_message">Reddit сейчас под большой нагрузкой. Нажмите обновить, чтобы загрузить последние публикации, или выберите другую версию кэшированного содержимого из меню.</string>
+    <string name="error_postlist_redditdown_message">Reddit находится под большой нагрузкой в данный момент. Нажмите обновить, чтобы загрузить последние публикации, или выберите другую версию кэшированного содержимого из меню.</string>
+
     <string name="session_active">Активна</string>
+
     <string name="time_ago">%s назад</string>
-    <string name="userprofile_created">Создано</string>
+
+    <string name="userprofile_created">Создан</string>
+    <string name="userprofile_hasmail">Есть почта</string>
     <string name="userprofile_isfriend">В друзьях</string>
     <string name="userprofile_isgold">Reddit Золото</string>
     <string name="userprofile_moderator">Модератор</string>
     <string name="userprofile_viewcomments">Просмотреть комментарии</string>
     <string name="userprofile_viewposts">Просмотреть публикации</string>
+
     <string name="props_comment_title">Свойства комментария</string>
     <string name="props_post_title">Свойства публикации</string>
     <string name="props_error_title">Свойства ошибки</string>
+
     <string name="props_title">Заголовок</string>
     <string name="props_author">Автор</string>
     <string name="props_author_flair">Флейр текст автора</string>
@@ -228,19 +289,24 @@
     <string name="props_num_comments">Количество комментариев</string>
     <string name="props_body_markdown">Текст (разметка)</string>
     <string name="props_self_markdown">Текст публикации (разметка)</string>
+
     <string name="props_never">Никогда</string>
     <string name="props_up">Вверх</string>
     <string name="props_down">Вниз</string>
+
     <string name="notification_comment">%s ответил вам</string>
     <string name="notification_message">%s отправил вам сообщение</string>
-    <string name="notification_message_multiple">Новые сообщения на Reddit</string>
+    <string name="notification_message_multiple">Новые сообщения на reddit</string>
     <string name="notification_message_action">Коснитесь, чтобы просмотреть</string>
+
     <string name="general_true">Да</string>
     <string name="general_false">Нет</string>
+
     <string name="pref_appearance_twopane_never">Никогда</string>
     <string name="pref_appearance_twopane_auto">Определять автоматически</string>
     <string name="pref_appearance_twopane_landscape">Только в альбомной ориентации</string>
     <string name="pref_appearance_twopane_force">Всегда (может выглядеть странно)</string>
+
     <string name="theme_name_red">Красная</string>
     <string name="theme_name_night">Ночная</string>
     <string name="theme_name_green">Зеленая</string>
@@ -248,6 +314,7 @@
     <string name="theme_name_ltblue">Светло-синяя</string>
     <string name="theme_name_orange">Оранжевая</string>
     <string name="theme_name_gray">Серая</string>
+
     <string name="time_1hr">1 час</string>
     <string name="time_6hr">6 часов</string>
     <string name="time_1day">1 день</string>
@@ -255,52 +322,78 @@
     <string name="time_1week">1 неделя</string>
     <string name="time_1month">1 месяц</string>
     <string name="time_3month">3 месяца</string>
+
     <string name="pref_appearance_comment_header_items_author">Автор</string>
     <string name="pref_appearance_comment_header_items_flair">Флейр</string>
     <string name="pref_appearance_comment_header_items_score">Оценка</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Голоса за/против</string>
     <string name="pref_appearance_comment_header_items_age">Возраст</string>
+
     <string name="error_toast_notloggedin">Необходимо войти в учетную запись.</string>
+
     <string name="button_moredetail">Более подробно</string>
+
     <string name="pref_appearance_scale_normal">Обычный</string>
+
     <string name="error_invalid_password_title">Неверный пароль</string>
     <string name="error_invalid_password_message">Неправильное имя пользователя или пароль.</string>
+
     <string name="error_ratelimit_title">Слишком много неудачных попыток входа.</string>
-    <string name="error_ratelimit_message">Заблокировано из-за превышения числа попыток входа с этого IP-адреса. Reddit сообщает:</string>
+    <string name="error_ratelimit_message">Заблокировано из-за превышения числа попыток входа с этого IP-адреса. Reddit говорит:</string>
+
     <string name="general_success">Успешно</string>
+
     <string name="message_nowloggedin">Вы вошли в систему.</string>
     <string name="message_cannotlogin">Не удалось войти в систему.</string>
+
     <string name="error_toast_no_urls_in_comment">URL в комментарии не найдены.</string>
     <string name="error_toast_no_urls_in_self">URL в тексте публикации не найдены.</string>
     <string name="error_toast_parent_post_not_downloaded">Родительская публикация еще не загружена.</string>
+
     <string name="download_subreddits">Загружаем сабреддиты…</string>
+
     <string name="subtitle_points">очки</string>
-    <plurals name="load_more_comments_button_reply_count">
-        <item quantity="few">Загрузить еще комментарии (%d ответа)</item>
-        <item quantity="many">Загрузить еще комментарии (%d ответов)</item>
-        <item quantity="other">Загрузить еще комментарии (%d ответов)</item>
-    </plurals>
+    <plurals name="subtitle_replies">
+	<item quantity="one">(%d ответ)</item>
+	<item quantity="few">(%d ответа)</item>
+	<item quantity="many">(%d ответов)</item>
+	<item quantity="other"/>
+</plurals>
+
     <string name="general_unknown">неизвестен</string>
+
     <string name="action_search">Поиск</string>
     <string name="search_subreddit_restrict">Ограничить поиском в</string>
+
     <string name="title_changelog">Что нового</string>
-    <string name="pref_behaviour_commentsort">Комментарии (по умолчанию)</string>
+
+    <string name="pref_behaviour_commentsort">Сортировка комментариев по умолчанию</string>
+
     <string name="action_fling_disabled">Отключено</string>
+
     <string name="pref_about_version_title">Версия</string>
+
     <string name="prefs_category_about">О приложении</string>
+
     <string name="pref_behaviour_sort_header">Сортировка</string>
+
     <string name="pref_appearance_locale_header">Локализация</string>
+
     <string name="pref_appearance_langforce_title">Язык</string>
+
     <string name="lang_auto">Автоматически</string>
     <string name="prefs_category_network">Сеть</string>
-    <string name="pref_network_https_title">Использовать HTTPS</string>
+    <string name="pref_network_https_title">Включить HTTPS</string>
     <string name="web_view_open_browser">Открыть в браузере</string>
+
     <string name="pref_behaviour_useinternalbrowser_title">Использовать встроенный браузер</string>
     <string name="pref_appearance_linkbuttons_title">Показать кнопки ссылок</string>
     <string name="pref_appearance_indentlines_title">Показывать линии отступов</string>
     <string name="load_more_posts">Загрузить еще публикации</string>
+
     <string name="pref_behaviour_postcount_title">Ограничить число публикаций</string>
     <string name="pref_behaviour_postcount_items_all">Все</string>
+
     <string name="time_year">год</string>
     <string name="time_years">лет</string>
     <string name="time_month">месяц</string>
@@ -314,478 +407,317 @@
     <string name="time_sec">секунда</string>
     <string name="time_secs">секунд</string>
     <string name="time_ms">миллисекунда</string>
+
     <string name="error_disk_space_title">Недостаточно места на диске</string>
     <string name="error_disk_space_message">Загрузка не удалась, поскольку хранилище вашего устройства переполнено. Пожалуйста, освободите место и повторите попытку.</string>
+
     <string name="options_subscribe">Подписаться</string>
     <string name="options_unsubscribe">Отписаться</string>
     <string name="options_subscribing">Подписываемся…</string>
     <string name="options_unsubscribing">Отписываемся…</string>
     <string name="options_sidebar">Просмотреть боковую панель</string>
-    <string name="pref_menus_mainmenu_useritems_title">Элементы пользователя</string>
+
+    <string name="pref_menus_mainmenu_useritems_title">Пункты главного меню пользователя</string>
+
     <string name="mainmenu_submitted">Опубликованное</string>
     <string name="mainmenu_downvoted">Не понравившиеся публикации</string>
     <string name="sidebar_activity_title">Боковая панель</string>
+
     <string name="header_subscriber_count">%s подписчиков</string>
     <string name="header_subscriber_count_unknown">Количество подписчиков неизвестно</string>
+
     <string name="invalid_subreddit_name">Недопустимое имя сабреддита</string>
+
     <string name="web_view_clear_cache">Очистить кэш</string>
     <string name="web_view_clear_cache_success_toast">Кэш, история, куки и данные форм удалены.</string>
+
     <string name="gold">Золото</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit золото</string>
+
     <string name="karma_link">Карма ссылок</string>
     <string name="karma_comment">Карма комментариев</string>
-    <string name="imageview_decode_failed">не удалось декодировать изображение. Попытка использовать браузер.</string>
+
+    <string name="imageview_decode_failed">Не удалось открыть изображение. Попытка использовать встроенный браузер.</string>
+
     <string name="user_comments">Комментарии</string>
+
     <string name="comment_header_specific_thread_title">Сейчас вы просматриваете отдельную ветвь комментариев.</string>
     <string name="comment_header_specific_thread_message">Нажмите здесь, чтобы посмотреть все комментарии к этой публикации.</string>
+
+    <string name="more_comments_button_text">Загрузить еще комментарии</string>
     <string name="action_comment_context">Контекст</string>
     <string name="action_comment_go_to">Перейти к комментарию</string>
+
     <string name="webview_https_already">Текущий URL уже использует HTTPS.</string>
     <string name="webview_https_unknownprotocol">Неизвестный протокол, ожидался \'http://\'</string>
     <string name="webview_use_https">Использовать HTTPS</string>
+
     <string name="sort_posts_relevance">Соответствие</string>
     <string name="sort_posts_comments">Комментарии</string>
+
     <string name="mark_all_as_read">Отметить все прочитанным</string>
     <string name="mark_all_as_read_success">Все сообщения помечены прочитанными.</string>
+
     <string name="error_title_login_user_denied_permission">В доступе отказано</string>
     <string name="error_message_login_user_denied_permission">В доступе к учетной записи отказано. Пожалуйста, попробуйте еще раз.</string>
-    <string name="error_title_login_unknown_reddit_error">Неизвестная ошибка Reddit: %s</string>
-    <string name="imageview_invalid_video">Неверное видео. Попытка использовать браузер.</string>
+
+    <string name="error_title_login_unknown_reddit_error">Неизвестная ошибка reddit: %s</string>
+
+    <string name="imageview_invalid_video">Не удалось открыть видео. Попытка использовать встроенный браузер.</string>
     <string name="download_authorizing">Аутентификация…</string>
+
     <string name="pref_behaviour_skiptofrontpage_title">Перейти на главную страницу</string>
     <string name="error_archived_vote">Это находится в архиве и проголосовать больше нет возможности.</string>
+
     <string name="pref_behaviour_screenorientation_title">Ориентация экрана</string>
     <string name="screen_orientation_auto">Авто</string>
     <string name="screen_orientation_portrait">Портрет</string>
     <string name="screen_orientation_landscape">Альбомная</string>
+
     <string name="options_close_all">Закрыть все</string>
-    <string name="pref_menus_optionsmenu_items_title">Пункты трехточечного меню</string>
+
+    <string name="pref_menus_optionsmenu_items_title">Пункты меню опций</string>
+
     <string name="pref_behaviour_gifview_mode_title">Просмотрщик GIF</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">Встроенный просмотрщик (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Встроенный просмотрщик (устаревший)</string>
-    <string name="pref_behaviour_view_mode_internal_browser">Встроенный браузер</string>
+
+	<string name="pref_behaviour_view_mode_internal_browser">Встроенный браузер</string>
     <string name="pref_behaviour_view_mode_external_browser">Внешний браузер</string>
+
+    <string name="pref_appearance_fontscale_inbox_title">Размер шрифтов во входящих</string>
+
     <string name="action_delete">Удалить</string>
     <string name="delete_confirm">Вы действительно хотите удалить это?</string>
     <string name="delete_success">Успешно удалено. Элемент будет по-прежнему отображаться пока вы не обновите.</string>
-    <string name="pref_appearance_hide_username_main_menu_title">Скрыть имя пользователя</string>
+
+    <string name="pref_appearance_hide_username_main_menu_title">Скрыть имя пользователя в главном меню</string>
     <string name="selected_link_is_not_image">Выбранная ссылка не является изображением.</string>
+
     <string name="imgur_album">Альбом Imgur</string>
+
     <string name="album_already_first_image">Уже на первом изображении альбома.</string>
     <string name="album_already_last_image">Уже на последнем изображении альбома.</string>
-    <string name="upgrade_v190_login_message">RedReader обновился и теперь использует OAuth для входа на reddit. Вам придется снова войти в учетную запись, если вы входили до этого обновления.</string>
-    <string name="pref_behaviour_videoview_mode_title">Средство просмотра видео</string>
+
+    <string name="upgrade_v190_login_message">RedReader обновился и теперь использует oAuth для входа на reddit. Если вы вошли в учетную запись до этого обновления, то придется войти в нее снова.</string>
+
+    <string name="pref_behaviour_videoview_mode_title">Просмотрщик видео</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Встроенный VideoView (рекомендуется)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Внешнее приложение: VLC</string>
-    <string name="videoview_mode_app_vlc_launch_failed">Не удалось запустить VLC. Пожалуйста, обновите VLC или в настройках выберите другое средство просмотра видео.</string>
+
+    <string name="videoview_mode_app_vlc_launch_failed">Не удалось запустить VLC. Пожалуйста, обновите VLC или выберите другой просмотрщик видео в настройках.</string>
+
     <string name="error_url_required_title">Необходим URL</string>
     <string name="error_url_required_message">Необходимо указать URL-адрес.</string>
+
     <string name="sort_comments_qa">Вопросы-и-Ответы</string>
-    <string name="pref_cache_precache_comments_header">Кэширование комментариев</string>
-    <string name="pref_cache_precache_comments_title">Заранее кэшировать комментарии</string>
+
+    <string name="pref_cache_precache_comments_header">Предварительно кэшировать комментарии</string>
+
+    <string name="pref_cache_precache_comments_title">Предварительно кэшировать комментарии</string>
+
     <string name="pref_cache_precache_comments_wifionly_title">Только по Wi-Fi</string>
+
     <string name="mainmenu_header_subreddits_subscribed">Подписки на сабреддиты</string>
     <string name="mainmenu_header_subreddits_pinned">Закрепленные сабреддиты</string>
+
     <string name="pin_subreddit">Закрепить в главном меню</string>
     <string name="unpin_subreddit">Открепить из главного меню</string>
     <string name="props_image_title">Информация изображения</string>
-    <string name="props_caption">Описание</string>
+    <string name="props_caption">Подпись</string>
     <string name="props_resolution">Разрешение</string>
+
     <string name="error_too_fast_title">Слишком часто</string>
-    <string name="error_too_fast_message">Reddit говорит, что вы отправляете слишком часто. Пожалуйста, подождите несколько минут и попробуйте снова.</string>
+    <string name="error_too_fast_message">Reddit говорит, что вы you отправляете слишком часто. Пожалуйста, подождите несколько минут, прежде чем попытаться снова.</string>
+
     <string name="block_subreddit">Блокировать сабреддит</string>
     <string name="unblock_subreddit">Разблокировать сабреддит</string>
-    <string name="block_done">Сабреддит блокирован и в дальнейшем публикации из него будут исключаться из содержимого /s/all.</string>
-    <string name="unblock_done">Сабреддит разблокирован и в дальнейшем публикации из него войдут в содержимое /s/all.</string>
+    <string name="block_done">Сабреддит блокирован. При последующих посещених /r/all контент из этого сабреддита будет исключаться.</string>
+    <string name="unblock_done">Сабреддит разблокирован. При последующих посещених /r/all контент из этого сабреддита будет отображаться.</string>
+
     <string name="pref_behaviour_comments_header">Комментарии</string>
+
     <string name="pref_behaviour_comment_min_title">Минимальная оценка комментария</string>
     <string name="pref_behaviour_comment_min_dialog_title">Сворачивать комментарии с оценкой ниже (оставьте пустым, чтобы отображать все)</string>
+
     <string name="open_with">Открыть в</string>
     <string name="pref_network_tor_title">Использовать Tor</string>
     <string name="error_tor_not_installed">Tor не будет работать, пока не установлен Orbot. Установить сейчас?</string>
-    <string name="error_tor_setting_failed">Не удалось задать прокси-сервер.</string>
+    <string name="error_tor_setting_failed">Не удалось задать прокси.</string>
+
     <string name="error_parse_imgur_title">Ошибка разбора</string>
     <string name="error_parse_imgur_message">Imgur прислал данные, которые мне непонятны.</string>
+
     <string name="error_upload_fail_imgur_title">Не удалось загрузить</string>
     <string name="error_upload_fail_imgur_message">Загрузка была отклонена Imgur по неизвестной причине.</string>
+
     <string name="upload_to_imgur">Загрузить на Imgur</string>
     <string name="no_file_selected">Файл не выбран</string>
     <string name="button_upload">Загрузить</string>
     <string name="button_browse">Выбрать файл…</string>
+
     <string name="error_file_too_big_title">Файл слишком большой</string>
     <string name="error_file_too_big_message">Размер файла (%1$s) превышает лимит загрузки (%2$s).</string>
+
     <string name="error_file_open_failed_title">Не удалось открыть файл</string>
     <string name="error_file_open_failed_message">Произошла ошибка при попытке открыть файл.</string>
+
     <string name="image_selected_summary">Выбрано изображение: %1$dx%2$d, %3$s</string>
-    <string name="submit_post_specify_subreddit">Укажите сабреддит</string>
-    <string name="submit_post_title_empty">Заголовок не может быть пустым</string>
-    <string name="submit_post_url_empty">URL-адрес не может быть пустым</string>
-    <string name="submit_post_self_text_hint">Текст публикации</string>
-    <string name="submit_post_url_hint">URL</string>
-    <string name="save_image_permission_denied">Нет доступа: не удалось сохранить изображение.</string>
-    <string name="pref_behaviour_imageview_mode_title">Средство просмотра изображений</string>
-    <string name="pref_behaviour_imageview_mode_internal_opengl">Встроенный просмотрщик (OpenGL)</string>
-    <string name="pref_behaviour_albumview_mode_title">Средство просмотра альбомов</string>
-    <string name="pref_behaviour_albumview_mode_internal_list">Встроенный просмотрщик (список)</string>
-    <string name="error_tor_start_failed">Не удалось запустить Orbit. Tor не будет работать.</string>
-    <string name="inbox_unread_only">Только непрочитанные сообщения</string>
-    <string name="pref_behaviour_actions_comment_longclick_title">Длительное нажатие</string>
-    <string name="no_comments_yet">Комментариев пока нет.</string>
-    <string name="pm_send_hint_recipient">Получатель</string>
-    <string name="pm_send_hint_subject">Тема</string>
-    <string name="pm_send_hint_message_text">Текст сообщения</string>
-    <string name="pm_send_done">Сообщение отправлено.</string>
-    <string name="userprofile_pm">Отправить сообщение</string>
-    <string name="error_too_long_title">Слишком длинно</string>
-    <string name="error_too_long_message">Reddit говорит, что введенный текст слишком длинный.</string>
-    <string name="pm_send_actionbar">Отправить сообщение</string>
-    <string name="submit_post_actionbar">Отправить публикацию</string>
-    <string name="submit_comment_actionbar">Отправить комментарий</string>
-    <string name="edit_comment_actionbar">Редактировать комментарий</string>
-    <string name="pref_behaviour_fling_comment_left_title">Смахивание влево</string>
-    <string name="pref_behaviour_fling_comment_right_title">Смахивание вправо</string>
-    <string name="comment_header_search_thread_title">Вы просматриваете результаты поиска в ветке комментариев.</string>
-    <string name="no_search_results">Результаты поиска отсутствуют.</string>
-    <string name="action_search_comments">Искать в комментариях</string>
-    <string name="pref_appearance_navbar_color_title">Цвет панели навигации и строки состояния</string>
-    <string name="pref_appearance_navbar_color_option_black">Черный</string>
-    <string name="pref_appearance_navbar_color_option_primary">Основной (светлый)</string>
-    <string name="pref_appearance_navbar_color_option_primarydark">Основной (темный)</string>
-    <string name="pref_not_supported_before_lollipop">Не поддерживается на версиях Android ниже Lollipop</string>
-    <string name="action_copy_text">Копировать текст</string>
-    <string name="action_copy_link">Скопировать ссылку</string>
-    <string name="pref_behaviour_postsort">Публикации (по умолчанию)</string>
-    <string name="mainmenu_custom_destination">Другие места</string>
-    <string name="mainmenu_custom_destination_subreddit">Сабреддит</string>
-    <string name="mainmenu_custom_destination_user">Пользователь</string>
-    <string name="mainmenu_custom_destination_url">URL</string>
-    <string name="mainmenu_header_multireddits">Мультиреддиты</string>
-    <string name="pref_behaviour_share_permalink_title">Поделиться постоянной ссылкой</string>
-    <string name="pref_cache_general_header">Общие настройки</string>
-    <string name="pref_cache_location_title">Место хранения кэша</string>
-    <string name="error_cache_dir_does_not_exist_title">Директория кэша отсутствует</string>
-    <string name="error_cache_dir_does_not_exist_message">Нет доступа к директории кэша. Пожалуйста, выберите другое расположение в настройках кэша.</string>
-    <string name="pref_behaviour_pinned_subredditsort">Закрепленные субреддиты</string>
-    <string name="sort_pinned_subreddit_name">По имени</string>
-    <string name="sort_pinned_subreddit_date">По дате добавления</string>
-    <string name="load_more_comments_failed_unknown_url_type">Невозможно загрузить больше комментариев: неизвестный тип URL.</string>
-    <string name="pref_appearance_image_viewer_header">Просмотрщик изображений</string>
-    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Показывать плавающие кнопки над изображениями и видео</string>
-    <string name="pref_appearance_link_text_clickable_title">Сделать текст ссылок активным</string>
-    <string name="pref_appearance_hide_android_status_title">Скрывать строку состояния</string>
-    <string name="pref_behaviour_enable_swipe_refresh_title">Потяните вниз чтобы обновить</string>
-    <string name="mainmenu_header_subreddits_blocked">Блокированные сабреддиты</string>
-    <string name="pref_behaviour_blocked_subredditsort">Заблокированные субреддиты</string>
-    <string name="sort_blocked_subreddit_name">По имени</string>
-    <string name="sort_blocked_subreddit_date">По дате добавления</string>
-    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Отображать блокированные сабреддиты</string>
-    <string name="pref_cache_rerequest_postlist_age_title">Обновлять публикации с кэшем старее, чем</string>
-    <string name="time_2hr">2 часа</string>
-    <string name="time_3hr">3 часа</string>
-    <string name="time_every_time">Всегда</string>
-    <string name="theme_name_night_lowcontrast">Ночная (низкая контрастность)</string>
-    <string name="theme_name_ultrablack">Ультрачерная</string>
-    <string name="send_replies_to_inbox">Отправлять ответы во входящие</string>
-    <string name="action_share_image">Поделиться изображением</string>
-    <string name="error_403_title_nonreddit">В доступе отказано</string>
-    <string name="error_403_message_nonreddit">Сервер ответил отказом в доступе.</string>
-    <string name="submit_pmreply_actionbar">Ответить</string>
-    <string name="pm_reply_done">Ответ отправлен.</string>
-    <string name="mainmenu_popular">Популярные сабреддиты</string>
-    <string name="action_back">Назад</string>
-    <string name="pref_menus_link_context_items_title">Ссылка меню действий</string>
-    <string name="pref_menus_subreddit_context_items_title">Пункты меню действий сабреддита</string>
-    <string name="mainmenu_toast_not_subscribed">Вы еще не подписаны на этот сабреддит!</string>
-    <string name="mainmenu_toast_subscribed">Вы уже подписались на этот сабреддит!</string>
-    <string name="mainmenu_toast_not_pinned">Этот сабреддит не прикреплен в главном меню!</string>
-    <string name="mainmenu_toast_pinned">Этот сабреддит уже прикреплен в главном меню!</string>
-    <string name="mainmenu_toast_not_blocked">Этот сабреддит не блокирован!</string>
-    <string name="mainmenu_toast_blocked">Этот сабреддит уже блокирован!</string>
-    <string name="edit_post_actionbar">Редактировать публикацию</string>
-    <string name="post_edit_done">Публикация отредактирована. Изменения отобразятся у вас после обновления.</string>
-    <string name="action_block_subreddit">Блокировать сабреддит</string>
-    <string name="action_unblock_subreddit">Разблокировать сабреддит</string>
-    <string name="action_pin_subreddit">Прикрепить сабреддит в главном меню</string>
-    <string name="action_unpin_subreddit">Открепить сабреддит из главного меню</string>
-    <string name="action_subscribe_subreddit">Подписаться на сабреддит</string>
-    <string name="action_unsubscribe_subreddit">Отписаться от сабреддита</string>
-    <string name="collapsed_self_post">Текст публикации скрыт</string>
-    <string name="button_next_comment_parent">Следующий родительский комментарий</string>
-    <string name="button_prev_comment_parent">Предыдущий родительский комментарий</string>
-    <string name="pref_appearance_comments_show_floating_toolbar_title">Показывать кнопки навигации поверх комментариев</string>
-    <string name="download_link_title">Скачать файл</string>
-    <string name="download_link_message">Это ссылка для скачивания. Вы хотите загрузить ее во внешнем браузере?</string>
-    <string name="pref_behaviour_self_post_tap_actions_title">Касание текста публикации</string>
-    <string name="pref_menus_show_popular_main_menu_title">Показывать /s/popular в главном меню</string>
-    <string name="pref_behaviour_video_playback_controls_title">Включить элементы управления воспроизведением видео</string>
-    <string name="error_no_suitable_apps_available">Нет подходящих приложений.</string>
-    <string name="subtitle_by">от</string>
+
+	<string name="submit_post_specify_subreddit">Укажите сабреддит</string>
+	<string name="submit_post_title_empty">Заголовок не может быть пустым</string>
+	<string name="submit_post_url_empty">URL-адрес не может быть пустым</string>
+	<string name="submit_post_self_text_hint">Текст публикации</string>
+	<string name="submit_post_url_hint">URL</string>
+
+	<string name="save_image_permission_denied">Нет доступа: не удалось сохранить изображение.</string>
+	
+	<string name="pref_behaviour_imageview_mode_title">Просмотрщик изображений</string>
+	<string name="pref_behaviour_imageview_mode_internal_opengl">Встроенный просмотрщик (OpenGL)</string>
+
+	<string name="pref_behaviour_albumview_mode_title">Просмотрщик альбомов</string>
+	<string name="pref_behaviour_albumview_mode_internal_list">Встроенный просмотрщик (список)</string>
+
+	<string name="error_tor_start_failed">Orbot не удалось запустить. Tor не будет работать.</string>
+
+	<string name="inbox_unread_only">Только непрочитанные сообщения</string>
+	
+	<string name="pref_behaviour_actions_comment_longclick_title">Действие комментария по длительному касанию</string>
+
+	<string name="no_comments_yet">Комментариев пока нет.</string>
+
+	<string name="pm_send_hint_recipient">Получатель</string>
+	<string name="pm_send_hint_subject">Тема</string>
+	<string name="pm_send_hint_message_text">Текст сообщения</string>
+
+	<string name="pm_send_done">Сообщение отправлено.</string>
+
+	<string name="userprofile_pm">Отправить сообщение</string>
+
+	<string name="error_too_long_title">Слишком длинно</string>
+	<string name="error_too_long_message">Reddit говорит, что введенный текст слишком длинный.</string>
+
+	<string name="pm_send_actionbar">Отправить сообщение</string>
+	<string name="submit_post_actionbar">Отправить публикацию</string>
+	<string name="submit_comment_actionbar">Отправить комментарий</string>
+	<string name="edit_comment_actionbar">Редактировать комментарий</string>
+	
+	<string name="pref_behaviour_fling_comment_left_title">Действие по смахиванию комментария влево</string>
+
+	<string name="pref_behaviour_fling_comment_right_title">Действие по смахиванию комментария вправо</string>
+
+	<string name="comment_header_search_thread_title">Сейчас вы просматриваете результаты поиска в ветке комментариев.</string>
+	<string name="no_search_results">Результаты поиска отсутствуют.</string>
+
+	<string name="action_search_comments">Искать в комментариях</string>
+
+	<string name="pref_appearance_navbar_color_title">Цвет панели навигации</string>
+
+	<string name="pref_appearance_navbar_color_option_black">Черный</string>
+	<string name="pref_appearance_navbar_color_option_primary">Основной (светлый)</string>
+	<string name="pref_appearance_navbar_color_option_primarydark">Основной (темный)</string>
+
+	<string name="pref_not_supported_before_lollipop">Не поддерживается на версиях Android ниже Lollipop</string>
+
+	<string name="action_copy_text">Копировать текст</string>
+	<string name="action_copy_link">Скопировать ссылку</string>
+
+	<string name="pref_behaviour_postsort">Сортировка публикаций по умолчанию</string>
+
+	<string name="mainmenu_custom_destination">Другое местоположение</string>
+	<string name="mainmenu_custom_destination_subreddit">Сабреддит</string>
+	<string name="mainmenu_custom_destination_user">Пользователь</string>
+	<string name="mainmenu_custom_destination_url">URL</string>
+
+	<string name="mainmenu_header_multireddits">Мультиреддиты</string>
+
+	<string name="pref_behaviour_share_permalink_title">Поделиться постоянной ссылкой</string>
+
+	<string name="pref_cache_general_header">Общие настройки</string>
+
+	<string name="pref_cache_location_title">Место хранения кэша</string>
+
+	<string name="error_cache_dir_does_not_exist_title">Директория кэша отсутствует</string>
+	<string name="error_cache_dir_does_not_exist_message">Нет доступа к директории кэша. Пожалуйста, выберите другое расположение в настройках кэша.</string>
+
+	<string name="pref_behaviour_pinned_subredditsort">Сортировка прикрепленных сабреддитов</string>
+	<string name="sort_pinned_subreddit_name">По имени</string>
+	<string name="sort_pinned_subreddit_date">По дате добавления</string>
+
+	<string name="load_more_comments_failed_unknown_url_type">Невозможно загрузить больше комментариев: неизвестный тип URL.</string>
+
+	<string name="pref_appearance_image_viewer_header">Просмотрщик изображений</string>
+
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Показывать плавающую панель поверх изображения</string>
+	<string name="pref_appearance_link_text_clickable_title">Сделать текст ссылок активным</string>
+	<string name="pref_appearance_hide_android_status_title">Спрятать статусбар Android</string>
+	<string name="pref_behaviour_enable_swipe_refresh_title">Потяните вниз чтобы обновить</string>
+	<string name="mainmenu_header_subreddits_blocked">Блокированные сабреддиты</string>
+	<string name="pref_behaviour_blocked_subredditsort">Сортировка блокированных сабреддитов</string>
+	<string name="sort_blocked_subreddit_name">По имени</string>
+	<string name="sort_blocked_subreddit_date">По дате добавления</string>
+
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Отображать блокированные сабреддиты в главном меню</string>
+
+	<string name="pref_cache_rerequest_postlist_age_title">Обновлять публикации, если кэш старше</string>
+
+	<string name="time_2hr">2 часа</string>
+	<string name="time_3hr">3 часа</string>
+
+	<string name="time_every_time">Каждый раз</string>
+
+	<string name="theme_name_night_lowcontrast">Ночная (низкая контрастность)</string>
+	<string name="theme_name_ultrablack">Ультрачерная</string>
+
+	<string name="send_replies_to_inbox">Отправлять ответы во входящие</string>
+
+	<string name="action_share_image">Поделиться изображением</string>
+
+	<string name="error_403_title_nonreddit">В доступе отказано</string>
+	<string name="error_403_message_nonreddit">Сервер ответил отказом в доступе.</string>
+
+	<string name="submit_pmreply_actionbar">Ответить</string>
+	<string name="pm_reply_done">Ответ отправлен.</string>
+
+	<string name="mainmenu_popular">Популярные сабреддиты</string>
+
+	<string name="action_back">Назад</string>
+
+	<string name="pref_menus_link_context_items_title">Пункты контекстного меню ссылки</string>
+	<string name="pref_menus_subreddit_context_items_title">Пункты контекстного меню сабреддита</string>
+	<string name="mainmenu_toast_not_subscribed">Вы еще не подписаны на этот сабреддит!</string>
+	<string name="mainmenu_toast_subscribed">Вы уже подписались на этот сабреддит!</string>
+	<string name="mainmenu_toast_not_pinned">Этот сабреддит не прикреплен в главном меню!</string>
+	<string name="mainmenu_toast_pinned">Этот сабреддит уже прикреплен в главном меню!</string>
+	<string name="mainmenu_toast_not_blocked">Этот сабреддит не блокирован!</string>
+	<string name="mainmenu_toast_blocked">Этот сабреддит уже блокирован!</string>
+	<string name="edit_post_actionbar">Редактировать публикацию</string>
+	<string name="post_edit_done">Публикация отредактирована. Изменения отобразятся у вас после обновления.</string>
+	<string name="action_block_subreddit">Блокировать сабреддит</string>
+	<string name="action_unblock_subreddit">Разблокировать сабреддит</string>
+	<string name="action_pin_subreddit">Прикрепить сабреддит в главном меню</string>
+	<string name="action_unpin_subreddit">Открепить сабреддит из главного меню</string>
+	<string name="action_subscribe_subreddit">Подписаться на сабреддит</string>
+	<string name="action_unsubscribe_subreddit">Отписаться от сабреддита</string>
+
+	<string name="collapsed_self_post">Текст публикации скрыт</string>
+
+	<string name="button_next_comment_parent">Следующий родительский комментарий</string>
+	<string name="button_prev_comment_parent">Предыдущий родительский комментарий</string>
+
+	<string name="pref_appearance_comments_show_floating_toolbar_title">Показывать плавающую панель поверх комментариев</string>
+	<string name="download_link_title">Скачать файл</string>
+	<string name="download_link_message">Это ссылка для скачивания. Вы хотите загрузить ее во внешнем браузере?</string>
+
+	<string name="pref_behaviour_self_post_tap_actions_title">Действие по касанию текста публикации</string>
+
+	<string name="pref_menus_show_popular_main_menu_key"/>
+	<string name="pref_menus_show_popular_main_menu_title">Показывать /r/popular в главном меню</string>
+	<string name="pref_behaviour_video_playback_controls_key"/>
+	<string name="pref_behaviour_video_playback_controls_title">Включить элементы управления воспроизведением видео</string>
+
+	<string name="error_no_suitable_apps_available">Нет подходящих приложений.</string>
+
+<string name="subtitle_by">от</string>
     <string name="subtitle_to">в</string>
-    <string name="pref_cache_maxage_entry_title">Удалять кешированные отметки (прочитано, отдан голос и т.д.) после</string>
-    <string name="mainmenu_modmail">Почта модера</string>
-    <string name="pref_behaviour_bezel_toolbar_header">Боковая панель</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Ширина зоны вытаскивания боковой панели</string>
-    <string name="mainmenu_useritems">Пользовательские пункты меню</string>
-    <string name="pref_behaviour_gallery_swipe_length_title">Длина свайпа в галерее</string>
-    <string name="mainmenu_custom_destination_search">Поиск</string>
-    <string name="pref_behaviour_sharing_share_text_title">Добавлять текст при распространении комментария</string>
-    <string name="disable_replies_to_infobox_failed">Не удалось отключить отправку ответов во входящие</string>
-    <string name="mainmenu_random">Случайный сабреддит</string>
-    <string name="pref_menus_show_random_main_menu_title">Отображать /s/random в главном меню</string>
-    <string name="mainmenu_custom_empty_search_query">Пустой поисковый запрос.</string>
-    <string name="search_listing_header_query">Поисковый запрос</string>
-    <string name="pref_behaviour_sharing_header">Распространение</string>
-    <string name="pref_behaviour_sharing_include_desc_title">Добавлять заголовок/описание при распространении</string>
-    <string name="share_comments_for">Комментарии к %s</string>
-    <string name="share_comment_by_on_reddit">Комментарий от %s на Reddit</string>
-    <string name="error_message_malformed_html">Не удалось разобрать основной текст. Сообщите об этом разработчику.</string>
-    <string name="error_title_malformed_html">Неправильный HTML</string>
-    <string name="spoiler">Спойлер</string>
-    <string name="pref_menus_posts_header">Сообщения</string>
-    <string name="pref_menus_mainmenu_header">Главное меню</string>
-    <string name="pin_successful">Закреплено %s в главном меню</string>
-    <string name="unpin_successful">Откреплено %s из главного меню</string>
-    <string name="unsubscription_successful">Отписался от %s</string>
-    <string name="subscription_successful">Подписан на %s</string>
-    <string name="bug_chooser_title">Сообщение об ошибке по электронной почте</string>
-    <string name="error_toast_no_email_apps">Нет почтовых приложений!</string>
-    <string name="error_toast_failed_open_external_browser">Не удалось открыть url \"%s\" во внешнем браузере</string>
-    <string name="upgrade_message">Обновлено до версии %s</string>
-    <string name="must_login_message">Для этого вам необходимо войти в учетную запись Reddit.</string>
-    <string name="pref_appearance_fontscale_bodytext_title">Основной текст</string>
-    <string name="pref_appearance_fontscale_linkbuttons_title">Кнопки ссылок</string>
-    <string name="pref_appearance_fontscale_use_global">Использовать общую шкалу шрифтов</string>
-    <string name="pref_appearance_fontscale_global_title">Общий</string>
-    <string name="pref_appearance_fontscale_header">Масштаб шрифта</string>
-    <string name="prefs_category_fonts">Шрифт</string>
-    <string name="pref_network_tor_summary">При использовании внешнего браузера ссылки не будут открываться с помощью Tor (если только ваш браузер не настроен на использование Tor)</string>
-    <string name="search_results_query_only">Искать \"%s\"</string>
-    <string name="search_results_short">Результаты поиска</string>
-    <string name="error_nsfw_subreddits_disabled_message">Контент NSFW отключен в настройках.</string>
-    <string name="error_nsfw_subreddits_disabled_title">Заблокированный субреддит NSFW</string>
-    <string name="list_yes_no_or_wifi_never">Никогда</string>
-    <string name="list_yes_no_or_wifi_wifionly">Только по Wi-Fi</string>
-    <string name="list_yes_no_or_wifi_always">Всегда</string>
-    <string name="pref_appearance_post_header_subtitle_items_title">Открытые записи с субтитрами</string>
-    <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Использовать разные настройки для открытых сообщений</string>
-    <string name="pref_appearance_post_subtitle_items_domain">Домен</string>
-    <string name="pref_appearance_post_subtitle_items_subreddit">Субреддит</string>
-    <string name="pref_appearance_post_subtitle_items_nsfw">Тег NSFW</string>
-    <string name="pref_appearance_post_subtitle_items_spoiler">Тег спойлера</string>
-    <string name="pref_appearance_post_subtitle_items_sticky">Липкий тег</string>
-    <string name="pref_appearance_post_subtitle_items_title">Запись субтитров</string>
-    <string name="pref_appearance_posts_header">Сообщения</string>
-    <string name="pref_appearance_fontscale_comment_headers_title">Заголовки комментариев/входящих</string>
-    <string name="pref_appearance_fontscale_post_header_subtitles_title">Субтитры открытых постов</string>
-    <string name="pref_appearance_fontscale_post_header_titles_title">Открытые заголовки сообщений</string>
-    <string name="pref_appearance_fontscale_post_subtitles_title">Субтитры публикации</string>
-    <string name="error_toast_no_share_app_installed">Не установлено подходящее приложение для обмена.</string>
-    <string name="pref_behaviour_sharing_share_dialog_title">Использовать встроенный диалог обмена</string>
-    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Выберите приложение для обмена</string>
-    <string name="action_copy_selftext">Копировать собственный текст</string>
-    <string name="post_text_copied_to_clipboard">Текст сообщения скопирован в буфер обмена</string>
-    <string name="notification_channel_name_reddit_messages">Входящие сообщения Reddit</string>
-    <string name="prefs_category_images_video">Изображения/Видео</string>
-    <string name="pref_behaviour_video_mute_default_title">Видео без звука по умолчанию</string>
-    <string name="pref_appearance_bottom_toolbar_title">Показывать панель инструментов внизу</string>
-    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Превью загружаемого контента, если оно есть</string>
-    <string name="pref_appearance_show_aspect_ratio_indicator_title">Показывать соотношение сторон</string>
-    <string name="mainmenu_random_nsfw">Случайный NSFW сабреддит</string>
-    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Показать подписанные субреддиты</string>
-    <string name="pref_menus_show_multireddit_main_menu_title">Показывать мультиреддиты</string>
-    <string name="pref_menus_mainmenu_shortcutitems_title">Ярлыки</string>
-    <string name="pref_behaviour_hide_read_posts_title">Скрывать просмотренные посты</string>
-    <string name="pref_behaviour_usecustomtabs_summary">Использовать специальные вкладки Android при доступнности</string>
-    <string name="pref_behaviour_usecustomtabs_title">Использовать пользовательские вкладки Android</string>
-    <string name="sort_posts_best">Лучшее</string>
-    <string name="comment_reply_done_norefresh">Ответ отправлен.</string>
-    <string name="error_already_submitted_message">Такой пост уже есть в этом субреддите.</string>
-    <string name="error_already_submitted_title">Сообщение уже существует</string>
-    <string name="post_submit_mark_spoiler">Пометить как спойлер</string>
-    <string name="post_submit_mark_nsfw">Отметить как NSFW</string>
-    <string name="pref_appearance_left_handed_title">Режим для левшей</string>
-    <string name="title_license">Лицензия</string>
-    <string name="pref_appearance_hide_headertoolbar_postlist_title">Скрыть панель инструментов заголовка списка сообщений</string>
-    <string name="props_self_html">Самостоятельный текст (HTML)</string>
-    <string name="cache_clear_dialog_thumbnails_data">Эскизов (%s)</string>
-    <string name="cache_clear_dialog_thumbnails">Эскизы</string>
-    <string name="cache_clear_dialog_listings_data">Списков (%s)</string>
-    <string name="cache_clear_dialog_listings">Списки</string>
-    <string name="cache_clear_dialog_loaded">Размеры использования загруженных данных</string>
-    <string name="cache_clear_dialog_loading">Загрузка использования данных</string>
-    <string name="dialog_clear">Очистить</string>
-    <string name="pref_cache_clear_title">Очистить кэш</string>
-    <string name="pref_appearance_comment_age_mode_relative_parent">Относительно основного комментария (ответил через x минут)</string>
-    <string name="pref_appearance_comment_age_mode_relative_post">Относительно поста (через x минут)</string>
-    <string name="pref_appearance_comment_age_mode_absolute">Время с момента комментария (x минут назад)</string>
-    <string name="pref_appearance_comment_age_mode_title">Режим возраста комментариев</string>
-    <string name="pref_appearance_age_units_3">Три единицы (x часы, х минуты, x секунды)</string>
-    <string name="pref_appearance_age_units_1">Одна единица (х часы)</string>
-    <string name="pref_appearance_age_units_2">Две единицы (х часы, х минуты)</string>
-    <string name="pref_appearance_inbox_age_units_title">Точность возраста входящих</string>
-    <string name="pref_appearance_inbox_header">Входящие</string>
-    <string name="pref_appearance_comment_age_units_title">Точность возраста комментария</string>
-    <string name="pref_appearance_post_header_age_units_title">Открыть точность возраста поста</string>
-    <string name="pref_appearance_post_age_units_title">Точность возраста поста</string>
-    <string name="time_after_reply">ответил %s позже</string>
-    <string name="time_after">после %s</string>
-    <string name="options_account_manager">Управлять…</string>
-    <string name="pref_menus_quick_account_switcher_title">Использовать быстрое переключение учетных записей</string>
-    <string name="pref_appearance_not_possible_in_tablet_mode">Невозможно в режиме планшета</string>
-    <string name="pref_behaviour_save_location_system_default">Использовать систему по умолчанию</string>
-    <string name="pref_behaviour_save_location_prompt_every_time">Спрашивать каждый раз</string>
-    <string name="pref_behaviour_save_location_title">Сохранить пункт назначения</string>
-    <string name="pref_appearance_toolbar_header">Панель инструментов</string>
-    <string name="pref_appearance_hide_toolbar_on_scroll_title">Скрыть панель инструментов при прокрутке</string>
-    <string name="pref_behaviour_back_button_title">Кнопка Назад</string>
-    <string name="pref_behaviour_postlist_back_again">Дважды нажмите кнопку назад, чтобы выйти из списка сообщений</string>
-    <string name="press_back_again">Снова нажмите кнопку назад</string>
-    <string name="pref_behaviour_imagevideo_tap_close_summary">Не влияет на видео, если включены элементы управления воспроизведением</string>
-    <string name="pref_behaviour_imagevideo_tap_close_title">Нажмите, чтобы закрыть изображения/видео</string>
-    <string name="action_save_image_success_no_path">Изображение успешно сохранено</string>
-    <string name="link_does_not_exist">Этой ссылки не существует. Возможно, он была удалена.</string>
-    <string name="title_attribution">Авторство</string>
-    <string name="dialog_continue">Продолжить</string>
-    <string name="reddit_login_browser_popup_use_external_browser">Используйте внешний браузер (рекомендуется)</string>
-    <string name="reddit_login_browser_popup_use_internal_browser">Используйте внутренний браузер (рекомендуется)</string>
-    <string name="reddit_login_browser_popup_line_2">После завершения входа в систему вы должны быть перенаправлены обратно в RedReader. Если вход в систему не удался, вы можете попробовать другой браузер, используя флажок ниже.</string>
-    <string name="reddit_login_browser_popup_line_1">Чтобы войти в систему, вы перейдете на Reddit в веб-браузере.</string>
-    <string name="image_gallery_no_image_present_message">Указанное изображение не удалось найти. Возможно, оно было удалено.</string>
-    <string name="image_gallery_no_image_present_title">Изображение не найдено</string>
-    <string name="button_error_send_report">Отчет</string>
-    <string name="button_error_details">Подробности</string>
-    <string name="image_gallery_no_data_present_message">По указанной ссылке галерея изображений не найдена. Возможно, она была удалена.</string>
-    <string name="image_gallery_no_data_present_title">Галерея не найдена</string>
-    <string name="image_gallery_removed_message">Эта галерея была удалена и больше недоступна.</string>
-    <string name="image_gallery_removed_title">Галерея удалена</string>
-    <string name="pref_behaviour_video_zoom_default_title">Обрезка видео для заполнения экрана</string>
-    <string name="sort_comments_top_all">Топ: Все время</string>
-    <string name="sort_comments_top_year">Топ: В этом году</string>
-    <string name="sort_comments_top_month">Топ: В этом месяце</string>
-    <string name="sort_comments_top_week">Топ: На этой неделе</string>
-    <string name="sort_comments_top_today">Топ: Сегодня</string>
-    <string name="sort_comments_top_hour">Топ: в этот час</string>
-    <string name="pref_behaviour_user_commentsort_title">Комментарии пользователей (по умолчанию)</string>
-    <string name="pref_behaviour_multi_postsort_title">Сообщения Мультиреддит (по умолчанию)</string>
-    <string name="pref_behaviour_user_postsort_title">Сообщения пользователей (по умолчанию)</string>
-    <string name="action_comments_with_count">Просмотр комментариев (%d)</string>
-    <string name="pref_appearance_post_show_comments_button_title">Кнопка Показать комментарии</string>
-    <string name="image_gallery">Галерея</string>
-    <string name="action_search_posts">Поиск сообщений</string>
-    <string name="pref_menus_appbar_items_never">Не показывать</string>
-    <string name="pref_menus_appbar_items_overflow_only">Показывать только в трехточечном меню</string>
-    <string name="pref_menus_appbar_items_if_room">Показать кнопку, если комната</string>
-    <string name="pref_menus_appbar_items_always">Всегда показывать кнопку</string>
-    <string name="prefs_category_menus_appbar_screen">Элементы панели действий</string>
-    <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
-    <string name="subreddit_link_copied_to_clipboard">Ссылка на субреддит скопирована в буфер обмена</string>
-    <string name="comment_text_copied_to_clipboard">Текст комментария скопирован в буфер обмена</string>
-    <string name="post_link_copied_to_clipboard">Ссылка на публикацию скопирована в буфер обмена</string>
-    <string name="comment_link_copied_to_clipboard">Ссылка на комментарий скопирована в буфер обмена</string>
-    <string name="link_copied_to_clipboard">Ссылка скопирована в буфер обмена</string>
-    <string name="pref_appearance_hide_headertoolbar_commentlist_title">Скрыть панель инструментов заголовка комментариев</string>
-    <string name="props_body_html">Структура (HTML)</string>
-    <string name="video_rewind">Перемотка назад</string>
-    <string name="pref_images_inline_image_previews_title">Просмотр встроенных изображений</string>
-    <string name="pref_header_inline_image_previews">Просмотр встроенных изображений</string>
-    <string name="pref_images_high_res_thumbnails_title">Миниатюры высокого разрешения</string>
-    <string name="accessibility_subtitle_points_unknown_withperiod">Оценка скрыта.</string>
-    <string name="accessibility_subtitle_selfpost_withperiod">Текстовое сообщение.</string>
-    <string name="accessibility_subtitle_author_withperiod">Автор: %s.</string>
-    <string name="accessibility_subtitle_age_withperiod">Возраст: %s.</string>
-    <string name="accessibility_subtitle_points_withperiod">Оценка: %d.</string>
-    <string name="accessibility_image_viewer_go_back">Вернуться назад</string>
-    <string name="accessibility_image_viewer_view_comments">Просмотр комментариев</string>
-    <string name="accessibility_image_viewer_title">Просмотр изображения</string>
-    <string name="pref_images_thumbnail_size_title">Размер миниатюры</string>
-    <string name="three_dots_menu">Дополнительные параметры</string>
-    <string name="cache_clear_dialog_images_data">Изображений (%s)</string>
-    <string name="cache_clear_dialog_images">Изображения</string>
-    <string name="video_zoom_out">Уменьшить масштаб</string>
-    <string name="video_zoom_in">Увеличить масштаб</string>
-    <string name="video_fast_forward">Перемотка вперед</string>
-    <string name="video_pause">Приостановить</string>
-    <string name="video_play">Воспроизвести</string>
-    <string name="accessibility_subtitle_spoiler_withperiod">Содержит спойлеры.</string>
-    <string name="video_restart">Перезапуск видео</string>
-    <string name="video_unmute">Со звуком</string>
-    <string name="video_mute">Беззвучный</string>
-    <string name="pref_appearance_thumbnails_spoiler_show_title">Показать миниатюры спойлеров</string>
-    <string name="pref_images_inline_image_previews_spoiler_title">Показать предосмотр спойлера</string>
-    <string name="accessibility_subtitle_recipient_withperiod">Получатель: %s.</string>
-    <string name="invalid_subreddit_name_message">Введите действительное имя субреддита.</string>
-    <string name="error_subreddit_info_permission_denied_message">Вошедший в систему пользователь не может получить доступ к информации об этом субреддите.</string>
-    <string name="error_subreddit_info_permission_denied_title">В доступе отказано</string>
-    <string name="error_subreddit_does_not_exist_message">Указанный субреддит не существует.</string>
-    <string name="error_subreddit_does_not_exist_title">Недопустимый субреддит</string>
-    <string name="post_submit_heading">Отправка сообщения %1$s в качестве пользователя %2$s.</string>
-    <string name="subreddit_selector_title">Выберите субреддит</string>
-    <string name="post_submit_flair_none_selected">Флеры не выбраны</string>
-    <string name="post_submit_flair_none_available">Нет доступных флеров</string>
-    <string name="mainmenu_sent_messages">Отправленные сообщения</string>
-    <string name="pref_behaviour_post_title_opens_comments_title">Заголовок сообщения открывает комментарии</string>
-    <string name="pref_menus_comment_context_items_title">Пункты меню действий</string>
-    <string name="pref_menus_comments_header">Комментарии</string>
-    <string name="pref_accessibility_min_comment_height_none">Ничего</string>
-    <string name="pref_accessibility_min_comment_height_title">Минимальная высота комментария</string>
-    <string name="action_not_handled_by_installed_app_toast">Не найдено приложения для обработки этого действия</string>
-    <string name="button_view">Обзор</string>
-    <string name="button_dismiss">Отклонить</string>
-    <string name="pref_menus_mainmenu_dev_announcements_title">Показать объявления от разработчика</string>
-    <string name="pref_accessibility_separate_body_text_lines_summary">В тексте комментария и самостоятельного сообщения сделать каждую строку индивидуально сфокусированной, а не читайте весь комментарий сразу</string>
-    <string name="pref_accessibility_separate_body_text_lines_title">Отдельные строки основного текста</string>
-    <string name="prefs_category_accessibility">Доступность</string>
-    <string name="pref_videos_download_before_playing_title">Полностью загрузите видео перед началом воспроизведения</string>
-    <string name="imageview_download_failed">Загрузка была прервана. Попробуйте веб-браузер.</string>
-    <string name="imageview_image_info_failed">Не удалось загрузить метаданные изображения. Попробуйте веб-браузер.</string>
-    <string name="album_image_default_text">Изображение %d</string>
-    <string name="edittext_hint_comment_body_text">Текст комментария</string>
-    <string name="inline_preview_prompt_keep_showing">Продолжить показывать</string>
-    <string name="inline_preview_prompt_turn_off">Выключить</string>
-    <string name="inline_preview_prompt_message">Продолжать показывать встроенные предосмотры изображений\? Вы можете изменить это в любое время в настройках.</string>
-    <string name="inline_preview_prompt_title">Предосмотр изображений</string>
-    <string name="error_inline_preview_failed_message">Не удалось загрузить предосмотр изображения.</string>
-    <string name="error_inline_preview_failed_title">Ошибка загрузки</string>
-    <string name="pref_header_image_viewer">Просмотрщик изображений</string>
-    <string name="pref_images_inline_image_previews_nsfw_title">Показать NSFW предосмотр</string>
-    <string name="pref_appearance_navbar_color_option_white">Белый</string>
-    <string name="accessibility_subtitle_domain_v_redd_it">Видео Reddit</string>
-    <string name="accessibility_subtitle_domain_i_redd_it">Изображения Reddit</string>
-    <string name="accessibility_subtitle_comment_collapsed">Текст комментария скрыт.</string>
-    <string name="accessibility_subtitle_edited_since_being_posted">Текст отредактирован с момента публикации.</string>
-    <string name="accessibility_subtitle_domain_withperiod">Домен: %s.</string>
-    <string name="accessibility_subtitle_subreddit_withperiod">Субреддит: %s.</string>
-    <string name="accessibility_subtitle_gold_withperiod">Награжден золотом: %d.</string>
-    <string name="accessibility_subtitle_flair_withperiod">Вкус: %s.</string>
-    <string name="accessibility_subtitle_nsfw_withperiod">Небезопасно для работы.</string>
-    <string name="accessibility_subtitle_sticky_withperiod">Стики.</string>
-    <string name="cache_clear_dialog_flags">Флаги</string>
-    <string name="error_http_429_message">Сервер отклонил запрос из-за ограничения скорости. Попробуйте еще раз через минуту.</string>
-    <string name="error_http_429_title">Слишком много запросов</string>
-    <string name="error_content_blocker_message">Текущая сеть блокирует этот запрос с помощью DNS. Рассмотрите возможность использования VPN или включения DNS по протоколу HTTPS в настройках сети Android.</string>
-    <string name="error_content_blocker_title">Обнаружен блокировщик контента</string>
-    <string name="error_imgur_400_message">Imgur отклоняет загрузку этого изображения, возможно, из-за ограничения скорости. Используйте другой хост изображений или повторите попытку позже.</string>
-    <string name="error_imgur_400_title">Ошибка Imgur</string>
-    <string name="error_tor_connection_message">Не удается подключиться к Tor. Убедитесь, что приложение Orbot запущено, или отключите Tor в настройках сети.</string>
-    <string name="error_tor_connection_title">Ошибка Tor</string>
-    <string name="error_post_submit_title">Ошибка при отправке сообщения</string>
-    <string name="error_post_flair_required_message">Правила субреддита требуют, чтобы в вашем посте был указан вкус.</string>
-    <string name="error_post_flair_required_title">Требуется вкус</string>
-    <string name="error_no_file_manager_message">На этом устройстве отсутствует файловый менеджер, совместимый с Android Storage Access Framework. Если файловый менеджер присутствует, возможно он отключен.</string>
-    <string name="error_no_file_manager_title">Нет файлового менеджера</string>
-    <string name="backup_preferences_error_old_android_message">Эта функция требует Android 4.4 или выше.</string>
-    <string name="backup_preferences_error_old_android_title">Система слишком старая</string>
-    <string name="restore_preferences_success">Восстановлено успешно</string>
-    <string name="backup_preferences_success">Резервное копирование успешно</string>
-    <string name="button_restore_preferences">Восстановить</string>
-    <string name="button_cancel">Отмена</string>
-    <string name="button_continue_anyway">Продолжить в любом случае</string>
-    <string name="restore_preferences_error_version_warning_message">Выбранный файл был создан более новой версией Redreader. Восстановление из этого файла может привести к сбоям и нестабильности.</string>
-    <string name="restore_preferences_error_version_warning_title">Предупреждение</string>
-    <string name="restore_preferences_error_invalid_file_version_message">Выбранный файл был создан более новой версией Redreader и не может быть открыт.</string>
-    <string name="restore_preferences_error_invalid_file_contents_message">Выбранный файл не является действительным файлом резервного копирования .</string>
-    <string name="restore_preferences_error_invalid_file_title">Неверный файл</string>
-    <string name="pref_item_restore_preferences_title">Восстановление настроек</string>
-    <string name="pref_item_backup_preferences_title">Параметры резервного копирования</string>
-    <string name="prefs_category_backup_restore">Резервное копирование/Восстановление</string>
-</resources>
+	</resources>

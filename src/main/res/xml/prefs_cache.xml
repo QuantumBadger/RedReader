@@ -34,29 +34,31 @@
 
     <PreferenceCategory android:title="@string/pref_cache_precache_images_header">
 
-		<ListPreference android:title="@string/pref_cache_precache_images_title"
-						android:key="@string/pref_cache_precache_images_list_key"
-						android:entries="@array/list_yes_no_or_wifi_items"
-						android:entryValues="@array/list_yes_no_or_wifi_return"
-						android:defaultValue="wifionly"/>
+    <CheckBoxPreference android:title="@string/pref_cache_precache_images_title"
+                        android:key="@string/pref_cache_precache_images_key"
+                        android:defaultValue="false"/>
+
+    <CheckBoxPreference android:title="@string/pref_cache_precache_images_wifionly_title"
+                        android:key="@string/pref_cache_precache_images_wifionly_key"
+                        android:dependency="@string/pref_cache_precache_images_key"
+                        android:defaultValue="true"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_cache_precache_comments_header">
 
-		<ListPreference android:title="@string/pref_cache_precache_comments_title"
-						android:key="@string/pref_cache_precache_comments_list_key"
-						android:entries="@array/list_yes_no_or_wifi_items"
-						android:entryValues="@array/list_yes_no_or_wifi_return"
-						android:defaultValue="always"/>
+        <CheckBoxPreference android:title="@string/pref_cache_precache_comments_title"
+                            android:key="@string/pref_cache_precache_comments_key"
+                            android:defaultValue="false"/>
+
+        <CheckBoxPreference android:title="@string/pref_cache_precache_comments_wifionly_title"
+                            android:key="@string/pref_cache_precache_comments_wifionly_key"
+                            android:dependency="@string/pref_cache_precache_comments_key"
+                            android:defaultValue="false"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_cache_pruning">
-
-	<Preference
-		android:title="@string/pref_cache_clear_title"
-		android:key="@string/pref_cache_clear_key"/>
 
     <ListPreference android:title="@string/pref_cache_maxage_listing_title"
                     android:key="@string/pref_cache_maxage_listing_key"

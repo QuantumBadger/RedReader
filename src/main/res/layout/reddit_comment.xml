@@ -35,12 +35,10 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
-			android:layoutDirection="ltr"
 			android:background="?rrListItemBackgroundCol"
-			android:elevation="10dp"
-			tools:ignore="UnusedAttribute">
+			android:elevation="10dp">
 
-		<org.quantumbadger.redreader.views.IndentView
+		<org.saiditnet.redreader.views.IndentView
 				android:id="@+id/view_reddit_comment_indentview"
 				android:layout_width="10dp"
 				android:layout_height="match_parent"/>
@@ -60,8 +58,7 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:textSize="11sp"
-					android:textColor="?rrCommentHeaderCol"
-					tools:ignore="SmallSp"/>
+					android:textColor="?rrCommentHeaderCol"/>
 
 			<FrameLayout
 					android:id="@+id/view_reddit_comment_bodyholder"

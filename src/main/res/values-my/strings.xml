@@ -1,22 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!--
-  ~ This file is part of RedReader.
-  ~
-  ~ RedReader is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ RedReader is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
-    <string name="firstrun_login_button_now">ယခု ဝင်ရောက်ရန်</string>
+<resources><string name="firstrun_login_button_now">ယခု ဝင်ရောက်ရန်</string>
     <string name="firstrun_login_button_later">အမည်ဝှက်ဖြင့်</string>
 
     <string name="prefs_category_appearance">အသွင်အပြင်</string>
@@ -25,8 +8,11 @@
     <string name="prefs_category_menus">မီနူး</string>
 
     <string name="pref_appearance_theme_header">သင်းမ်ပုံစံ</string>
+    <string name="pref_appearance_font_header">ဖွန့် စနစ်</string>
     <string name="pref_appearance_thumbnails_header">ပုံစံငယ်</string>
+    <string name="pref_appearance_tabletmode_header">ဇယားပုံစံ</string>
     <string name="pref_appearance_comments_header">ကွန်းမန့်များ</string>
+    <string name="pref_appearance_other_header">အခြား</string>
 
     <string name="pref_appearance_twopane_title">ဇယား ပုံစံ</string>
 
@@ -34,6 +20,7 @@
 
     <string name="pref_appearance_fontscale_posts_title">ပိုစ့် ဖွန့် စကေး</string>
 
+    <string name="pref_appearance_fontscale_comments_title">ကွန်းမန့် ဖွန့်စကေး</string>
 
     <string name="pref_appearance_thumbnails_show_title">ပုံစံငယ် များကို ပြပါ</string>
 
@@ -46,7 +33,7 @@
     <string name="pref_cache_precache_images_wifionly_title">ဝိုင်ဖိုင် ဖြင့်သာ</string>
 
     <string name="options_accounts">အကောင့်</string>
-    <string name="options_accounts_long">Reddit အကောင့်</string>
+    <string name="options_accounts_long">SaidIt အကောင့်</string>
     <string name="options_settings">ဆက်တင်</string>
 
     <string name="options_submit_post">ပို့စ် တင်မည်</string>

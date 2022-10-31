@@ -1,9 +1,9 @@
-package org.quantumbadger.redreader.test.markdown;
+package org.saiditnet.redreader.test.markdown;
 
 import org.junit.Test;
-import org.quantumbadger.redreader.reddit.prepared.markdown.CharArrSubstring;
-import org.quantumbadger.redreader.reddit.prepared.markdown.IntArrayLengthPair;
-import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownTokenizer;
+import org.saiditnet.redreader.reddit.prepared.markdown.CharArrSubstring;
+import org.saiditnet.redreader.reddit.prepared.markdown.IntArrayLengthPair;
+import org.saiditnet.redreader.reddit.prepared.markdown.MarkdownTokenizer;
 
 import static org.junit.Assert.assertEquals;
 
@@ -254,7 +254,7 @@ public class MarkdownTokenizerTest {
 	@Test
 	public void testTokenizeRedditLink1() {
 
-		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("a /s/abc d"));
+		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("a /r/abc d"));
 
 		final int[] expected = new int[] {
 				'a', ' ', MarkdownTokenizer.TOKEN_BRACKET_SQUARE_OPEN, '/', 'r', '/', 'a', 'b', 'c',
@@ -282,7 +282,7 @@ public class MarkdownTokenizerTest {
 	@Test
 	public void testTokenizeRedditLink3() {
 
-		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("a s/abc d"));
+		final IntArrayLengthPair out = MarkdownTokenizer.tokenize(toCAS("a r/abc d"));
 
 		final int[] expected = new int[] {
 				'a', ' ', MarkdownTokenizer.TOKEN_BRACKET_SQUARE_OPEN, 'r', '/', 'a', 'b', 'c',

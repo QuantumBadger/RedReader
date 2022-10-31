@@ -29,9 +29,42 @@
 
 	<CheckBoxPreference android:title="@string/pref_behaviour_usecustomtabs_title"
                         android:key="@string/pref_behaviour_usecustomtabs_key"
-						android:dependency="@string/pref_behaviour_useinternalbrowser_key"
                         android:summary="@string/pref_behaviour_usecustomtabs_summary"
                         android:defaultValue="false"/>
+
+	<CheckBoxPreference android:title="@string/pref_behaviour_video_playback_controls_title"
+						android:key="@string/pref_behaviour_video_playback_controls_key"
+						android:defaultValue="false"/>
+
+	<ListPreference android:title="@string/pref_behaviour_imageview_mode_title"
+					android:key="@string/pref_behaviour_imageview_mode_key"
+					android:entries="@array/pref_behaviour_imageview_mode_array"
+					android:entryValues="@array/pref_behaviour_imageview_mode_array_return"
+					android:defaultValue="internal_opengl" />
+
+    <ListPreference android:title="@string/pref_behaviour_gifview_mode_title"
+                    android:key="@string/pref_behaviour_gifview_mode_key"
+                    android:entries="@array/pref_behaviour_gifview_mode_array"
+                    android:entryValues="@array/pref_behaviour_gifview_mode_array_return"
+                    android:defaultValue="internal_movie" />
+
+    <ListPreference android:title="@string/pref_behaviour_videoview_mode_title"
+                    android:key="@string/pref_behaviour_videoview_mode_key"
+                    android:entries="@array/pref_behaviour_videoview_mode_array"
+                    android:entryValues="@array/pref_behaviour_videoview_mode_array_return"
+                    android:defaultValue="internal_videoview" />
+
+	<ListPreference android:title="@string/pref_behaviour_albumview_mode_title"
+					android:key="@string/pref_behaviour_albumview_mode_key"
+					android:entries="@array/pref_behaviour_albumview_mode_array"
+					android:entryValues="@array/pref_behaviour_albumview_mode_array_return"
+					android:defaultValue="internal_list" />
+
+    <ListPreference android:title="@string/pref_behaviour_gallery_swipe_length_title"
+                    android:key="@string/pref_behaviour_gallery_swipe_length_key"
+                    android:entries="@array/pref_behaviour_gallery_swipe_length_array"
+                    android:entryValues="@array/pref_behaviour_gallery_swipe_length_array_return"
+                    android:defaultValue="150" />
 
     <CheckBoxPreference android:title="@string/pref_behaviour_notifications_title"
                         android:key="@string/pref_behaviour_notifications_key"
@@ -47,22 +80,6 @@
 						android:key="@string/pref_behaviour_enable_swipe_refresh_key"
 						android:defaultValue="true"/>
 
-	<ListPreference android:title="@string/pref_behaviour_save_location_title"
-					android:key="@string/pref_behaviour_save_location_key"
-					android:entries="@array/pref_behaviour_save_location_options"
-					android:entryValues="@array/pref_behaviour_save_location_options_return"
-					android:defaultValue="prompt_every_time" />
-
-	<CheckBoxPreference android:title="@string/pref_behaviour_block_screenshots_title"
-						android:key="@string/pref_behaviour_block_screenshots_key"
-						android:summary="@string/pref_behaviour_block_screenshots_summary"
-						android:defaultValue="false" />
-
-	<CheckBoxPreference android:title="@string/pref_behaviour_keep_screen_awake_title"
-			android:key="@string/pref_behaviour_keep_screen_awake_key"
-			android:summary="@string/pref_behaviour_keep_screen_awake_summary"
-			android:defaultValue="false" />
-
     <PreferenceCategory android:title="@string/pref_behaviour_sort_header">
 
 		<ListPreference android:title="@string/pref_behaviour_postsort"
@@ -71,29 +88,11 @@
 						android:entryValues="@array/pref_behaviour_postsort_array_return"
 						android:defaultValue="hot"/>
 
-		<ListPreference android:title="@string/pref_behaviour_user_postsort_title"
-						android:key="@string/pref_behaviour_user_postsort_key"
-						android:entries="@array/pref_behaviour_user_postsort_array"
-						android:entryValues="@array/pref_behaviour_user_postsort_array_return"
-						android:defaultValue="new"/>
-
-		<ListPreference android:title="@string/pref_behaviour_multi_postsort_title"
-						android:key="@string/pref_behaviour_multi_postsort_key"
-						android:entries="@array/pref_behaviour_multi_postsort_array"
-						android:entryValues="@array/pref_behaviour_multi_postsort_array_return"
-						android:defaultValue="hot"/>
-
         <ListPreference android:title="@string/pref_behaviour_commentsort"
                         android:key="@string/pref_behaviour_commentsort_key"
                         android:entries="@array/pref_behaviour_commentsort_array"
                         android:entryValues="@array/pref_behaviour_commentsort_array_return"
-                        android:defaultValue="best"/>
-
-		<ListPreference android:title="@string/pref_behaviour_user_commentsort_title"
-						android:key="@string/pref_behaviour_user_commentsort_key"
-						android:entries="@array/pref_behaviour_user_commentsort_array"
-						android:entryValues="@array/pref_behaviour_user_commentsort_array_return"
-						android:defaultValue="new"/>
+                        android:defaultValue="top"/>
 
 		<ListPreference android:title="@string/pref_behaviour_pinned_subredditsort"
 						android:key="@string/pref_behaviour_pinned_subredditsort_key"
@@ -175,10 +174,6 @@
                         android:entryValues="@array/pref_behaviour_postcount_items_return"
                         android:defaultValue="ALL"/>
 
-		<CheckBoxPreference android:title="@string/pref_behaviour_post_title_opens_comments_title"
-						android:key="@string/pref_behaviour_post_title_opens_comments_key"
-						android:defaultValue="false"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_comments_header">
@@ -189,14 +184,6 @@
                             android:inputType="numberSigned"
                             android:maxLength="5"
                             android:defaultValue="-4"/>
-
-		<ListPreference android:title="@string/pref_behaviour_collapse_sticky_comments_title"
-						android:key="@string/pref_behaviour_collapse_sticky_comments_key"
-						android:entries="@array/pref_behaviour_collapse_sticky_comments_items"
-						android:entryValues="@array/pref_behaviour_collapse_sticky_comments_items_return"
-						android:defaultValue="only_bots"/>
-
-		pref_behaviour_collapse_sticky_comments_items
 
     </PreferenceCategory>
 
@@ -214,10 +201,6 @@
 				android:key="@string/pref_behaviour_sharing_share_text_key"
 				android:defaultValue="true"/>
 
-		<CheckBoxPreference android:title="@string/pref_behaviour_sharing_share_dialog_title"
-				android:key="@string/pref_behaviour_sharing_share_dialog_key"
-				android:defaultValue="false"/>
-
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_behaviour_bezel_toolbar_header">
@@ -229,16 +212,6 @@
 				android:defaultValue="10"/>
 
 	</PreferenceCategory>
-
-
-	<PreferenceCategory android:title="@string/pref_behaviour_back_button_title">
-
-		<CheckBoxPreference android:title="@string/pref_behaviour_postlist_back_again"
-				android:key="@string/pref_behaviour_postlist_back_again_key"
-				android:defaultValue="false"/>
-
-	</PreferenceCategory>
-
 
 
 </PreferenceScreen>

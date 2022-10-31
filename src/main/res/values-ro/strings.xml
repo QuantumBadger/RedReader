@@ -34,16 +34,21 @@
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Design</string>
+    <string name="pref_appearance_font_header">Fonturi</string>
     <string name="pref_appearance_thumbnails_header">Thumbnail-uri</string>
+    <string name="pref_appearance_tabletmode_header">Modul pentru Tabletă</string>
     <string name="pref_appearance_comments_header">Comentariile</string>
+    <string name="pref_appearance_other_header">Altele</string>
 
     <string name="pref_appearance_twopane_title">Modul Tabletă (despărțit în două)</string>
 
     <string name="pref_appearance_theme_title">Design</string>
 
+    <string name="pref_appearance_solidblack_title">Negru complet în Modul de Noapte</string>
 
     <string name="pref_appearance_fontscale_posts_title">Mărimea fonturilor postărilor</string>
 
+    <string name="pref_appearance_fontscale_comments_title">Mărimea fonturilor comentariilor</string>
 
     <string name="pref_appearance_thumbnails_show_title">Arată thumbnail-urile</string>
 
@@ -51,6 +56,7 @@
 
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnail-urile doar prin Wi-Fi</string>
 
+    <string name="pref_appearance_loading_detail_title">Arată detaliat mesajele care se Încarcă</string>
 
     <string name="pref_appearance_comment_header_items_title">Header-ul Comentariilor</string>
 
@@ -72,7 +78,7 @@
 
     <!-- Cache Prefs -->
 
-    <string name="pref_cache_pruning">Curățare Cache</string>
+    <string name="pref_cache_pruning">Curățarea Cache</string>
 
     <string name="pref_cache_maxage_listing_title">Șterge lista cache după</string>
 
@@ -84,27 +90,28 @@
 
     <string name="pref_cache_precache_images_title">Salvează imaginile în cache</string>
 
+    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Doar prin Wi-Fi</string>
 
     <!-- Menu Prefs -->
 
     <string name="pref_menus_post_context_items_title">Item-urile Meniului Postărilor</string>
 
-    <string name="pref_menus_post_toolbar_items_title">Afișează bara de instrumente</string>
+    <string name="pref_menus_post_toolbar_items_title">Toolbar-ul Postărilor</string>
 
     <!-- Options Menu -->
 
-    <string name="options_accounts">Conturi</string>
-    <string name="options_accounts_long">Conturi de Reddit</string>
-    <string name="options_theme">Aspect</string>
+    <string name="options_accounts">Accounts</string>
+    <string name="options_accounts_long">Conturile de Saidit</string>
+    <string name="options_theme">Design</string>
     <string name="options_settings">Setări</string>
 
     <string name="options_submit_post">Scrieți o Postare</string>
 
-    <string name="options_refresh">Reîncărcare</string>
-    <string name="options_refresh_subreddits">Reîncărcare Subreddit-uri</string>
-    <string name="options_refresh_posts">Reîncărcare Postări</string>
-    <string name="options_refresh_comments">Reîncărcare Comentarii</string>
+    <string name="options_refresh">Refresh</string>
+    <string name="options_refresh_subreddits">Refresh Subreddit-urilor</string>
+    <string name="options_refresh_posts">Refresh Postărilor</string>
+    <string name="options_refresh_comments">Refresh Comentariilor</string>
 
     <string name="options_past">Versiunile Anterioare</string>
     <string name="options_past_posts">Past Post List Versions</string>
@@ -117,10 +124,10 @@
 
     <!-- Main Menu -->
 
-    <string name="mainmenu_frontpage">Pagina Principală</string>
-    <string name="mainmenu_all">Toate Subreddit-urile</string>
+    <string name="mainmenu_frontpage">Prima Pagină</string>
+    <string name="mainmenu_all">Toate Subreditt-urile</string>
     <string name="mainmenu_custom">Alegeți un Subreddit</string>
-    <string name="mainmenu_custom_invalid_name">Numele Subreddit-ului este invalid.</string>
+    <string name="mainmenu_custom_invalid_name">Numele Subreddit-ului invalid.</string>
     <string name="mainmenu_saved">Postări Salvate</string>
     <string name="mainmenu_hidden">Postări Ascunse</string>
     <string name="mainmenu_upvoted">Postări Apreciate</string>
@@ -130,26 +137,26 @@
 
     <!-- General Listing -->
 
-    <string name="listing_cached">Vizualizarea copiei în cache din %s</string>
+    <string name="listing_cached">Viewing cached copy from %s</string>
 
     <!-- Accounts Dialog -->
 
     <string name="accounts_anon">Anonim</string>
     <string name="accounts_active">Activ</string>
-    <string name="accounts_add">Adăugați un Cont Reddit</string>
+    <string name="accounts_add">Adăugați un Cont Saidit</string>
     <string name="accounts_setactive">Activați</string>
-    <string name="accounts_reauth">Reautentificare</string>
-    <string name="accounts_delete">Ștergere</string>
+    <string name="accounts_reauth">Reautentificați-vă</string>
+    <string name="accounts_delete">Ștergeți</string>
 
-    <string name="accounts_loggingin">Înregistrare…</string>
+    <string name="accounts_loggingin">Vă înregistrați…</string>
     <string name="accounts_loggingin_msg">Un moment…</string>
 
-    <string name="accounts_username">Nume de utilizator</string>
+    <string name="accounts_username">Numele contului</string>
     <string name="accounts_password">Parola</string>
 
-    <string name="accounts_login">Autentificare</string>
+    <string name="accounts_login">Logați-vă</string>
 
-    <string name="accounts_delete_sure">Sunteți sigur că vreți să ștergeți acest cont?</string>
+    <string name="accounts_delete_sure">Sunteți sigur că vreți să ștergeți contul?</string>
 
     <!-- Post Sorts -->
 
@@ -159,10 +166,10 @@
     <string name="sort_posts_controversial">Controversat</string>
     <string name="sort_posts_top">Top</string>
     <string name="sort_posts_top_hour">Top: Ultima oră</string>
-    <string name="sort_posts_top_today">Top: Astăzi</string>
-    <string name="sort_posts_top_week">Top: Ultima săptămână</string>
-    <string name="sort_posts_top_month">Top: Ultima lună</string>
-    <string name="sort_posts_top_year">Top: Ultimul an</string>
+    <string name="sort_posts_top_today">Top: Azi</string>
+    <string name="sort_posts_top_week">Top: Săptămâna aceasta</string>
+    <string name="sort_posts_top_month">Top: Luna aceasta</string>
+    <string name="sort_posts_top_year">Top: Anul acesta</string>
     <string name="sort_posts_top_all">Top: De la Început</string>
 
     <!-- Comment Sorts -->
@@ -251,7 +258,7 @@
     <string name="comment_reply_done">Răspuns trimis. Comentariul va apărea după ce dați refresh.</string>
     <string name="comment_edit_done">Comentariu editat. Schimbările vor apărea după ce dați refresh.</string>
     <string name="post_submit_title_hint">Titlu</string>
-    <string name="subreddit_selection_textbox_hint">Subreddit</string>
+    <string name="post_submit_subreddit_hint">Subreddit</string>
     <string name="post_captcha_title">Imagine Captcha</string>
     <string name="post_captcha_submit_button">Postați</string>
     <string name="post_submit_done">Postare trimisă.</string>
@@ -266,7 +273,7 @@
     <!-- General errors -->
 
     <string name="error_403_title">Utilizator Nerecunoscut</string>
-    <string name="error_403_message">Reddit ne semnalează că utilizatorul nu are permisiunea de a face asta. Încercați să vă relogați (ștergându-vă contul din lista conturilor, și apoi adăugându-l iar).</string>
+    <string name="error_403_message">Saidit ne semnalează că utilizatorul nu are permisiunea de a face asta. Încercați să vă relogați (ștergându-vă contul din lista conturilor, și apoi adăugându-l iar).</string>
 
     <string name="error_subreddit_required_title">Este Necesar Subreddit-ul</string>
     <string name="error_subreddit_required_message">Trebuie să specificați un subreddit.</string>
@@ -281,13 +288,13 @@
     <string name="error_unknown_api_message">Serverul nu a primit comanda, dintr-un motiv necunoscut. Încercați din nou.</string>
 
     <string name="error_redditdown_title">Reddit este Inaccesibil</string>
-    <string name="error_redditdown_message">Momentan Reddit este supraîncărcat. Încercați din nou.</string>
+    <string name="error_redditdown_message">Momentan Saidit este supraîncărcat. Încercați din nou.</string>
 
     <string name="error_cancelled_title">Operațiune Anulată</string>
     <string name="error_cancelled_message">Operațiunea actuală s-a anulat.</string>
 
     <string name="error_parse_title">Eroare de Analiză</string>
-    <string name="error_parse_message">Reddit trimite date de nerecunoscut.</string>
+    <string name="error_parse_message">Saidit trimite date de nerecunoscut.</string>
 
     <string name="error_unexpected_cache_title">Eroare Cauzată de Pierderea Cache</string>
     <string name="error_unexpected_cache_message">S-a produs o eroareă internă, legată de cache.</string>
@@ -309,8 +316,8 @@
     <string name="error_postlist_cache_title">Terminarea Cache Stocat</string>
     <string name="error_postlist_cache_message">Vizualizați o versiune veche a informațiilor, fără a avea opțiunea de a accesa sesiunea. Reîncărcați pentru a descărca ultimele postări, sau selectați un mod diferit din setări.</string>
 
-    <string name="error_postlist_redditdown_title">Reddit este Inaccesibil</string>
-    <string name="error_postlist_redditdown_message">Momentan Reddit este supraîncărcat. Reîncărcați pentru a descărca ultimele postări, sau selectați un mod diferit din setări.</string>
+    <string name="error_postlist_redditdown_title">Saidit este Inaccesibil</string>
+    <string name="error_postlist_redditdown_message">Momentan Saidit este supraîncărcat. Reîncărcați pentru a descărca ultimele postări, sau selectați un mod diferit din setări.</string>
 
     <!-- Session List -->
 
@@ -323,8 +330,10 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Creat</string>
+    <string name="userprofile_hasmail">Aveți Mail</string>
+    <string name="userprofile_hasmodmail">Aveți Mail de Moderator</string>
     <string name="userprofile_isfriend">Este Prieten</string>
-    <string name="userprofile_isgold">Reddit Gold</string>
+    <string name="userprofile_isgold">Saidit Gold</string>
     <string name="userprofile_moderator">Este Moderator</string>
     <string name="userprofile_viewcomments">Vizualizați Comentariile</string>
     <string name="userprofile_viewposts">Vizualizați Postările</string>
@@ -355,7 +364,7 @@
 
     <string name="notification_comment">%s v-a răspuns</string>
     <string name="notification_message">%s v-a trimis un mesaj</string>
-    <string name="notification_message_multiple">Mesaje noi pe reddit</string>
+    <string name="notification_message_multiple">Mesaje noi pe Saidit</string>
     <string name="notification_message_action">Apăsați pentru vizualizare</string>
 
     <!-- General -->
@@ -404,7 +413,7 @@
     <string name="error_invalid_password_message">Numele sau parola au fost greșite</string>
 
     <string name="error_ratelimit_title">Prea multe încercări invalide.</string>
-    <string name="error_ratelimit_message">Blocat din cauza logării eșuate în mod repetat de pe acest IP. Reddit spune:</string>
+    <string name="error_ratelimit_message">Blocat din cauza logării eșuate în mod repetat de pe acest IP. Saidit spune:</string>
 
     <string name="general_success">Succes</string>
 
@@ -420,9 +429,10 @@
     <string name="subtitle_points">puncte</string>
     <string name="subtitle_by">de</string>
     <string name="subtitle_to">spre</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Încarcă mai multe comentarii (%d răspuns)"</item>
-		<item quantity="other">"Încarcă mai multe comentarii (%d răspunsuri)"</item>
+	<plurals name="subtitle_replies">
+		<item quantity="zero">…</item>
+		<item quantity="one">" (%d răspuns)"</item>
+		<item quantity="other">" (%d răspunsuri)"</item>
 	</plurals>
 
     <string name="general_unknown">necunoscut</string>
@@ -532,7 +542,7 @@
 
     <!-- 2014-09-21 -->
     <string name="gold">Gold</string>
-    <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
+    <string name="pref_appearance_comment_header_items_gold">Saidit Gold</string>
 
     <!-- 2014-11-15 -->
     <string name="karma_link">Karma Linkurilor</string>
@@ -549,6 +559,7 @@
     <string name="comment_header_specific_thread_message">Apăsați aici pentru a vedea toate comentariile.</string>
 
     <!-- 2014-12-18 -->
+    <string name="more_comments_button_text">Încarcă mai multe comentarii</string>
     <string name="action_comment_context">Context</string>
     <string name="action_comment_go_to">Mergeți la comentariu</string>
 
@@ -570,7 +581,7 @@
     <string name="error_title_login_user_denied_permission">Permisiune Respinsă</string>
     <string name="error_message_login_user_denied_permission">Permisiunea de a va accesa contul a fost respinsă. Încercați din nou.</string>
 
-    <string name="error_title_login_unknown_reddit_error">Eroare reddit nerecunoscută: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Eroare Saidit nerecunoscută: %s</string>
 
     <!-- 2015-05-23 -->
     <string name="imageview_invalid_video">Video invalid. Se încearcă browser-ul intern.</string>
@@ -604,6 +615,7 @@
     <string name="pref_behaviour_view_mode_external_browser">Browser Extern</string>
 
     <!-- 2015-08-15 -->
+    <string name="pref_appearance_fontscale_inbox_title">Mărimea Fontului din Inbox</string>
 
     <string name="action_delete">Șterge</string>
     <string name="delete_confirm">Sunteți sigur că doriți ștergerea?</string>
@@ -658,13 +670,13 @@
 
     <!-- 2015-12-06 -->
     <string name="error_too_fast_title">Prea des</string>
-    <string name="error_too_fast_message">Reddit says you are making submissions too quickly. Please wait a few minutes before trying again.Reddit</string>
+    <string name="error_too_fast_message">Saidit says you are making submissions too quickly. Please wait a few minutes before trying again.Saidit</string>
 
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Blocați Subreddit-ul</string>
     <string name="unblock_subreddit">Deblocați Subreddit-ul</string>
-    <string name="block_done">Subreddit blocat. Va fi blocat și pe /s/all.</string>
-    <string name="unblock_done">Subreddit deblocat. Va fi deblocat și de pe /s/all</string>
+    <string name="block_done">Subreddit blocat. Va fi blocat și pe /r/all.</string>
+    <string name="unblock_done">Subreddit deblocat. Va fi deblocat și de pe /r/all</string>
 
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Comentarii</string>
@@ -737,7 +749,7 @@
 	<string name="userprofile_pm">Trimite Mesaj</string>
 
 	<string name="error_too_long_title">Prea lung</string>
-	<string name="error_too_long_message">Reddit spune că ați folosit prea mult text.</string>
+	<string name="error_too_long_message">Saidit spune că ați folosit prea mult text.</string>
 
 	<string name="pm_send_actionbar">Trimite Mesaj</string>
 	<string name="submit_post_actionbar">Trimite Postare</string>
@@ -769,7 +781,7 @@
 	<string name="action_copy_text">Copiază Text</string>
 	<string name="action_copy_link">Copiază Link</string>
 
-	<string name="pref_behaviour_postsort">Sortarea Implicită a Postărilor</string>
+	<string name="pref_behaviour_postsort">Sortarea Postărilor Default</string>
 
 	<!-- 2016-08-06 -->
 	<string name="mainmenu_custom_destination">Locație anume</string>
@@ -860,11 +872,9 @@
 	<string name="download_link_title">Descarcă fișier</string>
 	<string name="download_link_message">Acesta este un link de descărcare. Dorești să îl deschizi într-un browser extern?</string>
 
-	<string name="pref_menus_show_popular_main_menu_title">Afișează /s/popular în meniul principal</string>
+	<string name="pref_menus_show_popular_main_menu_title">Afișează /r/popular în meniul principal</string>
 	<string name="pref_behaviour_video_playback_controls_title">Activează controlul pentru video</string>
 
 	<string name="error_no_suitable_apps_available">Nu s-au găsit aplicații potrivite.</string>
 
-<string name="mainmenu_custom_destination_search">Căutare</string>
-
-	</resources>
+</resources>

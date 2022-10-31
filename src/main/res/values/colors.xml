@@ -18,13 +18,10 @@
 
 <resources>
 
-	<color name="lightWindowBackground">#FBFBFB</color>
-	<color name="darkWindowBackground">#000000</color>
+    <color name="lightWindowBackground">#FBFBFB</color>
+    <color name="darkWindowBackground">#000000</color>
 	<color name="settingsWindowBackground">#333333</color>
 	<color name="actionbarSelectBackground">#44FFFFFF</color>
-	<color name="actionbarSelectBackgroundLight">#44000000</color>
 	<color name="listitemSelectBackground">#33888888</color>
-	<color name="redReaderRed">#C6001F</color>
-	<color name="redReaderAlphaIconBackground">#E0E0E0</color>
 
 </resources>

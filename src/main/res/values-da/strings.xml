@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -15,6 +15,9 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
+<!--
+    Thanks to /u/fosterbuster for this translation!
+-->
 <!--
     Danish translation. Some english words preserved, since we don't have a proper translation for it, and given the
     userbase a translation would properly just get people confused.
@@ -44,16 +47,21 @@
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Tema</string>
+    <string name="pref_appearance_font_header">Skrifttype</string>
     <string name="pref_appearance_thumbnails_header">Miniaturebilleder</string>
+    <string name="pref_appearance_tabletmode_header">Tablet Tilstand</string>
     <string name="pref_appearance_comments_header">Kommentarer</string>
+    <string name="pref_appearance_other_header">Andet</string>
 
     <string name="pref_appearance_twopane_title">Tablet Tilstand (to paneler)</string>
 
     <string name="pref_appearance_theme_title">Tema</string>
 
+    <string name="pref_appearance_solidblack_title">Solid sort it nat-tilstand</string>
 
     <string name="pref_appearance_fontscale_posts_title">Indlæg Skrifttypestørrelse</string>
 
+    <string name="pref_appearance_fontscale_comments_title">Kommentar Skrifttypestørrelse</string>
 
     <string name="pref_appearance_thumbnails_show_title">Vis thumbnails</string>
 
@@ -61,6 +69,7 @@
 
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails kun på Wi-Fi</string>
 
+    <string name="pref_appearance_loading_detail_title">Vis detalejerede indlæsnings meddelser</string>
 
     <string name="pref_appearance_comment_header_items_title">Kommentar Header</string>
 
@@ -94,6 +103,7 @@
 
     <string name="pref_cache_precache_images_title">Precache billeder</string>
 
+    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Kun på Wi-Fi</string>
 
     <!-- Menu Prefs -->
@@ -203,8 +213,8 @@
     <string name="action_downvote_remove">Fjern Downvote</string>
     <string name="action_save">Gem</string>
     <string name="action_hide">Skjul</string>
-    <string name="action_unsave">Gem Ikke</string>
-    <string name="action_unhide">Vis</string>
+    <string name="action_unsave">Unsave</string>
+    <string name="action_unhide">Unhide</string>
     <string name="action_external">Vis i Ekstern Browser</string>
     <string name="action_external_short">I Browser</string>
     <string name="action_actionmenu_short">Handlinger</string>
@@ -261,7 +271,7 @@
     <string name="comment_reply_done">Svar sendt. Kommentaren vil blive vist når du har genopfrisket.</string>
     <string name="comment_edit_done">Kommentar redigeret. Ændringerne vil blive vist når du har genopfrisket.</string>
     <string name="post_submit_title_hint">Titel</string>
-    <string name="subreddit_selection_textbox_hint">Subreddit</string>
+    <string name="post_submit_subreddit_hint">Subreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Send</string>
     <string name="post_submit_done">Indlæg tilføjet.</string>
@@ -270,8 +280,8 @@
 
     <string name="bug_title">En fejl er opstået.</string>
     <string name="bug_message">RedReader er stødt på en fejl.\n\nKunne du tænke dig at sende en bug report til udvikleren? Hvis ja, vil en email automatisk blive udfyldt for dig med al den relevante information, og du kan inspicere indholdet før du afsender.</string>
-    <string name="bug_button_send">Send fejlrapport via email</string>
-    <string name="bug_button_ignore">Send ikke fejlrapport</string>
+    <string name="bug_button_send">Send bug report via email</string>
+    <string name="bug_button_ignore">Send ikke bug report</string>
 
     <!-- General errors -->
 
@@ -308,8 +318,8 @@
     <string name="error_connection_title">Forbindelses Problemer</string>
     <string name="error_connection_message">Der var et problem med at forbinde til serveren. Kontrollér din forbindelse og prøv igen.</string>
 
-    <string name="error_malformed_url_title">Forkert URL formattering</string>
-    <string name="error_malformed_url_message">Et forsøg blev gjort for at få adgang til en ugyldig URL.</string>
+    <string name="error_malformed_url_title">Misdannet URL</string>
+    <string name="error_malformed_url_message">Et forsøg blev gjort for at få adgang til en ugyldig WEBADRESSE.</string>
 
     <string name="error_unknown_title">Ukendt Fejl</string>
     <string name="error_unknown_message">En ukendt fejl er opstået. Prøv igen.</string>
@@ -333,6 +343,8 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Oprettet</string>
+    <string name="userprofile_hasmail">Har Mail</string>
+    <string name="userprofile_hasmodmail">Har Mod Mail</string>
     <string name="userprofile_isfriend">Er Ven</string>
     <string name="userprofile_isgold">Reddit Guld</string>
     <string name="userprofile_moderator">Er Moderator</string>
@@ -354,7 +366,7 @@
     <string name="props_subreddit">Subreddit</string>
     <string name="props_url">URL</string>
     <string name="props_num_comments">Antal kommentarer</string>
-    <string name="props_body_markdown">Brødtekst (Grov Markdown)</string>
+    <string name="props_body_markdown">Body (Grov Markdown)</string>
     <string name="props_self_markdown">Self text (Grov Markdown)</string>
 
     <string name="props_never">Aldrig</string>
@@ -364,7 +376,7 @@
     <!-- Notifications -->
 
     <string name="notification_comment">%s svarede på din kommentar</string>
-    <string name="notification_message">%s sendte dig en besked</string>
+    <string name="notification_message">%s sendt dig en besked</string>
     <string name="notification_message_multiple">Nye beskeder på Reddit</string>
     <string name="notification_message_action">Tryk for at se</string>
 
@@ -404,7 +416,7 @@
 
     <!-- 2013-05-17 -->
 
-    <string name="error_toast_notloggedin">Du er nødt til at være logget ind for at gøre dette.</string>
+    <string name="error_toast_notloggedin">Du er nødt til at være logget ind for at gøre det.</string>
 
     <string name="button_moredetail">Flere detajler</string>
 
@@ -430,6 +442,11 @@
     <string name="subtitle_points">ptk</string>
     <string name="subtitle_by">af</string>
     <string name="subtitle_to">til</string>
+	<plurals name="subtitle_replies"> 
+		<item quantity="zero">…</item> 
+		<item quantity="one">" (%d svar)"</item> 
+		<item quantity="other">" (%d svar)"</item> 
+	</plurals>
 
     <string name="general_unknown">ukendt</string>
 
@@ -455,193 +472,4 @@
 
     <string name="pref_behaviour_useinternalbrowser_title">Brug Intern Browser</string>
     <string name="pref_appearance_linkbuttons_title">Vis Link Knapper</string>
-    <string name="pref_cache_maxage_entry_title">Fjern cachede flag (læst, upvoted, osv,) efter</string>
-    <string name="action_fling_disabled">Slået fra</string>
-    <string name="pref_appearance_locale_header">Lokalisering</string>
-    <string name="pref_appearance_indentlines_title">Vis Indenterings Linjer</string>
-    <string name="load_more_posts">Indlæs flere opslag</string>
-    <string name="pref_behaviour_postcount_title">Begræns antal af opslag</string>
-    <string name="pref_behaviour_postcount_items_all">Alle</string>
-    <string name="time_year">År</string>
-    <string name="time_years">år</string>
-    <string name="time_month">måned</string>
-    <string name="time_months">måneder</string>
-    <string name="time_day">dag</string>
-    <string name="time_days">dage</string>
-    <string name="time_hour">time</string>
-    <string name="time_hours">timer</string>
-    <string name="time_min">minut</string>
-    <string name="time_mins">minutter</string>
-    <string name="time_sec">sekund</string>
-    <string name="time_secs">sekunder</string>
-    <string name="time_ms">millisekund</string>
-    <string name="error_disk_space_title">Mangel på diskplads</string>
-    <string name="options_subscribe">Abonner</string>
-    <string name="options_unsubscribe">Opsig abonnement</string>
-    <string name="options_sidebar">Vis Sidemenu</string>
-    <string name="pref_menus_mainmenu_useritems_title">Hovedmenu bruger-elementer</string>
-    <string name="mainmenu_modmail">Moderator Post</string>
-    <string name="sidebar_activity_title">Sidemenu</string>
-    <string name="invalid_subreddit_name">Ugyldig subreddit navn</string>
-    <string name="web_view_clear_cache">Slet Cahce</string>
-    <string name="web_view_clear_cache_success_toast">Slettede chache, historie, cookies og formular data.</string>
-    <string name="gold">Guld</string>
-    <string name="pref_appearance_comment_header_items_gold">Reddit Guld</string>
-    <string name="karma_link">Link Karma</string>
-    <string name="karma_comment">Kommentár Karma</string>
-    <string name="imageview_decode_failed">Dekodning af billede fejlede. Prøver intern browser.</string>
-    <string name="user_comments">Kommentarer</string>
-    <string name="comment_header_specific_thread_message">"Klik her for at se alle kommentarer i dette oplsag. "</string>
-    <string name="action_comment_context">Kontekst</string>
-    <string name="action_comment_go_to">Gå til Kommentár</string>
-    <string name="webview_https_already">Den nuværende addresse bruger allerede HTTPS.</string>
-    <string name="webview_https_unknownprotocol">Ukendt protokol, forventede \'http://\'</string>
-    <string name="webview_use_https">Brug HTTPS</string>
-    <string name="sort_posts_relevance">relevans</string>
-    <string name="sort_posts_comments">Kommentarer</string>
-    <string name="mark_all_as_read">Markér alle som læst</string>
-    <string name="mark_all_as_read_success">Alle beskeder er markéret som læst.</string>
-    <string name="error_title_login_user_denied_permission">Adgang nægtet</string>
-    <string name="error_message_login_user_denied_permission">Adgang till denne konto blev ikke godkendt, Prøv venligst igen.</string>
-    <string name="error_title_login_unknown_reddit_error">Ukendt reddit fejl: %s</string>
-    <string name="imageview_invalid_video">Ugyldig video. Prøver intern browser.</string>
-    <string name="download_authorizing">verificerer…</string>
-    <string name="pref_behaviour_skiptofrontpage_title">Hop til forsiden</string>
-    <string name="error_archived_vote">Dette opslag er akiveret og kan ikke længere blive voteret.</string>
-    <string name="pref_behaviour_screenorientation_title">Skærmretning</string>
-    <string name="screen_orientation_auto">Automatisk</string>
-    <string name="screen_orientation_portrait">Portræt</string>
-    <string name="screen_orientation_landscape">Landskab</string>
-    <string name="options_close_all">Luk alle</string>
-    <string name="pref_menus_optionsmenu_items_title">Instillinger Menuelementer</string>
-    <string name="pref_behaviour_gifview_mode_title">GIF afspiller</string>
-    <string name="pref_behaviour_gifview_mode_internal_movie">Intern afspiller (Movie, Android 4.0+)</string>
-    <string name="pref_behaviour_gifview_mode_internal_legacy">Intern afspiller (Forældet)</string>
-    <string name="pref_behaviour_view_mode_internal_browser">Intern browser</string>
-    <string name="pref_behaviour_view_mode_external_browser">Ekstern browser</string>
-    <string name="action_delete">Slet</string>
-    <string name="delete_confirm">Er du sikker på at du vil fjerne dette\?</string>
-    <string name="delete_success">Succesfuldt slettet. Elementet vil forblive synligt indtil du genindlæser.</string>
-    <string name="pref_appearance_hide_username_main_menu_title">Skjul brugernavn i hovedmenuen</string>
-    <string name="selected_link_is_not_image">Det valgte link er ikke et billede.</string>
-    <string name="imgur_album">Imgur album</string>
-    <string name="album_already_first_image">Allerede ved det første billede i albummet.</string>
-    <string name="album_already_last_image">Allerede ved det sidste billede i albummet.</string>
-    <string name="upgrade_v190_login_message">RedReader er blevet opgraderet og bruger nu OAuth til reddit login. Hvis du var logget ind som en bruger før denne opgradering, er du nu logget ud.</string>
-    <string name="pref_behaviour_videoview_mode_title">Videoafspiller</string>
-    <string name="pref_behaviour_videoview_mode_internal_videoview">Intern videoafspiller (foreslået)</string>
-    <string name="pref_behaviour_videoview_mode_external_app_vlc">Ekstern App: VLC</string>
-    <string name="videoview_mode_app_vlc_launch_failed">Kunne ikke start VLC, Vensligt opgrader VLC eller ænder dine videoafspiller indstillinger.</string>
-    <string name="error_url_required_title">URL påkrævet</string>
-    <string name="error_url_required_message">Der er nødvændigt at specificere et URL.</string>
-    <string name="sort_comments_qa">Spørgsmål of Svar</string>
-    <string name="pref_cache_precache_comments_header">Precache Kommentarer</string>
-    <string name="pref_cache_precache_comments_title">Precache kommentarer</string>
-    <string name="pref_cache_precache_comments_wifionly_title">Kun på WI-FI</string>
-    <string name="mainmenu_header_subreddits_pinned">Tilføjede Subreddits</string>
-    <string name="pin_subreddit">Tilføj til Forsiden</string>
-    <string name="unpin_subreddit">Fjern fra Forsiden</string>
-    <string name="props_image_title">Billedinformation</string>
-    <string name="props_caption">Billedtekst</string>
-    <string name="props_resolution">Opløsning</string>
-    <string name="error_too_fast_title">For hurtigt</string>
-    <string name="error_too_fast_message">Reddit siger at du laver nye opslag for hurtigt. Vent venligst et par minutter før du prøver igen.</string>
-    <string name="block_subreddit">Blokér Subreddit</string>
-    <string name="pref_behaviour_comments_header">Kommentarer</string>
-    <string name="open_with">Åben med</string>
-    <string name="pref_network_tor_title">Brug TOR (eksperimentel)</string>
-    <string name="error_tor_not_installed">TOR virker ikke hvis uden Orbot. Hvil du installere Orbot nu\?</string>
-    <string name="error_tor_setting_failed">Kunne ikke konfigurere proxy.</string>
-    <string name="error_parse_imgur_title">Indlæsnings Fejl</string>
-    <string name="error_parse_imgur_message">Imgur sente data der ikke kunne indlæses.</string>
-    <string name="error_upload_fail_imgur_title">Upload fejlede</string>
-    <string name="no_file_selected">Ingen fil er valgt</string>
-    <string name="button_browse">Gennemse…</string>
-    <string name="error_file_too_big_title">Filen er for stor</string>
-    <string name="error_file_open_failed_title">Kunne ikke åbne fil</string>
-    <string name="error_file_open_failed_message">Der opstod en fejl ved åbning af denne fil.</string>
-    <string name="image_selected_summary">Valgte billede: %1$dx%2$d, %3$s</string>
-    <string name="submit_post_title_empty">Titel kan ikke være tom</string>
-    <string name="submit_post_url_empty">URL kan ikke være tom</string>
-    <string name="pref_behaviour_imageview_mode_title">Billedfremviser</string>
-    <string name="pref_behaviour_imageview_mode_internal_opengl">Billedfremviser (OpenGL)</string>
-    <string name="pref_behaviour_albumview_mode_title">Album Viser</string>
-    <string name="pref_behaviour_albumview_mode_internal_list">Intern viser (liste)</string>
-    <string name="error_tor_start_failed">Orbot kunne ikke starte. Tor vil ikke virke korrekt.</string>
-    <string name="inbox_unread_only">Kun Ulæste Beskeder</string>
-    <string name="pref_behaviour_actions_comment_longclick_title">Kommentar Langt Klik Handling</string>
-    <string name="no_comments_yet">Der er ingen endnu.</string>
-    <string name="pm_send_hint_recipient">Modtager</string>
-    <string name="pm_send_hint_subject">Emne</string>
-    <string name="pm_send_hint_message_text">Besked tekst</string>
-    <string name="pm_send_done">Besked sendt.</string>
-    <string name="userprofile_pm">Send Besked</string>
-    <string name="error_too_long_title">For lang</string>
-    <string name="error_too_long_message">Reddit siger at din besked er for lang.</string>
-    <string name="pm_send_actionbar">Send Besked</string>
-    <string name="submit_post_actionbar">Tilføj Opslag</string>
-    <string name="submit_comment_actionbar">"Tilføj Kommentar "</string>
-    <string name="edit_comment_actionbar">Redigér Kommentar</string>
-    <string name="action_search_comments">Søg I Kommentarer</string>
-    <string name="pref_appearance_navbar_color_title">Navigationsbar Farve</string>
-    <string name="pref_appearance_navbar_color_option_black">Sort</string>
-    <string name="pref_appearance_navbar_color_option_primary">Primær (lys)</string>
-    <string name="pref_appearance_navbar_color_option_primarydark">Primær (mørk)</string>
-    <string name="pref_not_supported_before_lollipop">"Ikke supporteret  før Android Lollipop"</string>
-    <string name="action_copy_text">Kopiér Tekst</string>
-    <string name="action_copy_link">Kopiér Link</string>
-    <string name="pref_behaviour_postsort">Standard oplægssortering</string>
-    <string name="mainmenu_custom_destination">Brugerdefineret Lokation</string>
-    <string name="mainmenu_custom_destination_user">Bruger</string>
-    <string name="mainmenu_custom_destination_search">Søg</string>
-    <string name="pref_behaviour_share_permalink_title">Del som permalink</string>
-    <string name="pref_cache_general_header">Generelt</string>
-    <string name="pref_cache_location_title">Cache opbevaringsted</string>
-    <string name="error_cache_dir_does_not_exist_title">Manglende cache mappe</string>
-    <string name="error_cache_dir_does_not_exist_message">Cahce mappen kunne ikke tilgås. Vælg venligst en anden mappe i cache instillingerne.</string>
-    <string name="load_more_comments_failed_unknown_url_type">Kan ikke hente flere kommentarer: Ukendt URL type.</string>
-    <string name="pref_appearance_image_viewer_header">Billedfremviser</string>
-    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Vis flydende værktøjslinje over billede</string>
-    <string name="pref_appearance_link_text_clickable_title">Gør link tekst klikbart</string>
-    <string name="pref_appearance_hide_android_status_title">Skjul Android statuslinje</string>
-    <string name="sort_blocked_subreddit_name">Efter Navn</string>
-    <string name="sort_blocked_subreddit_date">Efter Tilføjsdato</string>
-    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Vis blokerede subreddits på forsiden</string>
-    <string name="pref_cache_rerequest_postlist_age_title">Genindlæs oplæg hvis cachen er ældre end</string>
-    <string name="time_2hr">2 timer</string>
-    <string name="time_3hr">3 timer</string>
-    <string name="time_every_time">Hver gang</string>
-    <string name="theme_name_night_lowcontrast">Nat (lav kontrast)</string>
-    <string name="theme_name_ultrablack">Ultra Sort</string>
-    <string name="send_replies_to_inbox">Send svar til min inboks</string>
-    <string name="action_share_image">Del Billede</string>
-    <string name="error_403_title_nonreddit">Adgang Nægtet</string>
-    <string name="error_403_message_nonreddit">Serveren svarede med en adgang nægtet fejl.</string>
-    <string name="submit_pmreply_actionbar">Svar</string>
-    <string name="pm_reply_done">Svar sendt.</string>
-    <string name="mainmenu_popular">Populære Subreddits</string>
-    <string name="action_back">Tilbage</string>
-    <string name="mainmenu_toast_not_subscribed">Du abonnerer ikke på dette subreddit endnu!</string>
-    <string name="mainmenu_toast_subscribed">Du abonnerer allerede på dette subreddit!</string>
-    <string name="mainmenu_toast_not_pinned">Dette subreddit er ikke tilføjet til til forsiden!</string>
-    <string name="mainmenu_toast_pinned">Dette subreddit er allerede tilføjet til forsiden!</string>
-    <string name="mainmenu_toast_not_blocked">Dette Subreddit er ikke blokeret!</string>
-    <string name="mainmenu_toast_blocked">Dette Subreddit er allerede blockeret!</string>
-    <string name="post_edit_done">Oplag redigeret. Ændringerne vil blive synlige efter en genindlæsning.</string>
-    <string name="action_block_subreddit">Blokér Subreddit</string>
-    <string name="action_unblock_subreddit">Fjern Blokering Af Subreddit</string>
-    <string name="action_pin_subreddit">"Tilføj Subreddit til Forsiden "</string>
-    <string name="action_unpin_subreddit">Fjern Subreddit fra Forsiden</string>
-    <string name="action_subscribe_subreddit">Abonner på Subreddit</string>
-    <string name="download_link_title">Download Fil</string>
-    <string name="error_no_suitable_apps_available">Der kunne ikke findes nogle egnede apps.</string>
-    <string name="pref_behaviour_sharing_share_text_title">Inkluder tekst når kommentaren deles</string>
-    <string name="mainmenu_random">Tilfældigt Subreddit</string>
-    <string name="pref_menus_show_random_main_menu_title">Vis /r/random i hovedmenuen</string>
-    <string name="pref_behaviour_sharing_header">Deler</string>
-    <string name="pref_behaviour_sharing_include_desc_title">"Inkludér title/beskrivelse når deles "</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Indlæs flere kommentarer (%d svar)"</item>
-		<item quantity="other">"Indlæs flere kommentarer (%d svar)"</item>
-	</plurals>
-</resources>
+    </resources>

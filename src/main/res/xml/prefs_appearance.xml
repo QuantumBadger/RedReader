@@ -23,19 +23,13 @@
 						android:key="@string/pref_appearance_left_handed_key"
 						android:defaultValue="false"/>
 
-	<ListPreference android:title="@string/pref_appearance_twopane_title"
-					android:key="@string/pref_appearance_twopane_key"
-					android:entries="@array/pref_appearance_twopane"
-					android:entryValues="@array/pref_appearance_twopane_return"
-					android:defaultValue="auto"/>
-
     <PreferenceCategory android:title="@string/pref_appearance_theme_header">
 
         <ListPreference android:title="@string/pref_appearance_theme_title"
                         android:key="@string/pref_appearance_theme_key"
                         android:entries="@array/pref_appearance_theme"
                         android:entryValues="@array/pref_appearance_theme_return"
-                        android:defaultValue="red"/>
+                        android:defaultValue="night_lowcontrast"/>
 
 		<ListPreference android:title="@string/pref_appearance_navbar_color_title"
 						android:key="@string/pref_appearance_navbar_color_key"
@@ -43,22 +37,8 @@
 						android:entryValues="@array/pref_appearance_navbar_color_options_return"
 						android:defaultValue="black"/>
 
-		<ListPreference android:title="@string/pref_appearance_hide_android_status_title"
-						android:key="@string/pref_appearance_android_status_key"
-						android:entries="@array/pref_appearance_android_status_items"
-						android:entryValues="@array/pref_appearance_android_status_items_return"
-						android:defaultValue="never_hide"/>
-
-	</PreferenceCategory>
-
-	<PreferenceCategory android:title="@string/pref_appearance_toolbar_header">
-
-		<CheckBoxPreference android:title="@string/pref_appearance_hide_toolbar_on_scroll_title"
-							android:key="@string/pref_appearance_hide_toolbar_on_scroll_key"
-							android:defaultValue="false"/>
-
-		<CheckBoxPreference android:title="@string/pref_appearance_bottom_toolbar_title"
-							android:key="@string/pref_appearance_bottom_toolbar_key"
+		<CheckBoxPreference android:title="@string/pref_appearance_hide_android_status_title"
+							android:key="@string/pref_appearance_hide_android_status_key"
 							android:defaultValue="false"/>
 
     </PreferenceCategory>
@@ -73,59 +53,63 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_appearance_font_header">
 
-	<PreferenceCategory android:title="@string/pref_appearance_posts_header">
+        <ListPreference android:title="@string/pref_appearance_fontscale_posts_title"
+                        android:key="@string/pref_appearance_fontscale_posts_key"
+                        android:entries="@array/pref_appearance_fontscale"
+                        android:entryValues="@array/pref_appearance_fontscale_return"
+                        android:defaultValue="1"/>
 
-		<MultiSelectListPreference
-			android:dialogTitle="@string/pref_appearance_post_subtitle_items_title"
-			android:key="@string/pref_appearance_post_subtitle_items_key"
-			android:title="@string/pref_appearance_post_subtitle_items_title"
-			android:entries="@array/pref_appearance_post_subtitle_items"
-			android:entryValues="@array/pref_appearance_post_subtitle_items_return"
-			android:defaultValue="@array/pref_appearance_post_subtitle_items_default" />
+        <ListPreference android:title="@string/pref_appearance_fontscale_comments_title"
+                        android:key="@string/pref_appearance_fontscale_comments_key"
+                        android:entries="@array/pref_appearance_fontscale"
+                        android:entryValues="@array/pref_appearance_fontscale_return"
+                        android:defaultValue="1"/>
 
-		<ListPreference android:title="@string/pref_appearance_post_age_units_title"
-						android:key="@string/pref_appearance_post_age_units_key"
-						android:entries="@array/pref_appearance_age_units_items"
-						android:entryValues="@array/pref_appearance_age_units_return"
-						android:defaultValue="2"/>
+        <ListPreference android:title="@string/pref_appearance_fontscale_inbox_title"
+                        android:key="@string/pref_appearance_fontscale_inbox_key"
+                        android:entries="@array/pref_appearance_fontscale"
+                        android:entryValues="@array/pref_appearance_fontscale_return"
+                        android:defaultValue="1"/>
 
-		<CheckBoxPreference android:title="@string/pref_appearance_post_subtitle_items_use_different_settings_title"
-							android:key="@string/pref_appearance_post_subtitle_items_use_different_settings_key"
-							android:defaultValue="false"/>
+    </PreferenceCategory>
 
-		<MultiSelectListPreference
-			android:dialogTitle="@string/pref_appearance_post_header_subtitle_items_title"
-			android:key="@string/pref_appearance_post_header_subtitle_items_key"
-			android:dependency="@string/pref_appearance_post_subtitle_items_use_different_settings_key"
-			android:title="@string/pref_appearance_post_header_subtitle_items_title"
-			android:entries="@array/pref_appearance_post_subtitle_items"
-			android:entryValues="@array/pref_appearance_post_subtitle_items_return"
-			android:defaultValue="@array/pref_appearance_post_subtitle_items_default" />
+	<PreferenceCategory android:title="@string/pref_appearance_image_viewer_header">
 
-		<ListPreference android:title="@string/pref_appearance_post_header_age_units_title"
-						android:key="@string/pref_appearance_post_header_age_units_key"
-						android:dependency="@string/pref_appearance_post_subtitle_items_use_different_settings_key"
-						android:entries="@array/pref_appearance_age_units_items"
-						android:entryValues="@array/pref_appearance_age_units_return"
-						android:defaultValue="2"/>
-
-		<CheckBoxPreference
-				android:title="@string/pref_appearance_post_show_comments_button_title"
-				android:key="@string/pref_appearance_post_show_comments_button_key"
-				android:defaultValue="true"/>
-
-		<CheckBoxPreference
-				android:title="@string/pref_appearance_post_hide_subreddit_header_title"
-				android:key="@string/pref_appearance_post_hide_subreddit_header_key"
-				android:defaultValue="false"/>
-
-		<CheckBoxPreference
-				android:title="@string/pref_appearance_hide_headertoolbar_postlist_title"
-				android:key="@string/pref_appearance_hide_headertoolbar_postlist_key"
-				android:defaultValue="false"/>
+		<CheckBoxPreference android:title="@string/pref_appearance_image_viewer_show_floating_toolbar_title"
+							android:key="@string/pref_appearance_image_viewer_show_floating_toolbar_key"
+							android:defaultValue="true"/>
 
 	</PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_appearance_thumbnails_header">
+
+        <CheckBoxPreference android:title="@string/pref_appearance_thumbnails_show_title"
+                            android:key="@string/pref_appearance_thumbnails_show_key"
+                            android:defaultValue="true"/>
+
+        <CheckBoxPreference android:title="@string/pref_appearance_thumbnails_wifionly_title"
+                            android:key="@string/pref_appearance_thumbnails_wifionly_key"
+                            android:dependency="@string/pref_appearance_thumbnails_show_key"
+                            android:defaultValue="false"/>
+
+        <CheckBoxPreference android:title="@string/pref_appearance_thumbnails_nsfw_show_title"
+                            android:key="@string/pref_appearance_thumbnails_nsfw_show_key"
+                            android:dependency="@string/pref_appearance_thumbnails_show_key"
+                            android:defaultValue="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_appearance_tabletmode_header">
+
+        <ListPreference android:title="@string/pref_appearance_twopane_title"
+                        android:key="@string/pref_appearance_twopane_key"
+                        android:entries="@array/pref_appearance_twopane"
+                        android:entryValues="@array/pref_appearance_twopane_return"
+                        android:defaultValue="auto"/>
+
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_appearance_comments_header">
 
@@ -141,18 +125,6 @@
             android:entryValues="@array/pref_appearance_comment_header_items_return"
             android:defaultValue="@array/pref_appearance_comment_header_items_default" />
 
-		<ListPreference android:title="@string/pref_appearance_comment_age_units_title"
-						android:key="@string/pref_appearance_comment_age_units_key"
-						android:entries="@array/pref_appearance_age_units_items"
-						android:entryValues="@array/pref_appearance_age_units_return"
-						android:defaultValue="2"/>
-
-		<ListPreference android:title="@string/pref_appearance_comment_age_mode_title"
-						android:key="@string/pref_appearance_comment_age_mode_key"
-						android:entries="@array/pref_appearance_comment_age_mode_items"
-						android:entryValues="@array/pref_appearance_comment_age_mode_return"
-						android:defaultValue="absolute"/>
-
         <CheckBoxPreference android:title="@string/pref_appearance_linkbuttons_title"
                             android:key="@string/pref_appearance_linkbuttons_key"
                             android:defaultValue="true"/>
@@ -165,21 +137,6 @@
                             android:key="@string/pref_appearance_indentlines_key"
                             android:defaultValue="false"/>
 
-		<CheckBoxPreference
-				android:title="@string/pref_appearance_hide_headertoolbar_commentlist_title"
-				android:key="@string/pref_appearance_hide_headertoolbar_commentlist_key"
-				android:defaultValue="false"/>
-
     </PreferenceCategory>
-
-	<PreferenceCategory android:title="@string/pref_appearance_inbox_header">
-
-		<ListPreference android:title="@string/pref_appearance_inbox_age_units_title"
-						android:key="@string/pref_appearance_inbox_age_units_key"
-						android:entries="@array/pref_appearance_age_units_items"
-						android:entryValues="@array/pref_appearance_age_units_return"
-						android:defaultValue="2"/>
-
-	</PreferenceCategory>
 
 </PreferenceScreen>

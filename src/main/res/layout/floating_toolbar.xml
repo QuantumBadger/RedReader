@@ -18,14 +18,12 @@
   -->
 
 <LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="bottom|right"
-		android:layout_margin="24dp"
-		android:background="#c8000000"
-		android:elevation="2dp"
-		android:orientation="horizontal"
-		android:visibility="gone"
-		tools:ignore="Overdraw,RtlHardcoded,UnusedAttribute" />
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:layout_gravity="bottom|end"
+	android:layout_margin="24dp"
+	android:background="#c8000000"
+	android:orientation="horizontal"
+	android:visibility="gone"
+	android:elevation="2dp"/>

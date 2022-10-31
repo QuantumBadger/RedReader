@@ -31,7 +31,8 @@
               android:textColor="?rrPostFlingTextCol"
               android:textAllCaps="true"
 			  android:visibility="invisible"
-			  tools:ignore="RtlHardcoded"/>
+			  android:text="Placeholder"
+			  tools:ignore="HardcodedText"/>
 
     <TextView android:id="@+id/reddit_post_fling_text_left"
 			  android:layout_height="wrap_content"
@@ -42,6 +43,7 @@
 			  android:textColor="?rrPostFlingTextCol"
 			  android:textAllCaps="true"
 			  android:visibility="invisible"
-			  tools:ignore="RtlHardcoded"/>
+			  android:text="Placeholder"
+			  tools:ignore="HardcodedText"/>
 
 </FrameLayout>

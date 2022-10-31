@@ -1,227 +1,11 @@
-104/1.20
-Renamed "Find Subreddit" to "Find Location"
-Find Location: Now lets you jump to a specific subreddit/user without waiting for the search
-Find Location: Existing subscriptions now appear immediately with no loading time, and descriptions are hidden
-Added preference to keep screen awake (thanks to Thung Yong Han)
-Ability to show comment count in post subtitle (thanks to Cameron Merkel)
-Ability to hide subreddit header (thanks to Cameron Merkel)
-Use updated RedGIFs API
-Fixed parse error when viewing deleted posts
-
-103/1.19
-Ability to search for subreddits
-Collapse sticky comments from bots (on by default)
-Ability to show upvote percentage in post subtitle (thanks to Cameron Merkel)
-Highlight suggested sort in sort menu (thanks to Cameron Merkel)
-Prevent replying to locked posts (thanks to Cameron Merkel)
-Added option to block screenshots (thanks to Cameron Merkel)
-Added long-click menu to grey subreddit heading bar (thanks to Cameron Merkel)
-Updated default subreddit list (thanks to Cameron Merkel)
-Fix issue with copying links (thanks to Cameron Merkel)
-Allows reporting uncaught exceptions
-Fix to sample flag handling when saving Reddit videos
-Accessibility: announce relative level of comments within a thread (on by default)
-Accessibility: add option to use concise language when possible (off by default) for more efficient navigation (thanks to codeofdusk)
-Accessibility: announce if the current user has upvoted/downvoted posts and comments (thanks to codeofdusk)
-Accessibility: announce if a post has been previously read (thanks to codeofdusk)
-Accessibility: enable "separate body text lines" by default for new installs (thanks to codeofdusk)
-Accessibility: add pause in between post title and subtitle so they don't get combined into one sentence
-Accessibility: text improvements (thanks to codeofdusk)
-Dependency updates
-
-102/1.18.1
-Disable repeated Orbot installation prompts when Tor is enabled
-Rename "Share/Save Image" to "Share/Save Media"
-Sharing a link to a v.botForum.net post now uses comments page
-
-101/1.18
-Saved/shared videos from v.botForum.net now have audio attached
-Imgur upload reliability improved
-Search multireddits and subreddit combinations (thanks to Cameron Merkel)
-Allow status bar to be hidden only when viewing media (thanks to Cameron Merkel)
-Highlight moderator/admin username for distinguished posts (thanks to Cameron Merkel)
-Allow specifying date range when sorting by controversial (thanks to Cameron Merkel)
-Allow specifying date range for searches (thanks to Cameron Merkel)
-Include author mod/admin/submitter role in accessibility description (thanks to Cameron Merkel)
-Show message when no posts are available (thanks to Cameron Merkel)
-Show parent comment after submitting reply
-More detail in errors for failed API requests
-Wrap long text in preferences (thanks to Cameron Merkel)
-Subreddit blocking now applies to /r/popular and the front page (thanks to Cameron Merkel)
-Update post header even when the toolbar is disabled (thanks to Cameron Merkel)
-Show tooltips when long-pressing toolbar buttons (thanks to Cameron Merkel)
-Search queries are no longer forced to lowercase (thanks to Cameron Merkel)
-Take NSFW preference into account in API requests (thanks to Cameron Merkel)
-Prevent replying to archived posts and comments (thanks to Cameron Merkel)
-Add optional indicator (†) for comments voted controversial (thanks to Cameron Merkel)
-Add reply option to post action menu (thanks to Cameron Merkel)
-Show radio buttons on sort menus (thanks to Cameron Merkel)
-Preserve self-text collapse state if activity gets recreated (thanks to Cameron Merkel)
-Disable hiding of read posts in user post lists (thanks to Cameron Merkel)
-Make videos loop more smoothly (thanks to Cameron Merkel)
-Handle non-HTTP URLs using native apps in WebView (thanks to Avik Das)
-Various code cleanup (thanks to TacoTheDank and Cameron Merkel)
-Translation updates (thanks to Andrey F, Atrate, Dan McElroy, Dwaris, Eric, Gediminas Murauskas, GM, Gontzal Manuel Pujana Onaindia, Ihor Hordiichuk, Jurijus, Kaantaja, lucanomax, ndrnry, PandaCoderPL, phlostically, Sergio Varela, ToldYouThat, Verdulo, zeritti, and zmni)
-
-100/1.17.3
-Adding workaround for TLS 1.2 support on Android 4
-
-99/1.17.2
-Fixing issue where non-video image previews have a "play" button overlaid
-Fix for "Action bar items" setting not working
-
-98/1.17.1
-Fixing crash relating to post submission
-More descriptive errors on comment submit failure
-Redirect to new post after submitting
-Fixed crash when clicking on non-AMP Google links
-Fixed crash due to missing external web browser
-
-97/1.17
-Ability to choose flair when submitting posts
-Ability to backup and restore app preferences
-Better errors for subreddit content rules when submitting posts
-Improved image preview resolution selection for tall images
-Added toggles for hiding thumbnails/previews on spoiler posts (thanks to FintasticMan)
-Ability to customize comment long-tap menu (thanks to Cameron Merkel)
-Added preference to make tapping post title open comments (thanks to mgurga)
-Added accessibility preference for minimum comment height (thanks to Cameron Merkel)
-Added more options for post and comment fling actions (thanks to Cameron Merkel)
-Private message compose links are now handled (thanks to Cameron Merkel)
-Added preference to enable viewing sent messages (thanks to Cameron Merkel)
-Opts out of Google's WebView metrics collection
-Handle AMP links and "open in reddit app" links
-Added content descriptions for media buttons (thanks to Cameron Merkel)
-Fixed issue where tapping a loading image would close it (thanks to Cameron Merkel)
-Fixed issue where edited posts weren't marked
-Fixed video controls issue where rewinding could go to negative time (thanks to Cameron Merkel)
-Handle inbox messages from subreddits correctly
-Allow custom text selection actions in Android 11
-Workaround for Android crash due to large images
-Fixes for various rare crashes
-Workaround for third party share apps
-Translation updates (thanks to Abdullah Gulabi, Andrey F, Axus Wizix, Emerson Castaneda, Eric, FintasticMan, Fırat Altay, Gontzal Manuel Pujana Onaindia, igosad, lucanomax, Lukman Nulhakim, Meiru, phlostically, Reza Almanda, Sergio Varela, ssantos, Verdulo, Vsevolod, zeritti and zmni)
-
-96/1.16
-Fixed error message when marking all inbox messages as read
-Always set navigation bar to black in image viewer
-Compress cached post/comment listings (makes cache use around 10x less space)
-Performance improvement when loading fonts
-Set notification accent color to red
-No longer auto-collapses own comments, or user profile comments (thanks to Cameron Merkel)
-Show announcements from developer in main menu (with preference to disable)
-Inbox requests are no longer cached
-Fix for cache errors caused by too many files in one directory
-Fix for using internal browser as image viewer
-Fix for streamable.com videos with incorrect mimetype
-Minimum supported Android version is now 4.1
-Translation updates (thanks to Aearil, Atrate, Eric, Gontzal Manuel Pujana Onaindia, lucanomax, ssantos, Verdulo, zeritti, and zmni)
-
-95/1.15
-Inline image previews (and preference to disable)
-Stream videos rather than waiting until download complete
-Preference to change thumbnail size
-Preference to always save images/videos to the system default location without prompting
-Preference to hide toolbar when scrolling
-Preference to disable tap-to-close on images/videos (thanks to Cameron Merkel)
-Added quick account switching menu, with preference to disable (thanks to Cameron Merkel)
-Ability to customize post/comment timestamp format (thanks to Cameron Merkel)
-Preference to require tapping back twice to exit post list (thanks to windsurfer)
-Handle physical enter key in custom location dialog (thanks to windsurfer)
-Ability to clear cache and view cache size (thanks to Cameron Merkel)
-Show subreddit of comments in user profile/inbox (thanks to Cameron Merkel)
-Fixed support for videos/GIFs in reddit galleries
-Use video instead of GIF for i.botForum.net posts
-Added time display in video viewer control bar
-Fixed issue where saved images/videos would be re-downloaded
-Made navigation bar black, added preference to make it white
-Improved right-to-left layout support
-Accessibility improvements
-Performance improvements
-Translation updates (thanks to Allan Nordhøy, Atrate, Bopol, Eric, Gontzal Manuel Pujana Onaindia, J. Lavoie, Karthik Nallasivan, lucanomax, Matthias Paulmier, ssantos, Verdulo, zeritti, zmni)
-
-94/1.14
-Allows saving images to custom location (only on Android 5.0+)
-Uses newer image sharing APIs to avoid permissions issues
-Fixed crash when opening video controls
-Fixed ANR caused by legacy GIF decoding
-Fixed crash when swiping to a deleted image in an album
-Translation updates (thanks to Allan Nordhøy, Bopol, Dan McElroy, Emerson Castaneda, Eric, Fırat Altay, Matthias Paulmier, Verdulo, xGigaa, and zmni)
-
-93/1.13
-Ability to customise action bar buttons (thanks to Cameron Merkel)
-Preferences to hide comments button, and add post context menu item to view comments (thanks to Cameron Merkel)
-Ability to zoom videos to fit the screen (thanks to Cameron Merkel)
-Logins now use external browser by default on old devices
-Restored old behaviour when selecting text in properties dialog
-Fixed redirect loop when visiting deleted Reddit galleries
-Added ability to send reports from the error details dialog
-Improved responsiveness of video seek bar (thanks to Cameron Merkel)
-Enable swipe-to-refresh in the main menu (thanks to Cameron Merkel)
-Add default sort preference for multireddits and user posts/comments (thanks to Cameron Merkel)
-Translation updates (thanks to Allan Nordhøy, Bopol, Emerson Castaneda, Eric, Fırat Altay, Gerry, JoC, Matthias Paulmier, Meiru, Verdulo, zeritti, and zmni)
-
-92/1.12
-Reddit image gallery support
-Internal image viewer now supports Giphy
-Fixed malformed HTML error for unclosed tags and empty comments
-Subscribe/etc menu items now shown for /r/random (thanks to Cameron Merkel)
-Improvements to copying to the clipboard (thanks to Cameron Merkel)
-Up button in settings fixed (now goes back only one level)
-Accessibility improvements (thanks to Cameron Merkel)
-Translation updates (thanks to Allan Nordhøy, Artem, B0pol, Francisco Javier Meléndez Ruiz, Frans de Jonge, Gontzal Manuel Pujana Onaindia, Jeannette L, Jesper, JoC, Karol Kosek, marzzzello, mondstern, Piero Sangino, Riku Viitanen, Verdulo, Vladislav Glinsky, Xiang Xu, zeritti, and zmni!)
-
-91/1.11
-Fix for v.botForum.net videos
-Support for table rendering
-Support for new spoiler syntax, and formatting/links inside spoilers
-Various improvements to markdown rendering
-Added preference to disable new header toolbars
-Keep screen on while playing videos
-Dependency updates (thanks to TacoTheDank)
-Crash fix for users with some non-English locales
-Reorganised menu preferences (thanks to Cameron Merkel)
-
-90/1.10
-Added toolbar when viewing subreddits and comments
-Avoid showing old comment listings (by refreshing if the cached copy is too old)
-Preference to hide items in post subtitle (thanks to Cameron Merkel)
-Fine-grained control over font scaling (thanks to Cameron Merkel)
-Added custom share dialog with prioritisation, off by default (thanks to LizardWithHat)
-Preserve fields when returning to post submission activity (thanks to fguibourt)
-Fixed issue with HTTP cleartext websites
-Display error when NSFW subreddits are blocked (thanks for Cameron Merkel)
-Various image viewer performance improvements
-Fixed subreddit sidebar on Android 4.x
-Added support for more image hosts (thanks to Tim Coombs)
-Assorted bug fixes (thanks for Cameron Merkel)
-Added Hindi translation (thanks to Chandra Mohan Jha)
-Added Greek translation (thanks to George K)
-Added Japanese translation (thanks to Karthik Nallasivan)
-Added Traditional Chinese translation (thanks to gensitu)
-Assorted translation updates (thanks to Allan Nordhøy, Andrea Troiano, Andrés Hernández, B0pol, Dennis Öberg, Emil Tang Kristensen, Gontzal Manuel Pujana Onaindia, Ignas, Javi Sautua, John Curcio, Karol, LizardWithHat, Louies, Luke, mivek, Mohammed, Nam Portuhkee, Osoitz, Péter Gyetvai, Petter Reinholdtsen, Sohalt, ssantos, Taiite, Venkat Sub, Verdulo, Vladislav Glinsky, wb9688, Wouter Wijsman, zeritti, and zmni!)
-
-89/1.9.11
-Adaptive icon on supported devices (thanks to Riley Inman)
-Added post context menu item to copy self-text (thanks to MichalFerencsik)
-Fixed notifications on Android 8.0+
-Downloads from v.botForum.net saved with .mp4 extension (thanks to sharkwouter)
-Fixed skip to front page setting in two-panel mode (thanks to LizardWithHat)
-Updated French translation (thanks to Tuxicoman2)
-
-87/1.9.10
-Audio now muted by default
-Added preference to move toolbar to bottom of screen (thanks to Cameron Merkel)
-Added aspect ratio indicator while loading images (off by default) (thanks to Cameron Merkel)
-Avoid line-breaks in gilding badge (thanks to Marco Costa)
-In search dialog, keyboard action button now initiates search (thanks to Cameron Merkel)
-Fix for two-factor authentication
+87/1.9.9.2
+SaidIt: improved Android 4.x compatibility
 
 86/1.9.9.1
-Fix for v.botForum.net videos
+Fix for v.redd.it videos
 
 85/1.9.9
-Audio support for v.botForum.net videos using internal player
+Audio support for v.redd.it videos using internal player
 Left-handed mode preference
 Preference to hide read posts (thanks to Andrew Soback)
 Custom Tab preference for web browser (thanks to Cj Malone)
@@ -284,7 +68,7 @@ Fix for floating toolbar repeatedly bouncing (thanks to ajgoda90)
 Spanish typo fix (thanks to badcrc)
 
 81/1.9.8.2.1
-Support for v.botForum.net links
+Support for v.redd.it links
 Preference to enable video playback controls (thanks to ahomphophone)
 Perform temporary file pruning in the background
 Fix for links ending in parentheses
@@ -478,7 +262,7 @@ Removed support for Android 2.x and 3.x
 62/1.8.7.8
 Ability to mark all inbox messages as read
 Added intent support for https (thanks to ajs124)
-Added support for botForum.net links (thanks to ajs124)
+Added support for redd.it links (thanks to ajs124)
 Fixed image view bug when rotating screen while touching (thanks to ThomasKomarnicki)
 Markdown link parsing improvements
 Fixed gif-related hang

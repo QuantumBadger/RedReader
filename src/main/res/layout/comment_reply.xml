@@ -42,12 +42,10 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_margin="10dp"
-			android:hint="@string/edittext_hint_comment_body_text"
 			android:inputType="textCapSentences|textMultiLine"
 			android:scrollHorizontally="false"
 			android:scrollbars="none"
-			android:singleLine="false"
-			android:importantForAutofill="no"/>
+			android:singleLine="false" />
 
 	<TextView
 			android:id="@+id/comment_parent_text"

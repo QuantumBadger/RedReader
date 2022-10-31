@@ -1,141 +1,42 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0"?>
+<ruleset name="Custom ruleset"
+        xmlns="http://pmd.sf.net/ruleset/1.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+        xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
 
-<ruleset
-		xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd"
-		name="Custom ruleset">
+    <rule ref="rulesets/java/basic.xml">
+        <exclude name="CollapsibleIfStatements"/> <!--sometimes forces hard to read code-->
+        <exclude name="AvoidUsingHardCodedIP"/>
+        <exclude name="SimplifiedTernary"/>
+    </rule>
+    <rule ref="rulesets/java/imports.xml" />
+    <rule ref="rulesets/java/unusedcode.xml/UnusedLocalVariable"/>
+    <rule ref="rulesets/java/android.xml"/>
+    <rule ref="rulesets/java/clone.xml"/>
+    <rule ref="rulesets/java/finalizers.xml"/>
+    <rule ref="rulesets/java/migrating.xml"/>
+    <rule ref="rulesets/java/unnecessary.xml">
+        <exclude name="UselessParentheses"/> <!--Too nitpicky-->
+    </rule>
 
-	<description>RedReader custom PMD rules</description>
+    <rule ref="rulesets/java/optimizations.xml/AddEmptyString"/>
+    <rule ref="rulesets/java/optimizations.xml/UseArraysAsList"/>
+    <rule ref="rulesets/java/optimizations.xml/UnnecessaryWrapperObjectCreation"/>
 
-	<!--
-	 	List of rules to be added in future, once the code is cleaned up:
+    <rule ref="rulesets/java/controversial.xml/UnnecessaryConstructor"/>
+    <rule ref="rulesets/java/controversial.xml/UnnecessaryParentheses"/>
 
-		<rule ref="category/java/codestyle.xml/FieldDeclarationsShouldBeAtStartOfClass" />
-	 	<rule ref="category/java/codestyle.xml/FieldNamingConventions" />
-	 	<rule ref="category/java/codestyle.xml/MethodNamingConventions" />
-	 	<rule ref="category/java/codestyle.xml/PrematureDeclaration" />
+    <rule ref="rulesets/java/design.xml/FinalFieldCouldBeStatic"/>
+    <rule ref="rulesets/java/design.xml/CloseResource"/>
+    <rule ref="rulesets/java/design.xml/DefaultLabelNotLastInSwitchStmt"/>
+    <rule ref="rulesets/java/design.xml/UnnecessaryLocalBeforeReturn"/>
+    <rule ref="rulesets/java/design.xml/NonCaseLabelInSwitchStatement"/>
+    <rule ref="rulesets/java/design.xml/EqualsNull"/>
+    <rule ref="rulesets/java/design.xml/IdempotentOperations"/>
+    <rule ref="rulesets/java/design.xml/ImmutableField"/>
+    <rule ref="rulesets/java/design.xml/SingularField"/>
+    <rule ref="rulesets/java/design.xml/SimplifyBooleanExpressions"/>
+    <rule ref="rulesets/java/design.xml/LogicInversion"/>
 
-	 -->
-
-	<rule ref="category/java/bestpractices.xml/AccessorClassGeneration" />
-	<rule ref="category/java/bestpractices.xml/AvoidMessageDigestField" />
-	<rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace" />
-	<rule ref="category/java/bestpractices.xml/AvoidReassigningCatchVariables" />
-	<rule ref="category/java/bestpractices.xml/AvoidStringBufferField" />
-	<rule ref="category/java/bestpractices.xml/CheckResultSet"/>
-	<rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitchStmt"/>
-	<rule ref="category/java/bestpractices.xml/DoubleBraceInitialization" />
-	<rule ref="category/java/bestpractices.xml/ForLoopVariableCount" />
-	<rule ref="category/java/bestpractices.xml/JUnit4SuitesShouldUseSuiteAnnotation"/>
-	<rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseAfterAnnotation"/>
-	<rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseBeforeAnnotation"/>
-	<rule ref="category/java/bestpractices.xml/JUnit4TestShouldUseTestAnnotation"/>
-	<rule ref="category/java/bestpractices.xml/JUnitUseExpected"/>
-	<rule ref="category/java/bestpractices.xml/MissingOverride" />
-	<rule ref="category/java/bestpractices.xml/OneDeclarationPerLine" />
-	<rule ref="category/java/bestpractices.xml/PreserveStackTrace" />
-	<rule ref="category/java/bestpractices.xml/ReplaceEnumerationWithIterator"/>
-	<rule ref="category/java/bestpractices.xml/ReplaceHashtableWithMap"/>
-	<rule ref="category/java/bestpractices.xml/ReplaceVectorWithList"/>
-	<rule ref="category/java/bestpractices.xml/SystemPrintln" />
-	<rule ref="category/java/bestpractices.xml/UnusedAssignment" />
-	<rule ref="category/java/bestpractices.xml/UnusedLocalVariable"/>
-	<rule ref="category/java/bestpractices.xml/UnusedPrivateField" />
-	<rule ref="category/java/bestpractices.xml/UnusedPrivateMethod" />
-	<rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty" />
-	<rule ref="category/java/bestpractices.xml/UseTryWithResources" />
-	<rule ref="category/java/bestpractices.xml/WhileLoopWithLiteralBoolean" />
-	<rule ref="category/java/codestyle.xml/AvoidDollarSigns" />
-	<rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass" />
-	<rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending" />
-	<rule ref="category/java/codestyle.xml/ClassNamingConventions">
-		<properties>
-			<property name="utilityClassPattern" value="[A-Z][a-zA-Z0-9]+" />
-		</properties>
-	</rule>
-	<rule ref="category/java/codestyle.xml/ExtendsObject"/>
-	<rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop"/>
-	<rule ref="category/java/codestyle.xml/FormalParameterNamingConventions" />
-	<rule ref="category/java/codestyle.xml/IdenticalCatchBranches" />
-	<rule ref="category/java/codestyle.xml/LocalVariableCouldBeFinal" />
-	<rule ref="category/java/codestyle.xml/LocalVariableNamingConventions" />
-	<rule ref="category/java/codestyle.xml/MethodArgumentCouldBeFinal" />
-	<rule ref="category/java/codestyle.xml/NoPackage" />
-	<rule ref="category/java/codestyle.xml/PackageCase" />
-	<rule ref="category/java/codestyle.xml/TooManyStaticImports">
-		<properties>
-			<property name="maximumStaticImports" value="0" />
-		</properties>
-	</rule>
-	<rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement" />
-	<rule ref="category/java/codestyle.xml/UnnecessaryCast" />
-	<rule ref="category/java/codestyle.xml/UnnecessaryConstructor"/>
-	<rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName"/>
-	<rule ref="category/java/codestyle.xml/UnnecessaryImport"/>
-	<rule ref="category/java/codestyle.xml/UnnecessaryLocalBeforeReturn"/>
-	<rule ref="category/java/codestyle.xml/UnnecessaryModifier"/>
-	<rule ref="category/java/codestyle.xml/UnnecessaryReturn"/>
-	<rule ref="category/java/codestyle.xml/UseDiamondOperator">
-		<properties>
-			<property name="java7Compatibility" value="false" />
-		</properties>
-	</rule>
-	<rule ref="category/java/codestyle.xml/UseShortArrayInitializer" />
-	<rule ref="category/java/codestyle.xml/UseUnderscoresInNumericLiterals" />
-	<rule ref="category/java/codestyle.xml/UselessQualifiedThis"/>
-	<rule ref="category/java/design.xml/FinalFieldCouldBeStatic"/>
-	<rule ref="category/java/design.xml/ImmutableField"/>
-	<rule ref="category/java/design.xml/LogicInversion"/>
-	<rule ref="category/java/design.xml/SimplifyBooleanExpressions"/>
-	<rule ref="category/java/design.xml/SingularField"/>
-	<rule ref="category/java/design.xml/UselessOverridingMethod"/>
-	<rule ref="category/java/errorprone.xml/AvoidAssertAsIdentifier"/>
-	<rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop"/>
-	<rule ref="category/java/errorprone.xml/AvoidCallingFinalize"/>
-	<rule ref="category/java/errorprone.xml/AvoidDecimalLiteralsInBigDecimalConstructor"/>
-	<rule ref="category/java/errorprone.xml/AvoidEnumAsIdentifier"/>
-	<rule ref="category/java/errorprone.xml/AvoidMultipleUnaryOperators"/>
-	<rule ref="category/java/errorprone.xml/AvoidUsingOctalValues"/>
-	<rule ref="category/java/errorprone.xml/BrokenNullCheck"/>
-	<rule ref="category/java/errorprone.xml/CallSuperFirst"/>
-	<rule ref="category/java/errorprone.xml/CallSuperLast"/>
-	<rule ref="category/java/errorprone.xml/CheckSkipResult"/>
-	<rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray"/>
-	<rule ref="category/java/errorprone.xml/CloneMethodMustBePublic"/>
-	<rule ref="category/java/errorprone.xml/CloneMethodMustImplementCloneable"/>
-	<rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName"/>
-	<rule ref="category/java/errorprone.xml/CloseResource"/>
-	<rule ref="category/java/errorprone.xml/DoNotHardCodeSDCard"/>
-	<rule ref="category/java/errorprone.xml/DontUseFloatTypeForLoopIndices"/>
-	<rule ref="category/java/errorprone.xml/EmptyFinalizer"/>
-	<rule ref="category/java/errorprone.xml/EqualsNull"/>
-	<rule ref="category/java/errorprone.xml/FinalizeDoesNotCallSuperFinalize"/>
-	<rule ref="category/java/errorprone.xml/FinalizeOnlyCallsSuperFinalize"/>
-	<rule ref="category/java/errorprone.xml/FinalizeOverloaded"/>
-	<rule ref="category/java/errorprone.xml/FinalizeShouldBeProtected"/>
-	<rule ref="category/java/errorprone.xml/IdempotentOperations"/>
-	<rule ref="category/java/errorprone.xml/JumbledIncrementer"/>
-	<rule ref="category/java/errorprone.xml/MisplacedNullCheck"/>
-	<rule ref="category/java/errorprone.xml/NonCaseLabelInSwitchStatement"/>
-	<rule ref="category/java/errorprone.xml/OverrideBothEqualsAndHashcode"/>
-	<rule ref="category/java/errorprone.xml/ProperCloneImplementation"/>
-	<rule ref="category/java/errorprone.xml/ReturnFromFinallyBlock"/>
-	<rule ref="category/java/errorprone.xml/UnconditionalIfStatement"/>
-	<rule ref="category/java/errorprone.xml/UnnecessaryConversionTemporary"/>
-	<rule ref="category/java/errorprone.xml/UnusedNullCheckInEquals"/>
-	<rule ref="category/java/errorprone.xml/UseLocaleWithCaseConversions"/>
-	<rule ref="category/java/errorprone.xml/UselessOperationOnImmutable"/>
-	<rule ref="category/java/multithreading.xml/AvoidThreadGroup"/>
-	<rule ref="category/java/multithreading.xml/DontCallThreadRun"/>
-	<rule ref="category/java/multithreading.xml/DoubleCheckedLocking"/>
-	<rule ref="category/java/performance.xml/AddEmptyString"/>
-	<rule ref="category/java/performance.xml/BigIntegerInstantiation"/>
-	<rule ref="category/java/performance.xml/BooleanInstantiation"/>
-	<rule ref="category/java/performance.xml/ByteInstantiation"/>
-	<rule ref="category/java/performance.xml/IntegerInstantiation"/>
-	<rule ref="category/java/performance.xml/LongInstantiation"/>
-	<rule ref="category/java/performance.xml/ShortInstantiation"/>
-	<rule ref="category/java/performance.xml/UnnecessaryWrapperObjectCreation"/>
-	<rule ref="category/java/performance.xml/UseArraysAsList"/>
 </ruleset>

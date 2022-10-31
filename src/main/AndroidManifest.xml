@@ -16,51 +16,36 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<manifest
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:tools="http://schemas.android.com/tools"
-		package="org.quantumbadger.redreader"
-		android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="org.saiditnet.redreader"
+          android:versionCode="87"
+          android:versionName="1.9.9.2"
+          android:installLocation="auto">
 
     <uses-feature android:glEsVersion="0x00020000" android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-					 tools:ignore="ScopedStorage"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-	<queries>
-		<intent>
-			<action android:name="android.intent.action.PROCESS_TEXT" />
-			<data android:mimeType="text/plain" />
-		</intent>
-	</queries>
-
-    <application android:name="org.quantumbadger.redreader.RedReader"
-                 android:icon="@mipmap/icon"
+    <application android:name="org.saiditnet.redreader.RedReader"
+                 android:icon="@drawable/icon"
                  android:label="@string/app_name"
                  android:theme="@style/RR.Startup"
                  android:largeHeap="true"
                  android:hardwareAccelerated="true"
-                 android:allowBackup="true"
-				 android:fullBackupContent="@xml/backup_rules"
-				 android:supportsRtl="true"
-				 android:usesCleartextTraffic="true"
-				 tools:ignore="UnusedAttribute">
-		<meta-data android:name="android.max_aspect" android:value="3.0" />
+                 android:allowBackup="true">
+		<meta-data android:name="android.max_aspect" android:value="2.1" />
 
 		<meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
 
-		<meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
-
-		<activity android:name=".activities.MainActivity"
-				  android:configChanges="orientation|screenSize|keyboardHidden"
-				  android:clearTaskOnLaunch="false"
-				  android:finishOnTaskLaunch="false"
-				  android:alwaysRetainTaskState="true"
-				  android:exported="true">
+        <activity android:name=".activities.MainActivity"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:clearTaskOnLaunch="false"
+                  android:finishOnTaskLaunch="false"
+                  android:alwaysRetainTaskState="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -73,113 +58,19 @@
         <activity android:name=".settings.SettingsActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden" />
 
-        <activity android:name=".activities.LinkDispatchActivity"
-				  android:exported="true">
-
+        <activity android:name=".activities.LinkDispatchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="botForum.net" />
-                <data android:scheme="https" android:host="botForum.net" />
+                <data android:scheme="http" android:host="*.saidit.net" />
+                <data android:scheme="http" android:host="saidit.net" />
+                <!-- <data android:scheme="http" android:host="redd.it" /> -->
+                <data android:scheme="https" android:host="*.saidit.net" />
+                <data android:scheme="https" android:host="saidit.net" />
+                <!-- <data android:scheme="https" android:host="redd.it" /> -->
             </intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.botforum.net" android:pathPrefix="/s/" />
-				<data android:scheme="http" android:host="botforum.net" android:pathPrefix="/s/" />
-				<data android:scheme="https" android:host="*.botforum.net" android:pathPrefix="/s/" />
-				<data android:scheme="https" android:host="botforum.net" android:pathPrefix="/s/" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.botforum.net" android:pathPrefix="/u/" />
-				<data android:scheme="http" android:host="botforum.net" android:pathPrefix="/u/" />
-				<data android:scheme="https" android:host="*.botforum.net" android:pathPrefix="/u/" />
-				<data android:scheme="https" android:host="botforum.net" android:pathPrefix="/u/" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.botforum.net" android:pathPrefix="/user/" />
-				<data android:scheme="http" android:host="botforum.net" android:pathPrefix="/user/" />
-				<data android:scheme="https" android:host="*.botforum.net" android:pathPrefix="/user/" />
-				<data android:scheme="https" android:host="botforum.net" android:pathPrefix="/user/" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.botforum.net" android:pathPrefix="/comments/" />
-				<data android:scheme="http" android:host="botforum.net" android:pathPrefix="/comments/" />
-				<data android:scheme="https" android:host="*.botforum.net" android:pathPrefix="/comments/" />
-				<data android:scheme="https" android:host="botforum.net" android:pathPrefix="/comments/" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.botforum.net" android:pathPrefix="/message/compose/" />
-				<data android:scheme="http" android:host="botforum.net" android:pathPrefix="/message/compose/" />
-				<data android:scheme="https" android:host="*.botforum.net" android:pathPrefix="/message/compose/" />
-				<data android:scheme="https" android:host="botforum.net" android:pathPrefix="/message/compose/" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data
-						android:host="*.google.com"
-						android:pathPrefix="/amp/s/amp.reddit.com"
-						android:scheme="https"/>
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data
-						android:host="google.com"
-						android:pathPrefix="/amp/s/amp.reddit.com"
-						android:scheme="https"/>
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="reddit.app.link" />
-				<data android:scheme="https" android:host="reddit.app.link" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="reddit" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="redreader" />
-			</intent-filter>
-
         </activity>
-
-		<activity android:name=".activities.RefreshableActivity"
-				  android:configChanges="orientation|screenSize"/>
 
         <activity android:name=".activities.PostListingActivity"
 				  android:configChanges="orientation|screenSize|keyboardHidden" />
@@ -223,8 +114,7 @@
 				  android:configChanges="orientation|screenSize|keyboardHidden"/>
 
         <activity android:name=".activities.PostSubmitActivity"
-				  android:configChanges="orientation|screenSize|keyboardHidden"
-				  android:exported="true">
+                  android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -239,16 +129,9 @@
         <activity android:name=".activities.InboxListingActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
-		<activity android:name=".activities.SubredditSearchActivity"
-				  android:configChanges="orientation|screenSize|keyboardHidden"
-				  android:windowSoftInputMode="adjustResize"/>
-
         <receiver android:name=".receivers.NewMessageChecker"/>
-
         <receiver android:name=".receivers.RegularCachePruner"/>
-
-        <receiver android:name=".receivers.BootReceiver"
-				  android:exported="true">
+        <receiver android:name=".receivers.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
@@ -261,12 +144,17 @@
         <meta-data android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H" android:resource="@dimen/app_defaultsize_h" />
         <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W" android:resource="@dimen/app_minimumsize_w" />
         <meta-data android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H" android:resource="@dimen/app_minimumsize_h" />
-
+		
 		<provider
-				android:name="org.quantumbadger.redreader.cache.CacheContentProvider"
-				android:authorities="org.quantumbadger.redreader.cacheprovider"
+				android:name="android.support.v4.content.FileProvider"
+				android:authorities="org.saiditnet.redreader.provider"
 				android:exported="false"
-				android:grantUriPermissions="true" />
+				android:grantUriPermissions="true">
+			<meta-data
+					android:name="android.support.FILE_PROVIDER_PATHS"
+					android:resource="@xml/file_paths">
+			</meta-data>
+		</provider>
     </application>
 
 </manifest>

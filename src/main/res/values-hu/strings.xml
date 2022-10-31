@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -15,6 +15,7 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
+
 <resources>
 
     <!-- First Run Dialog -->
@@ -34,16 +35,21 @@
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Téma</string>
+    <string name="pref_appearance_font_header">Betűtípus</string>
     <string name="pref_appearance_thumbnails_header">Előnézet</string>
+    <string name="pref_appearance_tabletmode_header">Tablet Mód</string>
     <string name="pref_appearance_comments_header">Hozzászólások</string>
+    <string name="pref_appearance_other_header">Továbbiak</string>
 
     <string name="pref_appearance_twopane_title">Tablet Mód (két sík)</string>
 
     <string name="pref_appearance_theme_title">Téma</string>
 
+    <string name="pref_appearance_solidblack_title">Tömör fekete éjszakai módban</string>
 
     <string name="pref_appearance_fontscale_posts_title">Poszt betűtípus méretszorzó</string>
 
+    <string name="pref_appearance_fontscale_comments_title">Hozzászólás betűtípus méretszorzó</string>
 
     <string name="pref_appearance_thumbnails_show_title">Előnézetek mutatása</string>
 
@@ -51,6 +57,7 @@
 
     <string name="pref_appearance_thumbnails_wifionly_title">Előnézetek csak Wi-Fi-n</string>
 
+    <string name="pref_appearance_loading_detail_title">Részletes betöltőüzenetek mutatása</string>
 
     <string name="pref_appearance_comment_header_items_title">Hozzászólás fejléc</string>
 
@@ -84,6 +91,7 @@
 
     <string name="pref_cache_precache_images_title">Képek előre lehívása</string>
 
+    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_title">Kizárólag Wi-Fi-n</string>
 
     <!-- Menu Prefs -->
@@ -237,8 +245,8 @@
 
     <!-- Image View -->
 
-    <string name="imageview_oom">Nincs elegendő memória. Kísérlet a beépített böngészőben…</string>
-    <string name="imageview_invalid_gif">Érvénytelen GIF. Kísérlet a beépített böngészőben…</string>
+    <string name="imageview_oom">Nincs elegendő memória. Kísélet a böngészőben…</string>
+    <string name="imageview_invalid_gif">Érvénytelen GIF. Kísérlet a böngészőben…</string>
 
     <!-- Comment Reply/Edit, Post Submit -->
 
@@ -251,7 +259,7 @@
     <string name="comment_reply_done">Válasz elküldve. A hozzászólás egy frissítés után megjelenik.</string>
     <string name="comment_edit_done">Hozzászólás módosítva. A változtatás egy frissítés után látszani fog.</string>
     <string name="post_submit_title_hint">Cím</string>
-    <string name="subreddit_selection_textbox_hint">Alreddit</string>
+    <string name="post_submit_subreddit_hint">Alreddit</string>
     <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Küldés</string>
     <string name="post_submit_done">Poszt elküldve.</string>
@@ -295,7 +303,7 @@
     <string name="error_unexpected_storage_title">Nem várt tárolási hiba</string>
     <string name="error_unexpected_storage_message">Ismeretlen eredetű belső hiba történt a tárhellyel kapcsolatban. Valószínűleg túl kevés tárhelyed van már hátra.</string>
 
-    <string name="error_connection_title">Hiba a kapcsolatban</string>
+    <string name="error_connection_title">Connection Error</string>
     <string name="error_connection_message">Probléma lépett fel a szerverhez való kapcsolódás közben. Ellenőrizd az internetkapcsolatodat.</string>
 
     <string name="error_malformed_url_title">Hibásan formázott URL</string>
@@ -323,6 +331,8 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Létrehozott</string>
+    <string name="userprofile_hasmail">Üzenete van</string>
+    <string name="userprofile_hasmodmail">Moderátori üzenete van</string>
     <string name="userprofile_isfriend">Barát</string>
     <string name="userprofile_isgold">Reddit Arany</string>
     <string name="userprofile_moderator">Moderátor</string>
@@ -418,13 +428,18 @@
     <string name="download_subreddits">Alredditek letöltése…</string>
 
     <string name="subtitle_points">p</string>
-    <string name="subtitle_by">általa:</string>
+    <string name="subtitle_by">által:</string>
     <string name="subtitle_to">neki:</string>
+	<plurals name="subtitle_replies">
+		<item quantity="zero">…</item>
+		<item quantity="one">" (%d válasz)"</item>
+		<item quantity="other">" (%d válasz)"</item>
+	</plurals>
 
     <string name="general_unknown">ismeretlen</string>
 
     <string name="action_search">Keresés</string>
-    <string name="search_subreddit_restrict">Keresés szűkítése erre:</string>
+    <string name="search_subreddit_restrict">Keresés szűkítése ide:</string>
 
     <string name="title_changelog">Újdonságok</string>
 
@@ -545,6 +560,7 @@
     <string name="comment_header_specific_thread_message">Érints ide, hogy a poszt összes hozzászólását lásd.</string>
 
     <!-- 2014-12-18 -->
+    <string name="more_comments_button_text">További hozzászólások betöltése</string>
     <string name="action_comment_context">Kontextus</string>
     <string name="action_comment_go_to">Hozzászóláshoz ugrás</string>
 
@@ -599,6 +615,7 @@
     <string name="pref_behaviour_view_mode_external_browser">Külső böngésző</string>
 
     <!-- 2015-08-15 -->
+    <string name="pref_appearance_fontscale_inbox_title">Postaláda betűtípus méretszorzó</string>
 
     <string name="action_delete">Törlés</string>
     <string name="delete_confirm">Biztosan törölni szeretnéd?</string>
@@ -658,8 +675,8 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Alreddit letiltássa</string>
     <string name="unblock_subreddit">Alreddit visszaállítása</string>
-    <string name="block_done">Alreddit letiltva. A jövőbeni /s/all látogatásoknál ki lesz zárva.</string>
-    <string name="unblock_done">Alreddit visszaállítva. A jövőbeni /s/all látogatásoknál mutatva lesz.</string>
+    <string name="block_done">Alreddit letiltva. A jövőbeni /r/all látogatásoknál ki lesz zárva.</string>
+    <string name="unblock_done">Alreddit visszaállítva. A jövőbeni /r/all látogatásoknál mutatva lesz.</string>
 
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Hozzászólások</string>
@@ -818,50 +835,4 @@
 	<!-- 2016-10-08 -->
 	<string name="time_every_time">Mindig</string>
 
-<string name="mainmenu_custom_destination_search">Keresés</string>
-
-	<string name="theme_name_night_lowcontrast">Éjszakai (alacsony kontraszt)</string>
-	<string name="theme_name_ultrablack">Nagyon-nagyon fekete</string>
-
-	<string name="send_replies_to_inbox">Válaszok küldése a bejövő üzenetekbe</string>
-
-	<string name="action_share_image">Kép megosztása</string>
-
-	<string name="error_403_title_nonreddit">Hozzáférés megtagadva</string>
-	<string name="error_403_message_nonreddit">A szerver válasza: Hozzáférés megtagadva.</string>
-
-	<string name="submit_pmreply_actionbar">Válasz</string>
-	<string name="pm_reply_done">Válasz elküldve.</string>
-
-	<string name="mainmenu_popular">Népszerű Alredditek</string>
-
-	<string name="action_back">Vissza</string>
-
-	<string name="mainmenu_toast_not_subscribed">Még nem iratkoztál fel erre az alredditre!</string>
-	<string name="mainmenu_toast_subscribed">Már korábban feliratkoztál erre az alredditre!</string>
-	<string name="mainmenu_toast_not_pinned">Ez az alreddit még nincs kitűzve a főmenüdbe!</string>
-	<string name="mainmenu_toast_pinned">Ez az alreddit már ki van tűzve a főmenüdbe!</string>
-	<string name="mainmenu_toast_not_blocked">Ez az alreddit nincs blokkolva!</string>
-	<string name="mainmenu_toast_blocked">Ez az alreddit már blokkolva van!</string>
-	<string name="edit_post_actionbar">Poszt szerkesztése</string>
-	<string name="post_edit_done">Poszt módosítva. A változások frissítés után jelennek meg.</string>
-	<string name="action_block_subreddit">Alreddit blokkolása</string>
-	<string name="action_unblock_subreddit">Alreddit blokkolásának megszüntetése</string>
-	<string name="action_pin_subreddit">Alreddit kitűzése a főmenübe</string>
-	<string name="action_unpin_subreddit">Alreddit főmenübe való kitűzésének a megszüntetése</string>
-	<string name="action_subscribe_subreddit">Feliratkozás az alredditre</string>
-	<string name="action_unsubscribe_subreddit">Leiratkozás az alredditről</string>
-
-	<string name="button_next_comment_parent">Következő szülő hozzászólás</string>
-	<string name="button_prev_comment_parent">Előző szülő hozzászólás</string>
-
-	<string name="pref_appearance_comments_show_floating_toolbar_title">Lebegő eszköztár megjelenítése a hozzászólások felett</string>
-	<string name="download_link_title">Fájl letöltése</string>
-	<string name="download_link_message">Ez egy letöltés linkje. A külső böngészőben akarod ezt betölteni\?</string>
-
-	<string name="pref_menus_show_popular_main_menu_title">/s/popular megjelenítése a főmenüben</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"További hozzászólások betöltése (%d válasz)"</item>
-		<item quantity="other">"További hozzászólások betöltése (%d válasz)"</item>
-	</plurals>
 </resources>

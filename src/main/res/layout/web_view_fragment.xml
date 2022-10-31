@@ -21,7 +21,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <org.quantumbadger.redreader.views.webview.WebViewFixed
+    <org.saiditnet.redreader.views.webview.WebViewFixed
 			android:id="@+id/web_view_fragment_webviewfixed"
                                                     android:layout_width="match_parent"
                                                     android:layout_height="match_parent"/>

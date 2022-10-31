@@ -16,9 +16,9 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <string name="app_name" translatable="false">RedReader</string>
+    <string name="app_name" translatable="false">SaidIt</string>
 
     <!-- First Run Dialog -->
 
@@ -37,17 +37,25 @@
     <!-- Appearance Prefs -->
 
     <string name="pref_appearance_theme_header">Theme</string>
+    <string name="pref_appearance_font_header">Font</string>
     <string name="pref_appearance_thumbnails_header">Thumbnails</string>
+    <string name="pref_appearance_tabletmode_header">Tablet Mode</string>
     <string name="pref_appearance_comments_header">Comments</string>
+    <string name="pref_appearance_other_header">Other</string>
 
     <string name="pref_appearance_twopane_key" translatable="false">pref_appearance_twopane</string>
-    <string name="pref_appearance_twopane_title">Tablet mode (two pane)</string>
+    <string name="pref_appearance_twopane_title">Tablet Mode (two pane)</string>
 
     <string name="pref_appearance_theme_key" translatable="false">pref_appearance_theme</string>
     <string name="pref_appearance_theme_title">Theme</string>
 
+    <string name="pref_appearance_solidblack_title">Solid black in night mode</string>
+
     <string name="pref_appearance_fontscale_posts_key" translatable="false">pref_appearance_fontscale_posts</string>
-    <string name="pref_appearance_fontscale_posts_title">Post titles</string>
+    <string name="pref_appearance_fontscale_posts_title">Posts Font Scale</string>
+
+    <string name="pref_appearance_fontscale_comments_key" translatable="false">pref_appearance_fontscale_comments</string>
+    <string name="pref_appearance_fontscale_comments_title">Comments Font Scale</string>
 
     <string name="pref_appearance_thumbnails_show_key" translatable="false">pref_appearance_thumbnails_show</string>
     <string name="pref_appearance_thumbnails_show_title">Show thumbnails</string>
@@ -58,8 +66,11 @@
     <string name="pref_appearance_thumbnails_wifionly_key" translatable="false">pref_appearance_thumbnails_wifionly</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnails on Wi-Fi only</string>
 
+    <string name="pref_appearance_loading_detail_key" translatable="false">pref_appearance_loading_detail</string>
+    <string name="pref_appearance_loading_detail_title">Show detailed loading messages</string>
+
     <string name="pref_appearance_comment_header_items_key" translatable="false">pref_appearance_comment_header_items</string>
-    <string name="pref_appearance_comment_header_items_title">Comment header entries</string>
+    <string name="pref_appearance_comment_header_items_title">Comment Header</string>
 
     <!-- Behaviour Prefs -->
 
@@ -71,13 +82,13 @@
     <string name="pref_behaviour_posts_header">Posts</string>
 
     <string name="pref_behaviour_fling_post_left_key" translatable="false">pref_behaviour_fling_post_left</string>
-    <string name="pref_behaviour_fling_post_left_title">Fling left</string>
+    <string name="pref_behaviour_fling_post_left_title">Fling Post Left Action</string>
 
     <string name="pref_behaviour_fling_post_right_key" translatable="false">pref_behaviour_fling_post_right</string>
-    <string name="pref_behaviour_fling_post_right_title">Fling right</string>
+    <string name="pref_behaviour_fling_post_right_title">Fling Post Right Action</string>
 
     <string name="pref_behaviour_actions_comment_tap_key" translatable="false">pref_behaviour_actions_comment_tap</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Press</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Comment Tap Action</string>
 
     <string name="pref_behaviour_nsfw_key" translatable="false">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
@@ -103,28 +114,29 @@
     <string name="pref_cache_precache_images_key" translatable="false">pref_cache_precache_images</string>
     <string name="pref_cache_precache_images_title">Precache images</string>
 
+    <!-- TODO use listpreference instead -->
     <string name="pref_cache_precache_images_wifionly_key" translatable="false">pref_cache_precache_images_wifionly</string>
-    <string name="pref_cache_precache_images_wifionly_title">Only on Wi-Fi</string>
+    <string name="pref_cache_precache_images_wifionly_title">On Wi-Fi only</string>
 
     <!-- Menu Prefs -->
 
     <string name="pref_menus_post_context_items_key" translatable="false">pref_menus_post_context_items_2</string>
-    <string name="pref_menus_post_context_items_title">Action menu items</string>
+    <string name="pref_menus_post_context_items_title">Post Context Menu Items</string>
 
     <string name="pref_menus_post_toolbar_items_key" translatable="false">pref_menus_post_toolbar_items</string>
-    <string name="pref_menus_post_toolbar_items_title">Side-toolbar items</string>
+    <string name="pref_menus_post_toolbar_items_title">Post Toolbar Items</string>
 
     <!-- Options Menu -->
 
     <string name="options_accounts">Accounts</string>
-    <string name="options_accounts_long">Reddit Accounts</string>
+    <string name="options_accounts_long">SaidIt Accounts</string>
     <string name="options_theme">Themes</string>
     <string name="options_settings">Settings</string>
 
     <string name="options_submit_post">Submit Post</string>
 
     <string name="options_refresh">Refresh</string>
-    <string name="options_refresh_subreddits">Refresh Subreddits</string>
+    <string name="options_refresh_subreddits">Refresh Subs</string>
     <string name="options_refresh_posts">Refresh Posts</string>
     <string name="options_refresh_comments">Refresh Comments</string>
 
@@ -133,22 +145,23 @@
     <string name="options_past_comments">Past Comment List Versions</string>
 
     <string name="options_sort">Sort</string>
-    <string name="options_sort_subreddits">Sort Subreddits</string>
+    <string name="options_sort_subreddits">Sort Subs</string>
     <string name="options_sort_posts">Sort Posts</string>
     <string name="options_sort_comments">Sort Comments</string>
 
     <!-- Main Menu -->
 
     <string name="mainmenu_frontpage">Front Page</string>
-    <string name="mainmenu_all">All Subreddits</string>
-    <string name="mainmenu_custom">Custom Subreddit</string>
-    <string name="mainmenu_custom_invalid_name">Invalid subreddit name.</string>
+    <string name="mainmenu_all">All Subs</string>
+    <string name="mainmenu_custom">Custom Sub</string>
+    <string name="mainmenu_custom_invalid_name">Invalid sub name.</string>
     <string name="mainmenu_saved">Saved Posts</string>
     <string name="mainmenu_hidden">Hidden Posts</string>
-    <string name="mainmenu_upvoted">Upvoted Posts</string>
+    <string name="mainmenu_upvoted">Voted Insightful Posts</string>
     <string name="mainmenu_inbox">Inbox</string>
     <string name="mainmenu_profile">My Profile</string>
-    <string name="mainmenu_header_subreddits">Subreddits</string>
+    <string name="mainmenu_header_subreddits">Subs</string>
+    <string name="mainmenu_subscribed">Subscribed</string>
 
     <!-- General Listing -->
 
@@ -158,7 +171,7 @@
 
     <string name="accounts_anon">Anonymous</string>
     <string name="accounts_active">Active</string>
-    <string name="accounts_add">Add Reddit Account</string>
+    <string name="accounts_add">Add SaidIt Account</string>
     <string name="accounts_setactive">Make Active</string>
     <string name="accounts_reauth">Reauthenticate</string>
     <string name="accounts_delete">Delete</string>
@@ -169,7 +182,7 @@
     <string name="accounts_username">Username</string>
     <string name="accounts_password">Password</string>
 
-    <string name="accounts_login">Log in</string>
+    <string name="accounts_login">Login</string>
 
     <string name="accounts_delete_sure">Are you sure you want to delete this account?</string>
 
@@ -178,7 +191,7 @@
     <string name="sort_posts_hot">Hot</string>
     <string name="sort_posts_new">New</string>
     <string name="sort_posts_rising">Rising</string>
-    <string name="sort_posts_controversial">Controversial</string>
+    <string name="sort_posts_controversial">Funny</string>
     <string name="sort_posts_top">Top</string>
     <string name="sort_posts_top_hour">Top: This Hour</string>
     <string name="sort_posts_top_today">Top: Today</string>
@@ -193,7 +206,7 @@
     <string name="sort_comments_hot">Hot</string>
     <string name="sort_comments_new">New</string>
     <string name="sort_comments_old">Old</string>
-    <string name="sort_comments_controversial">Controversial</string>
+    <string name="sort_comments_controversial">Funny</string>
     <string name="sort_comments_top">Top</string>
 
     <!-- Dialog Buttons -->
@@ -208,11 +221,11 @@
 
     <string name="action_menu_post_title">Post Actions</string>
 
-    <string name="action_upvote">Upvote</string>
-    <string name="action_downvote">Downvote</string>
+    <string name="action_upvote">Insightful</string>
+    <string name="action_downvote">Funny</string>
     <string name="action_vote_remove">Remove Vote</string>
-    <string name="action_upvote_remove">Remove Upvote</string>
-    <string name="action_downvote_remove">Remove Downvote</string>
+    <string name="action_upvote_remove">Remove Insightful</string>
+    <string name="action_downvote_remove">Remove Funny</string>
     <string name="action_save">Save</string>
     <string name="action_hide">Hide</string>
     <string name="action_unsave">Unsave</string>
@@ -226,7 +239,7 @@
     <string name="action_share">Share</string>
     <string name="action_share_comments">Share Comments</string>
     <string name="action_copy">Copy</string>
-    <string name="action_gotosubreddit">Go to Subreddit</string>
+    <string name="action_gotosubreddit">Go to Sub</string>
     <string name="action_reply">Reply</string>
     <string name="action_edit">Edit</string>
     <string name="action_user_profile">User Profile</string>
@@ -244,7 +257,7 @@
     <string name="action_report">Report</string>
     <string name="action_report_sure">Are you sure you want to report this?</string>
 
-    <string name="action_save_image">Save Media</string>
+    <string name="action_save_image">Save Image</string>
     <string name="action_save_image_success">Saved to Pictures folder as</string>
 
     <!-- Download Messages -->
@@ -259,8 +272,8 @@
 
     <!-- Image View -->
 
-    <string name="imageview_oom">Out of memory. Trying web browser.</string>
-    <string name="imageview_invalid_gif">Invalid GIF. Trying web browser.</string>
+    <string name="imageview_oom">Out of memory. Trying internal browser.</string>
+    <string name="imageview_invalid_gif">Invalid GIF. Trying internal browser.</string>
 
     <!-- Comment Reply/Edit, Post Submit -->
 
@@ -273,8 +286,8 @@
     <string name="comment_reply_done">Reply sent. The comment will appear after you refresh.</string>
     <string name="comment_edit_done">Comment edited. Changes will appear after you refresh.</string>
     <string name="post_submit_title_hint">Title</string>
-    <string name="subreddit_selection_textbox_hint">Subreddit</string>
-    <string name="post_captcha_title">CAPTCHA</string>
+    <string name="post_submit_subreddit_hint">Sub</string>
+    <string name="post_captcha_title">Captcha</string>
     <string name="post_captcha_submit_button">Submit</string>
     <string name="post_submit_done">Post submitted.</string>
 
@@ -287,11 +300,11 @@
 
     <!-- General errors -->
 
-    <string name="error_403_title">Permission Denied</string>
-    <string name="error_403_message">Reddit says the current user does not have permission to do that.</string>
+    <string name="error_403_title">Invalid User</string>
+    <string name="error_403_message">SaidIt says the current user does not have permission to do that. Try logging out, and then logging back in (by deleting the account from the accounts list, and then adding it again).</string>
 
-    <string name="error_subreddit_required_title">Subreddit Required</string>
-    <string name="error_subreddit_required_message">You must specify a subreddit.</string>
+    <string name="error_subreddit_required_title">Sub Required</string>
+    <string name="error_subreddit_required_message">You must specify a sub.</string>
 
     <string name="error_bad_captcha_title">Invalid CAPTCHA</string>
     <string name="error_bad_captcha_message">The CAPTCHA you entered was incorrect. Please try again.</string>
@@ -302,14 +315,14 @@
     <string name="error_unknown_api_title">Error</string>
     <string name="error_unknown_api_message">The server did not accept the request for an unknown reason. Please try again.</string>
 
-    <string name="error_redditdown_title">Reddit is Down</string>
-    <string name="error_redditdown_message">Reddit is under heavy load at the moment. Please try again.</string>
+    <string name="error_redditdown_title">SaidIt is Down</string>
+    <string name="error_redditdown_message">SaidIt is under heavy load at the moment. Please try again.</string>
 
     <string name="error_cancelled_title">Operation Cancelled</string>
     <string name="error_cancelled_message">The current operation was cancelled.</string>
 
     <string name="error_parse_title">Parse Error</string>
-    <string name="error_parse_message">Reddit sent some data I couldn\'t understand.</string>
+    <string name="error_parse_message">SaidIt sent some data I couldn\'t understand.</string>
 
     <string name="error_unexpected_cache_title">Unexpected Cache Miss Error</string>
     <string name="error_unexpected_cache_message">An unknown internal error has occurred, related to the cache.</string>
@@ -331,8 +344,8 @@
     <string name="error_postlist_cache_title">End of Cached Data</string>
     <string name="error_postlist_cache_message">You are viewing a past version of this content, and no more posts from this session are in the cache. Press refresh to download the latest posts, or select a different past version from the menu.</string>
 
-    <string name="error_postlist_redditdown_title">Reddit is Down</string>
-    <string name="error_postlist_redditdown_message">Reddit is under heavy load at the moment. Press refresh to download the latest posts, or select a different past version from the menu.</string>
+    <string name="error_postlist_redditdown_title">SaidIt is Down</string>
+    <string name="error_postlist_redditdown_message">SaidIt is under heavy load at the moment. Press refresh to download the latest posts, or select a different past version from the menu.</string>
 
     <!-- Session List -->
 
@@ -345,8 +358,10 @@
     <!-- User Profile -->
 
     <string name="userprofile_created">Created</string>
+    <string name="userprofile_hasmail">Has Mail</string>
+    <string name="userprofile_hasmodmail">Has Mod Mail</string>
     <string name="userprofile_isfriend">Is Friend</string>
-    <string name="userprofile_isgold">Reddit Gold</string>
+    <string name="userprofile_isgold">SaidIt Gold</string>
     <string name="userprofile_moderator">Is Moderator</string>
     <string name="userprofile_viewcomments">View Comments</string>
     <string name="userprofile_viewposts">View Posts</string>
@@ -363,7 +378,7 @@
     <string name="props_created">Created</string>
     <string name="props_edited">Edited</string>
     <string name="props_score">Score</string>
-    <string name="props_subreddit">Subreddit</string>
+    <string name="props_subreddit">Sub</string>
     <string name="props_url">URL</string>
     <string name="props_num_comments">Number of Comments</string>
     <string name="props_body_markdown">Body (Raw Markdown)</string>
@@ -377,7 +392,7 @@
 
     <string name="notification_comment">%s replied to you</string>
     <string name="notification_message">%s sent you a message</string>
-    <string name="notification_message_multiple">New messages on Reddit</string>
+    <string name="notification_message_multiple">New messages on SaidIt</string>
     <string name="notification_message_action">Touch to view</string>
 
     <!-- General -->
@@ -426,7 +441,7 @@
     <string name="error_invalid_password_message">Your username or password was incorrect.</string>
 
     <string name="error_ratelimit_title">Too many invalid attempts.</string>
-    <string name="error_ratelimit_message">Blocked due to too many invalid login attempts from this IP. Reddit says:</string>
+    <string name="error_ratelimit_message">Blocked due to too many invalid login attempts at this IP. SaidIt says:</string>
 
     <string name="general_success">Success</string>
 
@@ -437,11 +452,16 @@
     <string name="error_toast_no_urls_in_self">No URLs found in this self text.</string>
     <string name="error_toast_parent_post_not_downloaded">Parent post not downloaded yet.</string>
 
-    <string name="download_subreddits">Downloading subreddits…</string>
+    <string name="download_subreddits">Downloading subs…</string>
 
     <string name="subtitle_points">pts</string>
     <string name="subtitle_by">by</string>
     <string name="subtitle_to">to</string>
+	<plurals name="subtitle_replies">
+		<item quantity="zero">…</item>
+		<item quantity="one">" (%d reply)"</item>
+		<item quantity="other">" (%d replies)"</item>
+	</plurals>
 
     <string name="general_unknown">unknown</string>
 
@@ -451,7 +471,7 @@
     <string name="title_changelog">What\'s New</string>
 
     <string name="pref_behaviour_commentsort_key" translatable="false">pref_behaviour_commentsort</string>
-    <string name="pref_behaviour_commentsort">Comments (default)</string>
+    <string name="pref_behaviour_commentsort">Default Comment Sort</string>
 
     <!-- 2013-05-18 -->
 
@@ -486,7 +506,7 @@
     <!-- 2013-06-25 -->
 
     <string name="prefs_category_network">Network</string>
-    <string name="pref_network_https_title">Use HTTPS</string>
+    <string name="pref_network_https_title">Enable HTTPS</string>
     <string name="pref_network_https_key" translatable="false">pref_network_https</string>
 
     <!-- 2013-07-01 -->
@@ -495,12 +515,12 @@
 
     <!-- 2013-07-26 -->
 
-    <string name="pref_behaviour_useinternalbrowser_title">Use internal browser</string>
+    <string name="pref_behaviour_useinternalbrowser_title">Use Internal Browser</string>
     <string name="pref_behaviour_useinternalbrowser_key" translatable="false">pref_behaviour_useinternalbrowser</string>
 
     <!-- 2013-07-29 -->
 
-    <string name="pref_appearance_linkbuttons_title">Show link buttons</string>
+    <string name="pref_appearance_linkbuttons_title">Show Link Buttons</string>
     <string name="pref_appearance_linkbuttons_key" translatable="false">pref_appearance_linkbuttons</string>
 
     <!-- 2013-08-04 -->
@@ -548,22 +568,22 @@
     <!-- 2014-04-13 -->
 
     <string name="pref_menus_mainmenu_useritems_key" translatable="false">pref_menus_mainmenu_useritems</string>
-    <string name="pref_menus_mainmenu_useritems_title">User items</string>
+    <string name="pref_menus_mainmenu_useritems_title">Main Menu User Items</string>
 
     <string name="mainmenu_submitted">Submitted Posts</string>
-    <string name="mainmenu_downvoted">Downvoted Posts</string>
-    <string name="mainmenu_modmail">Modmail</string>
+    <string name="mainmenu_downvoted">Voted Funny Posts</string>
+    <string name="mainmenu_modmail">Mod Mail</string>
 
     <string name="sidebar_activity_title">Sidebar</string>
 
     <!-- 2014-04-20 -->
 
     <string name="header_subscriber_count">%s subscribers</string>
-    <string name="header_subscriber_count_unknown">Unknown subscriber count</string>
+    <string name="header_subscriber_count_unknown">Subscriber count is unknown</string>
 
     <!-- 2014-04-21 -->
 
-    <string name="invalid_subreddit_name">Invalid subreddit name</string>
+    <string name="invalid_subreddit_name">Invalid sub name</string>
 
     <!-- 2014-04-26 -->
 
@@ -572,14 +592,14 @@
 
     <!-- 2014-09-21 -->
     <string name="gold">Gold</string>
-    <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
+    <string name="pref_appearance_comment_header_items_gold">SaidIt Gold</string>
 
     <!-- 2014-11-15 -->
     <string name="karma_link">Link Karma</string>
     <string name="karma_comment">Comment Karma</string>
 
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Could not decode image. Trying web browser.</string>
+    <string name="imageview_decode_failed">Failed to decode image. Trying internal browser.</string>
 
     <!-- 2014-12-06 -->
     <string name="user_comments">Comments</string>
@@ -589,6 +609,7 @@
     <string name="comment_header_specific_thread_message">Click here to view all comments for this post.</string>
 
     <!-- 2014-12-18 -->
+    <string name="more_comments_button_text">Load more comments</string>
     <string name="action_comment_context">Context</string>
     <string name="action_comment_go_to">Go to Comment</string>
 
@@ -612,10 +633,10 @@
     <string name="error_title_login_user_denied_permission">Permission Denied</string>
     <string name="error_message_login_user_denied_permission">Permission to access the account was denied. Please try again.</string>
 
-    <string name="error_title_login_unknown_reddit_error">Unknown Reddit error: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Unknown SaidIt error: %s</string>
 
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Invalid video. Trying web browser.</string>
+    <string name="imageview_invalid_video">Invalid video. Trying internal browser.</string>
     <string name="download_authorizing">Authenticating…</string>
 
     <!-- 2015-05-29 -->
@@ -626,7 +647,7 @@
     <string name="error_archived_vote" >This has been archived and can no longer be voted on.</string>
 
     <!-- 2015-06-20 -->
-    <string name="pref_behaviour_screenorientation_title">Screen orientation</string>
+    <string name="pref_behaviour_screenorientation_title">Screen Orientation</string>
     <string name="pref_behaviour_screenorientation_key" translatable="false">pref_behaviour_screenorientation</string>
 
     <string name="screen_orientation_auto">Auto</string>
@@ -637,14 +658,14 @@
     <string name="options_close_all">Close All</string>
 
     <string name="pref_menus_optionsmenu_items_key" translatable="false">pref_menus_optionsmenu_items_3</string>
-    <string name="pref_menus_optionsmenu_items_title">Three-dot menu items</string>
+    <string name="pref_menus_optionsmenu_items_title">Options Menu Items</string>
 
     <!-- 2015-07-05 -->
-    <string name="pref_behaviour_bezel_toolbar_header">Post Side-Toolbar</string>
+    <string name="pref_behaviour_bezel_toolbar_header">Bezel Toolbar</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_key" translatable="false">pref_behaviour_bezel_toolbar_swipezone</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Post side-toolbar swipe zone size</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Bezel toolbar swipe zone size</string>
 
-    <string name="pref_behaviour_gifview_mode_title">GIF viewer</string>
+    <string name="pref_behaviour_gifview_mode_title">GIF Viewer</string>
     <string name="pref_behaviour_gifview_mode_key" translatable="false">pref_behaviour_gifview_mode</string>
 
     <string name="pref_behaviour_gifview_mode_internal_movie">Internal viewer (Movie, Android 4.0+)</string>
@@ -654,12 +675,15 @@
     <string name="pref_behaviour_view_mode_external_browser">External browser</string>
 
     <!-- 2015-08-15 -->
+    <string name="pref_appearance_fontscale_inbox_key" translatable="false">pref_appearance_fontscale_inbox</string>
+    <string name="pref_appearance_fontscale_inbox_title">Inbox Font Scale</string>
+
     <string name="action_delete">Delete</string>
     <string name="delete_confirm">Are you sure you want to delete this?</string>
     <string name="delete_success">Successfully deleted. The item will still be visible until you refresh.</string>
 
     <string name="pref_appearance_hide_username_main_menu_key" translatable="false">pref_appearance_hide_username_main_menu</string>
-    <string name="pref_appearance_hide_username_main_menu_title">Hide username</string>
+    <string name="pref_appearance_hide_username_main_menu_title">Hide username in main menu</string>
     <string name="mainmenu_useritems">User Items</string>
 
     <!-- 2015-09-13 -->
@@ -672,14 +696,14 @@
     <string name="album_already_first_image">Already at first image in album.</string>
     <string name="album_already_last_image">Already at last image in album.</string>
 
-    <string name="upgrade_v190_login_message">RedReader has upgraded, and now uses OAuth for Reddit authentication. If you were signed in to an account before the upgrade, you are now logged out.</string>
+    <string name="upgrade_v190_login_message">RedReader has upgraded, and now uses oAuth for SaidIt authentication. If you were signed in to an account before the upgrade, you are now logged out.</string>
 
-    <string name="pref_behaviour_videoview_mode_title">Video viewer</string>
+    <string name="pref_behaviour_videoview_mode_title">Video Viewer</string>
     <string name="pref_behaviour_videoview_mode_key" translatable="false">pref_behaviour_videoview_mode</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Internal VideoView (recommended)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">External App: VLC</string>
 
-    <string name="videoview_mode_app_vlc_launch_failed">Could not start VLC. Please upgrade VLC or change your Video Viewer preference.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Failed to launch VLC. Please upgrade VLC or change your Video Viewer preference.</string>
 
     <!-- 2015-10-05 -->
     <string name="error_url_required_title">URL Required</string>
@@ -689,7 +713,7 @@
     <string name="sort_comments_qa">Q&amp;A</string>
 
     <!-- 2015-10-31 -->
-    <string name="pref_behaviour_gallery_swipe_length_title">Gallery swipe length</string>
+    <string name="pref_behaviour_gallery_swipe_length_title">Gallery Swipe Length</string>
     <string name="pref_behaviour_gallery_swipe_length_key" translatable="false">pref_behaviour_gallery_swipe_length</string>
 
     <!-- 2015-11-19 -->
@@ -699,10 +723,10 @@
     <string name="pref_cache_precache_comments_title">Precache comments</string>
 
     <string name="pref_cache_precache_comments_wifionly_key" translatable="false">pref_cache_precache_comments_wifionly</string>
-    <string name="pref_cache_precache_comments_wifionly_title">Only on Wi-Fi</string>
+    <string name="pref_cache_precache_comments_wifionly_title">On Wi-Fi only</string>
 
-    <string name="mainmenu_header_subreddits_subscribed">Subscribed Subreddits</string>
-    <string name="mainmenu_header_subreddits_pinned">Pinned Subreddits</string>
+    <string name="mainmenu_header_subreddits_subscribed">Subscribed Subs</string>
+    <string name="mainmenu_header_subreddits_pinned">Pinned Subs</string>
 
     <string name="pin_subreddit">Pin to Main Menu</string>
     <string name="unpin_subreddit">Unpin from Main Menu</string>
@@ -715,24 +739,24 @@
 
     <!-- 2015-12-06 -->
     <string name="error_too_fast_title">Too fast</string>
-    <string name="error_too_fast_message">Reddit says you are making submissions too quickly. Please wait a few minutes before trying again.</string>
+    <string name="error_too_fast_message">SaidIt says you are making submissions too quickly. Please wait a few minutes before trying again.</string>
 
     <!-- 2015-12-19 -->
-    <string name="block_subreddit">Block Subreddit</string>
-    <string name="unblock_subreddit">Unblock Subreddit</string>
+    <string name="block_subreddit">Block Sub</string>
+    <string name="unblock_subreddit">Unblock Sub</string>
     <string name="pref_blocked_subreddits_key" translatable="false">pref_blocked_subreddits</string>
-    <string name="block_done">Subreddit blocked. Future visits to the front page, /r/popular, and /r/all will exclude this subreddit.</string>
-    <string name="unblock_done">Subreddit unblocked. Future visits to the front page, /r/popular, and /r/all will include this subreddit.</string>
+    <string name="block_done">Sub blocked. Future visits to /s/all will exclude this sub.</string>
+    <string name="unblock_done">Sub unblocked. Future visits to /s/all will include this sub.</string>
 
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comment_min_key" translatable="false">pref_behaviour_comment_min</string>
     <string name="pref_behaviour_comments_header">Comments</string>
 
-    <string name="pref_behaviour_comment_min_title">Minimum comment score</string>
+    <string name="pref_behaviour_comment_min_title">Minimum Comment Score</string>
     <string name="pref_behaviour_comment_min_dialog_title">Collapse comment if score below (blank to show all)</string>
 
     <!-- 2016-03-20 -->
-    <string name="lang_sv" translatable="false">svenska</string>
+    <string name="lang_se" translatable="false">Svenska</string>
 
     <!-- 2016-04-02 -->
     <string name="open_with">Open with</string>
@@ -741,7 +765,7 @@
 
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor will not work unless Orbot is installed. Install now?</string>
-    <string name="error_tor_setting_failed">Could not set proxy.</string>
+    <string name="error_tor_setting_failed">Failed to set proxy.</string>
 
     <!-- 2016-04-10 -->
     <string name="error_parse_imgur_title">Parse Error</string>
@@ -758,13 +782,13 @@
     <string name="error_file_too_big_title">File too big</string>
     <string name="error_file_too_big_message">The file size (%1$s) is larger than the upload limit (%2$s).</string>
 
-    <string name="error_file_open_failed_title">Could not open file</string>
+    <string name="error_file_open_failed_title">Failed to open file</string>
     <string name="error_file_open_failed_message">An error occurred while trying to open the file.</string>
 
     <string name="image_selected_summary">Image selected: %1$dx%2$d, %3$s</string>
 
 	<!-- 2016-06-10 -->
-	<string name="submit_post_specify_subreddit">Specify subreddit</string>
+	<string name="submit_post_specify_subreddit">Specify sub</string>
 	<string name="submit_post_title_empty">Title cannot be empty</string>
 	<string name="submit_post_url_empty">URL cannot be empty</string>
 	<string name="submit_post_self_text_hint">Self Text</string>
@@ -772,26 +796,26 @@
 
 	<!-- 2016-06-24 -->
 	<string name="save_image_permission_denied">Permission denied: could not save image.</string>
-
+	
 	<!-- 2016-06-25 -->
-	<string name="pref_behaviour_imageview_mode_title">Image viewer</string>
+	<string name="pref_behaviour_imageview_mode_title">Image Viewer</string>
 	<string name="pref_behaviour_imageview_mode_key" translatable="false">pref_behaviour_imageview_mode</string>
 
 	<string name="pref_behaviour_imageview_mode_internal_opengl">Internal viewer (OpenGL)</string>
 
-	<string name="pref_behaviour_albumview_mode_title">Album viewer</string>
+	<string name="pref_behaviour_albumview_mode_title">Album Viewer</string>
 	<string name="pref_behaviour_albumview_mode_key" translatable="false">pref_behaviour_albumview_mode</string>
 
 	<string name="pref_behaviour_albumview_mode_internal_list">Internal viewer (list)</string>
 
-	<string name="error_tor_start_failed">Could not start Orbot. Tor will not work correctly.</string>
+	<string name="error_tor_start_failed">Orbot failed to start. Tor will not work correctly.</string>
 
 	<!-- 2016-06-30 -->
 	<string name="inbox_unread_only">Unread Messages Only</string>
-
+	
 	<!-- 2016-07-02 -->
 	<string name="pref_behaviour_actions_comment_longclick_key" translatable="false">pref_behaviour_actions_comment_longclick</string>
-	<string name="pref_behaviour_actions_comment_longclick_title">Long press</string>
+	<string name="pref_behaviour_actions_comment_longclick_title">Comment Long Click Action</string>
 
 	<string name="no_comments_yet">No comments yet.</string>
 
@@ -805,19 +829,19 @@
 	<string name="userprofile_pm">Send Message</string>
 
 	<string name="error_too_long_title">Too long</string>
-	<string name="error_too_long_message">Reddit says that the text you entered is too long.</string>
+	<string name="error_too_long_message">SaidIt says that the text you entered is too long.</string>
 
 	<string name="pm_send_actionbar">Send Message</string>
 	<string name="submit_post_actionbar">Submit Post</string>
 	<string name="submit_comment_actionbar">Submit Comment</string>
 	<string name="edit_comment_actionbar">Edit Comment</string>
-
+	
 	<!-- 2016-07-16 -->
 	<string name="pref_behaviour_fling_comment_left_key" translatable="false">pref_behaviour_fling_comment_left</string>
-	<string name="pref_behaviour_fling_comment_left_title">Fling left</string>
+	<string name="pref_behaviour_fling_comment_left_title">Fling Comment Left Action</string>
 
 	<string name="pref_behaviour_fling_comment_right_key" translatable="false">pref_behaviour_fling_comment_right</string>
-	<string name="pref_behaviour_fling_comment_right_title">Fling right</string>
+	<string name="pref_behaviour_fling_comment_right_title">Fling Comment Right Action</string>
 
 	<!-- 2016-07-17 -->
 	<string name="comment_header_search_thread_title">You are currently viewing search results for a comment thread.</string>
@@ -828,7 +852,7 @@
 
 	<!-- 2016-07-29 -->
 	<string name="pref_appearance_navbar_color_key" translatable="false">pref_appearance_navbar_color</string>
-	<string name="pref_appearance_navbar_color_title">Navigation and status bar colour</string>
+	<string name="pref_appearance_navbar_color_title">Navbar Colour</string>
 
 	<string name="pref_appearance_navbar_color_option_black">Black</string>
 	<string name="pref_appearance_navbar_color_option_primary">Primary (light)</string>
@@ -841,16 +865,16 @@
 	<string name="action_copy_link">Copy Link</string>
 
 	<string name="pref_behaviour_postsort_key" translatable="false">pref_behaviour_postsort</string>
-	<string name="pref_behaviour_postsort">Posts (default)</string>
+	<string name="pref_behaviour_postsort">Default Post Sort</string>
 
 	<!-- 2016-08-06 -->
-	<string name="mainmenu_custom_destination">Custom Location</string>
-	<string name="mainmenu_custom_destination_subreddit">Subreddit</string>
+	<string name="mainmenu_custom_destination">Go To, Search</string>
+	<string name="mainmenu_custom_destination_subreddit">Sub</string>
 	<string name="mainmenu_custom_destination_user">User</string>
 	<string name="mainmenu_custom_destination_url">URL</string>
 	<string name="mainmenu_custom_destination_search">Search</string>
 
-	<string name="mainmenu_header_multireddits">Multireddits</string>
+	<string name="mainmenu_header_multireddits">Multisubs</string>
 
 	<string name="pref_behaviour_share_permalink_key" translatable="false">pref_behaviour_share_permalink</string>
 	<string name="pref_behaviour_share_permalink_title">Share as permalink</string>
@@ -862,11 +886,11 @@
 	<string name="pref_cache_location_title">Cache storage location</string>
 
 	<string name="error_cache_dir_does_not_exist_title">Cache directory missing</string>
-	<string name="error_cache_dir_does_not_exist_message">Could not access the cache directory. Please choose a different location in the cache settings.</string>
+	<string name="error_cache_dir_does_not_exist_message">The cache directory could not be accessed. Please choose a different location in the cache settings.</string>
 
 	<!-- 2016-08-15 -->
 	<string name="pref_behaviour_pinned_subredditsort_key" translatable="false">pref_behaviour_pinned_subreddit_sort</string>
-	<string name="pref_behaviour_pinned_subredditsort">Pinned subreddits</string>
+	<string name="pref_behaviour_pinned_subredditsort">Pinned Sub Sort</string>
 	<string name="sort_pinned_subreddit_name">By Name</string>
 	<string name="sort_pinned_subreddit_date">By Added Date</string>
 
@@ -876,14 +900,14 @@
 	<!-- 2016-09-04 -->
 	<string name="pref_appearance_image_viewer_header">Image Viewer</string>
 
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Show floating buttons over images and videos</string>
+	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Show floating toolbar over image</string>
 	<string name="pref_appearance_image_viewer_show_floating_toolbar_key" translatable="false">pref_appearance_image_viewer_show_floating_toolbar</string>
 
 	<string name="pref_appearance_link_text_clickable_title">Make link text clickable</string>
 	<string name="pref_appearance_link_text_clickable_key" translatable="false">pref_appearance_link_text_clickable</string>
 
 	<!-- 2016-09-07 -->
-	<string name="pref_appearance_hide_android_status_title">Hide status bar</string>
+	<string name="pref_appearance_hide_android_status_title">Hide Android status bar</string>
 	<string name="pref_appearance_hide_android_status_key" translatable="false">pref_appearance_hide_android_status</string>
 
 	<!-- 2016-09-08 -->
@@ -891,15 +915,15 @@
 	<string name="pref_behaviour_enable_swipe_refresh_key" translatable="false">pref_behaviour_enable_swipe_refresh</string>
 
 	<!-- 2016-09-10 -->
-	<string name="mainmenu_header_subreddits_blocked">Blocked Subreddits</string>
+	<string name="mainmenu_header_subreddits_blocked">Blocked Subs</string>
 	<string name="pref_behaviour_blocked_subredditsort_key" translatable="false">pref_behaviour_blocked_subreddit_sort</string>
-	<string name="pref_behaviour_blocked_subredditsort">Blocked subreddits</string>
+	<string name="pref_behaviour_blocked_subredditsort">Blocked Sub Sort</string>
 	<string name="sort_blocked_subreddit_name">By Name</string>
 	<string name="sort_blocked_subreddit_date">By Added Date</string>
 
 	<!-- 2016-09-21 -->
 	<string name="pref_appearance_show_blocked_subreddits_main_menu_key" translatable="false">pref_appearance_show_blocked_subreddits_main_menu</string>
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Show blocked subreddits</string>
+	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Show blocked subs in main menu</string>
 
 	<!-- 2016-10-02 -->
 	<string name="pref_cache_rerequest_postlist_age_key" translatable="false">pref_cache_rerequest_postlist_age</string>
@@ -927,7 +951,7 @@
 	<string name="send_replies_to_inbox">Send replies to my inbox</string>
 
 	<!-- 2016-12-11 -->
-	<string name="action_share_image">Share Media</string>
+	<string name="action_share_image">Share Image</string>
 
 	<!-- 2017-01-15 -->
 	<string name="error_403_title_nonreddit">Permission Denied</string>
@@ -938,46 +962,46 @@
 	<string name="pm_reply_done">Reply sent.</string>
 
 	<!-- 2017-02-15 -->
-	<string name="mainmenu_popular">Popular Subreddits</string>
+	<string name="mainmenu_popular">Popular Subs</string>
 
 	<!-- 2017-02-23 -->
 	<string name="action_back">Back</string>
 
 	<!-- 2017-03-02 -->
 	<string name="pref_menus_link_context_items_key" translatable="false">pref_menus_link_context_items</string>
-	<string name="pref_menus_link_context_items_title">Link action menu items</string>
+	<string name="pref_menus_link_context_items_title">Link Context Menu Items</string>
 	<string name="lang_eo" translatable="false">Esperanto</string>
 	<string name="lang_pl" translatable="false">Polski</string>
 
 	<!-- 2017-03-07 -->
 	<string name="pref_menus_subreddit_context_items_key" translatable="false">pref_menus_subreddit_context_items</string>
-	<string name="pref_menus_subreddit_context_items_title">Subreddit action menu items</string>
-	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this subreddit yet!</string>
-	<string name="mainmenu_toast_subscribed">You are already subscribed to this subreddit!</string>
-	<string name="mainmenu_toast_not_pinned">This subreddit is not pinned to the main menu!</string>
-	<string name="mainmenu_toast_pinned">This subreddit is already pinned to the main menu!</string>
-	<string name="mainmenu_toast_not_blocked">This subreddit is not blocked!</string>
-	<string name="mainmenu_toast_blocked">This subreddit is already blocked!</string>
+	<string name="pref_menus_subreddit_context_items_title">Sub Context Menu Items</string>
+	<string name="mainmenu_toast_not_subscribed">You are not subscribed to this sub yet!</string>
+	<string name="mainmenu_toast_subscribed">You are already subscribed to this sub!</string>
+	<string name="mainmenu_toast_not_pinned">This sub is not pinned to the main menu!</string>
+	<string name="mainmenu_toast_pinned">This sub is already pinned to the main menu!</string>
+	<string name="mainmenu_toast_not_blocked">This sub is not blocked!</string>
+	<string name="mainmenu_toast_blocked">This sub is already blocked!</string>
 	<string name="lang_pt" translatable="false">Português</string>
 
 	<!-- 2017-04-02 -->
 	<string name="edit_post_actionbar">Edit Post</string>
 	<string name="post_edit_done">Post edited. Changes will appear after you refresh.</string>
-	<string name="action_block_subreddit">Block Subreddit</string>
-	<string name="action_unblock_subreddit">Unblock Subreddit</string>
-	<string name="action_pin_subreddit">Pin Subreddit to Main Menu</string>
-	<string name="action_unpin_subreddit">Unpin Subreddit from Main Menu</string>
-	<string name="action_subscribe_subreddit">Subscribe to Subreddit</string>
-	<string name="action_unsubscribe_subreddit">Unsubscribe from Subreddit</string>
+	<string name="action_block_subreddit">Block Sub</string>
+	<string name="action_unblock_subreddit">Unblock Sub</string>
+	<string name="action_pin_subreddit">Pin Sub to Main Menu</string>
+	<string name="action_unpin_subreddit">Unpin Sub from Main Menu</string>
+	<string name="action_subscribe_subreddit">Subscribe to Sub</string>
+	<string name="action_unsubscribe_subreddit">Unsubscribe from Sub</string>
 
 	<!-- 2017-04-14 -->
-	<string name="collapsed_self_post">Self post collapsed</string>
+	<string name="collapsed_self_post">Self-post collapsed</string>
 
 	<!-- 2017-05-08 -->
 	<string name="button_next_comment_parent">Next Parent Comment</string>
 	<string name="button_prev_comment_parent">Previous Parent Comment</string>
 
-	<string name="pref_appearance_comments_show_floating_toolbar_title">Show navigation buttons over comments</string>
+	<string name="pref_appearance_comments_show_floating_toolbar_title">Show floating toolbar over comments</string>
 	<string name="pref_appearance_comments_show_floating_toolbar_key" translatable="false">pref_appearance_comments_show_floating_toolbar</string>
 
 	<!--2017-05-08-->
@@ -986,13 +1010,13 @@
 
 	<!--2017-05-21-->
 	<string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>
-	<string name="pref_behaviour_self_post_tap_actions_title">Self post tap</string>
+	<string name="pref_behaviour_self_post_tap_actions_title">Self-Post Tap Action</string>
 
 	<!-- 2017-06-05 -->
 	<string name="lang_in" translatable="false">Bahasa Indonesia</string>
 
 	<string name="pref_menus_show_popular_main_menu_key" translatable="false">pref_menus_show_popular_main_menu</string>
-	<string name="pref_menus_show_popular_main_menu_title">Show /r/popular in main menu</string>
+	<string name="pref_menus_show_popular_main_menu_title">Show /s/popular in main menu</string>
 	<string name="pref_behaviour_video_playback_controls_key" translatable="false">pref_behaviour_video_playback_controls</string>
 	<string name="pref_behaviour_video_playback_controls_title">Enable video playback controls</string>
 
@@ -1004,17 +1028,17 @@
 	<string name="pref_behaviour_sharing_share_text_title">Include text when sharing comment</string>
 
 	<!-- 2017-11-01 -->
-	<string name="disable_replies_to_infobox_failed">Could not turn off replies to inbox</string>
+	<string name="disable_replies_to_infobox_failed">Disabling replies to inbox failed</string>
 
 	<!-- 2017-12-03 -->
-	<string name="mainmenu_random">Random Subreddit</string>
+	<string name="mainmenu_random">Random Sub</string>
 	<string name="pref_menus_show_random_main_menu_key" translatable="false">pref_menus_show_random_main_menu</string>
-	<string name="pref_menus_show_random_main_menu_title">Show /r/random in main menu</string>
+	<string name="pref_menus_show_random_main_menu_title">Show /s/random in main menu</string>
 
 	<!-- 2018-01-16 -->
 	<string name="lang_fi" translatable="false">Suomi</string>
 	<string name="lang_my" translatable="false">မြန်မာဘာသာ</string>
-	<string name="lang_nb_rNO" translatable="false">Norsk bokmål</string>
+	<string name="lang_nb" translatable="false">Bokmål</string>
 	<string name="lang_ru" translatable="false">ру́сский язы́к</string>
 	<string name="lang_uk" translatable="false">українська мова</string>
 	<string name="lang_zh_rCN" translatable="false">汉语</string>
@@ -1024,13 +1048,14 @@
 
 	<!-- 2018-02-10 -->
 	<string name="search_listing_header_query">Search Query</string>
-
+	<string name="search_listing_header_sub">Limit to Sub</string>
+  
 	<!-- 2018-02-11 -->
 	<string name="pref_behaviour_sharing_header">Sharing</string>
 	<string name="pref_behaviour_sharing_include_desc_key" translatable="false">pref_behaviour_sharing_include_desc</string>
 	<string name="pref_behaviour_sharing_include_desc_title">Include title/description when sharing</string>
 	<string name="share_comments_for">Comments for %s</string>
-	<string name="share_comment_by_on_reddit">Comment by %s on Reddit</string>
+	<string name="share_comment_by_on_reddit">Comment by %s on SaidIt</string>
 
 	<!-- 2018-03-31 -->
 	<string name="lang_eu" translatable="false">Euskara</string>
@@ -1055,679 +1080,24 @@
 
 	<!-- 2018-07-08 -->
 	<string name="pref_behaviour_usecustomtabs_key" translatable="false">pref_behaviour_usecustomtabs_key</string>
-	<string name="pref_behaviour_usecustomtabs_title">Use Android Custom Tabs</string>
-	<string name="pref_behaviour_usecustomtabs_summary">Use Android Custom Tabs when available</string>
+	<string name="pref_behaviour_usecustomtabs_title">Use Custom Tabs</string>
+	<string name="pref_behaviour_usecustomtabs_summary">Use Custom Tabs when available</string>
 
 	<!-- 2018-09-11 -->
 	<string name="pref_behaviour_hide_read_posts_key" translatable="false">pref_behaviour_hide_read_posts</string>
 	<string name="pref_behaviour_hide_read_posts_title">Hide read posts</string>
 
 	<!-- 2018-10-06 -->
-	<string name="pref_menus_mainmenu_shortcutitems_title">Shortcuts</string>
+	<string name="pref_menus_mainmenu_shortcutitems_title">Main Menu Shortcuts</string>
 	<string name="pref_menus_mainmenu_shortcutitems_key" translatable="false">pref_menus_mainmenu_shortcutitems_key</string>
 
-	<string name="pref_menus_show_multireddit_main_menu_title">Show multireddits</string>
+	<string name="pref_menus_show_multireddit_main_menu_title">Show Multireddits</string>
 	<string name="pref_menus_show_multireddit_main_menu_key" translatable="false">pref_menus_show_multireddit_main_menu_key</string>
 
 	<string name="pref_menus_show_subscribed_subreddits_main_menu_key" translatable="false">pref_menus_show_subscribed_main_menu</string>
-	<string name="pref_menus_show_subscribed_subreddits_main_menu_title">Show subscribed subreddits</string>
+	<string name="pref_menus_show_subscribed_subreddits_main_menu_title">Show Subscribed Subreddits</string>
 
 	<!-- 2018-11-26 -->
 	<string name="mainmenu_random_nsfw">Random NSFW Subreddit</string>
-
-	<!-- 2019-01-26 -->
-	<string name="pref_appearance_show_aspect_ratio_indicator_key" translatable="false">pref_appearance_show_aspect_ratio_indicator_key</string>
-	<string name="pref_appearance_show_aspect_ratio_indicator_title">Show aspect ratio indicator</string>
-	<string name="pref_appearance_show_aspect_ratio_indicator_summary">Show a visual of loading media when available</string>
-
-	<!-- 2019-01-29 -->
-	<string name="pref_appearance_bottom_toolbar_key" translatable="false">pref_appearance_bottom_toolbar_key</string>
-	<string name="pref_appearance_bottom_toolbar_title">Show toolbar at bottom</string>
-
-	<!-- 2019-02-02 -->
-	<string name="pref_behaviour_video_mute_default_key" translatable="false">pref_behaviour_video_mute_default</string>
-	<string name="pref_behaviour_video_mute_default_title">Mute videos by default</string>
-
-	<string name="prefs_category_images_video">Images/Video</string>
-
-	<string name="notification_channel_name_reddit_messages">Incoming Reddit Messages</string>
-
-	<!-- 2019-10-05 -->
-	<string name="post_text_copied_to_clipboard">Post self-text copied to clipboard</string>
-	<string name="action_copy_selftext">Copy Self-Text</string>
-
-	<!-- 2020-01-11 -->
-	<string name="pref_behaviour_sharing_share_dialog_dialogtitle">Select an app for sharing</string>
-	<string name="pref_behaviour_sharing_share_dialog_key" translatable="false">share_order_preference_key</string>
-	<string name="pref_behaviour_sharing_share_dialog_title">Use built-in share dialog</string>
-	<string name="pref_behaviour_sharing_share_dialog_data" translatable="false">pref_behaviour_sharing_share_dialog_data</string>
-	<string name="error_toast_no_share_app_installed">No suitable app installed to share this.</string>
-
-	<!-- 2020-01-25 -->
-	<string name="lang_zh_rTW" translatable="false">漢語</string>
-	<string name="lang_el" translatable="false">ελληνικά</string>
-	<string name="lang_hi" translatable="false">हिन्दी</string>
-	<string name="lang_ja" translatable="false">日本語</string>
-	<string name="lang_lt" translatable="false">lietuvių kalba</string>
-
-	<!-- 2020-02-03 -->
-	<string name="pref_appearance_fontscale_post_subtitles_key" translatable="false">pref_appearance_fontscale_post_subtitles_key</string>
-	<string name="pref_appearance_fontscale_post_subtitles_title">Post subtitles</string>
-	<string name="pref_appearance_fontscale_post_header_titles_key" translatable="false">pref_appearance_fontscale_post_header_titles_key</string>
-	<string name="pref_appearance_fontscale_post_header_titles_title">Opened post titles</string>
-	<string name="pref_appearance_fontscale_post_header_subtitles_key" translatable="false">pref_appearance_fontscale_post_header_subtitles_key</string>
-	<string name="pref_appearance_fontscale_post_header_subtitles_title">Opened post subtitles</string>
-	<string name="pref_appearance_fontscale_comment_headers_key" translatable="false">pref_appearance_fontscale_comment_headers_key</string>
-	<string name="pref_appearance_fontscale_comment_headers_title">Comment/Inbox headers</string>
-
-	<!-- 2020-02-04 -->
-	<string name="pref_appearance_posts_header">Posts</string>
-	<string name="pref_appearance_post_subtitle_items_key" translatable="false">pref_appearance_post_subtitle_items_key</string>
-	<string name="pref_appearance_post_subtitle_items_title">Post subtitle entries</string>
-	<string name="pref_appearance_post_subtitle_items_sticky">Sticky tag</string>
-	<string name="pref_appearance_post_subtitle_items_spoiler">Spoiler tag</string>
-	<string name="pref_appearance_post_subtitle_items_nsfw">NSFW tag</string>
-	<string name="pref_appearance_post_subtitle_items_subreddit">Subreddit</string>
-	<string name="pref_appearance_post_subtitle_items_domain">Domain</string>
-	<string name="pref_appearance_post_subtitle_items_use_different_settings_key" translatable="false">pref_appearance_post_subtitle_items_use_different_settings_key</string>
-	<string name="pref_appearance_post_subtitle_items_use_different_settings_title">Use different settings for opened posts</string>
-	<string name="pref_appearance_post_header_subtitle_items_key" translatable="false">pref_appearance_post_header_subtitle_items_key</string>
-	<string name="pref_appearance_post_header_subtitle_items_title">Opened post subtitle entries</string>
-
-	<!-- 2020-02-05 -->
-	<string name="pref_cache_precache_images_list_key" translatable="false">pref_cache_precache_images_list_key</string>
-	<string name="pref_cache_precache_comments_list_key" translatable="false">pref_cache_precache_comments_list_key</string>
-	<string name="pref_appearance_thumbnails_show_list_key" translatable="false">pref_appearance_thumbnails_show_list_key</string>
-	<string name="list_yes_no_or_wifi_always">Always</string>
-	<string name="list_yes_no_or_wifi_wifionly">Only on Wi-Fi</string>
-	<string name="list_yes_no_or_wifi_never">Never</string>
-
-	<!-- 2020-02-08 -->
-	<string name="error_nsfw_subreddits_disabled_title">Blocked NSFW Subreddit</string>
-	<string name="error_nsfw_subreddits_disabled_message">NSFW content is currently turned off in the settings.</string>
-
-	<!-- 2020-02-13 -->
-	<string name="search_results_short">Search Results</string>
-	<string name="search_results_query_only">Search for \"%s\"</string>
-
-	<!-- 2020-02-17 -->
-	<string name="pref_network_tor_summary">Orbot must be installed. When using an external browser or Custom Tabs, links will not be opened using Tor (unless your browser is configured to use Tor).</string>
-
-	<!-- 2020-03-05 -->
-	<string name="prefs_category_fonts">Font</string>
-	<string name="pref_appearance_fontscale_header">Font Scale</string>
-	<string name="pref_appearance_fontscale_global_key" translatable="false">pref_appearance_fontscale_global</string>
-	<string name="pref_appearance_fontscale_global_title">Global</string>
-	<string name="pref_appearance_fontscale_use_global">Use global font scale</string>
-	<string name="pref_appearance_fontscale_linkbuttons_key" translatable="false">pref_appearance_fontscale_linkbuttons</string>
-	<string name="pref_appearance_fontscale_linkbuttons_title">Link buttons</string>
-	<!-- Uses the old Comments Font Scale key, do not change -->
-	<string name="pref_appearance_fontscale_bodytext_key" translatable="false">pref_appearance_fontscale_comments</string>
-	<string name="pref_appearance_fontscale_bodytext_title">Body text</string>
-
-	<!-- 2020-04-06 -->
-	<string name="must_login_message">You need to be logged into a Reddit account to do this.</string>
-
-	<!-- 2020-02-20 -->
-	<string name="upgrade_message">Updated to version %s</string>
-	<string name="error_toast_failed_open_external_browser">Failed to open url \"%s\" in external browser</string>
-	<string name="error_toast_no_email_apps">No email apps installed!</string>
-	<string name="bug_chooser_title">Email bug report</string>
-
-	<!-- 2020-06-08 -->
-	<string name="subscription_successful">Subscribed to %s</string>
-	<string name="unsubscription_successful">Unsubscribed from %s</string>
-	<string name="pin_successful">Pinned %s to main menu</string>
-	<string name="unpin_successful">Unpinned %s from main menu</string>
-
-	<!-- 2020-06-13 -->
-	<string name="pref_menus_mainmenu_header">Main Menu</string>
-	<string name="pref_menus_posts_header">Posts</string>
-
-	<!-- 2020-06-14 -->
-	<string name="spoiler">Spoiler</string>
-
-	<string name="error_title_malformed_html">Malformed HTML</string>
-	<string name="error_message_malformed_html">Could not parse body text. Please report this to the app developer.</string>
-
-	<string name="props_body_html">Body (HTML)</string>
-	<string name="props_self_html">Self text (HTML)</string>
-
-	<string name="pref_appearance_hide_headertoolbar_postlist_key" translatable="false">pref_appearance_hide_headertoolbar_postlist</string>
-	<string name="pref_appearance_hide_headertoolbar_postlist_title">Hide post list header toolbar</string>
-
-	<string name="pref_appearance_hide_headertoolbar_commentlist_key" translatable="false">pref_appearance_hide_headertoolbar_commentlist</string>
-	<string name="pref_appearance_hide_headertoolbar_commentlist_title">Hide comment list header toolbar</string>
-
-	<!-- 2020-07-11 -->
-	<string name="post_link_copied_to_clipboard">Post link copied to clipboard</string>
-	<string name="link_copied_to_clipboard">Link copied to clipboard</string>
-	<string name="comment_link_copied_to_clipboard">Comment link copied to clipboard</string>
-	<string name="comment_text_copied_to_clipboard">Comment text copied to clipboard</string>
-	<string name="subreddit_link_copied_to_clipboard">Subreddit link copied to clipboard</string>
-
-  <!-- 2020-07-16 -->
-	<string name="copied_to_clipboard">Copied to clipboard</string>
-
-	<!-- 2020-07-19 -->
-	<string name="prefs_category_menus_appbar_screen">Action bar items</string>
-	<string name="pref_menus_appbar_items_always">Always show button</string>
-	<string name="pref_menus_appbar_items_if_room">Show button if room</string>
-	<string name="pref_menus_appbar_items_overflow_only">Only show in three-dot menu</string>
-	<string name="pref_menus_appbar_items_never">Do not show</string>
-	<string name="pref_menus_appbar_prefix" translatable="false">pref_menus_appbar</string>
-	<string name="pref_menus_appbar_sort_key" translatable="false">pref_menus_appbar_sort</string>
-	<string name="pref_menus_appbar_refresh_key" translatable="false">pref_menus_appbar_refresh</string>
-	<string name="pref_menus_appbar_past_key" translatable="false">pref_menus_appbar_past</string>
-	<string name="pref_menus_appbar_submit_post_key" translatable="false">pref_menus_appbar_submit_post</string>
-	<string name="pref_menus_appbar_pin_key" translatable="false">pref_menus_appbar_pin</string>
-	<string name="pref_menus_appbar_block_key" translatable="false">pref_menus_appbar_block</string>
-	<string name="pref_menus_appbar_subscribe_key" translatable="false">pref_menus_appbar_subscribe</string>
-	<string name="pref_menus_appbar_sidebar_key" translatable="false">pref_menus_appbar_sidebar</string>
-	<string name="pref_menus_appbar_accounts_key" translatable="false">pref_menus_appbar_accounts</string>
-	<string name="pref_menus_appbar_theme_key" translatable="false">pref_menus_appbar_theme</string>
-	<string name="pref_menus_appbar_settings_key" translatable="false">pref_menus_appbar_settings</string>
-	<string name="pref_menus_appbar_close_all_key" translatable="false">pref_menus_appbar_close_all</string>
-	<string name="pref_menus_appbar_reply_key" translatable="false">pref_menus_appbar_reply</string>
-	<string name="pref_menus_appbar_search_key" translatable="false">pref_menus_appbar_search</string>
-	<string name="action_search_posts">Search Posts</string>
-
-	<!-- 2020-07-25 -->
-	<string name="image_gallery">Gallery</string>
-
-	<!-- 2020-07-28 -->
-	<string name="pref_appearance_post_show_comments_button_title">Show comments button</string>
-	<string name="pref_appearance_post_show_comments_button_key" translatable="false">pref_appearance_show_comments_button</string>
-	<string name="action_comments_with_count">View Comments (%d)</string>
-
-	<!-- 2020-08-17 -->
-	<string name="pref_behaviour_user_postsort_key" translatable="false">pref_behaviour_user_postsort</string>
-	<string name="pref_behaviour_user_postsort_title">User posts (default)</string>
-	<string name="pref_behaviour_multi_postsort_key" translatable="false">pref_behaviour_multi_postsort</string>
-	<string name="pref_behaviour_multi_postsort_title">Multireddit posts (default)</string>
-	<string name="pref_behaviour_user_commentsort_key" translatable="false">pref_behaviour_user_commentsort</string>
-	<string name="pref_behaviour_user_commentsort_title">User comments (default)</string>
-	<string name="sort_comments_top_hour">Top: This Hour</string>
-	<string name="sort_comments_top_today">Top: Today</string>
-	<string name="sort_comments_top_week">Top: This Week</string>
-	<string name="sort_comments_top_month">Top: This Month</string>
-	<string name="sort_comments_top_year">Top: This Year</string>
-	<string name="sort_comments_top_all">Top: All Time</string>
-
-	<!-- 2020-08-18 -->
-	<string name="pref_behaviour_video_zoom_default_key" translatable="false">pref_behaviour_video_zoom_default</string>
-	<string name="pref_behaviour_video_zoom_default_title">Crop videos to fill screen</string>
-
-	<!-- 2020-08-23 -->
-	<string name="image_gallery_removed_title">Gallery removed</string>
-	<string name="image_gallery_removed_message">This gallery has been removed and is no longer accessible.</string>
-	<string name="image_gallery_no_data_present_title">Gallery not found</string>
-	<string name="image_gallery_no_data_present_message">No image gallery was found at the specified link. It may have been deleted.</string>
-
-	<string name="button_error_details">Details</string>
-	<string name="button_error_send_report">Report</string>
-
-	<!-- 2020-08-27 -->
-	<string name="image_gallery_no_image_present_title">Image not found</string>
-	<string name="image_gallery_no_image_present_message">The specified image could not be found. It may have been deleted.</string>
-
-	<!-- 2020-09-04 -->
-	<string name="reddit_login_browser_popup_line_1">To log in, you will now be taken to Reddit in a web browser.</string>
-	<string name="reddit_login_browser_popup_line_2">When the login is complete, you should be redirected back to RedReader. If the login fails, you can try a different browser using the checkbox below.</string>
-
-	<string name="reddit_login_browser_popup_use_internal_browser">Use internal browser (recommended)</string>
-	<string name="reddit_login_browser_popup_use_external_browser">Use external browser (recommended)</string>
-
-	<string name="dialog_continue">Continue</string>
-
-	<string name="title_attribution">Attribution</string>
-
-	<!-- 2020-09-15 -->
-	<string name="link_does_not_exist">This link does not exist. It may have been deleted.</string>
-
-	<!-- 2020-09-18 -->
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Load more comments (%d reply)"</item>
-		<item quantity="other">"Load more comments (%d replies)"</item>
-	</plurals>
-
-	<!-- 2020-09-19 -->
-	<string name="action_save_image_success_no_path">File saved successfully</string>
-
-	<!-- 2020-10-20 -->
-	<string name="pref_behaviour_imagevideo_tap_close_key" translatable="false">pref_behaviour_imagevideo_tap_close</string>
-	<string name="pref_behaviour_imagevideo_tap_close_title">Tap to close images/videos</string>
-	<string name="pref_behaviour_imagevideo_tap_close_summary">Does not affect videos if playback controls are enabled</string>
-
-	<!-- 2020-11-13 -->
-	<string name="press_back_again">Press back again</string>
-	<string name="pref_behaviour_postlist_back_again_key" translatable="false">pref_behaviour_back_again</string>
-	<string name="pref_behaviour_postlist_back_again">Press back twice to exit post list</string>
-	<string name="pref_behaviour_back_button_title">Back Button</string>
-
-	<!-- 2020-11-13 -->
-	<string name="pref_appearance_hide_toolbar_on_scroll_key" translatable="false">pref_appearance_hide_toolbar_on_scroll_key</string>
-	<string name="pref_appearance_hide_toolbar_on_scroll_title">Hide toolbar on scroll</string>
-	<string name="pref_appearance_toolbar_header">Toolbar</string>
-
-	<!-- 2020-11-14 -->
-	<string name="pref_behaviour_save_location_key" translatable="false">pref_behaviour_save_location_key</string>
-	<string name="pref_behaviour_save_location_title">Save destination</string>
-
-	<string name="pref_behaviour_save_location_prompt_every_time">Ask every time</string>
-	<string name="pref_behaviour_save_location_system_default">Use system default</string>
-
-	<string name="pref_appearance_not_possible_in_tablet_mode">Not possible in tablet mode</string>
-
-	<!-- 2020-11-15 -->
-	<string name="pref_menus_quick_account_switcher_key" translatable="false">pref_menus_quick_account_switcher</string>
-	<string name="pref_menus_quick_account_switcher_title">Use quick account switching</string>
-	<string name="options_account_manager">Manage…</string>
-
-	<string name="time_after">after %s</string>
-	<string name="time_after_reply">replied %s later</string>
-	<string name="pref_appearance_post_age_units_key" translatable="false">pref_appearance_post_age_units</string>
-	<string name="pref_appearance_post_age_units_title">Post age precision</string>
-	<string name="pref_appearance_post_header_age_units_key" translatable="false">pref_appearance_post_header_age_units</string>
-	<string name="pref_appearance_post_header_age_units_title">Opened post age precision</string>
-	<string name="pref_appearance_comment_age_units_key" translatable="false">pref_appearance_comment_age_units</string>
-	<string name="pref_appearance_comment_age_units_title">Comment age precision</string>
-	<string name="pref_appearance_inbox_header">Inbox</string>
-	<string name="pref_appearance_inbox_age_units_key" translatable="false">pref_appearance_inbox_age_units</string>
-	<string name="pref_appearance_inbox_age_units_title">Inbox entry age precision</string>
-	<string name="pref_appearance_age_units_1">One unit (x hours)</string>
-	<string name="pref_appearance_age_units_2">Two units (x hours, x mins)</string>
-	<string name="pref_appearance_age_units_3">Three units (x hours, x mins, x secs)</string>
-	<string name="pref_appearance_comment_age_mode_key" translatable="false">pref_appearance_comment_age_mode</string>
-	<string name="pref_appearance_comment_age_mode_title">Comment age mode</string>
-	<string name="pref_appearance_comment_age_mode_absolute">Time since comment (x mins ago)</string>
-	<string name="pref_appearance_comment_age_mode_relative_post">Relative to post (after x mins)</string>
-	<string name="pref_appearance_comment_age_mode_relative_parent">Relative to parent comment (replied x mins later)</string>
-
-	<!-- 2020-11-18 -->
-	<string name="pref_cache_clear_key" translatable="false">pref_cache_clear</string>
-	<string name="pref_cache_clear_title">Clear cache</string>
-	<string name="dialog_clear">Clear</string>
-	<string name="cache_clear_dialog_loading">Loading data usage sizes</string>
-	<string name="cache_clear_dialog_loaded">Loaded data usage sizes</string>
-	<string name="cache_clear_dialog_listings">Listings</string>
-	<string name="cache_clear_dialog_listings_data">Listings (%s)</string>
-	<string name="cache_clear_dialog_thumbnails">Thumbnails</string>
-	<string name="cache_clear_dialog_thumbnails_data">Thumbnails (%s)</string>
-	<string name="cache_clear_dialog_images">Images</string>
-	<string name="cache_clear_dialog_images_data">Images (%s)</string>
-	<string name="cache_clear_dialog_flags">Flags</string>
-
-	<string name="three_dots_menu">More options</string>
-
-	<!-- 2020-11-19 -->
-	<string name="pref_images_thumbnail_size_key" translatable="false">pref_images_thumbnail_size_key</string>
-	<string name="pref_images_thumbnail_size_title">Thumbnail size</string>
-
-	<!-- 2020-11-20 -->
-	<string name="accessibility_image_viewer_title">Viewing image</string>
-	<string name="accessibility_image_viewer_view_comments">View comments</string>
-	<string name="accessibility_image_viewer_go_back">Go back</string>
-
-	<string name="accessibility_subtitle_spoiler_withperiod">has spoilers.</string>
-	<string name="accessibility_subtitle_sticky_withperiod">Sticky.</string>
-	<string name="accessibility_subtitle_nsfw_withperiod">Not safe for work.</string>
-	<string name="accessibility_subtitle_flair_withperiod">Flair: %s.</string>
-	<plurals name="accessibility_subtitle_points_withperiod_plural">
-		<item quantity="one">"%d up vote."</item>
-		<item quantity="other">"%d up votes."</item>
-	</plurals>
-	<string name="accessibility_subtitle_gold_withperiod">Gildings: %d.</string>
-	<string name="accessibility_subtitle_age_withperiod">%s.</string>
-	<string name="accessibility_subtitle_author_withperiod">Author: %s.</string>
-	<string name="accessibility_subtitle_subreddit_withperiod">Sub-reddit: %s.</string>
-	<string name="accessibility_subtitle_domain_withperiod">Domain: %s.</string>
-	<string name="accessibility_subtitle_selfpost_withperiod">Self post.</string>
-	<string name="accessibility_subtitle_points_unknown_withperiod">Score hidden.</string>
-	<string name="accessibility_subtitle_edited_since_being_posted">Edited.</string>
-	<string name="accessibility_subtitle_comment_collapsed">Comment collapsed.</string>
-
-	<string name="accessibility_subtitle_domain_i_redd_it">Reddit images</string>
-	<string name="accessibility_subtitle_domain_v_redd_it">Reddit videos</string>
-
-	<string name="pref_appearance_navbar_color_option_white">White</string>
-
-	<!-- 2020-11-26 -->
-	<string name="pref_images_high_res_thumbnails_key" translatable="false">pref_images_high_res_thumbnails_key</string>
-	<string name="pref_images_high_res_thumbnails_title">High resolution thumbnails</string>
-
-	<string name="pref_header_inline_image_previews">Inline image previews</string>
-
-	<string name="pref_images_inline_image_previews_title">Inline image previews</string>
-	<string name="pref_images_inline_image_previews_key" translatable="false">pref_images_inline_image_previews_key</string>
-
-	<string name="pref_images_inline_image_previews_nsfw_title">Show NSFW previews</string>
-	<string name="pref_images_inline_image_previews_nsfw_key" translatable="false">pref_images_inline_image_previews_nsfw_key</string>
-
-	<string name="pref_header_image_viewer">Image viewer</string>
-
-	<string name="error_inline_preview_failed_title">Download error</string>
-	<string name="error_inline_preview_failed_message">Could not download image preview.</string>
-
-	<string name="inline_preview_prompt_title">Image previews</string>
-	<string name="inline_preview_prompt_message">Continue showing inline image previews like the one above? You can change this at any time in the settings.</string>
-
-	<string name="inline_preview_prompt_turn_off">Turn off</string>
-	<string name="inline_preview_prompt_keep_showing">Keep showing</string>
-
-	<!-- 2020-11-27 -->
-
-	<string name="edittext_hint_comment_body_text">Comment text</string>
-
-	<string name="album_image_default_text">Image %d</string>
-
-	<string name="imageview_image_info_failed">Could not download image metadata. Trying web browser.</string>
-	<string name="imageview_download_failed">Download was interrupted. Trying web browser.</string>
-
-	<string name="pref_videos_download_before_playing_title">Fully download videos before starting playback</string>
-	<string name="pref_videos_download_before_playing_key" translatable="false">pref_videos_download_before_playing_key</string>
-
-	<!-- 2020-11-28 -->
-	<string name="prefs_category_accessibility">Accessibility</string>
-
-	<string name="pref_accessibility_separate_body_text_lines_title">Separate body text lines</string>
-	<string name="pref_accessibility_separate_body_text_lines_summary">In comment and self post body text, make each line individually focusable, rather than reading the whole comment at once</string>
-	<string name="pref_accessibility_separate_body_text_lines_key" translatable="false">pref_accessibility_separate_body_text_lines_key</string>
-
-	<!-- 2020-12-27 -->
-	<string name="pref_menus_mainmenu_dev_announcements_title">Show announcements from developer</string>
-	<string name="pref_menus_mainmenu_dev_announcements_key" translatable="false">pref_menus_mainmenu_dev_announcements_key</string>
-
-	<string name="button_dismiss">Dismiss</string>
-	<string name="button_view">View</string>
-
-	<!-- 2020-01-03 -->
-	<string name="action_not_handled_by_installed_app_toast">No app found to handle this action</string>
-
-	<!-- 2021-01-25 -->
-	<string name="pref_accessibility_min_comment_height_key" translatable="false">pref_accessibility_min_comment_height</string>
-	<string name="pref_accessibility_min_comment_height_title">Minimum comment height</string>
-	<string name="pref_accessibility_min_comment_height_none">None</string>
-
-	<!-- 2021-02-16 -->
-	<string name="pref_menus_comments_header">Comments</string>
-	<string name="pref_menus_comment_context_items_key" translatable="false">pref_menus_comment_context_items</string>
-	<string name="pref_menus_comment_context_items_title">Action menu items</string>
-
-	<!-- 2021-03-08 -->
-	<string name="pref_behaviour_post_title_opens_comments_key" translatable="false">pref_behaviour_post_title_opens_comments</string>
-	<string name="pref_behaviour_post_title_opens_comments_title">Post title opens comments</string>
-
-	<!-- 2021-03-16 -->
-	<string name="mainmenu_sent_messages">Sent Messages</string>
-
-	<!-- 2021-04-04 -->
-	<string name="post_submit_flair_none_available">No flairs available</string>
-	<string name="post_submit_flair_none_selected">No flair selected</string>
-
-	<string name="subreddit_selector_title">Select subreddit</string>
-
-	<string name="post_submit_heading">Submitting post to %1$s as user %2$s.</string>
-
-	<string name="error_subreddit_does_not_exist_title">Invalid subreddit</string>
-	<string name="error_subreddit_does_not_exist_message">The specified subreddit does not exist.</string>
-
-	<string name="error_subreddit_info_permission_denied_title">Permission denied</string>
-	<string name="error_subreddit_info_permission_denied_message">The logged in user is not able to access information about that subreddit.</string>
-
-	<string name="invalid_subreddit_name_message">Please enter a valid subreddit name.</string>
-
-	<!-- 2021-05-09 -->
-	<string name="accessibility_subtitle_recipient_withperiod">Recipient: %s.</string>
-
-	<string name="pref_images_inline_image_previews_spoiler_title">Show spoiler previews</string>
-	<string name="pref_images_inline_image_previews_spoiler_key" translatable="false">pref_images_inline_image_previews_spoiler_key</string>
-
-	<string name="pref_appearance_thumbnails_spoiler_show_key" translatable="false">pref_appearance_thumbnails_spoiler_show</string>
-	<string name="pref_appearance_thumbnails_spoiler_show_title">Show spoiler thumbnails</string>
-
-	<string name="video_mute">Mute</string>
-	<string name="video_unmute">Unmute</string>
-	<string name="video_restart">Restart video</string>
-	<string name="video_rewind">Rewind</string>
-	<string name="video_play">Play</string>
-	<string name="video_pause">Pause</string>
-	<string name="video_fast_forward">Fast forward</string>
-	<string name="video_zoom_in">Zoom in</string>
-	<string name="video_zoom_out">Zoom out</string>
-
-	<!-- 2021-06-12 -->
-	<string name="prefs_category_backup_restore">Backup/Restore</string>
-
-	<string name="pref_item_backup_preferences_key" translatable="false">pref_item_backup_preferences</string>
-	<string name="pref_item_backup_preferences_title">Backup preferences</string>
-
-	<string name="pref_item_restore_preferences_key" translatable="false">pref_item_restore_preferences</string>
-	<string name="pref_item_restore_preferences_title">Restore preferences</string>
-
-	<string name="restore_preferences_error_invalid_file_title">Invalid file</string>
-	<string name="restore_preferences_error_invalid_file_contents_message">The selected file is not a valid preference backup file.</string>
-	<string name="restore_preferences_error_invalid_file_version_message">The selected file was created by a newer version of RedReader and cannot be opened.</string>
-
-	<string name="restore_preferences_error_version_warning_title">Warning</string>
-	<string name="restore_preferences_error_version_warning_message">The selected file was created by a newer version of RedReader. Restoring the preferences from this file may lead to crashes and instability.</string>
-	
-	<string name="button_continue_anyway">Continue anyway</string>
-	<string name="button_cancel">Cancel</string>
-	<string name="button_restore_preferences">Restore</string>
-
-	<string name="prefs_category_about_key" translatable="false">prefs_category_about</string>
-	<string name="prefs_category_accessibility_key" translatable="false">prefs_category_accessibility</string>
-	<string name="prefs_category_appearance_key" translatable="false">prefs_category_appearance</string>
-	<string name="prefs_category_backup_restore_key" translatable="false">prefs_category_backup_restore</string>
-	<string name="prefs_category_behaviour_key" translatable="false">prefs_category_behaviour</string>
-	<string name="prefs_category_cache_key" translatable="false">prefs_category_cache</string>
-	<string name="prefs_category_fonts_key" translatable="false">prefs_category_fonts</string>
-	<string name="prefs_category_images_video_key" translatable="false">prefs_category_images_video</string>
-	<string name="prefs_category_menus_key" translatable="false">prefs_category_menus</string>
-	<string name="prefs_category_network_key" translatable="false">prefs_category_network</string>
-
-	<string name="backup_preferences_success">Backup successful</string>
-	<string name="restore_preferences_success">Restore successful</string>
-
-	<string name="backup_preferences_error_old_android_title">System too old</string>
-	<string name="backup_preferences_error_old_android_message">This feature requires Android 4.4 or above.</string>
-
-	<string name="error_no_file_manager_title">No file manager</string>
-	<string name="error_no_file_manager_message">The operating system on this device is missing a file manager compatible with the Android Storage Access Framework. If a file manager is present, it may be disabled.</string>
-
-	<!-- 2021-06-13 -->
-
-	<string name="error_post_flair_required_title">Flair required</string>
-	<string name="error_post_flair_required_message">The rules of this subreddit require setting a flair on your post.</string>
-
-	<string name="error_post_submit_title">Error submitting post</string>
-
-	<string name="error_tor_connection_title">Tor error</string>
-	<string name="error_tor_connection_message">Unable to connect to Tor. Please ensure the Orbot app is running, or disable Tor in the network settings.</string>
-
-	<string name="error_imgur_400_title">Imgur error</string>
-	<string name="error_imgur_400_message">Imgur is rejecting this image upload, possibly due to a rate limit. Please use another image host or try again later.</string>
-
-	<string name="error_content_blocker_title">Content blocker detected</string>
-	<string name="error_content_blocker_message">The current network appears to be blocking this request using DNS. Consider using a VPN, or switching on DNS over HTTPS in the Android network settings.</string>
-
-	<string name="error_http_429_title">Too many requests</string>
-	<string name="error_http_429_message">The server has rejected the request due to a rate limit. Please try again in a moment.</string>
-
-	<!-- 2021-06-30 -->
-	<string name="error_comment_submit_title">Error submitting comment</string>
-
-	<!-- 2021-07-01 -->
-	<string name="prefs_category_menus_appbar_screen_key" translatable="false">prefs_category_menus_appbar_screen</string>
-
-	<!-- 2021-07-09 -->
-	<string name="accessibility_subtitle_author_submitter_withperiod">Author: %s, submitter.</string>
-	<string name="accessibility_subtitle_author_moderator_withperiod">Author: %s, moderator.</string>
-	<string name="accessibility_subtitle_author_admin_withperiod">Author: %s, admin.</string>
-	<string name="accessibility_subtitle_author_submitter_moderator_withperiod">Author: %s, submitter and moderator.</string>
-	<string name="accessibility_subtitle_author_submitter_admin_withperiod">Author: %s, submitter and admin.</string>
-
-	<!-- 2021-07-10 -->
-	<string name="sort_posts_controversial_hour">Controversial: This Hour</string>
-	<string name="sort_posts_controversial_today">Controversial: Today</string>
-	<string name="sort_posts_controversial_week">Controversial: This Week</string>
-	<string name="sort_posts_controversial_month">Controversial: This Month</string>
-	<string name="sort_posts_controversial_year">Controversial: This Year</string>
-	<string name="sort_posts_controversial_all">Controversial: All Time</string>
-
-	<!-- 2021-07-25 -->
-	<string name="no_posts_yet">No posts yet.</string>
-	<string name="no_posts_yet_hidden">No posts shown due to settings.</string>
-	<string name="no_search_results_hidden">No search results shown due to settings.</string>
-
-	<string name="sort_posts_relevance_hour">Relevance: This Hour</string>
-	<string name="sort_posts_relevance_today">Relevance: Today</string>
-	<string name="sort_posts_relevance_week">Relevance: This Week</string>
-	<string name="sort_posts_relevance_month">Relevance: This Month</string>
-	<string name="sort_posts_relevance_year">Relevance: This Year</string>
-	<string name="sort_posts_relevance_all">Relevance: All Time</string>
-	<string name="sort_posts_new_hour">New: This Hour</string>
-	<string name="sort_posts_new_today">New: Today</string>
-	<string name="sort_posts_new_week">New: This Week</string>
-	<string name="sort_posts_new_month">New: This Month</string>
-	<string name="sort_posts_new_year">New: This Year</string>
-	<string name="sort_posts_new_all">New: All Time</string>
-	<string name="sort_posts_hot_hour">Hot: This Hour</string>
-	<string name="sort_posts_hot_today">Hot: Today</string>
-	<string name="sort_posts_hot_week">Hot: This Week</string>
-	<string name="sort_posts_hot_month">Hot: This Month</string>
-	<string name="sort_posts_hot_year">Hot: This Year</string>
-	<string name="sort_posts_hot_all">Hot: All Time</string>
-	<string name="sort_posts_comments_hour">Comments: This Hour</string>
-	<string name="sort_posts_comments_today">Comments: Today</string>
-	<string name="sort_posts_comments_week">Comments: This Week</string>
-	<string name="sort_posts_comments_month">Comments: This Month</string>
-	<string name="sort_posts_comments_year">Comments: This Year</string>
-	<string name="sort_posts_comments_all">Comments: All Time</string>
-
-	<!-- 2021-09-01 -->
-	<string name="pref_appearance_android_status_key" translatable="false">pref_appearance_android_status</string>
-	<string name="pref_appearance_android_status_always_hide">Always</string>
-	<string name="pref_appearance_android_status_hide_on_media">When viewing media</string>
-	<string name="pref_appearance_android_status_never_hide">Never</string>
-
-	<!-- 2021-09-07 -->
-	<string name="error_archived_reply">This has been archived and can no longer be replied to.</string>
-
-	<!-- 2021-09-22 -->
-	<string name="pref_appearance_comment_header_items_controversiality">Controversial indicator (†)</string>
-	<string name="props_controversial_symbol" translatable="false">†</string>
-	<string name="accessibility_subtitle_controversiality_withperiod">Voted controversial.</string>
-
-	<!-- 2021-10-12 -->
-	<string name="search_listing_header_limit_location">Limit to Location</string>
-	<string name="search_results_query_and_location">Search for \"%1$s\" on %2$s</string>
-	<string name="search_results_location_only">Search on %s</string>
-
-	<!-- 2021-11-28 -->
-	<string name="error_title_muxing_failed">Video generation failed</string>
-	<string name="error_message_muxing_failed">Failed to combine the video and audio tracks into a single file.</string>
-
-	<!-- 2022-01-09 -->
-	<string name="error_title_report_previous_crash">Report previous crash</string>
-	<string name="error_message_report_previous_crash">RedReader crashed the last time it was run. Would you like to report this?</string>
-
-	<!-- 2021-01-21 -->
-	<string name="error_locked_reply">This has been locked and can no longer be replied to.</string>
-
-	<!-- 2021-10-23 -->
-	<string name="sort_comments_best_suggested">Best (suggested)</string>
-	<string name="sort_comments_hot_suggested">Hot (suggested)</string>
-	<string name="sort_comments_new_suggested">New (suggested)</string>
-	<string name="sort_comments_old_suggested">Old (suggested)</string>
-	<string name="sort_comments_controversial_suggested">Controversial (suggested)</string>
-	<string name="sort_comments_top_suggested">Top (suggested)</string>
-	<string name="sort_comments_qa_suggested">Q&amp;A (suggested)</string>
-
-	<!-- 2022-01-26 -->
-	<string name="pref_appearance_post_subtitle_items_upvote_ratio">Percent upvoted</string>
-	<string name="subtitle_upvote_ratio">upvoted</string>
-	<string name="accessibility_subtitle_upvote_ratio_withperiod" tools:ignore="PluralsCandidate">%d percent up voted.</string>
-
-	<!-- 2022-02-19 -->
-	<string name="find_subreddit">Find Subreddit</string>
-
-	<!-- 2022-02-10 -->
-	<string name="pref_behaviour_block_screenshots_key">pref_behaviour_block_screenshots</string>
-	<string name="pref_behaviour_block_screenshots_title">Block screenshots</string>
-	<string name="pref_behaviour_block_screenshots_summary">Prevent screenshots from being taken, and hide the app content in the recents menu</string>
-
-	<!-- 2022-03-25 -->
-	<string name="pref_accessibility_say_comment_indent_level_key">pref_accessibility_say_comment_indent_level</string>
-	<string name="pref_accessibility_say_comment_indent_level_title">Announce comment indent</string>
-	<string name="pref_accessibility_say_comment_indent_level_summary">Announce relative level (indent) of comments within a thread</string>
-	<string name="accessibility_comment_indent_level" tools:ignore="PluralsCandidate">Level %d comment.</string>
-
-	<string name="pref_behaviour_collapse_sticky_comments_key">pref_behaviour_collapse_sticky_comments</string>
-	<string name="pref_behaviour_collapse_sticky_comments_title">Collapse sticky comments</string>
-	<string name="pref_behaviour_collapse_sticky_comments_option_always">Always</string>
-	<string name="pref_behaviour_collapse_sticky_comments_option_only_bots">Only comments by bots</string>
-	<string name="pref_behaviour_collapse_sticky_comments_option_never">Never</string>
-
-	<!-- 2022-04-05 -->
-	<string name="pref_accessibility_concise_mode_key">pref_accessibility_concise_mode</string>
-	<string name="pref_accessibility_concise_mode_title">Use concise language when possible</string>
-	<string name="pref_accessibility_concise_mode_summary">Make accessibility labels less verbose to make navigation more efficient for experienced Redditors</string>
-	<string name="accessibility_subtitle_flair_withperiod_concise">[%s].</string>
-	<string name="accessibility_subtitle_nsfw_withperiod_concise">NSFW.</string>
-	<plurals name="accessibility_subtitle_points_withperiod_concise_plural">
-		<item quantity="one">"%d up."</item>
-		<item quantity="other">"%d up."</item>
-	</plurals>
-	<string name="accessibility_subtitle_author_withperiod_concise_post">u/%s.</string>
-	<string name="accessibility_subtitle_author_withperiod_concise_comment">%s.</string>
-	<string name="accessibility_subtitle_subreddit_withperiod_concise">r/%s.</string>
-	<string name="accessibility_subtitle_domain_withperiod_concise">%s.</string>
-	<string name="accessibility_subtitle_selfpost_withperiod_concise">Self.</string>
-	<string name="accessibility_subtitle_comment_collapsed_concise">Collapsed.</string>
-	<string name="accessibility_subtitle_author_submitter_withperiod_concise">%s, OP.</string>
-	<string name="accessibility_subtitle_author_moderator_withperiod_concise_post">u/%s, mod.</string>
-	<string name="accessibility_subtitle_author_moderator_withperiod_concise_comment">%s, mod.</string>
-	<string name="accessibility_subtitle_author_admin_withperiod_concise_post">u/%s, admin.</string>
-	<string name="accessibility_subtitle_author_admin_withperiod_concise_comment">%s, admin.</string>
-	<string name="accessibility_subtitle_author_submitter_moderator_withperiod_concise">%s, OP and mod.</string>
-	<string name="accessibility_subtitle_author_submitter_admin_withperiod_concise">%s, OP and admin.</string>
-	<string name="accessibility_subtitle_controversiality_withperiod_concise">Controversial.</string>
-	<string name="accessibility_subtitle_upvote_ratio_withperiod_concise" tools:ignore="PluralsCandidate">%d percent up.</string>
-	<string name="accessibility_comment_indent_level_concise" tools:ignore="PluralsCandidate">l%d.</string>
-	<string name="accessibility_subtitle_upvoted_withperiod">Upvoted.</string>
-	<string name="accessibility_subtitle_downvoted_withperiod">Downvoted.</string>
-
-	<!-- 2022-04-10 -->
-	<string name="accessibility_post_already_read_withperiod">Read.</string>
-
-	<!-- 2022-05-17 -->
-	<string name="pref_behaviour_keep_screen_awake_key">pref_behaviour_keep_screen_awake</string>
-	<string name="pref_behaviour_keep_screen_awake_title">Keep screen awake</string>
-	<string name="pref_behaviour_keep_screen_awake_summary">Keep screen awake when RedReader is running in the foreground</string>
-
-	<!-- 2022-05-23 -->
-	<string name="subtitle_comments">cmts</string>
-	<string name="pref_appearance_post_subtitle_items_comments">Comments</string>
-	<plurals name="accessibility_subtitle_comments_withperiod_plural">
-		<item quantity="one">%d comment.</item>
-		<item quantity="other">%d comments.</item>
-	</plurals>
-
-	<!-- 2022-05-29 -->
-	<string name="find_location">Find Location</string>
-
-	<string name="find_location_button_goto_subreddit">Go to subreddit</string>
-	<string name="find_location_button_goto_user">User</string>
-	<string name="find_location_button_goto_url">URL</string>
-	<string name="find_location_button_search_posts">Search Posts</string>
-
-	<!-- 2022-06-27 -->
-	<string name="pref_appearance_post_hide_subreddit_header_key">pref_appearance_post_hide_subreddit_header</string>
-	<string name="pref_appearance_post_hide_subreddit_header_title">Hide subreddit header</string>
-
-	<!-- 2022-09-10 -->
-	<string name="post_domain_deleted">deleted</string>
 
 </resources>

@@ -36,100 +36,76 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<Preference
-			android:key="@string/prefs_category_menus_appbar_screen_key"
-			android:title="@string/prefs_category_menus_appbar_screen"/>
+    <MultiSelectListPreference
+        android:dialogTitle="@string/pref_menus_mainmenu_useritems_title"
+        android:key="@string/pref_menus_mainmenu_useritems_key"
+        android:title="@string/pref_menus_mainmenu_useritems_title"
+        android:entries="@array/pref_menus_mainmenu_useritems_items"
+        android:entryValues="@array/pref_menus_mainmenu_useritems_items_return"
+        android:defaultValue="@array/pref_menus_mainmenu_useritems_items_default" />
 
-	<CheckBoxPreference android:title="@string/pref_menus_quick_account_switcher_title"
-						android:key="@string/pref_menus_quick_account_switcher_key"
+	<MultiSelectListPreference
+		android:dialogTitle="@string/pref_menus_mainmenu_shortcutitems_title"
+		android:key="@string/pref_menus_mainmenu_shortcutitems_key"
+		android:title="@string/pref_menus_mainmenu_shortcutitems_title"
+		android:entries="@array/pref_menus_mainmenu_shortcutitems_items"
+		android:entryValues="@array/pref_menus_mainmenu_shortcutitems_items_return"
+		android:defaultValue="@array/pref_menus_mainmenu_shortcutitems_items_default" />
+
+    <CheckBoxPreference android:title="@string/pref_appearance_hide_username_main_menu_title"
+                        android:key="@string/pref_appearance_hide_username_main_menu_key"
+                        android:defaultValue="false"/>
+
+	<CheckBoxPreference android:title="@string/pref_appearance_show_blocked_subreddits_main_menu_title"
+						android:key="@string/pref_appearance_show_blocked_subreddits_main_menu_key"
+						android:defaultValue="false"/>
+
+	<CheckBoxPreference android:title="@string/pref_menus_show_multireddit_main_menu_title"
+						android:key="@string/pref_menus_show_multireddit_main_menu_key"
 						android:defaultValue="true"/>
 
-	<MultiSelectListPreference
-		android:dialogTitle="@string/pref_menus_link_context_items_title"
-		android:key="@string/pref_menus_link_context_items_key"
-		android:title="@string/pref_menus_link_context_items_title"
-		android:entries="@array/pref_menus_link_context_items"
-		android:entryValues="@array/pref_menus_link_context_items_return"
-		android:defaultValue="@array/pref_menus_link_context_items_default" />
+	<CheckBoxPreference android:title="@string/pref_menus_show_subscribed_subreddits_main_menu_title"
+						android:key="@string/pref_menus_show_subscribed_subreddits_main_menu_key"
+						android:defaultValue="true"/>
+
+    <MultiSelectListPreference
+        android:dialogTitle="@string/pref_menus_post_context_items_title"
+        android:key="@string/pref_menus_post_context_items_key"
+        android:title="@string/pref_menus_post_context_items_title"
+        android:entries="@array/pref_menus_post_context_items"
+        android:entryValues="@array/pref_menus_post_context_items_return"
+        android:defaultValue="@array/pref_menus_post_context_items_return" />
+
+    <MultiSelectListPreference
+        android:dialogTitle="@string/pref_menus_post_toolbar_items_title"
+        android:key="@string/pref_menus_post_toolbar_items_key"
+        android:title="@string/pref_menus_post_toolbar_items_title"
+        android:entries="@array/pref_menus_post_toolbar_items"
+        android:entryValues="@array/pref_menus_post_toolbar_items_return"
+        android:defaultValue="@array/pref_menus_post_toolbar_items_return" />
+
+    <MultiSelectListPreference
+        android:dialogTitle="@string/pref_menus_optionsmenu_items_title"
+        android:key="@string/pref_menus_optionsmenu_items_key"
+        android:title="@string/pref_menus_optionsmenu_items_title"
+        android:entries="@array/pref_menus_optionsmenu_items_items"
+        android:entryValues="@array/pref_menus_optionsmenu_items_items_return"
+        android:defaultValue="@array/pref_menus_optionsmenu_items_items_default" />
 
 	<MultiSelectListPreference
-		android:dialogTitle="@string/pref_menus_subreddit_context_items_title"
-		android:key="@string/pref_menus_subreddit_context_items_key"
-		android:title="@string/pref_menus_subreddit_context_items_title"
-		android:entries="@array/pref_menus_subreddit_context_items"
-		android:entryValues="@array/pref_menus_subreddit_context_items_return"
-		android:defaultValue="@array/pref_menus_subreddit_context_items_default" />
+			android:dialogTitle="@string/pref_menus_link_context_items_title"
+			android:key="@string/pref_menus_link_context_items_key"
+			android:title="@string/pref_menus_link_context_items_title"
+			android:entries="@array/pref_menus_link_context_items"
+			android:entryValues="@array/pref_menus_link_context_items_return"
+			android:defaultValue="@array/pref_menus_link_context_items_default" />
 
-	<PreferenceCategory android:title="@string/pref_menus_mainmenu_header" >
-
-		<MultiSelectListPreference
-			android:dialogTitle="@string/pref_menus_mainmenu_shortcutitems_title"
-			android:key="@string/pref_menus_mainmenu_shortcutitems_key"
-			android:title="@string/pref_menus_mainmenu_shortcutitems_title"
-			android:entries="@array/pref_menus_mainmenu_shortcutitems_items"
-			android:entryValues="@array/pref_menus_mainmenu_shortcutitems_items_return"
-			android:defaultValue="@array/pref_menus_mainmenu_shortcutitems_items_default" />
-
-    	<MultiSelectListPreference
-			android:dialogTitle="@string/pref_menus_mainmenu_useritems_title"
-			android:key="@string/pref_menus_mainmenu_useritems_key"
-			android:title="@string/pref_menus_mainmenu_useritems_title"
-			android:entries="@array/pref_menus_mainmenu_useritems_items"
-        	android:entryValues="@array/pref_menus_mainmenu_useritems_items_return"
-        	android:defaultValue="@array/pref_menus_mainmenu_useritems_items_default" />
-
-    	<CheckBoxPreference android:title="@string/pref_appearance_hide_username_main_menu_title"
-							android:key="@string/pref_appearance_hide_username_main_menu_key"
-							android:defaultValue="false"/>
-
-		<CheckBoxPreference android:title="@string/pref_appearance_show_blocked_subreddits_main_menu_title"
-							android:key="@string/pref_appearance_show_blocked_subreddits_main_menu_key"
-							android:defaultValue="false"/>
-
-		<CheckBoxPreference android:title="@string/pref_menus_show_multireddit_main_menu_title"
-							android:key="@string/pref_menus_show_multireddit_main_menu_key"
-							android:defaultValue="true"/>
-
-		<CheckBoxPreference android:title="@string/pref_menus_show_subscribed_subreddits_main_menu_title"
-							android:key="@string/pref_menus_show_subscribed_subreddits_main_menu_key"
-							android:defaultValue="true"/>
-
-		<CheckBoxPreference android:title="@string/pref_menus_mainmenu_dev_announcements_title"
-							android:key="@string/pref_menus_mainmenu_dev_announcements_key"
-							android:defaultValue="true"/>
-
-	</PreferenceCategory>
-
-	<PreferenceCategory android:title="@string/pref_menus_posts_header">
-
-    	<MultiSelectListPreference
-        	android:dialogTitle="@string/pref_menus_post_context_items_title"
-        	android:key="@string/pref_menus_post_context_items_key"
-        	android:title="@string/pref_menus_post_context_items_title"
-        	android:entries="@array/pref_menus_post_context_items"
-        	android:entryValues="@array/pref_menus_post_context_items_return"
-        	android:defaultValue="@array/pref_menus_post_context_items_default" />
-
-    	<MultiSelectListPreference
-        	android:dialogTitle="@string/pref_menus_post_toolbar_items_title"
-        	android:key="@string/pref_menus_post_toolbar_items_key"
-        	android:title="@string/pref_menus_post_toolbar_items_title"
-        	android:entries="@array/pref_menus_post_toolbar_items"
-        	android:entryValues="@array/pref_menus_post_toolbar_items_return"
-        	android:defaultValue="@array/pref_menus_post_toolbar_items_return" />
-
-	</PreferenceCategory>
-
-	<PreferenceCategory android:title="@string/pref_menus_comments_header">
-
-		<MultiSelectListPreference
-			android:dialogTitle="@string/pref_menus_comment_context_items_title"
-			android:key="@string/pref_menus_comment_context_items_key"
-			android:title="@string/pref_menus_comment_context_items_title"
-			android:entries="@array/pref_menus_comment_context_items"
-			android:entryValues="@array/pref_menus_comment_context_items_return"
-			android:defaultValue="@array/pref_menus_comment_context_items_return" />
-
-	</PreferenceCategory>
+	<MultiSelectListPreference
+			android:dialogTitle="@string/pref_menus_subreddit_context_items_title"
+			android:key="@string/pref_menus_subreddit_context_items_key"
+			android:title="@string/pref_menus_subreddit_context_items_title"
+			android:entries="@array/pref_menus_subreddit_context_items"
+			android:entryValues="@array/pref_menus_subreddit_context_items_return"
+			android:defaultValue="@array/pref_menus_subreddit_context_items_default" />
 
 </PreferenceScreen>

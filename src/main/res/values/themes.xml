@@ -17,21 +17,19 @@
   -->
 
 <resources>
-	
-    <style name="RR.Dark" parent="Theme.MaterialComponents.NoActionBar">
+
+    <style name="RR.Dark" parent="Theme.AppCompat.NoActionBar">
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
-        <item name="colorPrimary">#CCCCCC</item>
+        <item name="colorPrimary">#222222</item>
         <item name="colorPrimaryDark">#000000</item>
         <item name="colorAccent">#99DDDD</item>
-		<item name="rrActionBarCol">#222222</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#323232</item>
 
         <item name="rrMainTextCol">#FFFFFF</item>
 		<item name="rrSubTextCol">#AAAAAA</item>
-		<item name="rrMaterialButtonTextCol">#CCCCCC</item>
 
         <item name="android:windowBackground">@color/darkWindowBackground</item>
 
@@ -47,23 +45,13 @@
         <item name="rrListHeaderLineCol">#444444</item>
         <item name="rrListSubtitleCol">#CCCCCC</item>
 
-		<item name="rrAnnouncementBorderCol">#808080</item>
-
         <item name="rrLoadingRingForegroundCol">#C8C8C8</item>
         <item name="rrLoadingRingBackgroundCol">#323232</item>
 
-        <item name="alertDialogTheme">@style/Theme.MaterialComponents.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Dark</item>
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Dark</item>
 
 		<item name="actionBarSize">48dp</item>
-
-		<item name="rrQuickLinkButtonCol">#444</item>
-		<item name="rrQuickLinkButtonColDisabled">#222</item>
-		<item name="rrQuickLinkButtonColPressed">#777</item>
-
-		<item name="rrQuickLinkButtonColForeground">#DDD</item>
-		<item name="rrQuickLinkButtonColForegroundDisabled">#777</item>
-		<item name="rrQuickLinkButtonColForegroundPressed">#DDD</item>
 
         <!-- Post -->
 
@@ -77,16 +65,11 @@
         <item name="rrPostCommentsButtonHighlightCol">#777777</item>
         <item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
         <item name="rrPostThumbnailBackground">#000000</item>
-		<item name="rrPostInlinePreviewDivider">#222222</item>
         <item name="rrPostFlingTextCol">#FFFFFF</item>
         <item name="rrFlairBackCol">#333333</item>
         <item name="rrFlairTextCol">#AAAAAA</item>
         <item name="rrGoldBackCol">#B0923C</item>
         <item name="rrGoldTextCol">#000000</item>
-
-		<item name="rrPostToolbarCol">#181818</item>
-
-		<item name="rrThemedButtonSelector">@drawable/rr_themed_button_selector_dark</item>
 
         <!-- Comment -->
 
@@ -104,46 +87,37 @@
         <item name="rrIconAdd">@drawable/ic_action_add_dark</item>
         <item name="rrIconCross">@drawable/ic_action_cross_dark</item>
         <item name="rrIconEnvOpen">@drawable/ic_action_env_open_dark</item>
-        <item name="rrIconSentMessages">@drawable/ic_action_sent_messages_dark</item>
         <item name="rrIconInfo">@drawable/ic_action_info_dark</item>
         <item name="rrIconRefresh">@drawable/ic_refresh_dark</item>
         <item name="rrIconReply">@drawable/ic_action_reply_dark</item>
         <item name="rrIconSend">@drawable/ic_action_send_dark</item>
         <item name="rrIconShare">@drawable/ic_action_share_dark</item>
         <item name="rrIconSort">@drawable/ic_sort_dark</item>
-        <item name="rrIconStarFilled">@drawable/star_dark</item>
+        <item name="rrIconStarFilled">@drawable/ic_action_star_filled_dark</item>
+        <item name="rrIconDownvote">@drawable/action_downvote_dark</item>
+        <item name="rrIconUpvote">@drawable/action_upvote_dark</item>
         <item name="rrIconFfLeft">@drawable/ic_fast_rewind_dark</item>
         <item name="rrIconFfRight">@drawable/ic_fast_forward_dark</item>
         <item name="rrIconTick">@drawable/ic_action_tick_dark</item>
         <item name="rrIconLink">@drawable/ic_action_link_dark</item>
         <item name="rrIconTime">@drawable/ic_time_dark</item>
         <item name="rrIconForward">@drawable/ic_action_forward_dark</item>
-		<item name="rrIconOverflow">@drawable/dots_vertical_dark</item>
-		<item name="rrIconArrowUpBold">@drawable/arrow_up_bold_dark</item>
-		<item name="rrIconArrowDownBold">@drawable/arrow_down_bold_dark</item>
-		<item name="rrIconStarFilledOff">@drawable/star_off_dark</item>
-		<item name="rrIconPin">@drawable/pin_dark</item>
-		<item name="rrIconPinOff">@drawable/pin_off_dark</item>
-		<item name="rrIconMessagePlus">@drawable/message_plus_dark</item>
-		<item name="rrIconChevronRight">@drawable/chevron_right_dark</item>
-		<item name="rrIconMagnify">@drawable/magnify_dark</item>
-		<item name="rrIconAccountSearch">@drawable/account_search_dark</item>
-		
+        <item name="rrIconUpdownvote">@drawable/action_updownvote_dark</item>
+
     </style>
 
 	<style name="RR.Dark.LowContrast" parent="RR.Dark">
 
 		<item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
+		<item name="colorPrimary">#333333</item>
 		<item name="colorPrimaryDark">#000000</item>
 		<item name="colorAccent">#99DDDD</item>
-		<item name="rrActionBarCol">#333333</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#444444</item>
 
 		<item name="rrMainTextCol">#999999</item>
 		<item name="rrSubTextCol">#777777</item>
-		<item name="rrMaterialButtonTextCol">#CCCCCC</item>
 
 		<item name="android:windowBackground">@color/darkWindowBackground</item>
 
@@ -159,12 +133,11 @@
 		<item name="rrListHeaderLineCol">#444444</item>
 		<item name="rrListSubtitleCol">#BBBBBB</item>
 
-		<item name="rrAnnouncementBorderCol">#808080</item>
-
 		<item name="rrLoadingRingForegroundCol">#AAAAAA</item>
 		<item name="rrLoadingRingBackgroundCol">#323232</item>
 
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Dark</item>
+		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Dark</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -180,7 +153,6 @@
 		<item name="rrPostCommentsButtonHighlightCol">#777777</item>
 		<item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
 		<item name="rrPostThumbnailBackground">#000000</item>
-		<item name="rrPostInlinePreviewDivider">#333333</item>
 		<item name="rrPostFlingTextCol">#BBBBBB</item>
 		<item name="rrFlairBackCol">#333333</item>
 		<item name="rrFlairTextCol">#AAAAAA</item>
@@ -202,16 +174,14 @@
 
 		<item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
-		<item name="colorPrimary">#CCCCCC</item>
+		<item name="colorPrimary">#000000</item>
 		<item name="colorPrimaryDark">#000000</item>
 		<item name="colorAccent">#99DDDD</item>
-		<item name="rrActionBarCol">#000000</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#000000</item>
 
 		<item name="rrMainTextCol">#FFFFFF</item>
 		<item name="rrSubTextCol">#AAAAAA</item>
-		<item name="rrMaterialButtonTextCol">#CCCCCC</item>
 
 		<item name="android:windowBackground">@color/darkWindowBackground</item>
 
@@ -227,12 +197,11 @@
 		<item name="rrListHeaderLineCol">#444444</item>
 		<item name="rrListSubtitleCol">#CCCCCC</item>
 
-		<item name="rrAnnouncementBorderCol">#808080</item>
-
 		<item name="rrLoadingRingForegroundCol">#C8C8C8</item>
 		<item name="rrLoadingRingBackgroundCol">#000000</item>
 
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Dark</item>
+		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Dark</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -248,14 +217,11 @@
 		<item name="rrPostCommentsButtonHighlightCol">#777777</item>
 		<item name="rrPostCommentsButtonTextCol">#BBBBBB</item>
 		<item name="rrPostThumbnailBackground">#000000</item>
-		<item name="rrPostInlinePreviewDivider">#000000</item>
 		<item name="rrPostFlingTextCol">#FFFFFF</item>
 		<item name="rrFlairBackCol">#222222</item>
 		<item name="rrFlairTextCol">#AAAAAA</item>
 		<item name="rrGoldBackCol">#B0923C</item>
 		<item name="rrGoldTextCol">#000000</item>
-
-		<item name="rrPostToolbarCol">#000000</item>
 
 		<!-- Comment -->
 
@@ -268,32 +234,31 @@
 
 	</style>
 
-	<style name="RR.Settings" parent="Theme.MaterialComponents.NoActionBar">
+	<style name="RR.Settings" parent="Theme.AppCompat">
 
-		<item name="colorPrimary">#CCCCCC</item>
+		<item name="alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
+
+		<item name="colorPrimary">#555555</item>
 		<item name="colorPrimaryDark">#555555</item>
 		<item name="colorAccent">#99DDDD</item>
-		<item name="rrActionBarCol">#555555</item>
 		<item name="android:windowBackground">@color/settingsWindowBackground</item>
 	</style>
 
     <style name="RR.Startup" parent="RR.Dark">
     </style>
 
-    <style name="RR.Light.DarkActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="RR.Light.DarkActionBar" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
         <item name="colorPrimary">#222222</item>
         <item name="colorPrimaryDark">#111111</item>
         <item name="colorAccent">?colorPrimaryDark</item>
-		<item name="rrActionBarCol">?colorPrimary</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#323232</item>
 
         <item name="rrMainTextCol">#000000</item>
 		<item name="rrSubTextCol">#777777</item>
-		<item name="rrMaterialButtonTextCol">?colorPrimaryDark</item>
 
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:textColorSecondary">#000000</item>
@@ -310,25 +275,15 @@
         <item name="rrListItemBackgroundHighlightCol">#DDDDDD</item>
         <item name="rrListBackgroundCol">#F5F5F5</item>
 
-        <item name="alertDialogTheme">@style/Theme.MaterialComponents.Light.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Light</item>
+        <item name="alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.AppCompat.Light</item>
 
         <item name="rrListDividerCol">#CCCCCC</item>
         <item name="rrListHeaderTextCol">?colorAccent</item>
         <item name="rrListHeaderLineCol">?colorAccent</item>
         <item name="rrListSubtitleCol">#666666</item>
 
-		<item name="rrAnnouncementBorderCol">#A0A0A0</item>
-
 		<item name="actionBarSize">48dp</item>
-
-		<item name="rrQuickLinkButtonCol">#DDD</item>
-		<item name="rrQuickLinkButtonColDisabled">#DDD</item>
-		<item name="rrQuickLinkButtonColPressed">#AAA</item>
-
-		<item name="rrQuickLinkButtonColForeground">#222</item>
-		<item name="rrQuickLinkButtonColForegroundDisabled">#999</item>
-		<item name="rrQuickLinkButtonColForegroundPressed">#222</item>
 
         <!-- Comment -->
 
@@ -350,17 +305,12 @@
         <item name="rrPostCommentsButtonBackCol">#EEEEEE</item>
         <item name="rrPostCommentsButtonHighlightCol">#CCCCCC</item>
         <item name="rrPostCommentsButtonTextCol">#666666</item>
-        <item name="rrPostThumbnailBackground">#EEEEEE</item>
-		<item name="rrPostInlinePreviewDivider">#CCCCCC</item>
+        <item name="rrPostThumbnailBackground">#DDDDDD</item>
         <item name="rrPostFlingTextCol">?colorPrimary</item>
         <item name="rrFlairBackCol">#DDDDDD</item>
         <item name="rrFlairTextCol">#444444</item>
         <item name="rrGoldBackCol">#FFDF52</item>
         <item name="rrGoldTextCol">#000000</item>
-
-		<item name="rrPostToolbarCol">#F2FBFB</item>
-
-		<item name="rrThemedButtonSelector">@drawable/rr_themed_button_selector_light</item>
 
         <!-- Icons -->
 
@@ -369,30 +319,22 @@
         <item name="rrIconAdd">@drawable/ic_action_add_light</item>
         <item name="rrIconCross">@drawable/ic_action_cross_light</item>
         <item name="rrIconEnvOpen">@drawable/ic_action_env_open_light</item>
-        <item name="rrIconSentMessages">@drawable/ic_action_sent_messages_light</item>
         <item name="rrIconInfo">@drawable/ic_action_info_light</item>
         <item name="rrIconRefresh">@drawable/ic_refresh_light</item>
         <item name="rrIconReply">@drawable/ic_action_reply_light</item>
         <item name="rrIconSend">@drawable/ic_action_send_light</item>
         <item name="rrIconShare">@drawable/ic_action_share_light</item>
         <item name="rrIconSort">@drawable/ic_sort_light</item>
-        <item name="rrIconStarFilled">@drawable/star_light</item>
+        <item name="rrIconStarFilled">@drawable/ic_action_star_filled_light</item>
+        <item name="rrIconDownvote">@drawable/action_downvote_light</item>
+        <item name="rrIconUpvote">@drawable/action_upvote_light</item>
         <item name="rrIconFfLeft">@drawable/ic_fast_rewind_light</item>
         <item name="rrIconFfRight">@drawable/ic_fast_forward_light</item>
         <item name="rrIconTick">@drawable/ic_action_tick_light</item>
         <item name="rrIconLink">@drawable/ic_action_link_light</item>
         <item name="rrIconTime">@drawable/ic_time_light</item>
         <item name="rrIconForward">@drawable/ic_action_forward_light</item>
-		<item name="rrIconOverflow">@drawable/dots_vertical_light</item>
-		<item name="rrIconArrowUpBold">@drawable/arrow_up_bold_light</item>
-		<item name="rrIconArrowDownBold">@drawable/arrow_down_bold_light</item>
-		<item name="rrIconStarFilledOff">@drawable/star_off_light</item>
-		<item name="rrIconPin">@drawable/pin_light</item>
-		<item name="rrIconPinOff">@drawable/pin_off_light</item>
-		<item name="rrIconMessagePlus">@drawable/message_plus_light</item>
-		<item name="rrIconChevronRight">@drawable/chevron_right_light</item>
-		<item name="rrIconMagnify">@drawable/magnify_light</item>
-		<item name="rrIconAccountSearch">@drawable/account_search_light</item>
+        <item name="rrIconUpdownvote">@drawable/action_updownvote_light</item>
 
     </style>
 

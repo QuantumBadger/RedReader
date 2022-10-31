@@ -39,15 +39,6 @@
         <item>@string/action_comments</item>
         <item>@string/action_link</item>
         <item>@string/action_external</item>
-        <item>@string/action_report</item>
-        <item>@string/action_save_image</item>
-        <item>@string/action_gotosubreddit</item>
-        <item>@string/action_share</item>
-        <item>@string/action_share_comments</item>
-        <item>@string/action_share_image</item>
-        <item>@string/action_copy_link</item>
-        <item>@string/action_user_profile</item>
-        <item>@string/action_properties</item>
         <item>@string/action_actionmenu</item>
 		<item>@string/action_back</item>
         <item>@string/action_fling_disabled</item>
@@ -62,15 +53,6 @@
         <item>comments</item>
         <item>link</item>
         <item>browser</item>
-        <item>report</item>
-        <item>save_image</item>
-        <item>goto_subreddit</item>
-        <item>share</item>
-        <item>share_comments</item>
-        <item>share_image</item>
-        <item>copy</item>
-        <item>user_profile</item>
-        <item>properties</item>
         <item>action_menu</item>
 		<item>back</item>
         <item>disabled</item>
@@ -91,14 +73,7 @@
 		<item>@string/action_upvote</item>
 		<item>@string/action_downvote</item>
 		<item>@string/action_save</item>
-		<item>@string/action_report</item>
 		<item>@string/action_reply</item>
-		<item>@string/action_comment_context</item>
-		<item>@string/action_comment_go_to</item>
-		<item>@string/action_comment_links</item>
-		<item>@string/action_share</item>
-		<item>@string/action_copy_text</item>
-		<item>@string/action_copy_link</item>
 		<item>@string/action_user_profile</item>
 		<item>@string/action_collapse</item>
 		<item>@string/action_properties</item>
@@ -112,14 +87,7 @@
 		<item>upvote</item>
 		<item>downvote</item>
 		<item>save</item>
-		<item>report</item>
 		<item>reply</item>
-		<item>context</item>
-		<item>go_to_comment</item>
-		<item>comment_links</item>
-		<item>share</item>
-		<item>copy_text</item>
-		<item>copy_url</item>
 		<item>user_profile</item>
 		<item>collapse</item>
 		<item>properties</item>
@@ -131,13 +99,8 @@
 	<string-array name="pref_behaviour_postsort_array">
 		<item>@string/sort_posts_hot</item>
 		<item>@string/sort_posts_new</item>
-		<item>@string/sort_posts_rising</item>
-		<item>@string/sort_posts_controversial_hour</item>
-		<item>@string/sort_posts_controversial_today</item>
-		<item>@string/sort_posts_controversial_week</item>
-		<item>@string/sort_posts_controversial_month</item>
-		<item>@string/sort_posts_controversial_year</item>
-		<item>@string/sort_posts_controversial_all</item>
+		<!-- <item>@string/sort_posts_rising</item> -->
+		<item>@string/sort_posts_controversial</item>
 		<item>@string/sort_posts_best</item>
 		<item>@string/sort_posts_top_hour</item>
 		<item>@string/sort_posts_top_today</item>
@@ -151,13 +114,8 @@
 	<string-array name="pref_behaviour_postsort_array_return">
 		<item>hot</item>
 		<item>new</item>
-		<item>rising</item>
-		<item>controversial_hour</item>
-		<item>controversial_day</item>
-		<item>controversial_week</item>
-		<item>controversial_month</item>
-		<item>controversial_year</item>
-		<item>controversial_all</item>
+		<!-- <item>rising</item> -->
+		<item>controversial</item>
 		<item>best</item>
 		<item>top_hour</item>
 		<item>top_day</item>
@@ -226,7 +184,6 @@
 
     <string-array name="pref_appearance_navbar_color_options">
         <item>@string/pref_appearance_navbar_color_option_black</item>
-		<item>@string/pref_appearance_navbar_color_option_white</item>
         <item>@string/pref_appearance_navbar_color_option_primary</item>
         <item>@string/pref_appearance_navbar_color_option_primarydark</item>
     </string-array>
@@ -234,7 +191,6 @@
     <!-- Constants. Do not change. -->
     <string-array name="pref_appearance_navbar_color_options_return">
         <item>black</item>
-		<item>white</item>
         <item>primary</item>
         <item>primarydark</item>
     </string-array>
@@ -265,35 +221,30 @@
 	</string-array>
 
     <string-array name="pref_appearance_langforce">
-		<item>@string/lang_auto</item>
-		<item>@string/lang_en</item>
-		<item>@string/lang_da</item>
-		<item>@string/lang_de</item>
-		<item>@string/lang_fr</item>
-		<item>@string/lang_ar</item>
-		<item>@string/lang_es</item>
-		<item>@string/lang_cs</item>
-		<item>@string/lang_it</item>
-		<item>@string/lang_nl</item>
-		<item>@string/lang_pt</item>
-		<item>@string/lang_ro</item>
+        <item>@string/lang_auto</item>
+        <item>@string/lang_en</item>
+        <item>@string/lang_da</item>
+        <item>@string/lang_de</item>
+        <item>@string/lang_fr</item>
+        <item>@string/lang_ar</item>
+        <item>@string/lang_es</item>
+        <item>@string/lang_cs</item>
+        <item>@string/lang_it</item>
+        <item>@string/lang_se</item>
+	    <item>@string/lang_nl</item>
+        <item>@string/lang_pt</item>
+	    <item>@string/lang_ro</item>
 		<item>@string/lang_hu</item>
 		<item>@string/lang_eo</item>
 		<item>@string/lang_pl</item>
 		<item>@string/lang_in</item>
 		<item>@string/lang_fi</item>
 		<item>@string/lang_my</item>
-		<item>@string/lang_nb_rNO</item>
+		<item>@string/lang_nb</item>
 		<item>@string/lang_ru</item>
 		<item>@string/lang_uk</item>
 		<item>@string/lang_zh_rCN</item>
-		<item>@string/lang_zh_rTW</item>
 		<item>@string/lang_eu</item>
-		<item>@string/lang_el</item>
-		<item>@string/lang_hi</item>
-		<item>@string/lang_ja</item>
-		<item>@string/lang_lt</item>
-		<item>@string/lang_sv</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -307,6 +258,7 @@
         <item>es</item>
         <item>cs</item>
         <item>it</item>
+        <item>se</item>
 		<item>nl</item>
         <item>pt</item>
 		<item>ro</item>
@@ -320,13 +272,7 @@
 		<item>ru</item>
 		<item>uk</item>
 		<item>zh-rCN</item>
-		<item>zh-rTW</item>
 		<item>eu</item>
-		<item>el</item>
-		<item>hi</item>
-		<item>ja</item>
-		<item>lt</item>
-		<item>sv</item>
     </string-array>
 
     <string-array name="pref_cache_maxage">
@@ -382,7 +328,6 @@
 	</string-array>
 
     <string-array name="pref_appearance_fontscale">
-		<item>@string/pref_appearance_fontscale_use_global</item>
         <item>0.7x</item>
         <item>0.8x</item>
         <item>0.9x</item>
@@ -409,7 +354,6 @@
     </string-array>
 
     <string-array name="pref_appearance_fontscale_return">
-		<item>-1</item>
         <item>0.7</item>
         <item>0.8</item>
         <item>0.9</item>
@@ -438,12 +382,10 @@
     <string-array name="pref_menus_post_context_items">
         <item>@string/action_upvote</item>
         <item>@string/action_downvote</item>
-		<item>@string/action_comments</item>
         <item>@string/action_save</item>
         <item>@string/action_hide</item>
         <item>@string/action_delete</item>
         <item>@string/action_report</item>
-        <item>@string/action_reply</item>
         <item>@string/action_external</item>
         <item>@string/action_selftext_links</item>
         <item>@string/action_save_image</item>
@@ -454,8 +396,7 @@
         <item>@string/action_share</item>
         <item>@string/action_share_comments</item>
         <item>@string/action_share_image</item>
-        <item>@string/action_copy_link</item>
-		<item>@string/action_copy_selftext</item>
+        <item>@string/action_copy</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
 		<item>@string/action_edit</item>
@@ -465,12 +406,10 @@
     <string-array name="pref_menus_post_context_items_return">
         <item>upvote</item>
         <item>downvote</item>
-		<item>comments</item>
         <item>save</item>
         <item>hide</item>
         <item>delete</item>
         <item>report</item>
-        <item>reply</item>
         <item>external</item>
         <item>selftext_links</item>
         <item>save_image</item>
@@ -482,7 +421,6 @@
         <item>share_comments</item>
         <item>share_image</item>
         <item>copy</item>
-		<item>copy_selftext</item>>
         <item>user_profile</item>
         <item>properties</item>
 		<item>edit</item>
@@ -528,7 +466,7 @@
         <item>@string/action_external</item>
         <item>@string/action_save_image</item>
         <item>@string/action_share</item>
-        <item>@string/action_copy_link</item>
+        <item>@string/action_copy</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
     </string-array>
@@ -580,10 +518,8 @@
         <item>@string/pref_appearance_comment_header_items_author</item>
         <item>@string/pref_appearance_comment_header_items_flair</item>
         <item>@string/pref_appearance_comment_header_items_score</item>
-        <item>@string/pref_appearance_comment_header_items_controversiality</item>
         <item>@string/pref_appearance_comment_header_items_age</item>
         <item>@string/pref_appearance_comment_header_items_gold</item>
-        <item>@string/pref_appearance_post_subtitle_items_subreddit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -591,10 +527,8 @@
         <item>author</item>
         <item>flair</item>
         <item>score</item>
-        <item>controversiality</item>
         <item>age</item>
         <item>gold</item>
-        <item>subreddit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -604,7 +538,6 @@
         <item>score</item>
         <item>age</item>
         <item>gold</item>
-        <item>subreddit</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -629,7 +562,6 @@
     <string-array name="pref_menus_mainmenu_useritems_items">
         <item>@string/mainmenu_profile</item>
         <item>@string/mainmenu_inbox</item>
-        <item>@string/mainmenu_sent_messages</item>
         <item>@string/mainmenu_submitted</item>
         <item>@string/mainmenu_saved</item>
         <item>@string/mainmenu_hidden</item>
@@ -642,7 +574,6 @@
     <string-array name="pref_menus_mainmenu_useritems_items_return">
         <item>profile</item>
         <item>inbox</item>
-        <item>sent_messages</item>
         <item>submitted</item>
         <item>saved</item>
         <item>hidden</item>
@@ -655,9 +586,8 @@
     <string-array name="pref_menus_mainmenu_useritems_items_default">
         <item>profile</item>
         <item>inbox</item>
+        <item>submitted</item>
         <item>saved</item>
-        <item>hidden</item>
-        <item>upvoted</item>
     </string-array>
 
     <!-- 2015-06-20 -->
@@ -832,10 +762,10 @@
 		<item>@string/mainmenu_frontpage</item>
 		<item>@string/mainmenu_popular</item>
 		<item>@string/mainmenu_all</item>
-		<item>@string/find_location</item>
 		<item>@string/mainmenu_custom_destination</item>
 		<item>@string/mainmenu_random</item>
 		<item>@string/mainmenu_random_nsfw</item>
+		<item>@string/mainmenu_subscribed</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -843,452 +773,19 @@
 		<item>frontpage</item>
 		<item>popular</item>
 		<item>all</item>
-		<item>subreddit_search</item>
 		<item>custom</item>
 		<item>random</item>
 		<item>random_nsfw</item>
+		<item>subscribed</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
 	<string-array name="pref_menus_mainmenu_shortcutitems_items_default">
 		<item>frontpage</item>
 		<item>all</item>
-		<item>subreddit_search</item>
 		<item>custom</item>
-	</string-array>
-
-	<!-- 2020-02-04 -->
-
-	<string-array name="pref_appearance_post_subtitle_items">
-		<item>@string/pref_appearance_comment_header_items_author</item>
-		<item>@string/pref_appearance_comment_header_items_flair</item>
-		<item>@string/pref_appearance_comment_header_items_score</item>
-		<item>@string/pref_appearance_post_subtitle_items_upvote_ratio</item>
-		<item>@string/pref_appearance_post_subtitle_items_comments</item>
-		<item>@string/pref_appearance_comment_header_items_age</item>
-		<item>@string/pref_appearance_comment_header_items_gold</item>
-		<item>@string/pref_appearance_post_subtitle_items_subreddit</item>
-		<item>@string/pref_appearance_post_subtitle_items_domain</item>
-		<item>@string/pref_appearance_post_subtitle_items_sticky</item>
-		<item>@string/pref_appearance_post_subtitle_items_spoiler</item>
-		<item>@string/pref_appearance_post_subtitle_items_nsfw</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_appearance_post_subtitle_items_return">
-		<item>author</item>
-		<item>flair</item>
-		<item>score</item>
-		<item>upvote_ratio</item>
-		<item>comments</item>
-		<item>age</item>
-		<item>gold</item>
-		<item>subreddit</item>
-		<item>domain</item>
-		<item>sticky</item>
-		<item>spoiler</item>
-		<item>nsfw</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_appearance_post_subtitle_items_default">
-		<item>author</item>
-		<item>flair</item>
-		<item>score</item>
-		<item>age</item>
-		<item>gold</item>
-		<item>subreddit</item>
-		<item>domain</item>
-		<item>sticky</item>
-		<item>spoiler</item>
-		<item>nsfw</item>
-	</string-array>
-
-	<!-- 2020-02-05 -->
-
-	<string-array name="list_yes_no_or_wifi_items">
-		<item>@string/list_yes_no_or_wifi_always</item>
-		<item>@string/list_yes_no_or_wifi_wifionly</item>
-		<item>@string/list_yes_no_or_wifi_never</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="list_yes_no_or_wifi_return">
-		<item>always</item>
-		<item>wifionly</item>
-		<item>never</item>
-	</string-array>
-
-	<!-- 2020-03-05 -->
-
-	<string-array name="pref_appearance_fontscale_global">
-		<item>0.7x</item>
-		<item>0.8x</item>
-		<item>0.9x</item>
-		<item>@string/pref_appearance_scale_normal</item>
-		<item>1.05x</item>
-		<item>1.1x</item>
-		<item>1.2x</item>
-		<item>1.3x</item>
-		<item>1.4x</item>
-		<item>1.5x</item>
-		<item>1.6x</item>
-		<item>1.7x</item>
-		<item>1.8x</item>
-		<item>1.9x</item>
-		<item>2.0x</item>
-		<item>2.5x</item>
-		<item>3.0x</item>
-		<item>3.5x</item>
-		<item>4.0x</item>
-		<item>5.0x</item>
-		<item>6.0x</item>
-		<item>7.0x</item>
-		<item>8.0x</item>
-	</string-array>
-
-	<string-array name="pref_appearance_fontscale_global_return">
-		<item>0.7</item>
-		<item>0.8</item>
-		<item>0.9</item>
-		<item>1</item>
-		<item>1.05</item>
-		<item>1.1</item>
-		<item>1.2</item>
-		<item>1.3</item>
-		<item>1.4</item>
-		<item>1.5</item>
-		<item>1.6</item>
-		<item>1.7</item>
-		<item>1.8</item>
-		<item>1.9</item>
-		<item>2.0</item>
-		<item>2.5</item>
-		<item>3.0</item>
-		<item>3.5</item>
-		<item>4.0</item>
-		<item>5.0</item>
-		<item>6.0</item>
-		<item>7.0</item>
-		<item>8.0</item>
-	</string-array>
-
-	<!-- 2020-07-19 -->
-
-	<string-array name="pref_menus_appbar_items">
-		<item>@string/pref_menus_appbar_items_always</item>
-		<item>@string/pref_menus_appbar_items_if_room</item>
-		<item>@string/pref_menus_appbar_items_overflow_only</item>
-		<item>@string/pref_menus_appbar_items_never</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_menus_appbar_items_return">
-		<item>2</item>
-		<item>1</item>
-		<item>0</item>
-		<item>-1</item>
-	</string-array>
-
-	<!-- 2020-08-17 -->
-
-	<string-array name="pref_behaviour_user_postsort_array">
-		<item>@string/sort_posts_hot</item>
-		<item>@string/sort_posts_new</item>
-		<item>@string/sort_posts_controversial_hour</item>
-		<item>@string/sort_posts_controversial_today</item>
-		<item>@string/sort_posts_controversial_week</item>
-		<item>@string/sort_posts_controversial_month</item>
-		<item>@string/sort_posts_controversial_year</item>
-		<item>@string/sort_posts_controversial_all</item>
-		<item>@string/sort_posts_top_hour</item>
-		<item>@string/sort_posts_top_today</item>
-		<item>@string/sort_posts_top_week</item>
-		<item>@string/sort_posts_top_month</item>
-		<item>@string/sort_posts_top_year</item>
-		<item>@string/sort_posts_top_all</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_behaviour_user_postsort_array_return">
-		<item>hot</item>
-		<item>new</item>
-		<item>controversial_hour</item>
-		<item>controversial_day</item>
-		<item>controversial_week</item>
-		<item>controversial_month</item>
-		<item>controversial_year</item>
-		<item>controversial_all</item>
-		<item>top_hour</item>
-		<item>top_day</item>
-		<item>top_week</item>
-		<item>top_month</item>
-		<item>top_year</item>
-		<item>top_all</item>
-	</string-array>
-
-	<string-array name="pref_behaviour_multi_postsort_array">
-		<item>@string/sort_posts_hot</item>
-		<item>@string/sort_posts_new</item>
-		<item>@string/sort_posts_rising</item>
-		<item>@string/sort_posts_controversial_hour</item>
-		<item>@string/sort_posts_controversial_today</item>
-		<item>@string/sort_posts_controversial_week</item>
-		<item>@string/sort_posts_controversial_month</item>
-		<item>@string/sort_posts_controversial_year</item>
-		<item>@string/sort_posts_controversial_all</item>
-		<item>@string/sort_posts_top_hour</item>
-		<item>@string/sort_posts_top_today</item>
-		<item>@string/sort_posts_top_week</item>
-		<item>@string/sort_posts_top_month</item>
-		<item>@string/sort_posts_top_year</item>
-		<item>@string/sort_posts_top_all</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_behaviour_multi_postsort_array_return">
-		<item>hot</item>
-		<item>new</item>
-		<item>rising</item>
-		<item>controversial_hour</item>
-		<item>controversial_day</item>
-		<item>controversial_week</item>
-		<item>controversial_month</item>
-		<item>controversial_year</item>
-		<item>controversial_all</item>
-		<item>top_hour</item>
-		<item>top_day</item>
-		<item>top_week</item>
-		<item>top_month</item>
-		<item>top_year</item>
-		<item>top_all</item>
-	</string-array>
-
-	<string-array name="pref_behaviour_user_commentsort_array">
-		<item>@string/sort_comments_hot</item>
-		<item>@string/sort_comments_new</item>
-		<item>@string/sort_posts_controversial_hour</item>
-		<item>@string/sort_posts_controversial_today</item>
-		<item>@string/sort_posts_controversial_week</item>
-		<item>@string/sort_posts_controversial_month</item>
-		<item>@string/sort_posts_controversial_year</item>
-		<item>@string/sort_posts_controversial_all</item>
-		<item>@string/sort_comments_top_hour</item>
-		<item>@string/sort_comments_top_today</item>
-		<item>@string/sort_comments_top_week</item>
-		<item>@string/sort_comments_top_month</item>
-		<item>@string/sort_comments_top_year</item>
-		<item>@string/sort_comments_top_all</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_behaviour_user_commentsort_array_return">
-		<item>hot</item>
-		<item>new</item>
-		<item>controversial_hour</item>
-		<item>controversial_day</item>
-		<item>controversial_week</item>
-		<item>controversial_month</item>
-		<item>controversial_year</item>
-		<item>controversial_all</item>
-		<item>top_hour</item>
-		<item>top_day</item>
-		<item>top_week</item>
-		<item>top_month</item>
-		<item>top_year</item>
-		<item>top_all</item>
-	</string-array>
-    
-  <!-- 2020-08-26 -->
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_menus_post_context_items_default">
-		<item>upvote</item>
-		<item>downvote</item>
-		<item>save</item>
-		<item>hide</item>
-		<item>delete</item>
-		<item>report</item>
-		<item>reply</item>
-		<item>external</item>
-		<item>selftext_links</item>
-		<item>save_image</item>
-		<item>goto_subreddit</item>
-		<item>pin</item>
-		<item>subscribe</item>
-		<item>block</item>
-		<item>share</item>
-		<item>share_comments</item>
-		<item>share_image</item>
-		<item>copy</item>
-		<item>copy_selftext</item>>
-		<item>user_profile</item>
-		<item>properties</item>
-		<item>edit</item>
-	</string-array>
-
-	<!-- 2020-10-31 -->
-
-	<string-array name="pref_appearance_age_units_items">
-		<item>@string/pref_appearance_age_units_1</item>
-		<item>@string/pref_appearance_age_units_2</item>
-		<item>@string/pref_appearance_age_units_3</item>
-	</string-array>
-
-	<string-array name="pref_appearance_age_units_return">
-		<item>1</item>
-		<item>2</item>
-		<item>3</item>
-	</string-array>
-
-	<string-array name="pref_appearance_comment_age_mode_items">
-		<item>@string/pref_appearance_comment_age_mode_absolute</item>
-		<item>@string/pref_appearance_comment_age_mode_relative_post</item>
-		<item>@string/pref_appearance_comment_age_mode_relative_parent</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_appearance_comment_age_mode_return">
-		<item>absolute</item>
-		<item>relative_post</item>
-		<item>relative_parent</item>
-  </string-array>
-
-	<!-- 2020-11-14 -->
-
-	<string-array name="pref_behaviour_save_location_options">
-		<item>@string/pref_behaviour_save_location_prompt_every_time</item>
-		<item>@string/pref_behaviour_save_location_system_default</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_behaviour_save_location_options_return">
-		<item>prompt_every_time</item>
-		<item>system_default</item>
-	</string-array>
-
-	<!-- 2020-11-19 -->
-
-	<string-array name="pref_images_thumbnail_size_items">
-		<item>0.4x</item>
-		<item>0.5x</item>
-		<item>0.75x</item>
-		<item>1.0x</item>
-		<item>1.1x</item>
-		<item>1.25x</item>
-		<item>1.5x</item>
-		<item>2.0x</item>
-		<item>2.5x</item>
-		<item>3.0x</item>
-		<item>4.0x</item>
-	</string-array>
-
-	<string-array name="pref_images_thumbnail_size_return">
-		<item>24</item>
-		<item>32</item>
-		<item>48</item>
-		<item>64</item>
-		<item>70</item>
-		<item>80</item>
-		<item>96</item>
-		<item>128</item>
-		<item>160</item>
-		<item>192</item>
-		<item>256</item>
-	</string-array>
-
-	<!-- 2021-01-25 -->
-
-	<string-array name="pref_accessibility_min_comment_height_items">
-		<item>@string/pref_accessibility_min_comment_height_none</item>
-		<item>30 dp</item>
-		<item>35 dp</item>
-		<item>40 dp</item>
-		<item>45 dp</item>
-		<item>50 dp</item>
-		<item>55 dp</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_accessibility_min_comment_height_return">
-		<item>0</item>
-		<item>30</item>
-		<item>35</item>
-		<item>40</item>
-		<item>45</item>
-		<item>50</item>
-		<item>55</item>
-	</string-array>
-  
-  <!-- 2021-02-16 -->
-
-	<string-array name="pref_menus_comment_context_items">
-		<item>@string/action_upvote</item>
-		<item>@string/action_downvote</item>
-		<item>@string/action_save</item>
-		<item>@string/action_report</item>
-		<item>@string/action_reply</item>
-		<item>@string/action_edit</item>
-		<item>@string/action_delete</item>
-		<item>@string/action_comment_context</item>
-		<item>@string/action_comment_go_to</item>
-		<item>@string/action_comment_links</item>
-		<item>@string/action_collapse</item>
-		<item>@string/action_share</item>
-		<item>@string/action_copy_text</item>
-		<item>@string/action_copy_link</item>
-		<item>@string/action_user_profile</item>
-		<item>@string/action_properties</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_menus_comment_context_items_return">
-		<item>upvote</item>
-		<item>downvote</item>
-		<item>save</item>
-		<item>report</item>
-		<item>reply</item>
-		<item>edit</item>
-		<item>delete</item>
-		<item>context</item>
-		<item>go_to_comment</item>
-		<item>comment_links</item>
-		<item>collapse</item>
-		<item>share</item>
-		<item>copy_text</item>
-		<item>copy_url</item>
-		<item>user_profile</item>
-		<item>properties</item>
-	</string-array>
-
-	<!-- 2021-09-01 -->
-
-	<string-array name="pref_appearance_android_status_items">
-		<item>@string/pref_appearance_android_status_always_hide</item>
-		<item>@string/pref_appearance_android_status_hide_on_media</item>
-		<item>@string/pref_appearance_android_status_never_hide</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_appearance_android_status_items_return">
-		<item>always_hide</item>
-		<item>hide_on_media</item>
-		<item>never_hide</item>
-	</string-array>
-
-	<!-- 2022-03-25 -->
-
-	<string-array name="pref_behaviour_collapse_sticky_comments_items">
-		<item>@string/pref_behaviour_collapse_sticky_comments_option_always</item>
-		<item>@string/pref_behaviour_collapse_sticky_comments_option_only_bots</item>
-		<item>@string/pref_behaviour_collapse_sticky_comments_option_never</item>
-	</string-array>
-
-	<!-- Constants. Do not change. -->
-	<string-array name="pref_behaviour_collapse_sticky_comments_items_return">
-		<item>always</item>
-		<item>only_bots</item>
-		<item>never</item>
+		<item>random</item>
+		<item>subscribed</item>
 	</string-array>
 
 </resources>

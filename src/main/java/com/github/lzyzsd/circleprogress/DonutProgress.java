@@ -8,29 +8,23 @@ import android.graphics.RectF;
 import android.view.View;
 
 /**
- * Created by bruce on 14-10-30. Edited by QuantumBadger and Cguy7777.
+ * Created by bruce on 14-10-30. Edited by QuantumBadger.
  */
 public class DonutProgress extends View {
 	private Paint finishedPaint;
 	private Paint unfinishedPaint;
-	private Paint aspectIndicatorPaint;
 
 	private RectF finishedOuterRect = new RectF();
 	private RectF unfinishedOuterRect = new RectF();
-	private RectF aspectIndicatorRect = new RectF();
 
 	private boolean indeterminate;
-	private boolean aspectIndicatorDisplay;
 
 	private float progress = 0;
 	private int finishedStrokeColor;
 	private int unfinishedStrokeColor;
-	private int aspectIndicatorStrokeColor;
 	private int startingDegree;
 	private float finishedStrokeWidth;
 	private float unfinishedStrokeWidth;
-	private float aspectIndicatorStrokeWidth;
-	private float imageAspectRatio;
 
 	private final int min_size;
 
@@ -60,12 +54,6 @@ public class DonutProgress extends View {
 		unfinishedPaint.setStyle(Paint.Style.STROKE);
 		unfinishedPaint.setAntiAlias(true);
 		unfinishedPaint.setStrokeWidth(unfinishedStrokeWidth);
-
-		aspectIndicatorPaint = new Paint();
-		aspectIndicatorPaint.setColor(aspectIndicatorStrokeColor);
-		aspectIndicatorPaint.setStyle(Paint.Style.STROKE);
-		aspectIndicatorPaint.setAntiAlias(true);
-		aspectIndicatorPaint.setStrokeWidth(aspectIndicatorStrokeWidth);
 	}
 
 	public void setFinishedStrokeWidth(float finishedStrokeWidth) {
@@ -76,17 +64,9 @@ public class DonutProgress extends View {
 		this.unfinishedStrokeWidth = unfinishedStrokeWidth;
 	}
 
-	public void setAspectIndicatorStrokeWidth(float aspectIndicatorStrokeWidth) {
-		this.aspectIndicatorStrokeWidth = aspectIndicatorStrokeWidth;
-	}
-
 	public void setIndeterminate(boolean value) {
 		indeterminate = value;
 		invalidate();
-	}
-
-	public void setAspectIndicatorDisplay(boolean value) {
-		aspectIndicatorDisplay = value;
 	}
 
 	private float getProgressAngle() {
@@ -110,14 +90,6 @@ public class DonutProgress extends View {
 
 	public void setUnfinishedStrokeColor(int unfinishedStrokeColor) {
 		this.unfinishedStrokeColor = unfinishedStrokeColor;
-	}
-
-	public void setAspectIndicatorStrokeColor(int aspectIndicatorStrokeColor) {
-		this.aspectIndicatorStrokeColor = aspectIndicatorStrokeColor;
-	}
-
-	public void setLoadingImageAspectRatio(float imageAspectRatio) {
-		this.imageAspectRatio = imageAspectRatio;
 	}
 
 	public int getStartingDegree() {
@@ -167,25 +139,6 @@ public class DonutProgress extends View {
 
 		} else {
 			canvas.drawArc(finishedOuterRect, getStartingDegree(), getProgressAngle(), false, finishedPaint);
-		}
-
-		if(aspectIndicatorDisplay) {
-			final float maxRatio = 2.75f;
-			if(imageAspectRatio > maxRatio) {
-				imageAspectRatio = maxRatio;
-			} else if(imageAspectRatio < 1 / maxRatio) {
-				imageAspectRatio = 1 / maxRatio;
-			}
-
-			final float arDeltaMultiplier = 3.5f;
-			float indicatorLeft = delta * arDeltaMultiplier + (delta * (arDeltaMultiplier / 4) * (1 - imageAspectRatio));
-			float indicatorTop = delta * arDeltaMultiplier + (delta * (arDeltaMultiplier / 4) * (1 - 1/imageAspectRatio));
-
-			aspectIndicatorRect.set(indicatorLeft,
-					indicatorTop,
-					getWidth() - indicatorLeft,
-					getHeight() - indicatorTop);
-			canvas.drawRect(aspectIndicatorRect, aspectIndicatorPaint);
 		}
 	}
 

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:drawablePadding="12dp"
-		android:textSize="15sp"
-		app:drawableLeftCompat="?rrIconTime"
-		app:drawableStartCompat="?rrIconTime"
-		android:gravity="center_vertical"
-		android:padding="12dp"
-		android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:drawableLeft="?rrIconTime"
+	android:drawablePadding="12dp"
+	android:drawableStart="?rrIconTime"
+	android:gravity="center_vertical"
+	android:padding="12dp"
+	android:textAppearance="@style/TextAppearance.AppCompat.Small"
+	android:textSize="15sp"/>

@@ -25,8 +25,6 @@
     <attr name="rrListHeaderLineCol" format="color" />
     <attr name="rrListSubtitleCol" format="color" />
 
-	<attr name="rrAnnouncementBorderCol" format="color" />
-
 	<attr name="rrPostListHeaderBackgroundCol" format="color"/>
 
 	<attr name="rrIndentBackgroundCol" format="color" />
@@ -54,7 +52,6 @@
     <attr name="rrFlairTextCol" format="color" />
     <attr name="rrGoldBackCol" format="color" />
     <attr name="rrGoldTextCol" format="color" />
-	<attr name="rrPostInlinePreviewDivider" format="color" />
 
     <attr name="rrCommentBodyCol" format="color" />
     <attr name="rrCommentHeaderCol" format="color" />
@@ -65,21 +62,6 @@
 
     <attr name="rrMainTextCol" format="color" />
 	<attr name="rrSubTextCol" format="color" />
-	<attr name="rrMaterialButtonTextCol" format="color" />
-
-	<attr name="rrActionBarCol" format="color" />
-
-	<attr name="rrPostToolbarCol" format="color" />
-
-	<attr name="rrQuickLinkButtonCol" format="color" />
-	<attr name="rrQuickLinkButtonColPressed" format="color" />
-	<attr name="rrQuickLinkButtonColDisabled" format="color" />
-
-	<attr name="rrQuickLinkButtonColForeground" format="color" />
-	<attr name="rrQuickLinkButtonColForegroundPressed" format="color" />
-	<attr name="rrQuickLinkButtonColForegroundDisabled" format="color" />
-
-	<attr name="rrThemedButtonSelector" format="reference" />
 
     <!-- icons -->
 
@@ -88,7 +70,6 @@
     <attr name="rrIconAdd" format="reference" />
     <attr name="rrIconCross" format="reference" />
     <attr name="rrIconEnvOpen" format="reference" />
-    <attr name="rrIconSentMessages" format="reference" />
     <attr name="rrIconInfo" format="reference" />
     <attr name="rrIconRefresh" format="reference" />
     <attr name="rrIconReply" format="reference" />
@@ -96,21 +77,14 @@
     <attr name="rrIconShare" format="reference" />
     <attr name="rrIconSort" format="reference" />
     <attr name="rrIconStarFilled" format="reference" />
+    <attr name="rrIconDownvote" format="reference" />
+    <attr name="rrIconUpvote" format="reference" />
     <attr name="rrIconFfLeft" format="reference" />
     <attr name="rrIconFfRight" format="reference" />
     <attr name="rrIconTick" format="reference" />
     <attr name="rrIconLink" format="reference" />
     <attr name="rrIconTime" format="reference" />
     <attr name="rrIconForward" format="reference" />
-	<attr name="rrIconOverflow" format="reference" />
-	<attr name="rrIconArrowUpBold" format="reference" />
-	<attr name="rrIconArrowDownBold" format="reference" />
-	<attr name="rrIconStarFilledOff" format="reference" />
-	<attr name="rrIconPin" format="reference" />
-	<attr name="rrIconPinOff" format="reference" />
-	<attr name="rrIconMessagePlus" format="reference" />
-	<attr name="rrIconChevronRight" format="reference" />
-	<attr name="rrIconMagnify" format="reference" />
-	<attr name="rrIconAccountSearch" format="reference" />
+    <attr name="rrIconUpdownvote" format="reference" />
 
 </resources>

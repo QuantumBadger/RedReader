@@ -17,114 +17,42 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<LinearLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:tools="http://schemas.android.com/tools"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
-	<View
-			android:id="@+id/list_item_divider"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:minHeight="1dp"
-			android:background="?rrListDividerCol"/>
+    <View android:id="@+id/list_item_divider"
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:minHeight="1dp"
+          android:background="?rrListDividerCol"/>
 
-	<androidx.constraintlayout.widget.ConstraintLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+    <LinearLayout android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  android:orientation="horizontal"
+                  android:gravity="center_vertical"
+				  android:background="@drawable/rr_list_item_selector"
+                  android:paddingLeft="16dp"
+                  android:paddingRight="16dp">
 
-		<LinearLayout
-				android:id="@+id/list_item_main_link"
-				android:layout_height="wrap_content"
-				android:layout_width="0dp"
-				app:layout_constrainedWidth="true"
-				app:layout_constraintStart_toStartOf="parent"
-				app:layout_constraintEnd_toStartOf="@id/list_item_secondary_link_outer"
-				app:layout_constraintTop_toTopOf="parent"
-				android:orientation="horizontal"
-				android:gravity="center_vertical"
-				android:background="@drawable/rr_list_item_selector"
-				android:clickable="true"
-				android:focusable="true"
-				android:descendantFocusability="blocksDescendants"
-				android:paddingLeft="16dp"
-				android:paddingRight="16dp">
+        <ImageView android:id="@+id/list_item_icon"
+                   android:layout_height="wrap_content"
+                   android:layout_width="wrap_content"
+                   android:layout_marginRight="16dp"
+                   android:scaleType="fitCenter"/>
 
-			<ImageView
-					android:id="@+id/list_item_icon"
-					android:layout_height="wrap_content"
-					android:layout_width="wrap_content"
-					android:layout_marginRight="16dp"
-					android:layout_marginEnd="16dp"
-					android:scaleType="fitCenter"
-					tools:ignore="ContentDescription"/>
+        <TextView android:id="@+id/list_item_text"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:textSize="18sp"
+                  android:gravity="center_vertical"
+                  android:layout_margin="0dp"
+                  android:paddingTop="12dp"
+                  android:paddingBottom="12dp"
+                  android:textColor="?android:textColorPrimary" />
 
-			<TextView
-					android:id="@+id/list_item_text"
-					android:layout_width="fill_parent"
-					android:layout_height="wrap_content"
-					android:textSize="18sp"
-					android:gravity="center_vertical"
-					android:layout_margin="0dp"
-					android:paddingTop="12dp"
-					android:paddingBottom="12dp"
-					android:textColor="?android:textColorPrimary"/>
-
-		</LinearLayout>
-
-		<androidx.constraintlayout.widget.ConstraintLayout
-				android:id="@+id/list_item_secondary_link_outer"
-				android:layout_width="wrap_content"
-				android:layout_height="0dp"
-				app:layout_constrainedHeight="true"
-				app:layout_constraintStart_toEndOf="@id/list_item_main_link"
-				app:layout_constraintEnd_toEndOf="parent"
-				app:layout_constraintTop_toTopOf="parent"
-				app:layout_constraintBottom_toBottomOf="parent"
-				android:orientation="horizontal"
-				android:visibility="gone">
-
-			<View
-					android:layout_width="1dp"
-					android:layout_height="0dp"
-					app:layout_constrainedHeight="true"
-					android:layout_marginStart="4dp"
-					android:layout_marginLeft="4dp"
-					android:layout_marginTop="8dp"
-					android:layout_marginBottom="8dp"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@id/list_item_secondary_icon"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					android:minWidth="1dp"
-					android:background="?rrListDividerCol"/>
-
-			<ImageView
-					android:id="@+id/list_item_secondary_icon"
-					android:layout_height="match_parent"
-					android:layout_width="wrap_content"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintBottom_toBottomOf="parent"
-					app:layout_constraintEnd_toEndOf="parent"
-					android:paddingLeft="16dp"
-					android:paddingStart="16dp"
-					android:paddingRight="16dp"
-					android:paddingEnd="16dp"
-					android:paddingTop="8dp"
-					android:paddingBottom="8dp"
-					android:scaleType="fitCenter"
-					android:src="?rrIconMagnify"
-					android:background="@drawable/rr_list_item_selector"
-					android:clickable="true"
-					android:focusable="true"
-					tools:ignore="ContentDescription"/>
-
-		</androidx.constraintlayout.widget.ConstraintLayout>
-
-	</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </LinearLayout>
 

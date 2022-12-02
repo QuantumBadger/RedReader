@@ -46,7 +46,7 @@ dependencies {
 }
 
 android {
-	compileSdkVersion 33
+	compileSdk 33
 	buildToolsVersion "33.0.0"
 	ndkVersion "23.1.7779620"
 
@@ -78,7 +78,7 @@ android {
 		targetCompatibility JavaVersion.VERSION_1_8
 	}
 
-	lintOptions {
+	lint {
 		checkReleaseBuilds false
 		abortOnError true
 		warningsAsErrors true

@@ -157,7 +157,7 @@ public class OAuthLoginActivity extends BaseActivity {
 		settings.setSaveFormData(false);
 		settings.setSavePassword(false);
 		settings.setDatabaseEnabled(false);
-		settings.setAppCacheEnabled(false);
+		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		settings.setDisplayZoomControls(false);
 
 		setTitle(RedditOAuth.getPromptUri().toString());

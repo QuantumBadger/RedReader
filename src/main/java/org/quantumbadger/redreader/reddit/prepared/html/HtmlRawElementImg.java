@@ -22,6 +22,7 @@ import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,8 +46,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 public class HtmlRawElementImg extends HtmlRawElement{
+	@NonNull private static final String TAG = "HtmlRawElementImg";
 
 	@NonNull private final ArrayList<HtmlRawElement> mChildren;
 	@NonNull private final String mTitle;
@@ -72,6 +75,8 @@ public class HtmlRawElementImg extends HtmlRawElement{
 			@NonNull final SpannableStringBuilder ssb,
 			@NonNull final AppCompatActivity activity) {
 		final int emoteLocationStart = ssb.length();
+
+		final CountDownLatch latch = new CountDownLatch(1);
 
 		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
 				General.uriFromString(mSrc),
@@ -111,6 +116,8 @@ public class HtmlRawElementImg extends HtmlRawElement{
 									emoteLocationStart,
 									emoteLocationStart + 1,
 									Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+
+							latch.countDown();
 						} catch (final Throwable t) {
 							onFailure(
 									CacheRequest.REQUEST_FAILURE_CONNECTION,
@@ -120,6 +127,7 @@ public class HtmlRawElementImg extends HtmlRawElement{
 									Optional.empty());
 
 							ssb.append(mTitle);
+							latch.countDown();
 						}
 					}
 					@Override
@@ -130,9 +138,16 @@ public class HtmlRawElementImg extends HtmlRawElement{
 							@Nullable final String readableMessage,
 							@NonNull final Optional<FailedRequestBody> body) {
 						ssb.append(mTitle);
+						latch.countDown();
 					}
 				}
 		));
+
+		try {
+			latch.await();
+		} catch (final InterruptedException e) {
+			Log.e(TAG, "Error while fetching subreddit emote", e);
+		}
 	}
 
 	@Override

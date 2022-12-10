@@ -1093,7 +1093,15 @@ public class PostListingFragment extends RRFragment
 							.get(key).asObject()
 							.asObject(EmoteMetadata.class);
 
+					if (emoteMetadata == null || emoteMetadata.s.u == null) {
+						continue;
+					}
+
 					final URI emoteUrl = General.uriFromString(emoteMetadata.s.u);
+
+					if (emoteUrl == null) {
+						continue;
+					}
 
 					CacheManager.getInstance(activity)
 							.makeRequest(new CacheRequest(

@@ -300,7 +300,6 @@ public class CommentListingRequest {
 					mCommentListingURL));
 
 		} else if(thing.getKind() == RedditThing.Kind.COMMENT) {
-
 			final RedditComment comment = thing.asComment();
 
 			if (comment.media_metadata != null && comment.media_metadata.asObject() != null) {
@@ -320,13 +319,22 @@ public class CommentListingRequest {
 						// id is always structured as emote|{subreddit_id}|{emote_id}
 						// for subreddit emotes
 						if (emoteMetadata.id.split("\\|")[0].equalsIgnoreCase("emote")) {
+							final String subredditId = emoteMetadata.id.split("\\|")[1];
+
+							// These are default reddit emotes (i think).
+							// They already have an img tag in the body html
+							// so no processing is required for these
+							if (subredditId.equals("free_emotes_pack")) {
+								continue;
+							}
+
 							final String emoteId = emoteMetadata.id.split("\\|")[2];
 
 							final String emotePlaceholder = String.format(Locale.getDefault(),
 									":%s:", emoteId);
 
 							final String imgTag = String.format(Locale.getDefault(),
-									"<img src=\"%s\" title=\"%s\"></img>",
+									"<emote src=\"%s\" title=\"%s\"></emote>",
 									emoteMetadata.s.u,
 									emotePlaceholder);
 

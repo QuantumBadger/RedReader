@@ -240,7 +240,7 @@ public class HtmlReader {
 					mPos++;
 					skipWhitespace();
 
-					final TokenType type;
+					TokenType type;
 
 					if(mHtml.charAt(mPos) == '!') {
 
@@ -320,6 +320,12 @@ public class HtmlReader {
 					}
 
 					accept('>');
+
+					// Reddit doesn't provide an end tag with their img tags for some reason
+					// Need this to show multiple concurrent images correctly
+					if (tagName.equals("img")) {
+						type = TokenType.TAG_START_AND_END;
+					}
 
 					return new Token(type, tagName, href, cssClass, title, src);
 

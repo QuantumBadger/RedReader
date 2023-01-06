@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 import android.text.SpannableStringBuilder;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
@@ -29,6 +28,7 @@ import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementTextSpann
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HtmlRawElementBlock extends HtmlRawElement {
 
@@ -91,38 +91,40 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 	public void generate(
 			@NonNull final AppCompatActivity activity,
 			@NonNull final ArrayList<BodyElement> destination) {
+		boolean lastChildNotProcessed = false;
 
-		@Nullable SpannableStringBuilder currentSsb = null;
+		final AtomicReference<SpannableStringBuilder> ssbReference =
+				new AtomicReference<>(new SpannableStringBuilder());
+
+		final BodyElementTextSpanned bodyElementTextSpanned =
+				new BodyElementTextSpanned(mBlockType, ssbReference);
 
 		for(final HtmlRawElement child : mChildren) {
-
 			if(child instanceof HtmlRawElementStyledText) {
+				((HtmlRawElementStyledText)child).writeTo(ssbReference);
 
-				if(currentSsb == null) {
-					currentSsb = new SpannableStringBuilder();
-				}
-
-				((HtmlRawElementStyledText)child).writeTo(currentSsb);
-
+				lastChildNotProcessed = true;
 			} else if (child instanceof  HtmlRawElementImg) {
-				if(currentSsb == null) {
-					currentSsb = new SpannableStringBuilder();
-				}
+				((HtmlRawElementImg) child).writeTo(ssbReference,
+						activity,
+						bodyElementTextSpanned.mInvalidateCallback);
 
-				((HtmlRawElementImg) child).writeTo(currentSsb, activity);
+				lastChildNotProcessed = true;
 			} else {
-
-				if(currentSsb != null) {
-					destination.add(new BodyElementTextSpanned(mBlockType, currentSsb));
-					currentSsb = null;
+				if (lastChildNotProcessed) {
+					destination.add(bodyElementTextSpanned);
 				}
 
 				child.generate(activity, destination);
+				lastChildNotProcessed = false;
 			}
 		}
 
-		if(currentSsb != null) {
-			destination.add(new BodyElementTextSpanned(mBlockType, currentSsb));
+		// If the last child in the array is a HtmlRawElementStyledText
+		// or HtmlRawElementImg object, it won't be added to the destination array in the loop
+		// Need this logic to make sure that it's added
+		if(lastChildNotProcessed) {
+			destination.add(bodyElementTextSpanned);
 		}
 	}
 }

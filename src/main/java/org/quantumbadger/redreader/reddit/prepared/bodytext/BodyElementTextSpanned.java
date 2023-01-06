@@ -17,23 +17,30 @@
 
 package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
-import android.text.Spanned;
+import android.text.SpannableStringBuilder;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class BodyElementTextSpanned extends BodyElement {
 
-	@NonNull private final Spanned mSpanned;
+	@NonNull private final AtomicReference<SpannableStringBuilder> mSpannedReference;
+	@NonNull public final Runnable mInvalidateCallback;
+	@NonNull private LinkifiedTextView mTextView;
 
 	public BodyElementTextSpanned(
 			@NonNull final BlockType blockType,
-			@NonNull final Spanned spanned) {
+			@NonNull final AtomicReference<SpannableStringBuilder> spannedReference) {
 		super(blockType);
-		mSpanned = spanned;
+		mSpannedReference = spannedReference;
+		mInvalidateCallback = () -> mTextView.setText(mSpannedReference.get());
 	}
 
 	@Override
@@ -43,22 +50,22 @@ public class BodyElementTextSpanned extends BodyElement {
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
 
-		final LinkifiedTextView tv = new LinkifiedTextView(activity);
+		mTextView = new LinkifiedTextView(activity);
 
 		if(textColor != null) {
-			tv.setTextColor(textColor);
+			mTextView.setTextColor(textColor);
 		}
 		if(textSize != null) {
-			tv.setTextSize(textSize);
+			mTextView.setTextSize(textSize);
 		}
 
-		tv.setText(mSpanned, LinkifiedTextView.BufferType.SPANNABLE);
+		mTextView.setText(mSpannedReference.get(), LinkifiedTextView.BufferType.SPANNABLE);
 
 		if(PrefsUtility.pref_accessibility_separate_body_text_lines()) {
 
-			tv.setFocusable(true);
+			mTextView.setFocusable(true);
 		}
 
-		return tv;
+		return mTextView;
 	}
 }

@@ -22,7 +22,6 @@ import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,11 +45,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HtmlRawElementImg extends HtmlRawElement{
-	@NonNull private static final String TAG = "HtmlRawElementImg";
-
 	@NonNull private final ArrayList<HtmlRawElement> mChildren;
 	@NonNull private final String mTitle;
 	@NonNull private final String mSrc;
@@ -72,11 +69,12 @@ public class HtmlRawElementImg extends HtmlRawElement{
 	}
 
 	public final synchronized void writeTo(
-			@NonNull final SpannableStringBuilder ssb,
-			@NonNull final AppCompatActivity activity) {
-		final int emoteLocationStart = ssb.length();
+			@NonNull final AtomicReference<SpannableStringBuilder> ssbReference,
+			@NonNull final AppCompatActivity activity,
+			@NonNull final Runnable invalidateCallback) {
+		final int emoteLocationStart = ssbReference.get().length();
 
-		final CountDownLatch latch = new CountDownLatch(1);
+		ssbReference.set(ssbReference.get().append(mTitle));
 
 		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
 				General.uriFromString(mSrc),
@@ -105,19 +103,21 @@ public class HtmlRawElementImg extends HtmlRawElement{
 								throw new IOException("Failed to decode bitmap");
 							}
 
-							// Placeholder character that will be replaced by the emote image
-							ssb.insert(emoteLocationStart, "p");
-
 							final ImageSpan span = new ImageSpan(
 									activity.getApplicationContext(),
 									image);
+
+							final SpannableStringBuilder ssb = ssbReference.get();
+
 							ssb.setSpan(
 									span,
 									emoteLocationStart,
-									emoteLocationStart + 1,
+									emoteLocationStart + mTitle.length(),
 									Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 
-							latch.countDown();
+							ssbReference.set(ssb);
+
+							invalidateCallback.run();
 						} catch (final Throwable t) {
 							onFailure(
 									CacheRequest.REQUEST_FAILURE_CONNECTION,
@@ -125,9 +125,6 @@ public class HtmlRawElementImg extends HtmlRawElement{
 									null,
 									"Exception while downloading emote",
 									Optional.empty());
-
-							ssb.append(mTitle);
-							latch.countDown();
 						}
 					}
 					@Override
@@ -137,17 +134,9 @@ public class HtmlRawElementImg extends HtmlRawElement{
 							@Nullable final Integer httpStatus,
 							@Nullable final String readableMessage,
 							@NonNull final Optional<FailedRequestBody> body) {
-						ssb.append(mTitle);
-						latch.countDown();
 					}
 				}
 		));
-
-		try {
-			latch.await();
-		} catch (final InterruptedException e) {
-			Log.e(TAG, "Error while fetching subreddit emote", e);
-		}
 	}
 
 	@Override

@@ -26,6 +26,7 @@ import android.text.style.CharacterStyle;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class HtmlRawElementStyledText extends HtmlRawElement {
 
@@ -44,11 +45,14 @@ public class HtmlRawElementStyledText extends HtmlRawElement {
 		stringBuilder.append(mText);
 	}
 
-	public final void writeTo(@NonNull final SpannableStringBuilder ssb) {
+	public final void writeTo(@NonNull final AtomicReference<SpannableStringBuilder> ssbReference) {
+		final SpannableStringBuilder ssb = ssbReference.get();
 
 		final int textStart = ssb.length();
 		ssb.append(mText);
 		final int textEnd = ssb.length();
+
+		ssbReference.set(ssb);
 
 		if(mSpans != null) {
 			for(final CharacterStyle span : mSpans) {

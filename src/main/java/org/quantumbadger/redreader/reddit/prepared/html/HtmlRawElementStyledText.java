@@ -52,13 +52,13 @@ public class HtmlRawElementStyledText extends HtmlRawElement {
 		ssb.append(mText);
 		final int textEnd = ssb.length();
 
-		ssbReference.set(ssb);
-
 		if(mSpans != null) {
 			for(final CharacterStyle span : mSpans) {
 				ssb.setSpan(span, textStart, textEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 			}
 		}
+
+		ssbReference.set(ssb);
 	}
 
 	@Override

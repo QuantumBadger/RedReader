@@ -91,39 +91,40 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 	public void generate(
 			@NonNull final AppCompatActivity activity,
 			@NonNull final ArrayList<BodyElement> destination) {
-		boolean lastChildNotProcessed = false;
+		boolean stringWrittenTo = false;
 
-		final AtomicReference<SpannableStringBuilder> ssbReference =
+		AtomicReference<SpannableStringBuilder> ssbReference =
 				new AtomicReference<>(new SpannableStringBuilder());
 
-		final BodyElementTextSpanned bodyElementTextSpanned =
+		BodyElementTextSpanned bodyElementTextSpanned =
 				new BodyElementTextSpanned(mBlockType, ssbReference);
 
 		for(final HtmlRawElement child : mChildren) {
 			if(child instanceof HtmlRawElementStyledText) {
 				((HtmlRawElementStyledText)child).writeTo(ssbReference);
-
-				lastChildNotProcessed = true;
+				stringWrittenTo = true;
 			} else if (child instanceof  HtmlRawElementImg) {
 				((HtmlRawElementImg) child).writeTo(ssbReference,
 						activity,
 						bodyElementTextSpanned.mInvalidateCallback);
-
-				lastChildNotProcessed = true;
+				stringWrittenTo = true;
 			} else {
-				if (lastChildNotProcessed) {
+				if (stringWrittenTo) {
 					destination.add(bodyElementTextSpanned);
-				}
 
+					ssbReference = new AtomicReference<>(new SpannableStringBuilder());
+					bodyElementTextSpanned = new BodyElementTextSpanned(mBlockType, ssbReference);
+					
+					stringWrittenTo = false;
+				}
 				child.generate(activity, destination);
-				lastChildNotProcessed = false;
 			}
 		}
 
 		// If the last child in the array is a HtmlRawElementStyledText
 		// or HtmlRawElementImg object, it won't be added to the destination array in the loop
 		// Need this logic to make sure that it's added
-		if(lastChildNotProcessed) {
+		if(stringWrittenTo) {
 			destination.add(bodyElementTextSpanned);
 		}
 	}

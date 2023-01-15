@@ -4,7 +4,9 @@ source ~/.bashrc
 
 function main() {
 
+set -o pipefail
 set -e
+set -x
 
 cd ~/build
 

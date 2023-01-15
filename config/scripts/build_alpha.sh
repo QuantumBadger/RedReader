@@ -48,7 +48,7 @@ sed -i 's/@mipmap\/icon/@mipmap\/icon_inv/g' src/main/AndroidManifest.xml
 
 echo "Changing name..."
 find src/main/res -name "strings.xml" -exec sed -i 's/RedReader/RedReader Alpha '"$BUILD_NUMBER"'/g' {} \;
-sed -i 's/versionName ".*/versionName = "Alpha '"${BUILD_NUMBER}"'"/g' build.gradle.kts
+sed -i 's/versionName = ".*/versionName = "Alpha '"${BUILD_NUMBER}"'"/g' build.gradle.kts
 sed -i 's/versionCode .*/versionCode = '"$((${BUILD_NUMBER} + 10000))"'/g' build.gradle.kts
 
 echo "Building..."

@@ -32,7 +32,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -130,10 +129,12 @@ public class UserProfileDialog extends PropertiesDialog {
 
 							loadingView.setDone(R.string.download_done);
 
-							if (user.getIconUrl() != "") {
+							final String iconUrl = user.getIconUrl();
+
+							if (iconUrl != null && !iconUrl.equals("")) {
 								final LinearLayout avatarLayout
 										= (LinearLayout) context.getLayoutInflater()
-										.inflate(R.layout.avatar, null);
+												.inflate(R.layout.avatar, null);
 								items.addView(avatarLayout);
 
 								final ImageView avatarImage
@@ -141,7 +142,7 @@ public class UserProfileDialog extends PropertiesDialog {
 										.findViewById(R.id.layout_avatar_image);
 
 								try {
-									assignUserAvatar(user.getIconUrl(), avatarImage, context);
+									assignUserAvatar(iconUrl, avatarImage, context);
 								} catch (final URISyntaxException e) {
 									Log.d("UserProfileDialog", "Error decoding uri: " + e);
 								}
@@ -151,7 +152,7 @@ public class UserProfileDialog extends PropertiesDialog {
 
 							final LinearLayout karmaLayout
 									= (LinearLayout)context.getLayoutInflater()
-									.inflate(R.layout.karma, null);
+											.inflate(R.layout.karma, null);
 							items.addView(karmaLayout);
 
 							final LinearLayout linkKarmaLayout

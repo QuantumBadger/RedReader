@@ -2,39 +2,6 @@
 <issues format="6" by="lint 7.3.1" type="baseline" client="gradle" dependencies="false" name="AGP (7.3.1)" variant="all" version="7.3.1">
 
     <issue
-        id="VectorDrawableCompat"
-        message="When using VectorDrawableCompat, you need to use `app:srcCompat`"
-        errorLine1="         android:src=&quot;@drawable/bullhorn_mid&quot;"
-        errorLine2="         ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/announcement_view.xml"
-            line="45"
-            column="10"/>
-    </issue>
-
-    <issue
-        id="VectorDrawableCompat"
-        message="When using VectorDrawableCompat, you need to use `app:srcCompat`"
-        errorLine1="   android:src=&quot;@drawable/arrow_up_bold_orangered&quot;/>"
-        errorLine2="   ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/post_header_toolbar.xml"
-            line="50"
-            column="4"/>
-    </issue>
-
-    <issue
-        id="VectorDrawableCompat"
-        message="When using VectorDrawableCompat, you need to use `app:srcCompat`"
-        errorLine1="   android:src=&quot;@drawable/arrow_down_bold_periwinkle&quot;/>"
-        errorLine2="   ~~~~~~~~~~~">
-        <location
-            file="src/main/res/layout/post_header_toolbar.xml"
-            line="69"
-            column="4"/>
-    </issue>
-
-    <issue
         id="PrivateResource"
         message="The resource `@drawable/exo_controls_previous` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.16.1"
         errorLine1="     R.drawable.exo_controls_previous,"

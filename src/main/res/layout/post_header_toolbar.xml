@@ -20,6 +20,7 @@
 <LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/post_toolbar_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_upvote"
-			android:src="?rrIconArrowUpBold"/>
+			app:srcCompat="?rrIconArrowUpBold"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_remove_upvote"
@@ -47,7 +48,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_upvote_remove"
-			android:src="@drawable/arrow_up_bold_orangered"/>
+			app:srcCompat="@drawable/arrow_up_bold_orangered"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_add_downvote"
@@ -56,7 +57,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_downvote"
-			android:src="?rrIconArrowDownBold"/>
+			app:srcCompat="?rrIconArrowDownBold"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_remove_downvote"
@@ -66,7 +67,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_downvote_remove"
-			android:src="@drawable/arrow_down_bold_periwinkle"/>
+			app:srcCompat="@drawable/arrow_down_bold_periwinkle"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_reply"
@@ -75,7 +76,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_reply"
-			android:src="?rrIconReply"/>
+			app:srcCompat="?rrIconReply"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_share"
@@ -84,7 +85,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_share"
-			android:src="?rrIconShare"/>
+			app:srcCompat="?rrIconShare"/>
 
 	<ImageButton
 			android:id="@+id/post_toolbar_botton_more"
@@ -93,6 +94,6 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/three_dots_menu"
-			android:src="?rrIconOverflow"/>
+			app:srcCompat="?rrIconOverflow"/>
 
 </LinearLayout>

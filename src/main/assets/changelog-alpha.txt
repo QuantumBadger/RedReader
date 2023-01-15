@@ -1,6 +1,7 @@
 /Alpha 322 (2023-01-15)
 Changed build configuration (migrated from Groovy to Kotlin)
 Consolidating intent filters
+Various lint issue fixes
 
 /Alpha 321 (2022-11-26)
 Increasing target SDK to 31

@@ -20,6 +20,7 @@
 <org.quantumbadger.redreader.views.SubredditToolbar
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		xmlns:tools="http://schemas.android.com/tools"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/subreddit_toolbar_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_subscribe_subreddit"
-			android:src="?rrIconStarFilledOff"/>
+			app:srcCompat="?rrIconStarFilledOff"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_unsubscribe"
@@ -47,7 +48,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_unsubscribe_subreddit"
-			android:src="?rrIconStarFilled"/>
+			app:srcCompat="?rrIconStarFilled"/>
 
 	<FrameLayout
 			android:id="@+id/subreddit_toolbar_button_subscribe_loading"
@@ -63,7 +64,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/pin_subreddit"
-			android:src="?rrIconPinOff"/>
+			app:srcCompat="?rrIconPinOff"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_unpin"
@@ -73,7 +74,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/unpin_subreddit"
-			android:src="?rrIconPin"/>
+			app:srcCompat="?rrIconPin"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_submit"
@@ -82,7 +83,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/options_submit_post"
-			android:src="?rrIconReply"/>
+			app:srcCompat="?rrIconReply"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_share"
@@ -91,7 +92,7 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/action_share"
-			android:src="?rrIconShare"/>
+			app:srcCompat="?rrIconShare"/>
 
 	<ImageButton
 			android:id="@+id/subreddit_toolbar_button_info"
@@ -100,6 +101,6 @@
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
 			android:contentDescription="@string/options_sidebar"
-			android:src="?rrIconInfo"/>
+			app:srcCompat="?rrIconInfo"/>
 
 </org.quantumbadger.redreader.views.SubredditToolbar>

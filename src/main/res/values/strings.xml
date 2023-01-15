@@ -1730,4 +1730,7 @@
 	<!-- 2022-09-10 -->
 	<string name="post_domain_deleted">deleted</string>
 
+	<!-- 2023-01-15 -->
+	<string name="userprofile_avatar">Avatar</string>
+
 </resources>

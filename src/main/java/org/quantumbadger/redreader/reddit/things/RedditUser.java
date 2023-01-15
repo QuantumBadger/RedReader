@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import androidx.annotation.Nullable;
+import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
 public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
@@ -39,6 +41,7 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 	public String id;
 	public String modhash;
 	public String name;
+	public String icon_img;
 
 	@Override
 	public int describeContents() {
@@ -79,6 +82,7 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 		id = in.readString();
 		modhash = in.readString();
 		name = in.readString();
+		icon_img = in.readString();
 	}
 
 	@Override
@@ -110,6 +114,16 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 		parcel.writeString(id);
 		parcel.writeString(modhash);
 		parcel.writeString(name);
+		parcel.writeString(icon_img);
+	}
+
+	@Nullable
+	public String getIconUrl() {
+		if(icon_img == null) {
+			return null;
+		} else {
+			return StringEscapeUtils.unescapeHtml4(icon_img);
+		}
 	}
 
 	public static final Parcelable.Creator<RedditUser> CREATOR

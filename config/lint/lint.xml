@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+	<!-- Translations are crowdsourced -->
+	<issue id="MissingTranslation" severity="ignore" />
+	<issue id="MissingQuantity" severity="ignore" />
+	<issue id="ExtraTranslation" severity="ignore" />
+
+	<!-- Temporarily disable -->
+	<issue id="ImpliedQuantity" severity="ignore" />
+	<issue id="InflateParams" severity="ignore" />
+	<issue id="ObsoleteSdkInt" severity="ignore" />
+	<issue id="OldTargetApi" severity="ignore" />
+	<issue id="AndroidGradlePluginVersion" severity="ignore" />
+
+	<!-- Too many false positives -->
+	<issue id="UnusedResources" severity="ignore" />
+
+	<!-- Not an issue -->
+	<issue id="ViewConstructor" severity="ignore" />
+	<issue id="GradleDependency" severity="ignore" />
+
+	<!-- Caused by 3rd party dependencies/jetification -->
+	<issue id="ObsoleteLintCustomCheck" severity="ignore" />
+
+	<!-- We don't use app bundles -->
+	<issue id="AppBundleLocaleChanges" severity="ignore" />
+
+</lint>

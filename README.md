@@ -82,4 +82,4 @@ included in [LICENSE.txt](LICENSE.txt).
 Thanks
 ------
 
-A full list of contributors is included in the [changelog](assets/changelog.txt).
+A full list of contributors is included in the [changelog](src/main/assets/changelog.txt).

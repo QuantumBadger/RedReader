@@ -80,86 +80,36 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="http" android:host="redd.it" />
-                <data android:scheme="https" android:host="redd.it" />
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+				<data android:host="redd.it" />
+				<data android:host="reddit.app.link" />
             </intent-filter>
 
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.reddit.com" android:pathPrefix="/r/" />
-				<data android:scheme="http" android:host="reddit.com" android:pathPrefix="/r/" />
-				<data android:scheme="https" android:host="*.reddit.com" android:pathPrefix="/r/" />
-				<data android:scheme="https" android:host="reddit.com" android:pathPrefix="/r/" />
+				<data android:scheme="http" />
+				<data android:scheme="https" />
+				<data android:host="*.reddit.com" />
+				<data android:host="reddit.com" />
+				<data android:pathPrefix="/r/" />
+				<data android:pathPrefix="/u/" />
+				<data android:pathPrefix="/user/" />
+				<data android:pathPrefix="/comments/" />
+				<data android:pathPrefix="/message/compose/" />
 			</intent-filter>
 
 			<intent-filter>
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.reddit.com" android:pathPrefix="/u/" />
-				<data android:scheme="http" android:host="reddit.com" android:pathPrefix="/u/" />
-				<data android:scheme="https" android:host="*.reddit.com" android:pathPrefix="/u/" />
-				<data android:scheme="https" android:host="reddit.com" android:pathPrefix="/u/" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.reddit.com" android:pathPrefix="/user/" />
-				<data android:scheme="http" android:host="reddit.com" android:pathPrefix="/user/" />
-				<data android:scheme="https" android:host="*.reddit.com" android:pathPrefix="/user/" />
-				<data android:scheme="https" android:host="reddit.com" android:pathPrefix="/user/" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.reddit.com" android:pathPrefix="/comments/" />
-				<data android:scheme="http" android:host="reddit.com" android:pathPrefix="/comments/" />
-				<data android:scheme="https" android:host="*.reddit.com" android:pathPrefix="/comments/" />
-				<data android:scheme="https" android:host="reddit.com" android:pathPrefix="/comments/" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="*.reddit.com" android:pathPrefix="/message/compose/" />
-				<data android:scheme="http" android:host="reddit.com" android:pathPrefix="/message/compose/" />
-				<data android:scheme="https" android:host="*.reddit.com" android:pathPrefix="/message/compose/" />
-				<data android:scheme="https" android:host="reddit.com" android:pathPrefix="/message/compose/" />
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data
-						android:host="*.google.com"
-						android:pathPrefix="/amp/s/amp.reddit.com"
-						android:scheme="https"/>
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data
-						android:host="google.com"
-						android:pathPrefix="/amp/s/amp.reddit.com"
-						android:scheme="https"/>
-			</intent-filter>
-
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
-				<category android:name="android.intent.category.BROWSABLE" />
-				<data android:scheme="http" android:host="reddit.app.link" />
-				<data android:scheme="https" android:host="reddit.app.link" />
+				<data android:scheme="http" />
+				<data android:scheme="https" />
+				<data android:host="google.com" />
+				<data android:host="*.google.com" />
+				<data android:pathPrefix="/amp/s/amp.reddit.com" />
 			</intent-filter>
 
 			<intent-filter>

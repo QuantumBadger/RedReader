@@ -37,8 +37,8 @@ fi
 
 echo "Changing package..."
 git mv src/main/java/org/quantumbadger/redreader src/main/java/org/quantumbadger/redreaderalpha
-find . -type f -not -path "*/.git/*" -not -name "README.md" -exec sed -i 's/org\.quantumbadger\.redreader/org.quantumbadger.redreaderalpha/g' {} \;
-find . -type f -not -path "*/.git/*" -exec sed -i 's/org\/quantumbadger\/redreader/org\/quantumbadger\/redreaderalpha/g' {} \;
+find . -type f -not -path "*/.git/*" -not -path "*/config/scripts/*" -not -name "README.md" -exec sed -i 's/org\.quantumbadger\.redreader/org.quantumbadger.redreaderalpha/g' {} \;
+find . -type f -not -path "*/.git/*" -not -path "*/config/scripts/*" -exec sed -i 's/org\/quantumbadger\/redreader/org\/quantumbadger\/redreaderalpha/g' {} \;
 
 echo "Changing icon..."
 sed -i 's/@drawable\/icon/@drawable\/icon_inv/g' src/main/AndroidManifest.xml

@@ -1,3 +1,6 @@
+105/1.21
+Show avatar in user profile dialog (thanks to mgurga)
+
 104/1.20
 Renamed "Find Subreddit" to "Find Location"
 Find Location: Now lets you jump to a specific subreddit/user without waiting for the search

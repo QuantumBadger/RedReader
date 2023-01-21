@@ -22,11 +22,9 @@ import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -40,12 +38,12 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.DynamicSpanned;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class HtmlRawElementImg extends HtmlRawElement{
 	@NonNull private final ArrayList<HtmlRawElement> mChildren;
@@ -69,12 +67,12 @@ public class HtmlRawElementImg extends HtmlRawElement{
 	}
 
 	public final synchronized void writeTo(
-			@NonNull final AtomicReference<SpannableStringBuilder> ssbReference,
+			@NonNull final SpannableStringBuilder ssb,
 			@NonNull final AppCompatActivity activity,
-			@NonNull final Runnable invalidateCallback) {
-		final int emoteLocationStart = ssbReference.get().length();
+			@NonNull final DynamicSpanned dynamicSpanned) {
+		final int emoteLocationStart = ssb.length();
 
-		ssbReference.set(ssbReference.get().append(mTitle));
+		ssb.append(mTitle);
 
 		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
 				General.uriFromString(mSrc),
@@ -107,17 +105,12 @@ public class HtmlRawElementImg extends HtmlRawElement{
 									activity.getApplicationContext(),
 									image);
 
-							final SpannableStringBuilder ssb = ssbReference.get();
-
-							ssb.setSpan(
+							dynamicSpanned.addSpanDynamic(
 									span,
 									emoteLocationStart,
 									emoteLocationStart + mTitle.length(),
 									Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 
-							ssbReference.set(ssb);
-
-							invalidateCallback.run();
 						} catch (final Throwable t) {
 							onFailure(
 									CacheRequest.REQUEST_FAILURE_CONNECTION,

@@ -19,28 +19,34 @@ package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
 import android.text.SpannableStringBuilder;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
 
-import java.util.concurrent.atomic.AtomicReference;
+public class BodyElementTextSpanned extends BodyElement implements DynamicSpanned {
 
-public class BodyElementTextSpanned extends BodyElement {
+	@NonNull private final SpannableStringBuilder mSpannedReference;
 
-	@NonNull private final AtomicReference<SpannableStringBuilder> mSpannedReference;
-	@NonNull public final Runnable mInvalidateCallback;
-	@NonNull private LinkifiedTextView mTextView;
+	private LinkifiedTextView mTextView;
 
 	public BodyElementTextSpanned(
 			@NonNull final BlockType blockType,
-			@NonNull final AtomicReference<SpannableStringBuilder> spannedReference) {
+			@NonNull final SpannableStringBuilder spannedReference) {
 		super(blockType);
 		mSpannedReference = spannedReference;
-		mInvalidateCallback = () -> mTextView.setText(mSpannedReference.get());
+	}
+
+	@Override
+	public void addSpanDynamic(final Object what, final int start, final int end, final int flags) {
+		AndroidCommon.runOnUiThread(() -> {
+			mSpannedReference.setSpan(what, start, end, flags);
+			if(mTextView != null) {
+				mTextView.setText(mSpannedReference);
+			}
+		});
 	}
 
 	@Override
@@ -59,7 +65,7 @@ public class BodyElementTextSpanned extends BodyElement {
 			mTextView.setTextSize(textSize);
 		}
 
-		mTextView.setText(mSpannedReference.get(), LinkifiedTextView.BufferType.SPANNABLE);
+		mTextView.setText(mSpannedReference, LinkifiedTextView.BufferType.SPANNABLE);
 
 		if(PrefsUtility.pref_accessibility_separate_body_text_lines()) {
 

@@ -18,17 +18,14 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.text.SpannableStringBuilder;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementTextSpanned;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class HtmlRawElementBlock extends HtmlRawElement {
 
@@ -93,28 +90,29 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 			@NonNull final ArrayList<BodyElement> destination) {
 		boolean stringWrittenTo = false;
 
-		AtomicReference<SpannableStringBuilder> ssbReference =
-				new AtomicReference<>(new SpannableStringBuilder());
+		SpannableStringBuilder ssb = new SpannableStringBuilder();
 
 		BodyElementTextSpanned bodyElementTextSpanned =
-				new BodyElementTextSpanned(mBlockType, ssbReference);
+				new BodyElementTextSpanned(mBlockType, ssb);
 
 		for(final HtmlRawElement child : mChildren) {
 			if(child instanceof HtmlRawElementStyledText) {
-				((HtmlRawElementStyledText)child).writeTo(ssbReference);
+				((HtmlRawElementStyledText)child).writeTo(ssb);
 				stringWrittenTo = true;
+
 			} else if (child instanceof  HtmlRawElementImg) {
-				((HtmlRawElementImg) child).writeTo(ssbReference,
+				((HtmlRawElementImg) child).writeTo(ssb,
 						activity,
-						bodyElementTextSpanned.mInvalidateCallback);
+						bodyElementTextSpanned);
 				stringWrittenTo = true;
+
 			} else {
 				if (stringWrittenTo) {
 					destination.add(bodyElementTextSpanned);
 
-					ssbReference = new AtomicReference<>(new SpannableStringBuilder());
-					bodyElementTextSpanned = new BodyElementTextSpanned(mBlockType, ssbReference);
-					
+					ssb = new SpannableStringBuilder();
+					bodyElementTextSpanned = new BodyElementTextSpanned(mBlockType, ssb);
+
 					stringWrittenTo = false;
 				}
 				child.generate(activity, destination);

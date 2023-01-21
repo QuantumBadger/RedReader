@@ -17,16 +17,15 @@
 
 package org.quantumbadger.redreader.reddit.prepared.html;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.CharacterStyle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class HtmlRawElementStyledText extends HtmlRawElement {
 
@@ -45,8 +44,7 @@ public class HtmlRawElementStyledText extends HtmlRawElement {
 		stringBuilder.append(mText);
 	}
 
-	public final void writeTo(@NonNull final AtomicReference<SpannableStringBuilder> ssbReference) {
-		final SpannableStringBuilder ssb = ssbReference.get();
+	public final void writeTo(@NonNull final SpannableStringBuilder ssb) {
 
 		final int textStart = ssb.length();
 		ssb.append(mText);
@@ -57,8 +55,6 @@ public class HtmlRawElementStyledText extends HtmlRawElement {
 				ssb.setSpan(span, textStart, textEnd, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 			}
 		}
-
-		ssbReference.set(ssb);
 	}
 
 	@Override

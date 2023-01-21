@@ -28,23 +28,23 @@ import org.quantumbadger.redreader.views.LinkifiedTextView;
 
 public class BodyElementTextSpanned extends BodyElement implements DynamicSpanned {
 
-	@NonNull private final SpannableStringBuilder mSpannedReference;
+	@NonNull private final SpannableStringBuilder mSpanned;
 
 	private LinkifiedTextView mTextView;
 
 	public BodyElementTextSpanned(
 			@NonNull final BlockType blockType,
-			@NonNull final SpannableStringBuilder spannedReference) {
+			@NonNull final SpannableStringBuilder spanned) {
 		super(blockType);
-		mSpannedReference = spannedReference;
+		mSpanned = spanned;
 	}
 
 	@Override
 	public void addSpanDynamic(final Object what, final int start, final int end, final int flags) {
 		AndroidCommon.runOnUiThread(() -> {
-			mSpannedReference.setSpan(what, start, end, flags);
+			mSpanned.setSpan(what, start, end, flags);
 			if(mTextView != null) {
-				mTextView.setText(mSpannedReference);
+				mTextView.setText(mSpanned);
 			}
 		});
 	}
@@ -65,7 +65,7 @@ public class BodyElementTextSpanned extends BodyElement implements DynamicSpanne
 			mTextView.setTextSize(textSize);
 		}
 
-		mTextView.setText(mSpannedReference, LinkifiedTextView.BufferType.SPANNABLE);
+		mTextView.setText(mSpanned, LinkifiedTextView.BufferType.SPANNABLE);
 
 		if(PrefsUtility.pref_accessibility_separate_body_text_lines()) {
 

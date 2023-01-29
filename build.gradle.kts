@@ -7,18 +7,19 @@ buildscript {
 	}
 	dependencies {
 		classpath("com.android.tools.build:gradle:7.3.1")
-		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.21")
 	}
 }
 
 plugins {
 	id("com.android.application") version("7.3.1") apply(true)
-	kotlin("android") version("1.8.0") apply(true)
+	kotlin("android") version("1.6.21") apply(true)
 	pmd
 	checkstyle
 }
 
 dependencies {
+	implementation("androidx.core:core-ktx:1.9.0")
 	implementation("androidx.annotation:annotation:1.5.0")
 	implementation("androidx.appcompat:appcompat:1.6.0")
 	implementation("androidx.recyclerview:recyclerview:1.2.1")

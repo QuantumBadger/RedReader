@@ -57,7 +57,7 @@ android {
 		versionCode = 104
 		versionName = "1.20"
 
-		vectorDrawables.useSupportLibrary = true
+		vectorDrawables.generatedDensities("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi")
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 

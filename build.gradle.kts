@@ -48,6 +48,7 @@ android {
 	compileSdk = 33
 	buildToolsVersion = "33.0.1"
 	ndkVersion = "23.1.7779620"
+	namespace = "org.quantumbadger.redreader"
 
 	defaultConfig {
 		applicationId = "org.quantumbadger.redreader"
@@ -59,6 +60,7 @@ android {
 		vectorDrawables.useSupportLibrary = true
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
+
 	// Flag to tell aapt to keep the attribute ids around
 	androidResources {
 		additionalParameters("--no-version-vectors")

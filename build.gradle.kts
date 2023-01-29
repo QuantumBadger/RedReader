@@ -7,11 +7,13 @@ buildscript {
 	}
 	dependencies {
 		classpath("com.android.tools.build:gradle:7.3.1")
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.0")
 	}
 }
 
 plugins {
 	id("com.android.application") version("7.3.1") apply(true)
+	kotlin("android") version("1.8.0") apply(true)
 	pmd
 	checkstyle
 }

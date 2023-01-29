@@ -183,6 +183,7 @@ public class SerializeUtilsTests {
 		Assert.assertEquals("Hello world", result);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testSet() throws SerializeUtils.UnhandledTypeException, IOException {
 
@@ -195,7 +196,6 @@ public class SerializeUtilsTests {
 
 		SerializeUtils.serialize(dataHandler.getOutput(), input);
 
-		//noinspection unchecked
 		final Set<Object> result
 				= (Set<Object>)SerializeUtils.deserialize(dataHandler.getInput());
 
@@ -208,6 +208,7 @@ public class SerializeUtilsTests {
 		Assert.assertTrue(result.contains(null));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testEmptySet() throws SerializeUtils.UnhandledTypeException, IOException {
 
@@ -217,7 +218,6 @@ public class SerializeUtilsTests {
 
 		SerializeUtils.serialize(dataHandler.getOutput(), input);
 
-		//noinspection unchecked
 		final Set<Object> result
 				= (Set<Object>)SerializeUtils.deserialize(dataHandler.getInput());
 
@@ -226,6 +226,7 @@ public class SerializeUtilsTests {
 		Assert.assertEquals(input.size(), result.size());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testList() throws SerializeUtils.UnhandledTypeException, IOException {
 
@@ -238,7 +239,6 @@ public class SerializeUtilsTests {
 
 		SerializeUtils.serialize(dataHandler.getOutput(), input);
 
-		//noinspection unchecked
 		final List<Object> result
 				= (List<Object>)SerializeUtils.deserialize(dataHandler.getInput());
 
@@ -251,6 +251,7 @@ public class SerializeUtilsTests {
 		Assert.assertNull(result.get(2));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testEmptyList() throws SerializeUtils.UnhandledTypeException, IOException {
 
@@ -260,7 +261,6 @@ public class SerializeUtilsTests {
 
 		SerializeUtils.serialize(dataHandler.getOutput(), input);
 
-		//noinspection unchecked
 		final List<Object> result
 				= (List<Object>)SerializeUtils.deserialize(dataHandler.getInput());
 
@@ -269,6 +269,7 @@ public class SerializeUtilsTests {
 		Assert.assertEquals(input.size(), result.size());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testMap() throws SerializeUtils.UnhandledTypeException, IOException {
 
@@ -282,7 +283,6 @@ public class SerializeUtilsTests {
 
 		SerializeUtils.serialize(dataHandler.getOutput(), input);
 
-		//noinspection unchecked
 		final Map<Object, Object> result
 				= (Map<Object, Object>)SerializeUtils.deserialize(dataHandler.getInput());
 
@@ -296,6 +296,7 @@ public class SerializeUtilsTests {
 		Assert.assertEquals(0.25, result.get((byte)98));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testEmptyMap() throws SerializeUtils.UnhandledTypeException, IOException {
 
@@ -305,7 +306,6 @@ public class SerializeUtilsTests {
 
 		SerializeUtils.serialize(dataHandler.getOutput(), input);
 
-		//noinspection unchecked
 		final Map<Object, Object> result
 				= (Map<Object, Object>)SerializeUtils.deserialize(dataHandler.getInput());
 
@@ -314,6 +314,7 @@ public class SerializeUtilsTests {
 		Assert.assertEquals(input.size(), result.size());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testMapContainingList() throws SerializeUtils.UnhandledTypeException, IOException {
 
@@ -324,7 +325,6 @@ public class SerializeUtilsTests {
 
 		SerializeUtils.serialize(dataHandler.getOutput(), input);
 
-		//noinspection unchecked
 		final Map<Object, Object> result
 				= (Map<Object, Object>)SerializeUtils.deserialize(dataHandler.getInput());
 

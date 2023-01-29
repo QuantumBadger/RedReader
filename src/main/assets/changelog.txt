@@ -1,5 +1,6 @@
 105/1.21
 Show avatar in user profile dialog (thanks to mgurga)
+Dependency updates
 
 104/1.20
 Renamed "Find Subreddit" to "Find Location"

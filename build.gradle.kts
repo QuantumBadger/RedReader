@@ -15,15 +15,15 @@ plugins {
 }
 
 dependencies {
-	"implementation"("androidx.annotation:annotation:1.3.0")
-	"implementation"("androidx.appcompat:appcompat:1.4.0")
+	"implementation"("androidx.annotation:annotation:1.5.0")
+	"implementation"("androidx.appcompat:appcompat:1.6.0")
 	"implementation"("androidx.recyclerview:recyclerview:1.2.1")
 	"implementation"("com.google.android.flexbox:flexbox:3.0.0")
 	"implementation"("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-	"implementation"("androidx.preference:preference:1.1.1")
-	"implementation"("com.google.android.material:material:1.4.0")
-	"implementation"("androidx.constraintlayout:constraintlayout:2.1.2")
-	"implementation"("androidx.fragment:fragment:1.4.0")
+	"implementation"("androidx.preference:preference:1.2.0")
+	"implementation"("com.google.android.material:material:1.8.0")
+	"implementation"("androidx.constraintlayout:constraintlayout:2.1.4")
+	"implementation"("androidx.fragment:fragment:1.5.5")
 
 	"implementation"("com.fasterxml.jackson.core:jackson-core:2.13.1")
 	"implementation"("org.apache.commons:commons-lang3:3.12.0")
@@ -31,15 +31,15 @@ dependencies {
 	"implementation"("joda-time:joda-time:2.10.13")
 	"implementation"("com.squareup.okhttp3:okhttp:3.12.13")
 	"implementation"("info.guardianproject.netcipher:netcipher:1.2.1")
-	"implementation"("com.google.android.exoplayer:exoplayer-core:2.16.1")
-	"implementation"("com.google.android.exoplayer:exoplayer-ui:2.16.1")
+	"implementation"("com.google.android.exoplayer:exoplayer-core:2.18.2")
+	"implementation"("com.google.android.exoplayer:exoplayer-ui:2.18.2")
 	"implementation"("com.github.luben:zstd-jni:1.5.1-1@aar")
 
 	"testImplementation"("junit:junit:4.13.2")
 
-	"androidTestImplementation"("androidx.test.espresso:espresso-core:3.4.0")
-	"androidTestImplementation"("androidx.test:rules:1.4.0")
-	"androidTestImplementation"("androidx.test.espresso:espresso-contrib:3.4.0")
+	"androidTestImplementation"("androidx.test.espresso:espresso-core:3.5.1")
+	"androidTestImplementation"("androidx.test:rules:1.5.0")
+	"androidTestImplementation"("androidx.test.espresso:espresso-contrib:3.5.1")
 }
 
 android {

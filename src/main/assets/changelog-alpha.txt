@@ -1,5 +1,6 @@
-/Alpha 323 (2023-01-15)
+/Alpha 323 (2023-01-29)
 Show avatar in user profile dialog (thanks to mgurga)
+Dependency updates
 
 /Alpha 322 (2023-01-15)
 Changed build configuration (migrated from Groovy to Kotlin)

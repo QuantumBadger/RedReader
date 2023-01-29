@@ -30,7 +30,7 @@ dependencies {
 	"implementation"("com.fasterxml.jackson.core:jackson-core:2.13.1")
 	"implementation"("org.apache.commons:commons-lang3:3.12.0")
 	"implementation"("org.apache.commons:commons-text:1.9")
-	"implementation"("joda-time:joda-time:2.10.13")
+	"implementation"("net.danlew:android.joda:2.12.1.1")
 	"implementation"("com.squareup.okhttp3:okhttp:3.12.13")
 	"implementation"("info.guardianproject.netcipher:netcipher:1.2.1")
 	"implementation"("com.google.android.exoplayer:exoplayer-core:2.18.2")

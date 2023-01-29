@@ -80,6 +80,8 @@ public final class RedditPostView extends FlingableItemView
 
 	private static final AtomicInteger sInlinePreviewsShownThisSession = new AtomicInteger(0);
 
+	private final AccessibilityActionManager mAccessibilityActionManager;
+
 	private RedditPreparedPost mPost = null;
 	private final TextView title;
 	private final TextView subtitle;
@@ -329,6 +331,10 @@ public final class RedditPostView extends FlingableItemView
 		super(context);
 		mActivity = activity;
 
+		mAccessibilityActionManager = new AccessibilityActionManager(
+				this,
+				context.getResources());
+
 		thumbnailHandler = new Handler(Looper.getMainLooper()) {
 			@Override
 			public void handleMessage(@NonNull final Message msg) {
@@ -576,6 +582,45 @@ public final class RedditPostView extends FlingableItemView
 			mOverlayIcon.setVisibility(VISIBLE);
 		} else {
 			mOverlayIcon.setVisibility(GONE);
+		}
+
+		setupAccessibilityActions();
+	}
+
+	private void setupAccessibilityActions() {
+
+		mAccessibilityActionManager.removeAllActions();
+
+		if(mPost.isUpvoted()) {
+			mAccessibilityActionManager.addAction(R.string.action_upvote_remove, () -> {
+				RedditPreparedPost.onActionMenuItemSelected(
+						mPost,
+						mActivity,
+						RedditPreparedPost.Action.UNVOTE);
+			});
+		} else {
+			mAccessibilityActionManager.addAction(R.string.action_upvote, () -> {
+				RedditPreparedPost.onActionMenuItemSelected(
+						mPost,
+						mActivity,
+						RedditPreparedPost.Action.UPVOTE);
+			});
+		}
+
+		if(mPost.isDownvoted()) {
+			mAccessibilityActionManager.addAction(R.string.action_downvote_remove, () -> {
+				RedditPreparedPost.onActionMenuItemSelected(
+						mPost,
+						mActivity,
+						RedditPreparedPost.Action.UNVOTE);
+			});
+		} else {
+			mAccessibilityActionManager.addAction(R.string.action_downvote, () -> {
+				RedditPreparedPost.onActionMenuItemSelected(
+						mPost,
+						mActivity,
+						RedditPreparedPost.Action.DOWNVOTE);
+			});
 		}
 	}
 

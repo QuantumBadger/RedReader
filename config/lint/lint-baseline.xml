@@ -3,7 +3,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@drawable/exo_controls_previous` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.16.1"
+        message="The resource `@drawable/exo_controls_previous` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.18.2"
         errorLine1="     R.drawable.exo_controls_previous,"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -14,7 +14,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@drawable/exo_controls_rewind` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.16.1"
+        message="The resource `@drawable/exo_controls_rewind` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.18.2"
         errorLine1="     R.drawable.exo_controls_rewind,"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~">
         <location
@@ -25,7 +25,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@drawable/exo_controls_pause` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.16.1"
+        message="The resource `@drawable/exo_controls_pause` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.18.2"
         errorLine1="      R.drawable.exo_controls_pause,"
         errorLine2="                 ~~~~~~~~~~~~~~~~~~">
         <location
@@ -36,7 +36,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@drawable/exo_controls_pause` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.16.1"
+        message="The resource `@drawable/exo_controls_pause` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.18.2"
         errorLine1="          .setImageResource(R.drawable.exo_controls_pause);"
         errorLine2="                                       ~~~~~~~~~~~~~~~~~~">
         <location
@@ -47,7 +47,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@drawable/exo_controls_play` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.16.1"
+        message="The resource `@drawable/exo_controls_play` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.18.2"
         errorLine1="          .setImageResource(R.drawable.exo_controls_play);"
         errorLine2="                                       ~~~~~~~~~~~~~~~~~">
         <location
@@ -58,7 +58,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@drawable/exo_controls_fastforward` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.16.1"
+        message="The resource `@drawable/exo_controls_fastforward` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.18.2"
         errorLine1="     R.drawable.exo_controls_fastforward,"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -69,7 +69,7 @@
 
     <issue
         id="PrivateResource"
-        message="The resource `@drawable/exo_controls_play` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.16.1"
+        message="The resource `@drawable/exo_controls_play` is marked as private in com.google.android.exoplayer:exoplayer-ui:2.18.2"
         errorLine1="        android:src=&quot;@drawable/exo_controls_play&quot;"
         errorLine2="                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -85,7 +85,7 @@
         errorLine2="                                ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/AndroidManifest.xml"
-            line="48"
+            line="47"
             column="33"/>
     </issue>
 

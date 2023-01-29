@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 buildscript {
 	repositories {
 		mavenCentral()
@@ -58,7 +60,7 @@ android {
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 	// Flag to tell aapt to keep the attribute ids around
-	aaptOptions {
+	androidResources {
 		additionalParameters("--no-version-vectors")
 	}
 
@@ -115,7 +117,7 @@ checkstyle {
 tasks.register("Checkstyle", Checkstyle::class) {
 	source("src/main/java/org/quantumbadger")
 	ignoreFailures = false
-	setShowViolations(true)
+	isShowViolations = true
 	include("**/*.java")
 	classpath = files()
 	maxWarnings = 0

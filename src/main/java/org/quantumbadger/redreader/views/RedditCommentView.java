@@ -463,50 +463,39 @@ public class RedditCommentView extends FlingableItemView
 			return;
 		}
 
-		final RedditParsedComment comment = mComment.asComment().getParsedComment();
-
-		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-			RedditAPICommentAction.RedditCommentAction.COLLAPSE, R.string.action_collapse
-		));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.COLLAPSE)
+		);
 
 		// TODO Bill: Implement "collapse thread" here.
 		// May need to do this as a custom runnable.
 
-		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-			RedditAPICommentAction.RedditCommentAction.REPLY, R.string.action_reply
-		));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY)
+		);
 
 		// #136: When "save" is implemented for comments, add an a11y action here.
 
-		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-			RedditAPICommentAction.RedditCommentAction.USER_PROFILE, R.string.action_user_profile
-		));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.USER_PROFILE)
+		);
 
-		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-			RedditAPICommentAction.RedditCommentAction.REPORT, R.string.action_report
-		));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.REPORT)
+		);
 
-		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-			RedditAPICommentAction.RedditCommentAction.SHARE, R.string.action_share
-		));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.SHARE)
+		);
 
-		if(mChangeDataManager.isDownvoted(comment))
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditAPICommentAction.RedditCommentAction.UNVOTE, R.string.action_downvote_remove
-			));
-		else
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditAPICommentAction.RedditCommentAction.DOWNVOTE, R.string.action_downvote
-			));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.DOWNVOTE)
+		);
 
-		if(mChangeDataManager.isUpvoted(comment))
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditAPICommentAction.RedditCommentAction.UNVOTE, R.string.action_upvote_remove
-			));
-		else
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditAPICommentAction.RedditCommentAction.UPVOTE, R.string.action_upvote
-			));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.UPVOTE)
+		);
+
 	}
 
 	public RedditCommentListItem getComment() {

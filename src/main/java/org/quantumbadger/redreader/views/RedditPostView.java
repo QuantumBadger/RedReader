@@ -591,48 +591,34 @@ public final class RedditPostView extends FlingableItemView
 
 		mAccessibilityActionManager.removeAllActions();
 
-		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-			RedditPreparedPost.Action.COMMENTS, R.string.action_comments
-		));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.COMMENTS)
+		);
 
-		if(mPost.isSaved())
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditPreparedPost.Action.UNSAVE, R.string.action_unsave
-			));
-		else
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditPreparedPost.Action.SAVE, R.string.action_save
-			));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.SAVE)
+		);
 
-		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-			RedditPreparedPost.Action.USER_PROFILE, R.string.action_user_profile
-		));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.USER_PROFILE)
+		);
 
-		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-			RedditPreparedPost.Action.REPORT, R.string.action_report
-		));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.REPORT)
+		);
 
-		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-			RedditPreparedPost.Action.SHARE, R.string.action_share
-		));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.SHARE)
+		);
 
-		if(mPost.isDownvoted())
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditPreparedPost.Action.UNVOTE, R.string.action_downvote_remove
-			));
-		else
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditPreparedPost.Action.DOWNVOTE, R.string.action_downvote
-			));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.DOWNVOTE)
+		);
 
-		if(mPost.isUpvoted())
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditPreparedPost.Action.UNVOTE, R.string.action_upvote_remove
-			));
-		else
-			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
-				RedditPreparedPost.Action.UPVOTE, R.string.action_upvote
-			));
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.UPVOTE)
+		);
+
 	}
 
 	private void addAccessibilityActionFromDescriptionPair(final ActionDescriptionPair pair) {

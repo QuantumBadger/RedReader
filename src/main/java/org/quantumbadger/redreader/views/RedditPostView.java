@@ -591,6 +591,31 @@ public final class RedditPostView extends FlingableItemView
 
 		mAccessibilityActionManager.removeAllActions();
 
+		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+			RedditPreparedPost.Action.COMMENTS, R.string.action_comments
+		));
+
+		if(mPost.isSaved())
+			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+				RedditPreparedPost.Action.UNSAVE, R.string.action_unsave
+			));
+		else
+			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+				RedditPreparedPost.Action.SAVE, R.string.action_save
+			));
+
+		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+			RedditPreparedPost.Action.USER_PROFILE, R.string.action_user_profile
+		));
+
+		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+			RedditPreparedPost.Action.REPORT, R.string.action_report
+		));
+
+		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+			RedditPreparedPost.Action.SHARE, R.string.action_share
+		));
+
 		if(mPost.isDownvoted())
 			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
 				RedditPreparedPost.Action.UNVOTE, R.string.action_downvote_remove

@@ -465,6 +465,31 @@ public class RedditCommentView extends FlingableItemView
 
 		final RedditParsedComment comment = mComment.asComment().getParsedComment();
 
+		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+			RedditAPICommentAction.RedditCommentAction.COLLAPSE, R.string.action_collapse
+		));
+
+		// TODO Bill: Implement "collapse thread" here.
+		// May need to do this as a custom runnable.
+
+		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+			RedditAPICommentAction.RedditCommentAction.REPLY, R.string.action_reply
+		));
+
+		// #136: When "save" is implemented for comments, add an a11y action here.
+
+		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+			RedditAPICommentAction.RedditCommentAction.USER_PROFILE, R.string.action_user_profile
+		));
+
+		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+			RedditAPICommentAction.RedditCommentAction.REPORT, R.string.action_report
+		));
+
+		addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
+			RedditAPICommentAction.RedditCommentAction.SHARE, R.string.action_share
+		));
+
 		if(mChangeDataManager.isDownvoted(comment))
 			addAccessibilityActionFromDescriptionPair(new ActionDescriptionPair(
 				RedditAPICommentAction.RedditCommentAction.UNVOTE, R.string.action_downvote_remove

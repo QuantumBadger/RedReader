@@ -78,7 +78,7 @@ public final class CacheManager {
 
 	@SuppressLint("StaticFieldLeak") private static CacheManager singleton;
 
-	public static synchronized CacheManager getInstance(final Context context) {
+	public static synchronized CacheManager getInstance(@NonNull final Context context) {
 		if(singleton == null) {
 			singleton = new CacheManager(context.getApplicationContext());
 		}
@@ -281,7 +281,7 @@ public final class CacheManager {
 		return dataUsagePerType;
 	}
 
-	public void makeRequest(final CacheRequest request) {
+	public void makeRequest(@NonNull final CacheRequest request) {
 		requests.put(request);
 	}
 

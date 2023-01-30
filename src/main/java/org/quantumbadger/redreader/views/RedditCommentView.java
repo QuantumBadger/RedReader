@@ -34,7 +34,6 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
-import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
@@ -464,46 +463,55 @@ public class RedditCommentView extends FlingableItemView
 			return;
 		}
 
-		final RedditParsedComment comment = mComment.asComment().getParsedComment();
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.COLLAPSE)
+		);
 
-		if(mChangeDataManager.isUpvoted(comment)) {
-			mAccessibilityActionManager.addAction(R.string.action_upvote_remove, () -> {
-				RedditAPICommentAction.action(
-						mActivity,
-						comment.getRawComment(),
-						RedditAPI.ACTION_UNVOTE,
-						mChangeDataManager);
-			});
-		} else {
-			mAccessibilityActionManager.addAction(R.string.action_upvote, () -> {
-				RedditAPICommentAction.action(
-						mActivity,
-						comment.getRawComment(),
-						RedditAPI.ACTION_UPVOTE,
-						mChangeDataManager);
-			});
-		}
+		// TODO Bill: Implement "collapse thread" here.
+		// May need to do this as a custom runnable.
 
-		if(mChangeDataManager.isDownvoted(comment)) {
-			mAccessibilityActionManager.addAction(R.string.action_downvote_remove, () -> {
-				RedditAPICommentAction.action(
-						mActivity,
-						comment.getRawComment(),
-						RedditAPI.ACTION_UNVOTE,
-						mChangeDataManager);
-			});
-		} else {
-			mAccessibilityActionManager.addAction(R.string.action_downvote, () -> {
-				RedditAPICommentAction.action(
-						mActivity,
-						comment.getRawComment(),
-						RedditAPI.ACTION_DOWNVOTE,
-						mChangeDataManager);
-			});
-		}
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY)
+		);
+
+		// #136: When "save" is implemented for comments, add an a11y action here.
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.USER_PROFILE)
+		);
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.REPORT)
+		);
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.SHARE)
+		);
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.DOWNVOTE)
+		);
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.CommentFlingAction.UPVOTE)
+		);
+
 	}
 
 	public RedditCommentListItem getComment() {
 		return mComment;
+	}
+
+	private void addAccessibilityActionFromDescriptionPair(final ActionDescriptionPair pair) {
+		mAccessibilityActionManager.addAction(pair.descriptionRes, () -> {
+			RedditAPICommentAction.onActionMenuItemSelected(
+				mComment.asComment(),
+				this,
+				mActivity,
+				mFragment,
+				pair.action,
+				mChangeDataManager
+			);
+		});
 	}
 }

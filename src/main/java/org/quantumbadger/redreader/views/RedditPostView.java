@@ -591,37 +591,44 @@ public final class RedditPostView extends FlingableItemView
 
 		mAccessibilityActionManager.removeAllActions();
 
-		if(mPost.isUpvoted()) {
-			mAccessibilityActionManager.addAction(R.string.action_upvote_remove, () -> {
-				RedditPreparedPost.onActionMenuItemSelected(
-						mPost,
-						mActivity,
-						RedditPreparedPost.Action.UNVOTE);
-			});
-		} else {
-			mAccessibilityActionManager.addAction(R.string.action_upvote, () -> {
-				RedditPreparedPost.onActionMenuItemSelected(
-						mPost,
-						mActivity,
-						RedditPreparedPost.Action.UPVOTE);
-			});
-		}
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.COMMENTS)
+		);
 
-		if(mPost.isDownvoted()) {
-			mAccessibilityActionManager.addAction(R.string.action_downvote_remove, () -> {
-				RedditPreparedPost.onActionMenuItemSelected(
-						mPost,
-						mActivity,
-						RedditPreparedPost.Action.UNVOTE);
-			});
-		} else {
-			mAccessibilityActionManager.addAction(R.string.action_downvote, () -> {
-				RedditPreparedPost.onActionMenuItemSelected(
-						mPost,
-						mActivity,
-						RedditPreparedPost.Action.DOWNVOTE);
-			});
-		}
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.SAVE)
+		);
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.USER_PROFILE)
+		);
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.REPORT)
+		);
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.SHARE)
+		);
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.DOWNVOTE)
+		);
+
+		addAccessibilityActionFromDescriptionPair(
+			chooseFlingAction(PrefsUtility.PostFlingAction.UPVOTE)
+		);
+
+	}
+
+	private void addAccessibilityActionFromDescriptionPair(final ActionDescriptionPair pair) {
+		mAccessibilityActionManager.addAction(pair.descriptionRes, () -> {
+			RedditPreparedPost.onActionMenuItemSelected(
+				mPost,
+				mActivity,
+				pair.action
+			);
+		});
 	}
 
 	@Override

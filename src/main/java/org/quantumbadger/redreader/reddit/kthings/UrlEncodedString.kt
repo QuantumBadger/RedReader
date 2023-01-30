@@ -14,7 +14,7 @@ data class UrlEncodedString(
 	val decoded: String
 )
 
-class UrlEncodedStringSerializer : KSerializer<UrlEncodedString> {
+object UrlEncodedStringSerializer : KSerializer<UrlEncodedString> {
 	override val descriptor: SerialDescriptor
 		get() = PrimitiveSerialDescriptor("UrlEncodedString", PrimitiveKind.STRING)
 

@@ -26,11 +26,11 @@ data class RedditPost(
 	var clicked: Boolean = false,
 	var stickied: Boolean = false,
 	var can_mod_post: Boolean = false,
-	var edited: JsonElement? = null, // TODO false or long
+	var edited: JsonElement? = null, // TODO false or RedditTimestampUTC -- custom serializer
 	var likes: Boolean? = null,
 	var spoiler: Boolean? = null,
 	var locked: Boolean? = null,
-	var created_utc: Double, // TODO UTC timestamp type?
+	var created_utc: RedditTimestampUTC,
 
 	var selftext: UrlEncodedString? = null,
 	var selftext_html: UrlEncodedString? = null,

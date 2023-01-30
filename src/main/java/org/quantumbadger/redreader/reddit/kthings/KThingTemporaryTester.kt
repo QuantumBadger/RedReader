@@ -24,6 +24,8 @@ object KThingTemporaryTester {
 	//		Constructor param for item limit, store current item limit in adapter
 	//		"End of Listing" text when `after` is null
 
+	// TODO automatic parcelization with Kotlin
+
 	fun run(context: Context) {
 
 		CacheManager.getInstance(context).makeRequest(CacheRequest(

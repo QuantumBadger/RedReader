@@ -60,6 +60,7 @@ import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.http.FailedRequestBody;
+import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
@@ -109,8 +110,8 @@ public final class RedditPostView extends FlingableItemView
 
 	private final PrefsUtility.PostFlingAction mLeftFlingPref;
 	private final PrefsUtility.PostFlingAction mRightFlingPref;
-	private ActionDescriptionPair mLeftFlingAction;
-	private ActionDescriptionPair mRightFlingAction;
+	private RedditPostActions.ActionDescriptionPair mLeftFlingAction;
+	private RedditPostActions.ActionDescriptionPair mRightFlingAction;
 
 	private final boolean mCommentsButtonPref;
 
@@ -131,10 +132,10 @@ public final class RedditPostView extends FlingableItemView
 	@Override
 	protected String getFlingLeftText() {
 
-		mLeftFlingAction = chooseFlingAction(mLeftFlingPref);
+		mLeftFlingAction = RedditPostActions.ActionDescriptionPair.from(mPost, mLeftFlingPref);
 
 		if(mLeftFlingAction != null) {
-			return mActivity.getString(mLeftFlingAction.descriptionRes);
+			return mActivity.getString(mLeftFlingAction.getDescriptionRes());
 		} else {
 			return "Disabled";
 		}
@@ -144,10 +145,10 @@ public final class RedditPostView extends FlingableItemView
 	@Override
 	protected String getFlingRightText() {
 
-		mRightFlingAction = chooseFlingAction(mRightFlingPref);
+		mRightFlingAction = RedditPostActions.ActionDescriptionPair.from(mPost, mRightFlingPref);
 
 		if(mRightFlingAction != null) {
-			return mActivity.getString(mRightFlingAction.descriptionRes);
+			return mActivity.getString(mRightFlingAction.getDescriptionRes());
 		} else {
 			return "Disabled";
 		}
@@ -168,7 +169,7 @@ public final class RedditPostView extends FlingableItemView
 		RedditPreparedPost.onActionMenuItemSelected(
 				mPost,
 				mActivity,
-				mLeftFlingAction.action);
+				mLeftFlingAction.getAction());
 	}
 
 	@Override
@@ -176,151 +177,10 @@ public final class RedditPostView extends FlingableItemView
 		RedditPreparedPost.onActionMenuItemSelected(
 				mPost,
 				mActivity,
-				mRightFlingAction.action);
+				mRightFlingAction.getAction());
 	}
 
-	private static final class ActionDescriptionPair {
-		public final RedditPreparedPost.Action action;
-		public final int descriptionRes;
 
-		private ActionDescriptionPair(
-				final RedditPreparedPost.Action action,
-				final int descriptionRes) {
-			this.action = action;
-			this.descriptionRes = descriptionRes;
-		}
-	}
-
-	private ActionDescriptionPair chooseFlingAction(final PrefsUtility.PostFlingAction pref) {
-
-		switch(pref) {
-
-			case UPVOTE:
-				if(mPost.isUpvoted()) {
-					return new ActionDescriptionPair(
-							RedditPreparedPost.Action.UNVOTE,
-							R.string.action_vote_remove);
-				} else {
-					return new ActionDescriptionPair(
-							RedditPreparedPost.Action.UPVOTE,
-							R.string.action_upvote);
-				}
-
-			case DOWNVOTE:
-				if(mPost.isDownvoted()) {
-					return new ActionDescriptionPair(
-							RedditPreparedPost.Action.UNVOTE,
-							R.string.action_vote_remove);
-				} else {
-					return new ActionDescriptionPair(
-							RedditPreparedPost.Action.DOWNVOTE,
-							R.string.action_downvote);
-				}
-
-			case SAVE:
-				if(mPost.isSaved()) {
-					return new ActionDescriptionPair(
-							RedditPreparedPost.Action.UNSAVE,
-							R.string.action_unsave);
-				} else {
-					return new ActionDescriptionPair(
-							RedditPreparedPost.Action.SAVE,
-							R.string.action_save);
-				}
-
-			case HIDE:
-				if(mPost.isHidden()) {
-					return new ActionDescriptionPair(
-							RedditPreparedPost.Action.UNHIDE,
-							R.string.action_unhide);
-				} else {
-					return new ActionDescriptionPair(
-							RedditPreparedPost.Action.HIDE,
-							R.string.action_hide);
-				}
-
-			case COMMENTS:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.COMMENTS,
-						R.string.action_comments_short);
-
-			case LINK:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.LINK,
-						R.string.action_link_short);
-
-			case BROWSER:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.EXTERNAL,
-						R.string.action_external_short);
-
-			case REPORT:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.REPORT,
-						R.string.action_report
-				);
-
-			case SAVE_IMAGE:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.SAVE_IMAGE,
-						R.string.action_save_image
-				);
-
-			case GOTO_SUBREDDIT:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.GOTO_SUBREDDIT,
-						R.string.action_gotosubreddit
-				);
-
-			case SHARE:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.SHARE,
-						R.string.action_share
-				);
-
-			case SHARE_COMMENTS:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.SHARE_COMMENTS,
-						R.string.action_share_comments
-				);
-
-			case SHARE_IMAGE:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.SHARE_IMAGE,
-						R.string.action_share_image
-				);
-
-			case COPY:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.COPY,
-						R.string.action_copy_link
-				);
-
-			case USER_PROFILE:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.USER_PROFILE,
-						R.string.action_user_profile_short
-				);
-
-			case PROPERTIES:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.PROPERTIES,
-						R.string.action_properties
-				);
-
-			case ACTION_MENU:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.ACTION_MENU,
-						R.string.action_actionmenu_short);
-
-			case BACK:
-				return new ActionDescriptionPair(
-						RedditPreparedPost.Action.BACK,
-						R.string.action_back);
-		}
-
-		return null;
-	}
 
 	public RedditPostView(
 			final Context context,
@@ -584,51 +444,11 @@ public final class RedditPostView extends FlingableItemView
 			mOverlayIcon.setVisibility(GONE);
 		}
 
-		setupAccessibilityActions();
-	}
-
-	private void setupAccessibilityActions() {
-
-		mAccessibilityActionManager.removeAllActions();
-
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.PostFlingAction.COMMENTS)
-		);
-
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.PostFlingAction.SAVE)
-		);
-
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.PostFlingAction.USER_PROFILE)
-		);
-
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.PostFlingAction.REPORT)
-		);
-
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.PostFlingAction.SHARE)
-		);
-
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.PostFlingAction.DOWNVOTE)
-		);
-
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.PostFlingAction.UPVOTE)
-		);
-
-	}
-
-	private void addAccessibilityActionFromDescriptionPair(final ActionDescriptionPair pair) {
-		mAccessibilityActionManager.addAction(pair.descriptionRes, () -> {
-			RedditPreparedPost.onActionMenuItemSelected(
+		RedditPostActions.INSTANCE.setupAccessibilityActions(
+				mAccessibilityActionManager,
 				mPost,
 				mActivity,
-				pair.action
-			);
-		});
+				true);
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 
@@ -53,6 +54,15 @@ public class RedditPostHeaderView extends LinearLayout {
 		setOrientation(LinearLayout.VERTICAL);
 
 		final LinearLayout greyHeader = new LinearLayout(activity);
+
+		RedditPostActions.INSTANCE.setupAccessibilityActions(
+				new AccessibilityActionManager(
+						greyHeader,
+						activity.getResources()),
+				post,
+				activity,
+				false);
+
 		greyHeader.setOrientation(LinearLayout.VERTICAL);
 
 		final int sidesPadding = (int)(15.0f * dpScale);

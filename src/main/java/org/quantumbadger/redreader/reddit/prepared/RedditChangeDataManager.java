@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
 import android.util.Log;
+import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
@@ -52,6 +53,7 @@ public final class RedditChangeDataManager {
 	private static final HashMap<RedditAccount, RedditChangeDataManager> INSTANCE_MAP
 			= new HashMap<>();
 
+	@NonNull
 	public static RedditChangeDataManager getInstance(final RedditAccount user) {
 
 		synchronized(INSTANCE_MAP) {

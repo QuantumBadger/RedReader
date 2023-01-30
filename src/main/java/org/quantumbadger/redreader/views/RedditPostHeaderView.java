@@ -111,7 +111,7 @@ public class RedditPostHeaderView extends LinearLayout {
 		});
 
 		greyHeader.setOnLongClickListener(v -> {
-			RedditPreparedPost.showActionMenu(activity, post);
+			RedditPostActions.INSTANCE.showActionMenu(activity, post);
 			return true;
 		});
 
@@ -156,25 +156,25 @@ public class RedditPostHeaderView extends LinearLayout {
 
 				buttonAddUpvote.setOnClickListener(v -> post.performAction(
 						activity,
-						RedditPreparedPost.Action.UPVOTE));
+						RedditPostActions.Action.UPVOTE));
 				buttonRemoveUpvote.setOnClickListener(v -> post.performAction(
 						activity,
-						RedditPreparedPost.Action.UNVOTE));
+						RedditPostActions.Action.UNVOTE));
 				buttonAddDownvote.setOnClickListener(v -> post.performAction(
 						activity,
-						RedditPreparedPost.Action.DOWNVOTE));
+						RedditPostActions.Action.DOWNVOTE));
 				buttonRemoveDownvote.setOnClickListener(v -> post.performAction(
 						activity,
-						RedditPreparedPost.Action.UNVOTE));
+						RedditPostActions.Action.UNVOTE));
 				buttonReply.setOnClickListener(v -> post.performAction(
 						activity,
-						RedditPreparedPost.Action.REPLY));
+						RedditPostActions.Action.REPLY));
 				buttonShare.setOnClickListener(v -> post.performAction(
 						activity,
-						RedditPreparedPost.Action.SHARE));
+						RedditPostActions.Action.SHARE));
 				buttonMore.setOnClickListener(v -> post.performAction(
 						activity,
-						RedditPreparedPost.Action.ACTION_MENU));
+						RedditPostActions.Action.ACTION_MENU));
 
 				changeListener = thingIdAndType -> {
 

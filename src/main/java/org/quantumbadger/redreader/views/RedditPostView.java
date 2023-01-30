@@ -166,7 +166,7 @@ public final class RedditPostView extends FlingableItemView
 
 	@Override
 	protected void onFlungLeft() {
-		RedditPreparedPost.onActionMenuItemSelected(
+		RedditPostActions.INSTANCE.onActionMenuItemSelected(
 				mPost,
 				mActivity,
 				mLeftFlingAction.getAction());
@@ -174,7 +174,7 @@ public final class RedditPostView extends FlingableItemView
 
 	@Override
 	protected void onFlungRight() {
-		RedditPreparedPost.onActionMenuItemSelected(
+		RedditPostActions.INSTANCE.onActionMenuItemSelected(
 				mPost,
 				mActivity,
 				mRightFlingAction.getAction());
@@ -239,7 +239,7 @@ public final class RedditPostView extends FlingableItemView
 		mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
 
 		mOuterView.setOnLongClickListener(v -> {
-			RedditPreparedPost.showActionMenu(mActivity, mPost);
+			RedditPostActions.INSTANCE.showActionMenu(mActivity, mPost);
 			return true;
 		});
 

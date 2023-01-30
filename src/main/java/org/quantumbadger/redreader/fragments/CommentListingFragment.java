@@ -57,6 +57,7 @@ import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
+import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
@@ -302,7 +303,8 @@ public class CommentListingFragment extends RRFragment
 							return false;
 						}
 
-						toolbarOverlay.setContents(mPost.generateToolbar(
+						toolbarOverlay.setContents(RedditPostActions.INSTANCE.generateToolbar(
+								mPost,
 								(BaseActivity)getActivity(),
 								true,
 								toolbarOverlay));
@@ -557,7 +559,7 @@ public class CommentListingFragment extends RRFragment
 				}
 
 				paddingLayout.setOnLongClickListener(v -> {
-					RedditPreparedPost.showActionMenu(activity, mPost);
+					RedditPostActions.INSTANCE.showActionMenu(activity, mPost);
 					return true;
 				});
 
@@ -704,10 +706,10 @@ public class CommentListingFragment extends RRFragment
 				&& item.getTitle()
 				.equals(getActivity().getString(R.string.action_reply))) {
 
-			RedditPreparedPost.onActionMenuItemSelected(
+			RedditPostActions.INSTANCE.onActionMenuItemSelected(
 					mPost,
 					(BaseActivity)getActivity(),
-					RedditPreparedPost.Action.REPLY);
+					RedditPostActions.Action.REPLY);
 			return true;
 		}
 

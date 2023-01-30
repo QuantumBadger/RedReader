@@ -72,6 +72,7 @@ import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.GifDecoderThread;
 import org.quantumbadger.redreader.image.ImageInfo;
+import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
@@ -348,10 +349,11 @@ public class ImageViewActivity extends BaseActivity
 					R.id.image_view_hidden_accessibility_go_back);
 
 			if(post != null) {
-				commentsButton.setOnClickListener(v -> RedditPreparedPost.onActionMenuItemSelected(
-						post,
-						this,
-						RedditPreparedPost.Action.COMMENTS_SWITCH));
+				commentsButton.setOnClickListener(
+						v -> RedditPostActions.INSTANCE.onActionMenuItemSelected(
+								post,
+								this,
+								RedditPostActions.Action.COMMENTS_SWITCH));
 			} else {
 				commentsButton.setContentDescription(null);
 				commentsButton.setClickable(false);
@@ -394,7 +396,8 @@ public class ImageViewActivity extends BaseActivity
 						@Override
 						public boolean onSwipe(@BezelSwipeOverlay.SwipeEdge final int edge) {
 
-							toolbarOverlay.setContents(post.generateToolbar(
+							toolbarOverlay.setContents(RedditPostActions.INSTANCE.generateToolbar(
+									post,
 									ImageViewActivity.this,
 									false,
 									toolbarOverlay));

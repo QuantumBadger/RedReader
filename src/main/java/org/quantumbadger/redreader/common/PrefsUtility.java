@@ -35,7 +35,7 @@ import org.quantumbadger.redreader.reddit.PostCommentSort;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
-import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
@@ -1309,31 +1309,31 @@ public final class PrefsUtility {
 	// pref_menus
 	///////////////////////////////
 
-	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_context_items() {
+	public static EnumSet<RedditPostActions.Action> pref_menus_post_context_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_post_context_items_key,
 				R.array.pref_menus_post_context_items_return);
 
-		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
-				RedditPreparedPost.Action.class);
+		final EnumSet<RedditPostActions.Action> result = EnumSet.noneOf(
+				RedditPostActions.Action.class);
 		for(final String s : strings) {
-			result.add(RedditPreparedPost.Action.valueOf(StringUtils.asciiUppercase(s)));
+			result.add(RedditPostActions.Action.valueOf(StringUtils.asciiUppercase(s)));
 		}
 
 		return result;
 	}
 
-	public static EnumSet<RedditPreparedPost.Action> pref_menus_post_toolbar_items() {
+	public static EnumSet<RedditPostActions.Action> pref_menus_post_toolbar_items() {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_post_toolbar_items_key,
 				R.array.pref_menus_post_toolbar_items_return);
 
-		final EnumSet<RedditPreparedPost.Action> result = EnumSet.noneOf(
-				RedditPreparedPost.Action.class);
+		final EnumSet<RedditPostActions.Action> result = EnumSet.noneOf(
+				RedditPostActions.Action.class);
 		for(final String s : strings) {
-			result.add(RedditPreparedPost.Action.valueOf(StringUtils.asciiUppercase(s)));
+			result.add(RedditPostActions.Action.valueOf(StringUtils.asciiUppercase(s)));
 		}
 
 		return result;

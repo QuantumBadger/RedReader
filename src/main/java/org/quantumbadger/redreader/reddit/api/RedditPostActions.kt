@@ -222,7 +222,7 @@ object RedditPostActions {
 		accessibilityActionManager: AccessibilityActionManager,
 		post: RedditPreparedPost,
 		activity: BaseActivity,
-		showCommentsOption: Boolean
+		isOpen: Boolean
 	) {
 		fun addAccessibilityActionFromDescriptionPair(
 			pair: ActionDescriptionPair?
@@ -241,7 +241,17 @@ object RedditPostActions {
 
 		accessibilityActionManager.removeAllActions()
 
-		if (showCommentsOption) {
+		if (isOpen) {
+			// TODO: add an action here to jump focus from the body of the post to its comments.
+			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.GOTO_SUBREDDIT))
+			if (!post.isArchived && !(post.isLocked && !post.canModerate))
+				addAccessibilityActionFromDescriptionPair(
+					ActionDescriptionPair(
+						Action.REPLY,
+						R.string.action_reply
+					)
+				)
+		} else {
 			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.COMMENTS))
 		}
 

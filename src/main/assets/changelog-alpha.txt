@@ -1,5 +1,6 @@
-/Alpha 324 (2023-01-29)
+/Alpha 324 (2023-01-30)
 Added support for Material You themed monochrome icon on Android 13
+Added more accessibility actions (thanks to codeofdusk)
 
 /Alpha 323 (2023-01-29)
 Show avatar in user profile dialog (thanks to mgurga)

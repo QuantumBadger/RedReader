@@ -467,9 +467,6 @@ public class RedditCommentView extends FlingableItemView
 			chooseFlingAction(PrefsUtility.CommentFlingAction.COLLAPSE)
 		);
 
-		// TODO Bill: Implement "collapse thread" here.
-		// May need to do this as a custom runnable.
-
 		addAccessibilityActionFromDescriptionPair(
 			chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY)
 		);
@@ -502,7 +499,13 @@ public class RedditCommentView extends FlingableItemView
 		return mComment;
 	}
 
-	private void addAccessibilityActionFromDescriptionPair(final ActionDescriptionPair pair) {
+	private void addAccessibilityActionFromDescriptionPair(
+			@Nullable final ActionDescriptionPair pair) {
+
+		if(pair == null) {
+			return;
+		}
+
 		mAccessibilityActionManager.addAction(pair.descriptionRes, () -> {
 			RedditAPICommentAction.onActionMenuItemSelected(
 				mComment.asComment(),

@@ -471,6 +471,27 @@ public class RedditCommentView extends FlingableItemView
 			chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY)
 		);
 
+		if (
+			mComment.asComment()
+			.getParsedComment().getRawComment()
+			.author.equalsIgnoreCase(
+				RedditAccountManager.getInstance(mActivity).getDefaultAccount().username
+			)
+		) {
+			addAccessibilityActionFromDescriptionPair(
+				new ActionDescriptionPair(
+					RedditAPICommentAction.RedditCommentAction.EDIT,
+					R.string.action_edit
+				)
+			);
+			addAccessibilityActionFromDescriptionPair(
+				new ActionDescriptionPair(
+					RedditAPICommentAction.RedditCommentAction.DELETE,
+					R.string.action_delete
+				)
+			);
+		}
+
 		// #136: When "save" is implemented for comments, add an a11y action here.
 
 		addAccessibilityActionFromDescriptionPair(

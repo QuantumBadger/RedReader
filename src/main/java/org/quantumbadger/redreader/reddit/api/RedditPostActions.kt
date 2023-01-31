@@ -239,6 +239,13 @@ object RedditPostActions {
 			}
 		}
 
+		val isOP = RedditAccountManager.getInstance(
+			activity
+		).defaultAccount.username.equals(
+			post.src.author,
+			ignoreCase = true
+		)
+
 		accessibilityActionManager.removeAllActions()
 
 		if (isOpen) {
@@ -251,12 +258,26 @@ object RedditPostActions {
 						R.string.action_reply
 					)
 				)
+			if (isOP && post.isSelf)
+				addAccessibilityActionFromDescriptionPair(
+					ActionDescriptionPair(
+						Action.EDIT,
+						R.string.action_edit
+					)
+				)
 		} else {
 			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.COMMENTS))
 		}
 
 		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.SAVE))
 		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.USER_PROFILE))
+		if (isOP)
+			addAccessibilityActionFromDescriptionPair(
+				ActionDescriptionPair(
+					Action.DELETE,
+					R.string.action_delete
+				)
+			)
 		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.REPORT))
 		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.SHARE))
 		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.DOWNVOTE))

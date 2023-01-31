@@ -1,3 +1,6 @@
+/Alpha 325 (2023-01-31)
+Added round icon (which may make icon theming work on more devices)
+
 /Alpha 324 (2023-01-30)
 Added support for Material You themed monochrome icon on Android 13
 Added more accessibility actions (thanks to codeofdusk)

@@ -62,6 +62,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.views.AccessibilityActionManager;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -521,6 +522,16 @@ public class CommentListingFragment extends RRFragment
 				if(selfText instanceof ViewGroup) {
 					((ViewGroup)selfText).setDescendantFocusability(
 							ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+
+				RedditPostActions.INSTANCE.setupAccessibilityActions(
+					new AccessibilityActionManager(
+						selfText,
+						activity.getResources()
+					),
+					post,
+					activity,
+					true
+				);
 				}
 
 				final int paddingPx = General.dpToPixels(activity, 10);

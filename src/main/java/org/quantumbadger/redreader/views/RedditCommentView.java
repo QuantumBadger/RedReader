@@ -27,6 +27,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
@@ -457,6 +458,9 @@ public class RedditCommentView extends FlingableItemView
 
 	private void setupAccessibilityActions() {
 
+		final RedditAccount defaultAccount = RedditAccountManager.getInstance(mActivity).getDefaultAccount();
+		final boolean isAuthenticated = defaultAccount.isNotAnonymous();
+
 		mAccessibilityActionManager.removeAllActions();
 
 		if(!mComment.isComment()) {
@@ -467,15 +471,16 @@ public class RedditCommentView extends FlingableItemView
 			chooseFlingAction(PrefsUtility.CommentFlingAction.COLLAPSE)
 		);
 
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY)
+		if (isAuthenticated)
+			addAccessibilityActionFromDescriptionPair(
+				chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY)
 		);
 
 		if (
 			mComment.asComment()
 			.getParsedComment().getRawComment()
 			.author.equalsIgnoreCase(
-				RedditAccountManager.getInstance(mActivity).getDefaultAccount().username
+				defaultAccount.username
 			)
 		) {
 			addAccessibilityActionFromDescriptionPair(
@@ -492,28 +497,30 @@ public class RedditCommentView extends FlingableItemView
 			);
 		}
 
-		// #136: When "save" is implemented for comments, add an a11y action here.
+		// #136: When "save" is implemented for comments, add an a11y action here (behind an isAuthenticated guard).
 
 		addAccessibilityActionFromDescriptionPair(
 			chooseFlingAction(PrefsUtility.CommentFlingAction.USER_PROFILE)
 		);
 
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.CommentFlingAction.REPORT)
-		);
+		if (isAuthenticated)
+			addAccessibilityActionFromDescriptionPair(
+				chooseFlingAction(PrefsUtility.CommentFlingAction.REPORT)
+			);
 
 		addAccessibilityActionFromDescriptionPair(
 			chooseFlingAction(PrefsUtility.CommentFlingAction.SHARE)
 		);
 
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.CommentFlingAction.DOWNVOTE)
-		);
+		if (isAuthenticated) {
+			addAccessibilityActionFromDescriptionPair(
+				chooseFlingAction(PrefsUtility.CommentFlingAction.DOWNVOTE)
+			);
 
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.CommentFlingAction.UPVOTE)
-		);
-
+			addAccessibilityActionFromDescriptionPair(
+				chooseFlingAction(PrefsUtility.CommentFlingAction.UPVOTE)
+			);
+		}
 	}
 
 	public RedditCommentListItem getComment() {

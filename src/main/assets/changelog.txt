@@ -2,6 +2,7 @@
 Show avatar in user profile dialog (thanks to mgurga)
 Added support for Material You themed monochrome icon on Android 13
 Added accessibility actions for posts and comments (thanks to codeofdusk)
+Detects more bot usernames
 Dependency updates
 
 104/1.20

@@ -458,7 +458,8 @@ public class RedditCommentView extends FlingableItemView
 
 	private void setupAccessibilityActions() {
 
-		final RedditAccount defaultAccount = RedditAccountManager.getInstance(mActivity).getDefaultAccount();
+		final RedditAccount defaultAccount
+				= RedditAccountManager.getInstance(mActivity).getDefaultAccount();
 		final boolean isAuthenticated = defaultAccount.isNotAnonymous();
 
 		mAccessibilityActionManager.removeAllActions();
@@ -468,58 +469,47 @@ public class RedditCommentView extends FlingableItemView
 		}
 
 		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.CommentFlingAction.COLLAPSE)
-		);
-
-		if (isAuthenticated)
-			addAccessibilityActionFromDescriptionPair(
-				chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY)
-		);
-
-		if (
-			mComment.asComment()
-			.getParsedComment().getRawComment()
-			.author.equalsIgnoreCase(
-				defaultAccount.username
-			)
-		) {
-			addAccessibilityActionFromDescriptionPair(
-				new ActionDescriptionPair(
-					RedditAPICommentAction.RedditCommentAction.EDIT,
-					R.string.action_edit
-				)
-			);
-			addAccessibilityActionFromDescriptionPair(
-				new ActionDescriptionPair(
-					RedditAPICommentAction.RedditCommentAction.DELETE,
-					R.string.action_delete
-				)
-			);
-		}
-
-		// #136: When "save" is implemented for comments, add an a11y action here (behind an isAuthenticated guard).
-
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.CommentFlingAction.USER_PROFILE)
-		);
-
-		if (isAuthenticated)
-			addAccessibilityActionFromDescriptionPair(
-				chooseFlingAction(PrefsUtility.CommentFlingAction.REPORT)
-			);
-
-		addAccessibilityActionFromDescriptionPair(
-			chooseFlingAction(PrefsUtility.CommentFlingAction.SHARE)
-		);
+			chooseFlingAction(PrefsUtility.CommentFlingAction.COLLAPSE));
 
 		if (isAuthenticated) {
 			addAccessibilityActionFromDescriptionPair(
-				chooseFlingAction(PrefsUtility.CommentFlingAction.DOWNVOTE)
-			);
+					chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY));
+		}
+
+		if (mComment.asComment().getParsedComment().getRawComment()
+				.author.equalsIgnoreCase(defaultAccount.username)) {
 
 			addAccessibilityActionFromDescriptionPair(
-				chooseFlingAction(PrefsUtility.CommentFlingAction.UPVOTE)
-			);
+				new ActionDescriptionPair(
+					RedditAPICommentAction.RedditCommentAction.EDIT,
+					R.string.action_edit));
+
+			addAccessibilityActionFromDescriptionPair(
+				new ActionDescriptionPair(
+					RedditAPICommentAction.RedditCommentAction.DELETE,
+					R.string.action_delete));
+		}
+
+		// #136: When "save" is implemented for comments, add an a11y action
+		// here (behind an isAuthenticated guard).
+
+		addAccessibilityActionFromDescriptionPair(
+				chooseFlingAction(PrefsUtility.CommentFlingAction.USER_PROFILE));
+
+		if (isAuthenticated) {
+			addAccessibilityActionFromDescriptionPair(
+					chooseFlingAction(PrefsUtility.CommentFlingAction.REPORT));
+		}
+
+		addAccessibilityActionFromDescriptionPair(
+				chooseFlingAction(PrefsUtility.CommentFlingAction.SHARE));
+
+		if (isAuthenticated) {
+			addAccessibilityActionFromDescriptionPair(
+				chooseFlingAction(PrefsUtility.CommentFlingAction.DOWNVOTE));
+
+			addAccessibilityActionFromDescriptionPair(
+				chooseFlingAction(PrefsUtility.CommentFlingAction.UPVOTE));
 		}
 	}
 

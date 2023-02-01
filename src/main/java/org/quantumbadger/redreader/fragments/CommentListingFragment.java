@@ -523,15 +523,13 @@ public class CommentListingFragment extends RRFragment
 					((ViewGroup)selfText).setDescendantFocusability(
 							ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 
-				RedditPostActions.INSTANCE.setupAccessibilityActions(
-					new AccessibilityActionManager(
-						selfText,
-						activity.getResources()
-					),
-					post,
-					activity,
-					true
-				);
+					RedditPostActions.INSTANCE.setupAccessibilityActions(
+						new AccessibilityActionManager(
+							selfText,
+							activity.getResources()),
+						post,
+						activity,
+						true);
 				}
 
 				final int paddingPx = General.dpToPixels(activity, 10);

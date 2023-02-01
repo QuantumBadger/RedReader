@@ -522,14 +522,6 @@ public class CommentListingFragment extends RRFragment
 				if(selfText instanceof ViewGroup) {
 					((ViewGroup)selfText).setDescendantFocusability(
 							ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-
-					RedditPostActions.INSTANCE.setupAccessibilityActions(
-						new AccessibilityActionManager(
-							selfText,
-							activity.getResources()),
-						post,
-						activity,
-						true);
 				}
 
 				final int paddingPx = General.dpToPixels(activity, 10);
@@ -571,6 +563,14 @@ public class CommentListingFragment extends RRFragment
 					RedditPostActions.INSTANCE.showActionMenu(activity, mPost);
 					return true;
 				});
+
+				RedditPostActions.INSTANCE.setupAccessibilityActions(
+						new AccessibilityActionManager(
+								paddingLayout,
+								activity.getResources()),
+						post,
+						activity,
+						true);
 
 				mCommentListingManager.addPostSelfText(paddingLayout);
 			}

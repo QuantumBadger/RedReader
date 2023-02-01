@@ -62,6 +62,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
+import org.quantumbadger.redreader.views.AccessibilityActionManager;
 import org.quantumbadger.redreader.views.RedditCommentView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
 import org.quantumbadger.redreader.views.RedditPostView;
@@ -562,6 +563,14 @@ public class CommentListingFragment extends RRFragment
 					RedditPostActions.INSTANCE.showActionMenu(activity, mPost);
 					return true;
 				});
+
+				RedditPostActions.INSTANCE.setupAccessibilityActions(
+						new AccessibilityActionManager(
+								paddingLayout,
+								activity.getResources()),
+						post,
+						activity,
+						true);
 
 				mCommentListingManager.addPostSelfText(paddingLayout);
 			}

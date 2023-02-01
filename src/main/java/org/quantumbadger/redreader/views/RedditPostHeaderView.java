@@ -61,7 +61,7 @@ public class RedditPostHeaderView extends LinearLayout {
 						activity.getResources()),
 				post,
 				activity,
-				false);
+				true);
 
 		greyHeader.setOrientation(LinearLayout.VERTICAL);
 

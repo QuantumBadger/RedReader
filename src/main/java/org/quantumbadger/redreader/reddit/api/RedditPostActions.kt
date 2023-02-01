@@ -222,7 +222,7 @@ object RedditPostActions {
 		accessibilityActionManager: AccessibilityActionManager,
 		post: RedditPreparedPost,
 		activity: BaseActivity,
-		showCommentsOption: Boolean
+		isOpen: Boolean
 	) {
 		fun addAccessibilityActionFromDescriptionPair(
 			pair: ActionDescriptionPair?
@@ -239,18 +239,55 @@ object RedditPostActions {
 			}
 		}
 
+		val defaultAccount = RedditAccountManager.getInstance(activity).defaultAccount
+		val isOP = defaultAccount.username.equals(
+			post.src.author,
+			ignoreCase = true
+		)
+		val isAuthenticated = defaultAccount.isNotAnonymous
+
 		accessibilityActionManager.removeAllActions()
 
-		if (showCommentsOption) {
+		if (isOpen) {
+			// TODO: add an action here to jump focus from the body of the post to its comments.
+			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.GOTO_SUBREDDIT))
+			if (isAuthenticated) {
+				if (!post.isArchived && !(post.isLocked && !post.canModerate))
+					addAccessibilityActionFromDescriptionPair(
+						ActionDescriptionPair(
+							Action.REPLY,
+							R.string.action_reply
+						)
+					)
+				if (isOP && post.isSelf)
+					addAccessibilityActionFromDescriptionPair(
+						ActionDescriptionPair(
+							Action.EDIT,
+							R.string.action_edit
+						)
+					)
+			}
+		} else {
 			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.COMMENTS))
 		}
 
-		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.SAVE))
+		if (isAuthenticated)
+			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.SAVE))
 		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.USER_PROFILE))
-		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.REPORT))
+		if (isOP)
+			addAccessibilityActionFromDescriptionPair(
+				ActionDescriptionPair(
+					Action.DELETE,
+					R.string.action_delete
+				)
+			)
+		if (isAuthenticated)
+			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.REPORT))
 		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.SHARE))
-		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.DOWNVOTE))
-		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.UPVOTE))
+		if (isAuthenticated) {
+			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.DOWNVOTE))
+			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.UPVOTE))
+		}
 	}
 
 

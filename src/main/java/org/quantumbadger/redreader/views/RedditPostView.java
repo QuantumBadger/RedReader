@@ -448,7 +448,7 @@ public final class RedditPostView extends FlingableItemView
 				mAccessibilityActionManager,
 				mPost,
 				mActivity,
-				true);
+				false);
 	}
 
 	@Override

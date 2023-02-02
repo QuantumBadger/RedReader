@@ -511,6 +511,24 @@ public class RedditCommentView extends FlingableItemView
 			addAccessibilityActionFromDescriptionPair(
 				chooseFlingAction(PrefsUtility.CommentFlingAction.UPVOTE));
 		}
+
+		mAccessibilityActionManager.setClickHint(
+			getAccessibilityHintForActionPref(PrefsUtility.pref_behaviour_actions_comment_tap())
+		);
+
+		mAccessibilityActionManager.setLongClickHint(
+			getAccessibilityHintForActionPref(PrefsUtility.pref_behaviour_actions_comment_longclick())
+		);
+	}
+
+	private int getAccessibilityHintForActionPref(final PrefsUtility.CommentAction pref) {
+		switch (pref) {
+			case COLLAPSE:
+				return R.string.action_collapse;
+			case ACTION_MENU:
+				return R.string.action_actionmenu;
+		}
+	return -1;
 	}
 
 	public RedditCommentListItem getComment() {

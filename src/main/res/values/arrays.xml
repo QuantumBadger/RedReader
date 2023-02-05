@@ -459,6 +459,7 @@
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
 		<item>@string/action_edit</item>
+		<item>@string/action_mark_read</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -486,6 +487,7 @@
         <item>user_profile</item>
         <item>properties</item>
 		<item>edit</item>
+		<item>mark_read</item>
     </string-array>
 
 	<string-array name="pref_menus_subreddit_context_items">
@@ -1125,6 +1127,7 @@
 		<item>user_profile</item>
 		<item>properties</item>
 		<item>edit</item>
+		<item>mark_read</item>
 	</string-array>
 
 	<!-- 2020-10-31 -->

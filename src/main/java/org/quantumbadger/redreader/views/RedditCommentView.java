@@ -214,6 +214,17 @@ public class RedditCommentView extends FlingableItemView
 						RedditAPICommentAction.RedditCommentAction.BACK,
 						R.string.action_back);
 
+			case MARK_READ:
+				if(mPost.isRead()) {
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.MARK_UNREAD,
+							R.string.action_mark_unread);
+				} else {
+					return new ActionDescriptionPair(
+							RedditPreparedPost.Action.MARK_READ,
+							R.string.action_mark_read);
+				}
+
 			case DISABLED:
 				return null;
 		}

@@ -366,13 +366,13 @@ public final class RedditChangeDataManager {
 					mIsHidden);
 		}
 
-		Entry markRead(final long timestamp) {
+		Entry markRead(final long timestamp, final Boolean read) {
 
 			return new Entry(
 					timestamp,
 					mIsUpvoted,
 					mIsDownvoted,
-					true,
+					read,
 					mIsSaved,
 					mIsHidden);
 		}
@@ -558,11 +558,11 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void markRead(final long timestamp, final RedditThingWithIdAndType thing) {
+	public void markRead(final long timestamp, final RedditThingWithIdAndType thing, final Boolean read) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(thing);
-			final Entry updatedEntry = existingEntry.markRead(timestamp);
+			final Entry updatedEntry = existingEntry.markRead(timestamp, read);
 			set(thing, existingEntry, updatedEntry);
 		}
 	}

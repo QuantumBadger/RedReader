@@ -46,6 +46,8 @@ object RedditPostActions {
 		HIDE(R.string.action_hide),
 		UNSAVE(R.string.action_unsave),
 		UNHIDE(R.string.action_unhide),
+		MARK_READ(R.string.action_mark_read),
+		MARK_UNREAD(R.string.action_mark_unread),
 		EDIT(R.string.action_edit),
 		DELETE(R.string.action_delete),
 		REPORT(R.string.action_report),
@@ -131,6 +133,18 @@ object RedditPostActions {
 						ActionDescriptionPair(
 							Action.HIDE,
 							R.string.action_hide
+						)
+					}
+
+					PostFlingAction.MARK_READ -> if (post.isRead()) {
+						ActionDescriptionPair(
+							Action.MARK_UNREAD,
+							R.string.action_mark_unread
+						)
+					} else {
+						ActionDescriptionPair(
+							Action.MARK_READ,
+							R.string.action_mark_read
 						)
 					}
 
@@ -304,6 +318,8 @@ object RedditPostActions {
 			Action.UNSAVE -> action(post, activity, RedditAPI.ACTION_UNSAVE)
 			Action.HIDE -> action(post, activity, RedditAPI.ACTION_HIDE)
 			Action.UNHIDE -> action(post, activity, RedditAPI.ACTION_UNHIDE)
+			Action.MARK_READ -> post.markAsRead(activity, true)
+			Action.MARK_UNREAD -> post.markAsRead(activity, false)
 			Action.EDIT -> {
 				val editIntent = Intent(activity, CommentEditActivity::class.java)
 				editIntent.putExtra("commentIdAndType", post.src.idAndType)

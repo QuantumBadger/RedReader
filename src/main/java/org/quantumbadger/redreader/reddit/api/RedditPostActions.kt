@@ -988,7 +988,7 @@ object RedditPostActions {
 
 	fun action(
 		post: RedditPreparedPost,
-		activity: AppCompatActivity?,
+		activity: AppCompatActivity,
 		@RedditAction action: Int
 	) {
 		val user = RedditAccountManager.getInstance(activity).defaultAccount

@@ -21,6 +21,7 @@ import android.content.res.Resources
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat
 
 class AccessibilityActionManager(
 	private val view: View,
@@ -43,5 +44,33 @@ class AccessibilityActionManager(
 			ViewCompat.removeAccessibilityAction(view, it)
 		}
 		existingActions.clear()
+	}
+
+	fun setClickHint(@StringRes hint: Int?) {
+		relabelAction(AccessibilityActionCompat.ACTION_CLICK, hint)
+	}
+
+	fun setLongClickHint(@StringRes hint: Int?) {
+		relabelAction(AccessibilityActionCompat.ACTION_LONG_CLICK, hint)
+	}
+
+	private fun relabelAction(action: AccessibilityActionCompat, @StringRes label: Int?) {
+
+		if (label == null) {
+			ViewCompat.replaceAccessibilityAction(
+				view,
+				action,
+				null,
+				null
+			)
+		} else {
+			ViewCompat.replaceAccessibilityAction(
+				view,
+				action,
+				resources.getString(label),
+				null
+			)
+		}
+
 	}
 }

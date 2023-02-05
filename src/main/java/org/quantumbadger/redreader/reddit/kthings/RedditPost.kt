@@ -1,7 +1,6 @@
 package org.quantumbadger.redreader.reddit.kthings
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 
 @Suppress("PropertyName")
@@ -10,8 +9,8 @@ data class RedditPost(
 	val id: String,
 	val name: String,
 	val url: UrlEncodedString? = null,
-	val title: UrlEncodedString = UrlEncodedString("[null]"),
-	val author: UrlEncodedString, // TODO maybe null for deleted posts?
+	val title: UrlEncodedString? = null,
+	val author: UrlEncodedString? = null,
 	val domain: UrlEncodedString? = null,
 	val subreddit: UrlEncodedString,
 	val num_comments: Int,
@@ -26,7 +25,7 @@ data class RedditPost(
 	var clicked: Boolean = false,
 	var stickied: Boolean = false,
 	var can_mod_post: Boolean = false,
-	var edited: JsonElement? = null, // TODO false or RedditTimestampUTC -- custom serializer
+	var edited: RedditBoolOrTimestampUTC? = null,
 	var likes: Boolean? = null,
 	var spoiler: Boolean? = null,
 	var locked: Boolean? = null,

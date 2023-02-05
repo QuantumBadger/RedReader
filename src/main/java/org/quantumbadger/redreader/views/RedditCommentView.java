@@ -517,7 +517,8 @@ public class RedditCommentView extends FlingableItemView
 		);
 
 		mAccessibilityActionManager.setLongClickHint(
-			getAccessibilityHintForActionPref(PrefsUtility.pref_behaviour_actions_comment_longclick())
+			getAccessibilityHintForActionPref(
+					PrefsUtility.pref_behaviour_actions_comment_longclick())
 		);
 	}
 

@@ -558,7 +558,10 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void markRead(final long timestamp, final RedditThingWithIdAndType thing, final Boolean read) {
+	public void markRead(
+		final long timestamp, 
+		final RedditThingWithIdAndType thing, 
+		final Boolean read) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(thing);

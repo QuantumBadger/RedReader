@@ -1,7 +1,7 @@
 package org.quantumbadger.redreader.reddit.kthings
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonObject
+import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 
 @Suppress("PropertyName")
 @Serializable
@@ -17,36 +17,90 @@ data class RedditPost(
 	val score: Int,
 	val gilded: Int = 0,
 	val upvote_ratio: Double? = null,
-	val archived: Boolean = false,
-	var over_18: Boolean = false,
-	var hidden: Boolean = false,
-	var saved: Boolean = false,
-	var is_self: Boolean = false,
-	var clicked: Boolean = false,
-	var stickied: Boolean = false,
-	var can_mod_post: Boolean = false,
-	var edited: RedditBoolOrTimestampUTC? = null,
-	var likes: Boolean? = null,
-	var spoiler: Boolean? = null,
-	var locked: Boolean? = null,
-	var created_utc: RedditTimestampUTC,
+	val archived: Boolean? = null,
+	val over_18: Boolean? = null,
+	val hidden: Boolean? = null,
+	val saved: Boolean? = null,
+	val is_self: Boolean? = null,
+	val clicked: Boolean? = null,
+	val stickied: Boolean? = null,
+	val can_mod_post: Boolean? = null,
+	val edited: RedditBoolOrTimestampUTC? = null,
+	val likes: Boolean? = null,
+	val spoiler: Boolean? = null,
+	val locked: Boolean? = null,
+	val created_utc: RedditTimestampUTC,
 
-	var selftext: UrlEncodedString? = null,
-	var selftext_html: UrlEncodedString? = null,
-	var permalink: UrlEncodedString,
+	val selftext: UrlEncodedString? = null,
+	val selftext_html: UrlEncodedString? = null,
+	val permalink: UrlEncodedString,
 
-	var link_flair_text: UrlEncodedString? = null,
-	var author_flair_text: UrlEncodedString? = null,
+	val link_flair_text: UrlEncodedString? = null,
+	val author_flair_text: UrlEncodedString? = null,
 
-	var thumbnail: UrlEncodedString? = null, // an image URL
+	val thumbnail: UrlEncodedString? = null, // an image URL
 
-	var media: JsonObject? = null, // TODO sub-object, MaybeParseErr
-	var rr_internal_dash_url: UrlEncodedString? = null,
+	val media: Media? = null,
 
-	var preview: JsonObject? = null, // TODO sub-object, MaybeParseErr
-	var is_video: Boolean = false,
+	val preview: Preview? = null,
+	val is_video: Boolean? = null,
 
-	var distinguished: String? = null,
-	var suggested_sort: String? = null
+	val distinguished: String? = null,
+	val suggested_sort: String? = null // TODO enum type
+) : RedditThingWithIdAndType {
 
-)
+	@Serializable
+	data class Media(
+		val reddit_video: RedditVideo? = null
+	) {
+		@Serializable
+		data class RedditVideo (
+			val fallback_url: UrlEncodedString? = null
+		)
+	}
+
+	@Serializable
+	data class Preview(
+		val enabled: Boolean,
+		val images: List<Image>? = null
+	) {
+		@Serializable
+		data class ImageDetails(
+			val url: UrlEncodedString,
+			val width: Int,
+			val height: Int
+		)
+
+		@Serializable
+		sealed class ImageBase {
+			abstract val source: ImageDetails?
+			abstract val resolutions: List<ImageDetails>?
+		}
+
+		@Serializable
+		data class Image(
+			override val source: ImageDetails? = null,
+			override val resolutions: List<ImageDetails>? = null,
+			val variants: ImageVariants
+		) : ImageBase()
+
+		@Serializable
+		data class ImageVariants(
+			val mp4: ImageVariant? = null
+		)
+
+		@Serializable
+		data class ImageVariant(
+			override val source: ImageDetails? = null,
+			override val resolutions: List<ImageDetails>? = null
+		) : ImageBase()
+	}
+
+	override fun getIdAlone(): String {
+		return id
+	}
+
+	override fun getIdAndType(): String {
+		return name
+	}
+}

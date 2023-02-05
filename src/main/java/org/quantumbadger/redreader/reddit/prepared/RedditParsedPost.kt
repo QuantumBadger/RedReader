@@ -12,344 +12,225 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ * along with RedReader.  If not, see <http:></http:>//www.gnu.org/licenses/>.
+ */
+package org.quantumbadger.redreader.reddit.prepared
 
-package org.quantumbadger.redreader.reddit.prepared;
+import androidx.appcompat.app.AppCompatActivity
+import org.quantumbadger.redreader.R
+import org.quantumbadger.redreader.common.time.TimestampUTC
+import org.quantumbadger.redreader.reddit.PostCommentSort
+import org.quantumbadger.redreader.reddit.kthings.RedditPost
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement
+import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader
+import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import org.apache.commons.text.StringEscapeUtils;
-import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.Optional;
-import org.quantumbadger.redreader.jsonwrap.JsonArray;
-import org.quantumbadger.redreader.jsonwrap.JsonObject;
-import org.quantumbadger.redreader.reddit.PostCommentSort;
-import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
-import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
-import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
+class RedditParsedPost(
+	activity: AppCompatActivity,
+	private val src: RedditPost,
+	parseSelfText: Boolean
+) : RedditThingWithIdAndType {
 
-public class RedditParsedPost implements RedditThingWithIdAndType {
+    val title: String
+	val url: String?
+	val selfText: BodyElement?
+	val flairText: String?
+	val domain: String
 
-	private final RedditPost mSrc;
 
-	private final String mTitle;
-	@Nullable private final String mUrl;
-	private final String mPermalink;
-	private final BodyElement mSelfText;
-	private final String mFlairText;
-	@NonNull private final String mDomain;
+	fun findUrl(): String? {
 
-	public RedditParsedPost(
-			@NonNull final AppCompatActivity activity,
-			final RedditPost src,
-			final boolean parseSelfText) {
+		src.media?.reddit_video?.fallback_url?.decoded?.apply {
+			return this
+		}
 
-		this.mSrc = src;
+		if (src.url?.decoded?.contains("\\.gif") == true) {
+			src.preview?.images?.get(0)?.variants?.mp4?.source?.url?.decoded?.apply {
+				return this
+			}
+		}
 
-		if(src.title == null) {
-			mTitle = "[null]";
+		return src.url?.decoded
+	}
+
+    init {
+		title = src.title?.decoded?.replace('\n', ' ')?.trim() ?: "[null]"
+
+		url = findUrl()
+
+		selfText = if (parseSelfText && isSelfPost && src.selftext_html != null) {
+			HtmlReader.parse(src.selftext_html.decoded, activity)
 		} else {
-			mTitle = StringEscapeUtils.unescapeHtml4(src.title.replace('\n', ' ')).trim();
+			null
 		}
 
-		mUrl = StringEscapeUtils.unescapeHtml4(src.getUrl());
-		mPermalink = StringEscapeUtils.unescapeHtml4(src.permalink);
-
-		if(parseSelfText
-				&& src.is_self
-				&& src.selftext_html != null
-				&& !src.selftext.trim().isEmpty()) {
-			mSelfText = HtmlReader.parse(
-					StringEscapeUtils.unescapeHtml4(src.selftext_html),
-					activity);
+		flairText = if (src.link_flair_text != null && src.link_flair_text.decoded.isNotEmpty()) {
+			src.link_flair_text.decoded
 		} else {
-			mSelfText = null;
+			null
 		}
 
-		if(src.link_flair_text != null && !src.link_flair_text.isEmpty()) {
-			mFlairText = StringEscapeUtils.unescapeHtml4(src.link_flair_text);
-		} else {
-			mFlairText = null;
+		domain = src.domain?.decoded ?: activity.getString(R.string.post_domain_deleted)
+    }
+
+    override fun getIdAlone(): String {
+        return src.idAlone
+    }
+
+    override fun getIdAndType(): String {
+        return src.idAndType
+    }
+
+    val isStickied: Boolean
+        get() = src.stickied == true
+
+    val thumbnailUrl: String?
+        get() = src.thumbnail?.decoded
+
+    data class ImagePreviewDetails(
+		@JvmField val url: String,
+		@JvmField val width: Int,
+		@JvmField val height: Int
+	)
+
+    val isPreviewEnabled: Boolean
+        get() = src.preview?.enabled == true
+
+    fun getPreview(minWidth: Int, minHeight: Int) = src.preview?.images?.get(0)?.apply {
+		getPreviewInternal(this, minWidth, minHeight)
+	}
+
+    fun getPreviewMP4(minWidth: Int, minHeight: Int)
+		= src.preview?.images?.get(0)?.variants?.mp4?.apply {
+			getPreviewInternal(this, minWidth, minHeight)
+	}
+
+    private fun getPreviewInternal(
+		image: RedditPost.Preview.ImageBase,
+		minWidth: Int,
+		minHeight: Int
+    ): ImagePreviewDetails? {
+
+		val resolutions = image.resolutions
+
+		if (resolutions.isNullOrEmpty()) {
+			return null
 		}
 
-		if(src.domain == null) {
-			mDomain = activity.getString(R.string.post_domain_deleted);
-		} else {
-			mDomain = StringEscapeUtils.unescapeHtml4(src.domain);
-		}
-	}
+		var best: RedditPost.Preview.ImageDetails? = null
 
-	@Override
-	public String getIdAlone() {
-		return mSrc.getIdAlone();
-	}
+		val sourceWidth = image.source?.width
+		val sourceHeight = image.source?.height
 
-	@Override
-	public String getIdAndType() {
-		return mSrc.getIdAndType();
-	}
+		for (i in -1 until resolutions.size) {
 
-	public String getTitle() {
-		return mTitle;
-	}
-
-	@Nullable
-	public String getUrl() {
-		return mUrl;
-	}
-
-	public String getPermalink() {
-		return mPermalink;
-	}
-
-	public boolean isStickied() {
-		return mSrc.stickied;
-	}
-
-	public RedditPost getSrc() {
-		return mSrc;
-	}
-
-	@Nullable
-	public String getThumbnailUrl() {
-		return StringEscapeUtils.unescapeHtml4(mSrc.thumbnail);
-	}
-
-	public static class ImagePreviewDetails {
-
-		@NonNull public final String url;
-		public final int width;
-		public final int height;
-
-		public ImagePreviewDetails(@NonNull final String url, final int width, final int height) {
-			this.url = url;
-			this.width = width;
-			this.height = height;
-		}
-	}
-
-	public boolean isPreviewEnabled() {
-		return mSrc.preview != null && Boolean.TRUE.equals(mSrc.preview.getBoolean("enabled"));
-	}
-
-	@Nullable
-	public ImagePreviewDetails getPreview(final int minWidth, final int minHeight) {
-
-		if(mSrc.preview == null) {
-			return null;
-		}
-
-		return getPreviewInternal(
-				mSrc.preview.getObjectAtPath("images", 0),
-				minWidth,
-				minHeight);
-	}
-
-	@Nullable
-	public ImagePreviewDetails getPreviewMP4(final int minWidth, final int minHeight) {
-
-		if(mSrc.preview == null) {
-			return null;
-		}
-
-		return getPreviewInternal(
-				mSrc.preview.getObjectAtPath("images", 0, "variants", "mp4"),
-				minWidth,
-				minHeight);
-	}
-
-	@Nullable
-	private ImagePreviewDetails getPreviewInternal(
-			@NonNull final Optional<JsonObject> root,
-			final int minWidth,
-			final int minHeight) {
-
-		if(root.isEmpty()) {
-			return null;
-		}
-
-		final JsonArray resolutions = root.get().getArray("resolutions");
-
-		if(resolutions == null || resolutions.size() < 1) {
-			return null;
-		}
-
-		int bestWidth = 0;
-		int bestHeight = 0;
-		String bestUrl = null;
-
-		final JsonObject source = root.get().getObject("source");
-		final Long sourceWidth = source != null ? source.getLong("width") : null;
-		final Long sourceHeight = source != null ? source.getLong("height") : null;
-
-		for(int i = -1; i < resolutions.size(); i++) {
-
-			final JsonObject resolution;
-			if(i == -1) {
-				resolution = source;
-
+			val resolution = if (i == -1) {
+				image.source ?: continue
 			} else {
-				resolution = resolutions.getObject(i);
+				resolutions[i]
 			}
 
-			if(resolution == null) {
-				continue;
+			if (resolution.width < 50 || resolution.height < 50) {
+				continue
 			}
 
-			final Long width = resolution.getLong("width");
-			final Long height = resolution.getLong("height");
-			final String url = resolution.getString("url");
+			if (sourceWidth != null && sourceHeight != null && sourceWidth > 0) {
 
-			if(width == null || height == null || url == null) {
-				continue;
-			}
+				val estimatedRealHeight =
+					(sourceHeight.toDouble() / sourceWidth.toDouble() * resolution.width).toInt()
 
-			if(width < 50 || height < 50) {
-				continue;
-			}
-
-			if(sourceWidth != null && sourceHeight != null && sourceWidth > 0) {
-
-				final int estimatedRealHeight
-						= (int)(((double)sourceHeight / (double)sourceWidth) * width);
-
-				if(estimatedRealHeight > 3000) {
-					continue;
+				if (estimatedRealHeight > 3000) {
+					continue
 				}
 			}
 
-			final boolean use;
-
-			if(height > 3000 || width > 3000) {
-				use = false;
-
-			} else if(bestUrl == null) {
-				use = true;
-
-			} else if((bestWidth < minWidth || bestHeight < minHeight)
-					&& (width > bestWidth || height > bestHeight)) {
-				use = true;
-
-			} else if(width < bestWidth && height < bestHeight
-					&& width >= minWidth && height >= minHeight) {
-				use = true;
-
+			val use = if (resolution.height > 3000 || resolution.width > 3000) {
+				false
+			} else if (best == null) {
+				true
+			} else if ((best.width < minWidth || best.height < minHeight)
+				&& (resolution.width > best.width || resolution.height > best.height)
+			) {
+				true
+			} else if (resolution.width < best.width
+					&& resolution.height < best.height
+					&& resolution.width >= minWidth
+					&& resolution.height >= minHeight) {
+				true
 			} else {
-				use = false;
+				false
 			}
 
-			if(use) {
-				bestWidth = width.intValue();
-				bestHeight = height.intValue();
-				bestUrl = url;
+			if (use) {
+				best = resolution
 			}
 		}
 
-		if(bestUrl == null) {
-			return null;
+		return best?.run {
+			ImagePreviewDetails(url.decoded, width, height)
 		}
-
-		return new ImagePreviewDetails(
-				StringEscapeUtils.unescapeHtml4(bestUrl),
-				bestWidth,
-				bestHeight);
 	}
 
-	public PostCommentSort getSuggestedCommentSort() {
-		if(mSrc.suggested_sort == null) {
-			return null;
-		}
+    val suggestedCommentSort: PostCommentSort?
+        get() = if (src.suggested_sort == null) {
+            null
+        } else PostCommentSort.lookup(src.suggested_sort)
 
-		return PostCommentSort.lookup(mSrc.suggested_sort);
-	}
+    val isArchived: Boolean
+        get() = src.archived == true
 
-	public boolean isArchived() {
-		return mSrc.archived;
-	}
+    val isLocked: Boolean
+        get() = src.locked == true
 
-	public boolean isLocked() {
-		return Boolean.TRUE.equals(mSrc.locked);
-	}
+    fun canModerate(): Boolean {
+        return src.can_mod_post == true
+    }
 
-	public boolean canModerate() {
-		return mSrc.can_mod_post;
-	}
+    val author: String?
+        get() = src.author?.decoded
 
-	public String getAuthor() {
-		return mSrc.author;
-	}
+    val distinguished: String?
+        get() = src.distinguished
 
-	public String getDistinguished() {
-		return mSrc.distinguished;
-	}
+    val rawSelfTextMarkdown: String?
+        get() = src.selftext?.decoded
 
-	public String getRawSelfTextMarkdown() {
-		return mSrc.selftext;
-	}
+    val isSpoiler: Boolean
+        get() = src.spoiler == true
 
-	public boolean isSpoiler() {
-		return Boolean.TRUE.equals(mSrc.spoiler);
-	}
+    val unescapedSelfText: String?
+        get() = src.selftext?.decoded
 
-	public String getUnescapedSelfText() {
-		return StringEscapeUtils.unescapeHtml4(mSrc.selftext);
-	}
+    val subreddit: String
+        get() = src.subreddit.decoded
 
-	public String getSubreddit() {
-		return mSrc.subreddit;
-	}
+	// TODO do we still need this? I think it's because we add the score at a later point
+    val scoreExcludingOwnVote: Int
+        get() {
+            var score = src.score
+			when (src.likes) {
+				true -> score--
+				false -> score++
+				null -> {}
+			}
+			return score
+        }
 
-	public int getScoreExcludingOwnVote() {
+    val commentCount: Int
+        get() = src.num_comments
 
-		int score = mSrc.score;
+    val goldAmount: Int
+        get() = src.gilded
 
-		if(Boolean.TRUE.equals(mSrc.likes)) {
-			score--;
-		}
-		if(Boolean.FALSE.equals(mSrc.likes)) {
-			score++;
-		}
+    val isNsfw: Boolean
+        get() = src.over_18 == true
 
-		return score;
-	}
+    val createdTimeSecsUTC: TimestampUTC
+        get() = src.created_utc.value
 
-	public int getCommentCount() {
-		return mSrc.num_comments;
-	}
+    val isSelfPost: Boolean
+        get() = src.is_self == true
 
-	public int getGoldAmount() {
-		return mSrc.gilded;
-	}
-
-	public boolean isNsfw() {
-		return mSrc.over_18;
-	}
-
-	public String getFlairText() {
-		return mFlairText;
-	}
-
-	public long getCreatedTimeSecsUTC() {
-		return mSrc.created_utc;
-	}
-
-	@NonNull
-	public String getDomain() {
-		return mDomain;
-	}
-
-	public boolean isSelfPost() {
-		return mSrc.is_self;
-	}
-
-	public BodyElement getSelfText() {
-		return mSelfText;
-	}
-
-	public int getUpvotePercentage() {
-		return (int)(mSrc.upvote_ratio * 100.0);
-	}
+    val upvotePercentage: Int?
+        get() = src.upvote_ratio?.times(100.0)?.toInt()
 }

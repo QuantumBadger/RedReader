@@ -1907,4 +1907,8 @@
 	<string name="video_speed_setting">Change video speed</string>
 	<string name="video_speed_instruction">Choose playback speed</string>
 	<string name="video_speed_term">Speed</string>
+
+	<!-- 2025-04-20 -->
+	<string name="action_mark_read">Mark as read</string>
+	<string name="action_mark_unread">Mark as unread</string>
 </resources>

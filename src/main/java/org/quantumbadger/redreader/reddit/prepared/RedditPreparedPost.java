@@ -790,10 +790,16 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	public void markAsRead(final Context context) {
+		markAsRead(context, true);
+	}
+
+	public void markAsRead(
+		final Context context,
+		final Boolean read) {
 		final RedditAccount user =
 				RedditAccountManager.getInstance(context).getDefaultAccount();
 		RedditChangeDataManager.getInstance(user)
-				.markRead(TimestampUTC.now(), src.getIdAndType());
+				.markRead(TimestampUTC.now(), src.getIdAndType(), read);
 	}
 
 	public boolean isUpvoted() {

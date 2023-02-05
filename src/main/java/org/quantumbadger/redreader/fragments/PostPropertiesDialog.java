@@ -21,12 +21,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
-import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.jsonwrap.JsonLong;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
+import org.quantumbadger.redreader.reddit.kthings.RedditBoolOrTimestampUTC;
+import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 
 public final class PostPropertiesDialog extends PropertiesDialog {
 
@@ -53,28 +51,30 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 
 		final RedditPost post = getArguments().getParcelable("post");
 
+		// TODO nullability
+
 		items.addView(propView(
 				context,
 				R.string.props_title,
-				StringEscapeUtils.unescapeHtml4(post.title.trim()),
+				post.getTitle().getDecoded().trim(),
 				true));
-		items.addView(propView(context, R.string.props_author, post.author, false));
+		items.addView(propView(context, R.string.props_author, post.getAuthor().getDecoded(), false));
 		items.addView(propView(
 				context,
 				R.string.props_url,
-				StringEscapeUtils.unescapeHtml4(post.getUrl()),
+				post.getUrl().getDecoded(),
 				false));
 		items.addView(propView(
 				context,
 				R.string.props_created,
-				RRTime.formatDateTime(post.created_utc * 1000, context),
+				post.getCreated_utc().getValue().format(context),
 				false));
 
-		if(post.edited instanceof JsonLong) {
+		if(post.getEdited() instanceof RedditBoolOrTimestampUTC.Timestamp) {
 			items.addView(propView(
 					context,
 					R.string.props_edited,
-					RRTime.formatDateTime(post.edited.asLong() * 1000, context),
+					((RedditBoolOrTimestampUTC.Timestamp)post.getEdited()).getValue().getValue().format(context),
 					false));
 		} else {
 			items.addView(propView(
@@ -84,30 +84,30 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 					false));
 		}
 
-		items.addView(propView(context, R.string.props_subreddit, post.subreddit, false));
+		items.addView(propView(context, R.string.props_subreddit, post.getSubreddit().getDecoded(), false));
 		items.addView(propView(
 				context,
 				R.string.props_score,
-				String.valueOf(post.score),
+				String.valueOf(post.getScore()),
 				false));
 		items.addView(propView(
 				context,
 				R.string.props_num_comments,
-				String.valueOf(post.num_comments),
+				String.valueOf(post.getNum_comments()),
 				false));
 
-		if(post.selftext != null && !post.selftext.isEmpty()) {
+		if(post.getSelftext() != null && !post.getSelftext().getDecoded().isEmpty()) {
 			items.addView(propView(
 					context,
 					R.string.props_self_markdown,
-					StringEscapeUtils.unescapeHtml4(post.selftext),
+					post.getSelftext().getDecoded(),
 					false));
 
-			if(post.selftext_html != null) {
+			if(post.getSelftext_html() != null) {
 				items.addView(propView(
 						context,
 						R.string.props_self_html,
-						StringEscapeUtils.unescapeHtml4(post.selftext_html),
+						post.getSelftext_html().getDecoded(),
 						false));
 			}
 		}

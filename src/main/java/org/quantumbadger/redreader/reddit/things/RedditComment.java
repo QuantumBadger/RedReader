@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonBoolean;
 import org.quantumbadger.redreader.jsonwrap.JsonLong;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 
 import java.util.HashSet;
@@ -172,8 +173,8 @@ public final class RedditComment implements
 	}
 
 	@Override
-	public String getIdAndType() {
-		return name;
+	public RedditIdAndType getIdAndType() {
+		return new RedditIdAndType(name);
 	}
 
 	public boolean isArchived() {

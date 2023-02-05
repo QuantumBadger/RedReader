@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.reddit.PostCommentSort
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType
 import org.quantumbadger.redreader.reddit.kthings.RedditPost
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader
@@ -27,7 +28,7 @@ import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 
 class RedditParsedPost(
 	activity: AppCompatActivity,
-	private val src: RedditPost,
+	val src: RedditPost,
 	parseSelfText: Boolean
 ) : RedditThingWithIdAndType {
 
@@ -38,7 +39,7 @@ class RedditParsedPost(
 	val domain: String
 
 
-	fun findUrl(): String? {
+	private fun findUrl(): String? {
 
 		src.media?.reddit_video?.fallback_url?.decoded?.apply {
 			return this
@@ -77,12 +78,15 @@ class RedditParsedPost(
         return src.idAlone
     }
 
-    override fun getIdAndType(): String {
+    override fun getIdAndType(): RedditIdAndType {
         return src.idAndType
     }
 
+	val permalink: String
+		get() = src.permalink.decoded
+
     val isStickied: Boolean
-        get() = src.stickied == true
+        get() = src.stickied
 
     val thumbnailUrl: String?
         get() = src.thumbnail?.decoded
@@ -93,8 +97,18 @@ class RedditParsedPost(
 		@JvmField val height: Int
 	)
 
-    val isPreviewEnabled: Boolean
+    val isPreviewEnabled
         get() = src.preview?.enabled == true
+
+	val isVideoPreview = src.preview?.run {
+		src.is_video
+				|| images?.get(0)?.variants?.mp4 != null
+				|| reddit_video_preview != null
+				|| when (src.domain?.decoded) {
+					"v.redd.it", "streamable.com", "gfycat.com" -> true
+					else -> false
+				}
+	} ?: false
 
     fun getPreview(minWidth: Int, minHeight: Int) = src.preview?.images?.get(0)?.apply {
 		getPreviewInternal(this, minWidth, minHeight)
@@ -177,13 +191,13 @@ class RedditParsedPost(
         } else PostCommentSort.lookup(src.suggested_sort)
 
     val isArchived: Boolean
-        get() = src.archived == true
+        get() = src.archived
 
     val isLocked: Boolean
-        get() = src.locked == true
+        get() = src.locked
 
     fun canModerate(): Boolean {
-        return src.can_mod_post == true
+        return src.can_mod_post
     }
 
     val author: String?
@@ -196,7 +210,7 @@ class RedditParsedPost(
         get() = src.selftext?.decoded
 
     val isSpoiler: Boolean
-        get() = src.spoiler == true
+        get() = src.spoiler
 
     val unescapedSelfText: String?
         get() = src.selftext?.decoded
@@ -207,7 +221,7 @@ class RedditParsedPost(
 	// TODO do we still need this? I think it's because we add the score at a later point
     val scoreExcludingOwnVote: Int
         get() {
-            var score = src.score
+			var score = src.score
 			when (src.likes) {
 				true -> score--
 				false -> score++
@@ -223,13 +237,13 @@ class RedditParsedPost(
         get() = src.gilded
 
     val isNsfw: Boolean
-        get() = src.over_18 == true
+        get() = src.over_18
 
-    val createdTimeSecsUTC: TimestampUTC
+    val createdTimeUTC: TimestampUTC
         get() = src.created_utc.value
 
     val isSelfPost: Boolean
-        get() = src.is_self == true
+        get() = src.is_self
 
     val upvotePercentage: Int?
         get() = src.upvote_ratio?.times(100.0)?.toInt()

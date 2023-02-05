@@ -1,13 +1,14 @@
 package org.quantumbadger.redreader.reddit.kthings
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 
 @Suppress("PropertyName")
 @Serializable
 data class RedditPost(
 	val id: String,
-	val name: String,
+	val name: RedditIdAndType,
 	val url: UrlEncodedString? = null,
 	val title: UrlEncodedString? = null,
 	val author: UrlEncodedString? = null,
@@ -17,18 +18,18 @@ data class RedditPost(
 	val score: Int,
 	val gilded: Int = 0,
 	val upvote_ratio: Double? = null,
-	val archived: Boolean? = null,
-	val over_18: Boolean? = null,
-	val hidden: Boolean? = null,
-	val saved: Boolean? = null,
-	val is_self: Boolean? = null,
-	val clicked: Boolean? = null,
-	val stickied: Boolean? = null,
-	val can_mod_post: Boolean? = null,
+	val archived: Boolean = false,
+	val over_18: Boolean = false,
+	val hidden: Boolean = false,
+	val saved: Boolean = false,
+	val is_self: Boolean = false,
+	val clicked: Boolean = false,
+	val stickied: Boolean = false,
+	val can_mod_post: Boolean = false,
 	val edited: RedditBoolOrTimestampUTC? = null,
 	val likes: Boolean? = null,
-	val spoiler: Boolean? = null,
-	val locked: Boolean? = null,
+	val spoiler: Boolean = false,
+	val locked: Boolean = false,
 	val created_utc: RedditTimestampUTC,
 
 	val selftext: UrlEncodedString? = null,
@@ -43,7 +44,7 @@ data class RedditPost(
 	val media: Media? = null,
 
 	val preview: Preview? = null,
-	val is_video: Boolean? = null,
+	val is_video: Boolean = false,
 
 	val distinguished: String? = null,
 	val suggested_sort: String? = null // TODO enum type
@@ -62,7 +63,8 @@ data class RedditPost(
 	@Serializable
 	data class Preview(
 		val enabled: Boolean,
-		val images: List<Image>? = null
+		val images: List<Image>? = null,
+		val reddit_video_preview: JsonObject? = null
 	) {
 		@Serializable
 		data class ImageDetails(
@@ -100,7 +102,7 @@ data class RedditPost(
 		return id
 	}
 
-	override fun getIdAndType(): String {
+	override fun getIdAndType(): RedditIdAndType {
 		return name
 	}
 }

@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.common;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 import androidx.annotation.NonNull;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -30,11 +29,13 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+// TODO remove this
 public class RRTime {
 
 	private static final DateTimeFormatter dtFormatter12hr
@@ -52,23 +53,11 @@ public class RRTime {
 	}
 
 	public static String formatDateTime(final long utcMs, final Context context) {
-
-		final DateTime dateTime = new DateTime(utcMs);
-		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
-
-		if(DateFormat.is24HourFormat(context)) {
-			return dtFormatter24hr.print(localDateTime);
-		} else {
-			return dtFormatter12hr.print(localDateTime);
-		}
+		return new TimestampUTC(utcMs).format(context);
 	}
 
 	public static String formatDateTimeFilenameSafe(final long utcMs) {
-
-		final DateTime dateTime = new DateTime(utcMs);
-		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
-
-		return dtFormatterFilename.print(localDateTime);
+		return new TimestampUTC(utcMs).formatFilenameSafe();
 	}
 
 	public static String formatDurationFrom(

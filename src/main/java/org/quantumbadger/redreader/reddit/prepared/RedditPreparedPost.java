@@ -48,7 +48,6 @@ import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
-import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.views.RedditPostView;
 
@@ -134,19 +133,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	public boolean isVideoPreview() {
-
-		final JsonObject preview = src.getSrc().preview;
-
-		if(preview == null) {
-			return false;
-		}
-
-		return Boolean.TRUE.equals(src.getSrc().is_video)
-				|| preview.getAtPath("images", 0, "variants", "mp4").isPresent()
-				|| preview.getObject("reddit_video_preview") != null
-				|| "v.redd.it".equals(src.getDomain())
-				|| "streamable.com".equals(src.getDomain())
-				|| "gfycat.com".equals(src.getDomain());
+		return src.isVideoPreview();
 	}
 
 	public void performAction(final BaseActivity activity, final RedditPostActions.Action action) {
@@ -340,6 +327,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AGE)) {
 			postListDescSb.append(
+					src.getCreatedTimeUTC().;)
 					RRTime.formatDurationFrom(
 							context,
 							src.getCreatedTimeSecsUTC() * 1000,

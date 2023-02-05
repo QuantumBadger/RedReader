@@ -17,8 +17,10 @@
 
 package org.quantumbadger.redreader.reddit.things;
 
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
+
 public interface RedditThingWithIdAndType {
 	String getIdAlone();
 
-	String getIdAndType();
+	RedditIdAndType getIdAndType();
 }

@@ -7,7 +7,7 @@ import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 
 data class TimestampUTC(
-	val utcMs: Long
+	val value: DateTime
 ) {
 	companion object {
 
@@ -15,16 +15,19 @@ data class TimestampUTC(
 		private val dtFormatter24hr = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
 		private val dtFormatterFilename = DateTimeFormat.forPattern("yyyy_MM_dd__HH_mm_ss")
 
-		fun now() = TimestampUTC(DateTime.now(DateTimeZone.UTC).millis)
+		fun now() = TimestampUTC(DateTime.now(DateTimeZone.UTC))
+
+		fun fromUtcMs(value: Long) = TimestampUTC(DateTime(value, DateTimeZone.UTC))
 	}
 
-	fun elapsed() = DurationMs(now().utcMs - utcMs)
+	fun toUtcMs() = value.millis
 
-	fun elapsedSince(start: TimestampUTC) = DurationMs(utcMs - start.utcMs)
+	fun elapsedPeriod() = TimePeriod(this, now())
+
+	fun elapsedPeriodSince(start: TimestampUTC) = TimePeriod(start, this)
 
 	fun format(context: Context) : String {
-		val dateTime = DateTime(utcMs)
-		val localDateTime = dateTime.withZone(DateTimeZone.getDefault())
+		val localDateTime = value.withZone(DateTimeZone.getDefault())
 
 		return if (DateFormat.is24HourFormat(context)) {
 			dtFormatter24hr.print(localDateTime)
@@ -34,7 +37,7 @@ data class TimestampUTC(
 	}
 
 	fun formatFilenameSafe() : String {
-		val localDateTime = DateTime(utcMs).withZone(DateTimeZone.getDefault())
+		val localDateTime = value.withZone(DateTimeZone.getDefault())
 		return dtFormatterFilename.print(localDateTime)
 	}
 }

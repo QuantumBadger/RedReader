@@ -930,6 +930,7 @@ public final class PrefsUtility {
 		COPY,
 		USER_PROFILE,
 		PROPERTIES,
+		MARK_READ,
 		DISABLED
 	}
 

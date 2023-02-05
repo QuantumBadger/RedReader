@@ -1733,4 +1733,8 @@
 	<!-- 2023-01-15 -->
 	<string name="userprofile_avatar">Avatar</string>
 
+	<!-- 2023-01-22 -->
+	<string name="action_mark_read">Mark as read</string>
+	<string name="action_mark_unread">Mark as unread</string>
+
 </resources>

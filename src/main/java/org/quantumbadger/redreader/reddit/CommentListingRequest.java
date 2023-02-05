@@ -18,11 +18,10 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
-
+import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
-
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -63,6 +62,8 @@ import java.util.Map;
 import java.util.UUID;
 
 public class CommentListingRequest {
+
+	private static final String TAG = "CommentListingRequest";
 
 	private final Context mContext;
 	private final CommentListingFragment mFragment;
@@ -344,6 +345,11 @@ public class CommentListingRequest {
 				} catch (final Exception e) {
 					// Including this try-catch to cover for edge cases where reddit might send
 					// different values under media_metadata
+					Log.e(
+							TAG,
+							"Exception while processing media metadata for "
+									+ comment.getIdAndType(),
+							e);
 				}
 			}
 

@@ -39,7 +39,6 @@
 
     <application android:name="org.quantumbadger.redreader.RedReader"
                  android:icon="@mipmap/icon"
-				 android:roundIcon="@mipmap/icon"
                  android:label="@string/app_name"
                  android:theme="@style/RR.Startup"
                  android:largeHeap="true"

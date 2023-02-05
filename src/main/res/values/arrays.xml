@@ -36,6 +36,7 @@
         <item>@string/action_downvote</item>
         <item>@string/action_save</item>
         <item>@string/action_hide</item>
+        <item>@string/action_mark_read</item>
         <item>@string/action_comments</item>
         <item>@string/action_link</item>
         <item>@string/action_external</item>
@@ -59,6 +60,7 @@
         <item>downvote</item>
         <item>save</item>
         <item>hide</item>
+        <item>mark_read</item>
         <item>comments</item>
         <item>link</item>
         <item>browser</item>

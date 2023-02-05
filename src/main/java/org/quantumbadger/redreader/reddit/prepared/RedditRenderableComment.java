@@ -33,10 +33,11 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
@@ -52,8 +53,6 @@ public class RedditRenderableComment
 	private final boolean mShowScore;
 	private final boolean mShowSubreddit;
 	private final boolean mNeverAutoCollapse;
-
-	public final static int NO_TIMESTAMP = -1;
 
 	public RedditRenderableComment(
 			final RedditParsedComment comment,
@@ -86,9 +85,9 @@ public class RedditRenderableComment
 			score++;
 		}
 
-		if(changeDataManager.isUpvoted(mComment)) {
+		if(changeDataManager.isUpvoted(getIdAndType())) {
 			score++;
-		} else if(changeDataManager.isDownvoted(mComment)) {
+		} else if(changeDataManager.isDownvoted(getIdAndType())) {
 			score--;
 		}
 
@@ -101,8 +100,8 @@ public class RedditRenderableComment
 			final RedditChangeDataManager changeDataManager,
 			final Context context,
 			final int commentAgeUnits,
-			final long postCreated,
-			final long parentCommentCreated) {
+			@Nullable final TimestampUTC postCreated,
+			@Nullable final TimestampUTC parentCommentCreated) {
 
 		final PrefsUtility.CommentAgeMode commentAgeMode
 				= PrefsUtility.appearance_comment_age_mode();
@@ -114,10 +113,10 @@ public class RedditRenderableComment
 		final int pointsCol;
 		final int score = computeScore(changeDataManager);
 
-		if(changeDataManager.isUpvoted(mComment)) {
+		if(changeDataManager.isUpvoted(getIdAndType())) {
 			pointsCol = theme.rrPostSubtitleUpvoteCol;
 
-		} else if(changeDataManager.isDownvoted(mComment)) {
+		} else if(changeDataManager.isDownvoted(getIdAndType())) {
 			pointsCol = theme.rrPostSubtitleDownvoteCol;
 
 		} else {
@@ -249,12 +248,11 @@ public class RedditRenderableComment
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AGE)) {
-			final long commentTime = rawComment.created_utc * 1000L;
 			final String formattedAge = formatAge(
 					context,
 					commentAgeMode,
 					commentAgeUnits,
-					commentTime,
+					TimestampUTC.fromUtcMs(rawComment.created_utc),
 					postCreated,
 					parentCommentCreated);
 
@@ -298,8 +296,8 @@ public class RedditRenderableComment
 			final RedditChangeDataManager changeDataManager,
 			final Context context,
 			final int commentAgeUnits,
-			final long postCreated,
-			final long parentCommentCreated,
+			final TimestampUTC postCreated,
+			final TimestampUTC parentCommentCreated,
 			final boolean collapsed,
 			@NonNull final Optional<Integer> indentLevel) {
 
@@ -425,14 +423,14 @@ public class RedditRenderableComment
 						.append(separator);
 			}
 
-			if(changeDataManager.isUpvoted(mComment)) {
+			if(changeDataManager.isUpvoted(getIdAndType())) {
 				accessibilityHeader
 						.append(context.getString(
 								R.string.accessibility_subtitle_upvoted_withperiod))
 						.append(separator);
 			}
 
-			if(changeDataManager.isDownvoted(mComment)) {
+			if(changeDataManager.isDownvoted(getIdAndType())) {
 				accessibilityHeader
 						.append(context.getString(
 								R.string.accessibility_subtitle_downvoted_withperiod))
@@ -462,12 +460,11 @@ public class RedditRenderableComment
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AGE)) {
-			final long commentTime = rawComment.created_utc * 1000L;
 			final String formattedAge = formatAge(
 					context,
 					commentAgeMode,
 					commentAgeUnits,
-					commentTime,
+					TimestampUTC.fromUtcMs(rawComment.created_utc),
 					postCreated,
 					parentCommentCreated);
 
@@ -507,35 +504,30 @@ public class RedditRenderableComment
 			@NonNull final Context context,
 			@NonNull final PrefsUtility.CommentAgeMode commentAgeMode,
 			final int commentAgeUnits,
-			final long commentTime,
-			final long postCreated,
-			final long parentCommentCreated) {
+			@NonNull final TimestampUTC commentTime,
+			@Nullable final TimestampUTC postCreated,
+			@Nullable final TimestampUTC parentCommentCreated) {
 		//In addition to enforcing the user's prefs, the lower mode cases also act as fallbacks
 		switch(commentAgeMode) {
 			case RELATIVE_PARENT:
-				if(parentCommentCreated != NO_TIMESTAMP) {
-					return RRTime.formatDurationFrom(
+				if(parentCommentCreated != null) {
+					return commentTime.elapsedPeriodSince(parentCommentCreated).format(
 							context,
-							parentCommentCreated * 1000L,
-							commentTime,
 							R.string.time_after_reply,
 							commentAgeUnits);
 				}
 			//Top-level comment (or unable to get the parent comment's creation time)
 			case RELATIVE_POST:
-				if(postCreated != NO_TIMESTAMP) {
-					return RRTime.formatDurationFrom(
+				if(postCreated != null) {
+					return commentTime.elapsedPeriodSince(postCreated).format(
 							context,
-							postCreated * 1000L,
-							commentTime,
 							R.string.time_after,
 							commentAgeUnits);
 				}
 			//Unable to get post creation date, resorting to absolute age
 			case ABSOLUTE:
-				return RRTime.formatDurationFrom(
+				return commentTime.elapsedPeriod().format(
 						context,
-						commentTime,
 						R.string.time_ago,
 						commentAgeUnits);
 			default:
@@ -584,7 +576,7 @@ public class RedditRenderableComment
 	}
 
 	@Override
-	public String getIdAndType() {
+	public RedditIdAndType getIdAndType() {
 		return mComment.getIdAndType();
 	}
 
@@ -607,7 +599,7 @@ public class RedditRenderableComment
 
 	public boolean isCollapsed(final RedditChangeDataManager changeDataManager) {
 
-		final Boolean collapsed = changeDataManager.isHidden(this);
+		final Boolean collapsed = changeDataManager.isHidden(getIdAndType());
 
 		if(collapsed != null) {
 			return collapsed;

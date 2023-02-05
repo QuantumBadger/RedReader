@@ -348,7 +348,7 @@ public class CommentListingFragment extends RRFragment
 
 			changeDataManager.markHidden(
 					RRTime.utcCurrentTimeMillis(),
-					comment,
+					comment.getIdAndType(),
 					!comment.isCollapsed(changeDataManager));
 
 			mCommentListingManager.updateHiddenStatus();

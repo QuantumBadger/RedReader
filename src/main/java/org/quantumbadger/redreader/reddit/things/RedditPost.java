@@ -27,6 +27,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonBoolean;
 import org.quantumbadger.redreader.jsonwrap.JsonLong;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 
 public final class RedditPost implements
 		Parcelable,
@@ -244,8 +245,8 @@ public final class RedditPost implements
 	}
 
 	@Override
-	public String getIdAndType() {
-		return name;
+	public RedditIdAndType getIdAndType() {
+		return new RedditIdAndType(name);
 	}
 
 	public boolean wasEdited() {

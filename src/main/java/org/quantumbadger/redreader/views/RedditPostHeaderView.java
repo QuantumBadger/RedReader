@@ -182,8 +182,8 @@ public class RedditPostHeaderView extends LinearLayout {
 					subtitle.setContentDescription(
 							post.buildAccessibilitySubtitle(activity, true));
 
-					final boolean isUpvoted = changeDataManager.isUpvoted(post.src);
-					final boolean isDownvoted = changeDataManager.isDownvoted(post.src);
+					final boolean isUpvoted = changeDataManager.isUpvoted(post.src.getIdAndType());
+					final boolean isDownvoted = changeDataManager.isDownvoted(post.src.getIdAndType());
 
 					if(isUpvoted) {
 						buttonAddUpvote.setVisibility(GONE);
@@ -214,12 +214,12 @@ public class RedditPostHeaderView extends LinearLayout {
 			}
 
 			mChangeListenerAddTask = () -> {
-				changeDataManager.addListener(post.src, changeListener);
+				changeDataManager.addListener(post.src.getIdAndType(), changeListener);
 				changeListener.onRedditDataChange(post.src.getIdAndType());
 			};
 
 			mChangeListenerRemoveTask
-					= () -> changeDataManager.removeListener(post.src, changeListener);
+					= () -> changeDataManager.removeListener(post.src.getIdAndType(), changeListener);
 
 		} else {
 			mChangeListenerAddTask = null;

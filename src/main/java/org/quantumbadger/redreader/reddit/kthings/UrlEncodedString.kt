@@ -1,5 +1,7 @@
 package org.quantumbadger.redreader.reddit.kthings
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -10,9 +12,10 @@ import kotlinx.serialization.encoding.Encoder
 import org.apache.commons.text.StringEscapeUtils
 
 @Serializable(with = UrlEncodedStringSerializer::class)
+@Parcelize
 data class UrlEncodedString(
 	val decoded: String
-)
+) : Parcelable
 
 object UrlEncodedStringSerializer : KSerializer<UrlEncodedString> {
 	override val descriptor: SerialDescriptor

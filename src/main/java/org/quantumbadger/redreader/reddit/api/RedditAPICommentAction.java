@@ -126,7 +126,7 @@ public class RedditAPICommentAction {
 			if(!isArchived) {
 
 				if(itemPref.contains(RedditCommentAction.UPVOTE)) {
-					if(!changeDataManager.isUpvoted(comment)) {
+					if(!changeDataManager.isUpvoted(comment.getIdAndType())) {
 						menu.add(new RCVMenuItem(
 								activity,
 								R.string.action_upvote,
@@ -140,7 +140,7 @@ public class RedditAPICommentAction {
 				}
 
 				if(itemPref.contains(RedditCommentAction.DOWNVOTE)) {
-					if(!changeDataManager.isDownvoted(comment)) {
+					if(!changeDataManager.isDownvoted(comment.getIdAndType())) {
 						menu.add(new RCVMenuItem(
 								activity,
 								R.string.action_downvote,
@@ -155,7 +155,7 @@ public class RedditAPICommentAction {
 			}
 
 			if(itemPref.contains(RedditCommentAction.SAVE)) {
-				if(changeDataManager.isSaved(comment)) {
+				if(changeDataManager.isSaved(comment.getIdAndType())) {
 					menu.add(new RCVMenuItem(
 							activity,
 							R.string.action_unsave,
@@ -526,34 +526,34 @@ public class RedditAPICommentAction {
 			return;
 		}
 
-		final boolean wasUpvoted = changeDataManager.isUpvoted(comment);
-		final boolean wasDownvoted = changeDataManager.isUpvoted(comment);
+		final boolean wasUpvoted = changeDataManager.isUpvoted(comment.getIdAndType());
+		final boolean wasDownvoted = changeDataManager.isUpvoted(comment.getIdAndType());
 
 		switch(action) {
 			case RedditAPI.ACTION_DOWNVOTE:
 				if(!comment.isArchived()) {
 					changeDataManager.markDownvoted(
 							RRTime.utcCurrentTimeMillis(),
-							comment);
+							comment.getIdAndType());
 				}
 				break;
 			case RedditAPI.ACTION_UNVOTE:
 				if(!comment.isArchived()) {
-					changeDataManager.markUnvoted(RRTime.utcCurrentTimeMillis(), comment);
+					changeDataManager.markUnvoted(RRTime.utcCurrentTimeMillis(), comment.getIdAndType());
 				}
 				break;
 			case RedditAPI.ACTION_UPVOTE:
 				if(!comment.isArchived()) {
-					changeDataManager.markUpvoted(RRTime.utcCurrentTimeMillis(), comment);
+					changeDataManager.markUpvoted(RRTime.utcCurrentTimeMillis(), comment.getIdAndType());
 				}
 				break;
 			case RedditAPI.ACTION_SAVE:
-				changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment, true);
+				changeDataManager.markSaved(RRTime.utcCurrentTimeMillis(), comment.getIdAndType(), true);
 				break;
 			case RedditAPI.ACTION_UNSAVE:
 				changeDataManager.markSaved(
 						RRTime.utcCurrentTimeMillis(),
-						comment,
+						comment.getIdAndType(),
 						false);
 				break;
 
@@ -637,26 +637,26 @@ public class RedditAPICommentAction {
 								if(wasUpvoted) {
 									changeDataManager.markUpvoted(
 											RRTime.utcCurrentTimeMillis(),
-											comment);
+											comment.getIdAndType());
 								} else if(wasDownvoted) {
 									changeDataManager.markDownvoted(
 											RRTime.utcCurrentTimeMillis(),
-											comment);
+											comment.getIdAndType());
 								} else {
 									changeDataManager.markUnvoted(
 											RRTime.utcCurrentTimeMillis(),
-											comment);
+											comment.getIdAndType());
 								}
 							case RedditAPI.ACTION_SAVE:
 								changeDataManager.markSaved(
 										RRTime.utcCurrentTimeMillis(),
-										comment,
+										comment.getIdAndType(),
 										false);
 								break;
 							case RedditAPI.ACTION_UNSAVE:
 								changeDataManager.markSaved(
 										RRTime.utcCurrentTimeMillis(),
-										comment,
+										comment.getIdAndType(),
 										true);
 								break;
 

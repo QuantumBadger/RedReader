@@ -1,11 +1,13 @@
 package org.quantumbadger.redreader.reddit.kthings
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonObject
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 
 @Suppress("PropertyName")
 @Serializable
+@Parcelize
 data class RedditPost(
 	val id: String,
 	val name: RedditIdAndType,
@@ -48,30 +50,34 @@ data class RedditPost(
 
 	val distinguished: String? = null,
 	val suggested_sort: String? = null // TODO enum type
-) : RedditThingWithIdAndType {
+) : RedditThingWithIdAndType, Parcelable {
 
 	@Serializable
+	@Parcelize
 	data class Media(
 		val reddit_video: RedditVideo? = null
-	) {
+	) : Parcelable {
 		@Serializable
+		@Parcelize
 		data class RedditVideo (
 			val fallback_url: UrlEncodedString? = null
-		)
+		) : Parcelable
 	}
 
 	@Serializable
+	@Parcelize
 	data class Preview(
 		val enabled: Boolean,
 		val images: List<Image>? = null,
-		val reddit_video_preview: JsonObject? = null
-	) {
+		val reddit_video_preview: RedditVideoPreview? = null
+	) : Parcelable {
 		@Serializable
+		@Parcelize
 		data class ImageDetails(
 			val url: UrlEncodedString,
 			val width: Int,
 			val height: Int
-		)
+		) : Parcelable
 
 		@Serializable
 		sealed class ImageBase {
@@ -80,22 +86,31 @@ data class RedditPost(
 		}
 
 		@Serializable
+		@Parcelize
 		data class Image(
 			override val source: ImageDetails? = null,
 			override val resolutions: List<ImageDetails>? = null,
 			val variants: ImageVariants
-		) : ImageBase()
+		) : ImageBase(), Parcelable
 
 		@Serializable
+		@Parcelize
 		data class ImageVariants(
 			val mp4: ImageVariant? = null
-		)
+		) : Parcelable
 
 		@Serializable
+		@Parcelize
 		data class ImageVariant(
 			override val source: ImageDetails? = null,
 			override val resolutions: List<ImageDetails>? = null
-		) : ImageBase()
+		) : ImageBase(), Parcelable
+
+		@Serializable
+		@Parcelize
+		data class RedditVideoPreview(
+			val fallback_url: UrlEncodedString? = null
+		) : Parcelable
 	}
 
 	override fun getIdAlone(): String {

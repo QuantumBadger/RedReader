@@ -38,6 +38,7 @@ import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
@@ -101,7 +102,7 @@ public class RedditCommentView extends FlingableItemView
 		switch(pref) {
 
 			case UPVOTE:
-				if(mChangeDataManager.isUpvoted(comment)) {
+				if(mChangeDataManager.isUpvoted(comment.getIdAndType())) {
 					return new ActionDescriptionPair(
 							RedditAPICommentAction.RedditCommentAction.UNVOTE,
 							R.string.action_vote_remove);
@@ -112,7 +113,7 @@ public class RedditCommentView extends FlingableItemView
 				}
 
 			case DOWNVOTE:
-				if(mChangeDataManager.isDownvoted(comment)) {
+				if(mChangeDataManager.isDownvoted(comment.getIdAndType())) {
 					return new ActionDescriptionPair(
 							RedditAPICommentAction.RedditCommentAction.UNVOTE,
 							R.string.action_vote_remove);
@@ -123,7 +124,7 @@ public class RedditCommentView extends FlingableItemView
 				}
 
 			case SAVE:
-				if(mChangeDataManager.isSaved(comment)) {
+				if(mChangeDataManager.isSaved(comment.getIdAndType())) {
 					return new ActionDescriptionPair(
 							RedditAPICommentAction.RedditCommentAction.UNSAVE,
 							R.string.action_unsave);
@@ -356,7 +357,7 @@ public class RedditCommentView extends FlingableItemView
 	}
 
 	@Override
-	public void onRedditDataChange(final String thingIdAndType) {
+	public void onRedditDataChange(final RedditIdAndType thingIdAndType) {
 		reset(mActivity, mComment, true);
 	}
 
@@ -378,10 +379,10 @@ public class RedditCommentView extends FlingableItemView
 
 			if(mComment != comment) {
 				if(mComment != null) {
-					mChangeDataManager.removeListener(mComment.asComment(), this);
+					mChangeDataManager.removeListener(mComment.asComment().getIdAndType(), this);
 				}
 
-				mChangeDataManager.addListener(comment.asComment(), this);
+				mChangeDataManager.addListener(comment.asComment().getIdAndType(), this);
 			}
 
 			mComment = comment;

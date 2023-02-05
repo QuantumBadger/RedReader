@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit.prepared;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditComment;
@@ -65,7 +66,7 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 	}
 
 	@Override
-	public String getIdAndType() {
+	public RedditIdAndType getIdAndType() {
 		return mSrc.getIdAndType();
 	}
 

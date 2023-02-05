@@ -20,9 +20,11 @@ package org.quantumbadger.redreader.reddit.prepared;
 import android.content.Context;
 import android.view.View;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 public interface RedditRenderableCommentListItem {
 
@@ -31,16 +33,16 @@ public interface RedditRenderableCommentListItem {
 			final RedditChangeDataManager changeDataManager,
 			final Context context,
 			final int commentAgeUnits,
-			final long postCreated,
-			final long parentCommentCreated);
+			@Nullable final TimestampUTC postCreated,
+			@Nullable final TimestampUTC parentCommentCreated);
 
 	String getAccessibilityHeader(
 			final RRThemeAttributes theme,
 			final RedditChangeDataManager changeDataManager,
 			final Context context,
 			final int commentAgeUnits,
-			final long postCreated,
-			final long parentCommentCreated,
+			@Nullable final TimestampUTC postCreated,
+			@Nullable final TimestampUTC parentCommentCreated,
 			final boolean collapsed,
 			@NonNull final Optional<Integer> indentLevel);
 

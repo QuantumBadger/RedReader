@@ -1,22 +1,27 @@
 package org.quantumbadger.redreader.common.time
 
 import android.content.Context
+import android.os.Parcelable
 import android.text.format.DateFormat
+import kotlinx.parcelize.Parcelize
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.format.DateTimeFormat
 
+@Parcelize
 data class TimestampUTC(
 	val value: DateTime
-) {
+) : Parcelable {
 	companion object {
 
 		private val dtFormatter12hr = DateTimeFormat.forPattern("yyyy-MM-dd h:mm a")
 		private val dtFormatter24hr = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
 		private val dtFormatterFilename = DateTimeFormat.forPattern("yyyy_MM_dd__HH_mm_ss")
 
+		@JvmStatic
 		fun now() = TimestampUTC(DateTime.now(DateTimeZone.UTC))
 
+		@JvmStatic
 		fun fromUtcMs(value: Long) = TimestampUTC(DateTime(value, DateTimeZone.UTC))
 	}
 

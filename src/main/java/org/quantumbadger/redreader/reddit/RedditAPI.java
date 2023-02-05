@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonString;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
@@ -566,12 +567,12 @@ public final class RedditAPI {
 			final CacheManager cm,
 			final APIResponseHandler.ActionResponseHandler responseHandler,
 			final RedditAccount user,
-			final String idAndType,
+			final RedditIdAndType idAndType,
 			final @RedditAction int action,
 			final Context context) {
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
-		postFields.add(new PostField("id", idAndType));
+		postFields.add(new PostField("id", idAndType.getValue()));
 
 		final URI url = prepareActionUri(action, postFields);
 

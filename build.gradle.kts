@@ -19,6 +19,7 @@ plugins {
 	id("com.android.application") version("7.3.1") apply(true)
 	kotlin("android") version("1.6.21") apply(true)
 	kotlin("plugin.serialization") version("1.6.21") apply(true)
+	kotlin("plugin.parcelize") version("1.6.21") apply(true)
 	pmd
 	checkstyle
 }

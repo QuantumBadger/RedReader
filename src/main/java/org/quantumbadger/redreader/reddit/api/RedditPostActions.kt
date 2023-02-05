@@ -368,7 +368,7 @@ object RedditPostActions {
 							activity,
 							linksArr.get(which),
 							false,
-							post.src.getSrc()
+							post.src.src
 						)
 						dialog.dismiss()
 					}
@@ -717,7 +717,9 @@ object RedditPostActions {
 		if (itemPref.contains(Action.EXTERNAL)) {
 			menu.add(RPVMenuItem(activity, R.string.action_external, Action.EXTERNAL))
 		}
-		if (itemPref.contains(Action.SELFTEXT_LINKS) && post.src.rawSelfTextMarkdown != null && post.src.rawSelfTextMarkdown.length > 1) {
+		if (itemPref.contains(Action.SELFTEXT_LINKS)
+				&& post.src.rawSelfTextMarkdown != null
+				&& post.src.rawSelfTextMarkdown.length > 1) {
 			menu.add(RPVMenuItem(activity, R.string.action_selftext_links, Action.SELFTEXT_LINKS))
 		}
 		if (itemPref.contains(Action.SAVE_IMAGE) && post.mIsProbablyAnImage) {
@@ -1003,25 +1005,25 @@ object RedditPostActions {
 		val changeDataManager = RedditChangeDataManager.getInstance(user)
 
 		val lastVoteDirection: Int = post.getVoteDirection()
-		val archived: Boolean = post.src.isArchived()
+		val archived: Boolean = post.src.isArchived
 		val now = RRTime.utcCurrentTimeMillis()
 		when (action) {
 			RedditAPI.ACTION_DOWNVOTE -> if (!archived) {
-				changeDataManager.markDownvoted(now, post.src)
+				changeDataManager.markDownvoted(now, post.src.idAndType)
 			}
 
 			RedditAPI.ACTION_UNVOTE -> if (!archived) {
-				changeDataManager.markUnvoted(now, post.src)
+				changeDataManager.markUnvoted(now, post.src.idAndType)
 			}
 
 			RedditAPI.ACTION_UPVOTE -> if (!archived) {
-				changeDataManager.markUpvoted(now, post.src)
+				changeDataManager.markUpvoted(now, post.src.idAndType)
 			}
 
-			RedditAPI.ACTION_SAVE -> changeDataManager.markSaved(now, post.src, true)
-			RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src, false)
-			RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src, true)
-			RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src, false)
+			RedditAPI.ACTION_SAVE -> changeDataManager.markSaved(now, post.src.idAndType, true)
+			RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src.idAndType, false)
+			RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src.idAndType, true)
+			RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src.idAndType, false)
 			RedditAPI.ACTION_REPORT -> {}
 			RedditAPI.ACTION_DELETE -> {}
 			else -> throw java.lang.RuntimeException("Unknown post action $action")
@@ -1053,7 +1055,7 @@ object RedditPostActions {
 						"Reddit API action code: "
 								+ action
 								+ " "
-								+ post.src.getIdAndType(),
+								+ post.src.idAndType,
 						response
 					)
 					General.showResultDialog(activity, error)
@@ -1077,13 +1079,13 @@ object RedditPostActions {
 				override fun onSuccess() {
 					val now = RRTime.utcCurrentTimeMillis()
 					when (action) {
-						RedditAPI.ACTION_DOWNVOTE -> changeDataManager.markDownvoted(now, post.src)
-						RedditAPI.ACTION_UNVOTE -> changeDataManager.markUnvoted(now, post.src)
-						RedditAPI.ACTION_UPVOTE -> changeDataManager.markUpvoted(now, post.src)
-						RedditAPI.ACTION_SAVE -> changeDataManager.markSaved(now, post.src, true)
-						RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src, false)
-						RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src, true)
-						RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src, false)
+						RedditAPI.ACTION_DOWNVOTE -> changeDataManager.markDownvoted(now, post.src.idAndType)
+						RedditAPI.ACTION_UNVOTE -> changeDataManager.markUnvoted(now, post.src.idAndType)
+						RedditAPI.ACTION_UPVOTE -> changeDataManager.markUpvoted(now, post.src.idAndType)
+						RedditAPI.ACTION_SAVE -> changeDataManager.markSaved(now, post.src.idAndType, true)
+						RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src.idAndType, false)
+						RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src.idAndType, true)
+						RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src.idAndType, false)
 						RedditAPI.ACTION_REPORT -> {}
 						RedditAPI.ACTION_DELETE -> General.quickToast(
 							activity,
@@ -1099,17 +1101,17 @@ object RedditPostActions {
 					when (action) {
 						RedditAPI.ACTION_DOWNVOTE, RedditAPI.ACTION_UNVOTE, RedditAPI.ACTION_UPVOTE -> {
 							when (lastVoteDirection) {
-								-1 -> changeDataManager.markDownvoted(now, post.src)
-								0 -> changeDataManager.markUnvoted(now, post.src)
-								1 -> changeDataManager.markUpvoted(now, post.src)
+								-1 -> changeDataManager.markDownvoted(now, post.src.idAndType)
+								0 -> changeDataManager.markUnvoted(now, post.src.idAndType)
+								1 -> changeDataManager.markUpvoted(now, post.src.idAndType)
 							}
-							changeDataManager.markSaved(now, post.src, false)
+							changeDataManager.markSaved(now, post.src.idAndType, false)
 						}
 
-						RedditAPI.ACTION_SAVE -> changeDataManager.markSaved(now, post.src, false)
-						RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src, true)
-						RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src, false)
-						RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src, true)
+						RedditAPI.ACTION_SAVE -> changeDataManager.markSaved(now, post.src.idAndType, false)
+						RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src.idAndType, true)
+						RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src.idAndType, false)
+						RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src.idAndType, true)
 						RedditAPI.ACTION_REPORT -> {}
 						RedditAPI.ACTION_DELETE -> {}
 						else -> throw java.lang.RuntimeException("Unknown post action $action")

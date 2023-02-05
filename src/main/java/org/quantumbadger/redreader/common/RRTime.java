@@ -53,11 +53,11 @@ public class RRTime {
 	}
 
 	public static String formatDateTime(final long utcMs, final Context context) {
-		return new TimestampUTC(utcMs).format(context);
+		return TimestampUTC.fromUtcMs(utcMs).format(context);
 	}
 
 	public static String formatDateTimeFilenameSafe(final long utcMs) {
-		return new TimestampUTC(utcMs).formatFilenameSafe();
+		return TimestampUTC.fromUtcMs(utcMs).formatFilenameSafe();
 	}
 
 	public static String formatDurationFrom(

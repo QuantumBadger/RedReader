@@ -1,5 +1,7 @@
 package org.quantumbadger.redreader.reddit.kthings
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -14,7 +16,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 
 @Serializable(with = RedditBoolOrTimestampUTCSerializer::class)
-sealed class RedditBoolOrTimestampUTC {
+@Parcelize
+sealed class RedditBoolOrTimestampUTC : Parcelable {
 
 	@Serializable(with = RedditBoolOrTimestampUTCBoolSerializer::class)
 	data class Bool(val value: Boolean) : RedditBoolOrTimestampUTC()

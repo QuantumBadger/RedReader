@@ -29,8 +29,8 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
+import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
@@ -150,7 +150,7 @@ public class WebViewActivity extends BaseActivity
 				if(currentUrl != null) {
 					LinkHandler.shareText(
 							this,
-							mPost != null ? mPost.title : null,
+							mPost != null ? mPost.getTitle().getDecoded() : null,
 							currentUrl);
 				}
 				return true;

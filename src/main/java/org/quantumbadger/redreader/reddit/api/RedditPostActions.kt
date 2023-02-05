@@ -264,6 +264,9 @@ object RedditPostActions {
 
 		if (isOpen) {
 			// TODO: add an action here to jump focus from the body of the post to its comments.
+		}
+		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.MARK_READ))
+		if (isOpen) {
 			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.GOTO_SUBREDDIT))
 			if (isAuthenticated) {
 				if (!post.isArchived && !(post.isLocked && !post.canModerate))

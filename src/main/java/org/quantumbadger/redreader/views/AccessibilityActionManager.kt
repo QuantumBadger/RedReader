@@ -46,22 +46,31 @@ class AccessibilityActionManager(
 		existingActions.clear()
 	}
 
-	fun setClickHint(@StringRes hint: Int) {
+	fun setClickHint(@StringRes hint: Int?) {
 		relabelAction(AccessibilityActionCompat.ACTION_CLICK, hint)
 	}
 
-	fun setLongClickHint(@StringRes hint: Int) {
+	fun setLongClickHint(@StringRes hint: Int?) {
 		relabelAction(AccessibilityActionCompat.ACTION_LONG_CLICK, hint)
 	}
 
-	private fun relabelAction(action: AccessibilityActionCompat, @StringRes label: Int) {
-		if (label == -1)
-			return
-		ViewCompat.replaceAccessibilityAction(
-			view,
-			action,
-			resources.getString(label),
-			null
-		)
+	private fun relabelAction(action: AccessibilityActionCompat, @StringRes label: Int?) {
+
+		if (label == null) {
+			ViewCompat.replaceAccessibilityAction(
+				view,
+				action,
+				null,
+				null
+			)
+		} else {
+			ViewCompat.replaceAccessibilityAction(
+				view,
+				action,
+				resources.getString(label),
+				null
+			)
+		}
+
 	}
 }

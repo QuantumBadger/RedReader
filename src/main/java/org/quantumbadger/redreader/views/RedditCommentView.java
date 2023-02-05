@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -522,14 +523,17 @@ public class RedditCommentView extends FlingableItemView
 		);
 	}
 
-	private int getAccessibilityHintForActionPref(final PrefsUtility.CommentAction pref) {
+	@Nullable
+	@StringRes
+	private Integer getAccessibilityHintForActionPref(
+			@NonNull final PrefsUtility.CommentAction pref) {
 		switch (pref) {
 			case COLLAPSE:
 				return R.string.action_collapse;
 			case ACTION_MENU:
 				return R.string.action_actionmenu;
 		}
-	return -1;
+		return null;
 	}
 
 	public RedditCommentListItem getComment() {

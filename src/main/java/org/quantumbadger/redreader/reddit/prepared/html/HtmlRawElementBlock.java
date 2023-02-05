@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.text.SpannableStringBuilder;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
@@ -89,32 +88,42 @@ public class HtmlRawElementBlock extends HtmlRawElement {
 	public void generate(
 			@NonNull final AppCompatActivity activity,
 			@NonNull final ArrayList<BodyElement> destination) {
+		boolean stringWrittenTo = false;
 
-		@Nullable SpannableStringBuilder currentSsb = null;
+		SpannableStringBuilder ssb = new SpannableStringBuilder();
+
+		BodyElementTextSpanned bodyElementTextSpanned =
+				new BodyElementTextSpanned(mBlockType, ssb);
 
 		for(final HtmlRawElement child : mChildren) {
-
 			if(child instanceof HtmlRawElementStyledText) {
+				((HtmlRawElementStyledText)child).writeTo(ssb);
+				stringWrittenTo = true;
 
-				if(currentSsb == null) {
-					currentSsb = new SpannableStringBuilder();
-				}
-
-				((HtmlRawElementStyledText)child).writeTo(currentSsb);
+			} else if (child instanceof  HtmlRawElementImg) {
+				((HtmlRawElementImg) child).writeTo(ssb,
+						activity,
+						bodyElementTextSpanned);
+				stringWrittenTo = true;
 
 			} else {
+				if (stringWrittenTo) {
+					destination.add(bodyElementTextSpanned);
 
-				if(currentSsb != null) {
-					destination.add(new BodyElementTextSpanned(mBlockType, currentSsb));
-					currentSsb = null;
+					ssb = new SpannableStringBuilder();
+					bodyElementTextSpanned = new BodyElementTextSpanned(mBlockType, ssb);
+
+					stringWrittenTo = false;
 				}
-
 				child.generate(activity, destination);
 			}
 		}
 
-		if(currentSsb != null) {
-			destination.add(new BodyElementTextSpanned(mBlockType, currentSsb));
+		// If the last child in the array is a HtmlRawElementStyledText
+		// or HtmlRawElementImg object, it won't be added to the destination array in the loop
+		// Need this logic to make sure that it's added
+		if(stringWrittenTo) {
+			destination.add(bodyElementTextSpanned);
 		}
 	}
 }

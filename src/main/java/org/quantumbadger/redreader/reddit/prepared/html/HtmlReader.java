@@ -50,6 +50,7 @@ public class HtmlReader {
 		@Nullable public final String href;
 		@Nullable public final String cssClass;
 		@Nullable public final String title;
+		@Nullable public final String src;
 
 		public Token(
 				@NonNull final TokenType type,
@@ -62,6 +63,22 @@ public class HtmlReader {
 			this.href = href;
 			this.cssClass = cssClass;
 			this.title = title;
+			this.src = null;
+		}
+
+		public Token(
+				@NonNull final TokenType type,
+				@NonNull final String text,
+				@Nullable final String href,
+				@Nullable final String cssClass,
+				@Nullable final String title,
+				@Nullable final String src) {
+			this.type = type;
+			this.text = text;
+			this.href = href;
+			this.cssClass = cssClass;
+			this.title = title;
+			this.src = src;
 		}
 
 		@NonNull
@@ -223,7 +240,7 @@ public class HtmlReader {
 					mPos++;
 					skipWhitespace();
 
-					final TokenType type;
+					TokenType type;
 
 					if(mHtml.charAt(mPos) == '!') {
 
@@ -261,6 +278,7 @@ public class HtmlReader {
 					@Nullable String href = null;
 					@Nullable String cssClass = null;
 					@Nullable String title = null;
+					@Nullable String src = null;
 
 					if(tagName.equalsIgnoreCase("pre")) {
 						mPreformattedTextPending = true;
@@ -295,13 +313,21 @@ public class HtmlReader {
 								cssClass = value;
 							} else if(propertyName.equalsIgnoreCase("title")) {
 								title = value;
+							} else if(propertyName.equalsIgnoreCase("src")) {
+								src = value;
 							}
 						}
 					}
 
 					accept('>');
 
-					return new Token(type, tagName, href, cssClass, title);
+					// Reddit doesn't provide an end tag with their img tags for some reason
+					// Need this to show multiple concurrent images correctly
+					if (tagName.equals("img")) {
+						type = TokenType.TAG_START_AND_END;
+					}
+
+					return new Token(type, tagName, href, cssClass, title, src);
 
 				} else {
 

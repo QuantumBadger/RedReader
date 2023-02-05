@@ -26,14 +26,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -79,7 +77,6 @@ import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
-import org.quantumbadger.redreader.reddit.things.EmoteMetadata;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditPost;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -100,10 +97,7 @@ import java.net.URI;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -1035,28 +1029,22 @@ public class PostListingFragment extends RRFragment
 						null,
 						new Priority(
 								Constants.Priority.COMMENT_PRECACHE,
-								positionInList),
+							positionInList),
 						new DownloadStrategyIfTimestampOutsideBounds(
 								TimestampBound.notOlderThan(RRTime.minsToMs(15))),
 						Constants.FileType.COMMENT_LIST,
 						CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+						// Don't parse the JSON
 						activity,
-						new CacheRequestJSONParser(getContext(),
-								new CacheRequestJSONParser.Listener() {
+						new CacheRequestCallbacks() {
 							@Override
-							public void onJsonParsed(@NonNull final JsonValue result,
-													final long timestamp,
-													@NonNull final UUID session,
-													final boolean fromCache) {
-								precacheEmotes(activity, positionInList, result);
-							}
+							public void onFailure(
+									final int type,
+									@Nullable final Throwable t,
+									@Nullable final Integer httpStatus,
+									@Nullable final String readableMessage,
+									@NonNull final Optional<FailedRequestBody> body) {
 
-							@Override
-							public void onFailure(final int type,
-												@Nullable final Throwable t,
-												@Nullable final Integer httpStatus,
-												@Nullable final String readableMessage,
-												@NonNull final Optional<FailedRequestBody> body) {
 								if(General.isSensitiveDebugLoggingEnabled()) {
 									Log.e(
 											TAG,
@@ -1067,118 +1055,18 @@ public class PostListingFragment extends RRFragment
 													+ ")");
 								}
 							}
-						})));
-	}
 
-	private void precacheEmotes(final Activity activity,
-								final int commentPosition,
-								final JsonValue comments) {
-		try {
-			final List<JsonObject> mediaMetadataList = new ArrayList<>();
+							@Override
+							public void onCacheFileWritten(
+									@NonNull final CacheManager.ReadableCacheFile cacheFile,
+									final long timestamp,
+									@NonNull final UUID session,
+									final boolean fromCache,
+									@Nullable final String mimetype) {
 
-			recursivelyGetMediaMetadataList(comments, mediaMetadataList);
-
-			for (final JsonObject metadataObj : mediaMetadataList) {
-				final Iterator<Map.Entry<String, JsonValue>> jsonIterator = metadataObj
-						.iterator();
-
-				while (jsonIterator.hasNext()) {
-					final String key = jsonIterator.next().getKey();
-
-					if (!key.contains("emote")) {
-						continue;
-					}
-
-					final EmoteMetadata emoteMetadata = metadataObj
-							.get(key).asObject()
-							.asObject(EmoteMetadata.class);
-
-					if (emoteMetadata == null || emoteMetadata.s.u == null) {
-						continue;
-					}
-
-					final URI emoteUrl = General.uriFromString(emoteMetadata.s.u);
-
-					if (emoteUrl == null) {
-						continue;
-					}
-
-					CacheManager.getInstance(activity)
-							.makeRequest(new CacheRequest(
-									emoteUrl,
-									RedditAccountManager.getAnon(),
-									null,
-									new Priority(
-											Constants.Priority.COMMENT_PRECACHE,
-											commentPosition),
-									DownloadStrategyIfNotCached.INSTANCE,
-									Constants.FileType.IMAGE,
-									CacheRequest.DOWNLOAD_QUEUE_IMAGE_PRECACHE,
-									activity,
-									new CacheRequestCallbacks() {
-										@Override
-										public void onFailure(
-												final int type,
-												@Nullable final Throwable t,
-												@Nullable final Integer httpStatus,
-												@Nullable final String readableMessage,
-												@NonNull final Optional<FailedRequestBody> body) {
-
-											if(General.isSensitiveDebugLoggingEnabled()) {
-												Log.e(
-														TAG,
-														"Failed to precache "
-																+ emoteUrl.toString()
-																+ "(RequestFailureType code: "
-																+ type
-																+ ")");
-											}
-										}
-
-										@Override
-										public void onCacheFileWritten(
-											@NonNull final CacheManager.ReadableCacheFile cacheFile,
-											final long timestamp,
-											@NonNull final UUID session,
-											final boolean fromCache,
-											@Nullable final String mimetype) {
-
-											// Successfully precached
-										}
-									}));
-				}
-			}
-		} catch (final Exception e) {
-			if(General.isSensitiveDebugLoggingEnabled()) {
-				Log.e(TAG, e.toString());
-			}
-		}
-	}
-
-	private void recursivelyGetMediaMetadataList(final JsonValue jsonValue,
-												final List<JsonObject> mediaMetadataList) {
-		if (jsonValue != null && jsonValue.asArray() != null) {
-			final Iterator<JsonValue> iterator = jsonValue.asArray().iterator();
-
-			while (iterator.hasNext()) {
-				recursivelyGetMediaMetadataList(iterator.next(), mediaMetadataList);
-			}
-		} else if (jsonValue != null && jsonValue.asObject() != null) {
-			final JsonObject data = jsonValue.asObject().getObject("data");
-			if (data != null) {
-				if (data.get("children") != null) {
-					recursivelyGetMediaMetadataList(data.get("children"), mediaMetadataList);
-				}
-
-				if (data.get("replies") != null) {
-					recursivelyGetMediaMetadataList(data.get("replies"), mediaMetadataList);
-				}
-
-				if (data.getObject("media_metadata") != null) {
-					mediaMetadataList.add(data.getObject("media_metadata"));
-				}
-			}
-		}
+								// Successfully precached
+							}
+						}));
 	}
 
 	private void precacheImage(

@@ -1,6 +1,7 @@
 /Alpha 326 (2023-02-05)
 Subreddit emotes now supported in comments (thanks to bharatkvn)
 Replace click/long click accessibility actions on comments with more descriptive hints (thanks to codeofdusk)
+Additional accessibility actions for posts and comments (thanks to codeofdusk)
 
 /Alpha 325 (2023-01-31)
 Added round icon (which may make icon theming work on more devices)

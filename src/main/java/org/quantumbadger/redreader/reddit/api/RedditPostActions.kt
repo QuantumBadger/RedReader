@@ -77,6 +77,8 @@ object RedditPostActions {
 		HIDE(R.string.action_hide),
 		UNSAVE(R.string.action_unsave),
 		UNHIDE(R.string.action_unhide),
+		MARK_READ(R.string.action_mark_read),
+		MARK_UNREAD(R.string.action_mark_unread),
 		EDIT(R.string.action_edit),
 		DELETE(R.string.action_delete),
 		REPORT(R.string.action_report),
@@ -162,6 +164,18 @@ object RedditPostActions {
 						ActionDescriptionPair(
 							Action.HIDE,
 							R.string.action_hide
+						)
+					}
+
+					PostFlingAction.MARK_READ -> if (post.isRead()) {
+						ActionDescriptionPair(
+							Action.MARK_UNREAD,
+							R.string.action_mark_unread
+						)
+					} else {
+						ActionDescriptionPair(
+							Action.MARK_READ,
+							R.string.action_mark_read
 						)
 					}
 
@@ -281,6 +295,9 @@ object RedditPostActions {
 
 		if (isOpen) {
 			// TODO: add an action here to jump focus from the body of the post to its comments.
+		}
+		addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.MARK_READ))
+		if (isOpen) {
 			addAccessibilityActionFromDescriptionPair(from(post, PostFlingAction.GOTO_SUBREDDIT))
 			if (isAuthenticated) {
 				if (!post.isArchived && !(post.isLocked && !post.canModerate))
@@ -335,6 +352,8 @@ object RedditPostActions {
 			Action.UNSAVE -> action(post, activity, RedditAPI.ACTION_UNSAVE)
 			Action.HIDE -> action(post, activity, RedditAPI.ACTION_HIDE)
 			Action.UNHIDE -> action(post, activity, RedditAPI.ACTION_UNHIDE)
+			Action.MARK_READ -> post.markAsRead(activity, true)
+			Action.MARK_UNREAD -> post.markAsRead(activity, false)
 			Action.EDIT -> {
 				val editIntent = Intent(activity, CommentEditActivity::class.java)
 				editIntent.putExtra("commentIdAndType", post.src.idAndType)
@@ -872,6 +891,13 @@ object RedditPostActions {
 					Action.PROPERTIES
 				)
 			)
+		}
+		if (itemPref.contains(Action.MARK_READ)) {
+			if (post.isRead()) {
+				menu.add(RPVMenuItem(activity, R.string.action_mark_unread, Action.MARK_UNREAD))
+			} else {
+				menu.add(RPVMenuItem(activity, R.string.action_mark_read, Action.MARK_READ))
+			}
 		}
 		val menuText = arrayOfNulls<String>(menu.size)
 		for (i in menuText.indices) {

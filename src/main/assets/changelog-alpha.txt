@@ -1,3 +1,6 @@
+/Alpha 326 (2023-02-05)
+Subreddit emotes now supported in comments (thanks to bharatkvn)
+
 /Alpha 325 (2023-01-31)
 Added round icon (which may make icon theming work on more devices)
 Detects more bot usernames

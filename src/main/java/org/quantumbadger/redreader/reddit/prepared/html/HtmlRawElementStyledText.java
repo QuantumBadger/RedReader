@@ -17,12 +17,12 @@
 
 package org.quantumbadger.redreader.reddit.prepared.html;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.CharacterStyle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
 import java.util.ArrayList;

@@ -94,6 +94,8 @@ public abstract class HtmlRawElement {
 		final HtmlReader.Token startToken = reader.peek();
 		reader.advance();
 
+		final ArrayList<HtmlRawElement> children = new ArrayList<>();
+
 		if(startToken.type == HtmlReader.TokenType.TAG_START_AND_END) {
 
 			switch(startToken.text) {
@@ -103,14 +105,18 @@ public abstract class HtmlRawElement {
 				case "br":
 					return new HtmlRawElementBreak();
 
+				case "img":
+					return new HtmlRawElementImg(children,
+							startToken.title == null || startToken.title.isEmpty()
+									? "emote" : startToken.title,
+							startToken.src);
+
 				default:
 					return HtmlRawElementInlineErrorMessage.create(
 							"Error: Unexpected tag <" + startToken.text + "/>");
 			}
 
 		} else if(startToken.type == HtmlReader.TokenType.TAG_START) {
-
-			final ArrayList<HtmlRawElement> children = new ArrayList<>();
 
 			while(reader.peek().type != HtmlReader.TokenType.TAG_END
 					&& reader.peek().type != HtmlReader.TokenType.EOF) {
@@ -268,8 +274,12 @@ public abstract class HtmlRawElement {
 					result = new HtmlRawElementTableRow(children);
 					break;
 
-				case "img":
-					result = new HtmlRawElementPlainText("Image");
+				case "emote":
+					final String src = startToken.src;
+					result = new HtmlRawElementImg(children,
+							startToken.title == null || startToken.title.isEmpty()
+									? "emote" : startToken.title,
+							src);
 					break;
 
 				default:

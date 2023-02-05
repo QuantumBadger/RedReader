@@ -220,7 +220,7 @@
     <string name="action_external">View in External Browser</string>
     <string name="action_external_short">In Browser</string>
     <string name="action_actionmenu_short">Actions</string>
-    <string name="action_actionmenu">Action Menu</string>
+    <string name="action_actionmenu">Open Action Menu</string>
     <string name="action_comment_links">Links in Comment</string>
     <string name="action_selftext_links">Links in Self Text</string>
     <string name="action_share">Share</string>

@@ -19,7 +19,9 @@ package org.quantumbadger.redreader.http;
 
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.ByteArrayInputStream;
@@ -62,6 +64,16 @@ public class FailedRequestBody {
 			@NonNull final InputStream is) {
 		try {
 			return Optional.of(new FailedRequestBody(General.readWholeStream(is)));
+		} catch(final IOException e) {
+			return Optional.empty();
+		}
+	}
+
+	@NonNull
+	public static Optional<FailedRequestBody> from(
+			@NonNull final GenericFactory<SeekableInputStream, IOException> is) {
+		try {
+			return from(is.create());
 		} catch(final IOException e) {
 			return Optional.empty();
 		}

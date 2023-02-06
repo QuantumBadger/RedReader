@@ -45,7 +45,6 @@ import org.quantumbadger.redreader.adapters.PostListingManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
-import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
@@ -55,6 +54,7 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -62,26 +62,27 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
-import org.quantumbadger.redreader.jsonwrap.JsonArray;
-import org.quantumbadger.redreader.jsonwrap.JsonObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditPostListItem;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
+import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
+import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
+import org.quantumbadger.redreader.reddit.kthings.RedditListing;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
+import org.quantumbadger.redreader.reddit.kthings.RedditThing;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
-import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
@@ -94,6 +95,7 @@ import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
 import org.quantumbadger.redreader.views.SearchListingHeader;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
+import java.io.IOException;
 import java.net.URI;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -662,14 +664,14 @@ public class PostListingFragment extends RRFragment
 				Constants.FileType.POST_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				activity,
-				new CacheRequestJSONParser(activity, new CacheRequestJSONParser.Listener() {
-
+				new CacheRequestCallbacks() {
 					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue value,
+					public void onDataStreamComplete(
+							@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
 							final long timestamp,
 							@NonNull final UUID session,
-							final boolean fromCache) {
+							final boolean fromCache,
+							@Nullable final String mimetype) {
 
 						final BaseActivity activity = (BaseActivity)getActivity();
 
@@ -704,9 +706,17 @@ public class PostListingFragment extends RRFragment
 
 						try {
 
-							final JsonObject thing = value.asObject();
-							final JsonObject listing = thing.getObject("data");
-							final JsonArray posts = listing.getArray("children");
+							final RedditThing thing = JsonUtils.INSTANCE
+									.decodeRedditThingFromStream(streamFactory.create());
+
+							if(!(thing instanceof RedditThing.Listing)) {
+								throw new RuntimeException("Expected listing, got "
+										+ thing.getClass().getName());
+							}
+
+							final RedditListing listing = ((RedditThing.Listing)thing).getData();
+
+							final ArrayList<MaybeParseError<RedditThing>> posts = listing.getChildren();
 
 							final boolean isNsfwAllowed = PrefsUtility.pref_behaviour_nsfw();
 
@@ -743,9 +753,9 @@ public class PostListingFragment extends RRFragment
 
 							final boolean precacheImages
 									= !inlinePreviews
-											&& PrefsUtility.cache_precache_images()
+									&& PrefsUtility.cache_precache_images()
 									.isEnabled(isConnectionWifi)
-											&& !FileUtils.isCacheDiskFull(activity);
+									&& !FileUtils.isCacheDiskFull(activity);
 
 							final boolean precacheComments = PrefsUtility.cache_precache_comments()
 									.isEnabled(isConnectionWifi);
@@ -764,15 +774,15 @@ public class PostListingFragment extends RRFragment
 
 							final boolean subredditFilteringEnabled =
 									mPostListingURL.pathType()
-													== RedditURLParser.SUBREDDIT_POST_LISTING_URL
+											== RedditURLParser.SUBREDDIT_POST_LISTING_URL
 											&& (mPostListingURL.asSubredditPostListURL().type
-													== SubredditPostListURL.Type.ALL
+											== SubredditPostListURL.Type.ALL
 											|| mPostListingURL.asSubredditPostListURL().type
-													== SubredditPostListURL.Type.ALL_SUBTRACTION
+											== SubredditPostListURL.Type.ALL_SUBTRACTION
 											|| mPostListingURL.asSubredditPostListURL().type
-													== SubredditPostListURL.Type.POPULAR
+											== SubredditPostListURL.Type.POPULAR
 											|| mPostListingURL.asSubredditPostListURL().type
-													== SubredditPostListURL.Type.FRONTPAGE);
+											== SubredditPostListURL.Type.FRONTPAGE);
 
 							// Grab this so we don't have to pull from the prefs every post
 							final HashSet<SubredditCanonicalId> blockedSubreddits
@@ -791,29 +801,33 @@ public class PostListingFragment extends RRFragment
 
 							final boolean showSubredditName = !(mPostListingURL != null
 									&& mPostListingURL.pathType()
-											== RedditURLParser.SUBREDDIT_POST_LISTING_URL
+									== RedditURLParser.SUBREDDIT_POST_LISTING_URL
 									&& mPostListingURL.asSubredditPostListURL().type
-											== SubredditPostListURL.Type.SUBREDDIT);
+									== SubredditPostListURL.Type.SUBREDDIT);
 
 							final ArrayList<RedditPostListItem> downloadedPosts
 									= new ArrayList<>(25);
 
-							for(final JsonValue postThingValue : posts) {
+							for(final MaybeParseError<RedditThing> postThingValue : posts) {
 
-								final RedditThing postThing
-										= postThingValue.asObject(RedditThing.class);
-
-								if(!postThing.getKind().equals(RedditThing.Kind.POST)) {
+								if(!(postThingValue instanceof MaybeParseError.Ok)) {
+									// TODO handle this
 									continue;
 								}
 
-								final RedditPost post = postThing.asPost();
+								final RedditThing postThing = ((MaybeParseError.Ok<RedditThing>) postThingValue).getValue();
+
+								if(!(postThing instanceof RedditThing.Post)) {
+									continue;
+								}
+
+								final RedditPost post = ((RedditThing.Post)postThing).getData();
 
 								mAfter = post.getName();
 
 								final boolean isPostBlocked = subredditFilteringEnabled
 										&& blockedSubreddits.contains(
-												new SubredditCanonicalId(post.getSubreddit().getDecoded()));
+										new SubredditCanonicalId(post.getSubreddit().getDecoded()));
 
 								if(!isPostBlocked
 										&& (!post.getOver_18() || isNsfwAllowed)
@@ -867,12 +881,12 @@ public class PostListingFragment extends RRFragment
 												@Override
 												public void onFailure(
 														final @CacheRequest.RequestFailureType
-																int type,
+														int type,
 														final Throwable t,
 														final Integer status,
 														final String readableMessage,
 														@NonNull final
-																Optional<FailedRequestBody> body) {
+														Optional<FailedRequestBody> body) {
 												}
 
 												@Override
@@ -959,7 +973,7 @@ public class PostListingFragment extends RRFragment
 									t,
 									null,
 									"Parse failure",
-									Optional.of(new FailedRequestBody(value)));
+									FailedRequestBody.from(streamFactory));
 						}
 					}
 
@@ -1003,7 +1017,7 @@ public class PostListingFragment extends RRFragment
 									error));
 						});
 					}
-				}));
+				});
 	}
 
 	private void precacheComments(

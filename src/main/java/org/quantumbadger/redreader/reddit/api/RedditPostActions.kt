@@ -882,6 +882,13 @@ object RedditPostActions {
 				)
 			)
 		}
+		if (itemPref.contains(Action.MARK_READ)) {
+			if (post.isRead()) {
+				menu.add(RPVMenuItem(activity, R.string.action_mark_unread, Action.MARK_UNREAD))
+			} else {
+				menu.add(RPVMenuItem(activity, R.string.action_mark_read, Action.MARK_READ))
+			}
+		}
 		val menuText = arrayOfNulls<String>(menu.size)
 		for (i in menuText.indices) {
 			menuText[i] = menu[i].title

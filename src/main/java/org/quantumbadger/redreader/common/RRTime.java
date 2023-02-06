@@ -24,8 +24,6 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.quantumbadger.redreader.R;
@@ -37,16 +35,6 @@ import java.util.Locale;
 
 // TODO remove this
 public class RRTime {
-
-	private static final DateTimeFormatter dtFormatter12hr
-			= DateTimeFormat.forPattern("yyyy-MM-dd h:mm a");
-
-	private static final DateTimeFormatter dtFormatter24hr
-			= DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
-
-	private static final DateTimeFormatter dtFormatterFilename
-			= DateTimeFormat.forPattern("yyyy_MM_dd__HH_mm_ss");
-
 
 	public static long utcCurrentTimeMillis() {
 		return DateTime.now(DateTimeZone.UTC).getMillis();

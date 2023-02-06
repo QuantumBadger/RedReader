@@ -24,6 +24,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.PostSort;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class UserPostListingURL extends PostListingURL {
 	public final PostSort order;
 	public final Integer limit;
 	public final String before;
-	public final String after;
+	public final RedditIdAndType after;
 
 	UserPostListingURL(
 			final Type type,
@@ -63,7 +64,7 @@ public class UserPostListingURL extends PostListingURL {
 			final PostSort order,
 			final Integer limit,
 			final String before,
-			final String after) {
+			final RedditIdAndType after) {
 		this.type = type;
 		this.user = user;
 		this.order = order == PostSort.RISING ? PostSort.NEW : order;
@@ -77,7 +78,7 @@ public class UserPostListingURL extends PostListingURL {
 	}
 
 	@Override
-	public UserPostListingURL after(final String newAfter) {
+	public UserPostListingURL after(final RedditIdAndType newAfter) {
 		return new UserPostListingURL(type, user, order, limit, before, newAfter);
 	}
 
@@ -99,12 +100,12 @@ public class UserPostListingURL extends PostListingURL {
 
 		Integer limit = null;
 		String before = null;
-		String after = null;
+		RedditIdAndType after = null;
 
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
 			if(parameterKey.equalsIgnoreCase("after")) {
-				after = uri.getQueryParameter(parameterKey);
+				after = new RedditIdAndType(uri.getQueryParameter(parameterKey));
 
 			} else if(parameterKey.equalsIgnoreCase("before")) {
 				before = uri.getQueryParameter(parameterKey);
@@ -191,7 +192,7 @@ public class UserPostListingURL extends PostListingURL {
 		}
 
 		if(after != null) {
-			builder.appendQueryParameter("after", after);
+			builder.appendQueryParameter("after", after.getValue());
 		}
 
 		if(limit != null) {

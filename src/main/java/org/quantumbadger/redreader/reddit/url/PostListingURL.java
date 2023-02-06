@@ -18,10 +18,11 @@
 package org.quantumbadger.redreader.reddit.url;
 
 import org.quantumbadger.redreader.reddit.PostSort;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 
 public abstract class PostListingURL extends RedditURLParser.RedditURL {
 
-	public abstract PostListingURL after(String after);
+	public abstract PostListingURL after(RedditIdAndType after);
 
 	public abstract PostListingURL limit(Integer limit);
 

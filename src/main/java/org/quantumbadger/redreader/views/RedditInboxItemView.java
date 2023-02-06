@@ -29,7 +29,6 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
-import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
 
 public class RedditInboxItemView extends LinearLayout {
@@ -113,16 +112,16 @@ public class RedditInboxItemView extends LinearLayout {
 				changeDataManager,
 				context,
 				PrefsUtility.appearance_inbox_age_units(),
-				RedditRenderableComment.NO_TIMESTAMP,
-				RedditRenderableComment.NO_TIMESTAMP));
+				null,
+				null));
 
 		mHeader.setContentDescription(item.getAccessibilityHeader(
 				theme,
 				changeDataManager,
 				context,
 				PrefsUtility.appearance_inbox_age_units(),
-				RedditRenderableComment.NO_TIMESTAMP,
-				RedditRenderableComment.NO_TIMESTAMP,
+				null,
+				null,
 				false,
 				Optional.empty()));
 

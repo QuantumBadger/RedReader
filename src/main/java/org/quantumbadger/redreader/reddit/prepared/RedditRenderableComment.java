@@ -252,7 +252,7 @@ public class RedditRenderableComment
 					context,
 					commentAgeMode,
 					commentAgeUnits,
-					TimestampUTC.fromUtcMs(rawComment.created_utc),
+					TimestampUTC.fromUtcSecs(rawComment.created_utc),
 					postCreated,
 					parentCommentCreated);
 
@@ -464,7 +464,7 @@ public class RedditRenderableComment
 					context,
 					commentAgeMode,
 					commentAgeUnits,
-					TimestampUTC.fromUtcMs(rawComment.created_utc),
+					TimestampUTC.fromUtcSecs(rawComment.created_utc),
 					postCreated,
 					parentCommentCreated);
 

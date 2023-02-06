@@ -75,6 +75,7 @@ import org.quantumbadger.redreader.reddit.RedditPostListItem;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -121,8 +122,8 @@ public class PostListingFragment extends RRFragment
 
 	private final View mOuter;
 
-	private String mAfter = null;
-	private String mLastAfter = null;
+	private RedditIdAndType mAfter = null;
+	private RedditIdAndType mLastAfter = null;
 	private CacheRequest mRequest;
 	private boolean mReadyToDownloadMore = false;
 	private long mTimestamp;
@@ -808,23 +809,23 @@ public class PostListingFragment extends RRFragment
 
 								final RedditPost post = postThing.asPost();
 
-								mAfter = post.name;
+								mAfter = post.getName();
 
 								final boolean isPostBlocked = subredditFilteringEnabled
 										&& blockedSubreddits.contains(
-												new SubredditCanonicalId(post.subreddit));
+												new SubredditCanonicalId(post.getSubreddit().getDecoded()));
 
 								if(!isPostBlocked
-										&& (!post.over_18 || isNsfwAllowed)
+										&& (!post.getOver_18() || isNsfwAllowed)
 										&& mPostIds.add(post.getIdAlone())) {
 
 									final boolean downloadThisThumbnail = downloadThumbnails
-											&& (!post.over_18 || showNsfwThumbnails)
-											&& (!post.spoiler || showSpoilerThumbnails);
+											&& (!post.getOver_18() || showNsfwThumbnails)
+											&& (!post.getSpoiler() || showSpoilerThumbnails);
 
 									final boolean downloadThisPreview = inlinePreviews
-											&& (!post.over_18 || showNsfwPreviews)
-											&& (!post.spoiler || showSpoilerPreviews);
+											&& (!post.getOver_18() || showNsfwPreviews)
+											&& (!post.getSpoiler() || showSpoilerPreviews);
 
 									final int positionInList = mPostCount;
 

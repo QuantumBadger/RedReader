@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
@@ -414,13 +415,14 @@ public class RedditCommentView extends FlingableItemView
 
 		final int ageUnits = PrefsUtility.appearance_comment_age_units();
 
-		final long postTimestamp = (mFragment != null && mFragment.getPost() != null)
-				? mFragment.getPost().src.getCreatedTimeSecsUTC()
-				: RedditRenderableComment.NO_TIMESTAMP;
+		final TimestampUTC postTimestamp = (mFragment != null && mFragment.getPost() != null)
+				? mFragment.getPost().src.getCreatedTimeUTC()
+				: null;
 
-		final long parentCommentTimestamp = mComment.getParent() != null
-				? mComment.getParent().asComment().getParsedComment().getRawComment().created_utc
-				: RedditRenderableComment.NO_TIMESTAMP;
+		final TimestampUTC parentCommentTimestamp = mComment.getParent() != null
+				? TimestampUTC.fromUtcSecs(mComment.getParent().asComment()
+						.getParsedComment().getRawComment().created_utc)
+				: null;
 
 		final boolean isCollapsed = mComment.isCollapsed(mChangeDataManager);
 

@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.reddit.url;
 
 import android.net.Uri;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 
 public class UnknownPostListURL extends PostListingURL {
 
@@ -28,9 +29,9 @@ public class UnknownPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public PostListingURL after(final String after) {
+	public PostListingURL after(final RedditIdAndType after) {
 		return new UnknownPostListURL(uri.buildUpon()
-				.appendQueryParameter("after", after)
+				.appendQueryParameter("after", after.getValue())
 				.build());
 	}
 

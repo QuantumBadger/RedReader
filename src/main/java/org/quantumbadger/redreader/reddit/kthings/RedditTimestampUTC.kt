@@ -22,9 +22,9 @@ object RedditTimestampUTCSerializer : KSerializer<RedditTimestampUTC> {
 		get() = PrimitiveSerialDescriptor("RedditTimestampUTC", PrimitiveKind.DOUBLE)
 
 	override fun deserialize(decoder: Decoder) =
-		RedditTimestampUTC(value = TimestampUTC.fromUtcMs((decoder.decodeDouble().toLong()) * 1000))
+		RedditTimestampUTC(value = TimestampUTC.fromUtcSecs((decoder.decodeDouble().toLong())))
 
 	override fun serialize(encoder: Encoder, value: RedditTimestampUTC) {
-		encoder.encodeDouble((value.value.toUtcMs() / 1000).toDouble())
+		encoder.encodeDouble(value.value.toUtcSecs().toDouble())
 	}
 }

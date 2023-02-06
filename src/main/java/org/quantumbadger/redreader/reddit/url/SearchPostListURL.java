@@ -25,6 +25,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.PostSort;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class SearchPostListURL extends PostListingURL {
 	public final PostSort order;
 	public final Integer limit;
 	public final String before;
-	public final String after;
+	public final RedditIdAndType after;
 
 	public enum Type {
 		SUB_OR_SUB_COMBO, MULTI
@@ -54,7 +55,7 @@ public class SearchPostListURL extends PostListingURL {
 			final PostSort order,
 			final Integer limit,
 			final String before,
-			final String after) {
+			final RedditIdAndType after) {
 		this.subreddit = subreddit;
 		this.query = query;
 		this.order = order;
@@ -72,7 +73,7 @@ public class SearchPostListURL extends PostListingURL {
 			final String query,
 			final Integer limit,
 			final String before,
-			final String after) {
+			final RedditIdAndType after) {
 		this(subreddit, query, PostSort.RELEVANCE_ALL, limit, before, after);
 	}
 
@@ -83,7 +84,7 @@ public class SearchPostListURL extends PostListingURL {
 			final PostSort order,
 			final Integer limit,
 			final String before,
-			final String after) {
+			final RedditIdAndType after) {
 		this.username = username;
 		this.name = name;
 		this.query = query;
@@ -102,7 +103,7 @@ public class SearchPostListURL extends PostListingURL {
 			final String query,
 			final Integer limit,
 			final String before,
-			final String after) {
+			final RedditIdAndType after) {
 		this(username, name, query, PostSort.RELEVANCE_ALL, limit, before, after);
 	}
 
@@ -155,7 +156,7 @@ public class SearchPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public PostListingURL after(final String after) {
+	public PostListingURL after(final RedditIdAndType after) {
 		if(type == Type.SUB_OR_SUB_COMBO) {
 			return new SearchPostListURL(subreddit, query, order, limit, before, after);
 		} else {
@@ -256,7 +257,7 @@ public class SearchPostListURL extends PostListingURL {
 		}
 
 		if(after != null) {
-			builder.appendQueryParameter("after", after);
+			builder.appendQueryParameter("after", after.getValue());
 		}
 
 		if(limit != null) {
@@ -286,7 +287,7 @@ public class SearchPostListURL extends PostListingURL {
 		final PostSort order;
 		Integer limit = null;
 		String before = null;
-		String after = null;
+		RedditIdAndType after = null;
 
 		String sortParam = null;
 		String timeParam = null;
@@ -294,7 +295,7 @@ public class SearchPostListURL extends PostListingURL {
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
 			if(parameterKey.equalsIgnoreCase("after")) {
-				after = uri.getQueryParameter(parameterKey);
+				after = new RedditIdAndType(uri.getQueryParameter(parameterKey));
 
 			} else if(parameterKey.equalsIgnoreCase("before")) {
 				before = uri.getQueryParameter(parameterKey);

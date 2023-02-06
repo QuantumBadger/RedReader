@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
@@ -41,6 +42,7 @@ import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditMessage;
@@ -178,8 +180,8 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 			final RedditChangeDataManager changeDataManager,
 			final Context context,
 			final int commentAgeUnits,
-			final long postCreated,
-			final long parentCommentCreated) {
+			@Nullable final TimestampUTC postCreated,
+			@Nullable final TimestampUTC parentCommentCreated) {
 		return header;
 	}
 
@@ -189,8 +191,8 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 			final RedditChangeDataManager changeDataManager,
 			final Context context,
 			final int commentAgeUnits,
-			final long postCreated,
-			final long parentCommentCreated,
+			@Nullable final TimestampUTC postCreated,
+			@Nullable final TimestampUTC parentCommentCreated,
 			final boolean collapsed,
 			@NonNull final Optional<Integer> indentLevel) {
 

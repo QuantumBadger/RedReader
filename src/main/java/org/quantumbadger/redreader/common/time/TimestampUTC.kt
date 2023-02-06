@@ -22,10 +22,16 @@ data class TimestampUTC(
 		fun now() = TimestampUTC(DateTime.now(DateTimeZone.UTC))
 
 		@JvmStatic
+		// TODO incorrectly using this for comments
 		fun fromUtcMs(value: Long) = TimestampUTC(DateTime(value, DateTimeZone.UTC))
+
+		@JvmStatic
+		fun fromUtcSecs(value: Long) = fromUtcMs(value * 1000)
 	}
 
 	fun toUtcMs() = value.millis
+
+	fun toUtcSecs() = toUtcMs() / 1000
 
 	fun elapsedPeriod() = TimePeriod(this, now())
 

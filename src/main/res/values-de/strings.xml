@@ -312,7 +312,7 @@
     <string name="title_changelog">Was gibt\'s Neues</string>
     <string name="pref_behaviour_commentsort">Kommentare (Standardsortierung)</string>
     <!-- 2013-05-18 -->
-    <string name="action_fling_disabled">Ausschalten</string>
+    <string name="action_fling_disabled">Funktion deaktivieren</string>
     <string name="pref_about_version_title">Version</string>
     <string name="prefs_category_about">Infos</string>
     <!-- 2013-06-07 -->
@@ -664,4 +664,8 @@
     <string name="search_results_short">Suchergebnisse</string>
     <string name="pref_appearance_post_subtitle_items_subreddit">Subreddit</string>
     <string name="pref_appearance_posts_header">Beiträge</string>
+
+	<!-- 2023-01-22 -->
+	<string name="action_mark_read">Gelesen</string>
+	<string name="action_mark_unread">Ungelesen</string>
 </resources>

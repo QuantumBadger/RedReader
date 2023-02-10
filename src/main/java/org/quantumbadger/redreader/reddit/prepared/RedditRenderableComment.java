@@ -37,8 +37,8 @@ import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
+import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
-import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
 import java.net.URI;
@@ -76,12 +76,12 @@ public class RedditRenderableComment
 
 		final RedditComment rawComment = mComment.getRawComment();
 
-		int score = rawComment.ups - rawComment.downs;
+		int score = rawComment.getUps() - rawComment.getDowns();
 
-		if(Boolean.TRUE.equals(rawComment.likes)) {
+		if(Boolean.TRUE.equals(rawComment.getLikes())) {
 			score--;
 		}
-		if(Boolean.FALSE.equals(rawComment.likes)) {
+		if(Boolean.FALSE.equals(rawComment.getLikes())) {
 			score++;
 		}
 
@@ -128,17 +128,17 @@ public class RedditRenderableComment
 			boolean setBackgroundColour = false;
 			int backgroundColour = 0; // TODO color from theme
 
-			if(rawComment.author.equalsIgnoreCase(mParentPostAuthor)
-					&& !rawComment.author.equals("[deleted]")) {
+			if(rawComment.getAuthor().getDecoded().equalsIgnoreCase(mParentPostAuthor)
+					&& !rawComment.getAuthor().getDecoded().equals("[deleted]")) {
 
 				setBackgroundColour = true;
 				backgroundColour = Color.rgb(0, 126, 168);
 
-			} else if("moderator".equals(rawComment.distinguished)) {
+			} else if("moderator".equals(rawComment.getDistinguished())) {
 				setBackgroundColour = true;
 				backgroundColour = Color.rgb(0, 170, 0);
 
-			} else if("admin".equals(rawComment.distinguished)) {
+			} else if("admin".equals(rawComment.getDistinguished())) {
 				setBackgroundColour = true;
 				backgroundColour = Color.rgb(170, 0, 0);
 			}
@@ -146,7 +146,7 @@ public class RedditRenderableComment
 			if(setBackgroundColour) {
 
 				sb.append(
-						" " + rawComment.author + " ",
+						" " + rawComment.getAuthor().getDecoded() + " ",
 						BetterSSB.BACKGROUND_COLOR
 								| BetterSSB.FOREGROUND_COLOR
 								| BetterSSB.BOLD,
@@ -156,7 +156,7 @@ public class RedditRenderableComment
 
 			} else {
 				sb.append(
-						rawComment.author,
+						rawComment.getAuthor().getDecoded(),
 						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
 						theme.rrCommentHeaderAuthorCol,
 						0,
@@ -189,7 +189,7 @@ public class RedditRenderableComment
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.SCORE)
 				&& mShowScore) {
 
-			if(!Boolean.TRUE.equals(rawComment.score_hidden)) {
+			if(!rawComment.getScore_hidden()) {
 				sb.append(
 						String.valueOf(score),
 						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
@@ -228,7 +228,7 @@ public class RedditRenderableComment
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.GOLD)) {
 
-			if(rawComment.gilded > 0) {
+			if(rawComment.getGilded() > 0) {
 
 				sb.append(" ", 0);
 
@@ -236,7 +236,7 @@ public class RedditRenderableComment
 						" "
 								+ context.getString(R.string.gold)
 								+ BetterSSB.NBSP + "x"
-								+ rawComment.gilded
+								+ rawComment.getGilded()
 								+ " ",
 						BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
 						theme.rrGoldTextCol,
@@ -252,7 +252,7 @@ public class RedditRenderableComment
 					context,
 					commentAgeMode,
 					commentAgeUnits,
-					TimestampUTC.fromUtcSecs(rawComment.created_utc),
+					rawComment.getCreated_utc().getValue(),
 					postCreated,
 					parentCommentCreated);
 
@@ -280,7 +280,7 @@ public class RedditRenderableComment
 			sb.append(context.getString(R.string.subtitle_to) + " ", 0);
 
 			sb.append(
-					mComment.getRawComment().subreddit,
+					mComment.getRawComment().getSubreddit().getDecoded(), // TODO null
 					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
 					theme.rrCommentHeaderBoldCol,
 					0,
@@ -348,13 +348,13 @@ public class RedditRenderableComment
 			final int authorMod
 					= R.string.accessibility_subtitle_author_moderator_withperiod;
 
-			if(rawComment.author.equalsIgnoreCase(mParentPostAuthor)
-					&& !rawComment.author.equals("[deleted]")) {
-				if("moderator".equals(rawComment.distinguished)) {
+			if(rawComment.getAuthor().getDecoded().equalsIgnoreCase(mParentPostAuthor)
+					&& !rawComment.getAuthor().getDecoded().equals("[deleted]")) {
+				if("moderator".equals(rawComment.getDistinguished())) {
 					authorString = accessibilityConciseMode
 						? authorSubmitterModConcise
 						: authorSubmitterMod;
-				} else if("admin".equals(rawComment.distinguished)) {
+				} else if("admin".equals(rawComment.getDistinguished())) {
 					authorString = accessibilityConciseMode
 						? R.string.accessibility_subtitle_author_submitter_admin_withperiod_concise
 						: R.string.accessibility_subtitle_author_submitter_admin_withperiod;
@@ -364,11 +364,11 @@ public class RedditRenderableComment
 						: R.string.accessibility_subtitle_author_submitter_withperiod;
 				}
 			} else {
-				if("moderator".equals(rawComment.distinguished)) {
+				if("moderator".equals(rawComment.getDistinguished())) {
 					authorString = accessibilityConciseMode
 						? authorModConcise
 						: authorMod;
-				} else if("admin".equals(rawComment.distinguished)) {
+				} else if("admin".equals(rawComment.getDistinguished())) {
 					authorString = accessibilityConciseMode
 						? R.string.accessibility_subtitle_author_admin_withperiod_concise_comment
 						: R.string.accessibility_subtitle_author_admin_withperiod;
@@ -384,7 +384,7 @@ public class RedditRenderableComment
 							authorString,
 							ScreenreaderPronunciation.getPronunciation(
 									context,
-									rawComment.author)))
+									rawComment.getAuthor().getDecoded())))
 					.append(separator);
 		}
 
@@ -405,7 +405,7 @@ public class RedditRenderableComment
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.SCORE) && mShowScore) {
 
-			if(Boolean.TRUE.equals(rawComment.score_hidden)) {
+			if(rawComment.getScore_hidden()) {
 				accessibilityHeader
 						.append(context.getString(
 								R.string.accessibility_subtitle_points_unknown_withperiod))
@@ -450,11 +450,11 @@ public class RedditRenderableComment
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.GOLD)) {
 
-			if(rawComment.gilded > 0) {
+			if(rawComment.getGilded() > 0) {
 				accessibilityHeader
 						.append(context.getString(
 								R.string.accessibility_subtitle_gold_withperiod,
-								rawComment.gilded))
+								rawComment.getGilded()))
 						.append(separator);
 			}
 		}
@@ -464,7 +464,7 @@ public class RedditRenderableComment
 					context,
 					commentAgeMode,
 					commentAgeUnits,
-					TimestampUTC.fromUtcSecs(rawComment.created_utc),
+					rawComment.getCreated_utc().getValue(),
 					postCreated,
 					parentCommentCreated);
 
@@ -492,7 +492,7 @@ public class RedditRenderableComment
 									: R.string.accessibility_subtitle_subreddit_withperiod,
 							ScreenreaderPronunciation.getPronunciation(
 									context,
-									mComment.getRawComment().subreddit)))
+									mComment.getRawComment().getSubreddit().getDecoded()))) // TODO nullable
 					.append(separator);
 		}
 
@@ -549,7 +549,7 @@ public class RedditRenderableComment
 	@Override
 	public void handleInboxClick(final BaseActivity activity) {
 		final URI commentContext
-				= Constants.Reddit.getUri(mComment.getRawComment().context);
+				= Constants.Reddit.getUri(mComment.getRawComment().getContext().getDecoded()); // TODO null
 		LinkHandler.onLinkClicked(activity, commentContext.toString());
 	}
 
@@ -590,7 +590,7 @@ public class RedditRenderableComment
 			return false;
 		}
 
-		if(Boolean.TRUE.equals(mComment.getRawComment().score_hidden)) {
+		if(mComment.getRawComment().getScore_hidden()) {
 			return false;
 		}
 
@@ -610,13 +610,13 @@ public class RedditRenderableComment
 		}
 
 		final String authorLowercase = StringUtils.asciiLowercase(
-				mComment.getRawComment().author.trim());
+				mComment.getRawComment().getAuthor().getDecoded().trim());
 
 		if(authorLowercase.equals(mCurrentCanonicalUserName)) {
 			return false;
 		}
 
-		if(Boolean.TRUE.equals(mComment.getRawComment().stickied)) {
+		if(mComment.getRawComment().getStickied()) {
 			switch(PrefsUtility.behaviour_collapse_sticky_comments()) {
 
 				case ALWAYS:
@@ -637,6 +637,5 @@ public class RedditRenderableComment
 		}
 
 		return isScoreBelowThreshold(changeDataManager);
-
 	}
 }

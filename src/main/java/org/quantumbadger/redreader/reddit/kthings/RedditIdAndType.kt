@@ -14,7 +14,9 @@ import kotlinx.serialization.encoding.Encoder
 @Parcelize
 data class RedditIdAndType(
 	val value: String
-) : Parcelable
+) : Parcelable {
+	override fun toString() = value
+}
 
 object RedditIdAndTypeSerializer : KSerializer<RedditIdAndType> {
 	override val descriptor: SerialDescriptor

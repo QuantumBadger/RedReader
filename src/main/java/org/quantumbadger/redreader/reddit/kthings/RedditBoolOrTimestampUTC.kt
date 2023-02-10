@@ -15,6 +15,7 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 
+// TODO maybe just "false or timestamp", rename to "was edited"?
 @Serializable(with = RedditBoolOrTimestampUTCSerializer::class)
 @Parcelize
 sealed class RedditBoolOrTimestampUTC : Parcelable {

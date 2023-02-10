@@ -30,9 +30,9 @@ import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.io.ExtendedDataInputStream;
 import org.quantumbadger.redreader.io.ExtendedDataOutputStream;
 import org.quantumbadger.redreader.io.RedditChangeDataIO;
+import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
-import org.quantumbadger.redreader.reddit.things.RedditComment;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -308,10 +308,10 @@ public final class RedditChangeDataManager {
 
 			return new Entry(
 					timestamp,
-					Boolean.TRUE.equals(comment.likes),
-					Boolean.FALSE.equals(comment.likes),
+					Boolean.TRUE.equals(comment.getLikes()),
+					Boolean.FALSE.equals(comment.getLikes()),
 					false,
-					Boolean.TRUE.equals(comment.saved),
+					comment.getSaved(),
 					mIsHidden); // Use existing value for "collapsed"
 		}
 

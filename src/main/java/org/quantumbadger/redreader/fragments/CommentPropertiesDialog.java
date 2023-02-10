@@ -21,12 +21,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
-import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.common.RRTime;
-import org.quantumbadger.redreader.jsonwrap.JsonLong;
-import org.quantumbadger.redreader.reddit.things.RedditComment;
+import org.quantumbadger.redreader.reddit.kthings.RedditBoolOrTimestampUTC;
+import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 
 public final class CommentPropertiesDialog extends PropertiesDialog {
 
@@ -53,29 +51,29 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 
 		final RedditComment comment = getArguments().getParcelable("comment");
 
-		items.addView(propView(context, "ID", comment.name, true));
+		items.addView(propView(context, "ID", comment.getName().getValue(), true));
 
-		items.addView(propView(context, R.string.props_author, comment.author, false));
+		items.addView(propView(context, R.string.props_author, comment.getAuthor().getDecoded(), false));
 
-		if(comment.author_flair_text != null && !comment.author_flair_text.isEmpty()) {
+		if(comment.getAuthor_flair_text() != null && !comment.getAuthor_flair_text().getDecoded().isEmpty()) {
 			items.addView(propView(
 					context,
 					R.string.props_author_flair,
-					comment.author_flair_text,
+					comment.getAuthor_flair_text().getDecoded(),
 					false));
 		}
 
 		items.addView(propView(
 				context,
 				R.string.props_created,
-				RRTime.formatDateTime(comment.created_utc * 1000, context),
+				comment.getCreated_utc().getValue().format(context),
 				false));
 
-		if(comment.edited instanceof JsonLong) {
+		if(comment.getEdited() instanceof RedditBoolOrTimestampUTC.Timestamp) {
 			items.addView(propView(
 					context,
 					R.string.props_edited,
-					RRTime.formatDateTime(comment.edited.asLong() * 1000, context),
+					((RedditBoolOrTimestampUTC.Timestamp) comment.getEdited()).getValue().getValue().format(context),
 					false));
 		} else {
 			items.addView(propView(
@@ -88,27 +86,27 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 		items.addView(propView(
 				context,
 				R.string.props_score,
-				String.valueOf(comment.ups - comment.downs),
+				String.valueOf(comment.getUps() - comment.getDowns()),
 				false));
 
 		items.addView(propView(
 				context,
 				R.string.props_subreddit,
-				comment.subreddit,
+				comment.getSubreddit().getDecoded(),
 				false));
 
-		if(comment.body != null && !comment.body.isEmpty()) {
+		if(comment.getBody() != null && !comment.getBody().getDecoded().isEmpty()) {
 			items.addView(propView(
 					context,
 					R.string.props_body_markdown,
-					StringEscapeUtils.unescapeHtml4(comment.body),
+					comment.getBody().getDecoded(),
 					false));
 
-			if(comment.body_html != null) {
+			if(comment.getBody_html() != null) {
 				items.addView(propView(
 						context,
 						R.string.props_body_html,
-						StringEscapeUtils.unescapeHtml4(comment.body_html),
+						comment.getBody_html().getDecoded(),
 						false));
 			}
 		}

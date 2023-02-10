@@ -26,7 +26,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -45,16 +44,16 @@ import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
-import org.quantumbadger.redreader.reddit.things.RedditComment;
 import org.quantumbadger.redreader.reddit.url.UserProfileURL;
 import org.quantumbadger.redreader.views.RedditCommentView;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 public class RedditAPICommentAction {
 
@@ -112,9 +111,9 @@ public class RedditAPICommentAction {
 
 		// These will be false for comments in the inbox. There seems to be no way around this,
 		// unless we do a lot of work to download the associated post and check there.
-		final boolean isArchived = comment.getParsedComment().getRawComment().isArchived();
-		final boolean isCommentLocked = comment.getParsedComment().getRawComment().isLocked();
-		final boolean canModerate = comment.getParsedComment().getRawComment().canModerate();
+		final boolean isArchived = comment.getParsedComment().getRawComment().getArchived();
+		final boolean isCommentLocked = comment.getParsedComment().getRawComment().getLocked();
+		final boolean canModerate = comment.getParsedComment().getRawComment().getCan_mod_post();
 
 		final RedditAccount user =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
@@ -185,7 +184,7 @@ public class RedditAPICommentAction {
 			}
 
 			if(user.username.equalsIgnoreCase(comment.getParsedComment()
-					.getRawComment().author)) {
+					.getRawComment().getAuthor().getDecoded())) {
 				if(itemPref.contains(RedditCommentAction.EDIT) && !isArchived) {
 					menu.add(new RCVMenuItem(
 							activity,
@@ -341,10 +340,10 @@ public class RedditAPICommentAction {
 				break;
 
 			case REPLY: {
-				if(comment.isArchived()) {
+				if(comment.getArchived()) {
 					General.quickToast(activity, R.string.error_archived_reply, Toast.LENGTH_SHORT);
 					break;
-				} else if((comment.isLocked() || postLocked) && !comment.canModerate()) {
+				} else if((comment.getLocked() || postLocked) && !comment.getCan_mod_post()) {
 					General.quickToast(activity, R.string.error_locked_reply, Toast.LENGTH_SHORT);
 					break;
 				}
@@ -355,7 +354,7 @@ public class RedditAPICommentAction {
 						comment.getIdAndType());
 				intent.putExtra(
 						CommentReplyActivity.PARENT_MARKDOWN_KEY,
-						StringEscapeUtils.unescapeHtml4(comment.body));
+						comment.getBody().getDecoded());
 				activity.startActivity(intent);
 				break;
 			}
@@ -365,7 +364,7 @@ public class RedditAPICommentAction {
 				intent.putExtra("commentIdAndType", comment.getIdAndType());
 				intent.putExtra(
 						"commentText",
-						StringEscapeUtils.unescapeHtml4(comment.body));
+						comment.getBody().getDecoded());
 				activity.startActivity(intent);
 				break;
 			}
@@ -387,7 +386,7 @@ public class RedditAPICommentAction {
 			}
 
 			case COMMENT_LINKS:
-				final HashSet<String> linksInComment = comment.computeAllLinks();
+				final Set<String> linksInComment = comment.computeAllLinks();
 
 				if(linksInComment.isEmpty()) {
 					General.quickToast(activity, R.string.error_toast_no_urls_in_comment);
@@ -421,12 +420,12 @@ public class RedditAPICommentAction {
 							Locale.US,
 							activity.getText(R.string.share_comment_by_on_reddit)
 									.toString(),
-							comment.author);
+							comment.getAuthor().getDecoded());
 				}
 
 				// TODO this currently just dumps the markdown (only if sharing text is enabled)
 				if(PrefsUtility.pref_behaviour_sharing_share_text()) {
-					body = StringEscapeUtils.unescapeHtml4(comment.body)
+					body = comment.getBody().getDecoded()
 							+ "\r\n\r\n";
 				}
 
@@ -443,7 +442,7 @@ public class RedditAPICommentAction {
 				if(clipboardManager != null) {
 					final ClipData data = ClipData.newPlainText(
 							null,
-							StringEscapeUtils.unescapeHtml4(comment.body));
+							comment.getBody().getDecoded());
 					clipboardManager.setPrimaryClip(data);
 
 					General.quickToast(
@@ -477,7 +476,7 @@ public class RedditAPICommentAction {
 			case USER_PROFILE:
 				LinkHandler.onLinkClicked(
 						activity,
-						new UserProfileURL(comment.author).toString());
+						new UserProfileURL(comment.getAuthor().getDecoded()).toString());
 				break;
 
 			case PROPERTIES:
@@ -531,19 +530,19 @@ public class RedditAPICommentAction {
 
 		switch(action) {
 			case RedditAPI.ACTION_DOWNVOTE:
-				if(!comment.isArchived()) {
+				if(!comment.getArchived()) {
 					changeDataManager.markDownvoted(
 							RRTime.utcCurrentTimeMillis(),
 							comment.getIdAndType());
 				}
 				break;
 			case RedditAPI.ACTION_UNVOTE:
-				if(!comment.isArchived()) {
+				if(!comment.getArchived()) {
 					changeDataManager.markUnvoted(RRTime.utcCurrentTimeMillis(), comment.getIdAndType());
 				}
 				break;
 			case RedditAPI.ACTION_UPVOTE:
-				if(!comment.isArchived()) {
+				if(!comment.getArchived()) {
 					changeDataManager.markUpvoted(RRTime.utcCurrentTimeMillis(), comment.getIdAndType());
 				}
 				break;
@@ -572,7 +571,7 @@ public class RedditAPICommentAction {
 				| action == RedditAPI.ACTION_UPVOTE
 				| action == RedditAPI.ACTION_UNVOTE);
 
-		if(comment.isArchived() && vote) {
+		if(comment.getArchived() && vote) {
 			Toast.makeText(activity, R.string.error_archived_vote, Toast.LENGTH_SHORT)
 					.show();
 			return;

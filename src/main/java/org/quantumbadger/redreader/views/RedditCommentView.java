@@ -395,7 +395,7 @@ public class RedditCommentView extends FlingableItemView
 
 		final boolean hideLinkButtons = comment.asComment()
 				.getParsedComment()
-				.getRawComment().author.equalsIgnoreCase(
+				.getRawComment().getAuthor().getDecoded().equalsIgnoreCase(
 						"autowikibot");
 
 		mBodyHolder.removeAllViews();
@@ -420,8 +420,8 @@ public class RedditCommentView extends FlingableItemView
 				: null;
 
 		final TimestampUTC parentCommentTimestamp = mComment.getParent() != null
-				? TimestampUTC.fromUtcSecs(mComment.getParent().asComment()
-						.getParsedComment().getRawComment().created_utc)
+				? mComment.getParent().asComment().getParsedComment().getRawComment()
+						.getCreated_utc().getValue()
 				: null;
 
 		final boolean isCollapsed = mComment.isCollapsed(mChangeDataManager);
@@ -480,8 +480,9 @@ public class RedditCommentView extends FlingableItemView
 					chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY));
 		}
 
+		// TODO null
 		if (mComment.asComment().getParsedComment().getRawComment()
-				.author.equalsIgnoreCase(defaultAccount.username)) {
+				.getAuthor().getDecoded().equalsIgnoreCase(defaultAccount.username)) {
 
 			addAccessibilityActionFromDescriptionPair(
 				new ActionDescriptionPair(

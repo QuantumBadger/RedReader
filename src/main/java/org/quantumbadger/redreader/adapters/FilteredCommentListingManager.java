@@ -21,6 +21,7 @@ import android.content.Context;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
+import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,12 +63,11 @@ public class FilteredCommentListingManager extends RedditListingManager {
 				if(!comment.isComment()) {
 					continue;
 				}
-				String commentStr = comment.asComment()
+				final UrlEncodedString body = comment.asComment()
 						.getParsedComment()
-						.getRawComment().body;
-				if(commentStr != null) {
-					commentStr = StringUtils.asciiLowercase(commentStr);
-					if(commentStr.contains(mSearchString)) {
+						.getRawComment().getBody();
+				if(body != null) {
+					if(StringUtils.asciiLowercase(body.getDecoded()).contains(mSearchString)) {
 						searchComments.add(comment);
 					}
 				}

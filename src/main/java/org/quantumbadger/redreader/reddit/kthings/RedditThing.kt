@@ -1,5 +1,7 @@
 package org.quantumbadger.redreader.reddit.kthings
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -8,7 +10,8 @@ import kotlinx.serialization.json.JsonClassDiscriminator
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable
 @JsonClassDiscriminator("kind")
-sealed class RedditThing {
+@Parcelize
+sealed class RedditThing : Parcelable {
 
 	@Serializable
 	@SerialName("t1")

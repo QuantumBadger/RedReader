@@ -1,21 +1,23 @@
 package org.quantumbadger.redreader.reddit.kthings
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import java.lang.RuntimeException
 
 @Serializable(with = MaybeParseErrorSerializer::class)
-sealed class MaybeParseError<E> private constructor() {
+@Parcelize // TODO test parcelize on sealed classes
+sealed class MaybeParseError<E: Parcelable> private constructor() : Parcelable {
 
-	data class Ok<E>(val value: E) : MaybeParseError<E>()
+	data class Ok<E: Parcelable>(val value: E) : MaybeParseError<E>()
 
-	data class Err<E>(val error: Exception) : MaybeParseError<E>()
+	data class Err<E: Parcelable>(val error: Exception) : MaybeParseError<E>()
 }
 
-class MaybeParseErrorSerializer<E>(
+class MaybeParseErrorSerializer<E: Parcelable>(
 	private val innerSerializer: KSerializer<E>
 ) : KSerializer<MaybeParseError<E>> {
 

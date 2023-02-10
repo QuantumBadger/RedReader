@@ -1282,7 +1282,7 @@ public class LinkHandler {
 
 	}
 
-	public static LinkedHashSet<String> computeAllLinks(final String text) {
+	public static LinkedHashSet<String> computeAllLinks(@NonNull final String text) {
 
 		final LinkedHashSet<String> result = new LinkedHashSet<>();
 

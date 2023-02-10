@@ -28,35 +28,37 @@ import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.http.FailedRequestBody;
-import org.quantumbadger.redreader.jsonwrap.JsonArray;
-import org.quantumbadger.redreader.jsonwrap.JsonObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
+import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
+import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
+import org.quantumbadger.redreader.reddit.kthings.RedditListing;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.kthings.RedditThing;
+import org.quantumbadger.redreader.reddit.kthings.RedditThingResponse;
+import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
-import org.quantumbadger.redreader.reddit.things.EmoteMetadata;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
-import java.lang.reflect.InvocationTargetException;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
@@ -123,6 +125,108 @@ public class CommentListingRequest {
 		void onCommentListingRequestAllItemsDownloaded(ArrayList<RedditCommentListItem> items);
 	}
 
+	private void onThingDownloaded(
+			@NonNull final RedditThingResponse thingResponse,
+			@NonNull final UUID session,
+			final long timestamp,
+			final boolean fromCache
+	) {
+		String parentPostAuthor = null;
+
+		if(mActivity instanceof SessionChangeListener) {
+			((SessionChangeListener)mActivity).onSessionChanged(
+					session,
+					SessionChangeListener.SessionChangeType.COMMENTS,
+					timestamp);
+		}
+
+		final Integer minimumCommentScore
+				= PrefsUtility.pref_behaviour_comment_min();
+
+		if(fromCache) {
+			AndroidCommon.runOnUiThread(()
+					-> mListener.onCommentListingRequestCachedCopy(timestamp));
+		}
+
+		AndroidCommon.runOnUiThread(mListener::onCommentListingRequestParseStart);
+
+		@NonNull final RedditListing commentListing;
+
+		if(thingResponse instanceof RedditThingResponse.Single) {
+			commentListing = ((RedditThing.Listing)((RedditThingResponse.Single) thingResponse)
+					.getThing()).getData();
+
+		} else {
+			final RedditThingResponse.Multiple multiple
+					= (RedditThingResponse.Multiple) thingResponse;
+
+			if(multiple.getThings().size() != 2) {
+				throw new RuntimeException("Expecting 2 items in array response, got "
+						+ multiple.getThings().size());
+			}
+
+			final RedditPost post = ((RedditThing.Post)((RedditThing.Listing)multiple.getThings().get(0))
+					.getData()
+					.getChildren()
+					.get(0)
+					.ok()).getData();
+
+			final RedditParsedPost parsedPost =
+					new RedditParsedPost(mActivity, post, mParsePostSelfText);
+
+			final RedditPreparedPost preparedPost = new RedditPreparedPost(
+					mContext,
+					mCacheManager,
+					0,
+					parsedPost,
+					timestamp,
+					true,
+					false,
+					false,
+					false);
+
+			AndroidCommon.runOnUiThread(()
+					-> mListener.onCommentListingRequestPostDownloaded(
+					preparedPost));
+
+			parentPostAuthor = parsedPost.getAuthor();
+
+			commentListing = ((RedditThing.Listing)((RedditThingResponse.Multiple) thingResponse)
+					.getThings().get(1)).getData();
+		}
+
+		// Download comments
+
+		final ArrayList<MaybeParseError<RedditThing>> topLevelComments
+				= commentListing.getChildren();
+
+		final ArrayList<RedditCommentListItem> items
+				= new ArrayList<>(200);
+
+		for(final MaybeParseError<RedditThing> commentThingValue : topLevelComments) {
+			buildCommentTree(
+					commentThingValue,
+					null,
+					items,
+					minimumCommentScore,
+					parentPostAuthor);
+		}
+
+		final RedditChangeDataManager changeDataManager
+				= RedditChangeDataManager.getInstance(mUser);
+
+		for(final RedditCommentListItem item : items) {
+			if(item.isComment()) {
+				changeDataManager.update(
+						timestamp,
+						item.asComment().getParsedComment().getRawComment());
+			}
+		}
+
+		AndroidCommon.runOnUiThread(()
+				-> mListener.onCommentListingRequestAllItemsDownloaded(items));
+	}
+
 	@NonNull
 	private CacheRequest createCommentListingCacheRequest() {
 
@@ -137,118 +241,7 @@ public class CommentListingRequest {
 				Constants.FileType.COMMENT_LIST,
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				mContext,
-				new CacheRequestJSONParser(mContext, new CacheRequestJSONParser.Listener() {
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue value,
-							final long timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
-
-						String parentPostAuthor = null;
-
-						if(mActivity instanceof SessionChangeListener) {
-							((SessionChangeListener)mActivity).onSessionChanged(
-									session,
-									SessionChangeListener.SessionChangeType.COMMENTS,
-									timestamp);
-						}
-
-						final Integer minimumCommentScore
-								= PrefsUtility.pref_behaviour_comment_min();
-
-						if(fromCache) {
-							AndroidCommon.runOnUiThread(()
-									-> mListener.onCommentListingRequestCachedCopy(timestamp));
-						}
-
-						AndroidCommon.runOnUiThread(mListener::onCommentListingRequestParseStart);
-
-						try {
-							// Download main post
-							if(value.asArray() != null) {
-
-								// lol, reddit api
-								final JsonArray root = value.asArray();
-								final JsonObject thing = root.get(0).asObject();
-								final JsonObject listing = thing.getObject("data");
-								final JsonArray postContainer
-										= listing.getArray("children");
-								final RedditThing postThing =
-										postContainer.getObject(0, RedditThing.class);
-								final RedditPost post = postThing.asPost();
-
-								final RedditParsedPost parsedPost =
-										new RedditParsedPost(mActivity, post, mParsePostSelfText);
-
-								final RedditPreparedPost preparedPost = new RedditPreparedPost(
-										mContext,
-										mCacheManager,
-										0,
-										parsedPost,
-										timestamp,
-										true,
-										false,
-										false,
-										false);
-
-								AndroidCommon.runOnUiThread(()
-										-> mListener.onCommentListingRequestPostDownloaded(
-												preparedPost));
-
-								parentPostAuthor = parsedPost.getAuthor();
-							}
-
-							// Download comments
-
-							final JsonObject thing;
-
-							if(value.asArray() != null) {
-								thing = value.asArray().get(1).asObject();
-							} else {
-								thing = value.asObject();
-							}
-
-							final JsonObject listing = thing.getObject("data");
-							final JsonArray topLevelComments
-									= listing.getArray("children");
-
-							final ArrayList<RedditCommentListItem> items
-									= new ArrayList<>(200);
-
-							for(final JsonValue commentThingValue : topLevelComments) {
-								buildCommentTree(
-										commentThingValue,
-										null,
-										items,
-										minimumCommentScore,
-										parentPostAuthor);
-							}
-
-							final RedditChangeDataManager changeDataManager
-									= RedditChangeDataManager.getInstance(mUser);
-
-							for(final RedditCommentListItem item : items) {
-								if(item.isComment()) {
-									changeDataManager.update(
-											timestamp,
-											item.asComment().getParsedComment().getRawComment());
-								}
-							}
-
-							AndroidCommon.runOnUiThread(()
-									-> mListener.onCommentListingRequestAllItemsDownloaded(items));
-
-						} catch(final Throwable t) {
-							onFailure(
-									CacheRequest.REQUEST_FAILURE_PARSE,
-									t,
-									null,
-									"Parse failure",
-									Optional.of(new FailedRequestBody(value)));
-						}
-					}
-
+				new CacheRequestCallbacks() {
 					@Override
 					public void onFailure(
 							final int type,
@@ -274,53 +267,72 @@ public class CommentListingRequest {
 						AndroidCommon.runOnUiThread(
 								mListener::onCommentListingRequestDownloadNecessary);
 					}
-				}));
+
+					@Override
+					public void onDataStreamAvailable(
+							@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
+							final long timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
+
+						new Thread(() -> {
+							try {
+								final RedditThingResponse thingResponse
+										= JsonUtils.INSTANCE.decodeRedditThingResponseFromStream(
+												streamFactory.create());
+
+								onThingDownloaded(thingResponse, session, timestamp, fromCache);
+
+							} catch(final Exception e) {
+								onFailure(
+										CacheRequest.REQUEST_FAILURE_PARSE,
+										e,
+										null,
+										"Parse failure",
+										FailedRequestBody.from(streamFactory));
+							}
+						}, "Comment parsing").start();
+					}
+				});
 	}
 
 	private void buildCommentTree(
-			final JsonValue value,
+			final MaybeParseError<RedditThing> maybeThing,
 			final RedditCommentListItem parent,
 			final ArrayList<RedditCommentListItem> output,
 			final Integer minimumCommentScore,
-			final String parentPostAuthor) throws
-					IllegalAccessException,
-					InstantiationException,
-					NoSuchMethodException,
-					InvocationTargetException {
+			final String parentPostAuthor) {
 
-		final RedditThing thing = value.asObject(RedditThing.class);
+		// TODO handle gracefully by showing error message
+		final RedditThing thing = maybeThing.ok();
 
-		if(thing.getKind() == RedditThing.Kind.MORE_COMMENTS
+		if(thing instanceof RedditThing.More
 				&& mUrl.pathType() == RedditURLParser.POST_COMMENT_LISTING_URL) {
 
 			output.add(new RedditCommentListItem(
-					thing.asMoreComments(),
+					((RedditThing.More)thing).getData(),
 					parent,
 					mFragment,
 					mActivity,
 					mCommentListingURL));
 
-		} else if(thing.getKind() == RedditThing.Kind.COMMENT) {
-			final RedditComment comment = thing.asComment();
+		} else if(thing instanceof RedditThing.Comment) {
+			RedditComment comment = ((RedditThing.Comment) thing).getData();
 
-			if (comment.media_metadata != null && comment.media_metadata.asObject() != null) {
+			if (comment.getMedia_metadata() != null && comment.getBody_html() != null) {
 				try {
-					final JsonObject metadataObj = comment.media_metadata.asObject();
 
-					final Iterator<Map.Entry<String, JsonValue>> jsonIterator = metadataObj
-							.iterator();
+					for(final Map.Entry<UrlEncodedString, RedditComment.EmoteMetadata> entry
+							: comment.getMedia_metadata().entrySet()) {
 
-					while (jsonIterator.hasNext()) {
-						final String key = jsonIterator.next().getKey();
-
-						final EmoteMetadata emoteMetadata = metadataObj
-								.get(key).asObject()
-								.asObject(EmoteMetadata.class);
+						final String key = entry.getKey().getDecoded();
+						final RedditComment.EmoteMetadata emoteMetadata = entry.getValue();
 
 						// id is always structured as emote|{subreddit_id}|{emote_id}
 						// for subreddit emotes
-						if (emoteMetadata.id.split("\\|")[0].equalsIgnoreCase("emote")) {
-							final String subredditId = emoteMetadata.id.split("\\|")[1];
+						if (emoteMetadata.getId().split("\\|")[0].equalsIgnoreCase("emote")) {
+							final String subredditId = emoteMetadata.getId().split("\\|")[1];
 
 							// These are default reddit emotes (i think).
 							// They already have an img tag in the body html
@@ -329,19 +341,22 @@ public class CommentListingRequest {
 								continue;
 							}
 
-							final String emoteId = emoteMetadata.id.split("\\|")[2];
+							final String emoteId = emoteMetadata.getId().split("\\|")[2];
 
 							final String emotePlaceholder = String.format(Locale.getDefault(),
 									":%s:", emoteId);
 
 							final String imgTag = String.format(Locale.getDefault(),
 									"<emote src=\"%s\" title=\"%s\"></emote>",
-									emoteMetadata.s.u,
+									emoteMetadata.getS().getU(),
 									emotePlaceholder);
 
-							comment.body_html = comment.body_html.replace(emotePlaceholder, imgTag);
+							comment = comment.copyWithNewBodyHtml(
+									comment.getBody_html().getDecoded()
+											.replace(emotePlaceholder, imgTag));
 						}
 					}
+
 				} catch (final Exception e) {
 					// Including this try-catch to cover for edge cases where reddit might send
 					// different values under media_metadata
@@ -376,15 +391,13 @@ public class CommentListingRequest {
 
 			output.add(item);
 
-			if(comment.replies.asObject() != null) {
+			if(comment.getReplies() != null) {
 
-				final JsonObject replies = comment.replies.asObject();
-				final JsonArray children =
-						replies.getObject("data").getArray("children");
+				final RedditListing listing = ((RedditThing.Listing)comment.getReplies()).getData();
 
-				for(final JsonValue v : children) {
+				for(final MaybeParseError<RedditThing> reply : listing.getChildren()) {
 					buildCommentTree(
-							v,
+							reply,
 							item,
 							output,
 							minimumCommentScore,

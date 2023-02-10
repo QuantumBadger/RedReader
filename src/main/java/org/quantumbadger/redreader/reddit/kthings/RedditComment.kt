@@ -54,6 +54,9 @@ data class RedditComment(
 
 ) : Parcelable, RedditThingWithIdAndType {
 
+	// TODO do this in the HTML parser instead
+	fun copyWithNewBodyHtml(value: String) = copy(body_html = UrlEncodedString(value))
+
 	@Serializable
 	@Parcelize
 	data class EmoteMetadata(

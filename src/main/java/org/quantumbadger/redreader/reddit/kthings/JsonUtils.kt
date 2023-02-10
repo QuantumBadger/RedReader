@@ -7,7 +7,7 @@ import java.io.IOException
 import java.io.InputStream
 
 object JsonUtils {
-	val serializer = Json {
+	private val serializer = Json {
 		ignoreUnknownKeys = true
 		isLenient = true
 	}
@@ -15,5 +15,10 @@ object JsonUtils {
 	@OptIn(ExperimentalSerializationApi::class)
 	@Throws(IOException::class)
 	fun decodeRedditThingFromStream(stream: InputStream): RedditThing
+			= serializer.decodeFromStream(stream)
+
+	@OptIn(ExperimentalSerializationApi::class)
+	@Throws(IOException::class)
+	fun decodeRedditThingResponseFromStream(stream: InputStream): RedditThingResponse
 			= serializer.decodeFromStream(stream)
 }

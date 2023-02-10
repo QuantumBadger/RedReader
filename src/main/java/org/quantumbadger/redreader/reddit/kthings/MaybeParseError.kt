@@ -15,6 +15,11 @@ sealed class MaybeParseError<E: Parcelable> private constructor() : Parcelable {
 	data class Ok<E: Parcelable>(val value: E) : MaybeParseError<E>()
 
 	data class Err<E: Parcelable>(val error: Exception) : MaybeParseError<E>()
+
+	fun ok() = when (this) {
+		is Ok -> value
+		is Err -> throw error
+	}
 }
 
 class MaybeParseErrorSerializer<E: Parcelable>(

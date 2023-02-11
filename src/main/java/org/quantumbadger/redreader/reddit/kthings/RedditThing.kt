@@ -13,6 +13,8 @@ import kotlinx.serialization.json.JsonClassDiscriminator
 @Parcelize
 sealed class RedditThing : Parcelable {
 
+	// TODO test that parcelling sealed classes actually works correctly
+
 	@Serializable
 	@SerialName("t1")
 	data class Comment(val data : RedditComment) : RedditThing()

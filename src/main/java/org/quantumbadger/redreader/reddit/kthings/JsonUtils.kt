@@ -14,11 +14,11 @@ object JsonUtils {
 
 	@OptIn(ExperimentalSerializationApi::class)
 	@Throws(IOException::class)
-	fun decodeRedditThingFromStream(stream: InputStream): RedditThing
-			= serializer.decodeFromStream(stream)
+	fun decodeRedditThingFromStream(stream: InputStream)
+			= serializer.decodeFromStream(RedditThing.serializer(), stream)
 
 	@OptIn(ExperimentalSerializationApi::class)
 	@Throws(IOException::class)
-	fun decodeRedditThingResponseFromStream(stream: InputStream): RedditThingResponse
-			= serializer.decodeFromStream(stream)
+	fun decodeRedditThingResponseFromStream(stream: InputStream)
+			= serializer.decodeFromStream(RedditThingResponse.serializer(), stream)
 }

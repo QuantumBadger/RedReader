@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
+import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
@@ -47,8 +48,8 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 		return mBody;
 	}
 
-	public String getFlair() {
-		return mSrc.getAuthor_flair_text().getDecoded(); // TODO nullable?
+	public UrlEncodedString getFlair() {
+		return mSrc.getAuthor_flair_text();
 	}
 
 	@Override

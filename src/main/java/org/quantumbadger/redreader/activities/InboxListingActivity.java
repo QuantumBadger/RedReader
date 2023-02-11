@@ -57,6 +57,7 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
 import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
+import org.quantumbadger.redreader.reddit.kthings.RedditFieldReplies;
 import org.quantumbadger.redreader.reddit.kthings.RedditListing;
 import org.quantumbadger.redreader.reddit.kthings.RedditMessage;
 import org.quantumbadger.redreader.reddit.kthings.RedditThing;
@@ -350,13 +351,15 @@ public final class InboxListingActivity extends BaseActivity {
 											new InboxItem(listPosition, message)));
 									listPosition++;
 
-									if(message.src.getReplies() != null) {
+									if(message.src.getReplies()
+											instanceof RedditFieldReplies.Some) {
 
 										// TODO make RedditThing generic (and override data)?
 
 										final ArrayList<MaybeParseError<RedditThing>> replies
-												= ((RedditThing.Listing)message.src.getReplies())
-														.getData().getChildren();
+												= ((RedditThing.Listing)((RedditFieldReplies.Some)
+														message.src.getReplies()).getValue())
+																.getData().getChildren();
 
 										for(final MaybeParseError<RedditThing> childMsgValue : replies) {
 											final RedditMessage childMsgRaw

@@ -44,6 +44,7 @@ import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
 import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
+import org.quantumbadger.redreader.reddit.kthings.RedditFieldReplies;
 import org.quantumbadger.redreader.reddit.kthings.RedditListing;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.kthings.RedditThing;
@@ -250,6 +251,8 @@ public class CommentListingRequest {
 							@Nullable final String readableMessage,
 							@NonNull final Optional<FailedRequestBody> body) {
 
+						Log.e(TAG, "Request failure: " + readableMessage, t);
+
 						final RRError error = General.getGeneralErrorForFailure(
 								mContext,
 								type,
@@ -391,9 +394,10 @@ public class CommentListingRequest {
 
 			output.add(item);
 
-			if(comment.getReplies() != null) {
+			if(comment.getReplies() instanceof RedditFieldReplies.Some) {
 
-				final RedditListing listing = ((RedditThing.Listing)comment.getReplies()).getData();
+				final RedditListing listing = ((RedditThing.Listing)(
+						(RedditFieldReplies.Some)comment.getReplies()).getValue()).getData();
 
 				for(final MaybeParseError<RedditThing> reply : listing.getChildren()) {
 					buildCommentTree(

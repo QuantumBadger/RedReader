@@ -27,7 +27,7 @@ data class RedditComment(
 	val can_mod_post: Boolean = false,
 	val media_metadata: Map<UrlEncodedString, EmoteMetadata>? = null, // TODO MaybeParseError? Also, rename EmoteMetadata?
 
-	val replies: RedditThing? = null,
+	val replies: RedditFieldReplies = RedditFieldReplies.None,
 
 	val id: String,
 	val subreddit_id: String? = null,

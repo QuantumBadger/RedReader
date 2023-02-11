@@ -39,6 +39,7 @@ import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
+import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
 import java.net.URI;
@@ -164,7 +165,9 @@ public class RedditRenderableComment
 			}
 		}
 
-		final String flair = mComment.getFlair();
+		final String flair = General.mapIfNotNull(
+				mComment.getFlair(),
+				UrlEncodedString::getDecoded);
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.FLAIR)
 				&& flair != null && !flair.isEmpty()) {
@@ -388,7 +391,9 @@ public class RedditRenderableComment
 					.append(separator);
 		}
 
-		final String flair = mComment.getFlair();
+		final String flair = General.mapIfNotNull(
+				mComment.getFlair(),
+				UrlEncodedString::getDecoded);
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.FLAIR)
 				&& flair != null

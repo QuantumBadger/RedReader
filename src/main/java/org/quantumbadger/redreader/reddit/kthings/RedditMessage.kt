@@ -18,7 +18,7 @@ data class RedditMessage(
 	val context: UrlEncodedString? = null,
 	val subject: UrlEncodedString? = null,
 	val subreddit_name_prefixed: UrlEncodedString? = null,
-	val replies: RedditThing? = null,
+	val replies: RedditFieldReplies = RedditFieldReplies.None,
 	val created_utc: RedditTimestampUTC
 
 ) : Parcelable, RedditThingWithIdAndType {

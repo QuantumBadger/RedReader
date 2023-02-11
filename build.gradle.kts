@@ -7,11 +7,11 @@ buildscript {
 	}
 	dependencies {
 		// TODO share this with the "plugins" block
-		val rrGradleVersion = "1.6.21"
+		val rrKotlinVersion = "1.6.21"
 
 		classpath("com.android.tools.build:gradle:7.3.1")
-		classpath(kotlin("gradle-plugin", version = rrGradleVersion))
-		classpath(kotlin("serialization", version = rrGradleVersion))
+		classpath(kotlin("gradle-plugin", version = rrKotlinVersion))
+		classpath(kotlin("serialization", version = rrKotlinVersion))
 	}
 }
 
@@ -27,6 +27,7 @@ plugins {
 dependencies {
 	implementation("androidx.core:core-ktx:1.9.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21") // TODO use constant
 	implementation("androidx.annotation:annotation:1.5.0")
 	implementation("androidx.appcompat:appcompat:1.6.0")
 	implementation("androidx.recyclerview:recyclerview:1.2.1")

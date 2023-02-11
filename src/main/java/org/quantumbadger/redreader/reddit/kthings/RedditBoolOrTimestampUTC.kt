@@ -44,7 +44,7 @@ object RedditBoolOrTimestampUTCSerializer : JsonContentPolymorphicSerializer<Red
 	}
 }
 
-class RedditBoolOrTimestampUTCBoolSerializer : KSerializer<RedditBoolOrTimestampUTC.Bool> {
+object RedditBoolOrTimestampUTCBoolSerializer : KSerializer<RedditBoolOrTimestampUTC.Bool> {
 	override val descriptor: SerialDescriptor
 		get() = PrimitiveSerialDescriptor("RedditBoolOrTimestampUTCBool", PrimitiveKind.BOOLEAN)
 
@@ -56,7 +56,7 @@ class RedditBoolOrTimestampUTCBoolSerializer : KSerializer<RedditBoolOrTimestamp
 	}
 }
 
-class RedditBoolOrTimestampUTCTimestampSerializer : KSerializer<RedditBoolOrTimestampUTC.Timestamp> {
+object RedditBoolOrTimestampUTCTimestampSerializer : KSerializer<RedditBoolOrTimestampUTC.Timestamp> {
 	override val descriptor: SerialDescriptor
 		get() = PrimitiveSerialDescriptor("RedditBoolOrTimestampUTCBool", PrimitiveKind.BOOLEAN)
 

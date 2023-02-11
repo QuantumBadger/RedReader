@@ -1,7 +1,5 @@
 package org.quantumbadger.redreader.reddit.kthings
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.ListSerializer
@@ -13,8 +11,7 @@ import kotlinx.serialization.json.JsonContentPolymorphicSerializer
 import kotlinx.serialization.json.JsonElement
 
 @Serializable(with = RedditThingResponseSerializer::class)
-@Parcelize
-sealed class RedditThingResponse : Parcelable {
+sealed class RedditThingResponse {
 
 	@Serializable(with = RedditThingResponseSingleSerializer::class)
 	data class Single(val thing: RedditThing) : RedditThingResponse()

@@ -28,6 +28,7 @@ import android.text.style.StyleSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
+import androidx.annotation.NonNull;
 
 import java.util.HashSet;
 
@@ -59,7 +60,7 @@ public class BetterSSB {
 	}
 
 	public void append(
-			final String str,
+			@NonNull final String str,
 			final int flags,
 			final int foregroundCol,
 			final int backgroundCol,
@@ -68,7 +69,7 @@ public class BetterSSB {
 	}
 
 	public void append(
-			final String str,
+			@NonNull final String str,
 			final int flags,
 			final int foregroundCol,
 			final int backgroundCol,

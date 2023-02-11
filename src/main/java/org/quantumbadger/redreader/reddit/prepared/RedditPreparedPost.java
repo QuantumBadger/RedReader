@@ -48,8 +48,8 @@ import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
-import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.io.IOException;
@@ -106,7 +106,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		isArchived = post.isArchived();
 		isLocked = post.isLocked();
-		canModerate = post.canModerate();
+		canModerate = post.getCanModerate();
 
 		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(post.getUrl());
 
@@ -134,19 +134,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	public boolean isVideoPreview() {
-
-		final JsonObject preview = src.getSrc().preview;
-
-		if(preview == null) {
-			return false;
-		}
-
-		return Boolean.TRUE.equals(src.getSrc().is_video)
-				|| preview.getAtPath("images", 0, "variants", "mp4").isPresent()
-				|| preview.getObject("reddit_video_preview") != null
-				|| "v.redd.it".equals(src.getDomain())
-				|| "streamable.com".equals(src.getDomain())
-				|| "gfycat.com".equals(src.getDomain());
+		return src.isVideoPreview();
 	}
 
 	public void performAction(final BaseActivity activity, final RedditPostActions.Action action) {
@@ -340,9 +328,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AGE)) {
 			postListDescSb.append(
-					RRTime.formatDurationFrom(
+					src.getCreatedTimeUTC().elapsedPeriod().format(
 							context,
-							src.getCreatedTimeSecsUTC() * 1000,
 							R.string.time_ago,
 							mPostAgeUnits),
 					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,
@@ -498,9 +485,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			accessibilitySubtitle
 					.append(context.getString(
 							R.string.accessibility_subtitle_age_withperiod,
-							RRTime.formatDurationFrom(
+							src.getCreatedTimeUTC().elapsedPeriod().format(
 									context,
-									src.getCreatedTimeSecsUTC() * 1000,
 									R.string.time_ago,
 									mPostAgeUnits)))
 					.append(separator);
@@ -763,23 +749,23 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	public boolean isRead() {
-		return mChangeDataManager.isRead(src);
+		return mChangeDataManager.isRead(src.getIdAndType());
 	}
 
 	public void bind(final RedditPostView boundView) {
 		mBoundView = boundView;
-		mChangeDataManager.addListener(src, this);
+		mChangeDataManager.addListener(src.getIdAndType(), this);
 	}
 
 	public void unbind(final RedditPostView boundView) {
 		if(mBoundView == boundView) {
 			mBoundView = null;
-			mChangeDataManager.removeListener(src, this);
+			mChangeDataManager.removeListener(src.getIdAndType(), this);
 		}
 	}
 
 	@Override
-	public void onRedditDataChange(final String thingIdAndType) {
+	public void onRedditDataChange(final RedditIdAndType thingIdAndType) {
 		if(mBoundView != null) {
 
 			final Context context = mBoundView.getContext();
@@ -799,15 +785,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final RedditAccount user =
 				RedditAccountManager.getInstance(context).getDefaultAccount();
 		RedditChangeDataManager.getInstance(user)
-				.markRead(RRTime.utcCurrentTimeMillis(), src);
+				.markRead(RRTime.utcCurrentTimeMillis(), src.getIdAndType());
 	}
 
 	public boolean isUpvoted() {
-		return mChangeDataManager.isUpvoted(src);
+		return mChangeDataManager.isUpvoted(src.getIdAndType());
 	}
 
 	public boolean isDownvoted() {
-		return mChangeDataManager.isDownvoted(src);
+		return mChangeDataManager.isDownvoted(src.getIdAndType());
 	}
 
 	public int getVoteDirection() {
@@ -815,11 +801,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	public boolean isSaved() {
-		return mChangeDataManager.isSaved(src);
+		return mChangeDataManager.isSaved(src.getIdAndType());
 	}
 
 	public boolean isHidden() {
-		return Boolean.TRUE.equals(mChangeDataManager.isHidden(src));
+		return Boolean.TRUE.equals(mChangeDataManager.isHidden(src.getIdAndType()));
 	}
 
 	private void onThumbnailStreamAvailable(

@@ -18,57 +18,34 @@
 package org.quantumbadger.redreader.common;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 import androidx.annotation.NonNull;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Duration;
 import org.joda.time.Period;
 import org.joda.time.PeriodType;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+// TODO remove this
 public class RRTime {
-
-	private static final DateTimeFormatter dtFormatter12hr
-			= DateTimeFormat.forPattern("yyyy-MM-dd h:mm a");
-
-	private static final DateTimeFormatter dtFormatter24hr
-			= DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
-
-	private static final DateTimeFormatter dtFormatterFilename
-			= DateTimeFormat.forPattern("yyyy_MM_dd__HH_mm_ss");
-
 
 	public static long utcCurrentTimeMillis() {
 		return DateTime.now(DateTimeZone.UTC).getMillis();
 	}
 
 	public static String formatDateTime(final long utcMs, final Context context) {
-
-		final DateTime dateTime = new DateTime(utcMs);
-		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
-
-		if(DateFormat.is24HourFormat(context)) {
-			return dtFormatter24hr.print(localDateTime);
-		} else {
-			return dtFormatter12hr.print(localDateTime);
-		}
+		return TimestampUTC.fromUtcMs(utcMs).format(context);
 	}
 
 	public static String formatDateTimeFilenameSafe(final long utcMs) {
-
-		final DateTime dateTime = new DateTime(utcMs);
-		final DateTime localDateTime = dateTime.withZone(DateTimeZone.getDefault());
-
-		return dtFormatterFilename.print(localDateTime);
+		return TimestampUTC.fromUtcMs(utcMs).formatFilenameSafe();
 	}
 
 	public static String formatDurationFrom(

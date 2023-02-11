@@ -26,6 +26,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.PostSort;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
@@ -77,7 +78,7 @@ public class SubredditPostListURL extends PostListingURL {
 	@Nullable public final PostSort order;
 	@Nullable public final Integer limit;
 	@Nullable public final String before;
-	@Nullable public final String after;
+	@Nullable public final RedditIdAndType after;
 
 	private SubredditPostListURL(
 			@NonNull final Type type,
@@ -85,7 +86,7 @@ public class SubredditPostListURL extends PostListingURL {
 			@Nullable final PostSort order,
 			@Nullable final Integer limit,
 			@Nullable final String before,
-			@Nullable final String after) {
+			@Nullable final RedditIdAndType after) {
 
 		this.type = type;
 		this.subreddit = subreddit;
@@ -96,7 +97,7 @@ public class SubredditPostListURL extends PostListingURL {
 	}
 
 	@Override
-	public SubredditPostListURL after(final String newAfter) {
+	public SubredditPostListURL after(final RedditIdAndType newAfter) {
 		return new SubredditPostListURL(type, subreddit, order, limit, before, newAfter);
 	}
 
@@ -154,7 +155,7 @@ public class SubredditPostListURL extends PostListingURL {
 		}
 
 		if(after != null) {
-			builder.appendQueryParameter("after", after);
+			builder.appendQueryParameter("after", after.getValue());
 		}
 
 		if(limit != null) {
@@ -176,12 +177,12 @@ public class SubredditPostListURL extends PostListingURL {
 
 		Integer limit = null;
 		String before = null;
-		String after = null;
+		RedditIdAndType after = null;
 
 		for(final String parameterKey : General.getUriQueryParameterNames(uri)) {
 
 			if(parameterKey.equalsIgnoreCase("after")) {
-				after = uri.getQueryParameter(parameterKey);
+				after = new RedditIdAndType(uri.getQueryParameter(parameterKey));
 
 			} else if(parameterKey.equalsIgnoreCase("before")) {
 				before = uri.getQueryParameter(parameterKey);

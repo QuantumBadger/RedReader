@@ -340,7 +340,7 @@ public final class RedditPostView extends FlingableItemView
 
 			title.setText(newPost.src.getTitle());
 			if(mCommentsButtonPref) {
-				mCommentsText.setText(String.valueOf(newPost.src.getSrc().num_comments));
+				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
 			}
 
 			final boolean showInlinePreview = newPost.shouldShowInlinePreview();

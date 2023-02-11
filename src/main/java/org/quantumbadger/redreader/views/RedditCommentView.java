@@ -35,9 +35,11 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
@@ -101,7 +103,7 @@ public class RedditCommentView extends FlingableItemView
 		switch(pref) {
 
 			case UPVOTE:
-				if(mChangeDataManager.isUpvoted(comment)) {
+				if(mChangeDataManager.isUpvoted(comment.getIdAndType())) {
 					return new ActionDescriptionPair(
 							RedditAPICommentAction.RedditCommentAction.UNVOTE,
 							R.string.action_vote_remove);
@@ -112,7 +114,7 @@ public class RedditCommentView extends FlingableItemView
 				}
 
 			case DOWNVOTE:
-				if(mChangeDataManager.isDownvoted(comment)) {
+				if(mChangeDataManager.isDownvoted(comment.getIdAndType())) {
 					return new ActionDescriptionPair(
 							RedditAPICommentAction.RedditCommentAction.UNVOTE,
 							R.string.action_vote_remove);
@@ -123,7 +125,7 @@ public class RedditCommentView extends FlingableItemView
 				}
 
 			case SAVE:
-				if(mChangeDataManager.isSaved(comment)) {
+				if(mChangeDataManager.isSaved(comment.getIdAndType())) {
 					return new ActionDescriptionPair(
 							RedditAPICommentAction.RedditCommentAction.UNSAVE,
 							R.string.action_unsave);
@@ -356,7 +358,7 @@ public class RedditCommentView extends FlingableItemView
 	}
 
 	@Override
-	public void onRedditDataChange(final String thingIdAndType) {
+	public void onRedditDataChange(final RedditIdAndType thingIdAndType) {
 		reset(mActivity, mComment, true);
 	}
 
@@ -378,10 +380,10 @@ public class RedditCommentView extends FlingableItemView
 
 			if(mComment != comment) {
 				if(mComment != null) {
-					mChangeDataManager.removeListener(mComment.asComment(), this);
+					mChangeDataManager.removeListener(mComment.asComment().getIdAndType(), this);
 				}
 
-				mChangeDataManager.addListener(comment.asComment(), this);
+				mChangeDataManager.addListener(comment.asComment().getIdAndType(), this);
 			}
 
 			mComment = comment;
@@ -393,7 +395,7 @@ public class RedditCommentView extends FlingableItemView
 
 		final boolean hideLinkButtons = comment.asComment()
 				.getParsedComment()
-				.getRawComment().author.equalsIgnoreCase(
+				.getRawComment().getAuthor().getDecoded().equalsIgnoreCase(
 						"autowikibot");
 
 		mBodyHolder.removeAllViews();
@@ -413,13 +415,14 @@ public class RedditCommentView extends FlingableItemView
 
 		final int ageUnits = PrefsUtility.appearance_comment_age_units();
 
-		final long postTimestamp = (mFragment != null && mFragment.getPost() != null)
-				? mFragment.getPost().src.getCreatedTimeSecsUTC()
-				: RedditRenderableComment.NO_TIMESTAMP;
+		final TimestampUTC postTimestamp = (mFragment != null && mFragment.getPost() != null)
+				? mFragment.getPost().src.getCreatedTimeUTC()
+				: null;
 
-		final long parentCommentTimestamp = mComment.getParent() != null
-				? mComment.getParent().asComment().getParsedComment().getRawComment().created_utc
-				: RedditRenderableComment.NO_TIMESTAMP;
+		final TimestampUTC parentCommentTimestamp = mComment.getParent() != null
+				? mComment.getParent().asComment().getParsedComment().getRawComment()
+						.getCreated_utc().getValue()
+				: null;
 
 		final boolean isCollapsed = mComment.isCollapsed(mChangeDataManager);
 
@@ -477,8 +480,9 @@ public class RedditCommentView extends FlingableItemView
 					chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY));
 		}
 
+		// TODO null
 		if (mComment.asComment().getParsedComment().getRawComment()
-				.author.equalsIgnoreCase(defaultAccount.username)) {
+				.getAuthor().getDecoded().equalsIgnoreCase(defaultAccount.username)) {
 
 			addAccessibilityActionFromDescriptionPair(
 				new ActionDescriptionPair(

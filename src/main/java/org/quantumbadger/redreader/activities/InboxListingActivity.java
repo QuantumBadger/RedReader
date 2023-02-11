@@ -36,11 +36,12 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
@@ -49,26 +50,30 @@ import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.http.FailedRequestBody;
-import org.quantumbadger.redreader.jsonwrap.JsonArray;
-import org.quantumbadger.redreader.jsonwrap.JsonObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
+import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
+import org.quantumbadger.redreader.reddit.kthings.RedditComment;
+import org.quantumbadger.redreader.reddit.kthings.RedditFieldReplies;
+import org.quantumbadger.redreader.reddit.kthings.RedditListing;
+import org.quantumbadger.redreader.reddit.kthings.RedditMessage;
+import org.quantumbadger.redreader.reddit.kthings.RedditThing;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMessage;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
-import org.quantumbadger.redreader.reddit.things.RedditComment;
-import org.quantumbadger.redreader.reddit.things.RedditMessage;
-import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
 import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
+import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public final class InboxListingActivity extends BaseActivity {
@@ -257,134 +262,145 @@ public final class InboxListingActivity extends BaseActivity {
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				false,
 				context,
-				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+				new CacheRequestCallbacks() {
+
 					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
+					public void onDataStreamComplete(
+							@NonNull final GenericFactory<SeekableInputStream, IOException>
+									streamFactory,
 							final long timestamp,
 							@NonNull final UUID session,
-							final boolean fromCache) {
-
-						if(loadingView != null) {
-							loadingView.setIndeterminate(R.string.download_downloading);
-						}
-
-						// TODO pref (currently 10 mins)
-						// TODO xml
-						if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-							AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-								final TextView cacheNotif = new TextView(context);
-								cacheNotif.setText(context.getString(
-										R.string.listing_cached,
-										RRTime.formatDateTime(timestamp, context)));
-								final int paddingPx = General.dpToPixels(context, 6);
-								final int sidePaddingPx = General.dpToPixels(context, 10);
-								cacheNotif.setPadding(
-										sidePaddingPx,
-										paddingPx,
-										sidePaddingPx,
-										paddingPx);
-								cacheNotif.setTextSize(13f);
-								notifications.addView(cacheNotif);
-							});
-						}
-
-						// TODO {"error": 403} is received for unauthorized subreddits
+							final boolean fromCache,
+							@Nullable final String mimetype) {
 
 						try {
-							final JsonObject root = result.asObject();
-							final JsonObject data = root.getObject("data");
-							final JsonArray children = data.getArray("children");
+							final RedditThing rootThing = JsonUtils.INSTANCE
+									.decodeRedditThingFromStream(streamFactory.create());
+
+							final RedditListing listing
+									= ((RedditThing.Listing)rootThing).getData();
+
+							if(loadingView != null) {
+								loadingView.setIndeterminate(R.string.download_downloading);
+							}
+
+							// TODO pref (currently 10 mins)
+							// TODO xml
+							if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
+								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+									final TextView cacheNotif = new TextView(context);
+									cacheNotif.setText(context.getString(
+											R.string.listing_cached,
+											RRTime.formatDateTime(timestamp, context)));
+									final int paddingPx = General.dpToPixels(context, 6);
+									final int sidePaddingPx = General.dpToPixels(context, 10);
+									cacheNotif.setPadding(
+											sidePaddingPx,
+											paddingPx,
+											sidePaddingPx,
+											paddingPx);
+									cacheNotif.setTextSize(13f);
+									notifications.addView(cacheNotif);
+								});
+							}
+
+							// TODO {"error": 403} is received for unauthorized subreddits
 
 							int listPosition = 0;
 
-							for(final JsonValue child : children) {
+							for(final MaybeParseError<RedditThing> maybeThing
+									: listing.getChildren()) {
 
-								final RedditThing thing = child.asObject(RedditThing.class);
+								// TODO show error instead
+								final RedditThing thing = maybeThing.ok();
 
-								switch(thing.getKind()) {
-									case COMMENT:
-										final RedditComment comment = thing.asComment();
+								if(thing instanceof RedditThing.Comment) {
+									final RedditComment comment
+											= ((RedditThing.Comment) thing).getData();
 
-										final RedditParsedComment parsedComment
-												= new RedditParsedComment(
-												comment,
-												InboxListingActivity.this);
+									final RedditParsedComment parsedComment
+											= new RedditParsedComment(
+											comment,
+											InboxListingActivity.this);
 
-										final RedditRenderableComment renderableComment
-												= new RedditRenderableComment(
-												parsedComment,
-												null,
-												-100_000,
-												null,
-												false,
-												true,
-												true);
+									final RedditRenderableComment renderableComment
+											= new RedditRenderableComment(
+											parsedComment,
+											null,
+											-100_000,
+											null,
+											false,
+											true,
+											true);
 
-										itemHandler.sendMessage(General.handlerMessage(
-												0,
-												new InboxItem(listPosition, renderableComment)));
+									itemHandler.sendMessage(General.handlerMessage(
+											0,
+											new InboxItem(listPosition, renderableComment)));
 
-										listPosition++;
+									listPosition++;
 
-										break;
+								} else if(thing instanceof RedditThing.Message) {
 
-									case MESSAGE:
-										final RedditPreparedMessage message
-												= new RedditPreparedMessage(
-												InboxListingActivity.this,
-												thing.asMessage(),
-												timestamp,
-												inboxType);
-										itemHandler.sendMessage(General.handlerMessage(
-												0,
-												new InboxItem(listPosition, message)));
-										listPosition++;
+									final RedditPreparedMessage message
+											= new RedditPreparedMessage(
+													InboxListingActivity.this,
+													((RedditThing.Message) thing).getData(),
+													timestamp,
+													inboxType);
 
-										if(message.src.replies != null
-												&& message.src.replies.asObject() != null) {
+									itemHandler.sendMessage(General.handlerMessage(
+											0,
+											new InboxItem(listPosition, message)));
+									listPosition++;
 
-											final JsonArray replies
-													= message.src.replies.asObject()
-													.getObject("data")
-													.getArray("children");
+									if(message.src.getReplies()
+											instanceof RedditFieldReplies.Some) {
 
-											for(final JsonValue childMsgValue : replies) {
-												final RedditMessage childMsgRaw
-														= childMsgValue.asObject(RedditThing.class)
-														.asMessage();
-												final RedditPreparedMessage childMsg
-														= new RedditPreparedMessage(
-														InboxListingActivity.this,
-														childMsgRaw,
-														timestamp,
-														inboxType);
-												itemHandler.sendMessage(General.handlerMessage(
-														0,
-														new InboxItem(listPosition, childMsg)));
-												listPosition++;
-											}
+										// TODO make RedditThing generic (and override data)?
+
+										final ArrayList<MaybeParseError<RedditThing>> replies
+												= ((RedditThing.Listing)((RedditFieldReplies.Some)
+														message.src.getReplies()).getValue())
+																.getData().getChildren();
+
+										for(final MaybeParseError<RedditThing> childMsgValue
+												: replies) {
+
+											final RedditMessage childMsgRaw
+													= ((RedditThing.Message)childMsgValue.ok())
+															.getData();
+
+											final RedditPreparedMessage childMsg
+													= new RedditPreparedMessage(
+															InboxListingActivity.this,
+															childMsgRaw,
+															timestamp,
+															inboxType);
+
+											itemHandler.sendMessage(General.handlerMessage(
+													0,
+													new InboxItem(listPosition, childMsg)));
+
+											listPosition++;
 										}
-
-										break;
-
-									default:
-										throw new RuntimeException("Unknown item in list.");
+									}
+								} else {
+									throw new RuntimeException("Unknown item in list.");
 								}
 							}
 
-						} catch(final Throwable t) {
+							if(loadingView != null) {
+								loadingView.setDone(R.string.download_done);
+							}
+
+
+						} catch(final Exception e) {
 							onFailure(
 									CacheRequest.REQUEST_FAILURE_PARSE,
-									t,
+									e,
 									null,
-									"Parse failure",
-									Optional.of(new FailedRequestBody(result)));
-							return;
-						}
-
-						if(loadingView != null) {
-							loadingView.setDone(R.string.download_done);
+									e.toString(),
+									FailedRequestBody.from(streamFactory));
 						}
 					}
 
@@ -412,7 +428,7 @@ public final class InboxListingActivity extends BaseActivity {
 						AndroidCommon.runOnUiThread(() -> notifications.addView(
 								new ErrorView(InboxListingActivity.this, error)));
 					}
-				}));
+				});
 
 		cm.makeRequest(request);
 	}

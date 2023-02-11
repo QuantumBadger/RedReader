@@ -39,19 +39,20 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
+import org.quantumbadger.redreader.reddit.kthings.RedditMessage;
+import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
-import org.quantumbadger.redreader.reddit.things.RedditMessage;
 
 public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 	public final SpannableStringBuilder header;
 	public final BodyElement body;
-	public final String idAndType;
+	public final RedditIdAndType idAndType;
 	public final RedditMessage src;
 	public final InboxListingActivity.InboxType inboxType;
 
@@ -83,16 +84,16 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 			appearance.recycle();
 		}
 
-		body = HtmlReader.parse(message.getUnescapedBodyHtml(), activity);
+		body = HtmlReader.parse(message.getBody_html().getDecoded(), activity);
 
-		idAndType = message.name;
+		idAndType = message.getIdAndType();
 
 		final BetterSSB sb = new BetterSSB();
 
 		if(inboxType == InboxListingActivity.InboxType.SENT) {
 			sb.append(applicationContext.getString(R.string.subtitle_to) + " ", 0);
 
-			if(src.dest == null) {
+			if(src.getDest() == null) {
 				sb.append(
 						"[" + applicationContext.getString(R.string.general_unknown) + "]",
 						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
@@ -101,7 +102,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 						1f);
 			} else {
 				sb.append(
-						src.dest,
+						src.getDest().getDecoded(),
 						BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
 						rrCommentHeaderAuthorCol,
 						0,
@@ -110,8 +111,12 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		} else {
 
 			final String author = General.nullAlternative(
-					src.author,
-					src.subreddit_name_prefixed,
+					General.mapIfNotNull(
+							src.getAuthor(),
+							UrlEncodedString::getDecoded),
+					General.mapIfNotNull(
+							src.getSubreddit_name_prefixed(),
+							UrlEncodedString::getDecoded),
 					"[" + applicationContext.getString(R.string.general_unknown) + "]");
 
 			sb.append(
@@ -124,9 +129,8 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 		sb.append("   ", 0);
 		sb.append(
-				RRTime.formatDurationFrom(
+				src.getCreated_utc().getValue().elapsedPeriod().format(
 						applicationContext,
-						src.created_utc * 1000L,
 						R.string.time_ago,
 						PrefsUtility.appearance_inbox_age_units()),
 				BetterSSB.FOREGROUND_COLOR | BetterSSB.BOLD,
@@ -147,7 +151,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		intent.putExtra(CommentReplyActivity.PARENT_ID_AND_TYPE_KEY, idAndType);
 		intent.putExtra(
 				CommentReplyActivity.PARENT_MARKDOWN_KEY,
-				src.getUnescapedBodyMarkdown());
+				General.mapIfNotNull(src.getBody_html(), UrlEncodedString::getDecoded));
 		intent.putExtra(
 				CommentReplyActivity.PARENT_TYPE,
 				CommentReplyActivity.PARENT_TYPE_MESSAGE);
@@ -157,14 +161,14 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	@Override
 	public void handleInboxClick(final BaseActivity activity) {
 
-		if(src.author == null) {
+		if(src.getAuthor() == null) {
 			return;
 		}
 
 		final String currentCanonicalUserName = RedditAccountManager.getInstance(activity)
 				.getDefaultAccount().getCanonicalUsername();
 
-		if(!StringUtils.asciiLowercase(src.author.trim()).equals(currentCanonicalUserName)) {
+		if(!StringUtils.asciiLowercase(src.getAuthor().getDecoded().trim()).equals(currentCanonicalUserName)) {
 			openReplyActivity(activity);
 		}
 	}
@@ -199,15 +203,15 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		final StringBuilder accessibilityHeader = new StringBuilder();
 		final String separator = " \n";
 
-		if(inboxType == InboxListingActivity.InboxType.SENT && src.dest != null) {
+		if(inboxType == InboxListingActivity.InboxType.SENT && src.getDest() != null) {
 			accessibilityHeader
 					.append(context.getString(
 							R.string.accessibility_subtitle_recipient_withperiod,
 							ScreenreaderPronunciation.getPronunciation(
 									context,
-									src.dest)))
+									src.getDest().getDecoded())))
 					.append(separator);
-		} else if(src.author != null) {
+		} else if(src.getAuthor() != null) {
 			accessibilityHeader
 					.append(context.getString(
 							PrefsUtility.pref_accessibility_concise_mode()
@@ -215,16 +219,15 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 									: R.string.accessibility_subtitle_author_withperiod,
 							ScreenreaderPronunciation.getPronunciation(
 									context,
-									src.author)))
+									src.getAuthor().getDecoded())))
 					.append(separator);
 		}
 
 		accessibilityHeader
 				.append(context.getString(
 						R.string.accessibility_subtitle_age_withperiod,
-						RRTime.formatDurationFrom(
+						src.getCreated_utc().getValue().elapsedPeriod().format(
 								context,
-								src.created_utc * 1000L,
 								R.string.time_ago,
 								PrefsUtility.appearance_inbox_age_units())))
 				.append(separator);
@@ -243,8 +246,8 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		subjectLayout.setOrientation(LinearLayout.VERTICAL);
 
 		final TextView subjectText = new TextView(activity);
-		subjectText.setText(StringEscapeUtils.unescapeHtml4(src.subject != null
-				? src.subject
+		subjectText.setText(StringEscapeUtils.unescapeHtml4(src.getSubject() != null
+				? src.getSubject().getDecoded()
 				: "(no subject)"));
 		subjectText.setTextColor(textColor);
 		subjectText.setTextSize(textSize);

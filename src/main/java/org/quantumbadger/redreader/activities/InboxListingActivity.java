@@ -61,7 +61,6 @@ import org.quantumbadger.redreader.reddit.prepared.RedditParsedComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMessage;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
-import org.quantumbadger.redreader.reddit.things.RedditMessage;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.views.RedditInboxItemView;
 import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;

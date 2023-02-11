@@ -27,7 +27,7 @@ sealed class RedditThing : Parcelable {
 
 	@Serializable
 	@SerialName("t4")
-	object Message : RedditThing()
+	data class Message(val data : RedditMessage) : RedditThing()
 
 	@Serializable
 	@SerialName("t5")

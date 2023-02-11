@@ -36,23 +36,28 @@ import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.InboxListingActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
+import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
-import org.quantumbadger.redreader.jsonwrap.JsonArray;
-import org.quantumbadger.redreader.jsonwrap.JsonObject;
-import org.quantumbadger.redreader.jsonwrap.JsonValue;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
+import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
-import org.quantumbadger.redreader.reddit.things.RedditMessage;
-import org.quantumbadger.redreader.reddit.things.RedditThing;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
+import org.quantumbadger.redreader.reddit.kthings.RedditListing;
+import org.quantumbadger.redreader.reddit.kthings.RedditMessage;
+import org.quantumbadger.redreader.reddit.kthings.RedditThing;
+import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -111,21 +116,35 @@ public class NewMessageChecker extends BroadcastReceiver {
 				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 				false,
 				context,
-				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+				new CacheRequestCallbacks() {
 					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue value,
+					public void onFailure(
+							final int type,
+							@Nullable final Throwable t,
+							@Nullable final Integer httpStatus,
+							@Nullable final String readableMessage,
+							@NonNull final Optional<FailedRequestBody> body) {
+
+						Log.e(TAG, "Request failed", t);
+					}
+
+					@Override
+					public void onDataStreamComplete(
+							@NonNull final GenericFactory<SeekableInputStream, IOException>
+									streamFactory,
 							final long timestamp,
 							@NonNull final UUID session,
-							final boolean fromCache) {
+							final boolean fromCache,
+							@Nullable final String mimetype) {
 
 						try {
+							final RedditThing listingThing = JsonUtils.INSTANCE
+									.decodeRedditThingFromStream(streamFactory.create());
 
-							final JsonObject root = value.asObject();
-							final JsonObject data = root.getObject("data");
-							final JsonArray children = data.getArray("children");
+							final RedditListing listing
+									= ((RedditThing.Listing)listingThing).getData();
 
-							final int messageCount = children.size();
+							final int messageCount = listing.getChildren().size();
 
 							if(General.isSensitiveDebugLoggingEnabled()) {
 								Log.i(TAG, "Got response. Message count = " + messageCount);
@@ -135,48 +154,52 @@ public class NewMessageChecker extends BroadcastReceiver {
 								return;
 							}
 
-							final RedditThing thing = children.get(0).asObject(RedditThing.class);
+							final RedditThing thing = listing.getChildren().get(0).ok();
 
 							String title;
 							final String text
 									= context.getString(R.string.notification_message_action);
 
-							final String messageID;
-							final long messageTimestamp;
+							final RedditIdAndType messageID;
+							final TimestampUTC messageTimestamp;
 
 							final String unknownUser = "["
 									+ context.getString(R.string.general_unknown)
 									+ "]";
 
-							switch(thing.getKind()) {
-								case COMMENT: {
-									final RedditComment comment = thing.asComment();
-									title = context.getString(
-											R.string.notification_comment,
-											General.nullAlternative(
-													comment.author,
-													unknownUser));
-									messageID = comment.name;
-									messageTimestamp = comment.created_utc;
-									break;
-								}
+							if(thing instanceof RedditThing.Comment) {
+								final RedditComment comment = ((RedditThing.Comment) thing).getData();
 
-								case MESSAGE: {
-									final RedditMessage message = thing.asMessage();
-									title = context.getString(
-											R.string.notification_message,
-											General.nullAlternative(
-													message.author,
-													message.subreddit_name_prefixed,
-													unknownUser));
-									messageID = message.name;
-									messageTimestamp = message.created_utc;
-									break;
-								}
+								title = context.getString(
+										R.string.notification_comment,
+										General.nullAlternative(
+												General.mapIfNotNull(
+														comment.getAuthor(),
+														UrlEncodedString::getDecoded),
+												unknownUser));
 
-								default: {
-									throw new RuntimeException("Unknown item in list.");
-								}
+								messageID = comment.getName();
+								messageTimestamp = comment.getCreated_utc().getValue();
+
+							} else if(thing instanceof RedditThing.Message) {
+								final RedditMessage message = ((RedditThing.Message) thing).getData();
+
+								title = context.getString(
+										R.string.notification_message,
+										General.nullAlternative(
+												General.mapIfNotNull(
+														message.getAuthor(),
+														UrlEncodedString::getDecoded),
+												General.mapIfNotNull(
+														message.getSubreddit_name_prefixed(),
+														UrlEncodedString::getDecoded),
+												unknownUser));
+
+								messageID = message.getName();
+								messageTimestamp = message.getCreated_utc().getValue();
+
+							} else {
+								throw new RuntimeException("Unknown item in list.");
 							}
 
 							// Check if the previously saved message is the same as the one we
@@ -191,15 +214,17 @@ public class NewMessageChecker extends BroadcastReceiver {
 									PREFS_SAVED_MESSAGE_TIMESTAMP,
 									0);
 
-							if(oldMessageId == null || (!messageID.equals(oldMessageId)
+							if(oldMessageId == null || (!messageID.getValue().equals(oldMessageId)
 									&& oldMessageTimestamp
-									<= messageTimestamp)) {
+											<= messageTimestamp.toUtcSecs())) {
 
 								Log.e(TAG, "New messages detected. Showing notification.");
 
 								prefs.edit()
-										.putString(PREFS_SAVED_MESSAGE_ID, messageID)
-										.putLong(PREFS_SAVED_MESSAGE_TIMESTAMP, messageTimestamp)
+										.putString(PREFS_SAVED_MESSAGE_ID, messageID.getValue())
+										.putLong(
+												PREFS_SAVED_MESSAGE_TIMESTAMP,
+												messageTimestamp.toUtcSecs())
 										.apply();
 
 								if(messageCount > 1) {
@@ -213,27 +238,16 @@ public class NewMessageChecker extends BroadcastReceiver {
 								Log.e(TAG, "All messages have been previously seen.");
 							}
 
-						} catch(final Throwable t) {
+						} catch(final Exception e) {
 							onFailure(
 									CacheRequest.REQUEST_FAILURE_PARSE,
-									t,
+									e,
 									null,
-									"Parse failure",
-									Optional.of(new FailedRequestBody(value)));
+									e.toString(),
+									FailedRequestBody.from(streamFactory));
 						}
 					}
-
-					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-
-						Log.e(TAG, "Request failed", t);
-					}
-				}));
+				});
 
 		cm.makeRequest(request);
 	}

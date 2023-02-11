@@ -5,7 +5,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.quantumbadger.redreader.common.LinkHandler
-import org.quantumbadger.redreader.reddit.things.ImageMetadata
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL
 

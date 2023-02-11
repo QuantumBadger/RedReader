@@ -58,14 +58,6 @@ public final class RedditThing implements JsonObject.JsonDeserializable {
 		return result;
 	}
 
-	public RedditMoreComments asMoreComments() throws
-			InstantiationException,
-			IllegalAccessException,
-			NoSuchMethodException,
-			InvocationTargetException {
-		return data.asObject(RedditMoreComments.class);
-	}
-
 	public RedditSubreddit asSubreddit() throws
 			InstantiationException,
 			IllegalAccessException,
@@ -80,13 +72,5 @@ public final class RedditThing implements JsonObject.JsonDeserializable {
 			NoSuchMethodException,
 			InvocationTargetException {
 		return data.asObject(RedditUser.class);
-	}
-
-	public RedditMessage asMessage() throws
-			IllegalAccessException,
-			InstantiationException,
-			InvocationTargetException,
-			NoSuchMethodException {
-		return data.asObject(RedditMessage.class);
 	}
 }

@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.reddit.kthings.RedditBoolOrTimestampUTC;
+import org.quantumbadger.redreader.reddit.kthings.RedditFieldEdited;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 
 public final class PostPropertiesDialog extends PropertiesDialog {
@@ -70,11 +70,11 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 				post.getCreated_utc().getValue().format(context),
 				false));
 
-		if(post.getEdited() instanceof RedditBoolOrTimestampUTC.Timestamp) {
+		if(post.getEdited() instanceof RedditFieldEdited.Timestamp) {
 			items.addView(propView(
 					context,
 					R.string.props_edited,
-					((RedditBoolOrTimestampUTC.Timestamp)post.getEdited()).getValue().getValue().format(context),
+					((RedditFieldEdited.Timestamp)post.getEdited()).getValue().getValue().format(context),
 					false));
 		} else {
 			items.addView(propView(

@@ -23,8 +23,8 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.reddit.kthings.RedditBoolOrTimestampUTC;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
+import org.quantumbadger.redreader.reddit.kthings.RedditFieldEdited;
 
 public final class CommentPropertiesDialog extends PropertiesDialog {
 
@@ -69,11 +69,11 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 				comment.getCreated_utc().getValue().format(context),
 				false));
 
-		if(comment.getEdited() instanceof RedditBoolOrTimestampUTC.Timestamp) {
+		if(comment.getEdited() instanceof RedditFieldEdited.Timestamp) {
 			items.addView(propView(
 					context,
 					R.string.props_edited,
-					((RedditBoolOrTimestampUTC.Timestamp) comment.getEdited()).getValue().getValue().format(context),
+					((RedditFieldEdited.Timestamp) comment.getEdited()).getValue().getValue().format(context),
 					false));
 		} else {
 			items.addView(propView(

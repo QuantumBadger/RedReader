@@ -41,7 +41,7 @@ data class RedditComment(
 	val gilded: Int = 0,
 	val controversiality: Int = 0,
 
-	val edited: RedditBoolOrTimestampUTC = RedditBoolOrTimestampUTC.Bool(false), // TODO do same in other one
+	val edited: RedditFieldEdited = RedditFieldEdited.Bool(false), // TODO do same in other one
 
 	val created_utc: RedditTimestampUTC,
 
@@ -105,7 +105,7 @@ data class RedditComment(
 		return body_html?.decoded?.run { LinkHandler.computeAllLinks(this) } ?: emptySet()
 	}
 
-	fun wasEdited(): Boolean = edited != RedditBoolOrTimestampUTC.Bool(false)
+	fun wasEdited(): Boolean = edited != RedditFieldEdited.Bool(false)
 
 	fun isControversial(): Boolean = controversiality == 1
 }

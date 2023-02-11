@@ -64,7 +64,6 @@ import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
 import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
-import org.quantumbadger.redreader.reddit.kthings.KThingTemporaryTester;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -132,8 +131,6 @@ public class MainActivity extends RefreshableActivity
 		PrefsUtility.applyTheme(this);
 
 		super.onCreate(savedInstanceState);
-
-		KThingTemporaryTester.INSTANCE.run(this);
 
 		if(!isTaskRoot()
 				&& getIntent().hasCategory(Intent.CATEGORY_LAUNCHER)

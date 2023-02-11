@@ -28,7 +28,7 @@ data class RedditPost(
 	val clicked: Boolean = false,
 	val stickied: Boolean = false,
 	val can_mod_post: Boolean = false,
-	val edited: RedditBoolOrTimestampUTC? = null,
+	val edited: RedditFieldEdited? = null,
 	val likes: Boolean? = null,
 	val spoiler: Boolean = false,
 	val locked: Boolean = false,

@@ -931,8 +931,25 @@ object RedditPostActions {
 			else -> throw RuntimeException("Unknown drawable for $action")
 		}
 
-		// TODO these are in the wrong order now
-		PrefsUtility.pref_menus_post_toolbar_items()
+		val itemsToShow = PrefsUtility.pref_menus_post_toolbar_items();
+		
+		listOf(
+			Action.ACTION_MENU,
+			Action.COMMENTS_SWITCH,
+			Action.LINK_SWITCH,
+			Action.UPVOTE,
+			Action.DOWNVOTE,
+			Action.SAVE,
+			Action.HIDE,
+			Action.REPLY,
+			Action.EXTERNAL,
+			Action.SAVE_IMAGE,
+			Action.SHARE,
+			Action.COPY,
+			Action.USER_PROFILE,
+			Action.PROPERTIES
+		)
+			.filter { itemsToShow.contains(it) }
 			.filterNot {
 				isComments && it == Action.COMMENTS_SWITCH
 						|| !isComments && it == Action.LINK_SWITCH

@@ -1,5 +1,6 @@
-/Alpha 327 (2023-02-11)
+/Alpha 327 (2023-02-12)
 Rewrote JSON parsing code for posts and comments to use kotlinx serialization
+Show post side toolbar items in the correct order
 
 /Alpha 326 (2023-02-05)
 Subreddit emotes now supported in comments (thanks to bharatkvn)

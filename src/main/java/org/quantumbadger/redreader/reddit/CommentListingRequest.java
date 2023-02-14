@@ -328,8 +328,10 @@ public class CommentListingRequest {
 			if (comment.getMedia_metadata() != null && comment.getBody_html() != null) {
 				try {
 
-					for(final Map.Entry<UrlEncodedString, MaybeParseError<RedditComment.EmoteMetadata>> entry
-							: comment.getMedia_metadata().entrySet()) {
+					for(final Map.Entry<
+									UrlEncodedString,
+									MaybeParseError<RedditComment.EmoteMetadata>
+							> entry : comment.getMedia_metadata().entrySet()) {
 
 						if(!(entry.getValue() instanceof MaybeParseError.Ok)) {
 							continue;

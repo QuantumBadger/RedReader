@@ -25,7 +25,7 @@ data class RedditComment(
 	val score_hidden: Boolean = false,
 	val locked: Boolean = false,
 	val can_mod_post: Boolean = false,
-	val media_metadata: Map<UrlEncodedString, EmoteMetadata>? = null, // TODO MaybeParseError? Also, rename EmoteMetadata?
+	val media_metadata: Map<UrlEncodedString, MaybeParseError<EmoteMetadata>>? = null,
 
 	val replies: RedditFieldReplies = RedditFieldReplies.None,
 
@@ -72,7 +72,7 @@ data class RedditComment(
 	data class ImageMetadata(
 		val x: String,
 		val y: String,
-		val u: String
+		val u: String? = null
 	) : Parcelable
 
 	override fun getIdAlone() = id

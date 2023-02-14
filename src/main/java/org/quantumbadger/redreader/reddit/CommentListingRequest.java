@@ -328,14 +328,21 @@ public class CommentListingRequest {
 			if (comment.getMedia_metadata() != null && comment.getBody_html() != null) {
 				try {
 
-					for(final Map.Entry<UrlEncodedString, RedditComment.EmoteMetadata> entry
+					for(final Map.Entry<UrlEncodedString, MaybeParseError<RedditComment.EmoteMetadata>> entry
 							: comment.getMedia_metadata().entrySet()) {
 
-						final RedditComment.EmoteMetadata emoteMetadata = entry.getValue();
+						if(!(entry.getValue() instanceof MaybeParseError.Ok)) {
+							continue;
+						}
+
+						final RedditComment.EmoteMetadata emoteMetadata
+								= ((MaybeParseError.Ok<RedditComment.EmoteMetadata>)
+										entry.getValue()).getValue();
 
 						// id is always structured as emote|{subreddit_id}|{emote_id}
 						// for subreddit emotes
-						if (emoteMetadata.getId().split("\\|")[0].equalsIgnoreCase("emote")) {
+						if (emoteMetadata.getId().split("\\|")[0].equalsIgnoreCase("emote")
+								&& emoteMetadata.getS().getU() != null) {
 							final String subredditId = emoteMetadata.getId().split("\\|")[1];
 
 							// These are default reddit emotes (i think).

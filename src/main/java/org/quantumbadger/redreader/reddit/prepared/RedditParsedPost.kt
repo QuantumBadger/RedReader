@@ -109,7 +109,7 @@ class RedditParsedPost(
 			return this
 		}
 
-		if (src.url?.decoded?.contains("\\.gif") == true) {
+		if (src.url?.decoded?.contains(".gif") == true) {
 			src.preview?.images?.get(0)?.variants?.mp4?.source?.url?.decoded?.apply {
 				return this
 			}

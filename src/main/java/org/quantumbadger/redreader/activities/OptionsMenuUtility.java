@@ -31,11 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.SharedPrefsWrapper;
-import org.quantumbadger.redreader.common.StringUtils;
-import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
+import org.quantumbadger.redreader.common.*;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.reddit.PostCommentSort;
 import org.quantumbadger.redreader.reddit.PostSort;
@@ -1033,6 +1029,11 @@ public final class OptionsMenuUtility {
 		}
 
 		boolean equalsBaseAndType(final Sort sort) {
+
+			if(sort == null) {
+				return false;
+			}
+
 			if(!sort.getClass().equals(sorts[0].getClass())) {
 				return false;
 			}

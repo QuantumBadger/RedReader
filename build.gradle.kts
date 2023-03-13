@@ -38,9 +38,9 @@ dependencies {
 	implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 	implementation("androidx.fragment:fragment:1.5.5")
 
-	implementation("com.fasterxml.jackson.core:jackson-core:2.13.1")
+	implementation("com.fasterxml.jackson.core:jackson-core:2.14.2")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
-	implementation("org.apache.commons:commons-text:1.9")
+	implementation("org.apache.commons:commons-text:1.10.0")
 	implementation("net.danlew:android.joda:2.12.1.1")
 	implementation("com.squareup.okhttp3:okhttp:3.12.13")
 	implementation("info.guardianproject.netcipher:netcipher:1.2.1")

@@ -44,8 +44,8 @@ dependencies {
 	implementation("net.danlew:android.joda:2.12.1.1")
 	implementation("com.squareup.okhttp3:okhttp:3.12.13")
 	implementation("info.guardianproject.netcipher:netcipher:1.2.1")
-	implementation("com.google.android.exoplayer:exoplayer-core:2.18.2")
-	implementation("com.google.android.exoplayer:exoplayer-ui:2.18.2")
+	implementation("com.google.android.exoplayer:exoplayer-core:2.18.4")
+	implementation("com.google.android.exoplayer:exoplayer-ui:2.18.4")
 	implementation("com.github.luben:zstd-jni:1.5.1-1@aar")
 
 	testImplementation("junit:junit:4.13.2")

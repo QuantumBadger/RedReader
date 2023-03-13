@@ -1,5 +1,6 @@
-/Alpha 330 (2023-03-12)
+/Alpha 330 (2023-03-13)
 Fixed crash in post search
+Fix for MediaMuxer crash
 
 /Alpha 329 (2023-03-11)
 Fixing regression where some GIFs on i.redd.it wouldn't play

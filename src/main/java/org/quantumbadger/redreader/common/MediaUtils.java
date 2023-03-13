@@ -222,9 +222,6 @@ public final class MediaUtils {
 				Log.i(TAG, "Stopping muxer...");
 				muxer.stop();
 
-				Log.i(TAG, "Releasing muxer...");
-				muxer.release();
-
 				Log.i(TAG, "Mux complete for " + outputFile);
 
 				successCallback.run();
@@ -234,7 +231,12 @@ public final class MediaUtils {
 
 			} finally {
 				if(muxer != null) {
-					muxer.release();
+					try {
+						Log.i(TAG, "Releasing muxer...");
+						muxer.release();
+					} catch(final Exception e) {
+						Log.e(TAG, "Got exception during release in finally()", e);
+					}
 				}
 
 				for(final InputFile file : inputFilesToClose) {

@@ -5,6 +5,7 @@ Material You themed monochrome icon on Android 13
 Added accessibility actions for posts and comments (thanks to codeofdusk)
 Replace click/long click accessibility actions on comments with more descriptive hints (thanks to codeofdusk)
 Fixed crash in post search
+Fix for MediaMuxer crash
 Detects more bot usernames
 Dependency updates
 

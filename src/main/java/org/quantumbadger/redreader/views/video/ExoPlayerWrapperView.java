@@ -156,6 +156,18 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						updateProgress();
 					}), buttons);
 
+			addButton(createButton(
+					context,
+					mControlView,
+					R.drawable.ic_action_back_dark,
+					new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - 33);
+							updateProgress();
+						}
+					}), buttons);
+
 			{
 				final AtomicReference<ImageButton> playButton = new AtomicReference<>();
 
@@ -184,6 +196,18 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 				addButton(playButton.get(), buttons);
 			}
+
+			addButton(createButton(
+					context,
+					mControlView,
+					R.drawable.ic_action_forward_dark,
+					new OnClickListener() {
+						@Override
+						public void onClick(View view) {
+							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + 33);
+							updateProgress();
+						}
+					}), buttons);
 
 			addButton(createButton(
 					context,

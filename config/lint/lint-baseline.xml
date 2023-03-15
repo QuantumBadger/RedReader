@@ -89,15 +89,4 @@
             column="33"/>
     </issue>
 
-    <issue
-        id="Recycle"
-        message="This `ParcelFileDescriptor` should be freed up after use with `#close()`"
-        errorLine1="       = getContentResolver().openFileDescriptor(uri, &quot;r&quot;);"
-        errorLine2="                              ~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/java/org/quantumbadger/redreader/activities/ImgurUploadActivity.java"
-            line="181"
-            column="31"/>
-    </issue>
-
 </issues>

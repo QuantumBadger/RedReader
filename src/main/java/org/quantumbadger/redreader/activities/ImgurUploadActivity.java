@@ -179,30 +179,47 @@ public class ImgurUploadActivity extends BaseActivity {
 				try {
 					final ParcelFileDescriptor file
 							= getContentResolver().openFileDescriptor(uri, "r");
-					final long statSize = file.getStatSize();
 
-					if(statSize >= 10 * 1000 * 1000) { // Use base 10 just to be safe...
-						General.showResultDialog(
-								ImgurUploadActivity.this,
-								new RRError(
-										getString(R.string.error_file_too_big_title),
-										getString(
-												R.string.error_file_too_big_message,
-												statSize / 1024 + "kB",
-												"10MB"),
-										false));
-						return;
+					final Bitmap thumbnailBitmap;
+					final int width;
+					final int height;
+
+					final long statSize;
+
+					try {
+						statSize = file.getStatSize();
+
+						if (statSize >= 10 * 1000 * 1000) { // Use base 10 just to be safe...
+							General.showResultDialog(
+									ImgurUploadActivity.this,
+									new RRError(
+											getString(R.string.error_file_too_big_title),
+											getString(
+													R.string.error_file_too_big_message,
+													statSize / 1024 + "kB",
+													"10MB"),
+											false));
+							return;
+						}
+
+						final int thumbnailSizePx
+								= General.dpToPixels(ImgurUploadActivity.this, 200);
+
+						final Bitmap rawBitmap = BitmapFactory.decodeFileDescriptor(
+								file.getFileDescriptor());
+
+						width = rawBitmap.getWidth();
+						height = rawBitmap.getHeight();
+
+						thumbnailBitmap = ThumbnailScaler.scaleNoCrop(
+								rawBitmap,
+								thumbnailSizePx);
+
+						rawBitmap.recycle();
+
+					} finally {
+						General.closeSafely(file);
 					}
-
-					final int thumbnailSizePx
-							= General.dpToPixels(ImgurUploadActivity.this, 200);
-
-					final Bitmap rawBitmap
-							= BitmapFactory.decodeFileDescriptor(file.getFileDescriptor());
-					final Bitmap thumbnailBitmap = ThumbnailScaler.scaleNoCrop(
-							rawBitmap,
-							thumbnailSizePx);
-					rawBitmap.recycle();
 
 					final ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 
@@ -222,8 +239,8 @@ public class ImgurUploadActivity extends BaseActivity {
 						mThumbnailView.setImageBitmap(thumbnailBitmap);
 						mTextView.setText(getString(
 								R.string.image_selected_summary,
-								rawBitmap.getWidth(),
-								rawBitmap.getHeight(),
+								width,
+								height,
 								statSize / 1024 + "kB"));
 						hideLoadingOverlay();
 						updateUploadButtonVisibility();

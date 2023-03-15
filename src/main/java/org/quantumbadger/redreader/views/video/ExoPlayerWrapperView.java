@@ -134,7 +134,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			addButton(createButton(
 					context,
 					mControlView,
-					R.drawable.exo_controls_previous,
+					R.drawable.icon_previous,
 					R.string.video_restart,
 					view -> {
 						mVideoPlayer.seekTo(0);
@@ -144,7 +144,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			addButton(createButton(
 					context,
 					mControlView,
-					R.drawable.exo_controls_rewind,
+					R.drawable.icon_rewind,
 					R.string.video_rewind,
 					view -> {
 						if(mVideoPlayer.getCurrentPosition() > 3000) {
@@ -162,19 +162,19 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				playButton.set(createButton(
 						context,
 						mControlView,
-						R.drawable.exo_controls_pause,
+						R.drawable.icon_pause,
 						R.string.video_pause,
 						view -> {
 							mVideoPlayer.setPlayWhenReady(!mVideoPlayer.getPlayWhenReady());
 
 							if(mVideoPlayer.getPlayWhenReady()) {
 								playButton.get()
-										.setImageResource(R.drawable.exo_controls_pause);
+										.setImageResource(R.drawable.icon_pause);
 								playButton.get().setContentDescription(
 										context.getString(R.string.video_pause));
 							} else {
 								playButton.get()
-										.setImageResource(R.drawable.exo_controls_play);
+										.setImageResource(R.drawable.icon_play);
 								playButton.get().setContentDescription(
 										context.getString(R.string.video_play));
 							}
@@ -188,7 +188,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			addButton(createButton(
 					context,
 					mControlView,
-					R.drawable.exo_controls_fastforward,
+					R.drawable.icon_fastforward,
 					R.string.video_fast_forward,
 					view -> {
 						mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + 3000);

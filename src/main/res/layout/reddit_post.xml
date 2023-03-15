@@ -207,7 +207,7 @@
 								app:layout_constraintBottom_toBottomOf="parent"
 								app:layout_constraintLeft_toLeftOf="parent"
 								app:layout_constraintRight_toRightOf="parent"
-								android:src="@drawable/exo_controls_play"
+								android:src="@drawable/icon_play"
 								tools:ignore="ContentDescription"/>
 						
 					</androidx.constraintlayout.widget.ConstraintLayout>

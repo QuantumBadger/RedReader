@@ -1,6 +1,7 @@
 /Alpha 331 (2023-03-15)
 Fixing regression in submitting and editing comments
 Fixed resource leak in Imgur upload activity
+Don't use private drawable resources from ExoPlayer
 
 /Alpha 330 (2023-03-13)
 Fixed crash in post search

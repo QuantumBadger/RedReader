@@ -1,15 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <issues format="6" by="lint 7.3.1" type="baseline" client="gradle" dependencies="false" name="AGP (7.3.1)" variant="all" version="7.3.1">
-
-    <issue
-        id="DataExtractionRules"
-        message="The attribute `android:fullBackupContent` is deprecated from Android 12 and higher and may be removed in future versions. Consider adding the attribute `android:dataExtractionRules` specifying an `@xml` resource which configures cloud backups and device transfers on Android 12 and higher."
-        errorLine1="     android:fullBackupContent=&quot;@xml/backup_rules&quot;"
-        errorLine2="                                ~~~~~~~~~~~~~~~~~">
-        <location
-            file="src/main/AndroidManifest.xml"
-            line="47"
-            column="33"/>
-    </issue>
-
 </issues>

@@ -430,14 +430,14 @@ public final class RedditAPI {
 	}
 
 	public static void comment(
-			final CacheManager cm,
-			final APIResponseHandler.SubmitResponseHandler responseHandler,
-			final APIResponseHandler.ActionResponseHandler inboxResponseHandler,
-			final RedditAccount user,
-			final String parentIdAndType,
-			final String markdown,
+			@NonNull final CacheManager cm,
+			@NonNull final APIResponseHandler.SubmitResponseHandler responseHandler,
+			@NonNull final APIResponseHandler.ActionResponseHandler inboxResponseHandler,
+			@NonNull final RedditAccount user,
+			@NonNull final String parentIdAndType,
+			@NonNull final String markdown,
 			final boolean sendRepliesToInbox,
-			final AppCompatActivity context) {
+			@NonNull final AppCompatActivity context) {
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("api_type", "json"));

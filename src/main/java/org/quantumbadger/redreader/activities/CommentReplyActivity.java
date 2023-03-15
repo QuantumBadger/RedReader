@@ -52,8 +52,10 @@ import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class CommentReplyActivity extends BaseActivity {
 
@@ -65,13 +67,13 @@ public class CommentReplyActivity extends BaseActivity {
 	private EditText textEdit;
 	private CheckBox inboxReplies;
 
-	private String parentIdAndType = null;
+	private RedditIdAndType parentIdAndType = null;
 
 	private ParentType mParentType;
 
 	private boolean mDraftReset = false;
 	private static String lastText;
-	private static String lastParentIdAndType;
+	private static RedditIdAndType lastParentIdAndType;
 
 	public static final String PARENT_TYPE = "parentType";
 	public static final String PARENT_TYPE_MESSAGE = "parentTypeMessage";
@@ -113,11 +115,15 @@ public class CommentReplyActivity extends BaseActivity {
 		}
 
 		if(intent != null && intent.hasExtra(PARENT_ID_AND_TYPE_KEY)) {
-			parentIdAndType = intent.getStringExtra(PARENT_ID_AND_TYPE_KEY);
+			//noinspection deprecation
+			parentIdAndType = Objects.requireNonNull(
+					intent.getParcelableExtra(PARENT_ID_AND_TYPE_KEY));
 
-		} else if(savedInstanceState != null && savedInstanceState.containsKey(
-				PARENT_ID_AND_TYPE_KEY)) {
-			parentIdAndType = savedInstanceState.getString(PARENT_ID_AND_TYPE_KEY);
+		} else if(savedInstanceState != null
+				&& savedInstanceState.containsKey(PARENT_ID_AND_TYPE_KEY)) {
+			//noinspection deprecation
+			parentIdAndType = Objects.requireNonNull(
+					savedInstanceState.getParcelable(PARENT_ID_AND_TYPE_KEY));
 
 		} else {
 			throw new RuntimeException("No parent ID in CommentReplyActivity");
@@ -174,7 +180,7 @@ public class CommentReplyActivity extends BaseActivity {
 	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString(COMMENT_TEXT_KEY, textEdit.getText().toString());
-		outState.putString(PARENT_ID_AND_TYPE_KEY, parentIdAndType);
+		outState.putParcelable(PARENT_ID_AND_TYPE_KEY, parentIdAndType);
 	}
 
 	@Override
@@ -374,7 +380,7 @@ public class CommentReplyActivity extends BaseActivity {
 					handler,
 					inboxHandler,
 					selectedAccount,
-					parentIdAndType,
+					parentIdAndType.getValue(),
 					textEdit.getText().toString(),
 					sendRepliesToInbox,
 					this);

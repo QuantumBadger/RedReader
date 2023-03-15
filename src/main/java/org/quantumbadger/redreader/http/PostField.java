@@ -22,15 +22,16 @@ import androidx.annotation.NonNull;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Objects;
 
 public class PostField {
 
-	public final String name;
-	public final String value;
+	@NonNull public final String name;
+	@NonNull public final String value;
 
-	public PostField(final String name, final String value) {
-		this.name = name;
-		this.value = value;
+	public PostField(@NonNull final String name, @NonNull final String value) {
+		this.name = Objects.requireNonNull(name);
+		this.value = Objects.requireNonNull(value);
 	}
 
 	public String encode() {

@@ -434,14 +434,14 @@ public final class RedditAPI {
 			@NonNull final APIResponseHandler.SubmitResponseHandler responseHandler,
 			@NonNull final APIResponseHandler.ActionResponseHandler inboxResponseHandler,
 			@NonNull final RedditAccount user,
-			@NonNull final String parentIdAndType,
+			@NonNull final RedditIdAndType parentIdAndType,
 			@NonNull final String markdown,
 			final boolean sendRepliesToInbox,
 			@NonNull final AppCompatActivity context) {
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("api_type", "json"));
-		postFields.add(new PostField("thing_id", parentIdAndType));
+		postFields.add(new PostField("thing_id", parentIdAndType.getValue()));
 		postFields.add(new PostField("text", markdown));
 
 		cm.makeRequest(createPostRequest(
@@ -547,12 +547,12 @@ public final class RedditAPI {
 			final CacheManager cm,
 			final APIResponseHandler.ActionResponseHandler responseHandler,
 			final RedditAccount user,
-			final String commentIdAndType,
+			final RedditIdAndType commentIdAndType,
 			final String markdown,
 			final Context context) {
 
 		final LinkedList<PostField> postFields = new LinkedList<>();
-		postFields.add(new PostField("thing_id", commentIdAndType));
+		postFields.add(new PostField("thing_id", commentIdAndType.getValue()));
 		postFields.add(new PostField("text", markdown));
 
 		cm.makeRequest(createPostRequest(

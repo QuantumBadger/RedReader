@@ -39,12 +39,13 @@ import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 
 public class CommentEditActivity extends BaseActivity {
 
 	private EditText textEdit;
 
-	private String commentIdAndType = null;
+	private RedditIdAndType commentIdAndType = null;
 	private boolean isSelfPost = false;
 
 	@Override
@@ -64,13 +65,15 @@ public class CommentEditActivity extends BaseActivity {
 		textEdit = (EditText)getLayoutInflater().inflate(R.layout.comment_edit, null);
 
 		if(getIntent() != null && getIntent().hasExtra("commentIdAndType")) {
-			commentIdAndType = getIntent().getStringExtra("commentIdAndType");
+			//noinspection deprecation
+			commentIdAndType = getIntent().getParcelableExtra("commentIdAndType");
 			textEdit.setText(getIntent().getStringExtra("commentText"));
 
 		} else if(savedInstanceState != null && savedInstanceState.containsKey(
 				"commentIdAndType")) {
 			textEdit.setText(savedInstanceState.getString("commentText"));
-			commentIdAndType = savedInstanceState.getString("commentIdAndType");
+			//noinspection deprecation
+			commentIdAndType = savedInstanceState.getParcelable("commentIdAndType");
 		}
 
 		final ScrollView sv = new ScrollView(this);
@@ -82,7 +85,7 @@ public class CommentEditActivity extends BaseActivity {
 	protected void onSaveInstanceState(@NonNull final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putString("commentText", textEdit.getText().toString());
-		outState.putString("commentIdAndType", commentIdAndType);
+		outState.putParcelable("commentIdAndType", commentIdAndType);
 	}
 
 	@Override

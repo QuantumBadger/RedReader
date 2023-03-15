@@ -380,7 +380,7 @@ public class CommentReplyActivity extends BaseActivity {
 					handler,
 					inboxHandler,
 					selectedAccount,
-					parentIdAndType.getValue(),
+					parentIdAndType,
 					textEdit.getText().toString(),
 					sendRepliesToInbox,
 					this);

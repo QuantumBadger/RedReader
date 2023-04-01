@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,7 +52,7 @@ import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
 
 public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
-	public final SpannableStringBuilder header;
+	public final BetterSSB header;
 	public final BodyElement body;
 	public final RedditIdAndType idAndType;
 	public final RedditMessage src;
@@ -141,10 +140,10 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 				0,
 				1f);
 
-		header = sb.get();
+		header = sb;
 	}
 
-	public SpannableStringBuilder getHeader() {
+	public BetterSSB getHeader() {
 		return header;
 	}
 
@@ -183,7 +182,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	}
 
 	@Override
-	public CharSequence getHeader(
+	public BetterSSB getHeader(
 			final RRThemeAttributes theme,
 			final RedditChangeDataManager changeDataManager,
 			final Context context,

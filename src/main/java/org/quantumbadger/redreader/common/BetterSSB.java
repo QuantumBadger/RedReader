@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.common;
 import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -32,8 +33,9 @@ import android.text.style.UnderlineSpan;
 import androidx.annotation.NonNull;
 
 import java.util.HashSet;
+import java.util.Observable;
 
-public class BetterSSB {
+public class BetterSSB extends Observable {
 
 	private final SpannableStringBuilder sb;
 
@@ -176,6 +178,41 @@ public class BetterSSB {
 				}
 			}
 		}
+	}
+
+	public void append(final CharSequence text) {
+		this.sb.append(text);
+		this.setChanged();
+		this.notifyObservers(this.sb);
+	}
+
+	public void replace(final int start, final int end, final CharSequence text) {
+		this.sb.replace(start, end, text);
+		this.setChanged();
+		this.notifyObservers(this.sb);
+	}
+
+	public void replace(final CharSequence textToBeReplaced, final Object replacement) {
+		final int textStartIndex = TextUtils.indexOf(this.sb, textToBeReplaced);
+
+		this.sb.setSpan(replacement,
+				textStartIndex,
+				textStartIndex + textToBeReplaced.length(),
+				Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+		this.setChanged();
+		this.notifyObservers(this.sb);
+	}
+
+	public boolean isEmpty() {
+		return this.sb.length() == 0;
+	}
+
+	public void setSpan(final Object what, final int start, final int end, final int flag) {
+		this.sb.setSpan(what, start, end, flag);
+
+		this.setChanged();
+		this.notifyObservers(this.sb);
 	}
 
 	public SpannableStringBuilder get() {

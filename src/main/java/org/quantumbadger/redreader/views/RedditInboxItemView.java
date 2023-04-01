@@ -114,7 +114,7 @@ public class RedditInboxItemView extends LinearLayout {
 				context,
 				PrefsUtility.appearance_inbox_age_units(),
 				null,
-				null));
+				null).get());
 
 		mHeader.setContentDescription(item.getAccessibilityHeader(
 				theme,

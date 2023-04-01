@@ -24,13 +24,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 public interface RedditRenderableCommentListItem {
 
-	CharSequence getHeader(
+	BetterSSB getHeader(
 			final RRThemeAttributes theme,
 			final RedditChangeDataManager changeDataManager,
 			final Context context,

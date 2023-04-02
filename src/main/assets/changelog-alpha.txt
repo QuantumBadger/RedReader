@@ -20,7 +20,7 @@ Rewrote JSON parsing code for posts and comments to use kotlinx serialization
 Show post side toolbar items in the correct order
 
 /Alpha 326 (2023-02-05)
-Subreddit emotes now supported in comments (thanks to bharatkvn)
+Subreddit emotes now supported in comments (thanks to bharatknv)
 Replace click/long click accessibility actions on comments with more descriptive hints (thanks to codeofdusk)
 Additional accessibility actions for posts and comments (thanks to codeofdusk)
 

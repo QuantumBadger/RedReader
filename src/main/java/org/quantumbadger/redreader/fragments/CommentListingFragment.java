@@ -754,11 +754,13 @@ public class CommentListingFragment extends RRFragment
 
 	private void setFocusDelayed(final int pos) {
 		AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
-			RecyclerView.ViewHolder view = mRecyclerView.findViewHolderForAdapterPosition(pos);
+			final RecyclerView.ViewHolder view
+					= mRecyclerView.findViewHolderForAdapterPosition(pos);
 			if (view != null) {
-				view.itemView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
-				view.itemView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
-				view.itemView.performAccessibilityAction(
+				final View item = view.itemView;
+				item.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+				item.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
+				item.performAccessibilityAction(
 						AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
 						null);
 			}

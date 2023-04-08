@@ -102,7 +102,7 @@ public final class PrefsBackup {
 			map.put(FIELD_VERSION_CODE, BuildConfig.VERSION_CODE);
 			map.put(FIELD_VERSION_NAME, BuildConfig.VERSION_NAME);
 			map.put(FIELD_IS_ALPHA, General.isAlpha());
-            map.put(FIELD_TIMESTAMP_UTC, TimestampUTC.now().toUtcMs());
+			map.put(FIELD_TIMESTAMP_UTC, TimestampUTC.now().toUtcMs());
 			map.put(FIELD_PREFS, prefMap);
 
 			final ByteArrayOutputStream bytes = new ByteArrayOutputStream();

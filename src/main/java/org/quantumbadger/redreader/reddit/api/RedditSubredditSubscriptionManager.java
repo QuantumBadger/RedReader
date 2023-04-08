@@ -286,7 +286,7 @@ public class RedditSubredditSubscriptionManager {
 			return;
 		}
 
-        mLastUpdateRequestTime = TimestampUTC.now();
+		mLastUpdateRequestTime = TimestampUTC.now();
 
 		new RedditAPIIndividualSubredditListRequester(context, user).performRequest(
 				RedditSubredditManager.SubredditListType.SUBSCRIBED,

@@ -63,7 +63,7 @@ public class Announcement {
 			@NonNull final String url,
 			final TimeDuration duration) {
 
-        return new Announcement(
+		return new Announcement(
 				id,
 				title,
 				message,
@@ -72,7 +72,7 @@ public class Announcement {
 	}
 
 	public boolean isExpired() {
-        return showUntil.hasPassed();
+		return showUntil.hasPassed();
 	}
 
 	@NonNull

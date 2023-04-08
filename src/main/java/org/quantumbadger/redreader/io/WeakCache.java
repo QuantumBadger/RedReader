@@ -70,7 +70,9 @@ public final class WeakCache<K, V extends WritableObject<K>, F>
 					if(oldestTimestamp == null) {
 						oldestTimestamp = value.getTimestamp();
 					} else {
-						oldestTimestamp = TimestampUTC.oldest(oldestTimestamp, value.getTimestamp());
+						oldestTimestamp = TimestampUTC.oldest(
+								oldestTimestamp,
+								value.getTimestamp());
 					}
 				}
 			}

@@ -1170,17 +1170,17 @@ public final class PrefsUtility {
 				.apply();
 	}
 
-	public static long pref_cache_rerequest_postlist_age_ms() {
+	public static TimeDuration pref_cache_rerequest_postlist_age() {
 		try {
 			final int hours = Integer.parseInt(
 					getString(
 							R.string.pref_cache_rerequest_postlist_age_key,
 							"1"));
 
-			return General.hoursToMs(hours);
+			return TimeDuration.hours(hours);
 
 		} catch(final Throwable e) {
-			return 1;
+			return TimeDuration.hours(1);
 		}
 	}
 

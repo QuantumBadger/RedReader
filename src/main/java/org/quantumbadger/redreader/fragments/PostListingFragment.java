@@ -247,7 +247,8 @@ public class PostListingFragment extends RRFragment
 				&& savedInstanceState == null
 				&& General.isNetworkConnected(context)) {
 
-			final TimeDuration maxAge = TimeDuration.ms(PrefsUtility.pref_cache_rerequest_postlist_age_ms());
+			final TimeDuration maxAge
+					= PrefsUtility.pref_cache_rerequest_postlist_age();
 			downloadStrategy = new DownloadStrategyIfTimestampOutsideBounds(
 					TimestampBound.notOlderThan(maxAge));
 
@@ -542,7 +543,8 @@ public class PostListingFragment extends RRFragment
 				final Uri newUri = mPostListingURL.after(mAfter).generateJsonUri();
 
 				// TODO customise (currently 3 hrs)
-				final DownloadStrategy strategy = mTimestamp.elapsed().isLessThan(TimeDuration.hours(3))
+				final DownloadStrategy strategy = mTimestamp.elapsed()
+								.isLessThan(TimeDuration.hours(3))
 						? DownloadStrategyIfNotCached.INSTANCE
 						: DownloadStrategyNever.INSTANCE;
 

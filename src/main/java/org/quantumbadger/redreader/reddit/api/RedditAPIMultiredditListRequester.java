@@ -69,7 +69,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 
 		if(user.isAnonymous()) {
 
-            final TimestampUTC now = TimestampUTC.now();
+			final TimestampUTC now = TimestampUTC.now();
 
 			handler.onRequestSuccess(
 					new WritableHashSet(

@@ -40,7 +40,11 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 	@WritableObjectTimestamp
 	private final long timestamp;
 
-	public WritableHashSet(final HashSet<String> data, final TimestampUTC timestamp, final String key) {
+	public WritableHashSet(
+			final HashSet<String> data,
+			final TimestampUTC timestamp,
+			final String key) {
+
 		this.hashSet = data;
 		this.timestamp = timestamp.toUtcMs();
 		this.key = key;

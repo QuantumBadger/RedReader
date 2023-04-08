@@ -48,6 +48,6 @@ public class AnnouncementRealKeyTest {
 		Assert.assertEquals("Test title", announcement.title);
 		Assert.assertEquals("Test message", announcement.message);
 		Assert.assertEquals("https://test_url", announcement.url);
-		Assert.assertEquals(1609085745063L, announcement.showUntilUtcMillis);
+		Assert.assertEquals(1609085745063L, announcement.showUntil.toUtcMs());
 	}
 }

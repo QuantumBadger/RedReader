@@ -26,6 +26,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
@@ -48,6 +50,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfTimestampOutsideBounds;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
@@ -245,7 +248,7 @@ public class CommentListingFragment extends RRFragment
 				mFloatingToolbar.addView(nextButton);
 
 				nextButton.setOnClickListener(view -> {
-					onNextParent(); 
+					onNextParent();
 				});
 
 				nextButton.setOnLongClickListener(view -> {
@@ -717,11 +720,13 @@ public class CommentListingFragment extends RRFragment
 				&& ((RedditCommentListItem)item).getIndent() == 0
 			) {
 				layoutManager.scrollToPositionWithOffset(pos, 0);
+				setFocusDelayed(pos);
 				return;
 			}
 		}
 
 		layoutManager.scrollToPositionWithOffset(0, 0);
+		setFocusDelayed(0);
 	}
 
 	public void onNextParent() {
@@ -741,8 +746,22 @@ public class CommentListingFragment extends RRFragment
 				&& ((RedditCommentListItem)item).getIndent() == 0
 			) {
 				layoutManager.scrollToPositionWithOffset(pos, 0);
+				setFocusDelayed(pos);
 				break;
 			}
 		}
+	}
+
+	private void setFocusDelayed(final int pos) {
+		AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
+			RecyclerView.ViewHolder view = mRecyclerView.findViewHolderForAdapterPosition(pos);
+			if (view != null) {
+				view.itemView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+				view.itemView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
+				view.itemView.performAccessibilityAction(
+						AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
+						null);
+			}
+		}, 500);
 	}
 }

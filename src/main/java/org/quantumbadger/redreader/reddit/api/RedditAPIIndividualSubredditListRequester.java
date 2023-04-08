@@ -33,6 +33,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -74,7 +75,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 
 		if(type == RedditSubredditManager.SubredditListType.DEFAULTS) {
 
-			final long now = System.currentTimeMillis();
+			final TimestampUTC now = TimestampUTC.now();
 
 			final HashSet<String> data =
 					new HashSet<>(Constants.Reddit.DEFAULT_SUBREDDITS.size() + 1);
@@ -108,7 +109,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 					return;
 
 				case MODERATED: {
-					final long curTime = System.currentTimeMillis();
+					final TimestampUTC curTime = TimestampUTC.now();
 					handler.onRequestSuccess(
 							new WritableHashSet(
 									new HashSet<>(),
@@ -119,7 +120,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 				}
 
 				case MULTIREDDITS: {
-					final long curTime = System.currentTimeMillis();
+					final TimestampUTC curTime = TimestampUTC.now();
 					handler.onRequestSuccess(
 							new WritableHashSet(
 									new HashSet<>(),
@@ -191,7 +192,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session, final boolean fromCache) {
 
 						try {
@@ -219,7 +220,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 								final RedditThing thing = v.asObject(RedditThing.class);
 								final RedditSubreddit subreddit = thing.asSubreddit();
 
-								subreddit.downloadTime = timestamp;
+								subreddit.downloadTime = timestamp.toUtcMs();
 
 								try {
 									output.add(subreddit.getCanonicalId().toString());
@@ -253,7 +254,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 											@Override
 											public void onRequestSuccess(
 													final WritableHashSet result,
-													final long timeCached) {
+													final TimestampUTC timeCached) {
 												output.addAll(result.toHashset());
 												handler.onRequestSuccess(new WritableHashSet(
 														output,

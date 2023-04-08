@@ -33,6 +33,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
@@ -72,7 +73,7 @@ public final class AnnouncementDownloader {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 

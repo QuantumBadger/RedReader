@@ -28,8 +28,8 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -69,11 +69,11 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 
 		if(user.isAnonymous()) {
 
-			final long now = RRTime.utcCurrentTimeMillis();
+            final TimestampUTC now = TimestampUTC.now();
 
 			handler.onRequestSuccess(
 					new WritableHashSet(
-							new HashSet<String>(),
+							new HashSet<>(),
 							now,
 							user.getCanonicalUsername()),
 					now);
@@ -101,7 +101,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 

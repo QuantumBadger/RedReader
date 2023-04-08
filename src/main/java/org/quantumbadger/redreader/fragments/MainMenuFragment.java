@@ -35,6 +35,8 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.reddit.api.RedditMultiredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
@@ -157,7 +159,7 @@ public class MainMenuFragment extends RRFragment implements
 						@Override
 						public void onRequestSuccess(
 								final HashSet<String> result,
-								final long timeCached) {
+								final TimestampUTC timeCached) {
 
 							multiredditSubscriptionManager.addListener(MainMenuFragment.this);
 							onMultiredditSubscriptionsChanged(result);
@@ -176,7 +178,7 @@ public class MainMenuFragment extends RRFragment implements
 						@Override
 						public void onRequestSuccess(
 								final HashSet<SubredditCanonicalId> result,
-								final long timeCached) {
+								final TimestampUTC timeCached) {
 							subredditSubscriptionManager.addListener(MainMenuFragment.this);
 							onSubredditSubscriptionsChanged(result);
 						}
@@ -198,7 +200,7 @@ public class MainMenuFragment extends RRFragment implements
 			}
 
 			final TimestampBound.MoreRecentThanBound oneHour
-					= TimestampBound.notOlderThan(1000 * 60 * 60);
+					= TimestampBound.notOlderThan(TimeDuration.hours(1));
 			multiredditSubscriptionManager.triggerUpdate(null, oneHour);
 			subredditSubscriptionManager.triggerUpdate(null, oneHour);
 		}

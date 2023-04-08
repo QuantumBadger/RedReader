@@ -30,6 +30,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 
@@ -268,7 +269,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 
 	public void notifyDataStreamAvailable(
 			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
-			final long timestamp,
+			final TimestampUTC timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,
 			@Nullable final String mimetype) {
@@ -278,7 +279,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 
 	public void notifyDataStreamComplete(
 			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
-			final long timestamp,
+			final TimestampUTC timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,
 			@Nullable final String mimetype) {
@@ -314,7 +315,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 
 	public void notifyCacheFileWritten(
 			final CacheManager.ReadableCacheFile cacheFile,
-			final long timestamp,
+			final TimestampUTC timestamp,
 			final UUID session,
 			final boolean fromCache,
 			final String mimetype) {

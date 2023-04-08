@@ -32,7 +32,8 @@ import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.cache.CacheEntry;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.BetterSSB;
-import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimeFormatHelper;
 import org.quantumbadger.redreader.viewholders.VH1Text;
 
 import java.net.URI;
@@ -108,16 +109,16 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 		final CacheEntry session = sessions.get(position);
 		final BetterSSB name = new BetterSSB();
 
-		if(RRTime.utcCurrentTimeMillis() - session.timestamp < 1000 * 120) {
+		if(session.timestamp.elapsed().isLessThan(TimeDuration.minutes(2))) {
 			name.append(
-					RRTime.formatDurationFrom(
+					TimeFormatHelper.format(
+							session.timestamp.elapsedPeriod(),
 							context,
-							session.timestamp,
 							R.string.time_ago,
 							2),
 					0);
 		} else {
-			name.append(RRTime.formatDateTime(session.timestamp, context), 0);
+			name.append(session.timestamp.format(), 0);
 		}
 
 		if(session.session.equals(current)) {

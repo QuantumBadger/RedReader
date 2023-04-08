@@ -24,6 +24,7 @@ import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
 
@@ -101,7 +102,7 @@ public final class PrefsBackup {
 			map.put(FIELD_VERSION_CODE, BuildConfig.VERSION_CODE);
 			map.put(FIELD_VERSION_NAME, BuildConfig.VERSION_NAME);
 			map.put(FIELD_IS_ALPHA, General.isAlpha());
-			map.put(FIELD_TIMESTAMP_UTC, RRTime.utcCurrentTimeMillis());
+            map.put(FIELD_TIMESTAMP_UTC, TimestampUTC.now().toUtcMs());
 			map.put(FIELD_PREFS, prefMap);
 
 			final ByteArrayOutputStream bytes = new ByteArrayOutputStream();

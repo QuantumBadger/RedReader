@@ -21,6 +21,7 @@ import android.content.Context;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.ThreadedRawObjectDB;
@@ -38,7 +39,7 @@ public class RedditSubredditManager {
 
 	public void offerRawSubredditData(
 			final Collection<RedditSubreddit> toWrite,
-			final long timestamp) {
+			final TimestampUTC timestamp) {
 		subredditCache.performWrite(toWrite);
 	}
 

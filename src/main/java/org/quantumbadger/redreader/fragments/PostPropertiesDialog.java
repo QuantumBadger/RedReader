@@ -71,7 +71,7 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 		items.addView(propView(
 				context,
 				R.string.props_created,
-				post.getCreated_utc().getValue().format(context),
+				post.getCreated_utc().getValue().format(),
 				false));
 
 		if(post.getEdited() instanceof RedditFieldEdited.Timestamp) {
@@ -79,7 +79,7 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 					context,
 					R.string.props_edited,
 					((RedditFieldEdited.Timestamp)post.getEdited())
-							.getValue().getValue().format(context),
+							.getValue().getValue().format(),
 					false));
 		} else {
 			items.addView(propView(

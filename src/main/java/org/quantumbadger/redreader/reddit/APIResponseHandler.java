@@ -24,6 +24,7 @@ import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
 
@@ -162,7 +163,7 @@ public abstract class APIResponseHandler {
 			super(context);
 		}
 
-		public final void notifySuccess(final RedditUser result, final long timestamp) {
+		public final void notifySuccess(final RedditUser result, final TimestampUTC timestamp) {
 			try {
 				onSuccess(result, timestamp);
 			} catch(final Throwable t1) {
@@ -190,6 +191,6 @@ public abstract class APIResponseHandler {
 
 		protected abstract void onDownloadStarted();
 
-		protected abstract void onSuccess(RedditUser result, long timestamp);
+		protected abstract void onSuccess(RedditUser result, TimestampUTC timestamp);
 	}
 }

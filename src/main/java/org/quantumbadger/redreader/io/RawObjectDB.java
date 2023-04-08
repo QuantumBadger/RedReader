@@ -313,7 +313,7 @@ public class RawObjectDB<K, E extends WritableObject<K>> extends SQLiteOpenHelpe
 			IllegalAccessException {
 
 		result.put(FIELD_ID, obj.getKey().toString());
-		result.put(FIELD_TIMESTAMP, obj.getTimestamp());
+		result.put(FIELD_TIMESTAMP, obj.getTimestamp().toUtcMs());
 
 		for(int i = 0; i < fields.length; i++) {
 

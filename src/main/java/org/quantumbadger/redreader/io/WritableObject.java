@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.io;
 
+import org.quantumbadger.redreader.common.time.TimestampUTC;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -36,7 +38,7 @@ public interface WritableObject<K> {
 
 	K getKey();
 
-	long getTimestamp();
+	TimestampUTC getTimestamp();
 
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.FIELD)

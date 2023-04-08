@@ -46,6 +46,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.body.HTTPRequestBodyMultipart;
 import org.quantumbadger.redreader.http.body.multipart.PartFormDataBinary;
@@ -287,7 +288,7 @@ public class ImgurUploadActivity extends BaseActivity {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 

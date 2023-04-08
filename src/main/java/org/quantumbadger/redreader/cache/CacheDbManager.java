@@ -26,7 +26,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.Optional;
-import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 import java.io.IOException;
 import java.net.URI;
@@ -230,7 +231,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		row.put(FIELD_SESSION, session.toString());
 		row.put(FIELD_TYPE, fileType);
 		row.put(FIELD_STATUS, STATUS_MOVING);
-		row.put(FIELD_TIMESTAMP, RRTime.utcCurrentTimeMillis());
+		row.put(FIELD_TIMESTAMP, TimestampUTC.now().toUtcMs());
 		row.put(FIELD_MIMETYPE, mimetype);
 		row.put(FIELD_COMPRESSION_TYPE, compressionType.databaseId);
 		row.put(FIELD_LENGTH_COMPRESSED, lengthCompressed);
@@ -261,12 +262,12 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 	public synchronized ArrayList<Long> getFilesToPrune(
 			final HashSet<Long> currentFiles,
-			final HashMap<Integer, Long> maxAge,
-			final long defaultMaxAge) {
+			final HashMap<Integer, TimeDuration> maxAge,
+			final TimeDuration defaultMaxAge) {
 
 		final SQLiteDatabase db = this.getWritableDatabase();
 
-		final long currentTime = RRTime.utcCurrentTimeMillis();
+		final TimestampUTC currentTime = TimestampUTC.now();
 
 		final Cursor cursor = db.query(
 				TABLE,
@@ -285,22 +286,22 @@ final class CacheDbManager extends SQLiteOpenHelper {
 		while(cursor.moveToNext()) {
 
 			final long id = cursor.getLong(0);
-			final long timestamp = cursor.getLong(1);
+			final TimestampUTC timestamp = TimestampUTC.fromUtcMs(cursor.getLong(1));
 			final int type = cursor.getInt(2);
 
-			final long pruneIfBeforeMs;
+			final TimestampUTC pruneIfBeforeMs;
 
 			if(maxAge.containsKey(type)) {
-				pruneIfBeforeMs = currentTime - maxAge.get(type);
+				pruneIfBeforeMs = currentTime.subtract(maxAge.get(type));
 			} else {
 				Log.e("RR DEBUG cache", "Using default age! Filetype " + type);
-				pruneIfBeforeMs = currentTime - defaultMaxAge;
+				pruneIfBeforeMs = currentTime.subtract(defaultMaxAge);
 			}
 
 			if(!currentFiles.contains(id)) {
 				entriesToDelete.add(id);
 
-			} else if(timestamp < pruneIfBeforeMs) {
+			} else if(timestamp.isLessThan(pruneIfBeforeMs)) {
 				entriesToDelete.add(id);
 				filesToDelete.add(id);
 

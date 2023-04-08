@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
@@ -539,7 +540,7 @@ public class PostListingActivity extends RefreshableActivity
 	public void onSessionChanged(
 			final UUID session,
 			final SessionChangeType type,
-			final long timestamp) {
+			final TimestampUTC timestamp) {
 		controller.setSession(session);
 	}
 

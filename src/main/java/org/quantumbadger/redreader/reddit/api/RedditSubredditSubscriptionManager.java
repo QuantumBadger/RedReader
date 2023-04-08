@@ -32,11 +32,12 @@ import org.quantumbadger.redreader.common.FunctionOneArgNoReturn;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -91,7 +92,7 @@ public class RedditSubredditSubscriptionManager {
 	@NonNull private final HashSet<SubredditCanonicalId> pendingUnsubscriptions =
 			new HashSet<>();
 
-	private long mLastUpdateRequestTime;
+	private TimestampUTC mLastUpdateRequestTime = TimestampUTC.ZERO;
 
 	public static synchronized RedditSubredditSubscriptionManager getSingleton(
 			final Context context,
@@ -206,7 +207,7 @@ public class RedditSubredditSubscriptionManager {
 
 	private synchronized void onNewSubscriptionListReceived(
 			final HashSet<SubredditCanonicalId> newSubscriptions,
-			final long timestamp) {
+			final TimestampUTC timestamp) {
 
 		pendingSubscriptions.clear();
 		pendingUnsubscriptions.clear();
@@ -258,15 +259,15 @@ public class RedditSubredditSubscriptionManager {
 			@Override
 			public void onRequestSuccess(
 					final HashSet<SubredditCanonicalId> result,
-					final long timeCached) {
+					final TimestampUTC timeCached) {
 				// Do nothing
 			}
 		};
 
 		if(!areSubscriptionsReady()
-				&& (mLastUpdateRequestTime == 0
-				|| RRTime.since(mLastUpdateRequestTime) > RRTime.secsToMs(10))) {
-			triggerUpdate(handler, TimestampBound.notOlderThan(RRTime.hoursToMs(1)));
+				&& (mLastUpdateRequestTime == TimestampUTC.ZERO
+				|| mLastUpdateRequestTime.elapsed().isGreaterThan(TimeDuration.secs(10)))) {
+			triggerUpdate(handler, TimestampBound.notOlderThan(TimeDuration.hours(1)));
 		}
 	}
 
@@ -285,7 +286,7 @@ public class RedditSubredditSubscriptionManager {
 			return;
 		}
 
-		mLastUpdateRequestTime = RRTime.utcCurrentTimeMillis();
+        mLastUpdateRequestTime = TimestampUTC.now();
 
 		new RedditAPIIndividualSubredditListRequester(context, user).performRequest(
 				RedditSubredditManager.SubredditListType.SUBSCRIBED,
@@ -303,7 +304,7 @@ public class RedditSubredditSubscriptionManager {
 					@Override
 					public void onRequestSuccess(
 							final WritableHashSet result,
-							final long timeCached) {
+							final TimestampUTC timeCached) {
 						final HashSet<String> newSubscriptionStrings = result.toHashset();
 
 						final HashSet<SubredditCanonicalId> newSubscriptions =

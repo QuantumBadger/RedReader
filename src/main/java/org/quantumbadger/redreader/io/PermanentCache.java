@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.io;
 
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,7 +53,7 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 
 		final HashSet<K> keysRemaining = new HashSet<>(keys);
 		final HashMap<K, V> cacheResult = new HashMap<>(keys.size());
-		long oldestTimestamp = Long.MAX_VALUE;
+		TimestampUTC oldestTimestamp = null;
 
 		for(final K key : keys) {
 
@@ -63,14 +64,20 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 				if(timestampBound.verifyTimestamp(value.getTimestamp())) {
 					keysRemaining.remove(key);
 					cacheResult.put(key, value);
-					oldestTimestamp = Math.min(oldestTimestamp, value.getTimestamp());
+					if(oldestTimestamp == null) {
+						oldestTimestamp = value.getTimestamp();
+					} else {
+						oldestTimestamp = TimestampUTC.oldest(
+								oldestTimestamp,
+								value.getTimestamp());
+					}
 				}
 			}
 		}
 
 		if(!keysRemaining.isEmpty()) {
 
-			final long outerOldestTimestamp = oldestTimestamp;
+			final TimestampUTC outerOldestTimestamp = oldestTimestamp;
 
 			cacheDataSource.performRequest(
 					keysRemaining,
@@ -84,11 +91,16 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 						@Override
 						public void onRequestSuccess(
 								final HashMap<K, V> result,
-								final long timeCached) {
+								final TimestampUTC timeCached) {
 							cacheResult.putAll(result);
+
+							final TimestampUTC timestamp = outerOldestTimestamp == null
+									? timeCached
+									: TimestampUTC.oldest(outerOldestTimestamp, timeCached);
+
 							handler.onRequestSuccess(
 									cacheResult,
-									Math.min(timeCached, outerOldestTimestamp));
+									timestamp);
 						}
 					});
 
@@ -133,7 +145,7 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 					}
 
 					@Override
-					public void onRequestSuccess(final V result, final long timeCached) {
+					public void onRequestSuccess(final V result, final TimestampUTC timeCached) {
 						synchronized(PermanentCache.this) {
 							put(result, false);
 							if(updatedVersionListener != null) {
@@ -153,7 +165,7 @@ public final class PermanentCache<K, V extends WritableObject<K>, F>
 			}
 
 			@Override
-			public void onRequestSuccess(final V result, final long timeCached) {
+			public void onRequestSuccess(final V result, final TimestampUTC timeCached) {
 				put(result, false);
 			}
 		});

@@ -20,11 +20,14 @@ plugins {
 	kotlin("android") version("1.6.21") apply(true)
 	kotlin("plugin.serialization") version("1.6.21") apply(true)
 	kotlin("plugin.parcelize") version("1.6.21") apply(true)
-	pmd
+    pmd
 	checkstyle
 }
 
 dependencies {
+	implementation(project(":redreader-common"))
+	implementation(project(":redreader-datamodel"))
+
 	implementation("androidx.core:core-ktx:1.9.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21") // TODO use constant
@@ -44,7 +47,6 @@ dependencies {
 	// v1.10.0 uses Java 8 APIs which are unsupported on Android 6 and below
 	implementation("org.apache.commons:commons-text:1.9")
 
-	implementation("net.danlew:android.joda:2.12.1.1")
 	implementation("com.squareup.okhttp3:okhttp:3.12.13")
 	implementation("info.guardianproject.netcipher:netcipher:1.2.1")
 	implementation("com.google.android.exoplayer:exoplayer-core:2.18.4")

@@ -36,6 +36,7 @@ import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.DynamicSpanned;
@@ -89,7 +90,7 @@ public class HtmlRawElementImg extends HtmlRawElement{
 					@Override
 					public void onDataStreamComplete(
 							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							@Nullable final String mimetype) {

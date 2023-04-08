@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.activities;
 
+import org.quantumbadger.redreader.common.time.TimestampUTC;
+
 import java.util.UUID;
 
 public interface SessionChangeListener {
@@ -29,5 +31,5 @@ public interface SessionChangeListener {
 
 	void onSessionRefreshSelected(SessionChangeType type);
 
-	void onSessionChanged(UUID session, SessionChangeType type, long timestamp);
+	void onSessionChanged(UUID session, SessionChangeType type, TimestampUTC timestamp);
 }

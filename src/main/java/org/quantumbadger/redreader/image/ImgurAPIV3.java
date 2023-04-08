@@ -29,6 +29,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -62,7 +63,7 @@ public final class ImgurAPIV3 {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 
@@ -122,7 +123,7 @@ public final class ImgurAPIV3 {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 

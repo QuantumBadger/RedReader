@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.io;
 
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,9 +40,9 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 	@WritableObjectTimestamp
 	private final long timestamp;
 
-	public WritableHashSet(final HashSet<String> data, final long timestamp, final String key) {
+	public WritableHashSet(final HashSet<String> data, final TimestampUTC timestamp, final String key) {
 		this.hashSet = data;
-		this.timestamp = timestamp;
+		this.timestamp = timestamp.toUtcMs();
 		this.key = key;
 		serialised = listToEscapedString(hashSet);
 	}
@@ -89,8 +90,8 @@ public class WritableHashSet implements WritableObject<String>, Iterable<String>
 	}
 
 	@Override
-	public long getTimestamp() {
-		return timestamp;
+	public TimestampUTC getTimestamp() {
+		return TimestampUTC.fromUtcMs(timestamp);
 	}
 
 	public static String listToEscapedString(final Collection<String> list) {

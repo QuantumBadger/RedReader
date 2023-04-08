@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.io.RawObjectDB;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.io.WritableHashSet;
@@ -92,7 +93,7 @@ public class RedditMultiredditSubscriptionManager {
 
 	private synchronized void onNewSubscriptionListReceived(
 			final HashSet<String> newSubscriptions,
-			final long timestamp) {
+			final TimestampUTC timestamp) {
 
 		mMultireddits = new WritableHashSet(
 				newSubscriptions,
@@ -136,7 +137,7 @@ public class RedditMultiredditSubscriptionManager {
 					@Override
 					public void onRequestSuccess(
 							final WritableHashSet result,
-							final long timeCached) {
+							final TimestampUTC timeCached) {
 						final HashSet<String> newSubscriptions = result.toHashset();
 						onNewSubscriptionListReceived(newSubscriptions, timeCached);
 						if(handler != null) {
@@ -145,10 +146,6 @@ public class RedditMultiredditSubscriptionManager {
 					}
 				}
 		);
-	}
-
-	public Long getSubscriptionListTimestamp() {
-		return mMultireddits != null ? mMultireddits.getTimestamp() : null;
 	}
 
 	public interface MultiredditListChangeListener {

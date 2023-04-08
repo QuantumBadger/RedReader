@@ -32,9 +32,10 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.PostField;
 import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
@@ -60,7 +61,7 @@ public final class RedgifsAPIV2 {
 		}
 
 		public static AuthToken expireIn10Mins(@NonNull final String token) {
-			return new AuthToken(token, SystemClock.uptimeMillis() + RRTime.minsToMs(10));
+			return new AuthToken(token, SystemClock.uptimeMillis() + 10L * 60 * 1000);
 		}
 
 		public boolean isValid() {
@@ -88,7 +89,7 @@ public final class RedgifsAPIV2 {
 				priority,
 				// RedGifs V2 links expire after an undocumented period of time
 				new DownloadStrategyIfTimestampOutsideBounds(
-						TimestampBound.notOlderThan(RRTime.minsToMs(10))),
+						TimestampBound.notOlderThan(TimeDuration.minutes(10))),
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DOWNLOAD_QUEUE_REDGIFS_API_V2,
 				context,
@@ -96,7 +97,7 @@ public final class RedgifsAPIV2 {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 
@@ -172,7 +173,7 @@ public final class RedgifsAPIV2 {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 

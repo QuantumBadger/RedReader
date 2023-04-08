@@ -52,8 +52,9 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.CommentListingRequest;
 import org.quantumbadger.redreader.reddit.RedditCommentListItem;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
@@ -106,7 +107,7 @@ public class CommentListingFragment extends RRFragment
 	private final float mSelfTextFontScale;
 	private final boolean mShowLinkButtons;
 
-	private Long mCachedTimestamp = null;
+	private TimestampUTC mCachedTimestamp = null;
 
 	private Integer mPreviousFirstVisibleItemPosition;
 
@@ -143,7 +144,7 @@ public class CommentListingFragment extends RRFragment
 				&& savedInstanceState == null
 				&& General.isNetworkConnected(parent)) {
 			mDownloadStrategy = new DownloadStrategyIfTimestampOutsideBounds(
-					TimestampBound.notOlderThan(RRTime.minsToMs(20)));
+					TimestampBound.notOlderThan(TimeDuration.minutes(20)));
 
 		} else {
 			mDownloadStrategy = DownloadStrategyIfNotCached.INSTANCE;
@@ -347,7 +348,7 @@ public class CommentListingFragment extends RRFragment
 			final RedditRenderableComment comment = item.asComment();
 
 			changeDataManager.markHidden(
-					RRTime.utcCurrentTimeMillis(),
+					TimestampUTC.now(),
 					comment.getIdAndType(),
 					!comment.isCollapsed(changeDataManager));
 
@@ -478,7 +479,7 @@ public class CommentListingFragment extends RRFragment
 	}
 
 	@Override
-	public void onCommentListingRequestCachedCopy(final long timestamp) {
+	public void onCommentListingRequestCachedCopy(final TimestampUTC timestamp) {
 		mCachedTimestamp = timestamp;
 	}
 
@@ -602,17 +603,18 @@ public class CommentListingFragment extends RRFragment
 			}
 
 			// 30 minutes
-			if(mCachedTimestamp != null
-					&& RRTime.since(mCachedTimestamp) > 30 * 60 * 1000) {
+			if(mCachedTimestamp != null) {
+				if (mCachedTimestamp.elapsed().isGreaterThan(TimeDuration.minutes(30))) {
 
-				final TextView cacheNotif = (TextView)LayoutInflater.from(activity).inflate(
-						R.layout.cached_header,
-						null,
-						false);
-				cacheNotif.setText(activity.getString(
-						R.string.listing_cached,
-						RRTime.formatDateTime(mCachedTimestamp, activity)));
-				mCommentListingManager.addNotification(cacheNotif);
+					final TextView cacheNotif = (TextView) LayoutInflater.from(activity).inflate(
+							R.layout.cached_header,
+							null,
+							false);
+					cacheNotif.setText(activity.getString(
+							R.string.listing_cached,
+							mCachedTimestamp.format()));
+					mCommentListingManager.addNotification(cacheNotif);
+				}
 			}
 		}
 	}

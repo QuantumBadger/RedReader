@@ -43,9 +43,10 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimeFormatHelper;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
@@ -79,7 +80,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	private ThumbnailLoadedCallback thumbnailCallback;
 	private int usageId = -1;
 
-	public long lastChange;
+	public TimestampUTC lastChange;
 
 	public final boolean showSubreddit;
 
@@ -91,7 +92,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			final CacheManager cm,
 			final int listId,
 			final RedditParsedPost post,
-			final long timestamp,
+			final TimestampUTC timestamp,
 			final boolean showSubreddit,
 			final boolean showThumbnails,
 			final boolean allowHighResThumbnails,
@@ -328,7 +329,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.AGE)) {
 			postListDescSb.append(
-					src.getCreatedTimeUTC().elapsedPeriod().format(
+					TimeFormatHelper.format(
+							src.getCreatedTimeUTC().elapsedPeriod(),
 							context,
 							R.string.time_ago,
 							mPostAgeUnits),
@@ -485,10 +487,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			accessibilitySubtitle
 					.append(context.getString(
 							R.string.accessibility_subtitle_age_withperiod,
-							src.getCreatedTimeUTC().elapsedPeriod().format(
-									context,
-									R.string.time_ago,
-									mPostAgeUnits)))
+									TimeFormatHelper.format(
+											src.getCreatedTimeUTC().elapsedPeriod(),
+											context,
+											R.string.time_ago,
+											mPostAgeUnits)))
 					.append(separator);
 		}
 
@@ -706,7 +709,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					@Override
 					public void onDataStreamComplete(
 							@NonNull final GenericFactory<SeekableInputStream, IOException> factory,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							@Nullable final String mimetype) {
@@ -785,7 +788,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final RedditAccount user =
 				RedditAccountManager.getInstance(context).getDefaultAccount();
 		RedditChangeDataManager.getInstance(user)
-				.markRead(RRTime.utcCurrentTimeMillis(), src.getIdAndType());
+				.markRead(TimestampUTC.now(), src.getIdAndType());
 	}
 
 	public boolean isUpvoted() {

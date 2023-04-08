@@ -17,38 +17,41 @@
 
 package org.quantumbadger.redreader.common;
 
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
+
 public abstract class TimestampBound {
 
-	public abstract boolean verifyTimestamp(long timestamp);
+	public abstract boolean verifyTimestamp(TimestampUTC timestamp);
 
 	public static final TimestampBound ANY = new TimestampBound() {
 		@Override
-		public boolean verifyTimestamp(final long timestamp) {
+		public boolean verifyTimestamp(final TimestampUTC timestamp) {
 			return true;
 		}
 	};
 	public static final TimestampBound NONE = new TimestampBound() {
 		@Override
-		public boolean verifyTimestamp(final long timestamp) {
+		public boolean verifyTimestamp(final TimestampUTC timestamp) {
 			return false;
 		}
 	};
 
 	public static final class MoreRecentThanBound extends TimestampBound {
 
-		private final long minTimestamp;
+		private final TimestampUTC minTimestamp;
 
-		public MoreRecentThanBound(final long minTimestamp) {
+		public MoreRecentThanBound(final TimestampUTC minTimestamp) {
 			this.minTimestamp = minTimestamp;
 		}
 
 		@Override
-		public boolean verifyTimestamp(final long timestamp) {
-			return timestamp >= minTimestamp;
+		public boolean verifyTimestamp(final TimestampUTC timestamp) {
+			return timestamp.isGreaterThan(minTimestamp);
 		}
 	}
 
-	public static MoreRecentThanBound notOlderThan(final long ageMs) {
-		return new MoreRecentThanBound(System.currentTimeMillis() - ageMs);
+	public static MoreRecentThanBound notOlderThan(final TimeDuration age) {
+		return new MoreRecentThanBound(TimestampUTC.now().subtract(age));
 	}
 }

@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.common.time.TimeFormatHelper;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.kthings.RedditMessage;
@@ -59,7 +60,6 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	public RedditPreparedMessage(
 			@NonNull final AppCompatActivity activity,
 			@NonNull final RedditMessage message,
-			final long timestamp,
 			final InboxListingActivity.InboxType inboxType) {
 
 		final Context applicationContext = activity.getApplicationContext();
@@ -129,7 +129,8 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 		sb.append("   ", 0);
 		sb.append(
-				src.getCreated_utc().getValue().elapsedPeriod().format(
+				TimeFormatHelper.format(
+						src.getCreated_utc().getValue().elapsedPeriod(),
 						applicationContext,
 						R.string.time_ago,
 						PrefsUtility.appearance_inbox_age_units()),
@@ -227,10 +228,11 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 		accessibilityHeader
 				.append(context.getString(
 						R.string.accessibility_subtitle_age_withperiod,
-						src.getCreated_utc().getValue().elapsedPeriod().format(
-								context,
-								R.string.time_ago,
-								PrefsUtility.appearance_inbox_age_units())))
+								TimeFormatHelper.format(
+										src.getCreated_utc().getValue().elapsedPeriod(),
+										context,
+										R.string.time_ago,
+										PrefsUtility.appearance_inbox_age_units())))
 				.append(separator);
 
 		return accessibilityHeader.toString();

@@ -60,9 +60,10 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -128,7 +129,7 @@ public class PostListingFragment extends RRFragment
 	private RedditIdAndType mLastAfter = null;
 	private CacheRequest mRequest;
 	private boolean mReadyToDownloadMore = false;
-	private long mTimestamp;
+	private TimestampUTC mTimestamp;
 
 	private int mPostCount = 0;
 	private boolean mPostsNotShown = false;
@@ -246,10 +247,9 @@ public class PostListingFragment extends RRFragment
 				&& savedInstanceState == null
 				&& General.isNetworkConnected(context)) {
 
-			final long maxAgeMs = PrefsUtility.pref_cache_rerequest_postlist_age_ms();
-			downloadStrategy = new DownloadStrategyIfTimestampOutsideBounds(TimestampBound
-					.notOlderThan(
-							maxAgeMs));
+			final TimeDuration maxAge = TimeDuration.ms(PrefsUtility.pref_cache_rerequest_postlist_age_ms());
+			downloadStrategy = new DownloadStrategyIfTimestampOutsideBounds(
+					TimestampBound.notOlderThan(maxAge));
 
 		} else {
 			downloadStrategy = DownloadStrategyIfNotCached.INSTANCE;
@@ -321,7 +321,7 @@ public class PostListingFragment extends RRFragment
 							@Override
 							public void onRequestSuccess(
 									final RedditSubreddit result,
-									final long timeCached) {
+									final TimestampUTC timeCached) {
 								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 									mSubreddit = result;
 
@@ -542,8 +542,7 @@ public class PostListingFragment extends RRFragment
 				final Uri newUri = mPostListingURL.after(mAfter).generateJsonUri();
 
 				// TODO customise (currently 3 hrs)
-				final DownloadStrategy strategy = (RRTime.since(mTimestamp)
-						< 3 * 60 * 60 * 1000)
+				final DownloadStrategy strategy = mTimestamp.elapsed().isLessThan(TimeDuration.hours(3))
 						? DownloadStrategyIfNotCached.INSTANCE
 						: DownloadStrategyNever.INSTANCE;
 
@@ -669,7 +668,7 @@ public class PostListingFragment extends RRFragment
 					public void onDataStreamComplete(
 							@NonNull final GenericFactory<SeekableInputStream, IOException>
 									streamFactory,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							@Nullable final String mimetype) {
@@ -677,22 +676,25 @@ public class PostListingFragment extends RRFragment
 						final BaseActivity activity = (BaseActivity)getActivity();
 
 						// One hour (matches default refresh value)
-						if(firstDownload && fromCache && RRTime.since(timestamp) > 60 * 60 * 1000) {
-							AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+						if(firstDownload && fromCache) {
+							if (timestamp.elapsedPeriod()
+									.asDuration().isGreaterThan(TimeDuration.hours(1))) {
+								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-								final TextView cacheNotif
-										= (TextView)LayoutInflater.from(activity).inflate(
-										R.layout.cached_header,
-										null,
-										false);
+									final TextView cacheNotif
+											= (TextView) LayoutInflater.from(activity).inflate(
+											R.layout.cached_header,
+											null,
+											false);
 
-								cacheNotif.setText(getActivity().getString(
-										R.string.listing_cached,
-										RRTime.formatDateTime(timestamp, getActivity())));
+									cacheNotif.setText(getActivity().getString(
+											R.string.listing_cached,
+											timestamp.format()));
 
-								mPostListingManager.addNotification(cacheNotif);
-							});
-						} // TODO resuming a copy
+									mPostListingManager.addNotification(cacheNotif);
+								});
+							} // TODO resuming a copy
+						}
 
 						if(firstDownload) {
 							((SessionChangeListener)activity).onSessionChanged(
@@ -1050,7 +1052,7 @@ public class PostListingFragment extends RRFragment
 								Constants.Priority.COMMENT_PRECACHE,
 							positionInList),
 						new DownloadStrategyIfTimestampOutsideBounds(
-								TimestampBound.notOlderThan(RRTime.minsToMs(15))),
+								TimestampBound.notOlderThan(TimeDuration.minutes(15))),
 						Constants.FileType.COMMENT_LIST,
 						CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
 						// Don't parse the JSON
@@ -1078,7 +1080,7 @@ public class PostListingFragment extends RRFragment
 							@Override
 							public void onCacheFileWritten(
 									@NonNull final CacheManager.ReadableCacheFile cacheFile,
-									final long timestamp,
+									final TimestampUTC timestamp,
 									@NonNull final UUID session,
 									final boolean fromCache,
 									@Nullable final String mimetype) {
@@ -1206,7 +1208,7 @@ public class PostListingFragment extends RRFragment
 					@Override
 					public void onCacheFileWritten(
 							@NonNull final CacheManager.ReadableCacheFile cacheFile,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							@Nullable final String mimetype) {

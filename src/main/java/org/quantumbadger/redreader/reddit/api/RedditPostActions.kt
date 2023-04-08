@@ -18,6 +18,7 @@ import org.quantumbadger.redreader.activities.*
 import org.quantumbadger.redreader.cache.CacheManager
 import org.quantumbadger.redreader.common.*
 import org.quantumbadger.redreader.common.PrefsUtility.PostFlingAction
+import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog
 import org.quantumbadger.redreader.fragments.ShareOrderDialog
 import org.quantumbadger.redreader.http.FailedRequestBody
@@ -1024,7 +1025,7 @@ object RedditPostActions {
 
 		val lastVoteDirection: Int = post.getVoteDirection()
 		val archived: Boolean = post.src.isArchived
-		val now = RRTime.utcCurrentTimeMillis()
+		val now = TimestampUTC.now()
 		when (action) {
 			RedditAPI.ACTION_DOWNVOTE -> if (!archived) {
 				changeDataManager.markDownvoted(now, post.src.idAndType)
@@ -1095,7 +1096,7 @@ object RedditPostActions {
 				}
 
 				override fun onSuccess() {
-					val now = RRTime.utcCurrentTimeMillis()
+					val now = TimestampUTC.now()
 					when (action) {
 						RedditAPI.ACTION_DOWNVOTE -> changeDataManager.markDownvoted(now, post.src.idAndType)
 						RedditAPI.ACTION_UNVOTE -> changeDataManager.markUnvoted(now, post.src.idAndType)
@@ -1115,7 +1116,7 @@ object RedditPostActions {
 				}
 
 				private fun revertOnFailure() {
-					val now = RRTime.utcCurrentTimeMillis()
+					val now = TimestampUTC.now()
 					when (action) {
 						RedditAPI.ACTION_DOWNVOTE, RedditAPI.ACTION_UNVOTE, RedditAPI.ACTION_UPVOTE -> {
 							when (lastVoteDirection) {

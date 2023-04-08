@@ -52,8 +52,9 @@ import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsBackup;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TorCommon;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
 import java.io.File;
@@ -305,8 +306,9 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 					return true;
 				}
 
+				final TimestampUTC utc = TimestampUTC.now();
 				final String filename
-						= RRTime.formatDateTimeFilenameSafe(RRTime.utcCurrentTimeMillis())
+						= utc.formatFilenameSafe()
 								+ ".rr_prefs_backup";
 
 				//noinspection SpellCheckingInspection
@@ -708,7 +710,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 								cachesToClear.get(CacheType.IMAGES));
 
 						if(Objects.requireNonNull(cachesToClear.get(CacheType.FLAGS))) {
-							RedditChangeDataManager.pruneAllUsersWhereOlderThan(0);
+							RedditChangeDataManager.pruneAllUsersWhereOlderThan(TimeDuration.ms(0));
 						}
 					}
 				}.start())

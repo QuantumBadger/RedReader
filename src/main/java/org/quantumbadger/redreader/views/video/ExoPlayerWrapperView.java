@@ -45,8 +45,8 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.RRTime;
 
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ExoPlayerWrapperView extends FrameLayout {
@@ -392,9 +392,9 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				mTimeBarView.setPosition(currentPositionMs);
 				mTimeBarView.setBufferedPosition(mVideoPlayer.getBufferedPosition());
 
-				final String newText = RRTime.msToMinutesAndSecondsString(currentPositionMs)
+				final String newText = msToMinutesAndSecondsString(currentPositionMs)
 						+ " / "
-						+ RRTime.msToMinutesAndSecondsString(durationMs);
+						+ msToMinutesAndSecondsString(durationMs);
 
 				if(!newText.contentEquals(mTimeTextView.getText())) {
 					mTimeTextView.setText(newText);
@@ -418,5 +418,20 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 	public int isControlViewVisible() {
 		return mControlView != null ? mControlView.getVisibility() : GONE;
+	}
+
+	@NonNull
+	public static String msToMinutesAndSecondsString(final long ms) {
+
+		if(ms < 0) {
+			return "<negative time>";
+		}
+
+		final int secondsTotal = (int)(ms / 1000);
+
+		final int mins = secondsTotal / 60;
+		final int secs = secondsTotal % 60;
+
+		return String.format(Locale.US, "%d:%02d", mins, secs);
 	}
 }

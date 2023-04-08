@@ -25,9 +25,9 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.common.datastream.MemoryDataStream;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.image.RedgifsAPIV2;
@@ -199,7 +199,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 				mInitiator.notifyDataStreamAvailable(
 						stream::getInputStream,
-						RRTime.utcCurrentTimeMillis(),
+						TimestampUTC.now(),
 						session,
 						false,
 						mimetype);
@@ -237,7 +237,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 					mInitiator.notifyDataStreamComplete(
 							stream::getInputStream,
-							RRTime.utcCurrentTimeMillis(),
+							TimestampUTC.now(),
 							session,
 							false,
 							mimetype);
@@ -335,7 +335,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 						mInitiator.notifyCacheFileWritten(
 								writableCacheFile.getReadableCacheFile(),
-								RRTime.utcCurrentTimeMillis(),
+								TimestampUTC.now(),
 								session,
 								false,
 								mimetype);

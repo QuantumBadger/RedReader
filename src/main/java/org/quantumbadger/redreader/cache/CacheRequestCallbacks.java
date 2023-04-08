@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 
 import java.io.IOException;
@@ -35,14 +36,14 @@ public interface CacheRequestCallbacks {
 
 	default void onDataStreamAvailable(
 			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
-			final long timestamp,
+			final TimestampUTC timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,
 			@Nullable final String mimetype) {}
 
 	default void onDataStreamComplete(
 			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory,
-			final long timestamp,
+			final TimestampUTC timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,
 			@Nullable final String mimetype) {}
@@ -61,7 +62,7 @@ public interface CacheRequestCallbacks {
 
 	default void onCacheFileWritten(
 			@NonNull final CacheManager.ReadableCacheFile cacheFile,
-			final long timestamp,
+			final TimestampUTC timestamp,
 			@NonNull final UUID session,
 			final boolean fromCache,
 			@Nullable final String mimetype) {}

@@ -41,6 +41,8 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.PostField;
 import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
@@ -115,7 +117,7 @@ public final class RedditAPI {
 		@Override
 		public void onJsonParsed(
 				@NonNull final JsonValue result,
-				final long timestamp,
+				final TimestampUTC timestamp,
 				@NonNull final UUID session,
 				final boolean fromCache) {
 
@@ -200,7 +202,7 @@ public final class RedditAPI {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 
@@ -290,7 +292,7 @@ public final class RedditAPI {
 		@Override
 		public void onJsonParsed(
 				@NonNull final JsonValue result,
-				final long timestamp,
+				final TimestampUTC timestamp,
 				@NonNull final UUID session,
 				final boolean fromCache) {
 
@@ -533,7 +535,7 @@ public final class RedditAPI {
 					@Override
 					public void onDataStreamComplete(
 							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							@Nullable final String mimetype) {
@@ -644,7 +646,7 @@ public final class RedditAPI {
 					@Override
 					public void onRequestSuccess(
 							final RedditSubreddit subreddit,
-							final long timeCached) {
+							final TimestampUTC timeCached) {
 
 						final LinkedList<PostField> postFields = new LinkedList<>();
 
@@ -701,7 +703,7 @@ public final class RedditAPI {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 
@@ -765,8 +767,7 @@ public final class RedditAPI {
 					SubredditListResponse> handler,
 			@NonNull final Optional<String> after) {
 
-		// 1 hour
-		final long maxCacheAgeMs = 60 * 60 * 1000;
+		final TimeDuration maxCacheAgeMs = TimeDuration.hours(1);
 
 		final Uri.Builder builder = Constants.Reddit.getUriBuilder(
 				Constants.Reddit.PATH_SUBREDDITS_POPULAR);
@@ -796,8 +797,7 @@ public final class RedditAPI {
 					SubredditListResponse> handler,
 			@NonNull final Optional<String> after) {
 
-		// 60 seconds
-		final long maxCacheAgeMs = 60 * 1000;
+		final TimeDuration maxCacheAgeMs = TimeDuration.minutes(1);
 
 		final Uri.Builder builder = Constants.Reddit.getUriBuilder(
 				"/subreddits/search.json");
@@ -939,7 +939,7 @@ public final class RedditAPI {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 

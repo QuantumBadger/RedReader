@@ -132,7 +132,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 					public void onDataStreamComplete(
 							@NonNull final GenericFactory<SeekableInputStream, IOException>
 									streamFactory,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							@Nullable final String mimetype) {

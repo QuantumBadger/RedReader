@@ -50,6 +50,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.collections.CollectionStream;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ChangelogDialog;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
@@ -1057,7 +1058,7 @@ public class MainActivity extends RefreshableActivity
 	public void onSessionChanged(
 			final UUID session,
 			final SessionChangeType type,
-			final long timestamp) {
+			final TimestampUTC timestamp) {
 
 		switch(type) {
 			case POSTS:

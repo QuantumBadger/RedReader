@@ -29,8 +29,9 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -54,7 +55,7 @@ public final class RedgifsAPI {
 				priority,
 				// RedGifs links expire after an undocumented period of time
 				new DownloadStrategyIfTimestampOutsideBounds(
-						TimestampBound.notOlderThan(RRTime.minsToMs(10))),
+						TimestampBound.notOlderThan(TimeDuration.minutes(10))),
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				context,
@@ -62,7 +63,7 @@ public final class RedgifsAPI {
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 

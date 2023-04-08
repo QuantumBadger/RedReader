@@ -27,6 +27,9 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListHashMapManager;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimeStringsDebug;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.io.ExtendedDataInputStream;
 import org.quantumbadger.redreader.io.ExtendedDataOutputStream;
 import org.quantumbadger.redreader.io.RedditChangeDataIO;
@@ -192,7 +195,7 @@ public final class RedditChangeDataManager {
 		pruneAllUsersWhereOlderThan(PrefsUtility.pref_cache_maxage_entry());
 	}
 
-	public static void pruneAllUsersWhereOlderThan(final long maxAge) {
+	public static void pruneAllUsersWhereOlderThan(final TimeDuration maxAge) {
 
 		Log.i(TAG, "Pruning for all users...");
 
@@ -217,7 +220,7 @@ public final class RedditChangeDataManager {
 
 	private static final class Entry {
 
-		private final long mTimestamp;
+		private final TimestampUTC mTimestamp;
 
 		private final boolean mIsUpvoted;
 		private final boolean mIsDownvoted;
@@ -229,7 +232,7 @@ public final class RedditChangeDataManager {
 		static final Entry CLEAR_ENTRY = new Entry();
 
 		private Entry() {
-			mTimestamp = Long.MIN_VALUE;
+			mTimestamp = TimestampUTC.ZERO;
 			mIsUpvoted = false;
 			mIsDownvoted = false;
 			mIsRead = false;
@@ -238,7 +241,7 @@ public final class RedditChangeDataManager {
 		}
 
 		private Entry(
-				final long timestamp,
+				final TimestampUTC timestamp,
 				final boolean isUpvoted,
 				final boolean isDownvoted,
 				final boolean isRead,
@@ -254,7 +257,7 @@ public final class RedditChangeDataManager {
 		}
 
 		private Entry(final ExtendedDataInputStream dis) throws IOException {
-			mTimestamp = dis.readLong();
+			mTimestamp = TimestampUTC.fromUtcMs(dis.readLong());
 			mIsUpvoted = dis.readBoolean();
 			mIsDownvoted = dis.readBoolean();
 			mIsRead = dis.readBoolean();
@@ -263,7 +266,7 @@ public final class RedditChangeDataManager {
 		}
 
 		private void writeTo(final ExtendedDataOutputStream dos) throws IOException {
-			dos.writeLong(mTimestamp);
+			dos.writeLong(mTimestamp.toUtcMs());
 			dos.writeBoolean(mIsUpvoted);
 			dos.writeBoolean(mIsDownvoted);
 			dos.writeBoolean(mIsRead);
@@ -300,10 +303,10 @@ public final class RedditChangeDataManager {
 		}
 
 		Entry update(
-				final long timestamp,
+				final TimestampUTC timestamp,
 				final RedditComment comment) {
 
-			if(timestamp < mTimestamp) {
+			if(timestamp.isLessThan(mTimestamp)) {
 				return this;
 			}
 
@@ -317,10 +320,10 @@ public final class RedditChangeDataManager {
 		}
 
 		Entry update(
-				final long timestamp,
+				final TimestampUTC timestamp,
 				final RedditPost post) {
 
-			if(timestamp < mTimestamp) {
+			if(timestamp.isLessThan(mTimestamp)) {
 				return this;
 			}
 
@@ -333,7 +336,7 @@ public final class RedditChangeDataManager {
 					post.getHidden() ? true : null);
 		}
 
-		Entry markUpvoted(final long timestamp) {
+		Entry markUpvoted(final TimestampUTC timestamp) {
 
 			return new Entry(
 					timestamp,
@@ -344,7 +347,7 @@ public final class RedditChangeDataManager {
 					mIsHidden);
 		}
 
-		Entry markDownvoted(final long timestamp) {
+		Entry markDownvoted(final TimestampUTC timestamp) {
 
 			return new Entry(
 					timestamp,
@@ -355,7 +358,7 @@ public final class RedditChangeDataManager {
 					mIsHidden);
 		}
 
-		Entry markUnvoted(final long timestamp) {
+		Entry markUnvoted(final TimestampUTC timestamp) {
 
 			return new Entry(
 					timestamp,
@@ -366,7 +369,7 @@ public final class RedditChangeDataManager {
 					mIsHidden);
 		}
 
-		Entry markRead(final long timestamp) {
+		Entry markRead(final TimestampUTC timestamp) {
 
 			return new Entry(
 					timestamp,
@@ -377,7 +380,7 @@ public final class RedditChangeDataManager {
 					mIsHidden);
 		}
 
-		Entry markSaved(final long timestamp, final boolean isSaved) {
+		Entry markSaved(final TimestampUTC timestamp, final boolean isSaved) {
 
 			return new Entry(
 					timestamp,
@@ -388,7 +391,7 @@ public final class RedditChangeDataManager {
 					mIsHidden);
 		}
 
-		Entry markHidden(final long timestamp, final Boolean isHidden) {
+		Entry markHidden(final TimestampUTC timestamp, final Boolean isHidden) {
 
 			return new Entry(
 					timestamp,
@@ -475,7 +478,7 @@ public final class RedditChangeDataManager {
 				final Entry existingEntry = mEntries.get(entry.getKey());
 
 				if(existingEntry == null
-						|| existingEntry.mTimestamp < newEntry.mTimestamp) {
+						|| existingEntry.mTimestamp.isLessThan(newEntry.mTimestamp)) {
 
 					mEntries.put(entry.getKey(), newEntry);
 				}
@@ -487,7 +490,7 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void update(final long timestamp, final RedditComment comment) {
+	public void update(final TimestampUTC timestamp, final RedditComment comment) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(comment.getIdAndType());
@@ -496,7 +499,7 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void update(final long timestamp, final RedditPost post) {
+	public void update(final TimestampUTC timestamp, final RedditPost post) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(post.getIdAndType());
@@ -505,7 +508,7 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void markUpvoted(final long timestamp, final RedditIdAndType thing) {
+	public void markUpvoted(final TimestampUTC timestamp, final RedditIdAndType thing) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(thing);
@@ -515,7 +518,7 @@ public final class RedditChangeDataManager {
 	}
 
 	public void markDownvoted(
-			final long timestamp,
+			final TimestampUTC timestamp,
 			final RedditIdAndType thing) {
 
 		synchronized(mLock) {
@@ -525,7 +528,7 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void markUnvoted(final long timestamp, final RedditIdAndType thing) {
+	public void markUnvoted(final TimestampUTC timestamp, final RedditIdAndType thing) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(thing);
@@ -535,7 +538,7 @@ public final class RedditChangeDataManager {
 	}
 
 	public void markSaved(
-			final long timestamp,
+			final TimestampUTC timestamp,
 			final RedditIdAndType thing,
 			final boolean saved) {
 
@@ -547,7 +550,7 @@ public final class RedditChangeDataManager {
 	}
 
 	public void markHidden(
-			final long timestamp,
+			final TimestampUTC timestamp,
 			final RedditIdAndType thing,
 			final Boolean hidden) {
 
@@ -558,7 +561,7 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	public void markRead(final long timestamp, final RedditIdAndType thing) {
+	public void markRead(final TimestampUTC timestamp, final RedditIdAndType thing) {
 
 		synchronized(mLock) {
 			final Entry existingEntry = get(thing);
@@ -603,28 +606,31 @@ public final class RedditChangeDataManager {
 		}
 	}
 
-	private void prune(final long maxAge) {
+	private void prune(final TimeDuration maxAge) {
 
-		final long now = System.currentTimeMillis();
-		final long timestampBoundary = now - maxAge;
+		final TimestampUTC now = TimestampUTC.now();
+		final TimestampUTC timestampBoundary = now.subtract(maxAge);
 
 		synchronized(mLock) {
 			final Iterator<Map.Entry<RedditIdAndType, Entry>> iterator =
 					mEntries.entrySet().iterator();
-			final SortedMap<Long, RedditIdAndType> byTimestamp = new TreeMap<>();
+			final SortedMap<TimestampUTC, RedditIdAndType> byTimestamp = new TreeMap<>();
 
 			while(iterator.hasNext()) {
 
 				final Map.Entry<RedditIdAndType, Entry> entry = iterator.next();
-				final long timestamp = entry.getValue().mTimestamp;
+				final TimestampUTC timestamp = entry.getValue().mTimestamp;
 				byTimestamp.put(timestamp, entry.getKey());
 
-				if(timestamp < timestampBoundary) {
+				if(timestamp.isLessThan(timestampBoundary)) {
 
 					Log.i(TAG, String.format(
-							"Pruning '%s' (%d hours old)",
+							"Pruning '%s' (%s old)",
 							entry.getKey(),
-							(now - timestamp) / (60L * 60L * 1000L)));
+							now.elapsedPeriodSince(timestamp).format(
+									TimeStringsDebug.INSTANCE,
+									2
+							)));
 
 					iterator.remove();
 				}
@@ -632,19 +638,22 @@ public final class RedditChangeDataManager {
 
 			// Limit total number of entries to limit our memory usage. This is meant as a
 			// safeguard, as the time-based pruning above should have removed enough already.
-			final Iterator<Map.Entry<Long, RedditIdAndType>> iter2 =
+			final Iterator<Map.Entry<TimestampUTC, RedditIdAndType>> iter2 =
 					byTimestamp.entrySet().iterator();
 			while(iter2.hasNext()) {
 				if(mEntries.size() <= MAX_ENTRY_COUNT) {
 					break;
 				}
 
-				final Map.Entry<Long, RedditIdAndType> entry = iter2.next();
+				final Map.Entry<TimestampUTC, RedditIdAndType> entry = iter2.next();
 
 				Log.i(TAG, String.format(
-						"Evicting '%s' (%d hours old)",
+						"Evicting '%s' (%s old)",
 						entry.getValue(),
-						(now - entry.getKey()) / (60L * 60L * 1000L)));
+						now.elapsedPeriodSince(entry.getKey()).format(
+								TimeStringsDebug.INSTANCE,
+								2
+						)));
 
 				mEntries.remove(entry.getValue());
 			}

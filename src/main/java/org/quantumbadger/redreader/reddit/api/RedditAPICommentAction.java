@@ -38,7 +38,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -532,33 +532,33 @@ public class RedditAPICommentAction {
 			case RedditAPI.ACTION_DOWNVOTE:
 				if(!comment.getArchived()) {
 					changeDataManager.markDownvoted(
-							RRTime.utcCurrentTimeMillis(),
+							TimestampUTC.now(),
 							comment.getIdAndType());
 				}
 				break;
 			case RedditAPI.ACTION_UNVOTE:
 				if(!comment.getArchived()) {
 					changeDataManager.markUnvoted(
-							RRTime.utcCurrentTimeMillis(),
+							TimestampUTC.now(),
 							comment.getIdAndType());
 				}
 				break;
 			case RedditAPI.ACTION_UPVOTE:
 				if(!comment.getArchived()) {
 					changeDataManager.markUpvoted(
-							RRTime.utcCurrentTimeMillis(),
+							TimestampUTC.now(),
 							comment.getIdAndType());
 				}
 				break;
 			case RedditAPI.ACTION_SAVE:
 				changeDataManager.markSaved(
-						RRTime.utcCurrentTimeMillis(),
+						TimestampUTC.now(),
 						comment.getIdAndType(),
 						true);
 				break;
 			case RedditAPI.ACTION_UNSAVE:
 				changeDataManager.markSaved(
-						RRTime.utcCurrentTimeMillis(),
+						TimestampUTC.now(),
 						comment.getIdAndType(),
 						false);
 				break;
@@ -642,26 +642,26 @@ public class RedditAPICommentAction {
 							case RedditAPI.ACTION_UPVOTE:
 								if(wasUpvoted) {
 									changeDataManager.markUpvoted(
-											RRTime.utcCurrentTimeMillis(),
+											TimestampUTC.now(),
 											comment.getIdAndType());
 								} else if(wasDownvoted) {
 									changeDataManager.markDownvoted(
-											RRTime.utcCurrentTimeMillis(),
+											TimestampUTC.now(),
 											comment.getIdAndType());
 								} else {
 									changeDataManager.markUnvoted(
-											RRTime.utcCurrentTimeMillis(),
+											TimestampUTC.now(),
 											comment.getIdAndType());
 								}
 							case RedditAPI.ACTION_SAVE:
 								changeDataManager.markSaved(
-										RRTime.utcCurrentTimeMillis(),
+										TimestampUTC.now(),
 										comment.getIdAndType(),
 										false);
 								break;
 							case RedditAPI.ACTION_UNSAVE:
 								changeDataManager.markSaved(
-										RRTime.utcCurrentTimeMillis(),
+										TimestampUTC.now(),
 										comment.getIdAndType(),
 										true);
 								break;

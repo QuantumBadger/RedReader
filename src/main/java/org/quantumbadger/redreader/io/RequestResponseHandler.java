@@ -17,8 +17,10 @@
 
 package org.quantumbadger.redreader.io;
 
+import org.quantumbadger.redreader.common.time.TimestampUTC;
+
 public interface RequestResponseHandler<E, F> {
 	void onRequestFailed(F failureReason);
 
-	void onRequestSuccess(E result, long timeCached);
+	void onRequestSuccess(E result, TimestampUTC timeCached);
 }

@@ -28,6 +28,7 @@ import org.quantumbadger.redreader.activities.HtmlViewActivity;
 import org.quantumbadger.redreader.common.HasUniqueId;
 import org.quantumbadger.redreader.common.ParcelHelper;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.io.WritableObject;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
@@ -55,8 +56,8 @@ public class RedditSubreddit implements
 	}
 
 	@Override
-	public long getTimestamp() {
-		return downloadTime;
+	public TimestampUTC getTimestamp() {
+		return TimestampUTC.fromUtcMs(downloadTime);
 	}
 
 	@WritableObjectVersion public static int DB_VERSION = 1;

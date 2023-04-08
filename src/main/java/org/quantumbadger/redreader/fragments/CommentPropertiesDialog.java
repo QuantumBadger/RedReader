@@ -73,7 +73,7 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 		items.addView(propView(
 				context,
 				R.string.props_created,
-				comment.getCreated_utc().getValue().format(context),
+				comment.getCreated_utc().getValue().format(),
 				false));
 
 		if(comment.getEdited() instanceof RedditFieldEdited.Timestamp) {
@@ -81,7 +81,7 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 					context,
 					R.string.props_edited,
 					((RedditFieldEdited.Timestamp)comment.getEdited())
-							.getValue().getValue().format(context),
+							.getValue().getValue().format(),
 					false));
 		} else {
 			items.addView(propView(

@@ -30,6 +30,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.CacheDataSource;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
@@ -46,7 +47,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class RedditAPIIndividualSubredditDataRequester implements
 		CacheDataSource<SubredditCanonicalId, RedditSubreddit, SubredditRequestFailure> {
@@ -84,14 +85,14 @@ public class RedditAPIIndividualSubredditDataRequester implements
 					@Override
 					public void onJsonParsed(
 							@NonNull final JsonValue result,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache) {
 
 						try {
 							final RedditThing subredditThing = result.asObject(RedditThing.class);
 							final RedditSubreddit subreddit = subredditThing.asSubreddit();
-							subreddit.downloadTime = timestamp;
+							subreddit.downloadTime = timestamp.toUtcMs();
 							handler.onRequestSuccess(subreddit, timestamp);
 
 							RedditSubredditHistory.addSubreddit(user, subredditCanonicalId);
@@ -142,7 +143,7 @@ public class RedditAPIIndividualSubredditDataRequester implements
 		final AtomicBoolean stillOkay = new AtomicBoolean(true);
 		final AtomicInteger requestsToGo
 				= new AtomicInteger(subredditCanonicalIds.size());
-		final AtomicLong oldestResult = new AtomicLong(Long.MAX_VALUE);
+		final AtomicReference<TimestampUTC> oldestResult = new AtomicReference<>(null);
 
 		final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>
 				innerHandler
@@ -158,7 +159,10 @@ public class RedditAPIIndividualSubredditDataRequester implements
 			}
 
 			@Override
-			public void onRequestSuccess(final RedditSubreddit innerResult, final long timeCached) {
+			public void onRequestSuccess(
+					final RedditSubreddit innerResult,
+					final TimestampUTC timeCached) {
+
 				synchronized(result) {
 					if(stillOkay.get()) {
 
@@ -167,7 +171,17 @@ public class RedditAPIIndividualSubredditDataRequester implements
 									= innerResult.getCanonicalId();
 
 							result.put(canonicalId, innerResult);
-							oldestResult.set(Math.min(oldestResult.get(), timeCached));
+
+							synchronized (oldestResult) {
+								if(oldestResult.get() == null) {
+									oldestResult.set(timeCached);
+								} else {
+									oldestResult.set(TimestampUTC.oldest(
+											oldestResult.get(),
+											timeCached));
+								}
+							}
+
 							RedditSubredditHistory.addSubreddit(user, canonicalId);
 						} catch(final InvalidSubredditNameException e) {
 							Log.e(TAG, "Invalid subreddit name " + innerResult.name, e);

@@ -50,8 +50,8 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -120,7 +120,7 @@ public class UserProfileDialog extends PropertiesDialog {
 					}
 
 					@Override
-					protected void onSuccess(final RedditUser user, final long timestamp) {
+					protected void onSuccess(final RedditUser user, final TimestampUTC timestamp) {
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
 							if(!active) {
@@ -203,9 +203,7 @@ public class UserProfileDialog extends PropertiesDialog {
 							items.addView(propView(
 									context,
 									R.string.userprofile_created,
-									RRTime.formatDateTime(
-											user.created_utc * 1000,
-											context),
+									TimestampUTC.fromUtcSecs(user.created_utc).format(),
 									false));
 							items.getChildAt(items.getChildCount() - 1)
 									.setNextFocusUpId(R.id.layout_karma_link);
@@ -359,7 +357,7 @@ public class UserProfileDialog extends PropertiesDialog {
 				@Override
 				public void onDataStreamComplete(
 						final GenericFactory<SeekableInputStream, IOException> streamFactory,
-						final long timestamp,
+						final TimestampUTC timestamp,
 						final UUID session,
 						final boolean fromCache,
 						final  String mimetype) {

@@ -19,7 +19,8 @@ package org.quantumbadger.redreader.receivers.announcements;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import org.quantumbadger.redreader.common.RRTime;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 import java.io.IOException;
 
@@ -38,20 +39,20 @@ public class Announcement {
 
 	@NonNull public final String url;
 
-	public final long showUntilUtcMillis;
+	public final TimestampUTC showUntil;
 
 	private Announcement(
 			@NonNull final String id,
 			@NonNull final String title,
 			@Nullable final String message,
 			@NonNull final String url,
-			final long showUntilUtcMillis) {
+			final TimestampUTC showUntil) {
 		this.id = id;
 
 		this.title = title;
 		this.message = message;
 		this.url = url;
-		this.showUntilUtcMillis = showUntilUtcMillis;
+		this.showUntil = showUntil;
 	}
 
 	@NonNull
@@ -60,18 +61,18 @@ public class Announcement {
 			@NonNull final String title,
 			@Nullable final String message,
 			@NonNull final String url,
-			final long durationMs) {
+			final TimeDuration duration) {
 
-		return new Announcement(
+        return new Announcement(
 				id,
 				title,
 				message,
 				url,
-				RRTime.utcCurrentTimeMillis() + durationMs);
+				TimestampUTC.now().add(duration));
 	}
 
 	public boolean isExpired() {
-		return showUntilUtcMillis < RRTime.utcCurrentTimeMillis();
+        return showUntil.hasPassed();
 	}
 
 	@NonNull
@@ -87,7 +88,7 @@ public class Announcement {
 		}
 
 		result.setString(ENTRY_URL, url);
-		result.setLong(ENTRY_SHOW_UNTIL, showUntilUtcMillis);
+		result.setLong(ENTRY_SHOW_UNTIL, showUntil.toUtcMs());
 
 		return result;
 	}
@@ -109,6 +110,6 @@ public class Announcement {
 			id = url;
 		}
 
-		return new Announcement(id, title, message, url, showUntil);
+		return new Announcement(id, title, message, url, TimestampUTC.fromUtcMs(showUntil));
 	}
 }

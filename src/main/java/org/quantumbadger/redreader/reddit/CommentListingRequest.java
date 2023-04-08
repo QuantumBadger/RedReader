@@ -39,6 +39,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
@@ -117,7 +118,7 @@ public class CommentListingRequest {
 
 		void onCommentListingRequestFailure(RRError error);
 
-		void onCommentListingRequestCachedCopy(long timestamp);
+		void onCommentListingRequestCachedCopy(TimestampUTC timestamp);
 
 		void onCommentListingRequestParseStart();
 
@@ -129,7 +130,7 @@ public class CommentListingRequest {
 	private void onThingDownloaded(
 			@NonNull final RedditThingResponse thingResponse,
 			@NonNull final UUID session,
-			final long timestamp,
+			final TimestampUTC timestamp,
 			final boolean fromCache
 	) {
 		String parentPostAuthor = null;
@@ -276,7 +277,7 @@ public class CommentListingRequest {
 					public void onDataStreamAvailable(
 							@NonNull final GenericFactory<SeekableInputStream, IOException>
 									streamFactory,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							@Nullable final String mimetype) {

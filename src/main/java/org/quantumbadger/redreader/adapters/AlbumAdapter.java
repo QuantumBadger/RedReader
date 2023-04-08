@@ -44,6 +44,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -176,7 +177,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 						public void onDataStreamComplete(
 								@NonNull final GenericFactory<SeekableInputStream, IOException>
 										streamFactory,
-								final long timestamp,
+								final TimestampUTC timestamp,
 								@NonNull final UUID session,
 								final boolean fromCache,
 								@Nullable final String mimetype) {

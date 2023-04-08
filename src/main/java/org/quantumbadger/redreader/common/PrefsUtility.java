@@ -29,6 +29,7 @@ import androidx.annotation.StringRes;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
+import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.io.WritableHashSet;
 import org.quantumbadger.redreader.reddit.PostCommentSort;
@@ -1185,15 +1186,11 @@ public final class PrefsUtility {
 
 	// pref_cache_maxage
 
-	public static HashMap<Integer, Long> createFileTypeToLongMap() {
-		return createFileTypeToLongMap(0, 0, 0);
-	}
-
-	public static HashMap<Integer, Long> createFileTypeToLongMap(
-			final long listings,
-			final long thumbnails,
-			final long images) {
-		final HashMap<Integer, Long> maxAgeMap = new HashMap<>(10);
+	public static <E> HashMap<Integer, E> createFileTypeMap(
+			final E listings,
+			final E thumbnails,
+			final E images) {
+		final HashMap<Integer, E> maxAgeMap = new HashMap<>(10);
 
 		maxAgeMap.put(Constants.FileType.POST_LIST, listings);
 		maxAgeMap.put(Constants.FileType.COMMENT_LIST, listings);
@@ -1210,37 +1207,30 @@ public final class PrefsUtility {
 		return maxAgeMap;
 	}
 
-	public static HashMap<Integer, Long> pref_cache_maxage() {
+	public static HashMap<Integer, TimeDuration> pref_cache_maxage() {
 
-		final long maxAgeListing = 1000L
-				* 60L
-				* 60L
-				* Long.parseLong(getString(
+		final TimeDuration maxAgeListing
+				= TimeDuration.hours(Long.parseLong(getString(
 				R.string.pref_cache_maxage_listing_key,
-				"168"));
-		final long maxAgeThumb = 1000L
-				* 60L
-				* 60L
-				* Long.parseLong(getString(
-				R.string.pref_cache_maxage_thumb_key,
-				"168"));
-		final long maxAgeImage = 1000L
-				* 60L
-				* 60L
-				* Long.parseLong(getString(
-				R.string.pref_cache_maxage_image_key,
-				"72"));
+				"168")));
 
-		return createFileTypeToLongMap(maxAgeListing, maxAgeThumb, maxAgeImage);
+		final TimeDuration maxAgeThumb
+				= TimeDuration.hours(Long.parseLong(getString(
+				R.string.pref_cache_maxage_thumb_key,
+				"168")));
+
+		final TimeDuration maxAgeImage
+				= TimeDuration.hours(Long.parseLong(getString(
+				R.string.pref_cache_maxage_image_key,
+				"72")));
+
+		return createFileTypeMap(maxAgeListing, maxAgeThumb, maxAgeImage);
 	}
 
-	public static Long pref_cache_maxage_entry() {
-		return 1000L
-				* 60L
-				* 60L
-				* Long.parseLong(getString(
+	public static TimeDuration pref_cache_maxage_entry() {
+		return TimeDuration.hours(Long.parseLong(getString(
 				R.string.pref_cache_maxage_entry_key,
-				"168"));
+				"168")));
 	}
 
 	// pref_cache_precache_images

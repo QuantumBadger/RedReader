@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.common.time.TimeFormatHelper;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
@@ -517,7 +518,8 @@ public class RedditRenderableComment
 		switch(commentAgeMode) {
 			case RELATIVE_PARENT:
 				if(parentCommentCreated != null) {
-					return commentTime.elapsedPeriodSince(parentCommentCreated).format(
+					return TimeFormatHelper.format(
+							commentTime.elapsedPeriodSince(parentCommentCreated),
 							context,
 							R.string.time_after_reply,
 							commentAgeUnits);
@@ -525,14 +527,16 @@ public class RedditRenderableComment
 			//Top-level comment (or unable to get the parent comment's creation time)
 			case RELATIVE_POST:
 				if(postCreated != null) {
-					return commentTime.elapsedPeriodSince(postCreated).format(
+					return TimeFormatHelper.format(
+							commentTime.elapsedPeriodSince(postCreated),
 							context,
 							R.string.time_after,
 							commentAgeUnits);
 				}
 			//Unable to get post creation date, resorting to absolute age
 			case ABSOLUTE:
-				return commentTime.elapsedPeriod().format(
+				return TimeFormatHelper.format(
+						commentTime.elapsedPeriod(),
 						context,
 						R.string.time_ago,
 						commentAgeUnits);

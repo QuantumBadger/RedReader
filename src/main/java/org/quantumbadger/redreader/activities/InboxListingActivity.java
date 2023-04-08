@@ -47,10 +47,11 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
-import org.quantumbadger.redreader.common.RRTime;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimeDuration;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -268,7 +269,7 @@ public final class InboxListingActivity extends BaseActivity {
 					public void onDataStreamComplete(
 							@NonNull final GenericFactory<SeekableInputStream, IOException>
 									streamFactory,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							@Nullable final String mimetype) {
@@ -286,22 +287,24 @@ public final class InboxListingActivity extends BaseActivity {
 
 							// TODO pref (currently 10 mins)
 							// TODO xml
-							if(fromCache && RRTime.since(timestamp) > 10 * 60 * 1000) {
-								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-									final TextView cacheNotif = new TextView(context);
-									cacheNotif.setText(context.getString(
-											R.string.listing_cached,
-											RRTime.formatDateTime(timestamp, context)));
-									final int paddingPx = General.dpToPixels(context, 6);
-									final int sidePaddingPx = General.dpToPixels(context, 10);
-									cacheNotif.setPadding(
-											sidePaddingPx,
-											paddingPx,
-											sidePaddingPx,
-											paddingPx);
-									cacheNotif.setTextSize(13f);
-									notifications.addView(cacheNotif);
-								});
+							if(fromCache) {
+								if (timestamp.elapsed().isGreaterThan(TimeDuration.minutes(10))) {
+									AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+										final TextView cacheNotif = new TextView(context);
+										cacheNotif.setText(context.getString(
+												R.string.listing_cached,
+												timestamp.format()));
+										final int paddingPx = General.dpToPixels(context, 6);
+										final int sidePaddingPx = General.dpToPixels(context, 10);
+										cacheNotif.setPadding(
+												sidePaddingPx,
+												paddingPx,
+												sidePaddingPx,
+												paddingPx);
+										cacheNotif.setTextSize(13f);
+										notifications.addView(cacheNotif);
+									});
+								}
 							}
 
 							// TODO {"error": 403} is received for unauthorized subreddits
@@ -345,8 +348,7 @@ public final class InboxListingActivity extends BaseActivity {
 											= new RedditPreparedMessage(
 													InboxListingActivity.this,
 													((RedditThing.Message) thing).getData(),
-													timestamp,
-													inboxType);
+											inboxType);
 
 									itemHandler.sendMessage(General.handlerMessage(
 											0,
@@ -374,8 +376,7 @@ public final class InboxListingActivity extends BaseActivity {
 													= new RedditPreparedMessage(
 															InboxListingActivity.this,
 															childMsgRaw,
-															timestamp,
-															inboxType);
+													inboxType);
 
 											itemHandler.sendMessage(General.handlerMessage(
 													0,

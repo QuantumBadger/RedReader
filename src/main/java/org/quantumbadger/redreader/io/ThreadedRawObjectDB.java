@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.io;
 
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.TriggerableThread;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -129,7 +130,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 		public void run() {
 
 			final HashMap<K, V> existingResult = new HashMap<>(keys.size());
-			long oldestTimestamp = Long.MAX_VALUE;
+			TimestampUTC oldestTimestamp = null;
 
 			synchronized(toWrite) {
 
@@ -142,9 +143,13 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 							writeCacheResult.getTimestamp())) {
 						iter.remove();
 						existingResult.put(key, writeCacheResult);
-						oldestTimestamp = Math.min(
-								oldestTimestamp,
-								writeCacheResult.getTimestamp());
+						if(oldestTimestamp == null) {
+							oldestTimestamp = writeCacheResult.getTimestamp();
+						} else {
+							oldestTimestamp = TimestampUTC.oldest(
+									oldestTimestamp,
+									writeCacheResult.getTimestamp());
+						}
 					}
 				}
 			}
@@ -163,7 +168,13 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 						&& timestampBound.verifyTimestamp(dbResult.getTimestamp())) {
 					iter.remove();
 					existingResult.put(key, dbResult);
-					oldestTimestamp = Math.min(oldestTimestamp, dbResult.getTimestamp());
+					if(oldestTimestamp == null) {
+						oldestTimestamp = dbResult.getTimestamp();
+					} else {
+						oldestTimestamp = TimestampUTC.oldest(
+								oldestTimestamp,
+								dbResult.getTimestamp());
+					}
 				}
 			}
 
@@ -172,7 +183,7 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 				return;
 			}
 
-			final long outerOldestTimestamp = oldestTimestamp;
+			final TimestampUTC outerOldestTimestamp = oldestTimestamp;
 
 			alternateSource.performRequest(
 					keys,
@@ -186,12 +197,17 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 						@Override
 						public void onRequestSuccess(
 								final HashMap<K, V> result,
-								final long timeCached) {
+								final TimestampUTC timeCached) {
+
+							final TimestampUTC timestamp = outerOldestTimestamp == null
+									? timeCached
+									: TimestampUTC.oldest(outerOldestTimestamp, timeCached);
+
 							performWrite(result.values());
 							existingResult.putAll(result);
 							responseHandler.onRequestSuccess(
 									existingResult,
-									Math.min(timeCached, outerOldestTimestamp));
+									timestamp);
 						}
 					});
 		}
@@ -242,7 +258,9 @@ public class ThreadedRawObjectDB<K, V extends WritableObject<K>, F>
 						}
 
 						@Override
-						public void onRequestSuccess(final V result, final long timeCached) {
+						public void onRequestSuccess(
+								final V result,
+								final TimestampUTC timeCached) {
 							performWrite(result);
 							responseHandler.onRequestSuccess(result, timeCached);
 						}

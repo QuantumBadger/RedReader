@@ -45,6 +45,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -563,7 +564,7 @@ public class FileUtils {
 					@Override
 					public void onCacheFileWritten(
 							@NonNull final CacheManager.ReadableCacheFile cacheFile,
-							final long timestamp,
+							final TimestampUTC timestamp,
 							@NonNull final UUID session,
 							final boolean fromCache,
 							final String mimetype) {
@@ -713,7 +714,7 @@ public class FileUtils {
 									@Override
 									public void onCacheFileWritten(
 											@NonNull final CacheManager.ReadableCacheFile cacheFile,
-											final long timestamp,
+											final TimestampUTC timestamp,
 											@NonNull final UUID session,
 											final boolean fromCache,
 											final String mimetype) {

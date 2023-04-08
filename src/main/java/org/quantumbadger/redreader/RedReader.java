@@ -17,8 +17,8 @@
 
 package org.quantumbadger.redreader;
 
-import android.app.Application;
 import android.util.Log;
+import androidx.multidex.MultiDexApplication;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.Alarms;
 import org.quantumbadger.redreader.common.Fonts;
@@ -29,7 +29,7 @@ import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
-public class RedReader extends Application {
+public class RedReader extends MultiDexApplication {
 
 	@Override
 	public void onCreate() {

@@ -1,5 +1,6 @@
 /Alpha 332 (2023-04-08)
 Big refactor of time handling code
+Enabling desugaring and multidex
 
 /Alpha 331 (2023-03-15)
 Fixing regression in submitting and editing comments

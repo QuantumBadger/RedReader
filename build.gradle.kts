@@ -25,9 +25,13 @@ plugins {
 }
 
 dependencies {
+
+	implementation("androidx.multidex:multidex:2.0.1")
+
 	implementation(project(":redreader-common"))
 	implementation(project(":redreader-datamodel"))
 
+	coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
 	implementation("androidx.core:core-ktx:1.9.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21") // TODO use constant
@@ -44,8 +48,7 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-core:2.14.2")
 	implementation("org.apache.commons:commons-lang3:3.12.0")
 
-	// v1.10.0 uses Java 8 APIs which are unsupported on Android 6 and below
-	implementation("org.apache.commons:commons-text:1.9")
+	implementation("org.apache.commons:commons-text:1.10.0")
 
 	implementation("com.squareup.okhttp3:okhttp:3.12.13")
 	implementation("info.guardianproject.netcipher:netcipher:1.2.1")
@@ -73,6 +76,7 @@ android {
 		versionCode = 104
 		versionName = "1.20"
 
+		multiDexEnabled = true
 		vectorDrawables.generatedDensities("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi")
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
@@ -91,6 +95,7 @@ android {
 
 	compileOptions {
 		encoding = "UTF-8"
+		isCoreLibraryDesugaringEnabled = true
 		sourceCompatibility = JavaVersion.VERSION_1_8
 		targetCompatibility = JavaVersion.VERSION_1_8
 	}

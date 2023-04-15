@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit.prepared;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.style.ImageSpan;
+import android.util.TypedValue;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -149,10 +151,33 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 								try (InputStream is = stream.create()) {
 									image = BitmapFactory.decodeStream(is);
 
-									image = Bitmap.createScaledBitmap(image,
-											image.getWidth() / 2,
-											image.getHeight() / 2,
-											true);
+									if (image == null) {
+										throw new IOException("Failed to decode bitmap");
+									}
+
+									final int textSize = 11;
+									final float maxImageHeightMultiple = 2.0F;
+
+									final float maxHeight = TypedValue.applyDimension(
+											TypedValue.COMPLEX_UNIT_SP,
+											PrefsUtility.appearance_fontscale_comment_headers()
+													* textSize
+													* maxImageHeightMultiple,
+											activity.getApplicationContext()
+													.getResources()
+													.getDisplayMetrics());
+
+									if (image.getHeight() > maxHeight) {
+										final float imageAspectRatio =
+												(float) image.getHeight() / image.getWidth();
+
+										final float newImageWidth = maxHeight / imageAspectRatio;
+
+										image = Bitmap.createScaledBitmap(image,
+												Math.round(newImageWidth),
+												Math.round(maxHeight),
+												true);
+									}
 
 									if (image == null) {
 										throw new IOException("Failed to decode bitmap");

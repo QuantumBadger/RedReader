@@ -40,8 +40,10 @@ public class PostCommentListingURL extends CommentListingURL {
 
 	public final PostCommentSort order;
 
+	public final boolean video;
+
 	public static PostCommentListingURL forPostId(final String postId) {
-		return new PostCommentListingURL(null, postId, null, null, null, null);
+		return new PostCommentListingURL(null, postId, null, null, null, null, false);
 	}
 
 	public PostCommentListingURL(
@@ -50,7 +52,8 @@ public class PostCommentListingURL extends CommentListingURL {
 			String commentId,
 			final Integer context,
 			final Integer limit,
-			final PostCommentSort order) {
+			final PostCommentSort order,
+			final boolean video) {
 
 		if(postId != null && postId.startsWith("t3_")) {
 			postId = postId.substring(3);
@@ -66,24 +69,25 @@ public class PostCommentListingURL extends CommentListingURL {
 		this.context = context;
 		this.limit = limit;
 		this.order = order;
+		this.video = video;
 	}
 
 	@Override
 	public PostCommentListingURL after(final String after) {
-		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
+		return new PostCommentListingURL(after, postId, commentId, context, limit, order, video);
 	}
 
 	@Override
 	public PostCommentListingURL limit(final Integer limit) {
-		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
+		return new PostCommentListingURL(after, postId, commentId, context, limit, order, video);
 	}
 
 	public PostCommentListingURL context(final Integer context) {
-		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
+		return new PostCommentListingURL(after, postId, commentId, context, limit, order, video);
 	}
 
 	public PostCommentListingURL order(final PostCommentSort order) {
-		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
+		return new PostCommentListingURL(after, postId, commentId, context, limit, order, video);
 	}
 
 	public PostCommentListingURL commentId(String commentId) {
@@ -92,7 +96,7 @@ public class PostCommentListingURL extends CommentListingURL {
 			commentId = commentId.substring(3);
 		}
 
-		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
+		return new PostCommentListingURL(after, postId, commentId, context, limit, order, video);
 	}
 
 	@Override
@@ -120,7 +124,11 @@ public class PostCommentListingURL extends CommentListingURL {
 
 	private void internalGenerateCommon(@NonNull final Uri.Builder builder) {
 
-		builder.encodedPath("/comments");
+		if(video) {
+			builder.encodedPath("/video");
+		} else {
+			builder.encodedPath("/comments");
+		}
 		builder.appendPath(postId);
 
 		if(commentId != null) {
@@ -168,14 +176,20 @@ public class PostCommentListingURL extends CommentListingURL {
 					= pathSegmentsFiltered.toArray(new String[0]);
 		}
 
-		if(pathSegments.length == 1 && uri.getHost().equals("redd.it")) {
-			return new PostCommentListingURL(
-					null,
-					pathSegments[0],
-					null,
-					null,
-					null,
-					null);
+		if(pathSegments.length == 1) {
+			if(uri.getHost().equals("redd.it")) {
+				return forPostId(pathSegments[0]);
+			}
+			if(uri.getHost().equals("v.redd.it")) {
+				return new PostCommentListingURL(
+						null,
+						pathSegments[0],
+						null,
+						null,
+						null,
+						null,
+						true);
+			}
 		}
 
 		if(pathSegments.length < 2) {
@@ -192,7 +206,12 @@ public class PostCommentListingURL extends CommentListingURL {
 			}
 		}
 
-		if(!pathSegments[offset].equalsIgnoreCase("comments")) {
+		boolean video = false;
+
+		if(pathSegments[offset].equalsIgnoreCase("video")) {
+			video = true;
+		} else if(!pathSegments[offset].equalsIgnoreCase("comments") &&
+				!pathSegments[offset].equalsIgnoreCase("gallery")) {
 			return null;
 		}
 
@@ -233,7 +252,7 @@ public class PostCommentListingURL extends CommentListingURL {
 			}
 		}
 
-		return new PostCommentListingURL(after, postId, commentId, context, limit, order);
+		return new PostCommentListingURL(after, postId, commentId, context, limit, order, video);
 	}
 
 	@Override

@@ -53,7 +53,8 @@ public final class RedditGalleryAPI {
 				null,
 				null,
 				null,
-				null).generateJsonUri();
+				null,
+				false).generateJsonUri();
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
 				General.uriFromString(apiUrl.toString()),

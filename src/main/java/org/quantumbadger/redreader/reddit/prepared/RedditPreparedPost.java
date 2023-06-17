@@ -40,14 +40,13 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimeFormatHelper;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
@@ -718,21 +717,16 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.e(
 									TAG,
 									"Failed to download thumbnail "
 											+ uriStr
-											+ " with status "
-											+ httpStatus,
-									t);
+											+ " with error "
+											+ error,
+									error.t);
 						}
 					}
 				}));

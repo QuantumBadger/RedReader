@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -52,7 +51,6 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
@@ -284,12 +282,7 @@ public class UserProfileDialog extends PropertiesDialog {
 					}
 
 					@Override
-					protected void onFailure(
-							final @CacheRequest.RequestFailureType int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> response) {
+					protected void onFailure(@NonNull final RRError error) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
@@ -299,40 +292,9 @@ public class UserProfileDialog extends PropertiesDialog {
 
 							loadingView.setDone(R.string.download_failed);
 
-							final RRError error = General.getGeneralErrorForFailure(
-									context,
-									type,
-									t,
-									status,
-									null,
-									response);
 							items.addView(new ErrorView(context, error));
 						});
 					}
-
-					@Override
-					protected void onFailure(
-							@NonNull final APIFailureType type,
-							@Nullable final String debuggingContext,
-							@NonNull final Optional<FailedRequestBody> response) {
-
-						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-
-							if(!active) {
-								return;
-							}
-
-							loadingView.setDone(R.string.download_failed);
-
-							final RRError error = General.getGeneralErrorForFailure(
-									context,
-									type,
-									debuggingContext,
-									response);
-							items.addView(new ErrorView(context, error));
-						});
-					}
-
 				},
 				RedditAccountManager.getInstance(context).getDefaultAccount(),
 				DownloadStrategyAlways.INSTANCE,
@@ -371,23 +333,21 @@ public class UserProfileDialog extends PropertiesDialog {
 						});
 
 					} catch(final Throwable t) {
-						onFailure(
+						onFailure(General.getGeneralErrorForFailure(
+								context,
 								CacheRequest.REQUEST_FAILURE_CONNECTION,
 								t,
 								null,
-								"Exception while downloading thumbnail",
-								Optional.empty());
+								url,
+								Optional.empty()));
 					}
 				}
 
 				@Override
-				public void onFailure(
-						final int type,
-						final @Nullable Throwable t,
-						final @Nullable Integer httpStatus,
-						final @Nullable String readableMessage,
-						final @NonNull Optional<FailedRequestBody> body) {
-					Log.d("UserProfileDialog", "Failed to download user avatar");
+				public void onFailure(@NonNull final RRError error) {
+					Log.d(
+							"UserProfileDialog",
+							"Failed to download user avatar: " + error);
 				}
 			}
 		));

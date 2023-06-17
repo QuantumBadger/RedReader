@@ -21,7 +21,6 @@ import android.content.Context;
 import android.os.SystemClock;
 import android.util.Log;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -32,6 +31,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.time.TimeDuration;
@@ -109,29 +109,19 @@ public final class RedgifsAPIV2 {
 							Log.i(TAG, "Got RedGifs v2 metadata");
 
 						} catch(final Throwable t) {
-							listener.onFailure(
+							listener.onFailure(General.getGeneralErrorForFailure(
+									context,
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Redgifs V2 data parse failed",
-									Optional.of(new FailedRequestBody(result)));
+									apiUrl,
+									Optional.of(new FailedRequestBody(result))));
 						}
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-
-						listener.onFailure(
-								type,
-								t,
-								httpStatus,
-								readableMessage,
-								body);
+					public void onFailure(@NonNull final RRError error) {
+						listener.onFailure(error);
 					}
 				})));
 
@@ -151,8 +141,10 @@ public final class RedgifsAPIV2 {
 
 		Log.i(TAG, "Retrieving new token");
 
+		final String apiUrl = "https://api.redgifs.com/v2/oauth/client";
+
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				General.uriFromString("https://api.redgifs.com/v2/oauth/client"),
+				General.uriFromString(apiUrl),
 				RedditAccountManager.getAnon(),
 				null,
 				priority,
@@ -182,12 +174,13 @@ public final class RedgifsAPIV2 {
 
 						if(accessToken.isEmpty()) {
 							Log.i(TAG, "Failed to get RedGifs v2 token: result not present");
-							listener.onFailure(
+							listener.onFailure(General.getGeneralErrorForFailure(
+									context,
 									CacheRequest.REQUEST_FAILURE_REQUEST,
 									null,
 									null,
-									"Failed to get RedGifs v2 token: result not present",
-									Optional.of(new FailedRequestBody(result)));
+									apiUrl,
+									Optional.of(new FailedRequestBody(result))));
 							return;
 						}
 
@@ -199,15 +192,10 @@ public final class RedgifsAPIV2 {
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						Log.i(TAG, "Failed to get RedGifs v2 token");
-						listener.onFailure(type, t, httpStatus, readableMessage, body);
+						listener.onFailure(error);
 					}
 				})
 

@@ -60,14 +60,12 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -190,13 +188,7 @@ public class ImageViewActivity extends BaseActivity
 					new GetAlbumInfoListener() {
 
 						@Override
-						public void onFailure(
-								final @CacheRequest.RequestFailureType int type,
-								final Throwable t,
-								final Integer status,
-								final String readableMessage,
-								@NonNull final Optional<FailedRequestBody> body) {
-
+						public void onFailure(@NonNull final RRError error) {
 							// Do nothing
 						}
 
@@ -271,12 +263,7 @@ public class ImageViewActivity extends BaseActivity
 				new GetImageInfoListener() {
 
 					@Override
-					public void onFailure(
-							final @CacheRequest.RequestFailureType int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						General.quickToast(
 								ImageViewActivity.this,
@@ -929,33 +916,11 @@ public class ImageViewActivity extends BaseActivity
 					private boolean mProgressTextSet = false;
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						synchronized(resultLock) {
 
 							if(!failed.getAndSet(true)) {
-
-								if(type == CacheRequest.REQUEST_FAILURE_CONNECTION
-										&& uri.getHost().contains("redgifs")) {
-
-									// Redgifs have lots of server issues
-									revertToWeb();
-									return;
-								}
-
-								final RRError error = General.getGeneralErrorForFailure(
-										ImageViewActivity.this,
-										type,
-										t,
-										httpStatus,
-										uri.toString(),
-										body);
-
 								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 									final LinearLayout layout
 											= new LinearLayout(ImageViewActivity.this);
@@ -1038,24 +1003,11 @@ public class ImageViewActivity extends BaseActivity
 					this,
 					new CacheRequestCallbacks() {
 						@Override
-						public void onFailure(
-								final int type,
-								@Nullable final Throwable t,
-								@Nullable final Integer httpStatus,
-								@Nullable final String readableMessage,
-								@NonNull final Optional<FailedRequestBody> body) {
+						public void onFailure(@NonNull final RRError error) {
 
 							synchronized(resultLock) {
 
 								if(!failed.getAndSet(true)) {
-
-									final RRError error = General.getGeneralErrorForFailure(
-											ImageViewActivity.this,
-											type,
-											t,
-											httpStatus,
-											audioUri.toString(),
-											body);
 
 									AndroidCommon.runOnUiThread(() -> {
 										final LinearLayout layout

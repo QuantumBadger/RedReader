@@ -21,7 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.cache.CacheRequest;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -53,26 +53,11 @@ public abstract class APIResponseHandler {
 
 	protected abstract void onCallbackException(Throwable t);
 
-	protected abstract void onFailure(
-			@CacheRequest.RequestFailureType int type,
-			@Nullable Throwable t,
-			@Nullable Integer status,
-			@Nullable String readableMessage,
-			@NonNull Optional<FailedRequestBody> response);
+	protected abstract void onFailure(@NonNull RRError error);
 
-	protected abstract void onFailure(
-			@NonNull APIFailureType type,
-			@Nullable String debuggingContext,
-			@NonNull Optional<FailedRequestBody> response);
-
-	public final void notifyFailure(
-			final @CacheRequest.RequestFailureType int type,
-			@Nullable final Throwable t,
-			@Nullable final Integer status,
-			@Nullable final String readableMessage,
-			@NonNull final Optional<FailedRequestBody> response) {
+	public final void notifyFailure(@NonNull final RRError error) {
 		try {
-			onFailure(type, t, status, readableMessage, response);
+			onFailure(error);
 		} catch(final Throwable t1) {
 			try {
 				onCallbackException(t1);
@@ -88,16 +73,11 @@ public abstract class APIResponseHandler {
 			@Nullable final String debuggingContext,
 			@NonNull final Optional<FailedRequestBody> response) {
 
-		try {
-			onFailure(type, debuggingContext, response);
-		} catch(final Throwable t1) {
-			try {
-				onCallbackException(t1);
-			} catch(final Throwable t2) {
-				BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
-				BugReportActivity.handleGlobalError(context, t2);
-			}
-		}
+		notifyFailure(General.getGeneralErrorForFailure(
+				context,
+				type,
+				debuggingContext,
+				response));
 	}
 
 	public static abstract class SubmitResponseHandler extends APIResponseHandler {

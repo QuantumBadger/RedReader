@@ -25,13 +25,13 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 
 import java.io.IOException;
@@ -217,7 +217,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			final Context context,
 			final CacheRequestCallbacks callbacks) {
 
-		this.context = context;
+		this.context = context.getApplicationContext();
 		mCallbacks = callbacks;
 
 		if(user == null) {
@@ -241,12 +241,13 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		this.cache = (requestBody == null) && cache;
 
 		if(url == null) {
-			notifyFailure(
+			notifyFailure(General.getGeneralErrorForFailure(
+					this.context,
 					REQUEST_FAILURE_MALFORMED_URL,
 					null,
 					null,
-					"Malformed URL",
-					Optional.empty());
+					"null",
+					Optional.empty()));
 			cancel();
 		}
 	}
@@ -287,15 +288,10 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		mCallbacks.onDataStreamComplete(streamFactory, timestamp, session, fromCache, mimetype);
 	}
 
-	public void notifyFailure(
-			final @RequestFailureType int type,
-			final Throwable t,
-			final Integer httpStatus,
-			final String readableMessage,
-			@NonNull final Optional<FailedRequestBody> body) {
+	public void notifyFailure(@NonNull final RRError error) {
 
 		try {
-			mCallbacks.onFailure(type, t, httpStatus, readableMessage, body);
+			mCallbacks.onFailure(error);
 
 		} catch(final Throwable t1) {
 			onCallbackException(t1);

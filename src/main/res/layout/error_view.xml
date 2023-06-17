@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:background="#CC0000"
+		android:padding="15dp">
+
+	<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/error_text_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textColor="#fff"
+			android:textSize="18sp"
+			android:paddingBottom="4dp" />
+
+	<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/error_text_message"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:textColor="#fff"
+			android:textSize="14sp"
+			android:paddingBottom="15dp" />
+
+	<androidx.appcompat.widget.LinearLayoutCompat
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_marginTop="14dp">
+
+		<com.google.android.material.button.MaterialButton
+				android:id="@+id/error_button_resolve"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:textColor="#fff"
+				android:background="#E57373" />
+
+		<!-- Spacer -->
+		<View
+				android:layout_width="0dp"
+				android:layout_height="0dp"
+				android:layout_weight="1" />
+
+		<com.google.android.material.button.MaterialButton
+				android:id="@+id/error_button_details"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/button_error_details"
+				android:textColor="#fff"
+				android:background="#E57373" />
+
+	</androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -50,7 +50,6 @@ import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.ImgurUploadActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Consumer;
 import org.quantumbadger.redreader.common.DialogUtils;
@@ -59,7 +58,6 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.RedditFlairChoice;
@@ -414,12 +412,7 @@ public class PostSubmitContentFragment extends Fragment {
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> response) {
+					public void onFailure(@NonNull final RRError error) {
 
 						AndroidCommon.runOnUiThread(() -> {
 
@@ -427,41 +420,9 @@ public class PostSubmitContentFragment extends Fragment {
 								return;
 							}
 
-							final RRError error = General.getGeneralErrorForFailure(
-									mContext,
-									type,
-									t,
-									httpStatus,
-									"Flair selector",
-									response);
-
 							ifActivityNotNull(listener -> {
 								listener.onContentFragmentFlairRequestError(error);
 							});
-						});
-					}
-
-					@Override
-					public void onFailure(
-							@NonNull final APIResponseHandler.APIFailureType type,
-							@NonNull final Optional<FailedRequestBody> response) {
-
-						AndroidCommon.runOnUiThread(() -> {
-
-							if(!mActive) {
-								return;
-							}
-
-							final RRError error = General.getGeneralErrorForFailure(
-									mContext,
-									type,
-									"Flair selector",
-									response);
-
-							ifActivityNotNull(listener -> {
-								listener.onContentFragmentFlairRequestError(error);
-							});
-
 						});
 					}
 				});
@@ -588,41 +549,7 @@ public class PostSubmitContentFragment extends Fragment {
 					}
 
 					@Override
-					protected void onFailure(
-							@CacheRequest.RequestFailureType final int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> response) {
-
-						final RRError error = General.getGeneralErrorForFailure(
-								context,
-								type,
-								t,
-								status,
-								"Post submission",
-								response);
-
-						final FragmentActivity activity = getActivity();
-
-						if(activity != null) {
-							General.showResultDialog((AppCompatActivity)activity, error);
-						}
-
-						General.safeDismissDialog(progressDialog);
-					}
-
-					@Override
-					protected void onFailure(
-							@NonNull final APIFailureType type,
-							@Nullable final String debuggingContext,
-							@NonNull final Optional<FailedRequestBody> response) {
-
-						final RRError error = General.getGeneralErrorForFailure(
-								context,
-								type,
-								debuggingContext,
-								response);
+					protected void onFailure(@NonNull final RRError error) {
 
 						final FragmentActivity activity = getActivity();
 

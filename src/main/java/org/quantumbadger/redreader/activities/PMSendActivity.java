@@ -29,19 +29,15 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 
@@ -229,37 +225,7 @@ public class PMSendActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onFailure(
-						@CacheRequest.RequestFailureType final int type,
-						final Throwable t,
-						final Integer status,
-						final String readableMessage,
-						@NonNull final Optional<FailedRequestBody> response) {
-
-					final RRError error = General.getGeneralErrorForFailure(
-							context,
-							type,
-							t,
-							status,
-							"PM send",
-							response);
-
-					General.showResultDialog(PMSendActivity.this, error);
-					General.safeDismissDialog(progressDialog);
-				}
-
-				@Override
-				protected void onFailure(
-						@NonNull final APIFailureType type,
-						@Nullable final String debuggingContext,
-						@NonNull final Optional<FailedRequestBody> response) {
-
-					final RRError error = General.getGeneralErrorForFailure(
-							context,
-							type,
-							debuggingContext,
-							response);
-
+				protected void onFailure(@NonNull final RRError error) {
 					General.showResultDialog(PMSendActivity.this, error);
 					General.safeDismissDialog(progressDialog);
 				}

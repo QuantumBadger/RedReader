@@ -22,6 +22,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.collections.WeakReferenceListManager;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -113,7 +114,7 @@ public class RedditMultiredditSubscriptionManager {
 	public void triggerUpdate(
 			@Nullable final RequestResponseHandler<
 					HashSet<String>,
-					SubredditRequestFailure> handler,
+					RRError> handler,
 			@NonNull final TimestampBound timestampBound) {
 
 		if(mMultireddits != null
@@ -124,11 +125,11 @@ public class RedditMultiredditSubscriptionManager {
 		new RedditAPIMultiredditListRequester(mContext, mUser).performRequest(
 				RedditAPIMultiredditListRequester.Key.INSTANCE,
 				timestampBound,
-				new RequestResponseHandler<WritableHashSet, SubredditRequestFailure>() {
+				new RequestResponseHandler<WritableHashSet, RRError>() {
 
 					// TODO handle failed requests properly -- retry? then notify listeners
 					@Override
-					public void onRequestFailed(final SubredditRequestFailure failureReason) {
+					public void onRequestFailed(final RRError failureReason) {
 						if(handler != null) {
 							handler.onRequestFailed(failureReason);
 						}

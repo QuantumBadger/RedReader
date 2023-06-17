@@ -15,15 +15,13 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.kthings
+package org.quantumbadger.redreader.common
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
+import androidx.annotation.Keep
+import org.quantumbadger.redreader.BuildConfig
 
-@Serializable
-@Parcelize
-data class RedditListing(
-	val after: String? = null,
-	val children: ArrayList<MaybeParseError<RedditThing>>
-) : Parcelable
+object GlobalConfig {
+	@JvmField @Keep var appName = BuildConfig.APPLICATION_ID
+	@JvmField @Keep var appBuildType = BuildConfig.BUILD_TYPE
+	@JvmField @Keep var appId: String? = null
+}

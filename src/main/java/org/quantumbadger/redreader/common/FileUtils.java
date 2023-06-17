@@ -47,7 +47,6 @@ import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.image.LegacySaveImageCallback;
@@ -543,22 +542,8 @@ public class FileUtils {
 					}
 
 					@Override
-					public void onFailure(
-							@CacheRequest.RequestFailureType final int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-
-						General.showResultDialog(
-								activity,
-								General.getGeneralErrorForFailure(
-										activity,
-										type,
-										t,
-										status,
-										info.urlAudioStream,
-										body));
+					public void onFailure(@NonNull final RRError error) {
+						General.showResultDialog(activity, error);
 					}
 
 					@Override
@@ -655,19 +640,7 @@ public class FileUtils {
 				new GetImageInfoListener() {
 
 					@Override
-					public void onFailure(
-							final @CacheRequest.RequestFailureType int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-						final RRError error = General.getGeneralErrorForFailure(
-								activity,
-								type,
-								t,
-								status,
-								uri,
-								body);
+					public void onFailure(@NonNull final RRError error) {
 						General.showResultDialog(activity, error);
 					}
 
@@ -693,22 +666,8 @@ public class FileUtils {
 									}
 
 									@Override
-									public void onFailure(
-											@CacheRequest.RequestFailureType final int type,
-											final Throwable t,
-											final Integer status,
-											final String readableMessage,
-											@NonNull final Optional<FailedRequestBody> body) {
-
-										General.showResultDialog(
-												activity,
-												General.getGeneralErrorForFailure(
-														activity,
-														type,
-														t,
-														status,
-														info.urlOriginal,
-														body));
+									public void onFailure(@NonNull final RRError error) {
+										General.showResultDialog(activity, error);
 									}
 
 									@Override

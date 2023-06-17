@@ -15,15 +15,24 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.kthings
+package org.quantumbadger.redreader.common
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
+import android.util.Base64
 
-@Serializable
-@Parcelize
-data class RedditListing(
-	val after: String? = null,
-	val children: ArrayList<MaybeParseError<RedditThing>>
-) : Parcelable
+object ConfigProviders {
+
+	fun interface ConfigProvider {
+		fun config(): String
+	}
+
+	private val providers: MutableList<ConfigProvider> = mutableListOf()
+
+	@JvmStatic
+	fun register(provider: ConfigProvider) = providers.add(provider)
+
+	fun apply(action: (ConfigProvider) -> Unit) = providers.forEach(action)
+
+	fun read(action: (ByteArray) -> Unit) = apply {
+		action(Base64.decode(it.config(), 0))
+	}
+}

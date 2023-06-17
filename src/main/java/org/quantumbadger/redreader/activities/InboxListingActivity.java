@@ -42,7 +42,6 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
@@ -396,22 +395,18 @@ public final class InboxListingActivity extends BaseActivity {
 
 
 						} catch(final Exception e) {
-							onFailure(
+							onFailure(General.getGeneralErrorForFailure(
+									context,
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									e,
 									null,
 									e.toString(),
-									FailedRequestBody.from(streamFactory));
+									FailedRequestBody.from(streamFactory)));
 						}
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						request = null;
 
@@ -419,13 +414,6 @@ public final class InboxListingActivity extends BaseActivity {
 							loadingView.setDone(R.string.download_failed);
 						}
 
-						final RRError error = General.getGeneralErrorForFailure(
-								context,
-								type,
-								t,
-								httpStatus,
-								url.toString(),
-								body);
 						AndroidCommon.runOnUiThread(() -> notifications.addView(
 								new ErrorView(InboxListingActivity.this, error)));
 					}
@@ -480,37 +468,10 @@ public final class InboxListingActivity extends BaseActivity {
 							}
 
 							@Override
-							protected void onFailure(
-									final @CacheRequest.RequestFailureType int type,
-									final Throwable t,
-									final Integer status,
-									final String readableMessage,
-									@NonNull final Optional<FailedRequestBody> response) {
-
-								final RRError error = General.getGeneralErrorForFailure(
-										context,
-										type,
-										t,
-										status,
-										"Reddit API action: Mark all as Read",
-										response);
+							protected void onFailure(@NonNull final RRError error) {
 								General.showResultDialog(
 										InboxListingActivity.this,
 										error);
-							}
-
-							@Override
-							protected void onFailure(
-									@NonNull final APIFailureType type,
-									@Nullable final String debuggingContext,
-									@NonNull final Optional<FailedRequestBody> response) {
-
-								final RRError error = General.getGeneralErrorForFailure(
-										context,
-										type,
-										debuggingContext,
-										response);
-								General.showResultDialog(InboxListingActivity.this, error);
 							}
 						},
 						RedditAccountManager.getInstance(this).getDefaultAccount(),

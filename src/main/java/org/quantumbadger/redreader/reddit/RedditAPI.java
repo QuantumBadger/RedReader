@@ -50,7 +50,6 @@ import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonString;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
-import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
@@ -146,19 +145,8 @@ public final class RedditAPI {
 		}
 
 		@Override
-		public void onFailure(
-				final int type,
-				@Nullable final Throwable t,
-				@Nullable final Integer httpStatus,
-				@Nullable final String readableMessage,
-				@NonNull final Optional<FailedRequestBody> body) {
-
-			mHandler.notifyFailure(
-					type,
-					t,
-					httpStatus,
-					readableMessage,
-					body);
+		public void onFailure(@NonNull final RRError error) {
+			mHandler.notifyFailure(error);
 		}
 	}
 
@@ -170,16 +158,7 @@ public final class RedditAPI {
 
 		void onSubredditPermissionDenied();
 
-		void onFailure(
-				int type,
-				@Nullable Throwable t,
-				@Nullable Integer httpStatus,
-				@Nullable String readableMessage,
-				@NonNull final Optional<FailedRequestBody> response);
-
-		void onFailure(
-				@NonNull APIResponseHandler.APIFailureType type,
-				@NonNull final Optional<FailedRequestBody> response);
+		void onFailure(@NonNull final RRError error);
 	}
 
 	public static void flairSelectorForNewLink(
@@ -192,8 +171,10 @@ public final class RedditAPI {
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("is_newlink", "true"));
 
+		final URI apiUrl = Constants.Reddit.getUri(subreddit + "/api/flairselector");
+
 		cm.makeRequest(createPostRequest(
-				Constants.Reddit.getUri(subreddit + "/api/flairselector"),
+				apiUrl,
 				user,
 				postFields,
 				context,
@@ -225,15 +206,14 @@ public final class RedditAPI {
 							final APIResponseHandler.APIFailureType failureType
 									= findFailureType(result);
 
-							if(failureType != null) {
-								responseHandler.onFailure(
-										failureType,
-										Optional.of(new FailedRequestBody(result)));
-							} else {
-								responseHandler.onFailure(
-										APIResponseHandler.APIFailureType.UNKNOWN,
-										Optional.of(new FailedRequestBody(result)));
-							}
+							responseHandler.onFailure(General.getGeneralErrorForFailure(
+									context,
+									General.nullAlternative(
+											failureType,
+											APIResponseHandler.APIFailureType.UNKNOWN),
+									"flairselector",
+									Optional.of(new FailedRequestBody(result))
+							));
 
 							return;
 						}
@@ -242,12 +222,13 @@ public final class RedditAPI {
 								= RedditFlairChoice.fromJsonList(array.get());
 
 						if(choices.isEmpty()) {
-							responseHandler.onFailure(
+							responseHandler.onFailure(General.getGeneralErrorForFailure(
+									context,
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									new RuntimeException(),
 									null,
-									"Failed to parse choices list",
-									Optional.of(new FailedRequestBody(result)));
+									apiUrl.toString(),
+									Optional.of(new FailedRequestBody(result))));
 							return;
 						}
 
@@ -255,26 +236,16 @@ public final class RedditAPI {
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> response) {
+					public void onFailure(@NonNull final RRError error) {
 
-						if(httpStatus != null && httpStatus == 404) {
+						if(error.httpStatus != null && error.httpStatus == 404) {
 							responseHandler.onSubredditDoesNotExist();
 
-						} else if(httpStatus != null && httpStatus == 403) {
+						} else if(error.httpStatus != null && error.httpStatus == 403) {
 							responseHandler.onSubredditPermissionDenied();
 
 						} else {
-							responseHandler.onFailure(
-									type,
-									t,
-									httpStatus,
-									readableMessage,
-									response);
+							responseHandler.onFailure(error);
 						}
 					}
 				}));
@@ -349,19 +320,8 @@ public final class RedditAPI {
 		}
 
 		@Override
-		public void onFailure(
-				final int type,
-				@Nullable final Throwable t,
-				@Nullable final Integer httpStatus,
-				@Nullable final String readableMessage,
-				@NonNull final Optional<FailedRequestBody> body) {
-
-			mResponseHandler.notifyFailure(
-					type,
-					t,
-					httpStatus,
-					readableMessage,
-					body);
+		public void onFailure(@NonNull final RRError error) {
+			mResponseHandler.notifyFailure(error);
 		}
 	}
 
@@ -481,23 +441,8 @@ public final class RedditAPI {
 					}
 
 					@Override
-					protected void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer status,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> response) {
-
-						responseHandler.onFailure(type, t, status, readableMessage, response);
-					}
-
-					@Override
-					protected void onFailure(
-							@NonNull final APIFailureType type,
-							@Nullable final String debuggingContext,
-							@NonNull final Optional<FailedRequestBody> response) {
-
-						responseHandler.onFailure(type, debuggingContext, response);
+					protected void onFailure(@NonNull final RRError error) {
+						responseHandler.notifyFailure(error);
 					}
 				})));
 	}
@@ -517,19 +462,8 @@ public final class RedditAPI {
 				context,
 				new CacheRequestCallbacks() {
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-
-						responseHandler.notifyFailure(
-								type,
-								t,
-								httpStatus,
-								readableMessage,
-								body);
+					public void onFailure(@NonNull final RRError error) {
+						responseHandler.notifyFailure(error);
 					}
 
 					@Override
@@ -631,16 +565,11 @@ public final class RedditAPI {
 		RedditSubredditManager.getInstance(context, user).getSubreddit(
 				subredditId,
 				TimestampBound.ANY,
-				new RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>() {
+				new RequestResponseHandler<RedditSubreddit, RRError>() {
 
 					@Override
-					public void onRequestFailed(final SubredditRequestFailure failureReason) {
-						responseHandler.notifyFailure(
-								failureReason.requestFailureType,
-								failureReason.t,
-								failureReason.statusLine,
-								failureReason.readableMessage,
-								Optional.empty());
+					public void onRequestFailed(final RRError failureReason) {
+						responseHandler.notifyFailure(failureReason);
 					}
 
 					@Override
@@ -714,28 +643,19 @@ public final class RedditAPI {
 
 						} catch(final Throwable t) {
 							// TODO look for error
-							responseHandler.notifyFailure(
+							responseHandler.notifyFailure(General.getGeneralErrorForFailure(
+									context,
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"JSON parse failed for unknown reason",
-									Optional.of(new FailedRequestBody(result)));
+									uri.toString(),
+									Optional.of(new FailedRequestBody(result))));
 						}
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-						responseHandler.notifyFailure(
-								type,
-								t,
-								httpStatus,
-								readableMessage,
-								body);
+					public void onFailure(@NonNull final RRError error) {
+						responseHandler.notifyFailure(error);
 					}
 				}));
 	}
@@ -885,23 +805,8 @@ public final class RedditAPI {
 					}
 
 					@Override
-					protected void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer status,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> response) {
-
-						handler.onFailure(type, t, status, readableMessage, response);
-					}
-
-					@Override
-					protected void onFailure(
-							@NonNull final APIFailureType type,
-							@Nullable final String debuggingContext,
-							@NonNull final Optional<FailedRequestBody> response) {
-
-						handler.onFailure(type, debuggingContext, response);
+					protected void onFailure(@NonNull final RRError error) {
+						handler.onFailure(error);
 					}
 				},
 				DownloadStrategyAlways.INSTANCE);
@@ -966,24 +871,19 @@ public final class RedditAPI {
 									new SubredditListResponse(output, after));
 
 						} catch(final Exception e) {
-							onFailure(
+							onFailure(General.getGeneralErrorForFailure(
+									context,
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									e,
 									null,
-									null,
-									Optional.of(new FailedRequestBody(result)));
+									uri.toString(),
+									Optional.of(new FailedRequestBody(result))));
 						}
 					}
 
 					@Override
-					public void onFailure(
-							final @CacheRequest.RequestFailureType int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-
-						handler.notifyFailure(type, t, httpStatus, readableMessage, body);
+					public void onFailure(@NonNull final RRError error) {
+						handler.notifyFailure(error);
 					}
 				}
 		));

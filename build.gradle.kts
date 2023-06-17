@@ -141,7 +141,7 @@ tasks.register("Checkstyle", Checkstyle::class) {
 	source("src/main/java/org/quantumbadger")
 	ignoreFailures = false
 	isShowViolations = true
-	include("**/*.java")
+	include("**/*.java", "**/*.kt")
 	classpath = files()
 	maxWarnings = 0
 	configFile = rootProject.file("${project.rootDir}/config/checkstyle/checkstyle.xml")

@@ -60,7 +60,6 @@ import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -581,24 +580,20 @@ public final class RedditPostView extends FlingableItemView
 							});
 
 						} catch(final Throwable t) {
-							onFailure(
+							onFailure(General.getGeneralErrorForFailure(
+									mActivity,
 									CacheRequest.REQUEST_FAILURE_CONNECTION,
 									t,
 									null,
-									"Exception while downloading thumbnail",
-									Optional.empty());
+									preview.url,
+									Optional.empty()));
 						}
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
-						Log.e(TAG, "Failed to download image preview", t);
+						Log.e(TAG, "Failed to download image preview: " + error, error.t);
 
 						if(usageId != mUsageId) {
 							return;
@@ -606,24 +601,12 @@ public final class RedditPostView extends FlingableItemView
 
 						AndroidCommon.runOnUiThread(() -> {
 
-							final Context context = mActivity.getApplicationContext();
-
 							mImagePreviewLoadingSpinner.setVisibility(GONE);
 							mImagePreviewOuter.setVisibility(GONE);
 
 							final ErrorView errorView = new ErrorView(
 									mActivity,
-									new RRError(
-											context.getString(
-													R.string.error_inline_preview_failed_title),
-											context.getString(
-													R.string.error_inline_preview_failed_message),
-											true,
-											t,
-											httpStatus,
-											preview.url,
-											null,
-											body));
+									error);
 
 							mPostErrors.addView(errorView);
 							General.setLayoutMatchWidthWrapHeight(errorView);

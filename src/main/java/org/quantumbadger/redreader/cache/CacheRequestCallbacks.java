@@ -20,10 +20,9 @@ package org.quantumbadger.redreader.cache;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.GenericFactory;
-import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -53,12 +52,7 @@ public interface CacheRequestCallbacks {
 			final long bytesRead,
 			final long totalBytes) {}
 
-	void onFailure(
-			@CacheRequest.RequestFailureType int type,
-			@Nullable Throwable t,
-			@Nullable Integer httpStatus,
-			@Nullable String readableMessage,
-			@NonNull final Optional<FailedRequestBody> body);
+	void onFailure(@NonNull RRError error);
 
 	default void onCacheFileWritten(
 			@NonNull final CacheManager.ReadableCacheFile cacheFile,

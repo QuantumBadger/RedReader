@@ -1733,4 +1733,18 @@
 	<!-- 2023-01-15 -->
 	<string name="userprofile_avatar">Avatar</string>
 
+	<!-- 2023-06-18 -->
+	<string name="reddit_login_browser_popup_line_2_internal_browser_only">When the login is complete, you should be redirected back to RedReader.</string>
+
+	<string name="reddit_terms_title">Reddit User Agreement</string>
+	<string name="reddit_terms_message">RedReader accesses content using the Reddit API. To access Reddit, please read the terms and conditions at the link below, and confirm that you accept them.</string>
+	<string name="reddit_terms_view_button">View Reddit User Agreement</string>
+	<string name="terms_accept">Accept</string>
+	<string name="terms_decline">Decline</string>
+
+	<string name="reddit_terms_error_title">Reddit user agreement not accepted</string>
+	<string name="reddit_terms_error_message">If you wish to access content through the Reddit API, please accept their user agreement.</string>
+	<string name="reddit_terms_error_resolution_button">View agreement</string>
+
+
 </resources>

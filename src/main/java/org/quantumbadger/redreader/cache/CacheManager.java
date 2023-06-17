@@ -612,12 +612,13 @@ public final class CacheManager {
 		private void handleRequest(final CacheRequest request) {
 
 			if(request.url == null) {
-				request.notifyFailure(
+				request.notifyFailure(General.getGeneralErrorForFailure(
+						context,
 						CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
 						new NullPointerException("URL was null"),
 						null,
-						"URL was null",
-						Optional.empty());
+						"null",
+						Optional.empty()));
 				return;
 			}
 
@@ -637,12 +638,13 @@ public final class CacheManager {
 						queueDownload(request);
 
 					} else {
-						request.notifyFailure(
+						request.notifyFailure(General.getGeneralErrorForFailure(
+								context,
 								CacheRequest.REQUEST_FAILURE_CACHE_MISS,
 								null,
 								null,
-								"Could not find this data in the cache",
-								Optional.empty());
+								request.url.toString(),
+								Optional.empty()));
 					}
 
 				} else {
@@ -677,12 +679,13 @@ public final class CacheManager {
 			try {
 				downloadQueue.add(request, CacheManager.this);
 			} catch(final Exception e) {
-				request.notifyFailure(
+				request.notifyFailure(General.getGeneralErrorForFailure(
+						context,
 						CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
 						e,
 						null,
-						e.toString(),
-						Optional.empty());
+						request.url.toString(),
+						Optional.empty()));
 			}
 		}
 
@@ -694,14 +697,13 @@ public final class CacheManager {
 
 			if(cacheFile == null) {
 
-				request.notifyFailure(
+				request.notifyFailure(General.getGeneralErrorForFailure(
+						context,
 						CacheRequest.REQUEST_FAILURE_STORAGE,
 						new RuntimeException(),
 						null,
-						"A cache entry was found in the database, but"
-								+ " the actual data couldn't be found. Press refresh to"
-								+ " download the content again.",
-						Optional.empty());
+						request.url.toString(),
+						Optional.empty()));
 
 				dbManager.delete(entry.id);
 

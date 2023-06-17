@@ -41,9 +41,9 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -118,14 +118,9 @@ public class NewMessageChecker extends BroadcastReceiver {
 				context,
 				new CacheRequestCallbacks() {
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
-						Log.e(TAG, "Request failed", t);
+						Log.e(TAG, "Request failed: " + error, error.t);
 					}
 
 					@Override
@@ -241,12 +236,13 @@ public class NewMessageChecker extends BroadcastReceiver {
 							}
 
 						} catch(final Exception e) {
-							onFailure(
+							onFailure(General.getGeneralErrorForFailure(
+									context,
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									e,
 									null,
-									e.toString(),
-									FailedRequestBody.from(streamFactory));
+									url.toString(),
+									FailedRequestBody.from(streamFactory)));
 						}
 					}
 				});

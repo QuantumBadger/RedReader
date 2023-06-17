@@ -31,6 +31,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -96,12 +97,13 @@ public final class RedditVideosAPI {
 							Log.e(TAG, "Got exception", e);
 
 							if(!mNotifiedFailure.getAndSet(true)) {
-								listener.onFailure(
+								listener.onFailure(General.getGeneralErrorForFailure(
+										context,
 										CacheRequest.REQUEST_FAILURE_STORAGE,
 										e,
 										null,
-										"Failed to read mpd",
-										Optional.empty());
+										apiUrl,
+										FailedRequestBody.from(stream)));
 							}
 
 							return;
@@ -162,31 +164,22 @@ public final class RedditVideosAPI {
 							Log.e(TAG, "Got exception", e);
 
 							if(!mNotifiedFailure.getAndSet(true)) {
-								listener.onFailure(
+								listener.onFailure(General.getGeneralErrorForFailure(
+										context,
 										CacheRequest.REQUEST_FAILURE_STORAGE,
 										e,
 										null,
 										"Failed to parse mpd",
-										Optional.of(new FailedRequestBody(mpd)));
+										Optional.of(new FailedRequestBody(mpd))));
 							}
 						}
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						if(!mNotifiedFailure.getAndSet(true)) {
-							listener.onFailure(
-									type,
-									t,
-									httpStatus,
-									readableMessage,
-									body);
+							listener.onFailure(error);
 						}
 					}
 				}));

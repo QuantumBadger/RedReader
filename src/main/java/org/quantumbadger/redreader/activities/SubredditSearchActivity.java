@@ -23,7 +23,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,10 +40,10 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenerationalCache;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.ThreadCheckedVar;
 import org.quantumbadger.redreader.common.collections.CollectionStream;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.SubredditDetails;
@@ -449,47 +448,16 @@ public class SubredditSearchActivity extends BaseActivity implements
 					}
 
 					@Override
-					protected void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer status,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> response) {
+					protected void onFailure(@NonNull final RRError error) {
 
-						Log.i(TAG, "Got error receiving search results: " + type + ", " + t);
+						Log.i(TAG, "Got error receiving search results: " + error);
 
 						AndroidCommon.runOnUiThread(() -> {
 							mQueriesPending.get().remove(text);
 							mQueryErrorItem.set(Optional.of(
 									new GroupedRecyclerViewItemRRError(
 											SubredditSearchActivity.this,
-											General.getGeneralErrorForFailure(
-													SubredditSearchActivity.this,
-													type,
-													t,
-													status,
-													null,
-													response))));
-							updateList();
-						});
-					}
-
-					@Override
-					protected void onFailure(
-							@NonNull final APIFailureType type,
-							@Nullable final String debuggingContext,
-							@NonNull final Optional<FailedRequestBody> response) {
-
-						AndroidCommon.runOnUiThread(() -> {
-							mQueriesPending.get().remove(text);
-							mQueryErrorItem.set(Optional.of(
-									new GroupedRecyclerViewItemRRError(
-											SubredditSearchActivity.this,
-											General.getGeneralErrorForFailure(
-													SubredditSearchActivity.this,
-													type,
-													debuggingContext,
-													response))));
+											error)));
 							updateList();
 						});
 					}
@@ -525,9 +493,7 @@ public class SubredditSearchActivity extends BaseActivity implements
 				error -> AndroidCommon.runOnUiThread(() -> {
 
 			mQueryErrorItem.set(Optional.of(
-					new GroupedRecyclerViewItemRRError(
-							this,
-							error.asError(this))));
+					new GroupedRecyclerViewItemRRError(this, error)));
 			updateList();
 		}));
 

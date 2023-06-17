@@ -1,3 +1,20 @@
+/*******************************************************************************
+ * This file is part of RedReader.
+ *
+ * RedReader is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RedReader is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+
 package org.quantumbadger.redreader.reddit.api
 
 import android.app.AlertDialog
@@ -21,7 +38,6 @@ import org.quantumbadger.redreader.common.PrefsUtility.PostFlingAction
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog
 import org.quantumbadger.redreader.fragments.ShareOrderDialog
-import org.quantumbadger.redreader.http.FailedRequestBody
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
 import org.quantumbadger.redreader.reddit.RedditAPI.RedditAction
@@ -1059,39 +1075,9 @@ object RedditPostActions {
 				}
 
 				override fun onFailure(
-					type: Int,
-					t: Throwable?,
-					httpStatus: Int?,
-					readableMessage: String?,
-					response: Optional<FailedRequestBody>
+					error: RRError
 				) {
 					revertOnFailure()
-					val error = General.getGeneralErrorForFailure(
-						context,
-						type,
-						t,
-						httpStatus,
-						"Reddit API action code: "
-								+ action
-								+ " "
-								+ post.src.idAndType,
-						response
-					)
-					General.showResultDialog(activity, error)
-				}
-
-				override fun onFailure(
-					type: APIFailureType,
-					debuggingContext: String?,
-					response: Optional<FailedRequestBody>
-				) {
-					revertOnFailure()
-					val error = General.getGeneralErrorForFailure(
-						context,
-						type,
-						debuggingContext,
-						response
-					)
 					General.showResultDialog(activity, error)
 				}
 

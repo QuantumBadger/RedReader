@@ -25,18 +25,15 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
@@ -155,37 +152,7 @@ public class CommentEditActivity extends BaseActivity {
 				}
 
 				@Override
-				protected void onFailure(
-						final int type,
-						@Nullable final Throwable t,
-						@Nullable final Integer httpStatus,
-						@Nullable final String readableMessage,
-						@NonNull final Optional<FailedRequestBody> response) {
-
-					final RRError error = General.getGeneralErrorForFailure(
-							context,
-							type,
-							t,
-							httpStatus,
-							"Comment edit",
-							response);
-
-					General.showResultDialog(CommentEditActivity.this, error);
-					General.safeDismissDialog(progressDialog);
-				}
-
-				@Override
-				protected void onFailure(
-						@NonNull final APIFailureType type,
-						@Nullable final String debuggingContext,
-						@NonNull final Optional<FailedRequestBody> response) {
-
-					final RRError error = General.getGeneralErrorForFailure(
-							context,
-							type,
-							debuggingContext,
-							response);
-
+				protected void onFailure(@NonNull final RRError error) {
 					General.showResultDialog(CommentEditActivity.this, error);
 					General.safeDismissDialog(progressDialog);
 				}

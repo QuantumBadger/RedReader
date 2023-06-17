@@ -20,96 +20,25 @@ package org.quantumbadger.redreader.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
-import android.webkit.WebResourceResponse;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import info.guardianproject.netcipher.web.WebkitProxy;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
-import java.io.ByteArrayInputStream;
+import java.net.URI;
 
 public class OAuthLoginActivity extends BaseActivity {
 
 	private WebView mWebView;
-
-	private static final String CSS_FIXES
-			= "li {\n" +
-			"  list-style-type: none;\n" +
-			"  margin:10px\n" +
-			"}\n" +
-			"\n" +
-			"label {\n" +
-			"  margin-right: 10px;\n" +
-			"}\n" +
-			"\n" +
-			"div.icon, div.infobar, div.mobile-web-redirect-bar, div#topbar {\n" +
-			"  display: none;\n" +
-			"  visibility: collapse;\n" +
-			"  height: 0px;\n" +
-			"  padding: 0px;\n" +
-			"  margin:0px;\n" +
-			"}\n" +
-			"\n" +
-			"div.content {\n" +
-			"  padding: 0px;\n" +
-			"  margin: 20px;\n" +
-			"}\n" +
-			"\n" +
-			"body {\n" +
-			"  background-color: #FFF;\n" +
-			"}\n" +
-			"\n" +
-			"input.newbutton {\n" +
-			"  background-color: #888;\n" +
-			"  font-size: 20pt;\n" +
-			"  margin: 10px;\n" +
-			"  border-image-source: none;\n" +
-			"  color: #FFF;\n" +
-			"  border: none;\n" +
-			"  padding-left:10px;\n" +
-			"  padding-right:10px;\n" +
-			"  padding-top:6px;\n" +
-			"  padding-bottom:6px;\n" +
-			"}\n" +
-			"\n" +
-			"button {\n" +
-			"  background-color: #888;\n" +
-			"  font-size: 15pt;\n" +
-			"  border-image-source: none;\n" +
-			"  color: #FFF;\n" +
-			"  border: none;\n" +
-			"  padding-left:10px;\n" +
-			"  padding-right:10px;\n" +
-			"  padding-top:6px;\n" +
-			"  padding-bottom:6px;\n" +
-			"}\n" +
-			"\n" +
-			"input.allow {\n" +
-			"  background-color: #0A0;\n" +
-			"}\n" +
-			"\n" +
-			"input.allow:active, input.allow:hover {\n" +
-			"  background-color: #0F0;\n" +
-			"}\n" +
-			"\n" +
-			"input.decline {\n" +
-			"  background-color: #A00;\n" +
-			"}\n" +
-			"\n" +
-			"input.decline:active, input.decline:hover {\n" +
-			"  background-color: #F00;\n" +
-			"}\n" +
-			"\n" +
-			"form.pretty-form {\n" +
-			"  float: left;\n" +
-			"}\n" +
-			"\n";
 
 	@Override
 	protected void onDestroy() {
@@ -161,7 +90,13 @@ public class OAuthLoginActivity extends BaseActivity {
 		settings.setDisplayZoomControls(false);
 
 		setTitle(RedditOAuth.getPromptUri().toString());
-		mWebView.loadUrl(RedditOAuth.getPromptUri().toString());
+
+		mWebView.setWebChromeClient(new WebChromeClient() {
+			@Override
+			public boolean onConsoleMessage(final ConsoleMessage consoleMessage) {
+				return true;
+			}
+		});
 
 		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
@@ -178,30 +113,17 @@ public class OAuthLoginActivity extends BaseActivity {
 					finish();
 
 				} else {
-					setTitle(url);
+					setTitle(General.mapIfNotNull(General.uriFromString(url), URI::getHost));
 					return false;
 				}
 
 				return true;
 			}
-
-			@Override
-			public WebResourceResponse shouldInterceptRequest(
-					final WebView view,
-					final String url) {
-
-				if(url.matches(".*compact.*\\.css")) {
-					return new WebResourceResponse(
-							"text/css",
-							"UTF-8",
-							new ByteArrayInputStream(CSS_FIXES.getBytes()));
-				}
-
-				return null;
-			}
 		});
 
 		setBaseActivityListing(mWebView);
+
+		mWebView.loadUrl(RedditOAuth.getPromptUri().toString());
 	}
 
 	@Override

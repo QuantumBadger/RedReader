@@ -1,0 +1,5 @@
+# Copy this file to 'reddit_auth.txt', and put your Reddit client ID in the quotes below.
+# Client IDs can be obtained at: https://old.reddit.com/prefs/apps
+# Don't put your ID in the placeholder file or commit it to the repo!
+
+"your ID here"

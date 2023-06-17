@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.receivers.announcements;
 import android.content.Context;
 import android.util.Log;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -32,9 +31,9 @@ import org.quantumbadger.redreader.common.HexUtils;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.io.IOException;
@@ -81,20 +80,12 @@ public final class AnnouncementDownloader {
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						Log.e(
 								TAG,
-								"Error downloading announcements: status "
-										+ httpStatus
-										+ ", type "
-										+ type,
-								t);
+								"Error downloading announcements: " + error,
+								error.t);
 					}
 				})));
 	}

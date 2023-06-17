@@ -193,6 +193,10 @@
 				  android:configChanges="orientation|screenSize|keyboardHidden"
 				  android:windowSoftInputMode="adjustResize"/>
 
+		<activity android:name=".activities.RedditTermsActivity"
+				  android:configChanges="orientation|screenSize|keyboardHidden"
+				  android:launchMode="singleInstance"/>
+
         <receiver android:name=".receivers.NewMessageChecker"/>
 
         <receiver android:name=".receivers.RegularCachePruner"/>

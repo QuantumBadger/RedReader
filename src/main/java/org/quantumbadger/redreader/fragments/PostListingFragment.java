@@ -56,7 +56,6 @@ import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
@@ -73,7 +72,6 @@ import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditPostListItem;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
-import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
 import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
@@ -307,13 +305,13 @@ public class PostListingFragment extends RRFragment
 
 						// Request the subreddit data
 
-						final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure>
+						final RequestResponseHandler<RedditSubreddit, RRError>
 								subredditHandler = new RequestResponseHandler<
 								RedditSubreddit,
-								SubredditRequestFailure>() {
+								RRError>() {
 							@Override
 							public void onRequestFailed(
-									final SubredditRequestFailure failureReason) {
+									final RRError failureReason) {
 								// Ignore
 								AndroidCommon.UI_THREAD_HANDLER.post(() ->
 										CacheManager.getInstance(context).makeRequest(mRequest));
@@ -888,13 +886,7 @@ public class PostListingFragment extends RRFragment
 
 												@Override
 												public void onFailure(
-														final @CacheRequest.RequestFailureType
-														int type,
-														final Throwable t,
-														final Integer status,
-														final String readableMessage,
-														@NonNull final
-														Optional<FailedRequestBody> body) {
+														@NonNull final RRError error) {
 												}
 
 												@Override
@@ -976,49 +968,22 @@ public class PostListingFragment extends RRFragment
 							});
 
 						} catch(final Throwable t) {
-							onFailure(
+							onFailure(General.getGeneralErrorForFailure(
+									activity,
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									"Parse failure",
-									FailedRequestBody.from(streamFactory));
+									url.toString(),
+									FailedRequestBody.from(streamFactory)));
 						}
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
 							mPostListingManager.setLoadingVisible(false);
-
-							final RRError error;
-
-							if(type == CacheRequest.REQUEST_FAILURE_CACHE_MISS) {
-								error = new RRError(
-										activity.getString(R.string.error_postlist_cache_title),
-										activity.getString(R.string.error_postlist_cache_message),
-										false,
-										t,
-										httpStatus,
-										url.toString(),
-										readableMessage,
-										body);
-
-							} else {
-								error = General.getGeneralErrorForFailure(
-										activity,
-										type,
-										t,
-										httpStatus,
-										url.toString(),
-										body);
-							}
 
 							mPostListingManager.addFooterError(new ErrorView(
 									activity,
@@ -1061,20 +1026,15 @@ public class PostListingFragment extends RRFragment
 						activity,
 						new CacheRequestCallbacks() {
 							@Override
-							public void onFailure(
-									final int type,
-									@Nullable final Throwable t,
-									@Nullable final Integer httpStatus,
-									@Nullable final String readableMessage,
-									@NonNull final Optional<FailedRequestBody> body) {
+							public void onFailure(@NonNull final RRError error) {
 
 								if(General.isSensitiveDebugLoggingEnabled()) {
 									Log.e(
 											TAG,
 											"Failed to precache "
-													+ url.toString()
-													+ "(RequestFailureType code: "
-													+ type
+													+ url
+													+ " ("
+													+ error
 													+ ")");
 								}
 							}
@@ -1188,22 +1148,14 @@ public class PostListingFragment extends RRFragment
 				activity,
 				new CacheRequestCallbacks() {
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.e(TAG, String.format(
 									Locale.US,
-									"Failed to precache %s (RequestFailureType %d,"
-											+ " status %s, readable '%s')",
+									"Failed to precache %s (%s)",
 									url,
-									type,
-									httpStatus == null ? "NULL" : httpStatus.toString(),
-									readableMessage == null ? "NULL" : readableMessage));
+									error));
 						}
 					}
 

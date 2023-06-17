@@ -34,7 +34,6 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
@@ -246,23 +245,7 @@ public class CommentListingRequest {
 				mContext,
 				new CacheRequestCallbacks() {
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-
-						Log.e(TAG, "Request failure: " + readableMessage, t);
-
-						final RRError error = General.getGeneralErrorForFailure(
-								mContext,
-								type,
-								t,
-								httpStatus,
-								url == null ? null : url.toString(),
-								body);
-
+					public void onFailure(@NonNull final RRError error) {
 						AndroidCommon.runOnUiThread(()
 								-> mListener.onCommentListingRequestFailure(error));
 					}
@@ -291,12 +274,13 @@ public class CommentListingRequest {
 								onThingDownloaded(thingResponse, session, timestamp, fromCache);
 
 							} catch(final Exception e) {
-								onFailure(
+								onFailure(General.getGeneralErrorForFailure(
+										mContext,
 										CacheRequest.REQUEST_FAILURE_PARSE,
 										e,
 										null,
-										"Parse failure",
-										FailedRequestBody.from(streamFactory));
+										url.toString(),
+										FailedRequestBody.from(streamFactory)));
 							}
 						}, "Comment parsing").start();
 					}

@@ -22,12 +22,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.FrameLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -38,8 +35,6 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.OAuthLoginActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
-import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 import org.quantumbadger.redreader.viewholders.VH1Text;
 
 import java.util.ArrayList;
@@ -91,62 +86,29 @@ public class AccountListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 	private void showLoginWarningDialog() {
 
-		final FrameLayout dialogView = new FrameLayout(context);
-
-		final CheckBox browserCheckbox = new CheckBox(context);
-		browserCheckbox.setChecked(true);
-		dialogView.addView(browserCheckbox);
-
-		final boolean internalRecommended
-				= (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M);
-
-		final int margin = General.dpToPixels(context, 24);
-		((ViewGroup.MarginLayoutParams)browserCheckbox.getLayoutParams())
-				.setMargins(margin, margin, margin, margin);
-
-		if(internalRecommended) {
-			browserCheckbox.setText(R.string.reddit_login_browser_popup_use_internal_browser);
-		} else {
-			browserCheckbox.setText(R.string.reddit_login_browser_popup_use_external_browser);
-		}
-
 		new MaterialAlertDialogBuilder(context)
 				.setMessage(String.format(
 						Locale.US,
 						"%s\n\n%s",
-						context.getString(R.string.reddit_login_browser_popup_line_1),
-						context.getString(R.string.reddit_login_browser_popup_line_2)))
+						context.getString(
+								R.string.reddit_login_browser_popup_line_1),
+						context.getString(
+								R.string.reddit_login_browser_popup_line_2_internal_browser_only)))
 				.setCancelable(true)
 				.setPositiveButton(
 						R.string.dialog_continue,
 						(dialog, which) -> {
-
-							final boolean useInternal
-									= (browserCheckbox.isChecked() && internalRecommended)
-									|| (!browserCheckbox.isChecked() && !internalRecommended);
-
-							launchLogin(useInternal);
+							launchLogin();
 						})
 				.setNegativeButton(
 						R.string.dialog_close,
 						(dialog, which) -> {})
-				.setView(dialogView)
 				.show();
 	}
 
-	private void launchLogin(final boolean useInternalBrowser) {
-
-		if(useInternalBrowser) {
-			final Intent loginIntent = new Intent(context, OAuthLoginActivity.class);
-			fragment.startActivityForResult(loginIntent, 123);
-
-		} else {
-			final Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(RedditOAuth.getPromptUri());
-			intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			fragment.startActivity(intent);
-		}
+	private void launchLogin() {
+		final Intent loginIntent = new Intent(context, OAuthLoginActivity.class);
+		fragment.startActivityForResult(loginIntent, 123);
 	}
 
 	@Override

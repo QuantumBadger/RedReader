@@ -19,15 +19,16 @@ package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestJSONParser;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -44,7 +45,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class RedditAPIMultiredditListRequester implements CacheDataSource<
-		RedditAPIMultiredditListRequester.Key, WritableHashSet, SubredditRequestFailure> {
+		RedditAPIMultiredditListRequester.Key, WritableHashSet, RRError> {
 
 	public static class Key {
 		public static final Key INSTANCE = new Key();
@@ -65,7 +66,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 	public void performRequest(
 			final Key key,
 			final TimestampBound timestampBound,
-			final RequestResponseHandler<WritableHashSet, SubredditRequestFailure> handler) {
+			final RequestResponseHandler<WritableHashSet, RRError> handler) {
 
 		if(user.isAnonymous()) {
 
@@ -84,7 +85,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 	}
 
 	private void doRequest(
-			final RequestResponseHandler<WritableHashSet, SubredditRequestFailure> handler) {
+			final RequestResponseHandler<WritableHashSet, RRError> handler) {
 
 		final URI uri = Constants.Reddit.getUri(Constants.Reddit.PATH_MULTIREDDITS_MINE);
 
@@ -123,32 +124,19 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 									user.getCanonicalUsername()), timestamp);
 
 						} catch(final Exception e) {
-							handler.onRequestFailed(
-									new SubredditRequestFailure(
-											CacheRequest.REQUEST_FAILURE_PARSE,
-											e,
-											null,
-											"Parse error",
-											uri.toString(),
-											Optional.of(new FailedRequestBody(result))));
+							handler.onRequestFailed(General.getGeneralErrorForFailure(
+									context,
+									CacheRequest.REQUEST_FAILURE_PARSE,
+									e,
+									null,
+									uri.toString(),
+									Optional.of(new FailedRequestBody(result))));
 						}
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-
-						handler.onRequestFailed(new SubredditRequestFailure(
-								type,
-								t,
-								httpStatus,
-								readableMessage,
-								uri.toString(),
-								body));
+					public void onFailure(@NonNull final RRError error) {
+						handler.onRequestFailed(error);
 					}
 				}));
 
@@ -159,7 +147,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 	public void performRequest(
 			final Collection<Key> keys, final TimestampBound timestampBound,
 			final RequestResponseHandler<HashMap<Key, WritableHashSet>,
-					SubredditRequestFailure> handler) {
+					RRError> handler) {
 		throw new UnsupportedOperationException();
 	}
 

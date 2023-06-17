@@ -39,7 +39,7 @@ public class StatusListItemView extends FrameLayout {
 		}
 		this.contents = contents;
 		addView(contents);
-		General.setLayoutMatchParent(contents);
+		General.setLayoutMatchWidthWrapHeight(contents);
 	}
 
 	public void hideNoAnim() {

@@ -25,16 +25,13 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
-import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -130,26 +127,12 @@ public class AlbumListingActivity extends BaseActivity {
 					}
 
 					@Override
-					public void onFailure(
-							final @CacheRequest.RequestFailureType int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 						Log.e(
 								"AlbumListingActivity",
-								"getAlbumInfo call failed: " + type);
+								"getAlbumInfo call failed: " + error);
 
-						if(status != null) {
-							Log.e(
-									"AlbumListingActivity",
-									"status was: " + status);
-						}
-						if(t != null) {
-							Log.e("AlbumListingActivity", "exception was: ", t);
-						}
-
-						if(status == null) {
+						if(error.httpStatus == null) {
 							revertToWeb();
 							return;
 						}
@@ -168,16 +151,11 @@ public class AlbumListingActivity extends BaseActivity {
 									false,
 									new GetImageInfoListener() {
 										@Override
-										public void onFailure(
-												final @CacheRequest.RequestFailureType int type,
-												final Throwable t,
-												final Integer status,
-												final String readableMessage,
-												@NonNull final Optional<FailedRequestBody> body) {
+										public void onFailure(@NonNull final RRError error) {
 											Log.e(
 													"AlbumListingActivity",
 													"Image info request also failed: "
-															+ type);
+															+ error);
 											revertToWeb();
 										}
 

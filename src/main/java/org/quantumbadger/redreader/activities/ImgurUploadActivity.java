@@ -32,7 +32,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -304,12 +303,13 @@ public class ImgurUploadActivity extends BaseActivity {
 							final Boolean success = root.getBoolean("success");
 
 							if(!Boolean.TRUE.equals(success)) {
-								onFailure(
+								onFailure(General.getGeneralErrorForFailure(
+										ImgurUploadActivity.this,
 										CacheRequest.REQUEST_FAILURE_UPLOAD_FAIL_IMGUR,
 										null,
 										null,
 										null,
-										Optional.of(new FailedRequestBody(result)));
+										Optional.of(new FailedRequestBody(result))));
 								return;
 							}
 
@@ -317,12 +317,13 @@ public class ImgurUploadActivity extends BaseActivity {
 							imageUri = Uri.parse("https://imgur.com/" + id);
 
 						} catch(final Throwable t) {
-							onFailure(
+							onFailure(General.getGeneralErrorForFailure(
+									ImgurUploadActivity.this,
 									CacheRequest.REQUEST_FAILURE_PARSE_IMGUR,
 									t,
 									null,
 									t.toString(),
-									Optional.of(new FailedRequestBody(result)));
+									Optional.of(new FailedRequestBody(result))));
 							return;
 						}
 
@@ -336,22 +337,11 @@ public class ImgurUploadActivity extends BaseActivity {
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 
 						General.showResultDialog(
 								ImgurUploadActivity.this,
-								General.getGeneralErrorForFailure(
-										ImgurUploadActivity.this,
-										type,
-										t,
-										httpStatus,
-										"https://api.imgur.com/3/image",
-										body));
+								error);
 
 						AndroidCommon.runOnUiThread(ImgurUploadActivity.this::hideLoadingOverlay);
 					}

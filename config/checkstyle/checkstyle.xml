@@ -20,6 +20,11 @@
 		<property name="fileExtensions" value="java"/>
 	</module>
 
+	<module name="Header">
+		<property name="headerFile" value="${config_loc}/copyright.java.txt"/>
+		<property name="fileExtensions" value="kt"/>
+	</module>
+
 	<module name="UniqueProperties"/>
 
 	<module name="TreeWalker">

@@ -40,7 +40,6 @@ import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.reddit.api.RedditMultiredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
-import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.views.ScrollbarRecyclerViewManager;
@@ -149,11 +148,11 @@ public class MainMenuFragment extends RRFragment implements
 
 		if(force) {
 			multiredditSubscriptionManager.triggerUpdate(
-					new RequestResponseHandler<HashSet<String>, SubredditRequestFailure>() {
+					new RequestResponseHandler<HashSet<String>, RRError>() {
 
 						@Override
-						public void onRequestFailed(final SubredditRequestFailure failureReason) {
-							onMultiredditError(failureReason.asError(context));
+						public void onRequestFailed(final RRError failureReason) {
+							onMultiredditError(failureReason);
 						}
 
 						@Override
@@ -169,10 +168,10 @@ public class MainMenuFragment extends RRFragment implements
 			subredditSubscriptionManager.triggerUpdate(
 					new RequestResponseHandler<
 							HashSet<SubredditCanonicalId>,
-							SubredditRequestFailure>() {
+							RRError>() {
 						@Override
-						public void onRequestFailed(final SubredditRequestFailure failureReason) {
-							onSubredditError(failureReason.asError(context));
+						public void onRequestFailed(final RRError failureReason) {
+							onSubredditError(failureReason);
 						}
 
 						@Override

@@ -57,11 +57,6 @@ public final class PrefsUtility {
 	private static SharedPrefsWrapper sharedPrefs;
 	private static Resources mRes;
 
-	public static void init(final Context context) {
-		sharedPrefs = General.getSharedPrefs(context);
-		mRes = Objects.requireNonNull(context.getResources());
-	}
-
 	private static String getPrefKey(@StringRes final int prefKey) {
 		return mRes.getString(prefKey);
 	}
@@ -138,7 +133,8 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(
 						R.string.pref_accessibility_concise_mode_key))
 				|| key.equals(context.getString(
-						R.string.pref_appearance_post_hide_subreddit_header_key));
+						R.string.pref_appearance_post_hide_subreddit_header_key))
+				|| key.equals(REDDIT_USER_AGREEMENT_PREF);
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -163,6 +159,17 @@ public final class PrefsUtility {
 						.equals(key)
 				|| context.getString(R.string.pref_behaviour_block_screenshots_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_keep_screen_awake_key).equals(key);
+	}
+
+	public static void init(final Context context) {
+
+		ConfigProviders.register(() -> "IMocCuAi4ubh9tzSiItISVsBW23WU3P25AdXCKrVEnzCEB+YheeH3jTZ" +
+				"+GbEQgpSutsgTerbZDYHC66sqyszpUa5rm1gBNzETurh7IpPf71Agh0Qt33SSMzHCqLzU66dpD/L0yB" +
+				"s6R6Ifg+We3LIqzV6A2iB0PNtAG+30T+QKYIewAiEkhCExKzWy4gEyWokgYzGGNQwAA==");
+
+		sharedPrefs = General.getSharedPrefs(context);
+		mRes = Objects.requireNonNull(context.getResources());
+		General.initAppConfig(context);
 	}
 
 	///////////////////////////////
@@ -1693,5 +1700,34 @@ public final class PrefsUtility {
 		return getBoolean(
 				R.string.pref_behaviour_keep_screen_awake_key,
 				false);
+	}
+
+	private static final String REDDIT_USER_AGREEMENT_PREF = "accepted_reddit_user_agreement";
+	private static final int REDDIT_USER_AGREEMENT_DECLINED = -1;
+	private static final int REDDIT_USER_AGREEMENT_APRIL_2023 = 1;
+	private static final int REDDIT_USER_AGREEMENT_CURRENT = REDDIT_USER_AGREEMENT_APRIL_2023;
+
+	public static boolean isRedditUserAgreementAccepted() {
+		return sharedPrefs.getInt(REDDIT_USER_AGREEMENT_PREF, 0)
+				>= REDDIT_USER_AGREEMENT_CURRENT;
+	}
+
+	public static boolean isRedditUserAgreementDeclined() {
+		return sharedPrefs.getInt(REDDIT_USER_AGREEMENT_PREF, 0)
+				== REDDIT_USER_AGREEMENT_DECLINED;
+	}
+
+	public static void acceptRedditUserAgreement() {
+		sharedPrefs
+				.edit()
+				.putInt(REDDIT_USER_AGREEMENT_PREF, REDDIT_USER_AGREEMENT_CURRENT)
+				.apply();
+	}
+
+	public static void declineRedditUserAgreement() {
+		sharedPrefs
+				.edit()
+				.putInt(REDDIT_USER_AGREEMENT_PREF, REDDIT_USER_AGREEMENT_DECLINED)
+				.apply();
 	}
 }

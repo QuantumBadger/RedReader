@@ -25,6 +25,7 @@ import org.quantumbadger.redreader.common.CachedThreadPool;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -48,12 +49,7 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 				@NonNull UUID session,
 				boolean fromCache);
 
-		void onFailure(
-				int type,
-				@Nullable Throwable t,
-				@Nullable Integer httpStatus,
-				@Nullable String readableMessage,
-				@NonNull Optional<FailedRequestBody> body);
+		void onFailure(@NonNull RRError error);
 
 		default void onDownloadNecessary() {
 			// Do nothing by default
@@ -89,13 +85,14 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 
 				} catch(final IOException e) {
 					if(!mNotifiedFailure.getAndSet(true)) {
-						mListener.onFailure(
+						mListener.onFailure(General.getGeneralErrorForFailure(
+								mContext,
 								CacheRequest.REQUEST_FAILURE_PARSE,
 								e,
 								null,
-								"Exception during JSON parse",
+								null,
 								General.ignoreIOException(streamFactory)
-										.filter(FailedRequestBody::from));
+										.filter(FailedRequestBody::from)));
 					}
 					return;
 				}
@@ -110,26 +107,21 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 
 		} catch(final Exception e) {
 			if(!mNotifiedFailure.getAndSet(true)) {
-				onFailure(
+				onFailure(General.getGeneralErrorForFailure(
+						mContext,
 						CacheRequest.REQUEST_FAILURE_STORAGE,
 						e,
 						null,
-						"Exception in CacheRequestJSONCallbacks",
-						Optional.empty());
+						null,
+						Optional.empty()));
 			}
 		}
 	}
 
 	@Override
-	public void onFailure(
-			final int type,
-			@Nullable final Throwable t,
-			@Nullable final Integer httpStatus,
-			@Nullable final String readableMessage,
-			@NonNull final Optional<FailedRequestBody> body) {
-
+	public void onFailure(@NonNull final RRError error) {
 		if(!mNotifiedFailure.getAndSet(true)) {
-			mListener.onFailure(type, t, httpStatus, readableMessage, body);
+			mListener.onFailure(error);
 		}
 	}
 }

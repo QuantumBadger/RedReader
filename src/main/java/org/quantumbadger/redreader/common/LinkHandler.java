@@ -46,7 +46,6 @@ import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.DeviantArtAPI;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
@@ -724,12 +723,7 @@ public class LinkHandler {
 				true,
 				new ImageInfoRetryListener(listener) {
 					@Override
-					public void onFailure(
-							final @CacheRequest.RequestFailureType int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> firstBody) {
+					public void onFailure(@NonNull final RRError firstError) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.i(
@@ -744,12 +738,7 @@ public class LinkHandler {
 								false,
 								new ImageInfoRetryListener(listener) {
 									@Override
-									public void onFailure(
-											final @CacheRequest.RequestFailureType int type,
-											final Throwable t,
-											final Integer status,
-											final String readableMessage,
-											@NonNull final Optional<FailedRequestBody> body) {
+									public void onFailure(@NonNull final RRError error) {
 
 										if(General.isSensitiveDebugLoggingEnabled()) {
 											Log.i(
@@ -764,13 +753,7 @@ public class LinkHandler {
 												new ImageInfoRetryListener(listener) {
 													@Override
 													public void onFailure(
-															final @CacheRequest.RequestFailureType
-																	int type,
-															final Throwable t,
-															final Integer status,
-															final String readableMessage,
-															@NonNull final
-																Optional<FailedRequestBody> body) {
+															@NonNull final RRError error) {
 
 														Log.i(
 																"getImgurImageInfo",
@@ -786,12 +769,7 @@ public class LinkHandler {
 															));
 
 														} else {
-															listener.onFailure(
-																	type,
-																	t,
-																	status,
-																	readableMessage,
-																	firstBody);
+															listener.onFailure(firstError);
 														}
 													}
 												});
@@ -844,12 +822,7 @@ public class LinkHandler {
 				true,
 				new AlbumInfoRetryListener(listener) {
 					@Override
-					public void onFailure(
-							final @CacheRequest.RequestFailureType int type,
-							final Throwable t,
-							final Integer status,
-							final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> firstBody) {
+					public void onFailure(@NonNull final RRError firstError) {
 
 						if(General.isSensitiveDebugLoggingEnabled()) {
 							Log.i(
@@ -865,12 +838,7 @@ public class LinkHandler {
 								false,
 								new AlbumInfoRetryListener(listener) {
 									@Override
-									public void onFailure(
-											final @CacheRequest.RequestFailureType int type,
-											final Throwable t,
-											final Integer status,
-											final String readableMessage,
-											@NonNull final Optional<FailedRequestBody> body) {
+									public void onFailure(@NonNull final RRError error) {
 
 										if(General.isSensitiveDebugLoggingEnabled()) {
 											Log.i(
@@ -886,23 +854,12 @@ public class LinkHandler {
 												new AlbumInfoRetryListener(listener) {
 													@Override
 													public void onFailure(
-															final @CacheRequest.RequestFailureType
-																	int type,
-															final Throwable t,
-															final Integer status,
-															final String readableMessage,
-															@NonNull final
-																Optional<FailedRequestBody> body) {
+															@NonNull final RRError error) {
 
 														Log.i(
 																"getImgurImageInfo",
 																"All API requests failed!");
-														listener.onFailure(
-																type,
-																t,
-																status,
-																readableMessage,
-																firstBody);
+														listener.onFailure(firstError);
 													}
 												});
 
@@ -947,12 +904,13 @@ public class LinkHandler {
 			}
 		}
 
-		listener.onFailure(
+		listener.onFailure(General.getGeneralErrorForFailure(
+				context,
 				CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
 				null,
 				null,
-				"Cannot parse '" + url + "' as an album URL",
-				Optional.empty());
+				url,
+				Optional.empty()));
 	}
 
 	public static void getImageInfo(
@@ -1003,17 +961,12 @@ public class LinkHandler {
 							new ImageInfoRetryListener(listener) {
 
 						@Override
-						public void onFailure(
-								final int type,
-								final Throwable t,
-								final Integer status,
-								final String readableMessage,
-								@NonNull final Optional<FailedRequestBody> body) {
+						public void onFailure(@NonNull final RRError error) {
 
 							Log.e(
 									"getImageInfo",
-									"RedGifs V2 failed, trying V1 (" + readableMessage + ")",
-									t);
+									"RedGifs V2 failed, trying V1 (" + error + ")",
+									error.t);
 
 							RedgifsAPI.getImageInfo(
 									context,
@@ -1021,19 +974,14 @@ public class LinkHandler {
 									priority,
 									new ImageInfoRetryListener(listener) {
 								@Override
-								public void onFailure(
-										final int type,
-										final Throwable t,
-										final Integer status,
-										final String readableMessage,
-										@NonNull final Optional<FailedRequestBody> body) {
+								public void onFailure(@NonNull final RRError error) {
 
 									// Retry V2 so that the final error which is logged
 									// relates to the V2 API
 									Log.e(
 											"getImageInfo",
-											"RedGifs V1 also failed, retrying V2",
-											t);
+											"RedGifs V1 also failed, retrying V2: " + error,
+											error.t);
 
 									RedgifsAPIV2.getImageInfo(context, imgId, priority, listener);
 								}

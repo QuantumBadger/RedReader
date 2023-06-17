@@ -35,9 +35,9 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.DynamicSpanned;
 
@@ -113,21 +113,17 @@ public class HtmlRawElementImg extends HtmlRawElement{
 									Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
 
 						} catch (final Throwable t) {
-							onFailure(
+							onFailure(General.getGeneralErrorForFailure(
+									activity,
 									CacheRequest.REQUEST_FAILURE_CONNECTION,
 									t,
 									null,
-									"Exception while downloading emote",
-									Optional.empty());
+									mSrc,
+									Optional.empty()));
 						}
 					}
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
+					public void onFailure(@NonNull final RRError error) {
 					}
 				}
 		));

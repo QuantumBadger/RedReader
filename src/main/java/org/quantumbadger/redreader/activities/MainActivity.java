@@ -19,8 +19,6 @@ package org.quantumbadger.redreader.activities;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -39,10 +37,12 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.FeatureFlagHandler;
 import org.quantumbadger.redreader.common.General;
@@ -145,6 +145,13 @@ public class MainActivity extends RefreshableActivity
 			return;
 		}
 
+		if(!PrefsUtility.isRedditUserAgreementAccepted()
+				&& !PrefsUtility.isRedditUserAgreementDeclined()) {
+			RedditTermsActivity.launch(this, true);
+			finish();
+			return;
+		}
+
 		final SharedPrefsWrapper sharedPreferences = General.getSharedPrefs(this);
 		twoPane = General.isTablet(this);
 
@@ -152,14 +159,9 @@ public class MainActivity extends RefreshableActivity
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
 
-		final PackageInfo pInfo;
-		try {
-			pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-		} catch(final PackageManager.NameNotFoundException e) {
-			throw new RuntimeException(e);
-		}
+		final AndroidCommon.PackageInfo pInfo = RedReader.getInstance(this).getPackageInfo();
 
-		final int appVersion = pInfo.versionCode;
+		final int appVersion = pInfo.getVersionCode();
 
 		Log.i(TAG, "[Migration] App version: " + appVersion);
 
@@ -186,7 +188,7 @@ public class MainActivity extends RefreshableActivity
 					.apply();
 
 		} else if(sharedPreferences.contains(FeatureFlagHandler.PREF_LAST_VERSION)) {
-			FeatureFlagHandler.handleLegacyUpgrade(this, appVersion, pInfo.versionName);
+			FeatureFlagHandler.handleLegacyUpgrade(this, appVersion, pInfo.getVersionName());
 
 		} else {
 			Log.i(TAG, "[Migration] Last version not set.");
@@ -199,11 +201,6 @@ public class MainActivity extends RefreshableActivity
 		FeatureFlagHandler.handleUpgrade(this);
 
 		recreateSubscriptionListener();
-
-		final boolean startInbox = getIntent().getBooleanExtra("isNewMessage", false);
-		if(startInbox) {
-			startActivity(new Intent(this, InboxListingActivity.class));
-		}
 
 		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 

@@ -15,15 +15,27 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader.reddit.kthings
+package org.quantumbadger.redreader.common
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.Serializable
+import org.quantumbadger.redreader.http.FailedRequestBody
 
-@Serializable
-@Parcelize
-data class RedditListing(
-	val after: String? = null,
-	val children: ArrayList<MaybeParseError<RedditThing>>
-) : Parcelable
+class RRError @JvmOverloads constructor(
+	@JvmField val title: String? = null,
+	@JvmField val message: String? = null,
+	@JvmField val reportable: Boolean? = true,
+	@JvmField val t: Throwable? = null,
+	@JvmField val httpStatus: Int? = null,
+	@JvmField val url: String? = null,
+	@JvmField val debuggingContext: String? = null,
+	response: Optional<FailedRequestBody> = Optional.empty(),
+	@JvmField val resolution: Resolution? = null
+) {
+	enum class Resolution {
+		ACCEPT_REDDIT_TERMS
+	}
+
+    @JvmField
+	val response = response.map(FailedRequestBody::toString).orElseNull()
+
+	override fun toString() = "$title: $message (http: $httpStatus, thrown: $t)"
+}

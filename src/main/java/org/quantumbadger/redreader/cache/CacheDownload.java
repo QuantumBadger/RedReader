@@ -82,12 +82,13 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			public void run() {
 				if(mRequest != null) {
 					mRequest.cancel();
-					mInitiator.notifyFailure(
+					mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+							mInitiator.context,
 							CacheRequest.REQUEST_FAILURE_CANCELLED,
 							null,
 							null,
-							"Cancelled",
-							Optional.empty());
+							mInitiator.url.toString(),
+							Optional.empty()));
 				}
 			}
 		}.start();
@@ -138,12 +139,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				}
 
 				if(result.status != RedditOAuth.FetchAccessTokenResultStatus.SUCCESS) {
-					mInitiator.notifyFailure(
-							CacheRequest.REQUEST_FAILURE_REQUEST,
-							result.error.t,
-							result.error.httpStatus,
-							result.error.title + ": " + result.error.message,
-							Optional.empty());
+					mInitiator.notifyFailure(result.error);
 					return;
 				}
 
@@ -176,12 +172,13 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					resetUserCredentialsOnNextRequest();
 				}
 
-				mInitiator.notifyFailure(
+				mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+						mInitiator.context,
 						failureType,
 						exception,
 						httpStatus,
-						"CacheDownload onError",
-						body);
+						mInitiator.url.toString(),
+						body));
 			}
 
 			@Override
@@ -248,12 +245,13 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							? (IOException)t
 							: new IOException("Got exception during download", t));
 
-					mInitiator.notifyFailure(
+					mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+							mInitiator.context,
 							CacheRequest.REQUEST_FAILURE_CONNECTION,
 							t,
 							null,
-							"The connection was interrupted",
-							Optional.empty());
+							mInitiator.url.toString(),
+							Optional.empty()));
 
 					return;
 
@@ -317,12 +315,13 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 									= CacheRequest.REQUEST_FAILURE_CACHE_DIR_DOES_NOT_EXIST;
 						}
 
-						mInitiator.notifyFailure(
+						mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+								mInitiator.context,
 								failureType,
 								e,
 								null,
-								"Could not access the local cache",
-								Optional.empty());
+								mInitiator.url.toString(),
+								Optional.empty()));
 
 						return;
 					}
@@ -344,21 +343,13 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 						writableCacheFile.onWriteCancelled();
 
-						if(e.getMessage() != null && e.getMessage().contains("ENOSPC")) {
-							mInitiator.notifyFailure(
-									CacheRequest.REQUEST_FAILURE_STORAGE,
-									e,
-									null,
-									"Out of disk space",
-									Optional.empty());
-						} else {
-							mInitiator.notifyFailure(
-									CacheRequest.REQUEST_FAILURE_STORAGE,
-									e,
-									null,
-									"Failed to write to cache",
-									Optional.empty());
-						}
+						mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+								mInitiator.context,
+								CacheRequest.REQUEST_FAILURE_STORAGE,
+								e,
+								null,
+								mInitiator.url.toString(),
+								Optional.empty()));
 					}
 				}
 			}

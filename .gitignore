@@ -72,3 +72,7 @@ target/
 # Gradle
 build/
 .gradle/
+
+reddit_auth.txt
+/release/**
+/releases/**/**

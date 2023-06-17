@@ -20,7 +20,6 @@ package org.quantumbadger.redreader.image;
 import android.content.Context;
 import android.net.Uri;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -30,6 +29,7 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -97,29 +97,19 @@ public final class RedditGalleryAPI {
 							}
 
 						} catch(final Exception e) {
-							listener.onFailure(
+							listener.onFailure(General.getGeneralErrorForFailure(
+									context,
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									e,
 									null,
-									"Reddit gallery data parse failed",
-									Optional.of(new FailedRequestBody(result)));
+									apiUrl.toString(),
+									Optional.of(new FailedRequestBody(result))));
 						}
 					}
 
 					@Override
-					public void onFailure(
-							final int type,
-							@Nullable final Throwable t,
-							@Nullable final Integer httpStatus,
-							@Nullable final String readableMessage,
-							@NonNull final Optional<FailedRequestBody> body) {
-
-						listener.onFailure(
-								type,
-								t,
-								httpStatus,
-								readableMessage,
-								body);
+					public void onFailure(@NonNull final RRError error) {
+						listener.onFailure(error);
 					}
 				})));
 	}

@@ -22,8 +22,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -40,6 +38,7 @@ import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.ChangelogActivity;
@@ -241,18 +240,9 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 		final Preference restorePreferencesPref =
 				findPreference(getString(R.string.pref_item_restore_preferences_key));
 
-
-		final PackageInfo pInfo;
-
-		try {
-			pInfo = context.getPackageManager()
-					.getPackageInfo(context.getPackageName(), 0);
-		} catch(final PackageManager.NameNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-
 		if(versionPref != null) {
-			versionPref.setSummary(pInfo.versionName);
+			versionPref.setSummary(
+					RedReader.getInstance(context).getPackageInfo().getVersionName());
 		}
 
 		if(changelogPref != null) {

@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit;
 import android.content.Context;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.io.RawObjectDB;
@@ -28,7 +29,6 @@ import org.quantumbadger.redreader.io.ThreadedRawObjectDB;
 import org.quantumbadger.redreader.io.UpdatedVersionListener;
 import org.quantumbadger.redreader.io.WeakCache;
 import org.quantumbadger.redreader.reddit.api.RedditAPIIndividualSubredditDataRequester;
-import org.quantumbadger.redreader.reddit.api.SubredditRequestFailure;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
@@ -62,7 +62,7 @@ public class RedditSubredditManager {
 	private static RedditSubredditManager singleton;
 	private static RedditAccount singletonUser;
 
-	private final WeakCache<SubredditCanonicalId, RedditSubreddit, SubredditRequestFailure>
+	private final WeakCache<SubredditCanonicalId, RedditSubreddit, RRError>
 			subredditCache;
 
 	public static synchronized RedditSubredditManager getInstance(
@@ -87,7 +87,7 @@ public class RedditSubredditManager {
 				getDbFilename("subreddits", user),
 				RedditSubreddit.class);
 
-		final ThreadedRawObjectDB<SubredditCanonicalId, RedditSubreddit, SubredditRequestFailure>
+		final ThreadedRawObjectDB<SubredditCanonicalId, RedditSubreddit, RRError>
 				subredditDbWrapper
 				= new ThreadedRawObjectDB<>(
 				subredditDb,
@@ -103,7 +103,7 @@ public class RedditSubredditManager {
 	public void getSubreddit(
 			final SubredditCanonicalId subredditCanonicalId,
 			final TimestampBound timestampBound,
-			final RequestResponseHandler<RedditSubreddit, SubredditRequestFailure> handler,
+			final RequestResponseHandler<RedditSubreddit, RRError> handler,
 			final UpdatedVersionListener<
 					SubredditCanonicalId, RedditSubreddit> updatedVersionListener) {
 
@@ -119,7 +119,7 @@ public class RedditSubredditManager {
 			final TimestampBound timestampBound,
 			final RequestResponseHandler<
 					HashMap<SubredditCanonicalId, RedditSubreddit>,
-					SubredditRequestFailure> handler) {
+					RRError> handler) {
 
 		subredditCache.performRequest(ids, timestampBound, handler);
 	}

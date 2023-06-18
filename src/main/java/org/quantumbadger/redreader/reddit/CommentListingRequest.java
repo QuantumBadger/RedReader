@@ -265,7 +265,7 @@ public class CommentListingRequest {
 							final boolean fromCache,
 							@Nullable final String mimetype) {
 
-						new Thread(() -> {
+						new Thread(null, () -> {
 							try {
 								final RedditThingResponse thingResponse
 										= JsonUtils.INSTANCE.decodeRedditThingResponseFromStream(
@@ -282,7 +282,7 @@ public class CommentListingRequest {
 										url.toString(),
 										FailedRequestBody.from(streamFactory)));
 							}
-						}, "Comment parsing").start();
+						}, "Comment parsing", 1000000).start();
 					}
 				});
 	}

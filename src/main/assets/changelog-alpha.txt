@@ -3,6 +3,7 @@ Show Reddit user agreement prompt at startup
 Simplified error handling
 Imgur links on non-standard subdomains are now handled correctly
 Added ability to set your own Reddit client ID in the settings
+Fix for stack overflow when parsing comments on old Android devices
 
 /Alpha 332 (2023-04-08)
 Big refactor of time handling code

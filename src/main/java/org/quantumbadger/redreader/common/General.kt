@@ -59,6 +59,8 @@ import java.util.regex.Pattern
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 object General {
     @JvmField
@@ -116,14 +118,13 @@ object General {
 			i++
             result = input / Math.pow(1024.0, i.toDouble())
         }
-        val unit: String
-        unit = when (i) {
-            1 -> " KiB"
-            2 -> " MiB"
-            3 -> " GiB"
-            else -> " B"
-        }
-        return if (i > 0 && Math.round(result) < 10) {
+		val unit = when (i) {
+			1 -> " KiB"
+			2 -> " MiB"
+			3 -> " GiB"
+			else -> " B"
+		}
+        return if (i > 0 && result.roundToLong() < 10) {
             String.format(Locale.US, "%.1f%s", result, unit)
         } else String.format(Locale.US, "%.0f%s", result, unit)
     }
@@ -137,27 +138,13 @@ object General {
     }
 
     @JvmStatic
-	fun dpToPixels(context: Context, dp: Float): Int {
-        return Math.round(
-            TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                dp,
-                context.resources.displayMetrics
-            )
-        )
-    }
+	fun dpToPixels(context: Context, dp: Float) = TypedValue.applyDimension(
+		TypedValue.COMPLEX_UNIT_DIP,
+		dp,
+		context.resources.displayMetrics
+	).roundToInt()
 
-    fun spToPixels(context: Context, sp: Float): Int {
-        return Math.round(
-            TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP,
-                sp,
-                context.resources.displayMetrics
-            )
-        )
-    }
-
-    @JvmStatic
+	@JvmStatic
 	val isSensitiveDebugLoggingEnabled: Boolean
         get() = BuildConfig.DEBUG
 
@@ -215,7 +202,8 @@ object General {
         }
     }
 
-    @JvmStatic
+    @Suppress("DEPRECATION")
+	@JvmStatic
 	fun isConnectionWifi(context: Context): Boolean {
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI)
@@ -223,7 +211,8 @@ object General {
                 && info.detailedState == NetworkInfo.DetailedState.CONNECTED)
     }
 
-    @JvmStatic
+    @Suppress("DEPRECATION")
+	@JvmStatic
 	fun isNetworkConnected(context: Context): Boolean {
         val cm = context.getSystemService(
             Context.CONNECTIVITY_SERVICE
@@ -390,11 +379,11 @@ object General {
     }
 
     private fun isTorError(t: Throwable?): Boolean {
-        return t != null && t.message != null && t.message!!.contains("127.0.0.1:8118")
+        return t?.message != null && t.message!!.contains("127.0.0.1:8118")
     }
 
     private fun isContentBlockerError(t: Throwable?): Boolean {
-        return t != null && t.message != null && (t.message!!.contains("127.0.0.1:443")
+        return t?.message != null && (t.message!!.contains("127.0.0.1:443")
                 || t.message!!.contains("127.0.0.1:80"))
     }
 
@@ -478,7 +467,7 @@ object General {
                 alertBuilder.setNeutralButton(R.string.dialog_close, null)
                 alertBuilder.setNegativeButton(
                     R.string.button_moredetail
-                ) { dialog: DialogInterface?, which: Int ->
+                ) { _: DialogInterface?, _: Int ->
                     ErrorPropertiesDialog.newInstance(error).show(
                         context.supportFragmentManager,
                         "ErrorPropertiesDialog"
@@ -518,6 +507,11 @@ object General {
 
     @JvmStatic
 	fun uriFromString(url: String?): URI? {
+
+		if (url == null) {
+			return null
+		}
+
         return try {
             URI(url)
         } catch (t1: Throwable) {
@@ -527,9 +521,9 @@ object General {
                     val scheme = urlMatcher.group(1)
                     val authority = urlMatcher.group(2)
                     val path =
-                        if (urlMatcher.group(3).isEmpty()) null else "/" + urlMatcher.group(3)
-                    val query = if (urlMatcher.group(4).isEmpty()) null else urlMatcher.group(4)
-                    val fragment = if (urlMatcher.group(5).isEmpty()) null else urlMatcher.group(5)
+                        if (urlMatcher.group(3)?.isEmpty() == true) null else "/" + urlMatcher.group(3)
+                    val query = if (urlMatcher.group(4)?.isEmpty() == true) null else urlMatcher.group(4)
+                    val fragment = if (urlMatcher.group(5)?.isEmpty() == true) null else urlMatcher.group(5)
                     try {
                         URI(scheme, authority, path, query, fragment)
                     } catch (t3: Throwable) {
@@ -805,8 +799,9 @@ object General {
     @JvmStatic
 	fun <T : View?> findViewById(view: View, id: Int): T? {
         if (view.id == id) {
-            return view as T
-        }
+			@Suppress("UNCHECKED_CAST")
+			return view as T
+		}
         if (view is ViewGroup) {
             val group = view
             for (i in 0 until group.childCount) {
@@ -827,7 +822,7 @@ object General {
 
     @JvmStatic
 	val isAlpha: Boolean
-        get() = General::class.java.canonicalName.contains("alpha")
+        get() = General::class.java.canonicalName?.contains("alpha") == true
 
     @JvmStatic
 	@SafeVarargs

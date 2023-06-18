@@ -768,7 +768,7 @@ object RedditOAuth {
                 onDone.run()
             }
         }
-        progressDialog.setOnKeyListener { dialogInterface: DialogInterface?, keyCode: Int, keyEvent: KeyEvent? ->
+        progressDialog.setOnKeyListener { _: DialogInterface?, keyCode: Int, _: KeyEvent? ->
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 if (!cancelled.getAndSet(true)) {
                     safeDismissDialog(progressDialog)

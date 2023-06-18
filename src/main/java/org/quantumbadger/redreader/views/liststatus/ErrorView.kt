@@ -20,7 +20,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
+import androidx.appcompat.widget.AppCompatButton
 import com.google.android.material.textview.MaterialTextView
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.activities.RedditTermsActivity
@@ -38,8 +38,8 @@ class ErrorView(activity: AppCompatActivity, error: RRError) : StatusListItemVie
 		val title = view.findViewById<MaterialTextView>(R.id.error_text_title)
 		val message = view.findViewById<MaterialTextView>(R.id.error_text_message)
 
-		val resolveButton = view.findViewById<MaterialButton>(R.id.error_button_resolve)
-		val detailsButton = view.findViewById<MaterialButton>(R.id.error_button_details)
+		val resolveButton = view.findViewById<AppCompatButton>(R.id.error_button_resolve)
+		val detailsButton = view.findViewById<AppCompatButton>(R.id.error_button_details)
 
 		title.text = error.title
 		message.text = error.message

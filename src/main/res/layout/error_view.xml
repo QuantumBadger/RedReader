@@ -26,15 +26,15 @@
 	<androidx.appcompat.widget.LinearLayoutCompat
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:layout_marginTop="14dp">
+			android:orientation="horizontal">
 
-		<com.google.android.material.button.MaterialButton
+		<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/error_button_resolve"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:padding="14dp"
 				android:textColor="#fff"
-				android:background="#E57373" />
+				android:background="@drawable/rr_themed_button_selector_dark" />
 
 		<!-- Spacer -->
 		<View
@@ -42,13 +42,14 @@
 				android:layout_height="0dp"
 				android:layout_weight="1" />
 
-		<com.google.android.material.button.MaterialButton
+		<androidx.appcompat.widget.AppCompatButton
 				android:id="@+id/error_button_details"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:padding="14dp"
 				android:text="@string/button_error_details"
 				android:textColor="#fff"
-				android:background="#E57373" />
+				android:background="@drawable/rr_themed_button_selector_dark" />
 
 	</androidx.appcompat.widget.LinearLayoutCompat>
 

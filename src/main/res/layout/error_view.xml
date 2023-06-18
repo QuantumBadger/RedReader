@@ -28,13 +28,20 @@
 			android:layout_height="wrap_content"
 			android:orientation="horizontal">
 
-		<androidx.appcompat.widget.AppCompatButton
-				android:id="@+id/error_button_resolve"
+		<FrameLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:padding="14dp"
-				android:textColor="#fff"
-				android:background="@drawable/rr_themed_button_selector_dark" />
+				android:background="#D63333">
+
+			<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/error_button_resolve"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="14dp"
+					android:textColor="#fff"
+					android:background="@drawable/rr_themed_button_selector_dark" />
+
+		</FrameLayout>
 
 		<!-- Spacer -->
 		<View
@@ -42,14 +49,21 @@
 				android:layout_height="0dp"
 				android:layout_weight="1" />
 
-		<androidx.appcompat.widget.AppCompatButton
-				android:id="@+id/error_button_details"
+		<FrameLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:padding="14dp"
-				android:text="@string/button_error_details"
-				android:textColor="#fff"
-				android:background="@drawable/rr_themed_button_selector_dark" />
+				android:background="#D63333">
+
+			<androidx.appcompat.widget.AppCompatButton
+					android:id="@+id/error_button_details"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:padding="14dp"
+					android:text="@string/button_error_details"
+					android:textColor="#fff"
+					android:background="@drawable/rr_themed_button_selector_dark" />
+
+		</FrameLayout>
 
 	</androidx.appcompat.widget.LinearLayoutCompat>
 

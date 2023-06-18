@@ -102,7 +102,7 @@ object RedditPostActions {
 				pref: PostFlingAction
 			): ActionDescriptionPair? {
 				return when (pref) {
-					PostFlingAction.UPVOTE -> if (post.isUpvoted()) {
+					PostFlingAction.UPVOTE -> if (post.isUpvoted) {
 						ActionDescriptionPair(
 							Action.UNVOTE,
 							R.string.action_vote_remove
@@ -114,7 +114,7 @@ object RedditPostActions {
 						)
 					}
 
-					PostFlingAction.DOWNVOTE -> if (post.isDownvoted()) {
+					PostFlingAction.DOWNVOTE -> if (post.isDownvoted) {
 						ActionDescriptionPair(
 							Action.UNVOTE,
 							R.string.action_vote_remove
@@ -126,7 +126,7 @@ object RedditPostActions {
 						)
 					}
 
-					PostFlingAction.SAVE -> if (post.isSaved()) {
+					PostFlingAction.SAVE -> if (post.isSaved) {
 						ActionDescriptionPair(
 							Action.UNSAVE,
 							R.string.action_unsave
@@ -138,7 +138,7 @@ object RedditPostActions {
 						)
 					}
 
-					PostFlingAction.HIDE -> if (post.isHidden()) {
+					PostFlingAction.HIDE -> if (post.isHidden) {
 						ActionDescriptionPair(
 							Action.UNHIDE,
 							R.string.action_unhide
@@ -455,35 +455,31 @@ object RedditPostActions {
 			}
 
 			Action.COPY -> {
-				val clipboardManager: ClipboardManager? =
+				val clipboardManager: ClipboardManager =
 					activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-				if (clipboardManager != null) {
-					val data = ClipData.newPlainText(
-						post.src.author,
-						post.src.url
-					)
-					clipboardManager.setPrimaryClip(data)
-					General.quickToast(
-						activity.applicationContext,
-						R.string.post_link_copied_to_clipboard
-					)
-				}
+				val data = ClipData.newPlainText(
+					post.src.author,
+					post.src.url
+				)
+				clipboardManager.setPrimaryClip(data)
+				General.quickToast(
+					activity.applicationContext,
+					R.string.post_link_copied_to_clipboard
+				)
 			}
 
 			Action.COPY_SELFTEXT -> {
-				val clipboardManager: ClipboardManager? =
+				val clipboardManager: ClipboardManager =
 					activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-				if (clipboardManager != null) {
-					val data = ClipData.newPlainText(
-						post.src.author,
-						post.src.rawSelfTextMarkdown
-					)
-					clipboardManager.setPrimaryClip(data)
-					General.quickToast(
-						activity.applicationContext,
-						R.string.post_text_copied_to_clipboard
-					)
-				}
+				val data = ClipData.newPlainText(
+					post.src.author,
+					post.src.rawSelfTextMarkdown
+				)
+				clipboardManager.setPrimaryClip(data)
+				General.quickToast(
+					activity.applicationContext,
+					R.string.post_text_copied_to_clipboard
+				)
 			}
 
 			Action.GOTO_SUBREDDIT -> {
@@ -947,7 +943,7 @@ object RedditPostActions {
 			else -> throw RuntimeException("Unknown drawable for $action")
 		}
 
-		val itemsToShow = PrefsUtility.pref_menus_post_toolbar_items();
+		val itemsToShow = PrefsUtility.pref_menus_post_toolbar_items()
 		
 		listOf(
 			Action.ACTION_MENU,
@@ -981,10 +977,11 @@ object RedditPostActions {
 					) as ImageButton
 				val buttonPadding = General.dpToPixels(activity, 14f)
 				ib.setPadding(buttonPadding, buttonPadding, buttonPadding, buttonPadding)
-				if (action === Action.UPVOTE && post.isUpvoted()
-						|| action === Action.DOWNVOTE && post.isDownvoted()
-						|| action === Action.SAVE && post.isSaved()
-						|| action === Action.HIDE && post.isHidden()) {
+				if (action === Action.UPVOTE && post.isUpvoted
+						|| action === Action.DOWNVOTE && post.isDownvoted
+						|| action === Action.SAVE && post.isSaved
+						|| action === Action.HIDE && post.isHidden
+				) {
 					ib.setBackgroundColor(Color.WHITE)
 					ib.setImageResource(lightIcon(action))
 				} else {
@@ -992,25 +989,25 @@ object RedditPostActions {
 				}
 				ib.setOnClickListener {
 					val actionToTake: Action = when (action) {
-						Action.UPVOTE -> if (post.isUpvoted()) Action.UNVOTE else Action.UPVOTE
-						Action.DOWNVOTE -> if (post.isDownvoted()) Action.UNVOTE else Action.DOWNVOTE
-						Action.SAVE -> if (post.isSaved()) Action.UNSAVE else Action.SAVE
-						Action.HIDE -> if (post.isHidden()) Action.UNHIDE else Action.HIDE
+						Action.UPVOTE -> if (post.isUpvoted) Action.UNVOTE else Action.UPVOTE
+						Action.DOWNVOTE -> if (post.isDownvoted) Action.UNVOTE else Action.DOWNVOTE
+						Action.SAVE -> if (post.isSaved) Action.UNSAVE else Action.SAVE
+						Action.HIDE -> if (post.isHidden) Action.UNHIDE else Action.HIDE
 						else -> action
 					}
 					onActionMenuItemSelected(post, activity, actionToTake)
 					overlay.hide()
 				}
 				var accessibilityAction = action
-				if (accessibilityAction === Action.UPVOTE && post.isUpvoted()
-					|| accessibilityAction === Action.DOWNVOTE && post.isDownvoted()
+				if (accessibilityAction === Action.UPVOTE && post.isUpvoted
+					|| accessibilityAction === Action.DOWNVOTE && post.isDownvoted
 				) {
 					accessibilityAction = Action.UNVOTE
 				}
-				if (accessibilityAction === Action.SAVE && post.isSaved()) {
+				if (accessibilityAction === Action.SAVE && post.isSaved) {
 					accessibilityAction = Action.UNSAVE
 				}
-				if (accessibilityAction === Action.HIDE && post.isHidden()) {
+				if (accessibilityAction === Action.HIDE && post.isHidden) {
 					accessibilityAction = Action.UNHIDE
 				}
 				val text = activity.getString(accessibilityAction.descriptionResId)
@@ -1038,7 +1035,7 @@ object RedditPostActions {
 		}
 		val changeDataManager = RedditChangeDataManager.getInstance(user)
 
-		val lastVoteDirection: Int = post.getVoteDirection()
+		val lastVoteDirection: Int = post.voteDirection
 		val archived: Boolean = post.src.isArchived
 		val now = TimestampUTC.now()
 		when (action) {
@@ -1081,7 +1078,7 @@ object RedditPostActions {
 				}
 
 				override fun onSuccess() {
-					val now = TimestampUTC.now()
+					@Suppress("NAME_SHADOWING") val now = TimestampUTC.now()
 					when (action) {
 						RedditAPI.ACTION_DOWNVOTE -> changeDataManager.markDownvoted(now, post.src.idAndType)
 						RedditAPI.ACTION_UNVOTE -> changeDataManager.markUnvoted(now, post.src.idAndType)
@@ -1101,7 +1098,7 @@ object RedditPostActions {
 				}
 
 				private fun revertOnFailure() {
-					val now = TimestampUTC.now()
+					@Suppress("NAME_SHADOWING") val now = TimestampUTC.now()
 					when (action) {
 						RedditAPI.ACTION_DOWNVOTE, RedditAPI.ACTION_UNVOTE, RedditAPI.ACTION_UPVOTE -> {
 							when (lastVoteDirection) {
@@ -1121,7 +1118,7 @@ object RedditPostActions {
 						else -> throw java.lang.RuntimeException("Unknown post action $action")
 					}
 				}
-			}, user, post.src.getIdAndType(), action, activity
+			}, user, post.src.idAndType, action, activity
 		)
 	}
 }

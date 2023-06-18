@@ -183,6 +183,7 @@ public final class PrefsUtility {
 		NEVER, AUTO, FORCE
 	}
 
+	@NonNull
 	public static AppearanceTwopane appearance_twopane() {
 		return AppearanceTwopane.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_twopane_key,

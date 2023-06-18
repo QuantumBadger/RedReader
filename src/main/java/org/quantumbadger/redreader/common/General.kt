@@ -40,7 +40,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.quantumbadger.redreader.BuildConfig
 import org.quantumbadger.redreader.R
-import org.quantumbadger.redreader.activities.BugReportActivity
 import org.quantumbadger.redreader.cache.CacheRequest
 import org.quantumbadger.redreader.cache.CacheRequest.RequestFailureType
 import org.quantumbadger.redreader.common.AndroidCommon.runOnUiThread
@@ -59,12 +58,13 @@ import java.util.regex.Pattern
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
+import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
 
 object General {
     @JvmField
-	val CHARSET_UTF8 = Charset.forName("UTF-8")
+	val CHARSET_UTF8: Charset = Objects.requireNonNull(Charset.forName("UTF-8"))
 
     const val LTR_OVERRIDE_MARK = "\u202D"
 
@@ -116,7 +116,7 @@ object General {
         var result = input.toDouble()
         while (i <= 3 && result >= 1024) {
 			i++
-            result = input / Math.pow(1024.0, i.toDouble())
+            result = input / 1024.0.pow(i.toDouble())
         }
 		val unit = when (i) {
 			1 -> " KiB"
@@ -183,24 +183,14 @@ object General {
     }
 
     @JvmStatic
-	fun isTablet(context: Context): Boolean {
-        val pref = PrefsUtility.appearance_twopane()
-        return when (pref) {
-            AppearanceTwopane.AUTO -> context.resources.configuration.screenLayout and
-                    Configuration.SCREENLAYOUT_SIZE_MASK ==
-                    Configuration.SCREENLAYOUT_SIZE_XLARGE
+	fun isTablet(context: Context) = when (PrefsUtility.appearance_twopane()) {
+		AppearanceTwopane.AUTO -> context.resources.configuration.screenLayout and
+				Configuration.SCREENLAYOUT_SIZE_MASK ==
+				Configuration.SCREENLAYOUT_SIZE_XLARGE
 
-            AppearanceTwopane.NEVER -> false
-            AppearanceTwopane.FORCE -> true
-            else -> {
-                BugReportActivity.handleGlobalError(
-                    context,
-                    "Unknown AppearanceTwopane value " + pref.name
-                )
-                false
-            }
-        }
-    }
+		AppearanceTwopane.NEVER -> false
+		AppearanceTwopane.FORCE -> true
+	}
 
     @Suppress("DEPRECATION")
 	@JvmStatic
@@ -487,7 +477,7 @@ object General {
     }
 
     private val urlPattern = Pattern.compile(
-        "^(https?)://([^/]+)/+([^\\?#]+)((?:\\?[^#]+)?)((?:#.+)?)$"
+        "^(https?)://([^/]+)/+([^?#]+)((?:\\?[^#]+)?)((?:#.+)?)$"
     )
 
     @JvmStatic
@@ -563,7 +553,7 @@ object General {
         return result.toString()
     }
 
-	fun appIds(context: Context) = AndroidCommon.getPackageInfo(context).run {
+	private fun appIds(context: Context) = AndroidCommon.getPackageInfo(context).run {
 		ids.map {
 			val md = MessageDigest.getInstance("SHA-256")
 			md.update(it)
@@ -634,9 +624,9 @@ object General {
     @JvmStatic
 	@Throws(IOException::class)
     fun readWholeStream(inStr: InputStream): ByteArray {
-        val baos = ByteArrayOutputStream()
-        copyStream(inStr, baos)
-        return baos.toByteArray()
+        val out = ByteArrayOutputStream()
+        copyStream(inStr, out)
+        return out.toByteArray()
     }
 
     @JvmStatic
@@ -647,8 +637,8 @@ object General {
 
 	@JvmStatic
 	fun initAppConfig(context: Context) {
-		ConfigProviders.read {
-			val dis = DataInputStream(ByteArrayInputStream(it))
+		ConfigProviders.read { config ->
+			val dis = DataInputStream(ByteArrayInputStream(config))
 
 			while (true) {
 				val len = dis.readByte().toInt()
@@ -658,8 +648,8 @@ object General {
 
 				val buf = ByteArray(len)
 				dis.read(buf)
-				appIds(context).forEach {
-					parseConfig(it, buf) { key, value ->
+				appIds(context).forEach { id ->
+					parseConfig(id, buf) { key, value ->
 						GlobalConfig.javaClass.getDeclaredField(key).set(null, value)
 					}
 				}
@@ -745,11 +735,7 @@ object General {
         activity.startActivity(intent)
     }
 
-    fun hoursToMs(hours: Long): Long {
-        return hours * 60L * 60L * 1000L
-    }
-
-    @JvmStatic
+	@JvmStatic
 	fun safeDismissDialog(dialog: Dialog) {
         runOnUiThread {
             try {
@@ -778,7 +764,7 @@ object General {
             .setMessage(R.string.must_login_message)
             .setPositiveButton(
                 R.string.firstrun_login_button_now
-            ) { dialog: DialogInterface?, which: Int ->
+            ) { _: DialogInterface?, _: Int ->
                 AccountListDialog().show(
                     activity.supportFragmentManager,
                     null
@@ -803,9 +789,8 @@ object General {
 			return view as T
 		}
         if (view is ViewGroup) {
-            val group = view
-            for (i in 0 until group.childCount) {
-                val result = findViewById<T>(group.getChildAt(i), id)
+			for (i in 0 until view.childCount) {
+                val result = findViewById<T>(view.getChildAt(i), id)
                 if (result != null) {
                     return result
                 }

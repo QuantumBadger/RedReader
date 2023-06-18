@@ -112,22 +112,22 @@ object General {
      */
 	@JvmStatic
 	fun addUnits(input: Long): String {
-        var i = 0
-        var result = input.toDouble()
-        while (i <= 3 && result >= 1024) {
+		var i = 0
+		var result = input.toDouble()
+		while (i <= 3 && result >= 1024) {
 			i++
-            result = input / 1024.0.pow(i.toDouble())
-        }
+			result = input / 1024.0.pow(i.toDouble())
+		}
 		val unit = when (i) {
 			1 -> " KiB"
 			2 -> " MiB"
 			3 -> " GiB"
 			else -> " B"
 		}
-        return if (i > 0 && result.roundToLong() < 10) {
-            String.format(Locale.US, "%.1f%s", result, unit)
-        } else String.format(Locale.US, "%.0f%s", result, unit)
-    }
+		return if (i > 0 && result.roundToLong() < 10) {
+			String.format(Locale.US, "%.1f%s", result, unit)
+		} else String.format(Locale.US, "%.0f%s", result, unit)
+	}
 
     @JvmStatic
 	fun bytesToMegabytes(input: Long): String {

@@ -70,7 +70,7 @@ object RedditOAuth {
             return uri.build()
         }
 
-	val appId: String?
+	private val appId: String?
 		get() = PrefsUtility.pref_reddit_client_id_override() ?: GlobalConfig.appId
 
 	fun init(context: Context) {
@@ -92,7 +92,7 @@ object RedditOAuth {
 			GlobalConfig.appId = id
 
 		} catch (e: Exception) {
-			Log.e(TAG, "Got exception during init", e)
+			Log.i(TAG, "Got exception during init", e)
 		}
 	}
 
@@ -114,7 +114,7 @@ object RedditOAuth {
 			)
 		}
 
-		return null;
+		return null
 	}
 
     private fun handleRefreshTokenError(
@@ -416,7 +416,7 @@ object RedditOAuth {
                         val jsonValue = JsonValue.parse(body)
                         val responseObject = jsonValue.asObject()
                         val username = responseObject!!.getString("name")
-                        if (username == null || username.isEmpty()) {
+                        if (username.isNullOrEmpty()) {
                             result.set(
                                 FetchUserInfoResult(
                                     FetchUserInfoResultStatus.INVALID_RESPONSE,
@@ -474,7 +474,7 @@ object RedditOAuth {
         }
     }
 
-    fun loginAsynchronous(
+    private fun loginAsynchronous(
         context: Context,
         redirectUri: Uri,
         listener: LoginListener
@@ -762,8 +762,8 @@ object RedditOAuth {
         progressDialog.setCancelable(true)
         progressDialog.setCanceledOnTouchOutside(false)
         val cancelled = AtomicBoolean(false)
-        progressDialog.setOnCancelListener { dialogInterface: DialogInterface? ->
-            if (!cancelled.getAndSet(true)) {
+        progressDialog.setOnCancelListener {
+			if (!cancelled.getAndSet(true)) {
                 safeDismissDialog(progressDialog)
                 onDone.run()
             }
@@ -791,10 +791,10 @@ object RedditOAuth {
                         val alertBuilder = AlertDialog.Builder(activity)
                         alertBuilder.setNeutralButton(
                             R.string.dialog_close
-                        ) { dialog: DialogInterface?, which: Int -> onDone.run() }
-                        alertBuilder.setOnCancelListener { dialog: DialogInterface? -> onDone.run() }
+                        ) { _: DialogInterface?, _: Int -> onDone.run() }
+                        alertBuilder.setOnCancelListener { onDone.run() }
                         if (Build.VERSION.SDK_INT >= 17) {
-                            alertBuilder.setOnDismissListener { dialog: DialogInterface? -> onDone.run() }
+                            alertBuilder.setOnDismissListener { onDone.run() }
                         }
                         val context = activity.applicationContext
                         alertBuilder.setTitle(
@@ -819,10 +819,10 @@ object RedditOAuth {
                         val builder = AlertDialog.Builder(activity)
                         builder.setNeutralButton(
                             R.string.dialog_close
-                        ) { dialog: DialogInterface?, which: Int -> onDone.run() }
-                        builder.setOnCancelListener { dialog: DialogInterface? -> onDone.run() }
+                        ) { _: DialogInterface?, _: Int -> onDone.run() }
+                        builder.setOnCancelListener { onDone.run() }
                         if (Build.VERSION.SDK_INT >= 17) {
-                            builder.setOnDismissListener { dialog: DialogInterface? -> onDone.run() }
+                            builder.setOnDismissListener { onDone.run() }
                         }
                         builder.setTitle(details!!.title)
                         builder.setMessage(details.message)
@@ -839,13 +839,9 @@ object RedditOAuth {
     }
 
     class AccessToken(token: String?) : Token(token!!) {
-        private val mMonotonicTimestamp: Long
+        private val mMonotonicTimestamp = SystemClock.elapsedRealtime()
 
-        init {
-            mMonotonicTimestamp = SystemClock.elapsedRealtime()
-        }
-
-        val isExpired: Boolean
+		val isExpired: Boolean
             get() {
                 val halfHourInMs = (30 * 60 * 1000).toLong()
                 return mMonotonicTimestamp + halfHourInMs < SystemClock.elapsedRealtime()

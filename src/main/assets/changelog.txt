@@ -7,6 +7,7 @@ Added accessibility actions for posts and comments (thanks to codeofdusk)
 Replace click/long click accessibility actions on comments with more descriptive hints (thanks to codeofdusk)
 Fixed crash in post search
 Fix for MediaMuxer crash
+Imgur links on non-standard subdomains are now handled correctly
 Detects more bot usernames
 Dependency updates
 

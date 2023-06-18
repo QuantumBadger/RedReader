@@ -549,7 +549,7 @@ public class LinkHandler {
 	}
 
 	public static final Pattern imgurPattern
-			= Pattern.compile(".*[^A-Za-z]imgur\\.com/(\\w+).*");
+			= Pattern.compile("https?://?(i\\.)?imgur\\.com/(\\w+).*");
 	public static final Pattern imgurAlbumPattern
 			= Pattern.compile(".*[^A-Za-z]imgur\\.com/(a|gallery)/(\\w+).*");
 	public static final Pattern redditGalleryPattern
@@ -589,7 +589,7 @@ public class LinkHandler {
 			final Matcher matchImgur = imgurPattern.matcher(url);
 
 			if(matchImgur.find()) {
-				final String imgId = matchImgur.group(1);
+				final String imgId = matchImgur.group(2);
 				if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
 					return true;
 				}
@@ -928,7 +928,7 @@ public class LinkHandler {
 			final Matcher matchImgur = imgurPattern.matcher(url);
 
 			if(matchImgur.find()) {
-				final String imgId = matchImgur.group(1);
+				final String imgId = matchImgur.group(2);
 				if(imgId.length() > 2 && !imgId.startsWith("gallery")) {
 					getImgurImageInfo(context, imgId, priority, true, listener);
 					return;

@@ -913,27 +913,25 @@ object RedditOAuth {
         SUCCESS, USER_REFUSED_PERMISSION, CONNECTION_ERROR, UNKNOWN_ERROR;
 
         companion object {
-            fun fromFetchRefreshTokenStatus(status: FetchRefreshTokenResultStatus?): LoginError {
-                when (status) {
-                    FetchRefreshTokenResultStatus.SUCCESS -> return SUCCESS
-                    FetchRefreshTokenResultStatus.USER_REFUSED_PERMISSION -> return USER_REFUSED_PERMISSION
-                    FetchRefreshTokenResultStatus.INVALID_REQUEST -> return UNKNOWN_ERROR
-                    FetchRefreshTokenResultStatus.INVALID_RESPONSE -> return UNKNOWN_ERROR
-                    FetchRefreshTokenResultStatus.CONNECTION_ERROR -> return CONNECTION_ERROR
-                    FetchRefreshTokenResultStatus.UNKNOWN_ERROR -> return UNKNOWN_ERROR
-                }
-                return UNKNOWN_ERROR
-            }
+            fun fromFetchRefreshTokenStatus(status: FetchRefreshTokenResultStatus?) =
+				when (status) {
+					FetchRefreshTokenResultStatus.SUCCESS -> SUCCESS
+					FetchRefreshTokenResultStatus.USER_REFUSED_PERMISSION -> USER_REFUSED_PERMISSION
+					FetchRefreshTokenResultStatus.INVALID_REQUEST -> UNKNOWN_ERROR
+					FetchRefreshTokenResultStatus.INVALID_RESPONSE -> UNKNOWN_ERROR
+					FetchRefreshTokenResultStatus.CONNECTION_ERROR -> CONNECTION_ERROR
+					FetchRefreshTokenResultStatus.UNKNOWN_ERROR -> UNKNOWN_ERROR
+					else -> UNKNOWN_ERROR
+				}
 
-            fun fromFetchUserInfoStatus(status: FetchUserInfoResultStatus?): LoginError {
-                when (status) {
-                    FetchUserInfoResultStatus.SUCCESS -> return SUCCESS
-                    FetchUserInfoResultStatus.INVALID_RESPONSE -> return UNKNOWN_ERROR
-                    FetchUserInfoResultStatus.CONNECTION_ERROR -> return CONNECTION_ERROR
-                    FetchUserInfoResultStatus.UNKNOWN_ERROR -> return UNKNOWN_ERROR
-                }
-                return UNKNOWN_ERROR
-            }
+            fun fromFetchUserInfoStatus(status: FetchUserInfoResultStatus?) =
+				when (status) {
+					FetchUserInfoResultStatus.SUCCESS -> SUCCESS
+					FetchUserInfoResultStatus.INVALID_RESPONSE -> UNKNOWN_ERROR
+					FetchUserInfoResultStatus.CONNECTION_ERROR -> CONNECTION_ERROR
+					FetchUserInfoResultStatus.UNKNOWN_ERROR -> UNKNOWN_ERROR
+					else -> UNKNOWN_ERROR
+				}
         }
     }
 

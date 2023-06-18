@@ -18,7 +18,6 @@ package org.quantumbadger.redreader.views.liststatus
 
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.google.android.material.textview.MaterialTextView
@@ -56,7 +55,7 @@ class ErrorView(activity: AppCompatActivity, error: RRError) : StatusListItemVie
 
 		} ?: resolveButton.setVisibility(GONE)
 
-		detailsButton.setOnClickListener { v: View? ->
+		detailsButton.setOnClickListener {
 			ErrorPropertiesDialog.newInstance(error)
 				.show(
 					activity.supportFragmentManager,

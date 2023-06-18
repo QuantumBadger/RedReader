@@ -22,7 +22,6 @@ import android.content.*
 import android.graphics.Color
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -337,7 +336,7 @@ object RedditPostActions {
 				.setMessage(R.string.delete_confirm)
 				.setPositiveButton(
 					R.string.action_delete
-				) { dialog, which -> action(post, activity, RedditAPI.ACTION_DELETE) }
+				) { _, _ -> action(post, activity, RedditAPI.ACTION_DELETE) }
 				.setNegativeButton(R.string.dialog_cancel, null)
 				.show()
 
@@ -346,7 +345,7 @@ object RedditPostActions {
 				.setMessage(R.string.action_report_sure)
 				.setPositiveButton(
 					R.string.action_report
-				) { dialog, which -> action(post, activity, RedditAPI.ACTION_REPORT) }
+				) { _, _ -> action(post, activity, RedditAPI.ACTION_REPORT) }
 				.setNegativeButton(R.string.dialog_cancel, null)
 				.show()
 
@@ -991,7 +990,7 @@ object RedditPostActions {
 				} else {
 					ib.setImageResource(darkIcon(action))
 				}
-				ib.setOnClickListener { v: View? ->
+				ib.setOnClickListener {
 					val actionToTake: Action = when (action) {
 						Action.UPVOTE -> if (post.isUpvoted()) Action.UNVOTE else Action.UPVOTE
 						Action.DOWNVOTE -> if (post.isDownvoted()) Action.UNVOTE else Action.DOWNVOTE

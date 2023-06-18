@@ -1,4 +1,5 @@
 105/1.21
+Show Reddit user agreement prompt at startup
 Show avatar in user profile dialog (thanks to mgurga)
 Subreddit emotes now supported in comments (thanks to bharatknv)
 Material You themed monochrome icon on Android 13

@@ -4,6 +4,19 @@ Pull requests for RedReader are always gratefully received. New pull requests
 are reviewed whenever @QuantumBadger gets some spare time, which is usually
 within a couple of weeks of submitting (apologies if it takes longer!)
 
+## Getting a Reddit API key
+
+An API key is required to connect to Reddit. It's possible to acquire this from the
+following link:
+
+https://old.reddit.com/prefs/apps
+
+* Create an app with the type "Installed app" at the above page, and note the ID
+* Copy the file [src/main/assets/reddit_auth.placeholder.txt] to [src/main/assets/reddit_auth.txt]
+* Put your ID inside [src/main/assets/reddit_auth.txt]
+
+Be careful not to commit this file to git, as this could expose your key.
+
 ## What is accepted?
 
 Please submit pull requests for:

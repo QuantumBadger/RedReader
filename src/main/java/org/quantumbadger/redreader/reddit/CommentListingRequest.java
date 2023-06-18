@@ -282,7 +282,7 @@ public class CommentListingRequest {
 										url.toString(),
 										FailedRequestBody.from(streamFactory)));
 							}
-						}, "Comment parsing", 1000000).start();
+						}, "Comment parsing", 1_000_000).start();
 					}
 				});
 	}

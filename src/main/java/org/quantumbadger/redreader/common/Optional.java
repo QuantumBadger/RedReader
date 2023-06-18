@@ -71,6 +71,11 @@ public final class Optional<E> {
 		return mValue;
 	}
 
+	@Nullable
+	public E asNullable() {
+		return mValue;
+	}
+
 	@NonNull
 	public E orElse(@NonNull final E alternative) {
 
@@ -114,6 +119,17 @@ public final class Optional<E> {
 			return Optional.empty();
 		} else {
 			return Optional.of(function.apply(mValue));
+		}
+	}
+
+	@NonNull
+	public <R> Optional<R> flatMap(
+			@NonNull final FunctionOneArgWithReturn<E, Optional<R>> function) {
+
+		if(mValue == null) {
+			return Optional.empty();
+		} else {
+			return function.apply(mValue);
 		}
 	}
 

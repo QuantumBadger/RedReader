@@ -1749,4 +1749,7 @@
 	<string name="pref_reddit_client_id_override_key" translatable="false">pref_reddit_client_id_override</string>
 	<string name="pref_reddit_client_id_override_title" translatable="false">Reddit client ID override</string>
 
+	<string name="error_403_private_sr_title">Private subreddit</string>
+	<string name="error_403_private_sr_message">This subreddit has been set to private.</string>
+
 </resources>

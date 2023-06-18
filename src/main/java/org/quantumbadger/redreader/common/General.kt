@@ -291,8 +291,18 @@ object General {
                             }
                         }
                         if (isRedditRequest) {
-                            title = R.string.error_403_title
-                            message = R.string.error_403_message
+
+							val responseJson = response.flatMap { it.toJson() }
+
+							if (responseJson.asNullable()?.asObject()?.getString("reason") == "private") {
+								title = R.string.error_403_private_sr_title
+								message = R.string.error_403_private_sr_message
+
+							} else {
+								title = R.string.error_403_title
+								message = R.string.error_403_message
+							}
+
                         } else if (status == 400 && isImgurApiRequest) {
                             title = R.string.error_imgur_400_title
                             message = R.string.error_imgur_400_message

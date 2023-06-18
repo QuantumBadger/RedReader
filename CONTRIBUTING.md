@@ -11,11 +11,20 @@ following link:
 
 https://old.reddit.com/prefs/apps
 
-* Create an app with the type "Installed app" at the above page, and note the ID
+Create an app with the type "Installed app" at the above page, and note the ID.
+
+You can set the ID at build time, or at runtime.
+
+### At build time
+
 * Copy the file [src/main/assets/reddit_auth.placeholder.txt] to [src/main/assets/reddit_auth.txt]
 * Put your ID inside [src/main/assets/reddit_auth.txt]
 
 Be careful not to commit this file to git, as this could expose your key.
+
+### At runtime
+
+Go to `Settings > Network > Reddit client ID override` and enter your ID there.
 
 ## What is accepted?
 

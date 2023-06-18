@@ -65,10 +65,13 @@ object RedditOAuth {
             uri.appendQueryParameter("duration", "permanent")
             uri.appendQueryParameter("state", "Texas")
             uri.appendQueryParameter("redirect_uri", REDIRECT_URI_NEW)
-            uri.appendQueryParameter("client_id", GlobalConfig.appId)
+            uri.appendQueryParameter("client_id", appId)
             uri.appendQueryParameter("scope", ALL_SCOPES)
             return uri.build()
         }
+
+	val appId: String?
+		get() = PrefsUtility.pref_reddit_client_id_override() ?: GlobalConfig.appId
 
 	fun init(context: Context) {
 		try {
@@ -94,7 +97,7 @@ object RedditOAuth {
 	}
 
 	private fun checkAccess(context: Context): RRError? {
-		if (GlobalConfig.appId == null) {
+		if (appId == null) {
 			return RRError(
 				title = "Reddit authentication failure",
 				message = "If you compiled this copy of RedReader yourself, you must specify the Reddit client ID. Please see CONTRIBUTING.md for more details, or contact the developer.",
@@ -273,7 +276,7 @@ object RedditOAuth {
             request.addHeader(
                 "Authorization",
                 "Basic " + Base64.encodeToString(
-                    (GlobalConfig.appId + ":").toByteArray(),
+                    ("$appId:").toByteArray(),
                     Base64.URL_SAFE or Base64.NO_WRAP
                 )
             )
@@ -554,7 +557,7 @@ object RedditOAuth {
             request.addHeader(
                 "Authorization",
                 "Basic " + Base64.encodeToString(
-                    ((if (user.usesNewClientId) GlobalConfig.appId else CLIENT_ID_OLD) + ":")
+                    ((if (user.usesNewClientId) appId else CLIENT_ID_OLD) + ":")
                         .toByteArray(),
                     Base64.URL_SAFE or Base64.NO_WRAP
                 )
@@ -666,7 +669,7 @@ object RedditOAuth {
             request.addHeader(
                 "Authorization",
                 "Basic " + Base64.encodeToString(
-                    (GlobalConfig.appId + ":").toByteArray(),
+                    "$appId:".toByteArray(),
                     Base64.URL_SAFE or Base64.NO_WRAP
                 )
             )

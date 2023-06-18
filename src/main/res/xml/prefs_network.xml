@@ -19,13 +19,19 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/prefs_category_network">
+	<PreferenceCategory android:title="@string/prefs_category_network">
 
-    <CheckBoxPreference android:title="@string/pref_network_tor_title"
-						android:key="@string/pref_network_tor_key"
-						android:summary="@string/pref_network_tor_summary"
-        				android:defaultValue="false"/>
+		<CheckBoxPreference
+				android:title="@string/pref_network_tor_title"
+				android:key="@string/pref_network_tor_key"
+				android:summary="@string/pref_network_tor_summary"
+				android:defaultValue="false"/>
 
-    </PreferenceCategory>
+		<EditTextPreference
+				android:title="@string/pref_reddit_client_id_override_title"
+				android:key="@string/pref_reddit_client_id_override_key"
+				android:defaultValue=""/>
+
+	</PreferenceCategory>
 
 </PreferenceScreen>

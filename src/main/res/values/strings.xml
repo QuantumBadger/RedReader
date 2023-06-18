@@ -1746,5 +1746,7 @@
 	<string name="reddit_terms_error_message">If you wish to access content through the Reddit API, please accept their user agreement.</string>
 	<string name="reddit_terms_error_resolution_button">View agreement</string>
 
+	<string name="pref_reddit_client_id_override_key" translatable="false">pref_reddit_client_id_override</string>
+	<string name="pref_reddit_client_id_override_title" translatable="false">Reddit client ID override</string>
 
 </resources>

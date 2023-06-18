@@ -134,7 +134,8 @@ public final class PrefsUtility {
 						R.string.pref_accessibility_concise_mode_key))
 				|| key.equals(context.getString(
 						R.string.pref_appearance_post_hide_subreddit_header_key))
-				|| key.equals(REDDIT_USER_AGREEMENT_PREF);
+				|| key.equals(REDDIT_USER_AGREEMENT_PREF)
+				|| key.equals(context.getString(R.string.pref_reddit_client_id_override_key));
 	}
 
 	public static boolean isRestartRequired(final Context context, final String key) {
@@ -1700,6 +1701,23 @@ public final class PrefsUtility {
 		return getBoolean(
 				R.string.pref_behaviour_keep_screen_awake_key,
 				false);
+	}
+
+	@Nullable
+	public static String pref_reddit_client_id_override() {
+		final String value = getString(R.string.pref_reddit_client_id_override_key, null);
+
+		if (value == null) {
+			return null;
+		}
+
+		final String valueTrimmed = value.trim();
+
+		if (valueTrimmed.isEmpty()) {
+			return null;
+		}
+
+		return valueTrimmed;
 	}
 
 	private static final String REDDIT_USER_AGREEMENT_PREF = "accepted_reddit_user_agreement";

@@ -1,3 +1,6 @@
+/Alpha 334 (2023-06-25)
+Due to Reddit API changes, any active accounts must be logged in again
+
 /Alpha 333 (2023-06-18)
 Show Reddit user agreement prompt at startup
 Simplified error handling

@@ -63,6 +63,7 @@ import org.quantumbadger.redreader.reddit.PostCommentSort;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
 import org.quantumbadger.redreader.reddit.UserCommentSort;
+import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -176,9 +177,7 @@ public class MainActivity extends RefreshableActivity
 					.setMessage(R.string.firstrun_login_message)
 					.setPositiveButton(
 							R.string.firstrun_login_button_now,
-							(dialog, which) -> new AccountListDialog().show(
-									this.getSupportFragmentManager(),
-									null))
+							(dialog, which) -> AccountListDialog.show(this))
 					.setNegativeButton(R.string.firstrun_login_button_later, null)
 					.show();
 
@@ -199,6 +198,10 @@ public class MainActivity extends RefreshableActivity
 		}
 
 		FeatureFlagHandler.handleUpgrade(this);
+
+		if(RedditOAuth.anyNeedRelogin(this)) {
+			General.showMustReloginDialog(this);
+		}
 
 		recreateSubscriptionListener();
 

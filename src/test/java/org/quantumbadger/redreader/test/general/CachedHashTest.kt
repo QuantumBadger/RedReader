@@ -14,29 +14,30 @@
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+package org.quantumbadger.redreader.test.general
 
-package org.quantumbadger.redreader.common
+import org.junit.Assert
+import org.junit.Test
+import org.quantumbadger.redreader.common.CachedStringHash
+import java.util.concurrent.atomic.AtomicReference
 
-import org.quantumbadger.redreader.http.FailedRequestBody
+class CachedHashTest {
+    @Test
+    fun testHash() {
 
-class RRError @JvmOverloads constructor(
-	@JvmField val title: String? = null,
-	@JvmField val message: String? = null,
-	@JvmField val reportable: Boolean? = true,
-	@JvmField val t: Throwable? = null,
-	@JvmField val httpStatus: Int? = null,
-	@JvmField val url: String? = null,
-	@JvmField val debuggingContext: String? = null,
-	response: Optional<FailedRequestBody> = Optional.empty(),
-	@JvmField val resolution: Resolution? = null
-) {
-	enum class Resolution {
-		ACCEPT_REDDIT_TERMS,
-		ACCOUNTS_LIST
-	}
+		val data = AtomicReference("Hello")
 
-    @JvmField
-	val response = response.map(FailedRequestBody::toString).orElseNull()
+		val hash = CachedStringHash { data.get() }
 
-	override fun toString() = "$title: $message (http: $httpStatus, thrown: $t)"
+		Assert.assertEquals(
+			hash.hash,
+			"185F8DB32271FE25F561A6FC938B2E264306EC304EDA518007D1764826381969")
+
+		data.set("World")
+
+		Assert.assertEquals(
+			hash.hash,
+			"78AE647DC5544D227130A0682A51E30BC7777FBB6D8A8F17007463A3ECD1D524")
+
+    }
 }

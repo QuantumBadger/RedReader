@@ -298,9 +298,7 @@ public final class FeatureFlagHandler {
 					.setMessage(R.string.upgrade_v190_login_message)
 					.setPositiveButton(
 							R.string.firstrun_login_button_now,
-							(dialog, which) -> new AccountListDialog().show(
-									activity.getSupportFragmentManager(),
-									null))
+							(dialog, which) -> AccountListDialog.show(activity))
 					.setNegativeButton(R.string.firstrun_login_button_later, null)
 					.show();
 		}

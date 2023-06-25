@@ -45,6 +45,14 @@ public class AccountListDialog extends AppCompatDialogFragment
 
 	private RecyclerView rv;
 
+	public static void show(final AppCompatActivity activity) {
+		new AccountListDialog().show(
+				activity.getSupportFragmentManager(),
+				null);
+	}
+
+	private AccountListDialog() {}
+
 	@Override
 	public void onActivityResult(
 			final int requestCode,

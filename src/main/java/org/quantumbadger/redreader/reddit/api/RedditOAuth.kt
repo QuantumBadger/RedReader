@@ -49,7 +49,6 @@ import java.util.concurrent.atomic.AtomicReference
 
 object RedditOAuth {
 	private const val TAG = "RedditOAuth"
-    private const val CLIENT_ID_OLD = "m_zCW1Dixs9WLA"
     private const val REDIRECT_URI_NEW = "redreader://rr_oauth_redir"
     private const val ALL_SCOPES = ("identity edit flair history "
             + "modconfig modflair modlog modposts modwiki mysubreddits "
@@ -72,6 +71,8 @@ object RedditOAuth {
 
 	private val appId: String?
 		get() = PrefsUtility.pref_reddit_client_id_override() ?: GlobalConfig.appId
+
+	private val cachedAppId = CachedStringHash { appId ?: "null" }
 
 	fun init(context: Context) {
 		try {
@@ -96,7 +97,7 @@ object RedditOAuth {
 		}
 	}
 
-	private fun checkAccess(context: Context): RRError? {
+	private fun checkAccess(context: Context, user: RedditAccount?): RRError? {
 		if (appId == null) {
 			return RRError(
 				title = "Reddit authentication failure",
@@ -114,8 +115,24 @@ object RedditOAuth {
 			)
 		}
 
+		if (user?.run(::needsRelogin) == true) {
+			return RRError(
+				title = context.getString(R.string.reddit_relogin_error_title),
+				message = context.getString(R.string.reddit_relogin_error_message),
+				resolution = RRError.Resolution.ACCOUNTS_LIST,
+				reportable = true
+			)
+		}
+
 		return null
 	}
+
+	@JvmStatic
+	fun needsRelogin(user: RedditAccount) = !user.isAnonymous && user.clientId != cachedAppId.hash
+
+	@JvmStatic
+	fun anyNeedRelogin(context: Context) =
+		RedditAccountManager.getInstance(context).accounts.any(this::needsRelogin)
 
     private fun handleRefreshTokenError(
         exception: Throwable?,
@@ -218,7 +235,7 @@ object RedditOAuth {
         redirectUri: Uri
     ): FetchRefreshTokenResult {
 
-		checkAccess(context)?.apply {
+		checkAccess(context, null)?.apply {
 			return FetchRefreshTokenResult(FetchRefreshTokenResultStatus.INVALID_REQUEST, this)
 		}
 
@@ -508,8 +525,8 @@ object RedditOAuth {
                     val account = RedditAccount(
                         fetchUserInfoResult.username!!,
                         fetchRefreshTokenResult.refreshToken,
-                        true,
-                        0
+                        0,
+						cachedAppId.hash
                     )
                     account.setAccessToken(fetchRefreshTokenResult.accessToken)
                     val accountManager = RedditAccountManager.getInstance(context)
@@ -537,7 +554,7 @@ object RedditOAuth {
         user: RedditAccount
     ): FetchAccessTokenResult {
 
-		checkAccess(context)?.apply {
+		checkAccess(context, user)?.apply {
 			return FetchAccessTokenResult(FetchAccessTokenResultStatus.INVALID_REQUEST, this)
 		}
 
@@ -557,8 +574,7 @@ object RedditOAuth {
             request.addHeader(
                 "Authorization",
                 "Basic " + Base64.encodeToString(
-                    ((if (user.usesNewClientId) appId else CLIENT_ID_OLD) + ":")
-                        .toByteArray(),
+					"$appId:".toByteArray(),
                     Base64.URL_SAFE or Base64.NO_WRAP
                 )
             )
@@ -639,7 +655,7 @@ object RedditOAuth {
         context: Context
     ): FetchAccessTokenResult {
 
-		checkAccess(context)?.apply {
+		checkAccess(context, RedditAccountManager.getAnon())?.apply {
 			return FetchAccessTokenResult(FetchAccessTokenResultStatus.INVALID_REQUEST, this)
 		}
 

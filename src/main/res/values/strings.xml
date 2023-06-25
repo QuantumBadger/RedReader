@@ -1752,4 +1752,7 @@
 	<string name="error_403_private_sr_title">Private subreddit</string>
 	<string name="error_403_private_sr_message">This subreddit has been set to private.</string>
 
+	<string name="reddit_relogin_error_title">Re-login necessary</string>
+	<string name="reddit_relogin_error_message">Due to recent changes to the Reddit API, it is necessary to log in to your account again.</string>
+
 </resources>

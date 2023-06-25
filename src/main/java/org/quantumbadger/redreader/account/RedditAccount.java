@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.account;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
@@ -25,17 +26,17 @@ public class RedditAccount {
 
 	@NonNull public final String username;
 	public final RedditOAuth.RefreshToken refreshToken;
-	public final boolean usesNewClientId;
 
 	private RedditOAuth.AccessToken accessToken;
 
 	public final long priority;
+	@Nullable public final String clientId;
 
 	public RedditAccount(
 			@NonNull final String username,
 			final RedditOAuth.RefreshToken refreshToken,
-			final boolean usesNewClientId,
-			final long priority) {
+			final long priority,
+			@Nullable final String clientId) {
 
 		//noinspection ConstantConditions
 		if(username == null) {
@@ -44,8 +45,8 @@ public class RedditAccount {
 
 		this.username = username.trim();
 		this.refreshToken = refreshToken;
-		this.usesNewClientId = usesNewClientId;
 		this.priority = priority;
+		this.clientId = clientId;
 	}
 
 	public boolean isAnonymous() {

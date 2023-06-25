@@ -548,6 +548,24 @@ object General {
         }
     }
 
+	fun toHex(bytes: ByteArray): String {
+		val result = StringBuilder(bytes.size * 2)
+		for (b in bytes) {
+			result.append(String.format(Locale.US, "%02X", b))
+		}
+		return result.toString()
+	}
+
+	@JvmStatic
+	fun sha256(plaintext: String): String {
+		val digest: MessageDigest = try {
+			MessageDigest.getInstance("SHA-256")
+		} catch (e: Exception) {
+			throw RuntimeException(e)
+		}
+		return toHex(digest.digest(plaintext.encodeToByteArray()))
+	}
+
     @JvmStatic
 	fun sha1(plaintext: ByteArray): String {
 		val digest: MessageDigest = try {
@@ -555,12 +573,7 @@ object General {
 		} catch (e: Exception) {
 			throw RuntimeException(e)
 		}
-        val hash = digest.digest(plaintext)
-        val result = StringBuilder(hash.size * 2)
-        for (b in hash) {
-            result.append(String.format(Locale.US, "%02X", b))
-        }
-        return result.toString()
+		return toHex(digest.digest(plaintext))
     }
 
 	private fun appIds(context: Context) = AndroidCommon.getPackageInfo(context).run {
@@ -775,14 +788,25 @@ object General {
             .setPositiveButton(
                 R.string.firstrun_login_button_now
             ) { _: DialogInterface?, _: Int ->
-                AccountListDialog().show(
-                    activity.supportFragmentManager,
-                    null
-                )
+				AccountListDialog.show(activity)
             }
             .setNegativeButton(R.string.firstrun_login_button_later, null)
             .show()
     }
+
+	@JvmStatic
+	fun showMustReloginDialog(activity: AppCompatActivity) {
+		AlertDialog.Builder(activity)
+			.setTitle(R.string.reddit_relogin_error_title)
+			.setMessage(R.string.reddit_relogin_error_message)
+			.setPositiveButton(
+				R.string.options_accounts
+			) { _: DialogInterface?, _: Int ->
+				AccountListDialog.show(activity)
+			}
+			.setNegativeButton(R.string.dialog_close, null)
+			.show()
+	}
 
     @JvmStatic
 	fun startNewThread(

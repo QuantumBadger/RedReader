@@ -17,26 +17,28 @@
 
 package org.quantumbadger.redreader.common
 
-import org.quantumbadger.redreader.http.FailedRequestBody
+import java.util.concurrent.atomic.AtomicReference
 
-class RRError @JvmOverloads constructor(
-	@JvmField val title: String? = null,
-	@JvmField val message: String? = null,
-	@JvmField val reportable: Boolean? = true,
-	@JvmField val t: Throwable? = null,
-	@JvmField val httpStatus: Int? = null,
-	@JvmField val url: String? = null,
-	@JvmField val debuggingContext: String? = null,
-	response: Optional<FailedRequestBody> = Optional.empty(),
-	@JvmField val resolution: Resolution? = null
-) {
-	enum class Resolution {
-		ACCEPT_REDDIT_TERMS,
-		ACCOUNTS_LIST
-	}
+class CachedStringHash(private val data: () -> String) {
 
-    @JvmField
-	val response = response.map(FailedRequestBody::toString).orElseNull()
+	private class CacheEntry(
+		val key: String,
+		val value: String
+	)
 
-	override fun toString() = "$title: $message (http: $httpStatus, thrown: $t)"
+	private var cache = AtomicReference<CacheEntry?>()
+
+	val hash: String
+		get() = cache.get().run {
+			val data = data()
+
+			if (data == this?.key) {
+				return value
+			}
+
+			val result = General.sha256(data)
+
+			cache.set(CacheEntry(data, result))
+			return result
+		}
 }

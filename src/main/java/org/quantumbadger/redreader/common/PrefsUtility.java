@@ -164,9 +164,9 @@ public final class PrefsUtility {
 
 	public static void init(final Context context) {
 
-		ConfigProviders.register(() -> "IMocCuAi4ubh9tzSiItISVsBW23WU3P25AdXCKrVEnzCEB+YheeH3jTZ" +
-				"+GbEQgpSutsgTerbZDYHC66sqyszpUa5rm1gBNzETurh7IpPf71Agh0Qt33SSMzHCqLzU66dpD/L0yB" +
-				"s6R6Ifg+We3LIqzV6A2iB0PNtAG+30T+QKYIewAiEkhCExKzWy4gEyWokgYzGGNQwAA==");
+		ConfigProviders.register(() -> "IJuC7OVo2SgR0QVvEZXr913LYMKU4r7pTqrmPe3MpddGEB+YheeH3jTZ+" +
+				"GbEQgpSutsgJugRCPETQGRwkZrw1LJxR93RpgC1iO+G/hN9BaPU1c0Qt33SSMzHCqLzU66dpD/L0yC42" +
+				"GhcJF+GUAaRzCnk0BxPjN09aO2H5rQPnUGB1kurxxCExKzWy4gEyWokgYzGGNQwAA==");
 
 		sharedPrefs = General.getSharedPrefs(context);
 		mRes = Objects.requireNonNull(context.getResources());

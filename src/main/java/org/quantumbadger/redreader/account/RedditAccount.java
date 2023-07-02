@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
+import java.util.Objects;
+
 public class RedditAccount {
 
 	@NonNull public final String username;
@@ -71,8 +73,16 @@ public class RedditAccount {
 
 	@Override
 	public boolean equals(final Object o) {
-		return o instanceof RedditAccount
-				&& username.equalsIgnoreCase(((RedditAccount)o).username);
+
+		if(!(o instanceof RedditAccount)) {
+			return false;
+		}
+
+		final RedditAccount other = (RedditAccount)o;
+
+		return username.equalsIgnoreCase(other.username)
+				&& Objects.equals(clientId, other.clientId)
+				&& Objects.equals(refreshToken, other.refreshToken);
 	}
 
 	@Override

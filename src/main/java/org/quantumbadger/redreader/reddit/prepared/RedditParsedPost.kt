@@ -145,6 +145,10 @@ class RedditParsedPost(
         return src.idAndType
     }
 
+	fun hasSelfText(): Boolean {
+		return rawSelfTextMarkdown != null && rawSelfTextMarkdown.length > 1
+	}
+
     data class ImagePreviewDetails(
 		@JvmField val url: String,
 		@JvmField val width: Int,

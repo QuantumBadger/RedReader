@@ -122,7 +122,7 @@ class RedditParsedPost(
 
 		url = findUrl()
 
-		selfText = if (parseSelfText && isSelfPost && src.selftext_html != null) {
+		selfText = if (parseSelfText && src.selftext_html != null) {
 			HtmlReader.parse(src.selftext_html.decoded, activity)
 		} else {
 			null

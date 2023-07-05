@@ -256,8 +256,8 @@ public class PostSubmitContentFragment extends Fragment {
 		mTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(
-					final AdapterView<?> parent,
-					final View view,
+					@Nullable final AdapterView<?> parent,
+					@Nullable final View view,
 					final int position,
 					final long id) {
 				setHint();

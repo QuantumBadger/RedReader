@@ -35,6 +35,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
@@ -397,8 +398,8 @@ public class MainActivity extends RefreshableActivity
 				destinationType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 					@Override
 					public void onItemSelected(
-							final AdapterView<?> adapterView,
-							final View view,
+							@Nullable final AdapterView<?> adapterView,
+							@Nullable final View view,
 							final int i,
 							final long l) {
 

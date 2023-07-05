@@ -13,6 +13,7 @@ Imgur links on non-standard subdomains are now handled correctly
 Detects more bot usernames
 Dependency updates
 v1.21.1: Fixed an issue with subscriptions after re-authenticating
+v1.21.2: Fixing crash when submitting a post
 
 104/1.20
 Renamed "Find Subreddit" to "Find Location"

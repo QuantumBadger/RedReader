@@ -2,6 +2,7 @@
 Show self text for link posts (thanks to Cameron Merkel)
 Announce self-text presence with link posts in screen readers (thanks to Cameron Merkel)
 Add more specific error messages for blocked, quarantined, and premium-only subreddits (thanks to Cameron Merkel)
+Add option to disable user avatars (thanks to Cameron Merkel)
 
 107/1.21.2
 Show Reddit user agreement prompt at startup

@@ -357,7 +357,7 @@ object RedditPostActions {
 						return
 					}
 					val intent = Intent(Intent.ACTION_VIEW)
-					intent.data = Uri.parse(url)
+					intent.data = LinkHandler.convertAndNormalizeUri(url)
 					activity.startActivity(intent)
 				} catch (e: ActivityNotFoundException) {
 					General.quickToast(

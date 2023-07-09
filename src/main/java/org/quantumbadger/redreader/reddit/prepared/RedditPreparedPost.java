@@ -530,6 +530,17 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 										: R.string.accessibility_subtitle_domain_withperiod,
 								ScreenreaderPronunciation.getPronunciation(context, domain)))
 						.append(separator);
+
+				if(src.hasSelfText()) {
+					accessibilitySubtitle
+							.append(context.getString(
+									conciseMode
+											?R.string.
+											accessibility_subtitle_selfpost_withperiod_concise
+											: R.string.
+											accessibility_subtitle_has_selftext_withperiod))
+							.append(separator);
+				}
 			}
 		}
 

@@ -730,8 +730,7 @@ object RedditPostActions {
 			menu.add(RPVMenuItem(activity, R.string.action_external, Action.EXTERNAL))
 		}
 		if (itemPref.contains(Action.SELFTEXT_LINKS)
-				&& post.src.rawSelfTextMarkdown != null
-				&& post.src.rawSelfTextMarkdown.length > 1) {
+				&& post.src.hasSelfText()) {
 			menu.add(RPVMenuItem(activity, R.string.action_selftext_links, Action.SELFTEXT_LINKS))
 		}
 		if (itemPref.contains(Action.SAVE_IMAGE) && post.mIsProbablyAnImage) {
@@ -853,7 +852,7 @@ object RedditPostActions {
 		if (itemPref.contains(Action.COPY)) {
 			menu.add(RPVMenuItem(activity, R.string.action_copy_link, Action.COPY))
 		}
-		if (itemPref.contains(Action.COPY_SELFTEXT) && post.src.rawSelfTextMarkdown != null && post.src.rawSelfTextMarkdown.length > 1) {
+		if (itemPref.contains(Action.COPY_SELFTEXT) && post.src.hasSelfText()) {
 			menu.add(
 				RPVMenuItem(
 					activity,

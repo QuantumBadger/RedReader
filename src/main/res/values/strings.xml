@@ -1755,4 +1755,7 @@
 	<string name="reddit_relogin_error_title">Re-login necessary</string>
 	<string name="reddit_relogin_error_message">Due to recent changes to the Reddit API, it is necessary to log in to your account again.</string>
 
+	<!-- 2023-07-05 -->
+	<string name="accessibility_subtitle_has_selftext_withperiod">Has self text.</string>
+
 </resources>

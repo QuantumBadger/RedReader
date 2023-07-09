@@ -122,7 +122,7 @@ class RedditParsedPost(
 
 		url = findUrl()
 
-		selfText = if (parseSelfText && isSelfPost && src.selftext_html != null) {
+		selfText = if (parseSelfText && src.selftext_html != null) {
 			HtmlReader.parse(src.selftext_html.decoded, activity)
 		} else {
 			null
@@ -144,6 +144,10 @@ class RedditParsedPost(
     override fun getIdAndType(): RedditIdAndType {
         return src.idAndType
     }
+
+	fun hasSelfText(): Boolean {
+		return rawSelfTextMarkdown != null && rawSelfTextMarkdown.length > 1
+	}
 
     data class ImagePreviewDetails(
 		@JvmField val url: String,

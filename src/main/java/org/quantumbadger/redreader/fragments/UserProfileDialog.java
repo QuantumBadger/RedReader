@@ -47,6 +47,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
@@ -127,25 +128,29 @@ public class UserProfileDialog extends PropertiesDialog {
 
 							loadingView.setDone(R.string.download_done);
 
-							final String iconUrl = user.getIconUrl();
+							if(PrefsUtility.appearance_user_show_avatars()) {
+								final String iconUrl = user.getIconUrl();
 
-							if (iconUrl != null && !iconUrl.equals("")) {
-								final LinearLayout avatarLayout
-										= (LinearLayout) context.getLayoutInflater()
-												.inflate(R.layout.avatar, null);
-								items.addView(avatarLayout);
+								if (iconUrl != null && !iconUrl.equals("")) {
+									final LinearLayout avatarLayout
+											= (LinearLayout) context.getLayoutInflater()
+											.inflate(R.layout.avatar, null);
+									items.addView(avatarLayout);
 
-								final ImageView avatarImage
-										= avatarLayout
-										.findViewById(R.id.layout_avatar_image);
+									final ImageView avatarImage
+											= avatarLayout
+											.findViewById(R.id.layout_avatar_image);
 
-								try {
-									assignUserAvatar(iconUrl, avatarImage, context);
-								} catch (final URISyntaxException e) {
-									Log.d("UserProfileDialog", "Error decoding uri: " + e);
+									try {
+										assignUserAvatar(iconUrl, avatarImage, context);
+									} catch (final URISyntaxException e) {
+										Log.d("UserProfileDialog", "Error decoding uri: " + e);
+									}
+								} else {
+									Log.d(
+											"UserProfileDialog",
+											"Unknown icon url: " + user.icon_img);
 								}
-							} else {
-								Log.d("UserProfileDialog", "Unknown icon url: " + user.icon_img);
 							}
 
 							final LinearLayout karmaLayout

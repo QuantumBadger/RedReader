@@ -274,7 +274,7 @@ object General {
 
             CacheRequest.REQUEST_FAILURE_REQUEST -> if (status != null) {
                 when (status) {
-                    400, 401, 403 -> {
+                    400, 401, 403, 404 -> {
                         val uri = uriFromString(url)
                         var isImgurApiRequest = false
                         var isRedditRequest = false
@@ -294,27 +294,40 @@ object General {
 
 							val responseJson = response.flatMap { it.toJson() }
 
-							if (responseJson.asNullable()?.asObject()?.getString("reason") == "private") {
-								title = R.string.error_403_private_sr_title
-								message = R.string.error_403_private_sr_message
-
-							} else {
-								title = R.string.error_403_title
-								message = R.string.error_403_message
+							when(responseJson.asNullable()?.asObject()?.getString("reason")) {
+								"private" -> {
+									title = R.string.error_403_private_sr_title
+									message = R.string.error_403_private_sr_message
+								} "quarantined" -> {
+									title = R.string.error_403_quarantined_sr_title
+									message = R.string.error_403_quarantined_sr_message
+								} "gold_only" -> {
+									title = R.string.error_403_premiumonly_sr_title
+									message = R.string.error_403_premiumonly_sr_message
+								} "banned" -> {
+									title = R.string.error_404_banned_sr_title
+									message = R.string.error_404_banned_sr_message
+								} else -> {
+									if(status == 404) {
+										title = R.string.error_404_title
+										message = R.string.error_404_message
+									} else {
+										title = R.string.error_403_title
+										message = R.string.error_403_message
+									}
+								}
 							}
 
                         } else if (status == 400 && isImgurApiRequest) {
                             title = R.string.error_imgur_400_title
                             message = R.string.error_imgur_400_message
-                        } else {
+                        } else if (status == 404) {
+							title = R.string.error_404_title
+							message = R.string.error_404_message
+						} else {
                             title = R.string.error_403_title_nonreddit
                             message = R.string.error_403_message_nonreddit
                         }
-                    }
-
-                    404 -> {
-                        title = R.string.error_404_title
-                        message = R.string.error_404_message
                     }
 
                     429 -> {

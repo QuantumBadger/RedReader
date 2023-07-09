@@ -1755,4 +1755,20 @@
 	<string name="reddit_relogin_error_title">Re-login necessary</string>
 	<string name="reddit_relogin_error_message">Due to recent changes to the Reddit API, it is necessary to log in to your account again.</string>
 
+	<!-- 2023-07-05 -->
+	<string name="accessibility_subtitle_has_selftext_withperiod">Has self text.</string>
+
+	<!-- 2023-07-06 -->
+	<string name="error_403_quarantined_sr_title">Quarantined subreddit</string>
+	<string name="error_403_quarantined_sr_message">This subreddit has been quarantined. To access it, you must opt-in on reddit.com.</string>
+	<string name="error_403_premiumonly_sr_title">Premium-only subreddit</string>
+	<string name="error_403_premiumonly_sr_message">This subreddit only allows Reddit Premium members to visit.</string>
+	<string name="error_404_banned_sr_title">Banned subreddit</string>
+	<string name="error_404_banned_sr_message">This subreddit has been banned.</string>
+
+	<!-- 2023-07-07 -->
+	<string name="pref_appearance_user_header">User Profiles</string>
+	<string name="pref_appearance_user_show_avatars_title">Show avatars</string>
+	<string name="pref_appearance_user_show_avatars_key">pref_appearance_user_show_avatars</string>
+
 </resources>

@@ -172,6 +172,15 @@
 
     </PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/pref_appearance_user_header">
+
+		<CheckBoxPreference
+				android:title="@string/pref_appearance_user_show_avatars_title"
+				android:key="@string/pref_appearance_user_show_avatars_key"
+				android:defaultValue="true"/>
+
+	</PreferenceCategory>
+
 	<PreferenceCategory android:title="@string/pref_appearance_inbox_header">
 
 		<ListPreference android:title="@string/pref_appearance_inbox_age_units_title"

@@ -681,6 +681,12 @@ public final class PrefsUtility {
 		ABSOLUTE, RELATIVE_POST, RELATIVE_PARENT
 	}
 
+	public static boolean appearance_user_show_avatars() {
+		return getBoolean(
+				R.string.pref_appearance_user_show_avatars_key,
+				true);
+	}
+
 	public static CommentAgeMode appearance_comment_age_mode() {
 		return CommentAgeMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_comment_age_mode_key,

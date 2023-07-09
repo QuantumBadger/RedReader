@@ -286,7 +286,8 @@ public class LinkHandler {
 
 		if(youtubeDotComPattern.matcher(normalUrlString).matches()
 				|| vimeoPattern.matcher(normalUrlString).matches()
-				|| googlePlayPattern.matcher(normalUrlString).matches()) {
+				|| googlePlayPattern.matcher(normalUrlString).matches()
+				|| normalUrlString.startsWith("mailto:")) {
 			if(openWebBrowser(activity, normalUrl, fromExternalIntent)) {
 				return;
 			}
@@ -1308,7 +1309,7 @@ public class LinkHandler {
 			uri = "https://reddit.com" + uri;
 		}
 
-		if(!uri.contains("://")) {
+		if(!uri.contains("://") && !uri.startsWith("mailto:")) {
 			uri = "http://" + uri;
 		}
 

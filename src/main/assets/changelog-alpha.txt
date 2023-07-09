@@ -1,3 +1,7 @@
+/Alpha 336 (2023-07-09)
+Show self text for link posts (thanks to Cameron Merkel)
+Announce self-text presence with link posts in screen readers (thanks to Cameron Merkel)
+
 /Alpha 335 (2023-07-02)
 Fixed an issue with subscriptions after re-authenticating
 Fixing crash when submitting a post

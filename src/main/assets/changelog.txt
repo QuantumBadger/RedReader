@@ -1,4 +1,8 @@
-106/1.21.1
+108/1.22
+Show self text for link posts (thanks to Cameron Merkel)
+Announce self-text presence with link posts in screen readers (thanks to Cameron Merkel)
+
+107/1.21.2
 Show Reddit user agreement prompt at startup
 Due to Reddit API changes, any active accounts must be logged in again
 More specific error message when a subreddit is private

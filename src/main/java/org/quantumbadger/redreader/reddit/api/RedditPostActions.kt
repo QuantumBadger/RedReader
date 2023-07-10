@@ -36,7 +36,6 @@ import org.quantumbadger.redreader.common.*
 import org.quantumbadger.redreader.common.PrefsUtility.PostFlingAction
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog
-import org.quantumbadger.redreader.fragments.ShareOrderDialog
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
 import org.quantumbadger.redreader.reddit.RedditAPI.RedditAction
@@ -402,52 +401,30 @@ object RedditPostActions {
 			Action.SHARE -> {
 				val subject =
 					if (PrefsUtility.pref_behaviour_sharing_dialog()) post.src.title else null
-				LinkHandler.shareText(
-					activity,
-					subject,
-					post.src.url
-				)
+				val body = LinkHandler.getPreferredRedditUriString(post.src.url)
+
+				LinkHandler.shareText(activity, subject, body)
 			}
 
 			Action.SHARE_COMMENTS -> {
-				val shareAsPermalink = PrefsUtility.pref_behaviour_share_permalink()
-				val mailer = Intent(Intent.ACTION_SEND)
-				mailer.type = "text/plain"
-				if (PrefsUtility.pref_behaviour_sharing_include_desc()) {
-					mailer.putExtra(
-						Intent.EXTRA_SUBJECT, String.format(
-							activity.getText(R.string.share_comments_for)
-								.toString(), post.src.title
-						)
-					)
-				}
-				if (shareAsPermalink) {
-					mailer.putExtra(
-						Intent.EXTRA_TEXT,
-						Constants.Reddit.getNonAPIUri(post.src.permalink)
-							.toString()
-					)
+				val subject = if (PrefsUtility.pref_behaviour_sharing_include_desc()) {
+					String.format(activity.getText(R.string.share_comments_for)
+							.toString(), post.src.title)
 				} else {
-					mailer.putExtra(
-						Intent.EXTRA_TEXT,
-						Constants.Reddit.getNonAPIUri(
-							Constants.Reddit.PATH_COMMENTS
-									+ post.src.idAlone
-						)
-							.toString()
-					)
+					null
 				}
-				if (PrefsUtility.pref_behaviour_sharing_dialog()) {
-					ShareOrderDialog.newInstance(mailer)
-						.show(activity.supportFragmentManager, null)
+
+				var body = if (PrefsUtility.pref_behaviour_share_permalink()) {
+					Constants.Reddit.getNonAPIUri(post.src.permalink).toString()
 				} else {
-					activity.startActivity(
-						Intent.createChooser(
-							mailer,
-							activity.getString(R.string.action_share)
-						)
-					)
+					Constants.Reddit.getNonAPIUri(
+							Constants.Reddit.PATH_COMMENTS + post.src.idAlone)
+							.toString()
 				}
+
+				body = LinkHandler.getPreferredRedditUriString(body)
+
+				LinkHandler.shareText(activity, subject, body)
 			}
 
 			Action.SHARE_IMAGE -> {

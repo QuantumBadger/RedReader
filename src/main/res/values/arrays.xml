@@ -1293,4 +1293,22 @@
 		<item>never</item>
 	</string-array>
 
+	<!-- 2023-07-10 -->
+	<string-array name="pref_behaviour_sharing_domain_items">
+		<item>@string/pref_behaviour_sharing_domain_standard_reddit</item>
+		<item>@string/pref_behaviour_sharing_domain_short_reddit</item>
+		<item>@string/pref_behaviour_sharing_domain_old_reddit</item>
+		<item>@string/pref_behaviour_sharing_domain_new_reddit</item>
+		<item>@string/pref_behaviour_sharing_domain_np_reddit</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_sharing_domain_return">
+		<item>standard_reddit</item>
+		<item>short_reddit</item>
+		<item>old_reddit</item>
+		<item>new_reddit</item>
+		<item>np_reddit</item>
+	</string-array>
+
 </resources>

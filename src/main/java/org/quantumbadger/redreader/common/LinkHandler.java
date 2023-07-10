@@ -61,6 +61,7 @@ import org.quantumbadger.redreader.image.RedgifsAPIV2;
 import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.url.ComposeMessageURL;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.ArrayList;
@@ -397,7 +398,7 @@ public class LinkHandler {
 			final LinkAction action) {
 		switch(action) {
 			case SHARE:
-				shareText(activity, null, uri);
+				shareText(activity, null, getPreferredRedditUriString(uri));
 				break;
 			case COPY_URL:
 				final ClipboardManager clipboardManager
@@ -1333,5 +1334,45 @@ public class LinkHandler {
 		}
 
 		return uriBuilder.build();
+	}
+
+	public static String getPreferredRedditUriString(final String uri) {
+		final Uri parsedUri = convertAndNormalizeUri(uri);
+
+		//Return non-Reddit links normalized but otherwise unaltered
+		if (RedditURLParser.parse(parsedUri) == null) {
+			return parsedUri.toString();
+		}
+
+		//Respect non-participation links
+		if(parsedUri.getHost().equals("np.reddit.com")) {
+			return parsedUri.toString();
+		}
+
+		final PostCommentListingURL potentialPostLink = PostCommentListingURL.parse(parsedUri);
+		final String postId;
+		if(potentialPostLink != null && potentialPostLink.commentId == null) {
+			//Direct link to a post, not to a comment or anything else
+			postId = potentialPostLink.postId;
+		} else {
+			postId = null;
+		}
+
+		final PrefsUtility.SharingDomain preferredDomain
+				= PrefsUtility.pref_behaviour_sharing_domain();
+
+		//Only direct links to posts will be converted to redd.it links
+		if(preferredDomain == PrefsUtility.SharingDomain.SHORT_REDDIT && postId == null) {
+			return parsedUri.toString();
+		}
+
+		final Uri.Builder uriBuilder = parsedUri.buildUpon();
+
+		uriBuilder.encodedAuthority(preferredDomain.domain);
+		if(preferredDomain == PrefsUtility.SharingDomain.SHORT_REDDIT) {
+			uriBuilder.encodedPath("/" + postId);
+		}
+
+		return uriBuilder.build().toString();
 	}
 }

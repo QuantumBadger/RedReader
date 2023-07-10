@@ -202,6 +202,12 @@
 
 	<PreferenceCategory android:title="@string/pref_behaviour_sharing_header">
 
+		<ListPreference android:title="@string/pref_behaviour_sharing_domain_title"
+			android:key="@string/pref_behaviour_sharing_domain_key"
+			android:entries="@array/pref_behaviour_sharing_domain_items"
+			android:entryValues="@array/pref_behaviour_sharing_domain_return"
+			android:defaultValue="standard_reddit"/>
+
 		<CheckBoxPreference android:title="@string/pref_behaviour_share_permalink_title"
 				android:key="@string/pref_behaviour_share_permalink_key"
 				android:defaultValue="false"/>

@@ -1119,6 +1119,24 @@ public final class PrefsUtility {
 				false);
 	}
 
+	public enum SharingDomain {
+		STANDARD_REDDIT("reddit.com"),
+		SHORT_REDDIT("redd.it"),
+		OLD_REDDIT("old.reddit.com"),
+		NEW_REDDIT("new.reddit.com"),
+		NP_REDDIT("np.reddit.com");
+
+		public final String domain;
+		SharingDomain(final String domain) {
+			this.domain = domain;
+		}
+	}
+
+	public static SharingDomain pref_behaviour_sharing_domain() {
+		return SharingDomain.valueOf(StringUtils.asciiUppercase(getString(
+				R.string.pref_behaviour_sharing_domain_key,
+				"standard_reddit")));
+	}
 	public static boolean pref_behaviour_share_permalink() {
 		return getBoolean(
 				R.string.pref_behaviour_share_permalink_key,

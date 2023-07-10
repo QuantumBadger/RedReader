@@ -454,7 +454,8 @@ public class RedditAPICommentAction {
 							+ "\r\n\r\n";
 				}
 
-				body += comment.getContextUrl().generateNonJsonUri().toString();
+				body += LinkHandler.getPreferredRedditUriString(
+						comment.getContextUrl().generateNonJsonUri().toString());
 
 				LinkHandler.shareText(activity, subject, body);
 				break;

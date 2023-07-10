@@ -1771,4 +1771,14 @@
 	<string name="pref_appearance_user_show_avatars_title">Show avatars</string>
 	<string name="pref_appearance_user_show_avatars_key">pref_appearance_user_show_avatars</string>
 
+	<!-- 2023-07-10 -->
+	<string name="pref_behaviour_sharing_domain_key">pref_behaviour_sharing_domain</string>
+	<string name="pref_behaviour_sharing_domain_title">Share as domain</string>
+	<string name="pref_behaviour_sharing_domain_standard_reddit">reddit.com</string>
+	<string name="pref_behaviour_sharing_domain_short_reddit">redd.it (for posts)</string>
+	<string name="pref_behaviour_sharing_domain_old_reddit">old.reddit.com</string>
+	<string name="pref_behaviour_sharing_domain_new_reddit">new.reddit.com</string>
+	<string name="pref_behaviour_sharing_domain_np_reddit">np.reddit.com</string>
+
+
 </resources>

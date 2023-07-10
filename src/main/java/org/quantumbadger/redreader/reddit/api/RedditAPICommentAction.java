@@ -18,10 +18,12 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -69,6 +71,7 @@ public class RedditAPICommentAction {
 		COLLAPSE,
 		EDIT,
 		DELETE,
+		EXTERNAL,
 		PROPERTIES,
 		CONTEXT,
 		GO_TO_COMMENT,
@@ -195,6 +198,14 @@ public class RedditAPICommentAction {
 							RedditCommentAction.DELETE));
 				}
 			}
+		}
+
+		if(itemPref.contains(RedditCommentAction.EXTERNAL)) {
+			menu.add(new RCVMenuItem(
+					activity,
+					R.string.action_external,
+					RedditCommentAction.EXTERNAL
+			));
 		}
 
 		if(itemPref.contains(RedditCommentAction.CONTEXT)) {
@@ -378,6 +389,24 @@ public class RedditAPICommentAction {
 										changeDataManager))
 						.setNegativeButton(R.string.dialog_cancel, null)
 						.show();
+				break;
+			}
+
+			case EXTERNAL: {
+				try {
+					final String url
+							= comment.getContextUrl().context(null).generateNonJsonUri().toString();
+
+					final Intent intent = new Intent(Intent.ACTION_VIEW);
+					intent.setData(Uri.parse(url));
+					activity.startActivity(intent);
+				} catch(final ActivityNotFoundException e) {
+					General.quickToast(
+							activity,
+							R.string.action_not_handled_by_installed_app_toast
+					);
+				}
+
 				break;
 			}
 

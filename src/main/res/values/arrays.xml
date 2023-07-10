@@ -1230,6 +1230,7 @@
 		<item>@string/action_reply</item>
 		<item>@string/action_edit</item>
 		<item>@string/action_delete</item>
+		<item>@string/action_external</item>
 		<item>@string/action_comment_context</item>
 		<item>@string/action_comment_go_to</item>
 		<item>@string/action_comment_links</item>
@@ -1250,6 +1251,7 @@
 		<item>reply</item>
 		<item>edit</item>
 		<item>delete</item>
+		<item>external</item>
 		<item>context</item>
 		<item>go_to_comment</item>
 		<item>comment_links</item>

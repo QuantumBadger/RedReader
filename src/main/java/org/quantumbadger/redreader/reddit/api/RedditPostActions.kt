@@ -400,7 +400,7 @@ object RedditPostActions {
 
 			Action.SHARE -> {
 				val subject =
-					if (PrefsUtility.pref_behaviour_sharing_dialog()) post.src.title else null
+					if (PrefsUtility.pref_behaviour_sharing_include_desc()) post.src.title else null
 				val body = LinkHandler.getPreferredRedditUriString(post.src.url)
 
 				LinkHandler.shareText(activity, subject, body)

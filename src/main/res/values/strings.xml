@@ -1779,6 +1779,7 @@
 	<string name="pref_behaviour_sharing_domain_old_reddit">old.reddit.com</string>
 	<string name="pref_behaviour_sharing_domain_new_reddit">new.reddit.com</string>
 	<string name="pref_behaviour_sharing_domain_np_reddit">np.reddit.com</string>
+	<string name="action_share_link">Share Link</string>
 
 
 </resources>

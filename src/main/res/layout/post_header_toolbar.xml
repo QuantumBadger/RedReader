@@ -83,7 +83,7 @@
 			android:layout_height="wrap_content"
 			android:padding="12dp"
 			android:background="?rrThemedButtonSelector"
-			android:contentDescription="@string/action_share"
+			android:contentDescription="@string/action_share_link"
 			android:src="?rrIconShare"/>
 
 	<ImageButton

@@ -64,7 +64,7 @@ object RedditPostActions {
 		EDIT(R.string.action_edit),
 		DELETE(R.string.action_delete),
 		REPORT(R.string.action_report),
-		SHARE(R.string.action_share),
+		SHARE(R.string.action_share_link),
 		REPLY(R.string.action_reply),
 		USER_PROFILE(R.string.action_user_profile),
 		EXTERNAL(R.string.action_external),
@@ -181,7 +181,7 @@ object RedditPostActions {
 
 					PostFlingAction.SHARE -> ActionDescriptionPair(
 						Action.SHARE,
-						R.string.action_share
+						R.string.action_share_link
 					)
 
 					PostFlingAction.SHARE_COMMENTS -> ActionDescriptionPair(
@@ -803,7 +803,7 @@ object RedditPostActions {
 			menu.add(
 				RPVMenuItem(
 					activity,
-					R.string.action_share,
+					R.string.action_share_link,
 					if (isRedditVideo) Action.SHARE_COMMENTS else Action.SHARE
 				)
 			)

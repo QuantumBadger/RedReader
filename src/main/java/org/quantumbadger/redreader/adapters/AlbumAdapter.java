@@ -128,6 +128,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 			vh.text3.setVisibility(View.GONE);
 		}
 
+		if(imageInfo.outboundUrl != null && !imageInfo.outboundUrl.isEmpty()) {
+			vh.addLinkButton(activity, imageInfo.outboundUrl);
+		}
+
 		vh.icon.setImageBitmap(null);
 
 		final boolean isConnectionWifi = General.isConnectionWifi(activity);

@@ -144,14 +144,18 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 				|| (thumbnailsPref == NeverAlwaysOrWifiOnly.WIFIONLY
 						&& isConnectionWifi);
 
-		if(!downloadThumbnails || imageInfo.urlBigSquare == null) {
+		if(!downloadThumbnails
+				|| (imageInfo.urlBigSquare == null && imageInfo.urlOriginal == null)) {
 			vh.icon.setVisibility(View.GONE);
 
 		} else {
 			vh.text2.setVisibility(View.VISIBLE);
 
 			CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-					General.uriFromString(imageInfo.urlBigSquare),
+					General.uriFromString(
+							imageInfo.urlBigSquare != null
+									? imageInfo.urlBigSquare
+									: imageInfo.urlOriginal),
 					RedditAccountManager.getAnon(),
 					null,
 					new Priority(Constants.Priority.THUMBNAIL, position),

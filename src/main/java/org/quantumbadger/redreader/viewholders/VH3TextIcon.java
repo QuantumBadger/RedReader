@@ -20,13 +20,20 @@ package org.quantumbadger.redreader.viewholders;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementLinkButton;
+import org.quantumbadger.redreader.reddit.prepared.html.HtmlRawElement;
 
 /**
- * A view holder for a two line, text and icon list item.
+ * A view holder for a three line, text and icon list item, which can have link buttons.
  */
 public class VH3TextIcon extends RecyclerView.ViewHolder {
+
+	public final LinearLayout textHoldingLayout;
 
 	public final TextView text;
 	public final TextView text2;
@@ -38,9 +45,25 @@ public class VH3TextIcon extends RecyclerView.ViewHolder {
 	public VH3TextIcon(final View itemView) {
 		super(itemView);
 
+		textHoldingLayout = itemView.findViewById(R.id.recycler_text_layout);
+
 		text = itemView.findViewById(R.id.recycler_item_text);
 		text2 = itemView.findViewById(R.id.recycler_item_2_text);
 		text3 = itemView.findViewById(R.id.recycler_item_3_text);
 		icon = itemView.findViewById(R.id.recycler_item_icon);
+	}
+
+	public void addLinkButton(final BaseActivity activity, final String url) {
+		final BodyElementLinkButton linkButton
+				= new BodyElementLinkButton(new HtmlRawElement.LinkButtonDetails(url, url));
+
+		final View linkButtonView =
+				linkButton.generateView(
+						activity,
+						new RRThemeAttributes(activity.getApplicationContext()).rrCommentBodyCol,
+						13.0f,
+						true);
+
+		textHoldingLayout.addView(linkButtonView);
 	}
 }

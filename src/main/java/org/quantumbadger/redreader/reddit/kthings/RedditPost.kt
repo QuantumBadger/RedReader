@@ -29,6 +29,7 @@ data class RedditPost(
 	val id: String,
 	val name: RedditIdAndType,
 	val url: UrlEncodedString? = null,
+	val url_overridden_by_dest: UrlEncodedString? = null,
 	val title: UrlEncodedString? = null,
 	val author: UrlEncodedString? = null,
 	val domain: UrlEncodedString? = null,

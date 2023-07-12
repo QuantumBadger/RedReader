@@ -172,8 +172,6 @@ public class AlbumInfo {
 			@Nullable final String caption
 					= StringEscapeUtils.unescapeHtml4(item.getString("caption"));
 
-			// TODO show this in the UI
-			@SuppressWarnings("unused")
 			@Nullable final String outboundUrl
 					= StringEscapeUtils.unescapeHtml4(item.getString("outbound_url"));
 
@@ -202,6 +200,7 @@ public class AlbumInfo {
 					getThumbnail(mediaMetadataEntry.getArray("p")),
 					caption,
 					null,
+					outboundUrl,
 					mimetype,
 					mediaType != ImageInfo.MediaType.IMAGE,
 					standardImage.getLong("x"),

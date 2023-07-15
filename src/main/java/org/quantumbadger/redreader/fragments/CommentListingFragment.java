@@ -84,7 +84,6 @@ public class CommentListingFragment extends RRFragment
 		CommentListingRequest.Listener {
 
 	private static final String SAVEDSTATE_FIRST_VISIBLE_POS = "firstVisiblePosition";
-	private static final String SAVEDSTATE_SELFTEXT_VISIBLE = "selftextVisible";
 
 	private final RedditAccount mUser;
 	private final ArrayList<RedditURLParser.RedditURL> mAllUrls;
@@ -93,8 +92,6 @@ public class CommentListingFragment extends RRFragment
 	private final DownloadStrategy mDownloadStrategy;
 
 	private RedditPreparedPost mPost = null;
-
-	private boolean mSelfTextVisible = true;
 
 	private final FilteredCommentListingManager mCommentListingManager;
 
@@ -106,6 +103,9 @@ public class CommentListingFragment extends RRFragment
 
 	private final float mSelfTextFontScale;
 	private final boolean mShowLinkButtons;
+
+	private View mSelfText;
+	private TextView mSelfCollapsedView;
 
 	private TimestampUTC mCachedTimestamp = null;
 
@@ -124,10 +124,6 @@ public class CommentListingFragment extends RRFragment
 		if(savedInstanceState != null) {
 			mPreviousFirstVisibleItemPosition = savedInstanceState.getInt(
 					SAVEDSTATE_FIRST_VISIBLE_POS);
-
-			if(savedInstanceState.containsKey(SAVEDSTATE_SELFTEXT_VISIBLE)) {
-				mSelfTextVisible = savedInstanceState.getBoolean(SAVEDSTATE_SELFTEXT_VISIBLE);
-			}
 		}
 
 		mCommentListingManager = new FilteredCommentListingManager(parent, searchString);
@@ -364,6 +360,30 @@ public class CommentListingFragment extends RRFragment
 		}
 	}
 
+	public void handleSelfTextVisibilityToggle() {
+		final RedditChangeDataManager changeDataManager
+				= RedditChangeDataManager.getInstance(mUser);
+
+		if(mPost != null && mPost.src.getSelfText() != null) {
+			changeDataManager.markSelfTextCollapsed(
+					TimestampUTC.now(),
+					mPost.src.getIdAndType(),
+					mSelfText.getVisibility() != View.GONE);
+		}
+
+		if(mSelfText.getVisibility() == View.GONE) {
+			mSelfText.setVisibility(View.VISIBLE);
+			mSelfCollapsedView.setVisibility(View.GONE);
+		} else {
+			mSelfText.setVisibility(View.GONE);
+			mSelfCollapsedView.setVisibility(View.VISIBLE);
+
+			final LinearLayoutManager layoutManager
+					= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+			layoutManager.scrollToPositionWithOffset(0, 0);
+		}
+	}
+
 	@Override
 	public View getListingView() {
 		return mListingView;
@@ -389,10 +409,6 @@ public class CommentListingFragment extends RRFragment
 		bundle.putInt(
 				SAVEDSTATE_FIRST_VISIBLE_POS,
 				layoutManager.findFirstVisibleItemPosition());
-
-		if(mPost != null && mPost.isSelf()) {
-			bundle.putBoolean(SAVEDSTATE_SELFTEXT_VISIBLE, mSelfTextVisible);
-		}
 
 		return bundle;
 	}
@@ -513,50 +529,44 @@ public class CommentListingFragment extends RRFragment
 			layoutManager.scrollToPositionWithOffset(0, 0);
 
 			if(post.src.getSelfText() != null) {
-				final View selfText = post.src.getSelfText().generateView(
+				mSelfText = post.src.getSelfText().generateView(
 						activity,
 						attr.rrMainTextCol,
 						13f * mSelfTextFontScale,
 						mShowLinkButtons);
-				selfText.setFocusable(false);
+				mSelfText.setFocusable(false);
 
-				if(selfText instanceof ViewGroup) {
-					((ViewGroup)selfText).setDescendantFocusability(
+				if(mSelfText instanceof ViewGroup) {
+					((ViewGroup)mSelfText).setDescendantFocusability(
 							ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 				}
 
 				final int paddingPx = General.dpToPixels(activity, 10);
 				final FrameLayout paddingLayout = new FrameLayout(activity);
-				final TextView collapsedView = new TextView(activity);
+				mSelfCollapsedView = new TextView(activity);
 				//noinspection SetTextI18n
-				collapsedView.setText("[ + ]  "
+				mSelfCollapsedView.setText("[ + ]  "
 						+ activity.getString(R.string.collapsed_self_post));
-				collapsedView.setVisibility(View.GONE);
-				collapsedView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
-				paddingLayout.addView(selfText);
-				paddingLayout.addView(collapsedView);
+				mSelfCollapsedView.setVisibility(View.GONE);
+				mSelfCollapsedView.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+				paddingLayout.addView(mSelfText);
+				paddingLayout.addView(mSelfCollapsedView);
 				paddingLayout.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
 
 				final PrefsUtility.SelfpostAction actionOnClick
 						= PrefsUtility.pref_behaviour_self_post_tap_actions();
 				if(actionOnClick == PrefsUtility.SelfpostAction.COLLAPSE) {
-					paddingLayout.setOnClickListener(v -> {
-						if(selfText.getVisibility() == View.GONE) {
-							mSelfTextVisible = true;
-							selfText.setVisibility(View.VISIBLE);
-							collapsedView.setVisibility(View.GONE);
-						} else {
-							mSelfTextVisible = false;
-							selfText.setVisibility(View.GONE);
-							collapsedView.setVisibility(View.VISIBLE);
-							layoutManager.scrollToPositionWithOffset(0, 0);
-						}
-					});
+					paddingLayout.setOnClickListener(v -> handleSelfTextVisibilityToggle());
 				}
 
-				if(!mSelfTextVisible) {
-					selfText.setVisibility(View.GONE);
-					collapsedView.setVisibility(View.VISIBLE);
+				final Boolean selfTextWasCollapsed
+						= RedditChangeDataManager
+						.getInstance(mUser)
+						.isSelfTextCollapsed(mPost.src.getIdAndType());
+
+				if(selfTextWasCollapsed != null && selfTextWasCollapsed) {
+					mSelfText.setVisibility(View.GONE);
+					mSelfCollapsedView.setVisibility(View.VISIBLE);
 					layoutManager.scrollToPositionWithOffset(0, 0);
 				}
 

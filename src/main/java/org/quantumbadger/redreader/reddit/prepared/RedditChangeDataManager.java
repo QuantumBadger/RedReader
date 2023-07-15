@@ -229,6 +229,8 @@ public final class RedditChangeDataManager {
 		private final Boolean mIsHidden;
 		// For posts, this means "hidden". For comments, this means "collapsed".
 
+		private final Boolean mIsSelfCollapsed;
+
 		static final Entry CLEAR_ENTRY = new Entry();
 
 		private Entry() {
@@ -238,6 +240,7 @@ public final class RedditChangeDataManager {
 			mIsRead = false;
 			mIsSaved = false;
 			mIsHidden = null;
+			mIsSelfCollapsed = null;
 		}
 
 		private Entry(
@@ -246,7 +249,8 @@ public final class RedditChangeDataManager {
 				final boolean isDownvoted,
 				final boolean isRead,
 				final boolean isSaved,
-				final Boolean isHidden) {
+				final Boolean isHidden,
+				final Boolean isSelfCollapsed) {
 
 			mTimestamp = timestamp;
 			mIsUpvoted = isUpvoted;
@@ -254,6 +258,7 @@ public final class RedditChangeDataManager {
 			mIsRead = isRead;
 			mIsSaved = isSaved;
 			mIsHidden = isHidden;
+			mIsSelfCollapsed = isSelfCollapsed;
 		}
 
 		private Entry(final ExtendedDataInputStream dis) throws IOException {
@@ -263,6 +268,7 @@ public final class RedditChangeDataManager {
 			mIsRead = dis.readBoolean();
 			mIsSaved = dis.readBoolean();
 			mIsHidden = dis.readNullableBoolean();
+			mIsSelfCollapsed = dis.readNullableBoolean();
 		}
 
 		private void writeTo(final ExtendedDataOutputStream dos) throws IOException {
@@ -272,6 +278,7 @@ public final class RedditChangeDataManager {
 			dos.writeBoolean(mIsRead);
 			dos.writeBoolean(mIsSaved);
 			dos.writeNullableBoolean(mIsHidden);
+			dos.writeNullableBoolean(mIsSelfCollapsed);
 		}
 
 		boolean isClear() {
@@ -279,7 +286,8 @@ public final class RedditChangeDataManager {
 					&& !mIsDownvoted
 					&& !mIsRead
 					&& !mIsSaved
-					&& mIsHidden == null;
+					&& mIsHidden == null
+					&& mIsSelfCollapsed == null;
 		}
 
 		public boolean isUpvoted() {
@@ -302,6 +310,10 @@ public final class RedditChangeDataManager {
 			return mIsDownvoted;
 		}
 
+		public Boolean isSelfCollapsed() {
+			return mIsSelfCollapsed;
+		}
+
 		Entry update(
 				final TimestampUTC timestamp,
 				final RedditComment comment) {
@@ -316,7 +328,8 @@ public final class RedditChangeDataManager {
 					Boolean.FALSE.equals(comment.getLikes()),
 					false,
 					comment.getSaved(),
-					mIsHidden); // Use existing value for "collapsed"
+					mIsHidden, // Use existing value for "collapsed"
+					null);
 		}
 
 		Entry update(
@@ -333,7 +346,8 @@ public final class RedditChangeDataManager {
 					Boolean.FALSE.equals(post.getLikes()),
 					post.getClicked() || mIsRead,
 					post.getSaved(),
-					post.getHidden() ? true : null);
+					post.getHidden() ? true : null,
+					mIsSelfCollapsed); //Use existing value for self-text collapse
 		}
 
 		Entry markUpvoted(final TimestampUTC timestamp) {
@@ -344,7 +358,8 @@ public final class RedditChangeDataManager {
 					false,
 					mIsRead,
 					mIsSaved,
-					mIsHidden);
+					mIsHidden,
+					mIsSelfCollapsed);
 		}
 
 		Entry markDownvoted(final TimestampUTC timestamp) {
@@ -355,7 +370,8 @@ public final class RedditChangeDataManager {
 					true,
 					mIsRead,
 					mIsSaved,
-					mIsHidden);
+					mIsHidden,
+					mIsSelfCollapsed);
 		}
 
 		Entry markUnvoted(final TimestampUTC timestamp) {
@@ -366,7 +382,8 @@ public final class RedditChangeDataManager {
 					false,
 					mIsRead,
 					mIsSaved,
-					mIsHidden);
+					mIsHidden,
+					mIsSelfCollapsed);
 		}
 
 		Entry markRead(final TimestampUTC timestamp) {
@@ -377,7 +394,8 @@ public final class RedditChangeDataManager {
 					mIsDownvoted,
 					true,
 					mIsSaved,
-					mIsHidden);
+					mIsHidden,
+					mIsSelfCollapsed);
 		}
 
 		Entry markSaved(final TimestampUTC timestamp, final boolean isSaved) {
@@ -388,7 +406,8 @@ public final class RedditChangeDataManager {
 					mIsDownvoted,
 					mIsRead,
 					isSaved,
-					mIsHidden);
+					mIsHidden,
+					mIsSelfCollapsed);
 		}
 
 		Entry markHidden(final TimestampUTC timestamp, final Boolean isHidden) {
@@ -399,7 +418,20 @@ public final class RedditChangeDataManager {
 					mIsDownvoted,
 					mIsRead,
 					mIsSaved,
-					isHidden);
+					isHidden,
+					mIsSelfCollapsed);
+		}
+
+		Entry markSelfTextCollaped(final TimestampUTC timestamp, final boolean isSelfCollapsed) {
+
+			return new Entry(
+					timestamp,
+					mIsUpvoted,
+					mIsDownvoted,
+					mIsRead,
+					mIsSaved,
+					mIsHidden,
+					isSelfCollapsed);
 		}
 	}
 
@@ -561,6 +593,18 @@ public final class RedditChangeDataManager {
 		}
 	}
 
+	public void markSelfTextCollapsed(
+			final TimestampUTC timestamp,
+			final RedditIdAndType thing,
+			final boolean selfCollapsed) {
+
+		synchronized (mLock) {
+			final Entry existingEntry = get(thing);
+			final Entry updatedEntry = existingEntry.markSelfTextCollaped(timestamp, selfCollapsed);
+			set(thing, existingEntry, updatedEntry);
+		}
+	}
+
 	public void markRead(final TimestampUTC timestamp, final RedditIdAndType thing) {
 
 		synchronized(mLock) {
@@ -597,6 +641,12 @@ public final class RedditChangeDataManager {
 	public Boolean isHidden(final RedditIdAndType thing) {
 		synchronized(mLock) {
 			return get(thing).isHidden();
+		}
+	}
+
+	public Boolean isSelfTextCollapsed(final RedditIdAndType thing) {
+		synchronized(mLock) {
+			return get(thing).isSelfCollapsed();
 		}
 	}
 

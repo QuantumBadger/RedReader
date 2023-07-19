@@ -1,3 +1,6 @@
+/Alpha 337 (2023-07-19)
+Upgraded video player to fix playback issues
+
 /Alpha 336 (2023-07-09)
 Show self text for link posts (thanks to Cameron Merkel)
 Announce self-text presence with link posts in screen readers (thanks to Cameron Merkel)

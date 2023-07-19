@@ -16,7 +16,7 @@ An unofficial, open source Android client for Reddit.
 Features
 --------
 
-* Free and open-source Software - no ads/tracking
+* Free and open source, with no ads or tracking
 * Lightweight and fast
 * Swipe posts left and right to perform customizable actions, such as
     upvote/downvote, or save/hide
@@ -28,6 +28,8 @@ Features
 * Built-in image viewer, and GIF/video player
 * Multiple themes, including night mode, and ultra black for AMOLED displays
 * Support for Android 4.0+
+* Translations for multiple languages
+* Accessibility features and optimization for screen reader use
 
 
 Downloading

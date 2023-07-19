@@ -828,7 +828,7 @@
 
 	<!-- 2016-07-29 -->
 	<string name="pref_appearance_navbar_color_key" translatable="false">pref_appearance_navbar_color</string>
-	<string name="pref_appearance_navbar_color_title">Navigation and status bar colour</string>
+	<string name="pref_appearance_navbar_color_title">Navigation bar colour</string>
 
 	<string name="pref_appearance_navbar_color_option_black">Black</string>
 	<string name="pref_appearance_navbar_color_option_primary">Primary (light)</string>

@@ -113,11 +113,22 @@ public final class RedditVideosAPI {
 							String videoUrl = null;
 							String audioUrl = null;
 
-							if(mpd.contains("DASH_audio.mp4")) {
-								audioUrl = "https://v.redd.it/" + imageId + "/DASH_audio.mp4";
+							// Hacky workaround -- we should parse the MPD
+							final String[] possibleFiles = new String[] {
+									"DASH_AUDIO_128.mp4",
+									"DASH_AUDIO_64.mp4",
+									"DASH_AUDIO.mp4",
+									"DASH_audio_128.mp4",
+									"DASH_audio_64.mp4",
+									"DASH_audio.mp4",
+									"audio"
+							};
 
-							} else if(mpd.contains("audio")) {
-								audioUrl = "https://v.redd.it/" + imageId + "/audio";
+							for(final String file : possibleFiles) {
+								if(mpd.contains(file)) {
+									audioUrl = "https://v.redd.it/" + imageId + "/" + file;
+									break;
+								}
 							}
 
 							for(final String format : PREFERRED_VIDEO_FORMATS) {

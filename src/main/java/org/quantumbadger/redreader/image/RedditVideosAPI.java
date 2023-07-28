@@ -116,7 +116,7 @@ public final class RedditVideosAPI {
 							String audioUrl = null;
 
 							// Hacky workaround -- we should parse the MPD
-							final String[] possibleFiles = new String[] {
+							final String[] possibleFiles = {
 									"DASH_AUDIO_128.mp4",
 									"DASH_AUDIO_64.mp4",
 									"DASH_AUDIO.mp4",

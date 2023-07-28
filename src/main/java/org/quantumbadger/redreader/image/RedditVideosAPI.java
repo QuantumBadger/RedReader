@@ -53,6 +53,8 @@ public final class RedditVideosAPI {
 			"DASH_720",
 			"DASH_4_8_M", // 720p
 			"DASH_240",
+			"DASH_270",
+			"DASH_220",
 			"DASH_600_K", // 240p
 			"DASH_1080",
 			"DASH_9_6_M"  // 1080p

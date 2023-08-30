@@ -42,7 +42,7 @@ public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 	public final String subreddit;
 	@Nullable public final String shareKey;
 
-	public OpaqueSharedURL(@Nullable String subreddit, @Nullable String shareKey) {
+	public OpaqueSharedURL(@Nullable final String subreddit, @Nullable final String shareKey) {
 		this.subreddit = subreddit;
 		this.shareKey = shareKey;
 	}
@@ -60,7 +60,7 @@ public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 	public static OpaqueSharedURL parse(final Uri uri) {
 		// URLs look like https://reddit.com/r/RedReader/s/<alphanumeric>
 		// first pull out the path segments and ensure they match the example (should be 4)
-		List<String> pathSegments = uri.getPathSegments();
+		final List<String> pathSegments = uri.getPathSegments();
 		if (pathSegments.size() != 4) {
 			return null;
 		}
@@ -74,19 +74,19 @@ public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 	}
 
 	public static String resolveUsingNetwork(final OpaqueSharedURL url) {
-		Uri toFetch = Uri.parse(String.format("https://www.reddit.com/r/%s/s/%s", url.subreddit, url.shareKey));
+		final Uri toFetch = Uri.parse(String.format("https://www.reddit.com/r/%s/s/%s", url.subreddit, url.shareKey));
 		// Send a HTTP HEAD request to toFetch, and return back the Location header
 		// This will be the URL of the post
 		OkHttpClient client = ((OKHTTPBackend) HTTPBackend.getBackend()).getClientDirectly();
 		client = client.newBuilder().followRedirects(false).build();
-		Request request = new Request.Builder().url(toFetch.toString()).head().build();
+		final Request request = new Request.Builder().url(toFetch.toString()).head().build();
 		try {
 			try (okhttp3.Response response = client.newCall(request).execute()) {
 				if (response.isRedirect()) {
 					return response.header("Location");
 				}
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			return null;
 		}
 		return null;

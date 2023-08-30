@@ -230,7 +230,9 @@ public class LinkHandler {
 				case RedditURLParser.OPAQUE_SHARED_URL:
 					// kick off a thread to get the real url
 					new Thread(() -> {
-						final String realUrl = OpaqueSharedURL.resolveUsingNetwork((OpaqueSharedURL) redditURL);
+						final String realUrl = OpaqueSharedURL.resolveUsingNetwork(
+								(OpaqueSharedURL) redditURL
+						);
 						if(realUrl != null) {
 							activity.runOnUiThread(() -> onLinkClicked(
 									activity,

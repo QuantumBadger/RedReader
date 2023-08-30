@@ -168,6 +168,11 @@ public class OKHTTPBackend extends HTTPBackend {
 		return httpBackend;
 	}
 
+	@Deprecated
+	public OkHttpClient getClientDirectly() {
+		return mClient;
+	}
+
 	@Override
 	public synchronized void recreateHttpBackend() {
 		httpBackend = new OKHTTPBackend();

@@ -41,6 +41,7 @@ public class RedditURLParser {
 	public static final int POST_COMMENT_LISTING_URL = 7;
 	public static final int MULTIREDDIT_POST_LISTING_URL = 8;
 	public static final int COMPOSE_MESSAGE_URL = 9;
+	public static final int OPAQUE_SHARED_URL = 10;
 
 	@IntDef({
 			SUBREDDIT_POST_LISTING_URL,
@@ -52,7 +53,9 @@ public class RedditURLParser {
 			UNKNOWN_COMMENT_LISTING_URL,
 			POST_COMMENT_LISTING_URL,
 			MULTIREDDIT_POST_LISTING_URL,
-			COMPOSE_MESSAGE_URL})
+			COMPOSE_MESSAGE_URL,
+			OPAQUE_SHARED_URL
+	})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface PathType {
 	}
@@ -121,6 +124,13 @@ public class RedditURLParser {
 		}
 
 		final Uri uri = optionalUri.get();
+
+		{
+			final OpaqueSharedURL opaqueSharedURL = OpaqueSharedURL.parse(uri);
+			if(opaqueSharedURL != null) {
+				return opaqueSharedURL;
+			}
+		}
 
 		{
 			final SubredditPostListURL subredditPostListURL = SubredditPostListURL.parse(uri);

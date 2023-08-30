@@ -62,6 +62,7 @@ import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.url.ComposeMessageURL;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import org.quantumbadger.redreader.reddit.url.OpaqueSharedURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.ArrayList;
@@ -226,7 +227,22 @@ public class LinkHandler {
 		if(redditURL != null) {
 
 			switch(redditURL.pathType()) {
-
+				case RedditURLParser.OPAQUE_SHARED_URL:
+					// kick off a thread to get the real url
+					new Thread(() -> {
+						final String realUrl = OpaqueSharedURL.resolveUsingNetwork((OpaqueSharedURL) redditURL);
+						if(realUrl != null) {
+							activity.runOnUiThread(() -> onLinkClicked(
+									activity,
+									realUrl,
+									forceNoImage,
+									post,
+									albumInfo,
+									albumImageIndex,
+									fromExternalIntent));
+						}
+					}).start();
+					return;
 				case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
 				case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
 				case RedditURLParser.USER_POST_LISTING_URL:

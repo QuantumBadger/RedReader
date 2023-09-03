@@ -46,6 +46,7 @@ import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.DeviantArtAPI;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
@@ -230,9 +231,11 @@ public class LinkHandler {
 				case RedditURLParser.OPAQUE_SHARED_URL:
 					// kick off a thread to get the real url
 					new Thread(() -> {
-						final String realUrl = OpaqueSharedURL.resolveUsingNetwork(
+						final String toFetchUrl = OpaqueSharedURL.getUrlToFetch(
 								(OpaqueSharedURL) redditURL
-						);
+						).toString();
+						final String realUrl = HTTPBackend.getBackend()
+								.resolveRedirectUri(toFetchUrl);
 						if(realUrl != null) {
 							activity.runOnUiThread(() -> onLinkClicked(
 									activity,

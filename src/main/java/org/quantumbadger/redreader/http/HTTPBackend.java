@@ -18,8 +18,10 @@
 package org.quantumbadger.redreader.http;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.http.body.HTTPRequestBody;
@@ -86,6 +88,8 @@ public abstract class HTTPBackend {
 
 		void onSuccess(String mimetype, Long bodyBytes, InputStream body);
 	}
+
+	public abstract @Nullable String resolveRedirectUri(String url);
 
 	public abstract Request prepareRequest(Context context, RequestDetails details);
 

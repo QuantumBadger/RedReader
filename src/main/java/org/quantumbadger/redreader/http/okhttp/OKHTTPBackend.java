@@ -31,6 +31,7 @@ import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.Request.Builder;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -168,20 +169,34 @@ public class OKHTTPBackend extends HTTPBackend {
 		return httpBackend;
 	}
 
-	@Deprecated
-	public OkHttpClient getClientDirectly() {
-		return mClient;
-	}
-
 	@Override
 	public synchronized void recreateHttpBackend() {
 		httpBackend = new OKHTTPBackend();
 	}
 
 	@Override
+	public String resolveRedirectUri(final String url) {
+		try {
+			final Builder builder = new Builder();
+			final okhttp3.Request headRequest = builder.url(url).head().build();
+			final OkHttpClient noRedirectsClient =
+					mClient.newBuilder().followRedirects(false).build();
+			try (Response response = noRedirectsClient.newCall(headRequest).execute()) {
+				if (response.isRedirect()) {
+					return response.header("Location");
+				}
+			}
+		} catch (final IOException e) {
+			Log.e(TAG, "Failed to resolve redirect URL", e);
+			return null;
+		}
+		return null;
+	}
+
+	@Override
 	public Request prepareRequest(final Context context, final RequestDetails details) {
 
-		final okhttp3.Request.Builder builder = new okhttp3.Request.Builder();
+		final Builder builder = new Builder();
 
 		builder.header("User-Agent", Constants.ua(context));
 

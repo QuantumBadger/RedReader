@@ -21,14 +21,7 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
-import org.quantumbadger.redreader.http.HTTPBackend;
-import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
-
-import java.io.IOException;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 
 public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 
@@ -67,23 +60,8 @@ public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 		return new OpaqueSharedURL(pathSegments.get(1), pathSegments.get(3));
 	}
 
-	public static String resolveUsingNetwork(final OpaqueSharedURL url) {
-		final Uri toFetch = Uri.parse(String.format("https://www.reddit.com/r/%s/s/%s", url.subreddit, url.shareKey));
-		// Send a HTTP HEAD request to toFetch, and return back the Location header
-		// This will be the URL of the post
-		OkHttpClient client = ((OKHTTPBackend) HTTPBackend.getBackend()).getClientDirectly();
-		client = client.newBuilder().followRedirects(false).build();
-		final Request request = new Request.Builder().url(toFetch.toString()).head().build();
-		try {
-			try (okhttp3.Response response = client.newCall(request).execute()) {
-				if (response.isRedirect()) {
-					return response.header("Location");
-				}
-			}
-		} catch (final IOException e) {
-			return null;
-		}
-		return null;
+	public static Uri getUrlToFetch(final OpaqueSharedURL url) {
+		return Uri.parse(String.format("https://www.reddit.com/r/%s/s/%s", url.subreddit, url.shareKey));
 	}
 
 	@Nullable

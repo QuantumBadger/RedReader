@@ -1,3 +1,6 @@
+109/1.23
+Hide keyboard in Find Location when search button is pressed (thanks to mattdbr)
+
 108/1.22
 Fix for permission denied errors on videos due to Reddit API change
 Show self text for link posts (thanks to Cameron Merkel)

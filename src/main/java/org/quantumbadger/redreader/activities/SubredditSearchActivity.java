@@ -354,6 +354,7 @@ public class SubredditSearchActivity extends BaseActivity implements
 			public boolean onQueryTextSubmit(final String query) {
 				handleQueryChanged(query);
 				queryEventListeners.send(query);
+				searchView.clearFocus();
 				return true;
 			}
 

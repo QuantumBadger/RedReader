@@ -236,7 +236,13 @@ public final class RedditPostView extends FlingableItemView
 		mImagePreviewLoadingSpinner = new LoadingSpinnerView(activity);
 		mImagePreviewHolder.addView(mImagePreviewLoadingSpinner);
 
-		mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
+		final boolean postTitleOpensPost = PrefsUtility.pref_behaviour_post_title_opens_comments();
+
+		if(postTitleOpensPost) {
+			mOuterView.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
+		} else {
+			mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
+		}
 
 		mOuterView.setOnLongClickListener(v -> {
 			RedditPostActions.INSTANCE.showActionMenu(mActivity, mPost);
@@ -285,14 +291,6 @@ public final class RedditPostView extends FlingableItemView
 
 		if(mCommentsButtonPref) {
 			mCommentsButton.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
-		}
-
-		final boolean postTitleOpensPost = PrefsUtility.pref_behaviour_post_title_opens_comments();
-
-		if(postTitleOpensPost) {
-			final LinearLayout textLayout = Objects.requireNonNull(
-					rootView.findViewById(R.id.reddit_post_textLayout));
-			textLayout.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
 		}
 
 		title.setTextSize(

@@ -17,20 +17,14 @@
 
 package org.quantumbadger.redreader.reddit.url;
 
-import android.content.Context;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.quantumbadger.redreader.common.Optional;
-import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
 import java.util.List;
 
 import okhttp3.OkHttpClient;

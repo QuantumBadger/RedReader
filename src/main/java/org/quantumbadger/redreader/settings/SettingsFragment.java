@@ -173,7 +173,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				R.string.pref_images_high_res_thumbnails_key,
 				R.string.pref_accessibility_min_comment_height_key,
 				R.string.pref_appearance_android_status_key,
-				R.string.pref_behaviour_collapse_sticky_comments_key
+				R.string.pref_behaviour_collapse_sticky_comments_key,
+				R.string.pref_behaviour_sharing_domain_key
 		};
 
 		final int[] editTextPrefsToUpdate = {
@@ -459,6 +460,22 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				return true;
 			});
 		}
+		}
+
+		{
+			final ListPreference sharingDomainPref = findPreference(
+					getString(R.string.pref_behaviour_sharing_domain_key));
+			final Preference shareAsPermalinkPref = findPreference(
+					getString(R.string.pref_behaviour_share_permalink_key));
+
+			if(sharingDomainPref != null) {
+				sharingDomainPref.setOnPreferenceChangeListener((preference, newValue) -> {
+					final int index = sharingDomainPref.findIndexOfValue((String)newValue);
+					sharingDomainPref.setSummary(sharingDomainPref.getEntries()[index]);
+					shareAsPermalinkPref.setEnabled(!newValue.equals("short_reddit"));
+					return true;
+				});
+			}
 		}
 
 		{

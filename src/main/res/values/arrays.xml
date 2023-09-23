@@ -42,7 +42,7 @@
         <item>@string/action_report</item>
         <item>@string/action_save_image</item>
         <item>@string/action_gotosubreddit</item>
-        <item>@string/action_share</item>
+        <item>@string/action_share_link</item>
         <item>@string/action_share_comments</item>
         <item>@string/action_share_image</item>
         <item>@string/action_copy_link</item>
@@ -451,7 +451,7 @@
 		<item>@string/action_pin_subreddit</item>
 		<item>@string/action_subscribe_subreddit</item>
 		<item>@string/action_block_subreddit</item>
-        <item>@string/action_share</item>
+        <item>@string/action_share_link</item>
         <item>@string/action_share_comments</item>
         <item>@string/action_share_image</item>
         <item>@string/action_copy_link</item>
@@ -527,7 +527,7 @@
         <item>@string/action_reply</item>
         <item>@string/action_external</item>
         <item>@string/action_save_image</item>
-        <item>@string/action_share</item>
+        <item>@string/action_share_link</item>
         <item>@string/action_copy_link</item>
         <item>@string/action_user_profile</item>
         <item>@string/action_properties</item>
@@ -1230,6 +1230,7 @@
 		<item>@string/action_reply</item>
 		<item>@string/action_edit</item>
 		<item>@string/action_delete</item>
+		<item>@string/action_external</item>
 		<item>@string/action_comment_context</item>
 		<item>@string/action_comment_go_to</item>
 		<item>@string/action_comment_links</item>
@@ -1250,6 +1251,7 @@
 		<item>reply</item>
 		<item>edit</item>
 		<item>delete</item>
+		<item>external</item>
 		<item>context</item>
 		<item>go_to_comment</item>
 		<item>comment_links</item>
@@ -1289,6 +1291,24 @@
 		<item>always</item>
 		<item>only_bots</item>
 		<item>never</item>
+	</string-array>
+
+	<!-- 2023-07-10 -->
+	<string-array name="pref_behaviour_sharing_domain_items">
+		<item>@string/pref_behaviour_sharing_domain_standard_reddit</item>
+		<item>@string/pref_behaviour_sharing_domain_short_reddit</item>
+		<item>@string/pref_behaviour_sharing_domain_old_reddit</item>
+		<item>@string/pref_behaviour_sharing_domain_new_reddit</item>
+		<item>@string/pref_behaviour_sharing_domain_np_reddit</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_behaviour_sharing_domain_return">
+		<item>standard_reddit</item>
+		<item>short_reddit</item>
+		<item>old_reddit</item>
+		<item>new_reddit</item>
+		<item>np_reddit</item>
 	</string-array>
 
 </resources>

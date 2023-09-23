@@ -838,7 +838,10 @@ public class MainMenuListingManager {
 
 		switch(action) {
 			case SHARE: {
-				LinkHandler.shareText(activity, subredditCanonicalId.toString(), url);
+				LinkHandler.shareText(
+						activity,
+						subredditCanonicalId.toString(),
+						LinkHandler.getPreferredRedditUriString(url));
 				break;
 			}
 

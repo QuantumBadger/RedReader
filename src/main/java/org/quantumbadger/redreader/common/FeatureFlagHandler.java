@@ -50,7 +50,8 @@ public final class FeatureFlagHandler {
 		CONTROVERSIAL_DATE_SORTS_FEATURE("controversialDateSortsFeature"),
 		HIDE_STATUS_BAR_FOR_MEDIA_FEATURE("hideStatusBarForMediaFeature"),
 		REPLY_IN_POST_ACTION_MENU_FEATURE("replyInPostActionMenuFeature"),
-		MAIN_MENU_FIND_SUBREDDIT_FEATURE("mainMenuFindSubreddit");
+		MAIN_MENU_FIND_SUBREDDIT_FEATURE("mainMenuFindSubreddit"),
+		OPEN_COMMENT_EXTERNALLY_FEATURE("openCommentExternallyFeature");
 
 		@NonNull private final String id;
 
@@ -242,6 +243,26 @@ public final class FeatureFlagHandler {
 				prefs.edit().putStringSet(
 						context.getString(R.string.pref_menus_mainmenu_shortcutitems_key),
 						existingShortcutPreferences).apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.OPEN_COMMENT_EXTERNALLY_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, add external browser option to comment action menu.");
+
+				final Set<String> existingCommentActionMenuItems = getStringSet(
+						R.string.pref_menus_comment_context_items_key,
+						R.array.pref_menus_comment_context_items_return,
+						context,
+						prefs);
+
+				existingCommentActionMenuItems.add("external");
+
+				prefs.edit()
+						.putStringSet(
+								context.getString(R.string.pref_menus_comment_context_items_key),
+								existingCommentActionMenuItems)
+						.apply();
 			}
 		});
 	}

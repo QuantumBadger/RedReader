@@ -61,6 +61,7 @@ import org.quantumbadger.redreader.image.RedgifsAPIV2;
 import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.url.ComposeMessageURL;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class LinkHandler {
 
 	public static void onLinkClicked(
 			final AppCompatActivity activity,
-			String url,
+			final String url,
 			final boolean forceNoImage,
 			final RedditPost post,
 			final AlbumInfo albumInfo,
@@ -167,22 +168,13 @@ public class LinkHandler {
 			}
 		}
 
-		if(url.startsWith("r/") || url.startsWith("u/")) {
-			url = "/" + url;
-		}
+		final Uri normalUrl = convertAndNormalizeUri(url);
+		final String normalUrlString = normalUrl.toString();
 
-		if(url.startsWith("/")) {
-			url = "https://reddit.com" + url;
-		}
-
-		if(!url.contains("://")) {
-			url = "http://" + url;
-		}
-
-		if(!forceNoImage && isProbablyAnImage(url)) {
+		if(!forceNoImage && isProbablyAnImage(normalUrlString)) {
 
 			final Intent intent = new Intent(activity, ImageViewActivity.class);
-			intent.setData(Uri.parse(url));
+			intent.setData(normalUrl);
 			intent.putExtra("post", post);
 
 			if(albumInfo != null) {
@@ -194,8 +186,8 @@ public class LinkHandler {
 			return;
 		}
 
-		if(!forceNoImage && (imgurAlbumPattern.matcher(url).matches()
-				|| redditGalleryPattern.matcher(url).matches())) {
+		if(!forceNoImage && (imgurAlbumPattern.matcher(normalUrlString).matches()
+				|| redditGalleryPattern.matcher(normalUrlString).matches())) {
 
 			final PrefsUtility.AlbumViewMode albumViewMode
 					= PrefsUtility.pref_behaviour_albumview_mode();
@@ -206,7 +198,7 @@ public class LinkHandler {
 					final Intent intent = new Intent(
 							activity,
 							AlbumListingActivity.class);
-					intent.setData(Uri.parse(url));
+					intent.setData(normalUrl);
 					intent.putExtra("post", post);
 					activity.startActivity(intent);
 					return;
@@ -215,22 +207,22 @@ public class LinkHandler {
 				case INTERNAL_BROWSER: {
 					if(PrefsUtility.pref_behaviour_usecustomtabs()
 							&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-						openCustomTab(activity, Uri.parse(url), post);
+						openCustomTab(activity, normalUrl, post);
 
 					} else {
-						openInternalBrowser(activity, url, post);
+						openInternalBrowser(activity, normalUrlString, post);
 					}
 					return;
 				}
 
 				case EXTERNAL_BROWSER: {
-					openWebBrowser(activity, Uri.parse(url), fromExternalIntent);
+					openWebBrowser(activity, normalUrl, fromExternalIntent);
 					return;
 				}
 			}
 		}
 
-		final RedditURLParser.RedditURL redditURL = RedditURLParser.parse(Uri.parse(url));
+		final RedditURLParser.RedditURL redditURL = RedditURLParser.parse(normalUrl);
 		if(redditURL != null) {
 
 			switch(redditURL.pathType()) {
@@ -288,20 +280,21 @@ public class LinkHandler {
 		// Use a browser
 
 		if(!PrefsUtility.pref_behaviour_useinternalbrowser()) {
-			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
+			if(openWebBrowser(activity, normalUrl, fromExternalIntent)) {
 				return;
 			}
 		}
 
-		if(youtubeDotComPattern.matcher(url).matches()
-				|| vimeoPattern.matcher(url).matches()
-				|| googlePlayPattern.matcher(url).matches()) {
-			if(openWebBrowser(activity, Uri.parse(url), fromExternalIntent)) {
+		if(youtubeDotComPattern.matcher(normalUrlString).matches()
+				|| vimeoPattern.matcher(normalUrlString).matches()
+				|| googlePlayPattern.matcher(normalUrlString).matches()
+				|| normalUrlString.startsWith("mailto:")) {
+			if(openWebBrowser(activity, normalUrl, fromExternalIntent)) {
 				return;
 			}
 		}
 
-		final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(url);
+		final Matcher youtuDotBeMatcher = youtuDotBePattern.matcher(normalUrlString);
 
 		if(youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
 			final String youtuBeUrl = "http://youtube.com/watch?v="
@@ -316,10 +309,10 @@ public class LinkHandler {
 
 		if(PrefsUtility.pref_behaviour_usecustomtabs()
 				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			openCustomTab(activity, Uri.parse(url), post);
+			openCustomTab(activity, normalUrl, post);
 
 		} else {
-			openInternalBrowser(activity, url, post);
+			openInternalBrowser(activity, normalUrlString, post);
 		}
 
 	}
@@ -335,6 +328,8 @@ public class LinkHandler {
 		if(uri == null) {
 			return;
 		}
+
+		final String normalUriString = convertAndNormalizeUri(uri).toString();
 
 		final EnumSet<LinkHandler.LinkAction> itemPref
 				= PrefsUtility.pref_menus_link_context_items();
@@ -358,7 +353,7 @@ public class LinkHandler {
 					LinkAction.EXTERNAL));
 		}
 		if(itemPref.contains(LinkAction.SAVE_IMAGE)
-				&& isProbablyAnImage(uri)
+				&& isProbablyAnImage(normalUriString)
 				&& !forceNoImage) {
 			menu.add(new LinkMenuItem(
 					activity,
@@ -369,7 +364,7 @@ public class LinkHandler {
 			menu.add(new LinkMenuItem(activity, R.string.action_share, LinkAction.SHARE));
 		}
 		if(itemPref.contains(LinkAction.SHARE_IMAGE)
-				&& isProbablyAnImage(uri)
+				&& isProbablyAnImage(normalUriString)
 				&& !forceNoImage) {
 			menu.add(new LinkMenuItem(
 					activity,
@@ -385,7 +380,10 @@ public class LinkHandler {
 		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
 		builder.setItems(menuText,
-				(dialog, which) -> onActionMenuItemSelected(uri, activity, menu.get(which).action));
+				(dialog, which) -> onActionMenuItemSelected(
+						normalUriString,
+						activity,
+						menu.get(which).action));
 
 		//builder.setNeutralButton(R.string.dialog_cancel, null);
 
@@ -400,7 +398,7 @@ public class LinkHandler {
 			final LinkAction action) {
 		switch(action) {
 			case SHARE:
-				shareText(activity, null, uri);
+				shareText(activity, null, getPreferredRedditUriString(uri));
 				break;
 			case COPY_URL:
 				final ClipboardManager clipboardManager
@@ -1301,5 +1299,80 @@ public class LinkHandler {
 					mailer,
 					activity.getString(R.string.action_share)));
 		}
+	}
+
+	public static Uri convertAndNormalizeUri(@NonNull String uri) {
+		if(uri.startsWith("r/") || uri.startsWith("u/")) {
+			uri = "/" + uri;
+		}
+
+		if(uri.startsWith("/")) {
+			uri = "https://reddit.com" + uri;
+		}
+
+		if(!uri.contains("://") && !uri.startsWith("mailto:")) {
+			uri = "http://" + uri;
+		}
+
+		final Uri parsedUri = Uri.parse(uri).normalizeScheme();
+		final Uri.Builder uriBuilder = parsedUri.buildUpon();
+
+		final String authority = parsedUri.getEncodedAuthority();
+		if(authority != null) {
+			final String normalAuthority;
+
+			//Don't lowercase the rare userinfo component if present.
+			if(authority.contains("@")) {
+				final String[] authorityParts = authority.split("@", 2);
+				normalAuthority =
+						authorityParts[0] + "@" + StringUtils.asciiLowercase(authorityParts[1]);
+			} else {
+				normalAuthority = StringUtils.asciiLowercase(authority);
+			}
+
+			uriBuilder.encodedAuthority(normalAuthority);
+		}
+
+		return uriBuilder.build();
+	}
+
+	public static String getPreferredRedditUriString(final String uri) {
+		final Uri parsedUri = convertAndNormalizeUri(uri);
+
+		//Return non-Reddit links normalized but otherwise unaltered
+		if (RedditURLParser.parse(parsedUri) == null) {
+			return parsedUri.toString();
+		}
+
+		//Respect non-participation links
+		if(parsedUri.getHost().equals("np.reddit.com")) {
+			return parsedUri.toString();
+		}
+
+		final PostCommentListingURL potentialPostLink = PostCommentListingURL.parse(parsedUri);
+		final String postId;
+		if(potentialPostLink != null && potentialPostLink.commentId == null) {
+			//Direct link to a post, not to a comment or anything else
+			postId = potentialPostLink.postId;
+		} else {
+			postId = null;
+		}
+
+		final PrefsUtility.SharingDomain preferredDomain
+				= PrefsUtility.pref_behaviour_sharing_domain();
+
+		//Only direct links to posts will be converted to redd.it links
+		if(preferredDomain == PrefsUtility.SharingDomain.SHORT_REDDIT && postId == null) {
+			return parsedUri.toString();
+		}
+
+		final Uri.Builder uriBuilder = parsedUri.buildUpon();
+
+		uriBuilder.encodedAuthority(preferredDomain.domain);
+		if(preferredDomain == PrefsUtility.SharingDomain.SHORT_REDDIT) {
+			uriBuilder.encodedPath("/" + postId);
+		}
+
+		return uriBuilder.build().toString();
 	}
 }

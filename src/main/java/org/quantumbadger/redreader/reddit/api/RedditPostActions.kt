@@ -36,7 +36,6 @@ import org.quantumbadger.redreader.common.*
 import org.quantumbadger.redreader.common.PrefsUtility.PostFlingAction
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog
-import org.quantumbadger.redreader.fragments.ShareOrderDialog
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
 import org.quantumbadger.redreader.reddit.RedditAPI.RedditAction
@@ -65,7 +64,7 @@ object RedditPostActions {
 		EDIT(R.string.action_edit),
 		DELETE(R.string.action_delete),
 		REPORT(R.string.action_report),
-		SHARE(R.string.action_share),
+		SHARE(R.string.action_share_link),
 		REPLY(R.string.action_reply),
 		USER_PROFILE(R.string.action_user_profile),
 		EXTERNAL(R.string.action_external),
@@ -182,7 +181,7 @@ object RedditPostActions {
 
 					PostFlingAction.SHARE -> ActionDescriptionPair(
 						Action.SHARE,
-						R.string.action_share
+						R.string.action_share_link
 					)
 
 					PostFlingAction.SHARE_COMMENTS -> ActionDescriptionPair(
@@ -357,7 +356,7 @@ object RedditPostActions {
 						return
 					}
 					val intent = Intent(Intent.ACTION_VIEW)
-					intent.data = Uri.parse(url)
+					intent.data = LinkHandler.convertAndNormalizeUri(url)
 					activity.startActivity(intent)
 				} catch (e: ActivityNotFoundException) {
 					General.quickToast(
@@ -401,53 +400,31 @@ object RedditPostActions {
 
 			Action.SHARE -> {
 				val subject =
-					if (PrefsUtility.pref_behaviour_sharing_dialog()) post.src.title else null
-				LinkHandler.shareText(
-					activity,
-					subject,
-					post.src.url
-				)
+					if (PrefsUtility.pref_behaviour_sharing_include_desc()) post.src.title else null
+				val body = LinkHandler.getPreferredRedditUriString(post.src.url)
+
+				LinkHandler.shareText(activity, subject, body)
 			}
 
 			Action.SHARE_COMMENTS -> {
-				val shareAsPermalink = PrefsUtility.pref_behaviour_share_permalink()
-				val mailer = Intent(Intent.ACTION_SEND)
-				mailer.type = "text/plain"
-				if (PrefsUtility.pref_behaviour_sharing_include_desc()) {
-					mailer.putExtra(
-						Intent.EXTRA_SUBJECT, String.format(
-							activity.getText(R.string.share_comments_for)
-								.toString(), post.src.title
-						)
-					)
-				}
-				if (shareAsPermalink) {
-					mailer.putExtra(
-						Intent.EXTRA_TEXT,
-						Constants.Reddit.getNonAPIUri(post.src.permalink)
-							.toString()
-					)
+				val subject = if (PrefsUtility.pref_behaviour_sharing_include_desc()) {
+					String.format(activity.getText(R.string.share_comments_for)
+							.toString(), post.src.title)
 				} else {
-					mailer.putExtra(
-						Intent.EXTRA_TEXT,
-						Constants.Reddit.getNonAPIUri(
-							Constants.Reddit.PATH_COMMENTS
-									+ post.src.idAlone
-						)
-							.toString()
-					)
+					null
 				}
-				if (PrefsUtility.pref_behaviour_sharing_dialog()) {
-					ShareOrderDialog.newInstance(mailer)
-						.show(activity.supportFragmentManager, null)
+
+				var body = if (PrefsUtility.pref_behaviour_share_permalink()) {
+					Constants.Reddit.getNonAPIUri(post.src.permalink).toString()
 				} else {
-					activity.startActivity(
-						Intent.createChooser(
-							mailer,
-							activity.getString(R.string.action_share)
-						)
-					)
+					Constants.Reddit.getNonAPIUri(
+							Constants.Reddit.PATH_COMMENTS + post.src.idAlone)
+							.toString()
 				}
+
+				body = LinkHandler.getPreferredRedditUriString(body)
+
+				LinkHandler.shareText(activity, subject, body)
 			}
 
 			Action.SHARE_IMAGE -> {
@@ -826,7 +803,7 @@ object RedditPostActions {
 			menu.add(
 				RPVMenuItem(
 					activity,
-					R.string.action_share,
+					R.string.action_share_link,
 					if (isRedditVideo) Action.SHARE_COMMENTS else Action.SHARE
 				)
 			)

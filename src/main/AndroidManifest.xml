@@ -83,6 +83,7 @@
                 <data android:scheme="http" />
                 <data android:scheme="https" />
 				<data android:host="redd.it" />
+				<data android:host="v.redd.it" />
 				<data android:host="reddit.app.link" />
             </intent-filter>
 
@@ -99,6 +100,8 @@
 				<data android:pathPrefix="/user/" />
 				<data android:pathPrefix="/comments/" />
 				<data android:pathPrefix="/message/compose/" />
+				<data android:pathPrefix="/video/" />
+				<data android:pathPrefix="/gallery/" />
 			</intent-filter>
 
 			<intent-filter>

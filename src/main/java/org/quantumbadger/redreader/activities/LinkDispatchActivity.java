@@ -67,7 +67,7 @@ public class LinkDispatchActivity extends AppCompatActivity {
 			RedditOAuth.completeLogin(this, data, new RunnableOnce(this::finish));
 
 		} else {
-			LinkHandler.onLinkClicked(this, data.toString(), false, null, null, 0, true);
+			LinkHandler.onLinkClicked(this, data.toString(), true, null, null, 0, true);
 			finish();
 		}
 	}

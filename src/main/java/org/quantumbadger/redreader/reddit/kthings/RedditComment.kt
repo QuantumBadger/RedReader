@@ -114,7 +114,8 @@ data class RedditComment(
 			idAlone,
 			3,
 			null,
-			null
+			null,
+			false
 		)
 	}
 

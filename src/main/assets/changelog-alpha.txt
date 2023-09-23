@@ -2,6 +2,9 @@
 Hide keyboard in Find Location when search button is pressed (thanks to mattdbr)
 Fix issue with "Post title opens comments" not covering whole post area (thanks to Domenico Sibilio)
 Support for handling v.redd.it, video, and gallery links from other apps (thanks to gavtroy)
+Handle mailto links correctly (thanks to Cameron Merkel)
+Ability to open comments in external browser (thanks to Cameron Merkel)
+Preference for domain when sharing Reddit links (thanks to Cameron Merkel)
 
 /Alpha 338 (2023-07-28)
 Fix for permission denied errors on videos due to Reddit API change

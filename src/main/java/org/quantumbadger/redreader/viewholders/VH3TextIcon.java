@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.viewholders;
 
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,6 +40,7 @@ public class VH3TextIcon extends RecyclerView.ViewHolder {
 	public final TextView text2;
 	public final TextView text3;
 	public final ImageView icon;
+	public final LinearLayoutCompat extra;
 
 	public long bindingId = 0;
 
@@ -51,6 +53,11 @@ public class VH3TextIcon extends RecyclerView.ViewHolder {
 		text2 = itemView.findViewById(R.id.recycler_item_2_text);
 		text3 = itemView.findViewById(R.id.recycler_item_3_text);
 		icon = itemView.findViewById(R.id.recycler_item_icon);
+		extra = itemView.findViewById(R.id.recycler_item_extra);
+	}
+
+	public void removeExtras() {
+		extra.removeAllViews();
 	}
 
 	public void addLinkButton(final BaseActivity activity, final String url) {
@@ -64,6 +71,6 @@ public class VH3TextIcon extends RecyclerView.ViewHolder {
 						13.0f,
 						true);
 
-		textHoldingLayout.addView(linkButtonView);
+		extra.addView(linkButtonView);
 	}
 }

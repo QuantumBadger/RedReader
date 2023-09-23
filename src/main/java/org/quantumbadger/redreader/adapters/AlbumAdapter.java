@@ -128,6 +128,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<VH3TextIcon> {
 			vh.text3.setVisibility(View.GONE);
 		}
 
+		vh.removeExtras();
+
 		if(imageInfo.outboundUrl != null && !imageInfo.outboundUrl.isEmpty()) {
 			vh.addLinkButton(activity, imageInfo.outboundUrl);
 		}

@@ -22,7 +22,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -38,117 +37,118 @@ import org.quantumbadger.redreader.viewholders.VH1Text
 import java.util.*
 
 class AccountListAdapter(private val context: Context, private val fragment: Fragment) :
-    HeaderRecyclerAdapter<RecyclerView.ViewHolder?>() {
-    private val accounts = RedditAccountManager.getInstance(context).accounts
+	HeaderRecyclerAdapter<RecyclerView.ViewHolder?>() {
+	private val accounts = RedditAccountManager.getInstance(context).accounts
 	private val rrIconAdd: Drawable?
 	private val rrIconUser: Drawable?
 
-    init {
+	init {
 		val attr = context.obtainStyledAttributes(intArrayOf(R.attr.rrIconAdd, R.attr.rrIconPerson))
-        rrIconAdd = ContextCompat.getDrawable(context, attr.getResourceId(0, 0))
+		rrIconAdd = ContextCompat.getDrawable(context, attr.getResourceId(0, 0))
+		//noinspection ResourceType: bug in Lint
 		rrIconUser = ContextCompat.getDrawable(context, attr.getResourceId(1, 0))
-        attr.recycle()
-    }
+		attr.recycle()
+	}
 
-    override fun onCreateHeaderItemViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_1_text, parent, false)
-        return VH1Text(v)
-    }
+	override fun onCreateHeaderItemViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+		val v = LayoutInflater.from(parent.context)
+			.inflate(R.layout.list_item_1_text, parent, false)
+		return VH1Text(v)
+	}
 
-    override fun onCreateContentItemViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
-        val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_1_text, parent, false)
-        return VH1Text(v)
-    }
+	override fun onCreateContentItemViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+		val v = LayoutInflater.from(parent.context)
+			.inflate(R.layout.list_item_1_text, parent, false)
+		return VH1Text(v)
+	}
 
 	override fun onBindHeaderItemViewHolder(
-        holder: RecyclerView.ViewHolder?,
-        position: Int
-    ) {
-        val vh = holder as VH1Text
-        vh.text.text = context.getString(R.string.accounts_add)
-        vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconAdd, null, null, null)
-        holder.itemView.setOnClickListener { v: View? -> showLoginWarningDialog() }
-    }
+		holder: RecyclerView.ViewHolder?,
+		position: Int
+	) {
+		val vh = holder as VH1Text
+		vh.text.text = context.getString(R.string.accounts_add)
+		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconAdd, null, null, null)
+		holder.itemView.setOnClickListener { showLoginWarningDialog() }
+	}
 
-    private fun showLoginWarningDialog() {
-        MaterialAlertDialogBuilder(context)
-            .setMessage(
-                String.format(
-                    Locale.US,
-                    "%s\n\n%s",
-                    context.getString(
-                        R.string.reddit_login_browser_popup_line_1
-                    ),
-                    context.getString(
-                        R.string.reddit_login_browser_popup_line_2_internal_browser_only
-                    )
-                )
-            )
-            .setCancelable(true)
-            .setPositiveButton(
-                R.string.dialog_continue
-            ) { dialog: DialogInterface?, which: Int -> launchLogin() }
-            .setNegativeButton(
-                R.string.dialog_close
-            ) { dialog: DialogInterface?, which: Int -> }
-            .show()
-    }
+	private fun showLoginWarningDialog() {
+		MaterialAlertDialogBuilder(context)
+			.setMessage(
+				String.format(
+					Locale.US,
+					"%s\n\n%s",
+					context.getString(
+						R.string.reddit_login_browser_popup_line_1
+					),
+					context.getString(
+						R.string.reddit_login_browser_popup_line_2_internal_browser_only
+					)
+				)
+			)
+			.setCancelable(true)
+			.setPositiveButton(
+				R.string.dialog_continue
+			) { _: DialogInterface?, _: Int -> launchLogin() }
+			.setNegativeButton(
+				R.string.dialog_close
+			) { _: DialogInterface?, _: Int -> }
+			.show()
+	}
 
-    private fun launchLogin() {
-        val loginIntent = Intent(context, OAuthLoginActivity::class.java)
-        fragment.startActivityForResult(loginIntent, 123)
-    }
+	private fun launchLogin() {
+		val loginIntent = Intent(context, OAuthLoginActivity::class.java)
+		fragment.startActivityForResult(loginIntent, 123)
+	}
 
-    override fun onBindContentItemViewHolder(
-        holder: RecyclerView.ViewHolder?,
-        position: Int
-    ) {
+	override fun onBindContentItemViewHolder(
+		holder: RecyclerView.ViewHolder?,
+		position: Int
+	) {
 		val accountManager = RedditAccountManager.getInstance(context)
 
 		val vh = holder as VH1Text
-        val account = accounts[position]
-        val username = BetterSSB()
-        if (account.isAnonymous) {
-            username.append(context.getString(R.string.accounts_anon), 0)
-        } else {
-            username.append(account.username, 0)
-        }
-        if (account == accountManager.defaultAccount) {
-            val attr = context.obtainStyledAttributes(intArrayOf(R.attr.rrListSubtitleCol))
-            val col = attr.getColor(0, 0)
-            attr.recycle()
-            username.append(
-                "  (" + context.getString(R.string.accounts_active) + ")",
-                BetterSSB.FOREGROUND_COLOR or BetterSSB.SIZE,
-                col,
-                0,
-                0.8f
-            )
-        }
-        if (needsRelogin(account)) {
-            username.append(
-                "  (" + context.getString(R.string.reddit_relogin_error_title) + ")",
-                BetterSSB.FOREGROUND_COLOR or BetterSSB.SIZE,
-                Color.rgb(200, 50, 50),
-                0,
-                0.8f
-            )
-        }
-        vh.text.text = username.get()
+		val account = accounts[position]
+		val username = BetterSSB()
+		if (account.isAnonymous) {
+			username.append(context.getString(R.string.accounts_anon), 0)
+		} else {
+			username.append(account.username, 0)
+		}
+		if (account == accountManager.defaultAccount) {
+			val attr = context.obtainStyledAttributes(intArrayOf(R.attr.rrListSubtitleCol))
+			val col = attr.getColor(0, 0)
+			attr.recycle()
+			username.append(
+				"  (" + context.getString(R.string.accounts_active) + ")",
+				BetterSSB.FOREGROUND_COLOR or BetterSSB.SIZE,
+				col,
+				0,
+				0.8f
+			)
+		}
+		if (needsRelogin(account)) {
+			username.append(
+				"  (" + context.getString(R.string.reddit_relogin_error_title) + ")",
+				BetterSSB.FOREGROUND_COLOR or BetterSSB.SIZE,
+				Color.rgb(200, 50, 50),
+				0,
+				0.8f
+			)
+		}
+		vh.text.text = username.get()
 		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconUser, null, null, null)
-        vh.itemView.setOnClickListener {
+		vh.itemView.setOnClickListener {
 
 			val actions = ArrayList<AccountAction>()
 
-			if(account != accountManager.defaultAccount) {
+			if (account != accountManager.defaultAccount) {
 				actions.add(AccountAction(R.string.accounts_setactive) {
 					accountManager.defaultAccount = account
 				})
 			}
 
-			if(account.isNotAnonymous) {
+			if (account.isNotAnonymous) {
 				actions.add(AccountAction(R.string.accounts_delete) {
 					MaterialAlertDialogBuilder(context)
 						.setTitle(R.string.accounts_delete)
@@ -171,7 +171,7 @@ class AccountListAdapter(private val context: Context, private val fragment: Fra
 
 			if (items.isNotEmpty()) {
 				val builder = MaterialAlertDialogBuilder(context)
-				builder.setItems(items) { dialog, which ->
+				builder.setItems(items) { _, which ->
 					actions[which].action()
 				}
 
@@ -181,12 +181,12 @@ class AccountListAdapter(private val context: Context, private val fragment: Fra
 				alert.setCanceledOnTouchOutside(true)
 				alert.show()
 			}
-        }
-    }
+		}
+	}
 
-    override fun getContentItemCount(): Int {
-        return accounts.size
-    }
+	override fun getContentItemCount(): Int {
+		return accounts.size
+	}
 
 	private class AccountAction(
 		@StringRes val message: Int,

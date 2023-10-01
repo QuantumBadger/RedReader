@@ -297,7 +297,9 @@ public class MainActivity extends RefreshableActivity
 
 			case MainMenuFragment.MENU_MENU_ACTION_CUSTOM: {
 
-				final MaterialAlertDialogBuilder alertBuilder = new MaterialAlertDialogBuilder(this);
+				final MaterialAlertDialogBuilder alertBuilder
+						= new MaterialAlertDialogBuilder(this);
+
 				final View root = getLayoutInflater().inflate(
 						R.layout.dialog_mainmenu_custom,
 						null);

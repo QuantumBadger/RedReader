@@ -218,7 +218,8 @@ public class PostSubmitContentFragment extends Fragment {
 
 		mTypeSpinner = Objects.requireNonNull(root.findViewById(R.id.post_submit_type));
 		mFlairSpinner = Objects.requireNonNull(root.findViewById(R.id.post_submit_flair));
-		mFlairSpinnerLayout = Objects.requireNonNull(root.findViewById(R.id.post_submit_flair_layout));
+		mFlairSpinnerLayout = Objects.requireNonNull(
+				root.findViewById(R.id.post_submit_flair_layout));
 		mTitleEdit = Objects.requireNonNull(root.findViewById(R.id.post_submit_title));
 		mTextEdit = Objects.requireNonNull(root.findViewById(R.id.post_submit_body));
 		mTextEditLayout = Objects.requireNonNull(root.findViewById(R.id.post_submit_body_layout));
@@ -237,7 +238,7 @@ public class PostSubmitContentFragment extends Fragment {
 		heading.setText(String.format(
 				Locale.US,
 				getString(R.string.post_submit_heading),
-                args.subreddit,
+				args.subreddit,
 				args.username));
 
 		mTypeSpinner.setText(POST_TYPE_LINK);

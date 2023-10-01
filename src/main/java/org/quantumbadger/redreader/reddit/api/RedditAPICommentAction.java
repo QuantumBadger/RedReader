@@ -422,7 +422,9 @@ public class RedditAPICommentAction {
 					final String[] linksArr =
 							linksInComment.toArray(new String[0]);
 
-					final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
+					final MaterialAlertDialogBuilder builder
+							= new MaterialAlertDialogBuilder(activity);
+
 					builder.setItems(linksArr, (dialog, which) -> {
 						LinkHandler.onLinkClicked(activity, linksArr[which], false);
 						dialog.dismiss();

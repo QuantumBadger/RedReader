@@ -41,7 +41,7 @@ dependencies {
 	implementation("com.google.android.flexbox:flexbox:3.0.0")
 	implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 	implementation("androidx.preference:preference:1.2.0")
-	implementation("com.google.android.material:material:1.8.0")
+	implementation("com.google.android.material:material:1.9.0")
 	implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 	implementation("androidx.fragment:fragment:1.5.5")
 

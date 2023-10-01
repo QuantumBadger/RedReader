@@ -17,12 +17,12 @@
 
 package org.quantumbadger.redreader.common;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -314,7 +314,7 @@ public final class FeatureFlagHandler {
 		if(lastVersion < 63) {
 			// Upgrading across the 1.9.0 boundary (when oAuth was introduced)
 
-			new AlertDialog.Builder(activity)
+			new MaterialAlertDialogBuilder(activity)
 					.setTitle(R.string.firstrun_login_title)
 					.setMessage(R.string.upgrade_v190_login_message)
 					.setPositiveButton(

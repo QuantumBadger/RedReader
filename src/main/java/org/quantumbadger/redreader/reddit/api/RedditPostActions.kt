@@ -17,16 +17,15 @@
 
 package org.quantumbadger.redreader.reddit.api
 
-import android.app.AlertDialog
 import android.content.*
 import android.graphics.Color
-import android.net.Uri
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.apache.commons.text.StringEscapeUtils
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccountManager
@@ -330,7 +329,7 @@ object RedditPostActions {
 				activity.startActivity(editIntent)
 			}
 
-			Action.DELETE -> AlertDialog.Builder(activity)
+			Action.DELETE -> MaterialAlertDialogBuilder(activity)
 				.setTitle(R.string.accounts_delete)
 				.setMessage(R.string.delete_confirm)
 				.setPositiveButton(
@@ -339,7 +338,7 @@ object RedditPostActions {
 				.setNegativeButton(R.string.dialog_cancel, null)
 				.show()
 
-			Action.REPORT -> AlertDialog.Builder(activity)
+			Action.REPORT -> MaterialAlertDialogBuilder(activity)
 				.setTitle(R.string.action_report)
 				.setMessage(R.string.action_report_sure)
 				.setPositiveButton(
@@ -377,7 +376,7 @@ object RedditPostActions {
 					General.quickToast(activity, R.string.error_toast_no_urls_in_self)
 				} else {
 					val linksArr = linksInComment.toTypedArray()
-					val builder = AlertDialog.Builder(activity)
+					val builder = MaterialAlertDialogBuilder(activity)
 					builder.setItems(linksArr) { dialog: DialogInterface, which: Int ->
 						LinkHandler.onLinkClicked(
 							activity,
@@ -860,7 +859,7 @@ object RedditPostActions {
 		for (i in menuText.indices) {
 			menuText[i] = menu[i].title
 		}
-		val builder = AlertDialog.Builder(activity)
+		val builder = MaterialAlertDialogBuilder(activity)
 		builder.setItems(menuText) { _: DialogInterface?, which: Int ->
 			onActionMenuItemSelected(
 				post,

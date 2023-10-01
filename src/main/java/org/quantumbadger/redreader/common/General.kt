@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.common
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
@@ -38,6 +37,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager.BadTokenException
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.quantumbadger.redreader.BuildConfig
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.cache.CacheRequest
@@ -474,7 +474,7 @@ object General {
     ) {
         runOnUiThread {
             try {
-                val alertBuilder = AlertDialog.Builder(
+                val alertBuilder = MaterialAlertDialogBuilder(
                     context
                 )
                 alertBuilder.setNeutralButton(R.string.dialog_close, null)
@@ -795,7 +795,7 @@ object General {
 
     @JvmStatic
 	fun showMustBeLoggedInDialog(activity: AppCompatActivity) {
-        AlertDialog.Builder(activity)
+        MaterialAlertDialogBuilder(activity)
             .setTitle(R.string.firstrun_login_title)
             .setMessage(R.string.must_login_message)
             .setPositiveButton(
@@ -809,7 +809,7 @@ object General {
 
 	@JvmStatic
 	fun showMustReloginDialog(activity: AppCompatActivity) {
-		AlertDialog.Builder(activity)
+		MaterialAlertDialogBuilder(activity)
 			.setTitle(R.string.reddit_relogin_error_title)
 			.setMessage(R.string.reddit_relogin_error_message)
 			.setPositiveButton(

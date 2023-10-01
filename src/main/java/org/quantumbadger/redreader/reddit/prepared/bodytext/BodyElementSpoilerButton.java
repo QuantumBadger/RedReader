@@ -17,14 +17,15 @@
 
 package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
-import android.app.AlertDialog;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
@@ -66,7 +67,7 @@ public class BodyElementSpoilerButton extends BodyElementBaseButton {
 			final int marginPx = General.dpToPixels(activity, 14);
 			layoutParams.setMargins(marginPx, marginPx, marginPx, marginPx);
 
-			final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+			final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
 			builder.setView(scrollView);
 
 			builder.setNeutralButton(

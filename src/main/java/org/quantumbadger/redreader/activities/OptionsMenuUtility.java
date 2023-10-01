@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -27,7 +26,9 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.WindowManager;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -682,8 +683,8 @@ public final class OptionsMenuUtility {
 								}
 							}
 
-							final AlertDialog.Builder dialog
-									= new AlertDialog.Builder(activity);
+							final MaterialAlertDialogBuilder dialog
+									= new MaterialAlertDialogBuilder(activity);
 							dialog.setTitle(R.string.pref_appearance_theme_title);
 
 							dialog.setSingleChoiceItems(

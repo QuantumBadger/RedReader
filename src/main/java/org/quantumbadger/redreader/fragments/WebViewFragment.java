@@ -36,9 +36,9 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -222,7 +222,7 @@ public class WebViewFragment extends Fragment
 
 		/*handle download links show an alert box to load this outside the internal browser*/
 		webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength)
-				-> new AlertDialog.Builder(mActivity)
+				-> new MaterialAlertDialogBuilder(mActivity)
 						.setTitle(R.string.download_link_title)
 						.setMessage(R.string.download_link_message)
 						.setPositiveButton(

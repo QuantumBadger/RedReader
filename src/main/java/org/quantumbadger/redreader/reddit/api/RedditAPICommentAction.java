@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.reddit.api;
 
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -26,7 +25,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -277,7 +278,7 @@ public class RedditAPICommentAction {
 			menuText[i] = menu.get(i).title;
 		}
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
 
 		builder.setItems(menuText, (dialog, which) -> onActionMenuItemSelected(
 				comment,
@@ -331,7 +332,7 @@ public class RedditAPICommentAction {
 
 			case REPORT:
 
-				new AlertDialog.Builder(activity)
+				new MaterialAlertDialogBuilder(activity)
 						.setTitle(R.string.action_report)
 						.setMessage(R.string.action_report_sure)
 						.setPositiveButton(
@@ -377,7 +378,7 @@ public class RedditAPICommentAction {
 			}
 
 			case DELETE: {
-				new AlertDialog.Builder(activity)
+				new MaterialAlertDialogBuilder(activity)
 						.setTitle(R.string.accounts_delete)
 						.setMessage(R.string.delete_confirm)
 						.setPositiveButton(
@@ -421,7 +422,7 @@ public class RedditAPICommentAction {
 					final String[] linksArr =
 							linksInComment.toArray(new String[0]);
 
-					final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+					final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
 					builder.setItems(linksArr, (dialog, which) -> {
 						LinkHandler.onLinkClicked(activity, linksArr[which], false);
 						dialog.dismiss();

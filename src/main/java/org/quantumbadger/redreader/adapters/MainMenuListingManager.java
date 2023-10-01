@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.adapters;
 
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -30,8 +29,10 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -809,7 +810,7 @@ public class MainMenuListingManager {
 			menuText[i] = menu.get(i).title;
 		}
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
 
 		builder.setItems(menuText, (dialog, which) -> onSubredditActionMenuItemSelected(
 				subreddit,

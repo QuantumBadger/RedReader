@@ -16,7 +16,6 @@
  ******************************************************************************/
 package org.quantumbadger.redreader.reddit.api
 
-import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -27,6 +26,7 @@ import android.util.Base64
 import android.util.Log
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccount
 import org.quantumbadger.redreader.account.RedditAccountManager
@@ -804,7 +804,7 @@ object RedditOAuth {
                             return@post
                         }
                         safeDismissDialog(progressDialog)
-                        val alertBuilder = AlertDialog.Builder(activity)
+                        val alertBuilder = MaterialAlertDialogBuilder(activity)
                         alertBuilder.setNeutralButton(
                             R.string.dialog_close
                         ) { _: DialogInterface?, _: Int -> onDone.run() }
@@ -832,7 +832,7 @@ object RedditOAuth {
                             return@post
                         }
                         safeDismissDialog(progressDialog)
-                        val builder = AlertDialog.Builder(activity)
+                        val builder = MaterialAlertDialogBuilder(activity)
                         builder.setNeutralButton(
                             R.string.dialog_close
                         ) { _: DialogInterface?, _: Int -> onDone.run() }

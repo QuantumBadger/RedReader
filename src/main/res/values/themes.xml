@@ -18,7 +18,7 @@
 
 <resources>
 	
-    <style name="RR.Dark" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="RR.Dark" parent="Theme.Material3.Dark.NoActionBar">
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
@@ -164,7 +164,7 @@
 		<item name="rrLoadingRingForegroundCol">#AAAAAA</item>
 		<item name="rrLoadingRingBackgroundCol">#323232</item>
 
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Dark</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.Material3.Dark</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -232,7 +232,7 @@
 		<item name="rrLoadingRingForegroundCol">#C8C8C8</item>
 		<item name="rrLoadingRingBackgroundCol">#000000</item>
 
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Dark</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.Material3.Dark</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -268,7 +268,7 @@
 
 	</style>
 
-	<style name="RR.Settings" parent="Theme.MaterialComponents.NoActionBar">
+	<style name="RR.Settings" parent="Theme.Material3.Dark.NoActionBar">
 
 		<item name="colorPrimary">#CCCCCC</item>
 		<item name="colorPrimaryDark">#555555</item>
@@ -280,7 +280,7 @@
     <style name="RR.Startup" parent="RR.Dark">
     </style>
 
-    <style name="RR.Light.DarkActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="RR.Light.DarkActionBar" parent="Theme.Material3.Light.NoActionBar">
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
@@ -310,8 +310,8 @@
         <item name="rrListItemBackgroundHighlightCol">#DDDDDD</item>
         <item name="rrListBackgroundCol">#F5F5F5</item>
 
-        <item name="alertDialogTheme">@style/Theme.MaterialComponents.Light.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Light</item>
+        <item name="alertDialogTheme">@style/Theme.Material3.Light.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.Material3.Light</item>
 
         <item name="rrListDividerCol">#CCCCCC</item>
         <item name="rrListHeaderTextCol">?colorAccent</item>

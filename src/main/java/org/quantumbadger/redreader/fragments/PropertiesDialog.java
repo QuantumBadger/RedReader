@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -30,6 +29,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
@@ -75,7 +75,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 
 		attr.recycle();
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+		final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
 
 		final LinearLayout items = new LinearLayout(activity);
 		items.setOrientation(LinearLayout.VERTICAL);
@@ -94,7 +94,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		return builder.create();
 	}
 
-	protected void interceptBuilder(@NonNull final AlertDialog.Builder builder) {
+	protected void interceptBuilder(@NonNull final MaterialAlertDialogBuilder builder) {
 		// Do nothing by default
 	}
 

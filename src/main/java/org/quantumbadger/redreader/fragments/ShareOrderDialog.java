@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -28,6 +27,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.ShareOrderAdapter;
 import org.quantumbadger.redreader.adapters.ShareOrderCallbackListener;
@@ -76,7 +76,7 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 				shareIntent,
 				0));
 
-		final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
 		builder.setTitle(context.getString(
 				R.string.pref_behaviour_sharing_share_dialog_dialogtitle));
 		final ListView listView = new ListView(context);

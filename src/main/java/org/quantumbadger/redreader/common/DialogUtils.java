@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.common;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
@@ -28,7 +27,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 
 public class DialogUtils {
@@ -46,7 +47,7 @@ public class DialogUtils {
 			final Context context,
 			final int titleRes,
 			final OnSearchListener listener) {
-		final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
+		final MaterialAlertDialogBuilder alertBuilder = new MaterialAlertDialogBuilder(context);
 		final EditText editText = (EditText)LayoutInflater.from(context)
 				.inflate(R.layout.dialog_editbox, null);
 
@@ -93,7 +94,7 @@ public class DialogUtils {
 			@NonNull final Runnable negativeAction) {
 
 		AndroidCommon.runOnUiThread(() -> {
-			new androidx.appcompat.app.AlertDialog.Builder(activity)
+			new MaterialAlertDialogBuilder(activity)
 					.setTitle(title)
 					.setMessage(message)
 					.setPositiveButton(
@@ -113,7 +114,7 @@ public class DialogUtils {
 			@NonNull final String message) {
 
 		AndroidCommon.runOnUiThread(() -> {
-			new androidx.appcompat.app.AlertDialog.Builder(activity)
+			new MaterialAlertDialogBuilder(activity)
 					.setTitle(title)
 					.setMessage(message)
 					.setNeutralButton(
@@ -130,7 +131,7 @@ public class DialogUtils {
 			@StringRes final int message) {
 
 		AndroidCommon.runOnUiThread(() -> {
-			new androidx.appcompat.app.AlertDialog.Builder(activity)
+			new MaterialAlertDialogBuilder(activity)
 					.setTitle(title)
 					.setMessage(message)
 					.setNeutralButton(

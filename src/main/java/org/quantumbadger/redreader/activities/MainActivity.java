@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -36,6 +35,8 @@ import android.widget.FrameLayout;
 import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
@@ -173,7 +174,7 @@ public class MainActivity extends RefreshableActivity
 
 			FeatureFlagHandler.handleFirstInstall(sharedPreferences);
 
-			new AlertDialog.Builder(this)
+			new MaterialAlertDialogBuilder(this)
 					.setTitle(R.string.firstrun_login_title)
 					.setMessage(R.string.firstrun_login_message)
 					.setPositiveButton(
@@ -296,7 +297,7 @@ public class MainActivity extends RefreshableActivity
 
 			case MainMenuFragment.MENU_MENU_ACTION_CUSTOM: {
 
-				final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+				final MaterialAlertDialogBuilder alertBuilder = new MaterialAlertDialogBuilder(this);
 				final View root = getLayoutInflater().inflate(
 						R.layout.dialog_mainmenu_custom,
 						null);

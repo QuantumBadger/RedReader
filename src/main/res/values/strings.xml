@@ -1781,4 +1781,9 @@
 	<string name="pref_behaviour_sharing_domain_np_reddit">np.reddit.com</string>
 	<string name="action_share_link">Share Link</string>
 
+	<!-- 2023-10-01 -->
+	<string name="post_submit_as_user">User</string>
+	<string name="post_submit_type">Post Type</string>
+	<string name="post_submit_flair">Flair</string>
+
 </resources>

@@ -19,7 +19,6 @@
 
 <FrameLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:focusableInTouchMode="true">
@@ -27,7 +26,7 @@
 	<org.quantumbadger.redreader.views.LoadingSpinnerView
 			android:id="@+id/post_submit_loading_spinner_view"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent" />
+			android:layout_height="match_parent"/>
 
 	<ScrollView
 			android:layout_width="match_parent"
@@ -40,7 +39,7 @@
 				android:layout_height="wrap_content"
 				android:orientation="vertical">
 
-			<TextView
+			<com.google.android.material.textview.MaterialTextView
 					android:id="@+id/post_submit_heading"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -48,68 +47,105 @@
 					android:layout_marginRight="16dp"
 					android:layout_marginTop="16dp"
 					android:layout_marginBottom="2dp"
-					android:textSize="18sp" />
+					android:textSize="18sp"/>
 
-			<Spinner android:id="@+id/post_submit_type"
-					 android:layout_width="match_parent"
-					 android:layout_height="wrap_content"
-					 android:layout_marginLeft="10dp"
-					 android:layout_marginRight="10dp"
-					 android:layout_marginTop="2dp"
-					 android:layout_marginBottom="2dp"
-					 tools:listitem="@android:layout/simple_list_item_1" />
+			<com.google.android.material.textfield.TextInputLayout
+					style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
+					android:hint="@string/post_submit_type">
 
-			<EditText android:id="@+id/post_submit_title"
-					  android:layout_width="match_parent"
-					  android:layout_height="wrap_content"
-					  android:layout_margin="10dp"
-					  android:singleLine="true"
-					  android:scrollHorizontally="true"
-					  android:scrollbars="none"
-					  android:inputType="textCapSentences"
-					  android:hint="@string/post_submit_title_hint"
-					  android:importantForAutofill="no"/>
+				<com.google.android.material.textfield.MaterialAutoCompleteTextView
+						android:id="@+id/post_submit_type"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="@string/post_submit_type"
+						android:inputType="none"/>
 
-			<EditText android:id="@+id/post_submit_body"
-					  android:layout_width="match_parent"
-					  android:layout_height="wrap_content"
-					  android:layout_margin="10dp"
-					  android:singleLine="false"
-					  android:scrollHorizontally="false"
-					  android:scrollbars="none"
-					  android:inputType="textCapSentences|textMultiLine"
-					  android:importantForAutofill="no"
-					  tools:ignore="LabelFor"/>
+			</com.google.android.material.textfield.TextInputLayout>
 
-			<Spinner android:id="@+id/post_submit_flair"
-					 android:layout_width="match_parent"
-					 android:layout_height="wrap_content"
-					 android:layout_marginLeft="10dp"
-					 android:layout_marginRight="10dp"
-					 android:layout_marginTop="2dp"
-					 android:layout_marginBottom="2dp"
-					 tools:listitem="@android:layout/simple_list_item_1" />
+			<com.google.android.material.textfield.TextInputLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
+					style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+					android:hint="@string/post_submit_title_hint">
 
-			<CheckBox android:id="@+id/post_submit_send_replies_to_inbox"
-					  android:layout_width="match_parent"
-					  android:layout_height="wrap_content"
-					  android:layout_margin="10dp"
-					  android:checked="true"
-					  android:text="@string/send_replies_to_inbox"/>
+				<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/post_submit_title"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:importantForAutofill="no"
+						android:singleLine="true"
+						android:scrollHorizontally="true"
+						android:scrollbars="none"
+						android:inputType="textCapSentences"/>
 
-			<CheckBox android:id="@+id/post_submit_mark_nsfw"
-					  android:layout_width="match_parent"
-					  android:layout_height="wrap_content"
-					  android:layout_margin="10dp"
-					  android:checked="false"
-					  android:text="@string/post_submit_mark_nsfw"/>
+			</com.google.android.material.textfield.TextInputLayout>
 
-			<CheckBox android:id="@+id/post_submit_mark_spoiler"
-					  android:layout_width="match_parent"
-					  android:layout_height="wrap_content"
-					  android:layout_margin="10dp"
-					  android:checked="false"
-					  android:text="@string/post_submit_mark_spoiler"/>
+			<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/post_submit_body_layout"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
+					style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+				<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/post_submit_body"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:importantForAutofill="no"
+						android:scrollHorizontally="false"
+						android:scrollbars="none"
+						android:inputType="textCapSentences|textMultiLine"/>
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/post_submit_flair_layout"
+					style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
+					android:hint="@string/post_submit_flair">
+
+				<com.google.android.material.textfield.MaterialAutoCompleteTextView
+						android:id="@+id/post_submit_flair"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="@string/post_submit_flair"
+						android:inputType="none"/>
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.checkbox.MaterialCheckBox
+					android:id="@+id/post_submit_send_replies_to_inbox"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
+					android:layout_marginBottom="0dp"
+					android:checked="true"
+					android:text="@string/send_replies_to_inbox"/>
+
+			<com.google.android.material.checkbox.MaterialCheckBox
+					android:id="@+id/post_submit_mark_nsfw"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
+					android:layout_marginTop="0dp"
+					android:layout_marginBottom="0dp"
+					android:checked="false"
+					android:text="@string/post_submit_mark_nsfw"/>
+
+			<com.google.android.material.checkbox.MaterialCheckBox
+					android:id="@+id/post_submit_mark_spoiler"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
+					android:layout_marginTop="0dp"
+					android:checked="false"
+					android:text="@string/post_submit_mark_spoiler"/>
 
 		</LinearLayout>
 

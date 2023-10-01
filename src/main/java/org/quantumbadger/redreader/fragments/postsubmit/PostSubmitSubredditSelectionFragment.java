@@ -23,10 +23,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +31,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -213,8 +212,8 @@ public class PostSubmitSubredditSelectionFragment extends Fragment {
 		}
 	}
 
-	private Spinner mUsernameSpinner;
-	private EditText mSubredditBox;
+	private MaterialAutoCompleteTextView mUsernameSpinner;
+	private TextInputEditText mSubredditBox;
 
 	private RecyclerView mAutocompleteSuggestions;
 	private RecyclerView.LayoutManager mAutocompleteSuggestionsLayout;
@@ -257,7 +256,7 @@ public class PostSubmitSubredditSelectionFragment extends Fragment {
 		mAutocompleteSuggestions.setAdapter(adapter);
 
 		AndroidCommon.onTextChanged(mSubredditBox, adapter::updateSuggestions);
-		AndroidCommon.onSelectedItemChanged(mUsernameSpinner, adapter::updateSuggestions);
+		AndroidCommon.onTextChanged(mUsernameSpinner, adapter::updateSuggestions);
 
 		final RedditAccountManager accountManager = RedditAccountManager.getInstance(context);
 
@@ -277,10 +276,9 @@ public class PostSubmitSubredditSelectionFragment extends Fragment {
 			return null;
 		}
 
-		mUsernameSpinner.setAdapter(new ArrayAdapter<>(
-				context,
-				android.R.layout.simple_list_item_1,
-				usernames));
+		AndroidCommon.setAutoCompleteTextViewItemsNoFilter(mUsernameSpinner, usernames);
+
+		mUsernameSpinner.setText(accountManager.getDefaultAccount().username);
 
 		{
 			final Button continueButton
@@ -314,7 +312,7 @@ public class PostSubmitSubredditSelectionFragment extends Fragment {
 				}
 
 				((Listener)activity).onSubredditSelected(
-						(String)mUsernameSpinner.getSelectedItem(),
+						mUsernameSpinner.getText().toString(),
 						subreddit);
 			});
 		}

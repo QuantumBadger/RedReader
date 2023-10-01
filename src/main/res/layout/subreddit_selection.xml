@@ -34,29 +34,45 @@
 			android:padding="10dp"
 			android:orientation="vertical">
 
-		<Spinner
-				android:id="@+id/subreddit_selection_account"
+		<com.google.android.material.textfield.TextInputLayout
+				style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginTop="2dp"
-				android:layout_marginBottom="2dp"
-				tools:listitem="@android:layout/simple_list_item_1"/>
+				android:hint="@string/post_submit_as_user">
 
-		<EditText
-				android:id="@+id/subreddit_selection_textbox"
+			<com.google.android.material.textfield.MaterialAutoCompleteTextView
+					android:id="@+id/subreddit_selection_account"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:hint="@string/post_submit_as_user"
+					android:inputType="none" />
+
+		</com.google.android.material.textfield.TextInputLayout>
+
+		<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:importantForAutofill="no"
-				android:singleLine="true"
-				android:scrollHorizontally="true"
-				android:hint="@string/subreddit_selection_textbox_hint"
-				android:inputType="textNoSuggestions"/>
+				android:layout_marginTop="4dp"
+				style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+				android:hint="@string/subreddit_selection_textbox_hint">
+
+			<com.google.android.material.textfield.TextInputEditText
+					android:id="@+id/subreddit_selection_textbox"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:importantForAutofill="no"
+					android:singleLine="true"
+					android:scrollHorizontally="true"
+					android:inputType="textNoSuggestions"/>
+
+		</com.google.android.material.textfield.TextInputLayout>
 
 		<androidx.constraintlayout.widget.ConstraintLayout
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp">
 
-			<Button
+			<com.google.android.material.button.MaterialButton
 					android:id="@+id/subreddit_selection_button_continue"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"

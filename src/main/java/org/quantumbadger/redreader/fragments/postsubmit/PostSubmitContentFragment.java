@@ -30,11 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -43,6 +39,9 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -65,6 +64,7 @@ import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -117,11 +117,15 @@ public class PostSubmitContentFragment extends Fragment {
 		void onContentFragmentFlairRequestError(@NonNull RRError error);
 	}
 
-	private static final String[] POST_TYPES = {"Link", "Self", "Upload to Imgur"};
+	private static final String POST_TYPE_LINK = "Link";
+	private static final String POST_TYPE_SELF = "Text";
+	private static final String POST_TYPE_IMGUR = "Upload to Imgur";
+
+	private static final String[] POST_TYPES = {POST_TYPE_LINK, POST_TYPE_SELF, POST_TYPE_IMGUR};
 
 	private boolean mDraftReset = false;
 
-	private static int lastType;
+	private static String lastType;
 	private static String lastTitle;
 	private static String lastText;
 	private static boolean lastNsfw;
@@ -138,15 +142,17 @@ public class PostSubmitContentFragment extends Fragment {
 	private View mLoadingSpinnerView;
 	private View mMainControls;
 
-	private Spinner mTypeSpinner;
-	private Spinner mFlairSpinner;
-	private EditText mTitleEdit;
-	private EditText mTextEdit;
+	private MaterialAutoCompleteTextView mTypeSpinner;
+	private MaterialAutoCompleteTextView mFlairSpinner;
+	private TextInputLayout mFlairSpinnerLayout;
+	private TextInputEditText mTitleEdit;
+	private TextInputEditText mTextEdit;
+	private TextInputLayout mTextEditLayout;
 	private CheckBox mSendRepliesToInboxCheckbox;
 	private CheckBox mMarkAsNsfwCheckbox;
 	private CheckBox mMarkAsSpoilerCheckbox;
 
-	private final ArrayList<String> mFlairIds = new ArrayList<>();
+	private final HashMap<String, String> mFlairIds = new HashMap<>();
 
 	@Override
 	public void onResume() {
@@ -166,7 +172,7 @@ public class PostSubmitContentFragment extends Fragment {
 
 		// Store information for draft
 		if(mTitleEdit != null && mTextEdit != null && !mDraftReset) {
-			lastType = mTypeSpinner.getSelectedItemPosition();
+			lastType = mTypeSpinner.getText().toString();
 			lastTitle = mTitleEdit.getText().toString();
 			lastText = mTextEdit.getText().toString();
 			lastInbox = mSendRepliesToInboxCheckbox.isChecked();
@@ -212,8 +218,10 @@ public class PostSubmitContentFragment extends Fragment {
 
 		mTypeSpinner = Objects.requireNonNull(root.findViewById(R.id.post_submit_type));
 		mFlairSpinner = Objects.requireNonNull(root.findViewById(R.id.post_submit_flair));
+		mFlairSpinnerLayout = Objects.requireNonNull(root.findViewById(R.id.post_submit_flair_layout));
 		mTitleEdit = Objects.requireNonNull(root.findViewById(R.id.post_submit_title));
 		mTextEdit = Objects.requireNonNull(root.findViewById(R.id.post_submit_body));
+		mTextEditLayout = Objects.requireNonNull(root.findViewById(R.id.post_submit_body_layout));
 
 		mSendRepliesToInboxCheckbox = Objects.requireNonNull(
 				root.findViewById(R.id.post_submit_send_replies_to_inbox));
@@ -229,13 +237,12 @@ public class PostSubmitContentFragment extends Fragment {
 		heading.setText(String.format(
 				Locale.US,
 				getString(R.string.post_submit_heading),
-				args.subreddit.toString(),
+                args.subreddit,
 				args.username));
 
-		mTypeSpinner.setAdapter(new ArrayAdapter<>(
-				mContext,
-				android.R.layout.simple_list_item_1,
-				POST_TYPES));
+		mTypeSpinner.setText(POST_TYPE_LINK);
+
+		AndroidCommon.setAutoCompleteTextViewItemsNoFilter(mTypeSpinner, POST_TYPES);
 
 		if(args.url != null) {
 			mTextEdit.setText(args.url);
@@ -243,7 +250,7 @@ public class PostSubmitContentFragment extends Fragment {
 
 		// Fetch information from draft if a draft exists
 		if(args.url == null && (lastTitle != null || lastText != null)) {
-			mTypeSpinner.setSelection(lastType);
+			mTypeSpinner.setText(lastType);
 			mTitleEdit.setText(lastTitle);
 			mTextEdit.setText(lastText);
 			mSendRepliesToInboxCheckbox.setChecked(lastInbox);
@@ -253,20 +260,7 @@ public class PostSubmitContentFragment extends Fragment {
 
 		setHint();
 
-		mTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
-			public void onItemSelected(
-					@Nullable final AdapterView<?> parent,
-					@Nullable final View view,
-					final int position,
-					final long id) {
-				setHint();
-			}
-
-			@Override
-			public void onNothingSelected(final AdapterView<?> parent) {
-			}
-		});
+		AndroidCommon.onTextChanged(mTypeSpinner, this::setHint);
 
 		requestSubredditDetails();
 
@@ -277,13 +271,10 @@ public class PostSubmitContentFragment extends Fragment {
 
 		final Context appContext = mContext.getApplicationContext();
 
-		mFlairIds.clear();
-		mFlairIds.add(null);
+		mFlairSpinner.setAdapter(null);
+		mFlairSpinner.setText(appContext.getString(message));
 
-		mFlairSpinner.setAdapter(new ArrayAdapter<>(
-				mContext,
-				android.R.layout.simple_list_item_1,
-				new String[] {appContext.getString(message)}));
+		mFlairSpinnerLayout.setEnabled(false);
 
 		mFlairSpinner.setEnabled(false);
 		mFlairSpinner.setAlpha(0.5f);
@@ -299,33 +290,31 @@ public class PostSubmitContentFragment extends Fragment {
 		final ArrayList<String> choiceStrings = new ArrayList<>(choices.size() + 1);
 		mFlairIds.clear();
 
-		choiceStrings.add(appContext.getString(R.string.post_submit_flair_none_selected));
-		mFlairIds.add(null);
+		final String noneSelected = appContext.getString(R.string.post_submit_flair_none_selected);
+
+		choiceStrings.add(noneSelected);
 
 		for(final RedditFlairChoice choice : choices) {
 			choiceStrings.add(choice.text);
-			mFlairIds.add(choice.templateId);
+			mFlairIds.put(choice.text, choice.templateId);
 		}
 
-		mFlairSpinner.setAdapter(new ArrayAdapter<>(
-				mContext,
-				android.R.layout.simple_list_item_1,
-				choiceStrings));
+		AndroidCommon.setAutoCompleteTextViewItemsNoFilter(mFlairSpinner, choiceStrings);
 
-		mFlairSpinner.setSelection(0);
+		mFlairSpinner.setText(noneSelected);
 	}
 
 	private void setHint() {
 
-		final Object selected = mTypeSpinner.getSelectedItem();
+		final Object selected = mTypeSpinner.getText().toString();
 
-		if(selected.equals("Link") || selected.equals("Upload to Imgur")) {
-			mTextEdit.setHint(getString(R.string.submit_post_url_hint));
+		if(selected.equals(POST_TYPE_LINK) || selected.equals(POST_TYPE_IMGUR)) {
+			mTextEditLayout.setHint(getString(R.string.submit_post_url_hint));
 			mTextEdit.setInputType(InputType.TYPE_CLASS_TEXT
 					| InputType.TYPE_TEXT_VARIATION_URI);
 			mTextEdit.setSingleLine(true);
-		} else if(selected.equals("Self")) {
-			mTextEdit.setHint(getString(R.string.submit_post_self_text_hint));
+		} else if(selected.equals(POST_TYPE_SELF)) {
+			mTextEditLayout.setHint(getString(R.string.submit_post_self_text_hint));
 			mTextEdit.setInputType(InputType.TYPE_CLASS_TEXT
 					| InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE
 					| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
@@ -334,7 +323,7 @@ public class PostSubmitContentFragment extends Fragment {
 			throw new RuntimeException("Unknown selection " + selected.toString());
 		}
 
-		if(selected.equals("Upload to Imgur")) {
+		if(selected.equals(POST_TYPE_IMGUR)) {
 
 			mTypeSpinner.setSelection(0); // Link
 
@@ -561,7 +550,7 @@ public class PostSubmitContentFragment extends Fragment {
 					}
 				};
 
-				final boolean isSelfPost = mTypeSpinner.getSelectedItem().equals("Self");
+				final boolean isSelfPost = mTypeSpinner.getText().toString().equals(POST_TYPE_SELF);
 
 				while(subreddit.startsWith("/")) {
 					subreddit = subreddit.substring(1);
@@ -577,7 +566,7 @@ public class PostSubmitContentFragment extends Fragment {
 				final boolean markAsNsfw = mMarkAsNsfwCheckbox.isChecked();
 				final boolean markAsSpoiler = mMarkAsSpoilerCheckbox.isChecked();
 
-				final String flairId = mFlairIds.get(mFlairSpinner.getSelectedItemPosition());
+				final String flairId = mFlairIds.get(mFlairSpinner.getText().toString());
 
 				RedditAPI.submit(
 						cm,
@@ -609,7 +598,7 @@ public class PostSubmitContentFragment extends Fragment {
 
 	private void resetDraft() {
 		mDraftReset = true;
-		lastType = 0;
+		lastType = null;
 		lastTitle = null;
 		lastText = null;
 		lastInbox = true;

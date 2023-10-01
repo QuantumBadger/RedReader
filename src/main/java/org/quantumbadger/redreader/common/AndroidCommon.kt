@@ -25,7 +25,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ListAdapter
 import android.widget.TextView
+import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import org.quantumbadger.redreader.adapters.NoFilterAdapter
 import java.io.ByteArrayInputStream
 import java.security.cert.CertificateFactory
 
@@ -115,4 +118,21 @@ object AndroidCommon {
 		val versionName: String,
 		val ids: List<ByteArray>
 	)
+
+	@JvmStatic
+	fun setAutoCompleteTextViewItemsNoFilter(
+		view: MaterialAutoCompleteTextView,
+		items: List<String>
+	) {
+		view.setSimpleItems(items.toTypedArray())
+		view.setAdapter(NoFilterAdapter(view.adapter as ListAdapter, items))
+	}
+
+	@JvmStatic
+	fun setAutoCompleteTextViewItemsNoFilter(
+		view: MaterialAutoCompleteTextView,
+		items: Array<String>
+	) {
+		setAutoCompleteTextViewItemsNoFilter(view, items.toList())
+	}
 }

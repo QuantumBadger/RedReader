@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.common;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -30,7 +29,12 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import org.quantumbadger.redreader.R;
+
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class DialogUtils {
 	public interface OnSearchListener {
@@ -45,11 +49,32 @@ public class DialogUtils {
 
 	public static void showSearchDialog(
 			final Context context,
-			final int titleRes,
+			@StringRes final int titleRes,
 			final OnSearchListener listener) {
 		final MaterialAlertDialogBuilder alertBuilder = new MaterialAlertDialogBuilder(context);
-		final EditText editText = (EditText)LayoutInflater.from(context)
-				.inflate(R.layout.dialog_editbox, null);
+		final AtomicReference<EditText> editTextRef = new AtomicReference<>();
+
+		alertBuilder.setView(R.layout.dialog_editbox);
+
+		alertBuilder.setPositiveButton(
+				R.string.action_search,
+				(dialog, which) -> performSearch(editTextRef.get(), listener));
+
+		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
+
+		final AlertDialog alertDialog = alertBuilder.create();
+		alertDialog.getWindow()
+				.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+						| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+		alertDialog.show();
+
+		final TextInputEditText editText
+				= Objects.requireNonNull(alertDialog.findViewById(R.id.editbox));
+
+		final TextInputLayout editTextLayout
+				= Objects.requireNonNull(alertDialog.findViewById(R.id.editbox_layout));
+
+		editTextRef.set(editText);
 
 		final TextView.OnEditorActionListener onEnter = (v, actionId, event) -> {
 			performSearch(editText, listener);
@@ -57,20 +82,9 @@ public class DialogUtils {
 		};
 		editText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 		editText.setOnEditorActionListener(onEnter);
+		editText.requestFocus();
 
-		alertBuilder.setView(editText);
-		alertBuilder.setTitle(titleRes);
-
-		alertBuilder.setPositiveButton(
-				R.string.action_search,
-				(dialog, which) -> performSearch(editText, listener));
-
-		alertBuilder.setNegativeButton(R.string.dialog_cancel, null);
-
-		final AlertDialog alertDialog = alertBuilder.create();
-		alertDialog.getWindow()
-				.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		alertDialog.show();
+		editTextLayout.setHint(titleRes);
 	}
 
 	private static void performSearch(

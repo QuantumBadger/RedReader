@@ -17,18 +17,32 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<EditText
+<FrameLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginBottom="16dp"
-		android:layout_marginLeft="4dp"
-		android:layout_marginRight="4dp"
-		android:layout_marginTop="16dp"
-		android:inputType="textNoSuggestions"
-		android:importantForAutofill="no"
-		tools:ignore="LabelFor">
+		android:padding="24dp">
 
-	<requestFocus/>
-</EditText>
+	<com.google.android.material.textfield.TextInputLayout
+			android:id="@+id/editbox_layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+		<com.google.android.material.textfield.TextInputEditText
+				android:id="@+id/editbox"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:importantForAutofill="no"
+				android:singleLine="true"
+				android:scrollHorizontally="true"
+				android:scrollbars="none"
+				android:inputType="textAutoCorrect">
+
+			<requestFocus/>
+
+		</com.google.android.material.textfield.TextInputEditText>
+
+	</com.google.android.material.textfield.TextInputLayout>
+
+</FrameLayout>

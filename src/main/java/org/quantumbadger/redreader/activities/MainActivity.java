@@ -431,7 +431,8 @@ public class MainActivity extends RefreshableActivity
 
 				final AlertDialog alertDialog = alertBuilder.create();
 				alertDialog.getWindow()
-						.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+						.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
+								| WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 				alertDialog.show();
 
 				break;

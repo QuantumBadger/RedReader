@@ -10,7 +10,8 @@
 	<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/search_listing_header_query"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:layout_margin="6dp">
 
 		<EditText
 				android:id="@+id/search_listing_header_query_editText"
@@ -27,7 +28,8 @@
 	<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/search_listing_header_sub"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content"
+			android:layout_margin="6dp">
 
 		<EditText
 				android:id="@+id/search_listing_header_sub_editText"
@@ -41,9 +43,10 @@
 
 	</com.google.android.material.textfield.TextInputLayout>
 
-	<Button
+	<com.google.android.material.button.MaterialButton
 			android:id="@+id/search_listing_header_search"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_margin="6dp"
 			android:text="@string/action_search" />
 </LinearLayout>

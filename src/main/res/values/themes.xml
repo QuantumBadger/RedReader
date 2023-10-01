@@ -52,8 +52,8 @@
         <item name="rrLoadingRingForegroundCol">#C8C8C8</item>
         <item name="rrLoadingRingBackgroundCol">#323232</item>
 
-        <item name="alertDialogTheme">@style/Theme.MaterialComponents.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.MaterialComponents.Dark</item>
+        <item name="alertDialogTheme">@style/Theme.Material3.Dark.Dialog.Alert</item>
+		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.Material3.Dark</item>
 
 		<item name="actionBarSize">48dp</item>
 

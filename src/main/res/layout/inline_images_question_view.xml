@@ -60,22 +60,25 @@
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content">
 
-				<Button
+				<com.google.android.material.button.MaterialButton
 						android:id="@+id/inline_preview_prompt_turn_off_button"
-						style="@style/Widget.MaterialComponents.Button.TextButton"
+						style="@style/Widget.Material3.Button.OutlinedButton"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/inline_preview_prompt_turn_off"
 						android:textAllCaps="true"
+						android:layout_marginEnd="10dp"
+						android:layout_marginRight="10dp"
 						app:layout_constraintTop_toTopOf="parent"
 						app:layout_constraintEnd_toStartOf="@id/inline_preview_prompt_keep_showing_button"/>
 
-				<Button
+				<com.google.android.material.button.MaterialButton
 						android:id="@+id/inline_preview_prompt_keep_showing_button"
-						style="@style/Widget.MaterialComponents.Button.TextButton"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/inline_preview_prompt_keep_showing"
+						android:paddingLeft="20dp"
+						android:paddingRight="20dp"
 						android:textAllCaps="true"
 						app:layout_constraintTop_toTopOf="parent"
 						app:layout_constraintEnd_toEndOf="parent"/>

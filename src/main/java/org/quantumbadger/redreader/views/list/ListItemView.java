@@ -23,9 +23,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.google.android.material.textview.MaterialTextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Optional;
 
@@ -34,7 +34,7 @@ public class ListItemView extends FrameLayout {
 
 	private final View mDivider;
 
-	private final TextView mMainText;
+	private final MaterialTextView mMainText;
 	private final ImageView mMainIcon;
 	private final LinearLayout mMainLink;
 

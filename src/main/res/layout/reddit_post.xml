@@ -88,7 +88,7 @@
 					android:gravity="center_vertical"
 					android:layout_weight="1">
 
-				<TextView
+				<com.google.android.material.textview.MaterialTextView
 						android:id="@+id/reddit_post_title"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
 						android:paddingBottom="0dp"
 						android:textSize="14sp"/>
 
-				<TextView
+				<com.google.android.material.textview.MaterialTextView
 						android:id="@+id/reddit_post_subtitle"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
 						android:layout_marginBottom="2dp"
 						android:contentDescription="@string/action_comments"/>
 
-				<TextView
+				<com.google.android.material.textview.MaterialTextView
 						android:id="@+id/reddit_post_comments_text"
 						android:layout_height="wrap_content"
 						android:layout_width="fill_parent"

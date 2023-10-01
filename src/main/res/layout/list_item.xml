@@ -62,7 +62,7 @@
 					android:scaleType="fitCenter"
 					tools:ignore="ContentDescription"/>
 
-			<TextView
+			<com.google.android.material.textview.MaterialTextView
 					android:id="@+id/list_item_text"
 					android:layout_width="fill_parent"
 					android:layout_height="wrap_content"

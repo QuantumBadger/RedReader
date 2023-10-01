@@ -24,7 +24,10 @@
 
         <item name="colorPrimary">#CCCCCC</item>
         <item name="colorPrimaryDark">#000000</item>
+		<item name="colorOnPrimary">#000000</item>
+
         <item name="colorAccent">#99DDDD</item>
+
 		<item name="rrActionBarCol">#222222</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#323232</item>
@@ -272,6 +275,9 @@
 
 		<item name="colorPrimary">#CCCCCC</item>
 		<item name="colorPrimaryDark">#555555</item>
+
+		<item name="colorOnPrimary">#000000</item>
+
 		<item name="colorAccent">#99DDDD</item>
 		<item name="rrActionBarCol">#555555</item>
 		<item name="android:windowBackground">@color/settingsWindowBackground</item>
@@ -286,8 +292,18 @@
 
         <item name="colorPrimary">#222222</item>
         <item name="colorPrimaryDark">#111111</item>
+		<item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorAccent">?colorPrimaryDark</item>
 		<item name="rrActionBarCol">?colorPrimary</item>
+
+		<item name="colorSurface">#FFFFFF</item>
+		<item name="colorSurfaceBright">#FFFFFF</item>
+		<item name="colorSurfaceContainer">#FFFFFF</item>
+		<item name="colorSurfaceContainerHigh">#FFFFFF</item>
+		<item name="colorSurfaceContainerHighest">#FFFFFF</item>
+		<item name="colorSurfaceContainerLow">#FFFFFF</item>
+		<item name="colorSurfaceContainerLowest">#FFFFFF</item>
+		<item name="colorSurfaceDim">#FFFFFF</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#323232</item>
 

@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.AccountListAdapter;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.RunnableOnce;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
@@ -80,16 +81,19 @@ public class AccountListDialog extends AppCompatDialogFragment
 		builder.setTitle(mActivity.getString(R.string.options_accounts_long));
 
 		rv = new RecyclerView(mActivity);
-		builder.setView(rv);
 
 		rv.setLayoutManager(new LinearLayoutManager(mActivity));
 		rv.setAdapter(new AccountListAdapter(mActivity, this));
 		rv.setHasFixedSize(true);
 
+		final int paddingPx = General.dpToPixels(mActivity, 16f);
+		rv.setPadding(paddingPx, paddingPx, paddingPx, 0);
+
 		RedditAccountManager.getInstance(mActivity).addUpdateListener(this);
 
 		builder.setNeutralButton(mActivity.getString(R.string.dialog_close), null);
 
+		builder.setView(rv);
 		return builder.create();
 	}
 

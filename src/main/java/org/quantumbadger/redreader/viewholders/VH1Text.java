@@ -18,8 +18,8 @@
 package org.quantumbadger.redreader.viewholders;
 
 import android.view.View;
-import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.textview.MaterialTextView;
 import org.quantumbadger.redreader.R;
 
 /**
@@ -27,7 +27,7 @@ import org.quantumbadger.redreader.R;
  */
 public class VH1Text extends RecyclerView.ViewHolder {
 
-	public final TextView text;
+	public final MaterialTextView text;
 
 	public VH1Text(final View itemView) {
 		super(itemView);

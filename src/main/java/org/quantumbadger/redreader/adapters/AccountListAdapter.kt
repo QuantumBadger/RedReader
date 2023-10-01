@@ -41,10 +41,12 @@ class AccountListAdapter(private val context: Context, private val fragment: Fra
     HeaderRecyclerAdapter<RecyclerView.ViewHolder?>() {
     private val accounts = RedditAccountManager.getInstance(context).accounts
 	private val rrIconAdd: Drawable?
+	private val rrIconUser: Drawable?
 
     init {
-		val attr = context.obtainStyledAttributes(intArrayOf(R.attr.rrIconAdd))
+		val attr = context.obtainStyledAttributes(intArrayOf(R.attr.rrIconAdd, R.attr.rrIconPerson))
         rrIconAdd = ContextCompat.getDrawable(context, attr.getResourceId(0, 0))
+		rrIconUser = ContextCompat.getDrawable(context, attr.getResourceId(1, 0))
         attr.recycle()
     }
 
@@ -135,6 +137,7 @@ class AccountListAdapter(private val context: Context, private val fragment: Fra
             )
         }
         vh.text.text = username.get()
+		vh.text.setCompoundDrawablesWithIntrinsicBounds(rrIconUser, null, null, null)
         vh.itemView.setOnClickListener {
 
 			val actions = ArrayList<AccountAction>()

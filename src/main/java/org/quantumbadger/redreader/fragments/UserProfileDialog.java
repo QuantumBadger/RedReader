@@ -51,6 +51,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimeFormatHelper;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -92,6 +93,12 @@ public class UserProfileDialog {
 		final MaterialTextView textviewAccountAge = Objects.requireNonNull(
 				dialog.findViewById(R.id.user_profile_account_age));
 
+		final Chip chipYou = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_chip_you));
+
+		final Chip chipFriend = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_chip_friend));
+
 		final Chip chipAdmin = Objects.requireNonNull(
 				dialog.findViewById(R.id.user_profile_chip_admin));
 
@@ -118,6 +125,8 @@ public class UserProfileDialog {
 
 		final CacheManager cm = CacheManager.getInstance(activity);
 
+		final RedditAccountManager accountManager = RedditAccountManager.getInstance(activity);
+
 		RedditAPI.getUser(
 				cm,
 				username,
@@ -127,7 +136,6 @@ public class UserProfileDialog {
 
 					@Override
 					protected void onSuccess(final RedditUser user, final TimestampUTC timestamp) {
-
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
 							if (!dialog.isShowing()) {
@@ -145,6 +153,16 @@ public class UserProfileDialog {
 										activity,
 										R.string.user_profile_account_age,
 										1));
+
+							if (!StringUtils.asciiLowercase(user.name).equals(
+									StringUtils.asciiLowercase(accountManager
+											.getDefaultAccount().getCanonicalUsername()))) {
+								chipYou.setVisibility(View.GONE);
+							}
+
+							if (!user.is_friend) {
+								chipFriend.setVisibility(View.GONE);
+							}
 
 							if (!user.is_employee) {
 								chipAdmin.setVisibility(View.GONE);
@@ -244,7 +262,7 @@ public class UserProfileDialog {
 						});
 					}
 				},
-				RedditAccountManager.getInstance(activity).getDefaultAccount(),
+				accountManager.getDefaultAccount(),
 				DownloadStrategyAlways.INSTANCE,
 				activity);
 	}

@@ -1795,5 +1795,7 @@
 	<string name="userprofile_comments">Comments</string>
 	<string name="userprofile_accessibility_karma">Karma: %d</string>
 	<string name="userprofile_send_message">Send message</string>
+	<string name="userprofile_tag_friend">Friend</string>
+	<string name="userprofile_tag_you">You</string>
 
 </resources>

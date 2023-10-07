@@ -90,6 +90,26 @@
 					android:layout_marginBottom="0dp">
 
 				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_you"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/userprofile_tag_you"
+						style="@style/Widget.Material3.Chip.Suggestion"
+						android:clickable="false"
+						android:checkable="false"
+						app:chipMinTouchTargetSize="0dp"/>
+
+				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_friend"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/userprofile_tag_friend"
+						style="@style/Widget.Material3.Chip.Suggestion"
+						android:clickable="false"
+						android:checkable="false"
+						app:chipMinTouchTargetSize="0dp"/>
+
+				<com.google.android.material.chip.Chip
 						android:id="@+id/user_profile_chip_admin"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"

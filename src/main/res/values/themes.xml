@@ -122,6 +122,7 @@
         <item name="rrIconTime">@drawable/ic_time_dark</item>
         <item name="rrIconForward">@drawable/ic_action_forward_dark</item>
 		<item name="rrIconOverflow">@drawable/dots_vertical_dark</item>
+		<item name="rrIconArrowUpSmall">@drawable/arrow_up_small_dark</item>
 		<item name="rrIconArrowUpBold">@drawable/arrow_up_bold_dark</item>
 		<item name="rrIconArrowDownBold">@drawable/arrow_down_bold_dark</item>
 		<item name="rrIconStarFilledOff">@drawable/star_off_dark</item>
@@ -403,6 +404,7 @@
         <item name="rrIconTime">@drawable/ic_time_light</item>
         <item name="rrIconForward">@drawable/ic_action_forward_light</item>
 		<item name="rrIconOverflow">@drawable/dots_vertical_light</item>
+		<item name="rrIconArrowUpSmall">@drawable/arrow_up_small_light</item>
 		<item name="rrIconArrowUpBold">@drawable/arrow_up_bold_light</item>
 		<item name="rrIconArrowDownBold">@drawable/arrow_down_bold_light</item>
 		<item name="rrIconStarFilledOff">@drawable/star_off_light</item>

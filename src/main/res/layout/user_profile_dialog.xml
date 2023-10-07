@@ -45,8 +45,8 @@
 
 					<androidx.appcompat.widget.AppCompatImageView
 							android:id="@+id/avatar_image"
-							android:layout_width="80dp"
-							android:layout_height="80dp"
+							android:layout_width="64dp"
+							android:layout_height="64dp"
 							android:layout_gravity="center"
 							android:contentDescription="@string/userprofile_avatar"
 							android:scaleType="fitCenter"/>
@@ -118,6 +118,7 @@
 			</com.google.android.material.chip.ChipGroup>
 
 			<com.google.android.material.card.MaterialCardView
+					android:id="@+id/user_profile_posts"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginHorizontal="20dp"
@@ -143,14 +144,17 @@
 						<com.google.android.material.textview.MaterialTextView
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
-								android:layout_marginBottom="2sp"
+								android:layout_marginBottom="1sp"
 								android:text="Posts"
 								android:textSize="18sp"/>
 
 						<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/user_profile_posts_karma"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
-								android:text="18,283 karma"
+								android:drawableStart="?rrIconArrowUpSmall"
+								android:drawableLeft="?rrIconArrowUpSmall"
+								android:drawablePadding="4dp"
 								android:textSize="14sp"/>
 
 					</androidx.appcompat.widget.LinearLayoutCompat>
@@ -170,6 +174,7 @@
 			</com.google.android.material.card.MaterialCardView>
 
 			<com.google.android.material.card.MaterialCardView
+					android:id="@+id/user_profile_comments"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginHorizontal="20dp"
@@ -195,14 +200,17 @@
 						<com.google.android.material.textview.MaterialTextView
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
-								android:layout_marginBottom="2sp"
+								android:layout_marginBottom="1sp"
 								android:text="Comments"
 								android:textSize="18sp"/>
 
 						<com.google.android.material.textview.MaterialTextView
+								android:id="@+id/user_profile_comments_karma"
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
-								android:text="18,283 karma"
+								android:drawableStart="?rrIconArrowUpSmall"
+								android:drawableLeft="?rrIconArrowUpSmall"
+								android:drawablePadding="4dp"
 								android:textSize="14sp"/>
 
 					</androidx.appcompat.widget.LinearLayoutCompat>
@@ -222,6 +230,7 @@
 			</com.google.android.material.card.MaterialCardView>
 
 			<com.google.android.material.card.MaterialCardView
+					android:id="@+id/user_profile_send_message"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginHorizontal="20dp"

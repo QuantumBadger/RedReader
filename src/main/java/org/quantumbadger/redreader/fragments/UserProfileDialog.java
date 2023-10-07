@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
@@ -60,6 +61,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.text.NumberFormat;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -95,6 +97,21 @@ public class UserProfileDialog {
 
 		final Chip chipGold = Objects.requireNonNull(
 				dialog.findViewById(R.id.user_profile_chip_gold));
+
+		final MaterialCardView postsCard = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_posts));
+
+		final MaterialCardView commentsCard = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_comments));
+
+		final MaterialCardView messageCard = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_send_message));
+
+		final MaterialTextView postsKarma = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_posts_karma));
+
+		final MaterialTextView commentsKarma = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_comments_karma));
 
 		final CacheManager cm = CacheManager.getInstance(activity);
 
@@ -154,14 +171,16 @@ public class UserProfileDialog {
 									try {
 										assignUserAvatar(iconUrl, avatarView, context);
 									} catch (final URISyntaxException e) {
-										Log.d("UserProfileDialog", "Error decoding uri: " + e);
+										Log.e("UserProfileDialog", "Error decoding uri", e);
 									}
-								} else {
-									Log.d(
-											"UserProfileDialog",
-											"Unknown icon url: " + user.icon_img);
 								}
 							}
+
+							postsKarma.setText(
+									NumberFormat.getNumberInstance().format(user.link_karma));
+
+							commentsKarma.setText(
+									NumberFormat.getNumberInstance().format(user.comment_karma));
 
 							/*
 							final LinearLayout linkKarmaLayout

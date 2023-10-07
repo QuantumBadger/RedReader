@@ -103,6 +103,7 @@
     <attr name="rrIconTime" format="reference" />
     <attr name="rrIconForward" format="reference" />
 	<attr name="rrIconOverflow" format="reference" />
+	<attr name="rrIconArrowUpSmall" format="reference" />
 	<attr name="rrIconArrowUpBold" format="reference" />
 	<attr name="rrIconArrowDownBold" format="reference" />
 	<attr name="rrIconStarFilledOff" format="reference" />

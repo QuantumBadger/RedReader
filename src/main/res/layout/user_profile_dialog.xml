@@ -308,7 +308,7 @@
 						android:layout_height="wrap_content"
 						app:chipIcon="?rrIconInfo"
 						app:chipIconSize="16sp"
-						android:text="More info"
+						android:text="@string/userprofile_button_more_info"
 						style="@style/Widget.Material3.Chip.Assist.Elevated"
 						android:checkable="false"/>
 

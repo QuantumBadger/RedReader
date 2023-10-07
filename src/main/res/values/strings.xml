@@ -1797,6 +1797,7 @@
 	<string name="userprofile_send_message">Send message</string>
 	<string name="userprofile_tag_friend">Friend</string>
 	<string name="userprofile_tag_you">You</string>
+	<string name="userprofile_button_more_info">More info</string>
 
 	<string name="props_id">ID</string>
 

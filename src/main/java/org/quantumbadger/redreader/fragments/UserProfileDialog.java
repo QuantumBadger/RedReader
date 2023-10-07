@@ -135,7 +135,8 @@ public class UserProfileDialog {
 				username,
 				new APIResponseHandler.UserResponseHandler(activity) {
 					@Override
-					protected void onDownloadStarted() {}
+					protected void onDownloadStarted() {
+					}
 
 					@Override
 					protected void onSuccess(final RedditUser user, final TimestampUTC timestamp) {
@@ -151,11 +152,11 @@ public class UserProfileDialog {
 							textviewUsername.setText(user.name);
 
 							textviewAccountAge.setText(TimeFormatHelper.format(
-										TimestampUTC.now().elapsedPeriodSince(
-												TimestampUTC.fromUtcSecs(user.created_utc)),
-										activity,
-										R.string.user_profile_account_age,
-										1));
+									TimestampUTC.now().elapsedPeriodSince(
+											TimestampUTC.fromUtcSecs(user.created_utc)),
+									activity,
+									R.string.user_profile_account_age,
+									1));
 
 							if (!StringUtils.asciiLowercase(user.name).equals(
 									StringUtils.asciiLowercase(accountManager
@@ -243,7 +244,7 @@ public class UserProfileDialog {
 
 							chipMoreInfo.setOnClickListener(
 									v -> UserPropertiesDialog.newInstance(user)
-                                    		.show(activity.getSupportFragmentManager(), null));
+											.show(activity.getSupportFragmentManager(), null));
 						});
 					}
 

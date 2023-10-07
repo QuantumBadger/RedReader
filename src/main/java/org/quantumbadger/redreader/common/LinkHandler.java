@@ -47,6 +47,7 @@ import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.fragments.ShareOrderDialog;
 import org.quantumbadger.redreader.fragments.UserProfileDialog;
+import org.quantumbadger.redreader.http.HTTPBackend;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.DeviantArtAPI;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
@@ -63,6 +64,7 @@ import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.url.ComposeMessageURL;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
+import org.quantumbadger.redreader.reddit.url.OpaqueSharedURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.ArrayList;
@@ -227,7 +229,26 @@ public class LinkHandler {
 		if(redditURL != null) {
 
 			switch(redditURL.pathType()) {
-
+				case RedditURLParser.OPAQUE_SHARED_URL:
+					// kick off a thread to get the real url
+					new Thread(() -> {
+						final String toFetchUrl = OpaqueSharedURL.getUrlToFetch(
+								(OpaqueSharedURL) redditURL
+						).toString();
+						final String realUrl = HTTPBackend.getBackend()
+								.resolveRedirectUri(toFetchUrl);
+						if(realUrl != null) {
+							activity.runOnUiThread(() -> onLinkClicked(
+									activity,
+									realUrl,
+									forceNoImage,
+									post,
+									albumInfo,
+									albumImageIndex,
+									fromExternalIntent));
+						}
+					}).start();
+					return;
 				case RedditURLParser.SUBREDDIT_POST_LISTING_URL:
 				case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
 				case RedditURLParser.USER_POST_LISTING_URL:

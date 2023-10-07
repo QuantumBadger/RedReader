@@ -123,6 +123,9 @@ public class UserProfileDialog {
 		final MaterialTextView commentsKarma = Objects.requireNonNull(
 				dialog.findViewById(R.id.user_profile_comments_karma));
 
+		final Chip chipMoreInfo = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_chip_more_info));
+
 		final CacheManager cm = CacheManager.getInstance(activity);
 
 		final RedditAccountManager accountManager = RedditAccountManager.getInstance(activity);
@@ -237,6 +240,10 @@ public class UserProfileDialog {
 							} else {
 								messageCard.setVisibility(View.GONE);
 							}
+
+							chipMoreInfo.setOnClickListener(
+									v -> UserPropertiesDialog.newInstance(user)
+                                    		.show(activity.getSupportFragmentManager(), null));
 						});
 					}
 

@@ -94,7 +94,7 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/userprofile_tag_you"
-						style="@style/Widget.Material3.Chip.Suggestion"
+						style="@style/Widget.Material3.Chip.Assist"
 						android:clickable="false"
 						android:checkable="false"
 						app:chipMinTouchTargetSize="0dp"/>
@@ -104,7 +104,7 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/userprofile_tag_friend"
-						style="@style/Widget.Material3.Chip.Suggestion"
+						style="@style/Widget.Material3.Chip.Assist"
 						android:clickable="false"
 						android:checkable="false"
 						app:chipMinTouchTargetSize="0dp"/>
@@ -114,7 +114,7 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/userprofile_tag_admin"
-						style="@style/Widget.Material3.Chip.Suggestion"
+						style="@style/Widget.Material3.Chip.Assist"
 						android:clickable="false"
 						android:checkable="false"
 						app:chipMinTouchTargetSize="0dp"/>
@@ -124,7 +124,7 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/userprofile_tag_moderator"
-						style="@style/Widget.Material3.Chip.Suggestion"
+						style="@style/Widget.Material3.Chip.Assist"
 						android:clickable="false"
 						android:checkable="false"
 						app:chipMinTouchTargetSize="0dp"/>
@@ -134,7 +134,7 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="@string/userprofile_tag_gold"
-						style="@style/Widget.Material3.Chip.Suggestion"
+						style="@style/Widget.Material3.Chip.Assist"
 						android:clickable="false"
 						android:checkable="false"
 						app:chipMinTouchTargetSize="0dp"/>
@@ -293,6 +293,26 @@
 				</androidx.constraintlayout.widget.ConstraintLayout>
 
 			</com.google.android.material.card.MaterialCardView>
+
+			<com.google.android.material.chip.ChipGroup
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					app:selectionRequired="false"
+					android:layout_marginHorizontal="20dp"
+					android:layout_marginTop="20dp"
+					android:layout_marginBottom="0dp">
+
+				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_more_info"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:chipIcon="?rrIconInfo"
+						app:chipIconSize="16sp"
+						android:text="More info"
+						style="@style/Widget.Material3.Chip.Assist.Elevated"
+						android:checkable="false"/>
+
+			</com.google.android.material.chip.ChipGroup>
 
 		</androidx.appcompat.widget.LinearLayoutCompat>
 

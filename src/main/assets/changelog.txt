@@ -7,6 +7,7 @@ Handle mailto links correctly (thanks to Cameron Merkel)
 Ability to open comments in external browser (thanks to Cameron Merkel)
 Preference for domain when sharing Reddit links (thanks to Cameron Merkel)
 Handle Reddit galleries containing links, and show gallery thumbnails for small images (thanks to Cameron Merkel)
+Handle shared /s/ URLs correctly (thanks to Adam Williams)
 Updated target SDK to 33
 
 108/1.22

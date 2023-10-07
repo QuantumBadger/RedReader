@@ -1,5 +1,6 @@
 /Alpha 340 (2023-10-07)
 Updated target SDK to 33
+Handle shared /s/ URLs correctly (thanks to Adam Williams)
 
 /Alpha 339 (2023-09-23)
 Initial update to Material 3 design elements

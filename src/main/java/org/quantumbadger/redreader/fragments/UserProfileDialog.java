@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.fragments;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -35,6 +36,7 @@ import com.google.android.material.textview.MaterialTextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.PMSendActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
@@ -55,6 +57,7 @@ import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
+import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
@@ -182,95 +185,30 @@ public class UserProfileDialog {
 							commentsKarma.setText(
 									NumberFormat.getNumberInstance().format(user.comment_karma));
 
-							/*
-							final LinearLayout linkKarmaLayout
-									= karmaLayout.findViewById(R.id.layout_karma_link);
-							final LinearLayout commentKarmaLayout
-									= karmaLayout.findViewById(R.id.layout_karma_comment);
-							final TextView linkKarma
-									= karmaLayout.findViewById(R.id.layout_karma_text_link);
-							final TextView commentKarma
-									= karmaLayout.findViewById(R.id.layout_karma_text_comment);
-
-							linkKarma.setText(String.valueOf(user.link_karma));
-							commentKarma.setText(String.valueOf(user.comment_karma));
-
-							items.addView(propView(
-									context,
-									R.string.userprofile_created,
-									TimestampUTC.fromUtcSecs(user.created_utc).format(),
-									false));
-							items.getChildAt(items.getChildCount() - 1)
-									.setNextFocusUpId(R.id.layout_karma_link);
-
-							if (user.is_friend) {
-								items.addView(propView(
-										context,
-										R.string.userprofile_isfriend,
-										R.string.general_true,
-										false));
-							}
-
-							if (user.is_gold) {
-								items.addView(propView(
-										context,
-										R.string.userprofile_isgold,
-										R.string.general_true,
-										false));
-							}
-
-							if (user.is_mod) {
-								items.addView(propView(
-										context,
-										R.string.userprofile_moderator,
-										R.string.general_true,
-										false));
-							}
-
-							final Button commentsButton = new Button(context);
-							commentsButton.setText(R.string.userprofile_viewcomments);
-							commentsButton.setOnClickListener(v -> LinkHandler.onLinkClicked(
-									context,
-									Constants.Reddit.getUri("/user/"
-													+ username
-													+ "/comments.json")
-											.toString(),
-									false));
-							items.addView(commentsButton);
-							// TODO use margin? or framelayout? scale padding dp
-							// TODO change button color
-							commentsButton.setPadding(20, 20, 20, 20);
-
-							final Button postsButton = new Button(context);
-							postsButton.setText(R.string.userprofile_viewposts);
-							postsButton.setOnClickListener(v -> LinkHandler.onLinkClicked(
+							postsCard.setOnClickListener(v -> LinkHandler.onLinkClicked(
 									context,
 									UserPostListingURL.getSubmitted(username)
 											.generateJsonUri()
 											.toString(),
 									false));
-							items.addView(postsButton);
-							// TODO use margin? or framelayout? scale padding dp
-							postsButton.setPadding(20, 20, 20, 20);
+
+							commentsCard.setOnClickListener(v -> LinkHandler.onLinkClicked(
+									context,
+									Constants.Reddit.getUri(
+											"/user/" + username + "/comments.json").toString(),
+									false));
 
 							if (!RedditAccountManager.getInstance(context)
 									.getDefaultAccount()
 									.isAnonymous()) {
-								final Button pmButton = new Button(context);
-								pmButton.setText(R.string.userprofile_pm);
-								pmButton.setOnClickListener(v -> {
-									final Intent intent = new Intent(
-											context,
-											PMSendActivity.class);
-									intent.putExtra(
-											PMSendActivity.EXTRA_RECIPIENT,
-											username);
-									startActivity(intent);
+								messageCard.setOnClickListener(v -> {
+									final Intent intent = new Intent(context, PMSendActivity.class);
+									intent.putExtra(PMSendActivity.EXTRA_RECIPIENT, username);
+									activity.startActivity(intent);
 								});
-								items.addView(pmButton);
-								pmButton.setPadding(20, 20, 20, 20);
+							} else {
+								messageCard.setVisibility(View.GONE);
 							}
-							 */
 						});
 					}
 

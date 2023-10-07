@@ -81,11 +81,6 @@ android {
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
 
-	// Flag to tell aapt to keep the attribute ids around
-	androidResources {
-		additionalParameters("--no-version-vectors")
-	}
-
 	buildTypes.forEach {
 		it.isMinifyEnabled = true
 		it.isShrinkResources = false

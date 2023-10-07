@@ -21,6 +21,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.Nullable;
 import org.apache.commons.text.StringEscapeUtils;
+import org.quantumbadger.redreader.common.ParcelUtils;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
 public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
@@ -42,6 +43,8 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 	public String modhash;
 	public String name;
 	public String icon_img;
+
+	public Boolean is_employee;
 
 	@Override
 	public int describeContents() {
@@ -83,6 +86,8 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 		modhash = in.readString();
 		name = in.readString();
 		icon_img = in.readString();
+
+		is_employee = ParcelUtils.readNullableBoolean(in);
 	}
 
 	@Override
@@ -115,6 +120,8 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 		parcel.writeString(modhash);
 		parcel.writeString(name);
 		parcel.writeString(icon_img);
+
+		ParcelUtils.writeNullableBoolean(parcel, is_employee);
 	}
 
 	@Nullable

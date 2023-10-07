@@ -1786,4 +1786,10 @@
 	<string name="post_submit_type">Post Type</string>
 	<string name="post_submit_flair">Flair</string>
 
+	<!-- 2023-10-07 -->
+	<string name="user_profile_account_age">User for %s</string>
+	<string name="userprofile_tag_moderator">Moderator</string>
+	<string name="userprofile_tag_admin">Site Admin</string>
+	<string name="userprofile_tag_gold">Gold</string>
+
 </resources>

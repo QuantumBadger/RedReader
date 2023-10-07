@@ -63,8 +63,8 @@ import org.quantumbadger.redreader.image.RedgifsAPIV2;
 import org.quantumbadger.redreader.image.StreamableAPI;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.url.ComposeMessageURL;
-import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.OpaqueSharedURL;
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 
 import java.util.ArrayList;
@@ -292,8 +292,7 @@ public class LinkHandler {
 				}
 
 				case RedditURLParser.USER_PROFILE_URL: {
-					UserProfileDialog.newInstance(redditURL.asUserProfileURL().username)
-							.show(activity.getSupportFragmentManager(), null);
+					UserProfileDialog.show(activity, redditURL.asUserProfileURL().username);
 					return;
 				}
 			}

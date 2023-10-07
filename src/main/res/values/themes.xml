@@ -296,6 +296,7 @@
         <item name="colorAccent">?colorPrimaryDark</item>
 		<item name="rrActionBarCol">?colorPrimary</item>
 
+		<item name="elevationOverlayEnabled">false</item>
 		<item name="colorSurface">#FFFFFF</item>
 		<item name="colorSurfaceBright">#FFFFFF</item>
 		<item name="colorSurfaceContainer">#FFFFFF</item>
@@ -304,6 +305,8 @@
 		<item name="colorSurfaceContainerLow">#FFFFFF</item>
 		<item name="colorSurfaceContainerLowest">#FFFFFF</item>
 		<item name="colorSurfaceDim">#FFFFFF</item>
+		<item name="colorSurfaceVariant">#F2F2F2</item>
+		<item name="colorBackgroundFloating">#FFFFFF</item>
 
 		<item name="rrPostListHeaderBackgroundCol">#323232</item>
 

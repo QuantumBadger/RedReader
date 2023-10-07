@@ -17,25 +17,23 @@
 
 package org.quantumbadger.redreader.fragments;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ScrollView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textview.MaterialTextView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.activities.PMSendActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
@@ -51,98 +49,110 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
+import org.quantumbadger.redreader.common.time.TimeFormatHelper;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
-import org.quantumbadger.redreader.reddit.url.UserPostListingURL;
+import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
-import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.Objects;
 import java.util.UUID;
 
-public class UserProfileDialog extends PropertiesDialog {
+public class UserProfileDialog {
 
-	private String username;
-	private boolean active = true;
+	public static void show(
+			@NonNull final AppCompatActivity activity,
+			@NonNull final String username) {
 
-	public static UserProfileDialog newInstance(final String user) {
+		final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(activity);
 
-		final UserProfileDialog dialog = new UserProfileDialog();
+		builder.setView(R.layout.user_profile_dialog);
 
-		final Bundle args = new Bundle();
-		args.putString("user", user);
-		dialog.setArguments(args);
+		final AlertDialog dialog = builder.show();
 
-		return dialog;
-	}
+		final LoadingSpinnerView loadingView = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_loading));
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		active = false;
-	}
+		final ScrollView scrollView = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_scrollview));
 
-	@Override
-	protected String getTitle(final Context context) {
-		return username;
-	}
+		final MaterialTextView textviewUsername = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_name));
 
-	@Override
-	protected void prepare(
-			@NonNull final BaseActivity context,
-			@NonNull final LinearLayout items) {
+		final MaterialTextView textviewAccountAge = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_account_age));
 
-		final LoadingView loadingView = new LoadingView(
-				context,
-				R.string.download_waiting,
-				true,
-				true);
-		items.addView(loadingView);
+		final Chip chipAdmin = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_chip_admin));
 
-		username = getArguments().getString("user");
-		final CacheManager cm = CacheManager.getInstance(context);
+		final Chip chipMod = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_chip_moderator));
+
+		final Chip chipGold = Objects.requireNonNull(
+				dialog.findViewById(R.id.user_profile_chip_gold));
+
+		final CacheManager cm = CacheManager.getInstance(activity);
 
 		RedditAPI.getUser(
 				cm,
 				username,
-				new APIResponseHandler.UserResponseHandler(context) {
+				new APIResponseHandler.UserResponseHandler(activity) {
 					@Override
-					protected void onDownloadStarted() {
-						if(!active) {
-							return;
-						}
-						loadingView.setIndeterminate(R.string.download_connecting);
-					}
+					protected void onDownloadStarted() {}
 
 					@Override
 					protected void onSuccess(final RedditUser user, final TimestampUTC timestamp) {
+
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-							if(!active) {
+							if (!dialog.isShowing()) {
 								return;
 							}
 
-							loadingView.setDone(R.string.download_done);
+							loadingView.setVisibility(View.GONE);
+							scrollView.setVisibility(View.VISIBLE);
 
-							if(PrefsUtility.appearance_user_show_avatars()) {
+							textviewUsername.setText(user.name);
+
+							textviewAccountAge.setText(TimeFormatHelper.format(
+										TimestampUTC.now().elapsedPeriodSince(
+												TimestampUTC.fromUtcSecs(user.created_utc)),
+										activity,
+										R.string.user_profile_account_age,
+										1));
+
+							if (!user.is_employee) {
+								chipAdmin.setVisibility(View.GONE);
+							}
+
+							if (!user.is_mod) {
+								chipMod.setVisibility(View.GONE);
+							}
+
+							if (!user.is_gold) {
+								chipGold.setVisibility(View.GONE);
+							}
+
+							if (PrefsUtility.appearance_user_show_avatars()) {
 								final String iconUrl = user.getIconUrl();
 
-								if (iconUrl != null && !iconUrl.equals("")) {
-									final LinearLayout avatarLayout
-											= (LinearLayout) context.getLayoutInflater()
-											.inflate(R.layout.avatar, null);
-									items.addView(avatarLayout);
+								if (iconUrl != null && !iconUrl.isEmpty()) {
 
-									final ImageView avatarImage
-											= avatarLayout
-											.findViewById(R.id.layout_avatar_image);
+									final AppCompatImageView avatarView
+											= dialog.findViewById(R.id.avatar_image);
+
+									final View avatarViewHolder
+											= dialog.findViewById(R.id.avatar_image_holder);
+
+									avatarViewHolder.setVisibility(View.VISIBLE);
 
 									try {
-										assignUserAvatar(iconUrl, avatarImage, context);
+										assignUserAvatar(iconUrl, avatarView, context);
 									} catch (final URISyntaxException e) {
 										Log.d("UserProfileDialog", "Error decoding uri: " + e);
 									}
@@ -153,11 +163,7 @@ public class UserProfileDialog extends PropertiesDialog {
 								}
 							}
 
-							final LinearLayout karmaLayout
-									= (LinearLayout)context.getLayoutInflater()
-											.inflate(R.layout.karma, null);
-							items.addView(karmaLayout);
-
+							/*
 							final LinearLayout linkKarmaLayout
 									= karmaLayout.findViewById(R.id.layout_karma_link);
 							final LinearLayout commentKarmaLayout
@@ -170,39 +176,6 @@ public class UserProfileDialog extends PropertiesDialog {
 							linkKarma.setText(String.valueOf(user.link_karma));
 							commentKarma.setText(String.valueOf(user.comment_karma));
 
-							linkKarmaLayout.setOnLongClickListener(v -> {
-								final ClipboardManager clipboardManager
-										= (ClipboardManager)context.getSystemService(
-										Context.CLIPBOARD_SERVICE);
-								if(clipboardManager != null) {
-									final ClipData data = ClipData.newPlainText(
-											context.getString(R.string.karma_link),
-											linkKarma.getText());
-									clipboardManager.setPrimaryClip(data);
-
-									General.quickToast(
-											context,
-											R.string.copied_to_clipboard);
-								}
-								return true;
-							});
-							commentKarmaLayout.setOnLongClickListener(v -> {
-								final ClipboardManager clipboardManager
-										= (ClipboardManager)context.getSystemService(
-										Context.CLIPBOARD_SERVICE);
-								if(clipboardManager != null) {
-									final ClipData data = ClipData.newPlainText(
-											context.getString(R.string.karma_comment),
-											commentKarma.getText());
-									clipboardManager.setPrimaryClip(data);
-
-									General.quickToast(
-											context,
-											R.string.copied_to_clipboard);
-								}
-								return true;
-							});
-
 							items.addView(propView(
 									context,
 									R.string.userprofile_created,
@@ -211,7 +184,7 @@ public class UserProfileDialog extends PropertiesDialog {
 							items.getChildAt(items.getChildCount() - 1)
 									.setNextFocusUpId(R.id.layout_karma_link);
 
-							if(user.is_friend) {
+							if (user.is_friend) {
 								items.addView(propView(
 										context,
 										R.string.userprofile_isfriend,
@@ -219,7 +192,7 @@ public class UserProfileDialog extends PropertiesDialog {
 										false));
 							}
 
-							if(user.is_gold) {
+							if (user.is_gold) {
 								items.addView(propView(
 										context,
 										R.string.userprofile_isgold,
@@ -227,7 +200,7 @@ public class UserProfileDialog extends PropertiesDialog {
 										false));
 							}
 
-							if(user.is_mod) {
+							if (user.is_mod) {
 								items.addView(propView(
 										context,
 										R.string.userprofile_moderator,
@@ -240,8 +213,8 @@ public class UserProfileDialog extends PropertiesDialog {
 							commentsButton.setOnClickListener(v -> LinkHandler.onLinkClicked(
 									context,
 									Constants.Reddit.getUri("/user/"
-											+ username
-											+ "/comments.json")
+													+ username
+													+ "/comments.json")
 											.toString(),
 									false));
 							items.addView(commentsButton);
@@ -261,7 +234,7 @@ public class UserProfileDialog extends PropertiesDialog {
 							// TODO use margin? or framelayout? scale padding dp
 							postsButton.setPadding(20, 20, 20, 20);
 
-							if(!RedditAccountManager.getInstance(context)
+							if (!RedditAccountManager.getInstance(context)
 									.getDefaultAccount()
 									.isAnonymous()) {
 								final Button pmButton = new Button(context);
@@ -278,6 +251,7 @@ public class UserProfileDialog extends PropertiesDialog {
 								items.addView(pmButton);
 								pmButton.setPadding(20, 20, 20, 20);
 							}
+							 */
 						});
 					}
 
@@ -291,70 +265,74 @@ public class UserProfileDialog extends PropertiesDialog {
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-							if(!active) {
+							if (!dialog.isShowing()) {
 								return;
 							}
 
-							loadingView.setDone(R.string.download_failed);
+							final FrameLayout root = Objects.requireNonNull(
+									dialog.findViewById(R.id.user_profile_root));
 
-							items.addView(new ErrorView(context, error));
+							root.removeAllViews();
+							root.addView(new ErrorView(context, error));
 						});
 					}
 				},
-				RedditAccountManager.getInstance(context).getDefaultAccount(),
+				RedditAccountManager.getInstance(activity).getDefaultAccount(),
 				DownloadStrategyAlways.INSTANCE,
-				context);
+				activity);
 	}
 
-	public void assignUserAvatar(
+	private static void assignUserAvatar(
 			final String url,
 			final ImageView imageOutput,
 			final AppCompatActivity context)
 			throws URISyntaxException {
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-			General.uriFromString(url),
-			RedditAccountManager.getAnon(),
-			null,
-			new Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
-			DownloadStrategyIfNotCached.INSTANCE,
-			Constants.FileType.INLINE_IMAGE_PREVIEW,
-			CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-			context,
-			new CacheRequestCallbacks() {
-				@Override
-				public void onDataStreamComplete(
-						final GenericFactory<SeekableInputStream, IOException> streamFactory,
-						final TimestampUTC timestamp,
-						final UUID session,
-						final boolean fromCache,
-						final  String mimetype) {
-					try(InputStream is = streamFactory.create()) {
-						final Bitmap data = BitmapFactory.decodeStream(is);
-						if(data == null) {
-							throw new IOException("Failed to decode bitmap");
-						}
-						AndroidCommon.runOnUiThread(() -> {
-							imageOutput.setImageBitmap(data);
-						});
+				General.uriFromString(url),
+				RedditAccountManager.getAnon(),
+				null,
+				new Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
+				DownloadStrategyIfNotCached.INSTANCE,
+				Constants.FileType.INLINE_IMAGE_PREVIEW,
+				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				context,
+				new CacheRequestCallbacks() {
+					@Override
+					public void onDataStreamComplete(
+							final GenericFactory<SeekableInputStream, IOException> streamFactory,
+							final TimestampUTC timestamp,
+							final UUID session,
+							final boolean fromCache,
+							final String mimetype) {
+						try (InputStream is = streamFactory.create()) {
+							final Bitmap data = BitmapFactory.decodeStream(is);
+							if (data == null) {
+								throw new IOException("Failed to decode bitmap");
+							}
+							AndroidCommon.runOnUiThread(() -> {
+								imageOutput.setImageBitmap(data);
+								imageOutput.setOnClickListener(
+										v -> LinkHandler.onLinkClicked(context, url));
+							});
 
-					} catch(final Throwable t) {
-						onFailure(General.getGeneralErrorForFailure(
-								context,
-								CacheRequest.REQUEST_FAILURE_CONNECTION,
-								t,
-								null,
-								url,
-								Optional.empty()));
+						} catch (final Throwable t) {
+							onFailure(General.getGeneralErrorForFailure(
+									context,
+									CacheRequest.REQUEST_FAILURE_CONNECTION,
+									t,
+									null,
+									url,
+									Optional.empty()));
+						}
+					}
+
+					@Override
+					public void onFailure(@NonNull final RRError error) {
+						Log.d(
+								"UserProfileDialog",
+								"Failed to download user avatar: " + error);
 					}
 				}
-
-				@Override
-				public void onFailure(@NonNull final RRError error) {
-					Log.d(
-							"UserProfileDialog",
-							"Failed to download user avatar: " + error);
-				}
-			}
 		));
 	}
 }

@@ -110,10 +110,6 @@ android {
 		lintConfig = file("config/lint/lint.xml")
 	}
 
-	packagingOptions {
-		excludes.add("META-INF/*")
-	}
-
 	testOptions {
 		animationsDisabled = true
 	}

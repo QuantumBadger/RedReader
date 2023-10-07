@@ -84,6 +84,7 @@
 			<com.google.android.material.chip.ChipGroup
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
+					app:selectionRequired="false"
 					android:layout_marginHorizontal="20dp"
 					android:layout_marginTop="20dp"
 					android:layout_marginBottom="0dp">
@@ -95,7 +96,7 @@
 						android:text="@string/userprofile_tag_admin"
 						style="@style/Widget.Material3.Chip.Suggestion"
 						android:clickable="false"
-						android:focusable="false"
+						android:checkable="false"
 						app:chipMinTouchTargetSize="0dp"/>
 
 				<com.google.android.material.chip.Chip
@@ -105,7 +106,7 @@
 						android:text="@string/userprofile_tag_moderator"
 						style="@style/Widget.Material3.Chip.Suggestion"
 						android:clickable="false"
-						android:focusable="false"
+						android:checkable="false"
 						app:chipMinTouchTargetSize="0dp"/>
 
 				<com.google.android.material.chip.Chip
@@ -115,7 +116,7 @@
 						android:text="@string/userprofile_tag_gold"
 						style="@style/Widget.Material3.Chip.Suggestion"
 						android:clickable="false"
-						android:focusable="false"
+						android:checkable="false"
 						app:chipMinTouchTargetSize="0dp"/>
 
 			</com.google.android.material.chip.ChipGroup>

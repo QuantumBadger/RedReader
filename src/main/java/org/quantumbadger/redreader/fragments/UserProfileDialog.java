@@ -185,6 +185,16 @@ public class UserProfileDialog {
 							commentsKarma.setText(
 									NumberFormat.getNumberInstance().format(user.comment_karma));
 
+							postsKarma.setContentDescription(activity.getString(
+									R.string.userprofile_accessibility_karma,
+									user.link_karma
+							));
+
+							commentsKarma.setContentDescription(activity.getString(
+									R.string.userprofile_accessibility_karma,
+									user.comment_karma
+							));
+
 							postsCard.setOnClickListener(v -> LinkHandler.onLinkClicked(
 									context,
 									UserPostListingURL.getSubmitted(username)

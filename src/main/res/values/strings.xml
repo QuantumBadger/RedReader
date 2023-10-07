@@ -1791,5 +1791,9 @@
 	<string name="userprofile_tag_moderator">Moderator</string>
 	<string name="userprofile_tag_admin">Site Admin</string>
 	<string name="userprofile_tag_gold">Gold</string>
+	<string name="userprofile_posts">Posts</string>
+	<string name="userprofile_comments">Comments</string>
+	<string name="userprofile_accessibility_karma">Karma: %d</string>
+	<string name="userprofile_send_message">Send message</string>
 
 </resources>

@@ -89,8 +89,6 @@ public class OAuthLoginActivity extends BaseActivity {
 		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		settings.setDisplayZoomControls(false);
 
-		setTitle(RedditOAuth.getPromptUri().toString());
-
 		mWebView.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public boolean onConsoleMessage(final ConsoleMessage consoleMessage) {

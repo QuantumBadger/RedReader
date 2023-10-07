@@ -9,15 +9,15 @@ buildscript {
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-	kotlin("plugin.serialization") version("1.6.21") apply(true)
+	kotlin("plugin.serialization") version("1.9.10") apply(true)
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
 	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 }

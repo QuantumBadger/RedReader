@@ -7,19 +7,19 @@ buildscript {
 	}
 	dependencies {
 		// TODO share this with the "plugins" block
-		val rrKotlinVersion = "1.6.21"
+		val rrKotlinVersion = "1.9.10"
 
-		classpath("com.android.tools.build:gradle:7.3.1")
+		classpath("com.android.tools.build:gradle:8.1.0")
 		classpath(kotlin("gradle-plugin", version = rrKotlinVersion))
 		classpath(kotlin("serialization", version = rrKotlinVersion))
 	}
 }
 
 plugins {
-	id("com.android.application") version("7.3.1") apply(true)
-	kotlin("android") version("1.6.21") apply(true)
-	kotlin("plugin.serialization") version("1.6.21") apply(true)
-	kotlin("plugin.parcelize") version("1.6.21") apply(true)
+	id("com.android.application") version("8.1.0") apply(true)
+	kotlin("android") version("1.9.10") apply(true)
+	kotlin("plugin.serialization") version("1.9.10") apply(true)
+	kotlin("plugin.parcelize") version("1.9.10") apply(true)
     pmd
 	checkstyle
 }
@@ -32,9 +32,9 @@ dependencies {
 	implementation(project(":redreader-datamodel"))
 
 	coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
-	implementation("androidx.core:core-ktx:1.9.0")
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21") // TODO use constant
+	implementation("androidx.core:core-ktx:1.12.0")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+	implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.10") // TODO use constant
 	implementation("androidx.annotation:annotation:1.5.0")
 	implementation("androidx.appcompat:appcompat:1.6.0")
 	implementation("androidx.recyclerview:recyclerview:1.2.1")
@@ -64,8 +64,8 @@ dependencies {
 }
 
 android {
-	compileSdk = 33
-	buildToolsVersion = "33.0.1"
+	compileSdk = 34
+	buildToolsVersion = "34.0.0"
 	ndkVersion = "23.1.7779620"
 	namespace = "org.quantumbadger.redreader"
 
@@ -96,8 +96,12 @@ android {
 	compileOptions {
 		encoding = "UTF-8"
 		isCoreLibraryDesugaringEnabled = true
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
+	}
+
+	kotlin {
+		jvmToolchain(17)
 	}
 
 	lint {
@@ -117,6 +121,10 @@ android {
 
 	testOptions {
 		animationsDisabled = true
+	}
+
+	buildFeatures {
+		buildConfig = true
 	}
 }
 

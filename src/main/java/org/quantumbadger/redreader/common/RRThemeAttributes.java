@@ -57,7 +57,7 @@ public class RRThemeAttributes {
 				R.attr.rrCommentHeaderCol,
 				R.attr.rrCommentBodyCol,
 				R.attr.rrMainTextCol,
-				R.attr.colorAccent
+				androidx.appcompat.R.attr.colorAccent
 		});
 
 		rrCommentHeaderBoldCol = appearance.getColor(0, 255);

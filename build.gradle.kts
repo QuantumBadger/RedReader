@@ -32,7 +32,7 @@ dependencies {
 	implementation(project(":redreader-datamodel"))
 
 	coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
-	implementation("androidx.core:core-ktx:1.12.0")
+	implementation("androidx.core:core-ktx:1.10.1")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.10") // TODO use constant
 	implementation("androidx.annotation:annotation:1.5.0")
@@ -64,8 +64,8 @@ dependencies {
 }
 
 android {
-	compileSdk = 34
-	buildToolsVersion = "34.0.0"
+	compileSdk = 33
+	buildToolsVersion = "33.0.2"
 	ndkVersion = "23.1.7779620"
 	namespace = "org.quantumbadger.redreader"
 

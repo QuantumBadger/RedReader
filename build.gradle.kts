@@ -26,6 +26,8 @@ plugins {
 
 dependencies {
 
+	implementation("org.mozilla.geckoview:geckoview:117.0.20230824132758")
+
 	implementation("androidx.multidex:multidex:2.0.1")
 
 	implementation(project(":redreader-common"))

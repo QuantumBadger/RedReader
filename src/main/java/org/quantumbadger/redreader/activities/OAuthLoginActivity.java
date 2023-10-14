@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.ConsoleMessage;
@@ -26,7 +27,16 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import info.guardianproject.netcipher.web.WebkitProxy;
+import org.mozilla.geckoview.AllowOrDeny;
+import org.mozilla.geckoview.GeckoResult;
+import org.mozilla.geckoview.GeckoRuntime;
+import org.mozilla.geckoview.GeckoRuntimeSettings;
+import org.mozilla.geckoview.GeckoSession;
+import org.mozilla.geckoview.GeckoSessionSettings;
+import org.mozilla.geckoview.GeckoView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.common.General;
@@ -35,10 +45,13 @@ import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.net.URI;
+import java.util.List;
 
 public class OAuthLoginActivity extends BaseActivity {
 
-	private WebView mWebView;
+	private static GeckoRuntime sRuntime;
+
+	private GeckoView mWebView;
 
 	@Override
 	protected void onDestroy() {
@@ -55,95 +68,65 @@ public class OAuthLoginActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		mWebView = new WebView(this);
+		mWebView = new GeckoView(this);
+
+		final GeckoRuntimeSettings.Builder runtimeSettings = new GeckoRuntimeSettings.Builder();
+
+		runtimeSettings.debugLogging(false);
 
 		if(TorCommon.isTorEnabled()) {
 			try {
-				final boolean result = WebkitProxy.setProxy(
-						RedReader.class.getCanonicalName(),
-						getApplicationContext(),
-						mWebView,
-						"127.0.0.1",
-						8118);
-				if(!result) {
-					BugReportActivity.handleGlobalError(
-							this,
-							getResources().getString(R.string.error_tor_setting_failed));
-				}
+				// TODO test
+				runtimeSettings.arguments(new String[] {"socks://127.0.0.1:8118"});
 			} catch(final Exception e) {
 				BugReportActivity.handleGlobalError(this, e);
 			}
 		}
 
-		final WebSettings settings = mWebView.getSettings();
+		// TODO destroy?
+		final GeckoSession session = new GeckoSession(new GeckoSessionSettings.Builder()
+				.usePrivateMode(true)
+				.build());
 
-		settings.setBuiltInZoomControls(false);
-		settings.setJavaScriptEnabled(true);
-		settings.setJavaScriptCanOpenWindowsAutomatically(false);
-		settings.setUseWideViewPort(true);
-		settings.setLoadWithOverviewMode(true);
-		settings.setDomStorageEnabled(true);
-		settings.setSaveFormData(false);
-		settings.setSavePassword(false);
-		settings.setDatabaseEnabled(false);
-		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-		settings.setDisplayZoomControls(false);
+		// Workaround for Bug 1758212
+		session.setContentDelegate(new GeckoSession.ContentDelegate() {});
+
+		if (sRuntime == null) {
+			// GeckoRuntime can only be initialized once per process
+			sRuntime = GeckoRuntime.create(this, runtimeSettings.build());
+		}
+
+		session.open(sRuntime);
+		mWebView.setSession(session);
 
 		setTitle(RedditOAuth.getPromptUri().toString());
 
-		mWebView.setWebChromeClient(new WebChromeClient() {
-			@Override
-			public boolean onConsoleMessage(final ConsoleMessage consoleMessage) {
-				return true;
-			}
-		});
+		session.setNavigationDelegate(new GeckoSession.NavigationDelegate() {
 
-		mWebView.setWebViewClient(new WebViewClient() {
+			@Nullable
 			@Override
-			public boolean shouldOverrideUrlLoading(
-					final WebView view,
-					final String url) {
+			public GeckoResult<AllowOrDeny> onLoadRequest(
+					@NonNull GeckoSession session,
+					@NonNull LoadRequest request) {
 
-				if(url.startsWith("http://rr_oauth_redir")
-						|| url.startsWith("redreader://rr_oauth_redir")) { // TODO constant
+				if(request.uri.startsWith("http://rr_oauth_redir")
+						|| request.uri.startsWith("redreader://rr_oauth_redir")) { // TODO constant
 
 					final Intent intent = new Intent();
-					intent.putExtra("url", url);
+					intent.putExtra("url", request.uri);
 					setResult(123, intent);
 					finish();
 
 				} else {
-					setTitle(General.mapIfNotNull(General.uriFromString(url), URI::getHost));
-					return false;
+					setTitle(General.mapIfNotNull(General.uriFromString(request.uri), URI::getHost));
 				}
 
-				return true;
+				return GeckoResult.allow();
 			}
 		});
 
 		setBaseActivityListing(mWebView);
 
-		mWebView.loadUrl(RedditOAuth.getPromptUri().toString());
-	}
-
-	@Override
-	protected void onPause() {
-
-		super.onPause();
-
-		if(mWebView != null) {
-			mWebView.onPause();
-			mWebView.pauseTimers();
-		}
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		if(mWebView != null) {
-			mWebView.resumeTimers();
-			mWebView.onResume();
-		}
+		session.loadUri(RedditOAuth.getPromptUri().toString());
 	}
 }

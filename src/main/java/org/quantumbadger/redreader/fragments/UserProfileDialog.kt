@@ -61,51 +61,51 @@ import java.text.NumberFormat
 import java.util.*
 
 object UserProfileDialog {
-    @JvmStatic
+	@JvmStatic
 	fun show(
-        activity: AppCompatActivity,
-        username: String
-    ) {
-        val builder = MaterialAlertDialogBuilder(activity)
-        builder.setView(R.layout.user_profile_dialog)
+		activity: AppCompatActivity,
+		username: String
+	) {
+		val builder = MaterialAlertDialogBuilder(activity)
+		builder.setView(R.layout.user_profile_dialog)
 
-        val dialog = builder.show()
+		val dialog = builder.show()
 
-        val loadingView = dialog.findViewById<LoadingSpinnerView>(R.id.user_profile_loading)!!
-        val scrollView = dialog.findViewById<ScrollView>(R.id.user_profile_scrollview)!!
-        val textviewUsername = dialog.findViewById<MaterialTextView>(R.id.user_profile_name)!!
-        val textviewAccountAge = dialog.findViewById<MaterialTextView>(R.id.user_profile_account_age)!!
-        val chipYou = dialog.findViewById<Chip>(R.id.user_profile_chip_you)!!
+		val loadingView = dialog.findViewById<LoadingSpinnerView>(R.id.user_profile_loading)!!
+		val scrollView = dialog.findViewById<ScrollView>(R.id.user_profile_scrollview)!!
+		val textviewUsername = dialog.findViewById<MaterialTextView>(R.id.user_profile_name)!!
+		val textviewAccountAge = dialog.findViewById<MaterialTextView>(R.id.user_profile_account_age)!!
+		val chipYou = dialog.findViewById<Chip>(R.id.user_profile_chip_you)!!
 		val chipSuspended = dialog.findViewById<Chip>(R.id.user_profile_chip_suspended)!!
-        val chipFriend = dialog.findViewById<Chip>(R.id.user_profile_chip_friend)!!
-        val chipAdmin = dialog.findViewById<Chip>(R.id.user_profile_chip_admin)!!
-        val chipMod = dialog.findViewById<Chip>(R.id.user_profile_chip_moderator)!!
-        val chipGold = dialog.findViewById<Chip>(R.id.user_profile_chip_gold)!!
-        val postsCard = dialog.findViewById<MaterialCardView>(R.id.user_profile_posts)!!
-        val commentsCard = dialog.findViewById<MaterialCardView>(R.id.user_profile_comments)!!
-        val messageCard = dialog.findViewById<MaterialCardView>(R.id.user_profile_send_message)!!
-        val postsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_posts_karma)!!
-        val commentsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_comments_karma)!!
-        val chipMoreInfo = dialog.findViewById<Chip>(R.id.user_profile_chip_more_info)!!
+		val chipFriend = dialog.findViewById<Chip>(R.id.user_profile_chip_friend)!!
+		val chipAdmin = dialog.findViewById<Chip>(R.id.user_profile_chip_admin)!!
+		val chipMod = dialog.findViewById<Chip>(R.id.user_profile_chip_moderator)!!
+		val chipGold = dialog.findViewById<Chip>(R.id.user_profile_chip_gold)!!
+		val postsCard = dialog.findViewById<MaterialCardView>(R.id.user_profile_posts)!!
+		val commentsCard = dialog.findViewById<MaterialCardView>(R.id.user_profile_comments)!!
+		val messageCard = dialog.findViewById<MaterialCardView>(R.id.user_profile_send_message)!!
+		val postsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_posts_karma)!!
+		val commentsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_comments_karma)!!
+		val chipMoreInfo = dialog.findViewById<Chip>(R.id.user_profile_chip_more_info)!!
 
-        val cm = CacheManager.getInstance(activity)
-        val accountManager = RedditAccountManager.getInstance(activity)
+		val cm = CacheManager.getInstance(activity)
+		val accountManager = RedditAccountManager.getInstance(activity)
 
-        RedditAPI.getUser(
-            cm,
-            username,
-            object : UserResponseHandler(activity) {
+		RedditAPI.getUser(
+			cm,
+			username,
+			object : UserResponseHandler(activity) {
 
-                override fun onDownloadStarted() {}
+				override fun onDownloadStarted() {}
 
-                override fun onSuccess(user: RedditUser, timestamp: TimestampUTC) {
-                    AndroidCommon.UI_THREAD_HANDLER.post {
-                        if (!dialog.isShowing) {
-                            return@post
-                        }
-                        loadingView.visibility = View.GONE
-                        scrollView.visibility = View.VISIBLE
-                        textviewUsername.text = user.name
+				override fun onSuccess(user: RedditUser, timestamp: TimestampUTC) {
+					AndroidCommon.UI_THREAD_HANDLER.post {
+						if (!dialog.isShowing) {
+							return@post
+						}
+						loadingView.visibility = View.GONE
+						scrollView.visibility = View.VISIBLE
+						textviewUsername.text = user.name
 
 						val createdUtc = user.created_utc
 
@@ -121,11 +121,11 @@ object UserProfileDialog {
 							)
 						}
 
-                        if (StringUtils.asciiLowercase(user.name) != StringUtils.asciiLowercase(
+						if (StringUtils.asciiLowercase(user.name) != StringUtils.asciiLowercase(
 							accountManager.getDefaultAccount().canonicalUsername
 						)) {
-                            chipYou.visibility = View.GONE
-                        }
+							chipYou.visibility = View.GONE
+						}
 
 						if (user.is_suspended != true) {
 							chipSuspended.visibility = View.GONE
@@ -135,173 +135,173 @@ object UserProfileDialog {
 							chipFriend.visibility = View.GONE
 						}
 
-                        if (user.is_employee != true) {
-                            chipAdmin.visibility = View.GONE
-                        }
+						if (user.is_employee != true) {
+							chipAdmin.visibility = View.GONE
+						}
 
-                        if (user.is_mod != true) {
-                            chipMod.visibility = View.GONE
-                        }
+						if (user.is_mod != true) {
+							chipMod.visibility = View.GONE
+						}
 
-                        if (user.is_gold != true) {
-                            chipGold.visibility = View.GONE
-                        }
+						if (user.is_gold != true) {
+							chipGold.visibility = View.GONE
+						}
 
-                        if (PrefsUtility.appearance_user_show_avatars()) {
-                            val iconUrl = user.iconUrl
-                            if (!iconUrl.isNullOrEmpty()) {
+						if (PrefsUtility.appearance_user_show_avatars()) {
+							val iconUrl = user.iconUrl
+							if (!iconUrl.isNullOrEmpty()) {
 
 								val avatarView =
-                                    dialog.findViewById<AppCompatImageView>(R.id.avatar_image)!!
-                                val avatarViewHolder =
-                                    dialog.findViewById<View>(R.id.avatar_image_holder)!!
+									dialog.findViewById<AppCompatImageView>(R.id.avatar_image)!!
+								val avatarViewHolder =
+									dialog.findViewById<View>(R.id.avatar_image_holder)!!
 
-                                avatarViewHolder.visibility = View.VISIBLE
+								avatarViewHolder.visibility = View.VISIBLE
 
-                                try {
-                                    assignUserAvatar(iconUrl, avatarView, context)
-                                } catch (e: URISyntaxException) {
-                                    Log.e("UserProfileDialog", "Error decoding uri", e)
-                                }
-                            }
-                        }
+								try {
+									assignUserAvatar(iconUrl, avatarView, context)
+								} catch (e: URISyntaxException) {
+									Log.e("UserProfileDialog", "Error decoding uri", e)
+								}
+							}
+						}
 
 						val linkKarma = user.link_karma ?: 0
 						val commentKarma = user.comment_karma ?: 0
 
-                        postsKarma.text =
+						postsKarma.text =
 							NumberFormat.getNumberInstance().format(linkKarma.toLong())
-                        commentsKarma.text =
-                            NumberFormat.getNumberInstance().format(commentKarma.toLong())
-                        postsKarma.setContentDescription(
-                            activity.getString(
-                                R.string.userprofile_accessibility_karma,
-                                user.link_karma
-                            )
-                        )
-                        commentsKarma.setContentDescription(
-                            activity.getString(
-                                R.string.userprofile_accessibility_karma,
-                                user.comment_karma
-                            )
-                        )
-                        postsCard.setOnClickListener {
+						commentsKarma.text =
+							NumberFormat.getNumberInstance().format(commentKarma.toLong())
+						postsKarma.setContentDescription(
+							activity.getString(
+								R.string.userprofile_accessibility_karma,
+								user.link_karma
+							)
+						)
+						commentsKarma.setContentDescription(
+							activity.getString(
+								R.string.userprofile_accessibility_karma,
+								user.comment_karma
+							)
+						)
+						postsCard.setOnClickListener {
 							LinkHandler.onLinkClicked(
-                                context,
-                                UserPostListingURL.getSubmitted(username)
-                                    .generateJsonUri()
-                                    .toString(),
-                                false
-                            )
-                        }
-                        commentsCard.setOnClickListener {
+								context,
+								UserPostListingURL.getSubmitted(username)
+									.generateJsonUri()
+									.toString(),
+								false
+							)
+						}
+						commentsCard.setOnClickListener {
 							LinkHandler.onLinkClicked(
-                                context,
-                                Constants.Reddit.getUri(
-                                    "/user/$username/comments.json"
-                                ).toString(),
-                                false
-                            )
-                        }
-                        if (!RedditAccountManager.getInstance(context)
-                                .getDefaultAccount()
-                                .isAnonymous
-                        ) {
-                            messageCard.setOnClickListener {
+								context,
+								Constants.Reddit.getUri(
+									"/user/$username/comments.json"
+								).toString(),
+								false
+							)
+						}
+						if (!RedditAccountManager.getInstance(context)
+								.getDefaultAccount()
+								.isAnonymous
+						) {
+							messageCard.setOnClickListener {
 								Intent(context, PMSendActivity::class.java).apply {
 									putExtra(PMSendActivity.EXTRA_RECIPIENT, username)
 									activity.startActivity(this)
 								}
-                            }
-                        } else {
-                            messageCard.visibility = View.GONE
-                        }
-                        chipMoreInfo.setOnClickListener {
+							}
+						} else {
+							messageCard.visibility = View.GONE
+						}
+						chipMoreInfo.setOnClickListener {
 							UserPropertiesDialog.newInstance(user)
-                                .show(activity.supportFragmentManager, null)
-                        }
-                    }
-                }
+								.show(activity.supportFragmentManager, null)
+						}
+					}
+				}
 
-                override fun onCallbackException(t: Throwable) {
-                    BugReportActivity.handleGlobalError(context, t)
-                }
+				override fun onCallbackException(t: Throwable) {
+					BugReportActivity.handleGlobalError(context, t)
+				}
 
-                override fun onFailure(error: RRError) {
-                    AndroidCommon.UI_THREAD_HANDLER.post {
-                        if (!dialog.isShowing) {
-                            return@post
-                        }
-                        val root = dialog.findViewById<FrameLayout>(R.id.user_profile_root)!!
-                        root.removeAllViews()
-                        root.addView(ErrorView(context, error))
-                    }
-                }
-            },
-            accountManager.getDefaultAccount(),
-            DownloadStrategyAlways.INSTANCE,
-            activity
-        )
-    }
+				override fun onFailure(error: RRError) {
+					AndroidCommon.UI_THREAD_HANDLER.post {
+						if (!dialog.isShowing) {
+							return@post
+						}
+						val root = dialog.findViewById<FrameLayout>(R.id.user_profile_root)!!
+						root.removeAllViews()
+						root.addView(ErrorView(context, error))
+					}
+				}
+			},
+			accountManager.getDefaultAccount(),
+			DownloadStrategyAlways.INSTANCE,
+			activity
+		)
+	}
 
-    @Throws(URISyntaxException::class)
-    private fun assignUserAvatar(
-        url: String,
-        imageOutput: ImageView,
-        context: AppCompatActivity
-    ) {
-        CacheManager.getInstance(context).makeRequest(CacheRequest(
-            uriFromString(url),
-            RedditAccountManager.getAnon(),
-            null,
-            Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
-            DownloadStrategyIfNotCached.INSTANCE,
-            Constants.FileType.INLINE_IMAGE_PREVIEW,
-            CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-            context,
-            object : CacheRequestCallbacks {
-                override fun onDataStreamComplete(
-                    streamFactory: GenericFactory<SeekableInputStream, IOException>,
-                    timestamp: TimestampUTC,
-                    session: UUID,
-                    fromCache: Boolean,
-                    mimetype: String?
-                ) {
-                    try {
-                        streamFactory.create().use { `is` ->
-                            val data = BitmapFactory.decodeStream(`is`)
-                                ?: throw IOException("Failed to decode bitmap")
-                            runOnUiThread {
-                                imageOutput.setImageBitmap(data)
-                                imageOutput.setOnClickListener {
+	@Throws(URISyntaxException::class)
+	private fun assignUserAvatar(
+		url: String,
+		imageOutput: ImageView,
+		context: AppCompatActivity
+	) {
+		CacheManager.getInstance(context).makeRequest(CacheRequest(
+			uriFromString(url),
+			RedditAccountManager.getAnon(),
+			null,
+			Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
+			DownloadStrategyIfNotCached.INSTANCE,
+			Constants.FileType.INLINE_IMAGE_PREVIEW,
+			CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+			context,
+			object : CacheRequestCallbacks {
+				override fun onDataStreamComplete(
+					streamFactory: GenericFactory<SeekableInputStream, IOException>,
+					timestamp: TimestampUTC,
+					session: UUID,
+					fromCache: Boolean,
+					mimetype: String?
+				) {
+					try {
+						streamFactory.create().use { `is` ->
+							val data = BitmapFactory.decodeStream(`is`)
+								?: throw IOException("Failed to decode bitmap")
+							runOnUiThread {
+								imageOutput.setImageBitmap(data)
+								imageOutput.setOnClickListener {
 									LinkHandler.onLinkClicked(
-                                        context,
-                                        url
-                                    )
-                                }
-                            }
-                        }
-                    } catch (t: Throwable) {
-                        onFailure(
-                            getGeneralErrorForFailure(
-                                context,
-                                CacheRequest.REQUEST_FAILURE_CONNECTION,
-                                t,
-                                null,
-                                url,
-                                Optional.empty()
-                            )
-                        )
-                    }
-                }
+										context,
+										url
+									)
+								}
+							}
+						}
+					} catch (t: Throwable) {
+						onFailure(
+							getGeneralErrorForFailure(
+								context,
+								CacheRequest.REQUEST_FAILURE_CONNECTION,
+								t,
+								null,
+								url,
+								Optional.empty()
+							)
+						)
+					}
+				}
 
-                override fun onFailure(error: RRError) {
-                    Log.d(
-                        "UserProfileDialog",
-                        "Failed to download user avatar: $error"
-                    )
-                }
-            }
-        ))
-    }
+				override fun onFailure(error: RRError) {
+					Log.d(
+						"UserProfileDialog",
+						"Failed to download user avatar: $error"
+					)
+				}
+			}
+		))
+	}
 }

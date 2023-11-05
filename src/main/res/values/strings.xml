@@ -1801,4 +1801,7 @@
 
 	<string name="props_id">ID</string>
 
+	<!-- 2023-10-22 -->
+	<string name="userprofile_tag_suspended">Suspended</string>
+
 </resources>

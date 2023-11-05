@@ -49,4 +49,54 @@ public class ParcelUtils {
 
 		throw new RuntimeException("Invalid value " + value);
 	}
+
+	public static void writeNullableInt(
+			@NonNull final Parcel parcel,
+			@Nullable final Integer value) {
+
+        if (value == null) {
+            parcel.writeInt(0);
+
+        } else {
+            parcel.writeInt(1);
+			parcel.writeInt(value);
+        }
+    }
+
+	@Nullable
+	public static Integer readNullableInt(@NonNull final Parcel parcel) {
+
+		final int present = parcel.readInt();
+
+		if (present == 1) {
+			return parcel.readInt();
+		} else {
+			return null;
+		}
+	}
+
+	public static void writeNullableLong(
+			@NonNull final Parcel parcel,
+			@Nullable final Long value) {
+
+		if (value == null) {
+			parcel.writeLong(0);
+
+		} else {
+			parcel.writeLong(1);
+			parcel.writeLong(value);
+		}
+	}
+
+	@Nullable
+	public static Long readNullableLong(@NonNull final Parcel parcel) {
+
+		final long present = parcel.readLong();
+
+		if (present == 1) {
+			return parcel.readLong();
+		} else {
+			return null;
+		}
+	}
 }

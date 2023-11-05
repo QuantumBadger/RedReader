@@ -1,3 +1,6 @@
+/Alpha 341 (2023-11-05)
+Fix when viewing profile of suspended users
+
 /Alpha 340 (2023-10-07)
 Visual refresh of user profile dialog
 Updated target SDK to 33

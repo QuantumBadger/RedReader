@@ -54,14 +54,14 @@ public class ParcelUtils {
 			@NonNull final Parcel parcel,
 			@Nullable final Integer value) {
 
-        if (value == null) {
-            parcel.writeInt(0);
+		if (value == null) {
+			parcel.writeInt(0);
 
-        } else {
-            parcel.writeInt(1);
+		} else {
+			parcel.writeInt(1);
 			parcel.writeInt(value);
-        }
-    }
+		}
+	}
 
 	@Nullable
 	public static Integer readNullableInt(@NonNull final Parcel parcel) {

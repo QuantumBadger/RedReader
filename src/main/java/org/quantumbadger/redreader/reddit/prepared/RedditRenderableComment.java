@@ -19,10 +19,13 @@ package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.SpannableStringBuilder;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -40,10 +43,10 @@ import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
-import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
 import java.net.URI;
+import java.util.Observer;
 
 public class RedditRenderableComment
 		implements RedditRenderableInboxItem, RedditThingWithIdAndType {
@@ -97,7 +100,7 @@ public class RedditRenderableComment
 	}
 
 	@Override
-	public CharSequence getHeader(
+	public BetterSSB getHeader(
 			final RRThemeAttributes theme,
 			final RedditChangeDataManager changeDataManager,
 			final Context context,
@@ -166,9 +169,7 @@ public class RedditRenderableComment
 			}
 		}
 
-		final String flair = General.mapIfNotNull(
-				mComment.getFlair(),
-				UrlEncodedString::getDecoded);
+		final BetterSSB flair = mComment.getFlair();
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.FLAIR)
 				&& flair != null && !flair.isEmpty()) {
@@ -177,12 +178,18 @@ public class RedditRenderableComment
 				sb.append("  ", 0);
 			}
 
-			sb.append(
-					" " + flair + General.LTR_OVERRIDE_MARK + " ",
-					BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
-					theme.rrFlairTextCol,
-					theme.rrFlairBackCol,
-					1f);
+			final int flairStartIndex = sb.get().length();
+
+			sb.append(flair.get());
+
+			final int flairEndIndex = sb.get().length();
+
+			final Observer observer = (observable, o) -> sb.replace(
+					flairStartIndex,
+					flairEndIndex,
+					(SpannableStringBuilder) o);
+
+			flair.addObserver(observer);
 		}
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.AUTHOR)
@@ -291,7 +298,7 @@ public class RedditRenderableComment
 					1f);
 		}
 
-		return sb.get();
+		return sb;
 	}
 
 	@Override
@@ -392,9 +399,7 @@ public class RedditRenderableComment
 					.append(separator);
 		}
 
-		final String flair = General.mapIfNotNull(
-				mComment.getFlair(),
-				UrlEncodedString::getDecoded);
+		final BetterSSB flair = mComment.getFlair();
 
 		if(theme.shouldShow(PrefsUtility.AppearanceCommentHeaderItem.FLAIR)
 				&& flair != null
@@ -405,7 +410,7 @@ public class RedditRenderableComment
 							accessibilityConciseMode
 									? R.string.accessibility_subtitle_flair_withperiod_concise
 									: R.string.accessibility_subtitle_flair_withperiod,
-							flair + General.LTR_OVERRIDE_MARK))
+							flair.get() + General.LTR_OVERRIDE_MARK))
 					.append(separator);
 		}
 

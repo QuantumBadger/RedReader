@@ -175,6 +175,10 @@
 				android:key="@string/pref_behaviour_hide_read_posts_key"
 				android:defaultValue="false"/>
 
+		<CheckBoxPreference android:title="@string/pref_behaviour_mark_posts_as_read_title"
+							android:key="@string/pref_behaviour_mark_posts_as_read_key"
+							android:defaultValue="true"/>
+
         <ListPreference android:title="@string/pref_behaviour_postcount_title"
                         android:key="@string/pref_behaviour_postcount_key"
                         android:entries="@array/pref_behaviour_postcount_items"

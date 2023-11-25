@@ -1911,4 +1911,7 @@
 	<!-- 2025-04-20 -->
 	<string name="action_mark_read">Mark as Read</string>
 	<string name="action_mark_unread">Mark as Unread</string>
+	<string name="pref_behaviour_mark_posts_as_read_key" translatable="false">pref_behaviour_mark_posts_as_read</string>
+	<string name="pref_behaviour_mark_posts_as_read_title">Mark posts as read</string>
+
 </resources>

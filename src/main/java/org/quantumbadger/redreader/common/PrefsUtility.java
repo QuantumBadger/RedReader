@@ -1164,6 +1164,12 @@ public final class PrefsUtility {
 				false);
 	}
 
+	public static boolean pref_behaviour_mark_posts_as_read() {
+		return getBoolean(
+				R.string.pref_behaviour_mark_posts_as_read_key,
+				true);
+	}
+
 	public enum SharingDomain {
 		STANDARD_REDDIT("reddit.com"),
 		SHORT_REDDIT("redd.it"),

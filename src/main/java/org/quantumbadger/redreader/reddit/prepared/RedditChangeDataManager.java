@@ -331,7 +331,8 @@ public final class RedditChangeDataManager {
 					timestamp,
 					Boolean.TRUE.equals(post.getLikes()),
 					Boolean.FALSE.equals(post.getLikes()),
-					post.getClicked() || mIsRead,
+					(PrefsUtility.pref_behaviour_mark_posts_as_read() && post.getClicked())
+							|| mIsRead,
 					post.getSaved(),
 					post.getHidden() ? true : null);
 		}
@@ -375,7 +376,7 @@ public final class RedditChangeDataManager {
 					timestamp,
 					mIsUpvoted,
 					mIsDownvoted,
-					read,
+					PrefsUtility.pref_behaviour_mark_posts_as_read() && read,
 					mIsSaved,
 					mIsHidden);
 		}

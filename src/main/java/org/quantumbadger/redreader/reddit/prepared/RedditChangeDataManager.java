@@ -376,7 +376,7 @@ public final class RedditChangeDataManager {
 					timestamp,
 					mIsUpvoted,
 					mIsDownvoted,
-					PrefsUtility.pref_behaviour_mark_posts_as_read() && true,
+					mIsRead || PrefsUtility.pref_behaviour_mark_posts_as_read(),
 					mIsSaved,
 					mIsHidden);
 		}

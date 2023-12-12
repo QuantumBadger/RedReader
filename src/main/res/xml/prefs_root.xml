@@ -59,4 +59,11 @@
 			android:key="@string/prefs_category_about_key"
 			android:title="@string/prefs_category_about"/>
 
+	<!--
+		Uncomment this to enable developer options
+	<Preference
+			android:key="@string/prefs_category_developer_key"
+			android:title="@string/pref_developer_header"/>
+	-->
+
 </PreferenceScreen>

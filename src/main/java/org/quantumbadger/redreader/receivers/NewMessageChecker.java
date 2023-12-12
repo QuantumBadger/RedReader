@@ -252,7 +252,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 	private static final AtomicBoolean sChannelCreated = new AtomicBoolean(false);
 
-	private static void createNotification(
+	public static void createNotification(
 			final String title,
 			final String text,
 			final Context context) {

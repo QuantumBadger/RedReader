@@ -1804,4 +1804,11 @@
 	<!-- 2023-10-22 -->
 	<string name="userprofile_tag_suspended">Suspended</string>
 
+	<!-- 2023-12-12 -->
+	<string name="pref_developer_header" translatable="false">Developer Options</string>
+	<string name="pref_developer_test_notification_key" translatable="false">pref_developer_test_notification_key</string>
+	<string name="pref_developer_test_notification_title" translatable="false">Test notification</string>
+	<string name="prefs_category_developer" translatable="false">@string/pref_developer_header</string>
+	<string name="prefs_category_developer_key" translatable="false">prefs_category_developer</string>
+
 </resources>

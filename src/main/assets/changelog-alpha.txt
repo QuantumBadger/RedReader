@@ -1,3 +1,6 @@
+/Alpha 342 (2023-12-12)
+Show notification permission prompt on Android 13 and above (fixes Alpha issue where notifications were not shown)
+
 /Alpha 341 (2023-11-05)
 Fix when viewing profile of suspended users
 

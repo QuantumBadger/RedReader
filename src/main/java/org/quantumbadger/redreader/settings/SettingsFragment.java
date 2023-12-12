@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.settings;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -229,6 +230,32 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				}
 				return true;
 			});
+		}
+
+		{
+			final CheckBoxPreference notifPref =
+					findPreference(getString(R.string.pref_behaviour_notifications_key));
+
+			if (notifPref != null) {
+				notifPref.setOnPreferenceChangeListener((preference, newValue) -> {
+
+					final Activity activity = getActivity();
+
+					if (activity instanceof BaseActivity) {
+						// Delay this because the preference hasn't taken effect yet
+						AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
+							AndroidCommon.promptForNotificationPermission(
+									(BaseActivity) activity,
+									() -> {
+										notifPref.setChecked(false);
+									}
+							);
+						}, 300);
+					}
+
+					return true;
+				});
+			}
 		}
 
 

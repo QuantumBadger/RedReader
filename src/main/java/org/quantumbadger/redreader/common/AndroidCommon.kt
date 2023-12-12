@@ -147,7 +147,8 @@ object AndroidCommon {
 
 	@JvmStatic
 	fun promptForNotificationPermission(
-		activity: BaseActivity
+		activity: BaseActivity,
+		onDisabled: Runnable? = null
 	) {
 		if (Build.VERSION.SDK_INT < 33) {
 			return
@@ -193,6 +194,7 @@ object AndroidCommon {
 			},
 			{
 				PrefsUtility.set_pref_behaviour_notifications(false)
+				onDisabled?.run()
 			}
 		)
 	}

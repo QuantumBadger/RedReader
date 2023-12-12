@@ -23,7 +23,6 @@ import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.apache.commons.text.StringEscapeUtils
@@ -996,7 +995,7 @@ object RedditPostActions {
 
 	fun action(
 		post: RedditPreparedPost,
-		activity: AppCompatActivity,
+		activity: BaseActivity,
 		@RedditAction action: Int
 	) {
 		val user = RedditAccountManager.getInstance(activity).defaultAccount

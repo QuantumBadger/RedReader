@@ -84,6 +84,12 @@ public final class PrefsUtility {
 		return sharedPrefs.getBoolean(getPrefKey(id), defaultValue);
 	}
 
+	private static void setBoolean(
+			final int id,
+			final boolean newValue) {
+		sharedPrefs.edit().putBoolean(getPrefKey(id), newValue).apply();
+	}
+
 	@SuppressWarnings("unused")
 	private static long getLong(
 			final int id,
@@ -759,6 +765,12 @@ public final class PrefsUtility {
 		return getBoolean(
 				R.string.pref_behaviour_usecustomtabs_key,
 				false);
+	}
+
+	public static void set_pref_behaviour_notifications(final boolean enabled) {
+		setBoolean(
+				R.string.pref_behaviour_notifications_key,
+				enabled);
 	}
 
 	public static boolean pref_behaviour_notifications() {

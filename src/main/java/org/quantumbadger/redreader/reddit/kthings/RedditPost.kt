@@ -138,4 +138,23 @@ data class RedditPost(
 	override fun getIdAndType(): RedditIdAndType {
 		return name
 	}
+
+	fun findUrl(): String? {
+
+		media?.reddit_video?.fallback_url?.decoded?.apply {
+			return this
+		}
+
+		if (url?.decoded?.contains(".gif") == true) {
+			preview?.images?.get(0)?.variants?.mp4?.source?.url?.decoded?.apply {
+				return this
+			}
+		}
+
+		url_overridden_by_dest?.decoded?.apply {
+			return this
+		}
+
+		return url?.decoded
+	}
 }

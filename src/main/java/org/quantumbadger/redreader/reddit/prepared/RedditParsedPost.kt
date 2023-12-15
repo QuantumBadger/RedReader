@@ -105,10 +105,6 @@ class RedditParsedPost(
 
 	private fun findUrl(): String? {
 
-		src.url_overridden_by_dest?.decoded?.apply {
-			return this
-		}
-
 		src.media?.reddit_video?.fallback_url?.decoded?.apply {
 			return this
 		}
@@ -117,6 +113,10 @@ class RedditParsedPost(
 			src.preview?.images?.get(0)?.variants?.mp4?.source?.url?.decoded?.apply {
 				return this
 			}
+		}
+
+		src.url_overridden_by_dest?.decoded?.apply {
+			return this
 		}
 
 		return src.url?.decoded

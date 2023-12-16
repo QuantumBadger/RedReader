@@ -1,6 +1,7 @@
 /Alpha 344 (2023-12-16)
 Significantly improved image gallery load speed
 Added help page for people having trouble logging in
+Increased popup menu text size
 
 /Alpha 343 (2023-12-15)
 Fixing regression in i.redd.it GIF links

@@ -16,7 +16,7 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="RR.Startup.ActionBarStyle" parent="@style/Widget.AppCompat.ActionBar">
         <item name="android:background">?colorPrimary</item>
@@ -32,6 +32,25 @@
 
 	<style name="RR.Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
 		<item name="android:textSize">18sp</item>
+	</style>
+
+	<style name="RR.Dark.Dialog.Alert" parent="Theme.Material3.Dark.Dialog.Alert">
+		<item name="textAppearanceListItem">@style/RR.Dialog.ListItemText</item>
+		<item name="textAppearanceListItemSmall">@style/RR.Dialog.ListItemText</item>
+	</style>
+
+	<style name="RR.Light.Dialog.Alert" parent="Theme.Material3.Light.Dialog.Alert">
+		<item name="textAppearanceListItem">@style/RR.Dialog.ListItemText</item>
+		<item name="textAppearanceListItemSmall">@style/RR.Dialog.ListItemText</item>
+	</style>
+
+	<style name="RR.MaterialOverlay.Dialog.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+		<item name="materialAlertDialogBodyTextStyle">@style/RR.Dialog.ListItemText</item>
+	</style>
+
+	<style name="RR.Dialog.ListItemText" parent="TextAppearance.Material3.BodyMedium">
+		<item name="android:textSize">16sp</item>
+		<item name="android:textFontWeight" tools:targetApi="p">400</item>
 	</style>
 
 </resources>

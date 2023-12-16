@@ -22,6 +22,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
+import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -46,6 +47,7 @@ import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditFieldReplies;
 import org.quantumbadger.redreader.reddit.kthings.RedditListing;
+import org.quantumbadger.redreader.reddit.kthings.RedditMediaMetadata;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.kthings.RedditThing;
 import org.quantumbadger.redreader.reddit.kthings.RedditThingResponse;
@@ -315,15 +317,15 @@ public class CommentListingRequest {
 
 					for(final Map.Entry<
 									UrlEncodedString,
-									MaybeParseError<RedditComment.EmoteMetadata>
+									MaybeParseError<RedditMediaMetadata>
 							> entry : comment.getMedia_metadata().entrySet()) {
 
 						if(!(entry.getValue() instanceof MaybeParseError.Ok)) {
 							continue;
 						}
 
-						final RedditComment.EmoteMetadata emoteMetadata
-								= ((MaybeParseError.Ok<RedditComment.EmoteMetadata>)
+						final RedditMediaMetadata emoteMetadata
+								= ((MaybeParseError.Ok<RedditMediaMetadata>)
 										entry.getValue()).getValue();
 
 						// id is always structured as emote|{subreddit_id}|{emote_id}
@@ -346,7 +348,8 @@ public class CommentListingRequest {
 
 							final String imgTag = String.format(Locale.getDefault(),
 									"<emote src=\"%s\" title=\"%s\"></emote>",
-									emoteMetadata.getS().getU(),
+									StringEscapeUtils.escapeHtml4(
+											emoteMetadata.getS().getU().getDecoded()),
 									emotePlaceholder);
 
 							comment = comment.copyWithNewBodyHtml(

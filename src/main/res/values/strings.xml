@@ -1814,4 +1814,6 @@
 	<string name="notification_prompt_title">Enable notifications</string>
 	<string name="notification_prompt_message">Would you like to get a notification when you receive a message or reply on Reddit?</string>
 
+	<string name="having_trouble_logging_in">Having trouble logging in? Click here for help.</string>
+
 </resources>

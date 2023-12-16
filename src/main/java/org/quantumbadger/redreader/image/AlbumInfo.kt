@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.image
 
-import android.util.Log
 import org.apache.commons.text.StringEscapeUtils
 import org.quantumbadger.redreader.jsonwrap.JsonObject
 import org.quantumbadger.redreader.reddit.kthings.ImageMetadata
@@ -131,16 +130,10 @@ class AlbumInfo(
 
         fun parseRedditGallery(post: RedditPost): AlbumInfo? {
 
-			Log.i("RRDEBUG", "Got post")
-
             val galleryItems = post.gallery_data?.items ?: return null
-
-            Log.i("RRDEBUG", "Gallery items not null")
 
             val images = galleryItems.mapNotNull { (it as? MaybeParseError.Ok)?.value }
 				.mapNotNull { item ->
-
-					Log.i("RRDEBUG", "Got an image")
 
 					val mediaMetadataEntry = (post.media_metadata?.get(item.media_id) as? MaybeParseError.Ok)?.value ?:
 						return@mapNotNull null

@@ -1,3 +1,6 @@
+/Alpha 344 (2023-12-16)
+Significantly improved image gallery load speed
+
 /Alpha 343 (2023-12-15)
 Fixing regression in i.redd.it GIF links
 

@@ -18,8 +18,10 @@
 package org.quantumbadger.redreader.reddit.kthings
 
 import android.os.Parcelable
+import android.util.Log
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
+import org.quantumbadger.redreader.image.RedditGalleryAPI
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 
 @Suppress("PropertyName")
@@ -77,6 +79,14 @@ data class RedditPost(
 	val removed_by_category: String? = null
 
 ) : RedditThingWithIdAndType, Parcelable {
+
+	init {
+		try {
+			RedditGalleryAPI.addToCache(this)
+		} catch (t: Throwable) {
+			Log.e("RedditPost", "Got error when adding post to cache", t)
+		}
+	}
 
 	@Serializable
 	data class GalleryData(

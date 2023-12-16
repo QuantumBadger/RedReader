@@ -1,4 +1,5 @@
 109/1.23
+Significantly improved image gallery load speed
 Update to Material 3 design elements
 Visual refresh of user profile dialog
 Show notification permission prompt on Android 13 and above

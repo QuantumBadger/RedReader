@@ -45,7 +45,7 @@ class RedditGalleryAPI {
     companion object {
 		private val cache = object : LinkedHashMap<String, AlbumInfo>() {
 			override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, AlbumInfo>?): Boolean {
-				return this.size > 1000
+				return this.size > 100
 			}
 		}
 

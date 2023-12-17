@@ -73,8 +73,8 @@ android {
 		applicationId = "org.quantumbadger.redreader"
 		minSdk = 16
 		targetSdk = 33
-		versionCode = 108
-		versionName = "1.22"
+		versionCode = 109
+		versionName = "1.23"
 
 		multiDexEnabled = true
 		vectorDrawables.generatedDensities("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi")

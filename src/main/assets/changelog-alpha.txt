@@ -1,3 +1,6 @@
+/Alpha 345 (2023-12-17)
+When "post title opens comments" is enabled, the thumbnail now opens the post rather than the comments
+
 /Alpha 344 (2023-12-16)
 Significantly improved image gallery load speed
 Added help page for people having trouble logging in

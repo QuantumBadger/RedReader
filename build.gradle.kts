@@ -73,7 +73,7 @@ android {
 		applicationId = "org.quantumbadger.redreader"
 		minSdk = 16
 		targetSdk = 33
-		versionCode = 109
+		versionCode = 110
 		versionName = "1.23"
 
 		multiDexEnabled = true

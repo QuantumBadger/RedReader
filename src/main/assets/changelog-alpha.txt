@@ -1,3 +1,6 @@
+/Alpha 346 (2023-12-18)
+When "post title opens comments" is enabled, clicking the inline image preview now opens the post rather than the comments
+
 /Alpha 345 (2023-12-17)
 When "post title opens comments" is enabled, the thumbnail now opens the post rather than the comments
 

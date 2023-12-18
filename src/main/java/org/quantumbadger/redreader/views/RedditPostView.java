@@ -244,6 +244,7 @@ public final class RedditPostView extends FlingableItemView
 		if(postTitleOpensPost) {
 			mOuterView.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
 			mThumbnailView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
+			mImagePreviewOuter.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
 
 		} else {
 			mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));

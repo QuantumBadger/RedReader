@@ -1,6 +1,8 @@
 109/1.23
+Significantly improved image gallery load speed
 Update to Material 3 design elements
 Visual refresh of user profile dialog
+Show notification permission prompt on Android 13 and above
 Hide keyboard in Find Location when search button is pressed (thanks to mattdbr)
 Fix issue with "Post title opens comments" not covering whole post area (thanks to Domenico Sibilio)
 Support for handling v.redd.it, video, and gallery links from other apps (thanks to gavtroy)
@@ -9,6 +11,7 @@ Ability to open comments in external browser (thanks to Cameron Merkel)
 Preference for domain when sharing Reddit links (thanks to Cameron Merkel)
 Handle Reddit galleries containing links, and show gallery thumbnails for small images (thanks to Cameron Merkel)
 Handle shared /s/ URLs correctly (thanks to Adam Williams)
+Added help page for people having trouble logging in
 Updated target SDK to 33
 
 108/1.22

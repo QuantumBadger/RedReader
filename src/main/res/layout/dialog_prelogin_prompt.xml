@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:padding="24dp">
+
+	<com.google.android.material.textview.MaterialTextView
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_marginBottom="10sp"
+			android:textSize="16sp"
+			android:text="@string/reddit_login_browser_popup_line_1" />
+
+	<com.google.android.material.textview.MaterialTextView
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:layout_marginBottom="10sp"
+			android:textSize="16sp"
+			android:text="@string/reddit_login_browser_popup_line_2_internal_browser_only" />
+
+	<com.google.android.material.textview.MaterialTextView
+			android:id="@+id/login_preprompt_help_link"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:textSize="16sp"
+			android:textColor="?colorPrimary"
+			android:text="@string/having_trouble_logging_in" />
+
+</LinearLayout>

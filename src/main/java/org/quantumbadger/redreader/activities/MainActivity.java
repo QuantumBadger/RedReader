@@ -203,6 +203,8 @@ public class MainActivity extends RefreshableActivity
 
 		if(RedditOAuth.anyNeedRelogin(this)) {
 			General.showMustReloginDialog(this);
+		} else {
+			AndroidCommon.promptForNotificationPermission(this, null);
 		}
 
 		recreateSubscriptionListener();

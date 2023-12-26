@@ -16,18 +16,27 @@
  ******************************************************************************/
 package org.quantumbadger.redreader.common
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ListAdapter
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
+import org.quantumbadger.redreader.R
+import org.quantumbadger.redreader.account.RedditAccountManager
+import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.adapters.NoFilterAdapter
 import java.io.ByteArrayInputStream
 import java.security.cert.CertificateFactory
@@ -134,5 +143,59 @@ object AndroidCommon {
 		items: Array<String>
 	) {
 		setAutoCompleteTextViewItemsNoFilter(view, items.toList())
+	}
+
+	@JvmStatic
+	fun promptForNotificationPermission(
+		activity: BaseActivity,
+		onDisabled: Runnable? = null
+	) {
+		if (Build.VERSION.SDK_INT < 33) {
+			return
+		}
+
+		if (!PrefsUtility.pref_behaviour_notifications()) {
+			return
+		}
+
+		if (RedditAccountManager.getInstance(activity).defaultAccount.isAnonymous) {
+			return
+		}
+
+		if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS)
+				== PackageManager.PERMISSION_GRANTED) {
+			return
+		}
+
+		DialogUtils.showDialogPositiveNegative(
+			activity,
+			activity.getString(R.string.notification_prompt_title),
+			activity.getString(R.string.notification_prompt_message),
+			R.string.dialog_yes,
+			R.string.dialog_no,
+			{
+				activity.requestPermissionWithCallback(
+					Manifest.permission.POST_NOTIFICATIONS,
+					object : BaseActivity.PermissionCallback {
+						override fun onPermissionGranted() {
+							// All good
+						}
+
+						override fun onPermissionDenied() {
+							activity.startActivity(Intent(
+								Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+								Uri.fromParts("package", activity.packageName, null)
+							).apply {
+								addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+							})
+						}
+
+					})
+			},
+			{
+				PrefsUtility.set_pref_behaviour_notifications(false)
+				onDisabled?.run()
+			}
+		)
 	}
 }

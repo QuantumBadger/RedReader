@@ -42,7 +42,7 @@ data class RedditComment(
 	val score_hidden: Boolean = false,
 	val locked: Boolean = false,
 	val can_mod_post: Boolean = false,
-	val media_metadata: Map<UrlEncodedString, MaybeParseError<EmoteMetadata>>? = null,
+	val media_metadata: Map<UrlEncodedString, MaybeParseError<RedditMediaMetadata>>? = null,
 
 	val replies: RedditFieldReplies = RedditFieldReplies.None,
 
@@ -72,25 +72,6 @@ data class RedditComment(
 
 	// TODO do this in the HTML parser instead
 	fun copyWithNewBodyHtml(value: String) = copy(body_html = UrlEncodedString(value))
-
-	@Serializable
-	@Parcelize
-	data class EmoteMetadata(
-		val status: String,
-		val e: String,
-		val m: String,
-		val s: ImageMetadata,
-		val t: String,
-		val id: String
-	) : Parcelable
-
-	@Serializable
-	@Parcelize
-	data class ImageMetadata(
-		val x: String,
-		val y: String,
-		val u: String? = null
-	) : Parcelable
 
 	override fun getIdAlone() = id
 

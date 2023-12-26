@@ -30,24 +30,24 @@ import java.io.IOException;
 
 public class ImageInfo implements Parcelable {
 
-	public final String urlOriginal;
-	public final String urlBigSquare;
+	@Nullable public final String urlOriginal;
+	@Nullable public final String urlBigSquare;
 
 	@Nullable public final String urlAudioStream;
 
-	public final String title;
-	public final String caption;
+	@Nullable public final String title;
+	@Nullable public final String caption;
 
-	public final String outboundUrl;
+	@Nullable public final String outboundUrl;
 
-	public final String type;
-	public final Boolean isAnimated;
+	@Nullable public final String type;
+	@Nullable public final Boolean isAnimated;
 
-	public final Long width;
-	public final Long height;
-	public final Long size;
+	@Nullable public final Long width;
+	@Nullable public final Long height;
+	@Nullable public final Long size;
 
-	public final MediaType mediaType;
+	@Nullable public final MediaType mediaType;
 	@NonNull public final HasAudio hasAudio;
 
 	@Nullable public final String urlPreview;
@@ -76,16 +76,16 @@ public class ImageInfo implements Parcelable {
 	}
 
 	public ImageInfo(
-			final String urlOriginal,
-			final MediaType mediaType,
+			@Nullable final String urlOriginal,
+			@Nullable final MediaType mediaType,
 			@NonNull final HasAudio hasAudio) {
 		this(urlOriginal, null, mediaType, hasAudio);
 	}
 
 	public ImageInfo(
-			final String urlOriginal,
+			@Nullable final String urlOriginal,
 			@Nullable final String urlAudioStream,
-			final MediaType mediaType,
+			@Nullable final MediaType mediaType,
 			@NonNull final HasAudio hasAudio) {
 
 		this.urlOriginal = urlOriginal;
@@ -127,17 +127,17 @@ public class ImageInfo implements Parcelable {
 	}
 
 	public ImageInfo(
-			final String urlOriginal,
-			final String urlBigSquare,
-			final String title,
-			final String caption,
-			final String outboundUrl,
-			final String type,
-			final Boolean isAnimated,
-			final Long width,
-			final Long height,
-			final Long size,
-			final MediaType mediaType,
+			@Nullable final String urlOriginal,
+			@Nullable final String urlBigSquare,
+			@Nullable final String title,
+			@Nullable final String caption,
+			@Nullable final String outboundUrl,
+			@Nullable final String type,
+			@Nullable final Boolean isAnimated,
+			@Nullable final Long width,
+			@Nullable final Long height,
+			@Nullable final Long size,
+			@Nullable final MediaType mediaType,
 			@NonNull final HasAudio hasAudio,
 			@Nullable final String urlPreview,
 			@Nullable final Long widthPreview,

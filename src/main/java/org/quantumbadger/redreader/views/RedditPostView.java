@@ -238,8 +238,14 @@ public final class RedditPostView extends FlingableItemView
 
 		final boolean postTitleOpensPost = PrefsUtility.pref_behaviour_post_title_opens_comments();
 
+		mThumbnailView = Objects.requireNonNull(
+				rootView.findViewById(R.id.reddit_post_thumbnail_view));
+
 		if(postTitleOpensPost) {
 			mOuterView.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
+			mThumbnailView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
+			mImagePreviewOuter.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
+
 		} else {
 			mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
 		}
@@ -248,9 +254,6 @@ public final class RedditPostView extends FlingableItemView
 			RedditPostActions.INSTANCE.showActionMenu(mActivity, mPost);
 			return true;
 		});
-
-		mThumbnailView = Objects.requireNonNull(
-				rootView.findViewById(R.id.reddit_post_thumbnail_view));
 
 		mOverlayIcon = Objects.requireNonNull(
 				rootView.findViewById(R.id.reddit_post_overlay_icon));

@@ -1,4 +1,5 @@
 /Alpha 347 (2023-12-29)
+Added a preference to automatically open the first image in an album
 Made links blue again in dark themes
 Added post tap action preference: open link, open comments, or use old "post title opens comments" behaviour
 Fixed long-click menu not appearing when post tap action changed from the default

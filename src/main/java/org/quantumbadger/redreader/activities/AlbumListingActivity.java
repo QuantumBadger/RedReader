@@ -224,6 +224,20 @@ public class AlbumListingActivity extends BaseActivity {
 										.setAdapter(new AlbumAdapter(
 												AlbumListingActivity.this,
 												info));
+
+								if(PrefsUtility.pref_album_skip_to_first()
+										&& info.images.size() > 1) {
+
+									AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
+										LinkHandler.onLinkClicked(
+												AlbumListingActivity.this,
+												info.images.get(0).urlOriginal,
+												false,
+												null,
+												info,
+												0);
+									}, 250);
+								}
 							}
 						});
 					}

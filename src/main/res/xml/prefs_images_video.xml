@@ -84,12 +84,6 @@
 						android:entryValues="@array/pref_behaviour_albumview_mode_array_return"
 						android:defaultValue="internal_list" />
 
-		<ListPreference android:title="@string/pref_behaviour_gallery_swipe_length_title"
-						android:key="@string/pref_behaviour_gallery_swipe_length_key"
-						android:entries="@array/pref_behaviour_gallery_swipe_length_array"
-						android:entryValues="@array/pref_behaviour_gallery_swipe_length_array_return"
-						android:defaultValue="150" />
-
 		<CheckBoxPreference android:title="@string/pref_appearance_image_viewer_show_floating_toolbar_title"
 							android:key="@string/pref_appearance_image_viewer_show_floating_toolbar_key"
 							android:defaultValue="true"/>
@@ -98,6 +92,20 @@
 							android:key="@string/pref_appearance_show_aspect_ratio_indicator_key"
 							android:summary="@string/pref_appearance_show_aspect_ratio_indicator_summary"
 							android:defaultValue="false"/>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/pref_header_album_viewer">
+
+		<CheckBoxPreference android:title="@string/pref_album_skip_to_first_title"
+							android:key="@string/pref_album_skip_to_first_key"
+							android:defaultValue="false"/>
+
+		<ListPreference android:title="@string/pref_behaviour_gallery_swipe_length_title"
+						android:key="@string/pref_behaviour_gallery_swipe_length_key"
+						android:entries="@array/pref_behaviour_gallery_swipe_length_array"
+						android:entryValues="@array/pref_behaviour_gallery_swipe_length_array_return"
+						android:defaultValue="150" />
 
 	</PreferenceCategory>
 

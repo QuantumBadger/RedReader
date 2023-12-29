@@ -522,6 +522,12 @@ public final class PrefsUtility {
 				false);
 	}
 
+	public static boolean pref_album_skip_to_first() {
+		return getBoolean(
+				R.string.pref_album_skip_to_first_key,
+				false);
+	}
+
 	public static boolean pref_appearance_comments_show_floating_toolbar() {
 		return getBoolean(
 				R.string.pref_appearance_comments_show_floating_toolbar_key,

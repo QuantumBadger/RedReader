@@ -46,6 +46,12 @@
 
 	<style name="RR.MaterialOverlay.Dialog.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog">
 		<item name="materialAlertDialogBodyTextStyle">@style/RR.Dialog.ListItemText</item>
+		<item name="alertDialogStyle">@style/RR.AlertDialogStyle</item>
+	</style>
+
+	<style name="RR.AlertDialogStyle" parent="MaterialAlertDialog.Material3">
+		<item name="backgroundInsetTop">4dp</item>
+		<item name="backgroundInsetBottom">4dp</item>
 	</style>
 
 	<style name="RR.Dialog.ListItemText" parent="TextAppearance.Material3.BodyMedium">

@@ -198,4 +198,14 @@ object AndroidCommon {
 			}
 		)
 	}
+
+	@JvmStatic
+	fun removeClickListeners(view: View) {
+		view.apply {
+			setOnClickListener(null)
+			setOnLongClickListener(null)
+			isClickable = false
+			isLongClickable = false
+		}
+	}
 }

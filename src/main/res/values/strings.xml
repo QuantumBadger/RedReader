@@ -1816,4 +1816,12 @@
 
 	<string name="having_trouble_logging_in">Having trouble logging in? Click here for help.</string>
 
+	<!-- 2023-12-29 -->
+	<string name="pref_behaviour_post_tap_action_key" translatable="false">pref_behaviour_post_tap_action</string>
+	<string name="pref_behaviour_post_tap_action_title" translatable="false">Post tap action</string>
+
+	<string name="pref_behaviour_post_tap_action_link" translatable="false">Open link (default)</string>
+	<string name="pref_behaviour_post_tap_action_comments" translatable="false">Open comments</string>
+	<string name="pref_behaviour_post_tap_action_title_comments" translatable="false">Title text opens comments, subtitle/whitespace opens link</string>
+
 </resources>

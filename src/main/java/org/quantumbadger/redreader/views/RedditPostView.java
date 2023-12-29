@@ -236,24 +236,8 @@ public final class RedditPostView extends FlingableItemView
 		mImagePreviewLoadingSpinner = new LoadingSpinnerView(activity);
 		mImagePreviewHolder.addView(mImagePreviewLoadingSpinner);
 
-		final boolean postTitleOpensPost = PrefsUtility.pref_behaviour_post_title_opens_comments();
-
 		mThumbnailView = Objects.requireNonNull(
 				rootView.findViewById(R.id.reddit_post_thumbnail_view));
-
-		if(postTitleOpensPost) {
-			mOuterView.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
-			mThumbnailView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
-			mImagePreviewOuter.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
-
-		} else {
-			mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
-		}
-
-		mOuterView.setOnLongClickListener(v -> {
-			RedditPostActions.INSTANCE.showActionMenu(mActivity, mPost);
-			return true;
-		});
 
 		mOverlayIcon = Objects.requireNonNull(
 				rootView.findViewById(R.id.reddit_post_overlay_icon));
@@ -291,6 +275,45 @@ public final class RedditPostView extends FlingableItemView
 				mCommentsButton.setNextFocusLeftId(NO_ID);
 			}
 		}
+
+		final OnLongClickListener longClickListener = v -> {
+			RedditPostActions.INSTANCE.showActionMenu(mActivity, mPost);
+			return true;
+		};
+
+		switch(PrefsUtility.pref_behaviour_post_tap_action()) {
+			case LINK:
+				mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
+				AndroidCommon.removeClickListeners(mThumbnailView);
+				AndroidCommon.removeClickListeners(mImagePreviewOuter);
+				AndroidCommon.removeClickListeners(title);
+				break;
+
+			case COMMENTS:
+				mOuterView.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
+
+				mThumbnailView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
+				mThumbnailView.setOnLongClickListener(longClickListener);
+
+				mImagePreviewOuter.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
+				mImagePreviewOuter.setOnLongClickListener(longClickListener);
+
+				AndroidCommon.removeClickListeners(title);
+
+				break;
+
+			case TITLE_COMMENTS:
+				mOuterView.setOnClickListener(v -> fragmentParent.onPostSelected(mPost));
+
+				AndroidCommon.removeClickListeners(mThumbnailView);
+				AndroidCommon.removeClickListeners(mImagePreviewOuter);
+
+				title.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));
+				title.setOnLongClickListener(longClickListener);
+				break;
+		}
+
+		mOuterView.setOnLongClickListener(longClickListener);
 
 		if(mCommentsButtonPref) {
 			mCommentsButton.setOnClickListener(v -> fragmentParent.onPostCommentsSelected(mPost));

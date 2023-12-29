@@ -129,6 +129,12 @@
 						android:entryValues="@array/pref_behaviour_self_post_tap_actions_return"
 						android:defaultValue="collapse"/>
 
+		<ListPreference android:title="@string/pref_behaviour_post_tap_action_title"
+						android:key="@string/pref_behaviour_post_tap_action_key"
+						android:entries="@array/pref_behaviour_post_tap_action_items"
+						android:entryValues="@array/pref_behaviour_post_tap_action_return"
+						android:defaultValue="link"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_actions_comment_header">
@@ -175,10 +181,6 @@
                         android:entryValues="@array/pref_behaviour_postcount_items_return"
                         android:defaultValue="ALL"/>
 
-		<CheckBoxPreference android:title="@string/pref_behaviour_post_title_opens_comments_title"
-						android:key="@string/pref_behaviour_post_title_opens_comments_key"
-						android:defaultValue="false"/>
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_comments_header">
@@ -195,8 +197,6 @@
 						android:entries="@array/pref_behaviour_collapse_sticky_comments_items"
 						android:entryValues="@array/pref_behaviour_collapse_sticky_comments_items_return"
 						android:defaultValue="only_bots"/>
-
-		pref_behaviour_collapse_sticky_comments_items
 
     </PreferenceCategory>
 

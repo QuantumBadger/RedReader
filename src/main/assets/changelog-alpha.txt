@@ -1,5 +1,7 @@
 /Alpha 347 (2023-12-29)
 Made links blue again in dark themes
+Added post tap action preference: open link, open comments, or use old "post title opens comments" behaviour
+Fixed long-click menu not appearing when post tap action changed from the default
 
 /Alpha 346 (2023-12-18)
 When "post title opens comments" is enabled, clicking the inline image preview now opens the post rather than the comments

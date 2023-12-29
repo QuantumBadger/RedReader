@@ -1,5 +1,7 @@
 111/1.23.1
 Made links blue again in dark themes
+Added post tap action preference: open link, open comments, or use old "post title opens comments" behaviour
+Fixed long-click menu not appearing when post tap action changed from the default
 
 109/1.23
 Significantly improved image gallery load speed

@@ -178,7 +178,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				R.string.pref_accessibility_min_comment_height_key,
 				R.string.pref_appearance_android_status_key,
 				R.string.pref_behaviour_collapse_sticky_comments_key,
-				R.string.pref_behaviour_sharing_domain_key
+				R.string.pref_behaviour_sharing_domain_key,
+				R.string.pref_behaviour_post_tap_action_key
 		};
 
 		final int[] editTextPrefsToUpdate = {

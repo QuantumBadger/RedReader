@@ -1,3 +1,6 @@
+/Alpha 347 (2023-12-29)
+Made links blue again in dark themes
+
 /Alpha 346 (2023-12-18)
 When "post title opens comments" is enabled, clicking the inline image preview now opens the post rather than the comments
 

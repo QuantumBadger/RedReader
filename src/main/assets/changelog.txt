@@ -1,3 +1,6 @@
+111/1.23.1
+Made links blue again in dark themes
+
 109/1.23
 Significantly improved image gallery load speed
 Update to Material 3 design elements

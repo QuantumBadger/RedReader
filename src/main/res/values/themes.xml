@@ -36,6 +36,8 @@
 		<item name="rrSubTextCol">#AAAAAA</item>
 		<item name="rrMaterialButtonTextCol">#CCCCCC</item>
 
+		<item name="android:textColorLink">#9CDCDD</item>
+
         <item name="android:windowBackground">@color/darkWindowBackground</item>
 
         <item name="rrListItemBackgroundCol">#000000</item>

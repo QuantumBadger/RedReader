@@ -1,3 +1,6 @@
+/Alpha 348 (2023-12-29)
+Fix feature flag upgrade behaviour for post title action
+
 /Alpha 347 (2023-12-29)
 Added a preference to automatically open the first image in an album
 Made links blue again in dark themes

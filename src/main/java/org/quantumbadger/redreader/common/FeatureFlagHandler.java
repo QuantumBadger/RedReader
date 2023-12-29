@@ -52,7 +52,7 @@ public final class FeatureFlagHandler {
 		REPLY_IN_POST_ACTION_MENU_FEATURE("replyInPostActionMenuFeature"),
 		MAIN_MENU_FIND_SUBREDDIT_FEATURE("mainMenuFindSubreddit"),
 		OPEN_COMMENT_EXTERNALLY_FEATURE("openCommentExternallyFeature"),
-		POST_TITLE_TAP_ACTION_FEATURE("postTitleTapAction");
+		POST_TITLE_TAP_ACTION_FEATURE("postTitleTapActionFeature");
 
 		@NonNull private final String id;
 
@@ -279,7 +279,7 @@ public final class FeatureFlagHandler {
 
 					prefs.edit().putString(
 							context.getString(R.string.pref_behaviour_post_tap_action_key),
-							"title_comments"
+							"comments"
 					).apply();
 				}
 			}

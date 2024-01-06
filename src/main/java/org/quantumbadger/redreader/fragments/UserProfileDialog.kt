@@ -77,6 +77,7 @@ object UserProfileDialog {
 		val textviewAccountAge = dialog.findViewById<MaterialTextView>(R.id.user_profile_account_age)!!
 		val chipYou = dialog.findViewById<Chip>(R.id.user_profile_chip_you)!!
 		val chipSuspended = dialog.findViewById<Chip>(R.id.user_profile_chip_suspended)!!
+		val chipBlocked = dialog.findViewById<Chip>(R.id.user_profile_chip_blocked)!!
 		val chipFriend = dialog.findViewById<Chip>(R.id.user_profile_chip_friend)!!
 		val chipAdmin = dialog.findViewById<Chip>(R.id.user_profile_chip_admin)!!
 		val chipMod = dialog.findViewById<Chip>(R.id.user_profile_chip_moderator)!!
@@ -129,6 +130,10 @@ object UserProfileDialog {
 
 						if (user.is_suspended != true) {
 							chipSuspended.visibility = View.GONE
+						}
+
+						if (user.is_blocked != true) {
+							chipBlocked.visibility = View.GONE
 						}
 
 						if (user.is_friend != true) {

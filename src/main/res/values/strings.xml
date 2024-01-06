@@ -1829,4 +1829,8 @@
 	<string name="pref_album_skip_to_first_key" translatable="false">pref_album_skip_to_first_key</string>
 	<string name="pref_album_skip_to_first_title">Automatically open first album image</string>
 
+	<!-- 2024-01-06 -->
+	<string name="pref_appearance_hide_comments_from_blocked_users_key" translatable="false">pref_appearance_hide_comments_from_blocked_users</string>
+	<string name="pref_appearance_hide_comments_from_blocked_users_title">Hide comment chains from blocked users</string>
+	<string name="userprofile_tag_blocked">Blocked</string>
 </resources>

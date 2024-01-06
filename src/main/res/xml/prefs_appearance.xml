@@ -170,6 +170,11 @@
 				android:key="@string/pref_appearance_hide_headertoolbar_commentlist_key"
 				android:defaultValue="false"/>
 
+		<CheckBoxPreference
+				android:title="@string/pref_appearance_hide_comments_from_blocked_users_title"
+				android:key="@string/pref_appearance_hide_comments_from_blocked_users_key"
+				android:defaultValue="true"/>
+
     </PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_appearance_user_header">

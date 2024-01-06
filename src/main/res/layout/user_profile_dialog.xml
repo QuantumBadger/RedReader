@@ -110,6 +110,16 @@
 						app:chipMinTouchTargetSize="0dp"/>
 
 				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_blocked"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/userprofile_tag_blocked"
+						style="@style/Widget.Material3.Chip.Assist"
+						android:clickable="false"
+						android:checkable="false"
+						app:chipMinTouchTargetSize="0dp"/>
+
+				<com.google.android.material.chip.Chip
 						android:id="@+id/user_profile_chip_friend"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"

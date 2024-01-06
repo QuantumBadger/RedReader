@@ -55,6 +55,7 @@ public class RedditRenderableComment
 	private final boolean mShowScore;
 	private final boolean mShowSubreddit;
 	private final boolean mNeverAutoCollapse;
+	private boolean isBlockedUser = false;
 
 	public RedditRenderableComment(
 			final RedditParsedComment comment,
@@ -72,6 +73,10 @@ public class RedditRenderableComment
 		mShowScore = showScore;
 		mShowSubreddit = showSubreddit;
 		mNeverAutoCollapse = neverAutoCollapse;
+	}
+
+	public void setBlockedUser(boolean blocked) {
+		isBlockedUser = blocked;
 	}
 
 	private int computeScore(final RedditChangeDataManager changeDataManager) {
@@ -163,6 +168,9 @@ public class RedditRenderableComment
 						theme.rrCommentHeaderAuthorCol,
 						0,
 						1f);
+			}
+			if (isBlockedUser) {
+				sb.append(" [blocked user]", BetterSSB.FOREGROUND_COLOR, Color.RED, 0, 1f);
 			}
 		}
 
@@ -614,6 +622,11 @@ public class RedditRenderableComment
 
 		if(collapsed != null) {
 			return collapsed;
+		}
+
+		//Always collapse blocked users
+		if (isBlockedUser) {
+			return true;
 		}
 
 		if(mNeverAutoCollapse) {

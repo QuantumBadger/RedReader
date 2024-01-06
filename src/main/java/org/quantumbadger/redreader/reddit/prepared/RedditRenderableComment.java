@@ -75,7 +75,7 @@ public class RedditRenderableComment
 		mNeverAutoCollapse = neverAutoCollapse;
 	}
 
-	public void setBlockedUser(boolean blocked) {
+	public void setBlockedUser(final boolean blocked) {
 		isBlockedUser = blocked;
 	}
 

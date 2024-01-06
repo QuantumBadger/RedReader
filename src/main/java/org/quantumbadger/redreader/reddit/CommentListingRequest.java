@@ -377,7 +377,7 @@ public class CommentListingRequest {
 					&& mCommentListingURL.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL;
 
 			final RedditCommentListItem item;
-			RedditRenderableComment renderableComment = new RedditRenderableComment(
+			final RedditRenderableComment renderableComment = new RedditRenderableComment(
 					new RedditParsedComment(comment, mActivity),
 					parentPostAuthor,
 					minimumCommentScore,
@@ -386,8 +386,8 @@ public class CommentListingRequest {
 					showSubredditName,
 					neverAutoCollapse);
 
-			if (comment.isBlockedByUser() && !PrefsUtility.pref_appearance_hide_comments_from_blocked_users()) {
-				//adds [blocked user] to author name and collapses comment if user is blocked but comment not hidden
+			if (comment.isBlockedByUser()
+					&& !PrefsUtility.pref_appearance_hide_comments_from_blocked_users()) {
 				renderableComment.setBlockedUser(true);
 			}
 
@@ -399,7 +399,8 @@ public class CommentListingRequest {
 					mCommentListingURL);
 
 			// hide comment if user is blocked
-			if (comment.isBlockedByUser() && PrefsUtility.pref_appearance_hide_comments_from_blocked_users()) {
+			if (comment.isBlockedByUser()
+					&& PrefsUtility.pref_appearance_hide_comments_from_blocked_users()) {
 				return;
 			}
 

@@ -660,6 +660,25 @@ public final class RedditAPI {
 				}));
 	}
 
+	public static void blockUser(
+			final CacheManager cm,
+			final String usernameToBlock,
+			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final RedditAccount user,
+			final Context context
+	) {
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("name", usernameToBlock));
+		postFields.add(new PostField("api_type", "json"));
+
+		cm.makeRequest(createPostRequest(
+				Constants.Reddit.getUri("/api/block_user"),
+				user,
+				postFields,
+				context,
+				new GenericResponseHandler(responseHandler)));
+	}
+
 	public static void sendReplies(
 			final CacheManager cm,
 			final APIResponseHandler.ActionResponseHandler responseHandler,

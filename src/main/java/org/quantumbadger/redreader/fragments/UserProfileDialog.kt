@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.common.time.TimeFormatHelper.format
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.common.time.TimestampUTC.Companion.fromUtcSecs
 import org.quantumbadger.redreader.common.time.TimestampUTC.Companion.now
+import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
 import org.quantumbadger.redreader.reddit.APIResponseHandler.UserResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
 import org.quantumbadger.redreader.reddit.things.RedditUser
@@ -88,6 +89,7 @@ object UserProfileDialog {
 		val postsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_posts_karma)!!
 		val commentsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_comments_karma)!!
 		val chipMoreInfo = dialog.findViewById<Chip>(R.id.user_profile_chip_more_info)!!
+		val chipBlock = dialog.findViewById<Chip>(R.id.user_profile_chip_block)!!
 
 		val cm = CacheManager.getInstance(activity)
 		val accountManager = RedditAccountManager.getInstance(activity)
@@ -126,6 +128,8 @@ object UserProfileDialog {
 							accountManager.getDefaultAccount().canonicalUsername
 						)) {
 							chipYou.visibility = View.GONE
+						}else{
+							chipBlock.visibility = View.GONE //you should not block yourself
 						}
 
 						if (user.is_suspended != true) {
@@ -134,6 +138,8 @@ object UserProfileDialog {
 
 						if (user.is_blocked != true) {
 							chipBlocked.visibility = View.GONE
+						}else {
+							chipBlock.visibility = View.GONE //dont show block button if blocked
 						}
 
 						if (user.is_friend != true) {
@@ -225,6 +231,17 @@ object UserProfileDialog {
 							UserPropertiesDialog.newInstance(user)
 								.show(activity.supportFragmentManager, null)
 						}
+						chipBlock.setOnClickListener {
+							MaterialAlertDialogBuilder(activity)
+									.setTitle(activity.getString(R.string.block_confirmation))
+									.setMessage(activity.getString(R.string.are_you_sure_block_user))
+									.setPositiveButton(activity.getString(R.string.block_yes)) { dialog, which ->
+										chipBlock.text = activity.getString(R.string.block_button_loading)
+										blockUser(activity, username, chipBlock, chipBlocked)
+									}
+									.setNegativeButton(activity.getString(R.string.block_no), null)
+									.show()
+						}
 					}
 				}
 
@@ -246,6 +263,39 @@ object UserProfileDialog {
 			accountManager.getDefaultAccount(),
 			DownloadStrategyAlways.INSTANCE,
 			activity
+		)
+	}
+	private fun blockUser(activity: AppCompatActivity, username: String, chipBlock: Chip, chipBlocked: Chip) {
+		val cm = CacheManager.getInstance(activity)
+		val currentUser = RedditAccountManager.getInstance(activity).defaultAccount
+
+		RedditAPI.blockUser(
+				cm,
+				username,
+				object : ActionResponseHandler(activity) {
+					override fun onSuccess() {
+						activity.runOnUiThread {
+							chipBlock.visibility = View.GONE
+							chipBlocked.visibility = View.VISIBLE
+						}
+					}
+
+					override fun onFailure(error: RRError) {
+						activity.runOnUiThread {
+							chipBlock.text = activity.getString(R.string.userprofile_button_block)
+						}
+						DialogUtils.showDialog(activity, R.string.block_user_failed_title, R.string.block_user_failed_message)
+					}
+
+					override fun onCallbackException(t: Throwable?) {
+						BugReportActivity.handleGlobalError(activity, t)
+						activity.runOnUiThread {
+							chipBlock.text = activity.getString(R.string.userprofile_button_block)
+						}
+					}
+				},
+				currentUser,
+				activity
 		)
 	}
 

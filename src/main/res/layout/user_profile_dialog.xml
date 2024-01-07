@@ -332,6 +332,16 @@
 						style="@style/Widget.Material3.Chip.Assist.Elevated"
 						android:checkable="false"/>
 
+				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_block"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:chipIcon="?rrIconCross"
+						app:chipIconSize="16sp"
+						android:text="@string/userprofile_button_block"
+						style="@style/Widget.Material3.Chip.Assist.Elevated"
+						android:checkable="false"/>
+
 			</com.google.android.material.chip.ChipGroup>
 
 		</androidx.appcompat.widget.LinearLayoutCompat>

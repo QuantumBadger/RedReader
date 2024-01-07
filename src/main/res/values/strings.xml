@@ -1902,4 +1902,9 @@
 	<string name="album_grid_pref_horizontal_padding">Horizontal padding</string>
 
 	<string name="album_pref_compact_title">Compact title</string>
+
+	<!-- 2025-03-12 -->
+	<string name="video_speed_setting">Change video speed</string>
+	<string name="video_speed_instruction">Choose playback speed</string>
+	<string name="video_speed_term">Speed</string>
 </resources>

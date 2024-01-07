@@ -27,7 +27,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.widget.Button;
+import android.widget.SeekBar;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -44,6 +45,7 @@ import androidx.media3.ui.DefaultTimeBar;
 import androidx.media3.ui.PlayerView;
 import androidx.media3.ui.TimeBar;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
@@ -69,6 +71,9 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 	@Nullable private final DefaultTimeBar mTimeBarView;
 	@Nullable private final TextView mTimeTextView;
+
+	@Nullable private final TextView mSpeedTextView;
+	private float mCurrentPlaybackSpeed = 1.0f;
 
 	private boolean mReleased;
 
@@ -233,6 +238,15 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				addButton(zoomButton.get(), buttons);
 			}
 
+			addButton(createButton(
+					context,
+					mControlView,
+					R.drawable.ic_time_dark,
+					R.string.video_speed_setting,
+					view -> {
+						openSpeedSettingDialog(context);
+					}), buttons);
+
 			mTimeBarView = new DefaultTimeBar(context, null);
 			controlBar.addView(mTimeBarView);
 
@@ -279,10 +293,19 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			updateProgressRunnable.run();
 
 			{
+				final LinearLayout timeAndSpeedLayout = new LinearLayout(context);
+				timeAndSpeedLayout.setOrientation(LinearLayout.HORIZONTAL);
+				controlBar.addView(timeAndSpeedLayout);
+
 				mTimeTextView = new TextView(context);
-				controlBar.addView(mTimeTextView);
+				timeAndSpeedLayout.addView(mTimeTextView);
 				mTimeTextView.setTextColor(Color.WHITE);
 				mTimeTextView.setTextSize(18);
+
+				mSpeedTextView = new TextView(context);
+				timeAndSpeedLayout.addView(mSpeedTextView);
+				mSpeedTextView.setTextColor(Color.WHITE);
+				mSpeedTextView.setText(String.format(Locale.US, "(%.2fx)", mCurrentPlaybackSpeed));
 
 				final int marginSidesPx = General.dpToPixels(context, 16);
 				final int marginBottomPx = General.dpToPixels(context, 8);
@@ -300,6 +323,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			mControlView = null;
 			mTimeBarView = null;
 			mTimeTextView = null;
+			mSpeedTextView = null;
 		}
 
 		videoPlayerView.setLayoutParams(new FrameLayout.LayoutParams(
@@ -435,5 +459,121 @@ public class ExoPlayerWrapperView extends FrameLayout {
 		final int secs = secondsTotal % 60;
 
 		return String.format(Locale.US, "%d:%02d", mins, secs);
+	}
+	private void openSpeedSettingDialog(final Context context) {
+		// Pause video playback before opening the dialog
+		mVideoPlayer.setPlayWhenReady(false);
+
+		final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
+		builder.setTitle(R.string.video_speed_instruction);
+
+		final LinearLayout speedSettingsLayout = new LinearLayout(context);
+		speedSettingsLayout.setOrientation(LinearLayout.VERTICAL);
+		speedSettingsLayout.setPadding(20, 20, 20, 20);
+
+		final TextView speedValue = new TextView(context);
+		speedValue.setText(String.format(
+			Locale.US,
+			getResources().getString(R.string.video_speed_term) + ": %.2fx",
+			mCurrentPlaybackSpeed)
+		);
+		speedValue.setTextSize(18);
+		speedValue.setPadding(10, 10, 10, 10);
+
+		final SeekBar speedSeekBar = new SeekBar(context);
+		speedSeekBar.setMax(300 - 1); // 3.00 is max for now
+
+		final LinearLayout.LayoutParams seekBarParams = new LinearLayout.LayoutParams(
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT
+		);
+		seekBarParams.height = 150;
+		speedSeekBar.setLayoutParams(seekBarParams);
+
+		speedSeekBar.setProgress((int) ((mCurrentPlaybackSpeed - 0.01) * 100));
+
+		// Listener for changes in the SeekBar's position
+		speedSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(final SeekBar seekBar,
+											final int progress,final boolean fromUser) {
+				final float selectedSpeed = 0.01f * (progress + 1);
+				speedValue.setText(String.format(
+					Locale.US,
+					getResources().getString(R.string.video_speed_term) + ": %.2fx",
+					selectedSpeed)
+				);
+			}
+
+			@Override
+			public void onStartTrackingTouch(final SeekBar seekBar) { }
+
+			@Override
+			public void onStopTrackingTouch(final SeekBar seekBar) { }
+		});
+
+		speedSettingsLayout.addView(speedValue);
+		speedSettingsLayout.addView(speedSeekBar);
+
+		// Creating rows for the speed preset buttons
+		final LinearLayout[] rows = new LinearLayout[4];
+		for (int i = 0; i < rows.length; i++) {
+			rows[i] = new LinearLayout(context);
+			rows[i].setOrientation(LinearLayout.HORIZONTAL);
+			speedSettingsLayout.addView(rows[i]);
+		}
+
+		// Labels and values for the preset speed buttons
+		final String[] speedLabels = {"0.5", "1.0", "1.5", "2.0"};
+		final int[] speedProgressValues = {49, 99, 149, 199};
+
+		// Adding preset speed buttons to the layout
+		for (int i = 0; i < speedLabels.length; i++) {
+			addPresetSpeedButton(rows[i / 4], speedLabels[i],
+					speedProgressValues[i], speedSeekBar, speedValue, context);
+		}
+
+		builder.setView(speedSettingsLayout);
+
+		builder.setPositiveButton(R.string.dialog_go, (dialog, which) -> {
+			mCurrentPlaybackSpeed = 0.01f * (speedSeekBar.getProgress() + 1);
+			mVideoPlayer.setPlaybackSpeed(mCurrentPlaybackSpeed);
+			mSpeedTextView.setText(String.format(Locale.US, "(%.2fx)", mCurrentPlaybackSpeed));
+			// Resume video playback when dialog is dismissed
+			mVideoPlayer.setPlayWhenReady(true);
+		});
+		builder.setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
+			// Resume video playback when dialog is dismissed
+			mVideoPlayer.setPlayWhenReady(true);
+		});
+
+		builder.setOnCancelListener(dialog -> {
+			// Resume video playback when dialog is canceled
+			mVideoPlayer.setPlayWhenReady(true);
+		});
+
+		builder.show();
+	}
+
+	// Method to add a preset speed button to the layout
+	private void addPresetSpeedButton(final LinearLayout rowLayout, final String label,
+										final int progress, final SeekBar seekBar,
+										final TextView speedValue, final Context context) {
+		final Button speedButton = new Button(context);
+		speedButton.setText(label);
+		// Setting button click behavior to update the SeekBar and speedValue TextView
+		speedButton.setOnClickListener(v -> {
+			seekBar.setProgress(progress);
+			final float selectedSpeed = 0.01f * (progress + 1);
+			speedValue.setText(String.format(
+				Locale.US,
+				getResources().getString(R.string.video_speed_term) + ": %.2fx",
+				selectedSpeed)
+			);
+		});
+
+		final LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				0, LayoutParams.WRAP_CONTENT, 1.0f);
+		rowLayout.addView(speedButton, params);
 	}
 }

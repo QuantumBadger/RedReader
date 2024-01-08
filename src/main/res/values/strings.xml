@@ -1837,10 +1837,17 @@
 	<!-- 2024-01-07 -->
 	<string name="userprofile_button_block" translatable="true">Block</string>
 	<string name="block_user_failed_title" translatable="true">Failed to block</string>
-	<string name="block_user_failed_message" translatable="true">Failed to block user. You may have to log out and re-add your account.</string>
+	<string name="block_user_failed_message" translatable="true">Failed to block user. You may have to log out and re-add your account. Message from Reddit:</string>
 	<string name="block_button_loading" translatable="true">Blocking…</string>
 	<string name="block_confirmation" translatable="true">Block confirmation</string>
 	<string name="are_you_sure_block_user" translatable="true">Are you sure you want to block this user?</string>
 	<string name="block_yes" translatable="true">Yes, block</string>
 	<string name="block_no" translatable="true">No, do not block</string>
+
+	<!-- 2024-01-08 -->
+	<string name="userprofile_button_unblock" translatable="true">Unblock</string>
+	<string name="unblock_button_loading" translatable="true">Unblocking…</string>
+	<string name="unblock_user_failed_title" translatable="true">Failed to unblock</string>
+	<string name="unblock_user_failed_message" translatable="true">Failed to unblock user. You may have to log out and re-add your account. Message from Reddit:</string>
+
 </resources>

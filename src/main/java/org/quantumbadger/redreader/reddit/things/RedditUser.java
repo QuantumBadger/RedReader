@@ -147,4 +147,7 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 			return new RedditUser[size];
 		}
 	};
+	public String fullname() {
+		return String.format("%s_%s", RedditThing.KIND_USER, id);
+	}
 }

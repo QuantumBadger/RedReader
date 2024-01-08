@@ -660,6 +660,27 @@ public final class RedditAPI {
 				}));
 	}
 
+	public static void unblockUser(
+			final CacheManager cm,
+			final String usernameToUnblock,
+			final String currentUserFullname,
+			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final RedditAccount user,
+			final Context context
+	) {
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("name", usernameToUnblock));
+		postFields.add(new PostField("container", currentUserFullname));
+		postFields.add(new PostField("type", "enemy"));
+
+		cm.makeRequest(createPostRequest(
+				Constants.Reddit.getUri("/api/unfriend"),
+				user,
+				postFields,
+				context,
+				new GenericResponseHandler(responseHandler)));
+	}
+
 	public static void blockUser(
 			final CacheManager cm,
 			final String usernameToBlock,

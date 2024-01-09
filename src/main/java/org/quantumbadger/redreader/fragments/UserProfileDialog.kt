@@ -177,15 +177,15 @@ object UserProfileDialog {
 							chipGold.visibility = View.GONE
 						}
 
-						val usernameToSubreddit = "u_"+username
-						val userSubredditCanonicalId = SubredditCanonicalId(usernameToSubreddit)
-						if ((getSubMan(activity).getSubscriptionState(userSubredditCanonicalId)
-										== SubredditSubscriptionState.NOT_SUBSCRIBED)
-						) {
+						val userSubredditCanonicalIdA = SubredditCanonicalId("/user/$username")
+						val userSubredditCanonicalIdB = SubredditCanonicalId("u_$username")
+						val subMan = getSubMan(activity)
+						if (subMan.getSubscriptionState(userSubredditCanonicalIdA) == SubredditSubscriptionState.NOT_SUBSCRIBED &&
+								subMan.getSubscriptionState(userSubredditCanonicalIdB) == SubredditSubscriptionState.NOT_SUBSCRIBED) {
 							chipFollowed.visibility = View.GONE
 							chipFollow.visibility = View.VISIBLE
 							chipUnfollow.visibility = View.GONE
-						}else{
+						} else {
 							chipFollow.visibility = View.GONE
 							chipUnfollow.visibility = View.VISIBLE
 						}
@@ -310,8 +310,7 @@ object UserProfileDialog {
 
 	private fun subscribeToUser(activity: AppCompatActivity, username: String) {
 		try {
-			//Every user has a user-subreddit that you can follow
-			val usernameToSubreddit = "u_"+username //subreddit of spez is u_spez
+			val usernameToSubreddit = "u_$username"
 			val userSubredditCanonicalId = SubredditCanonicalId(usernameToSubreddit)
 
 			val subMan = getSubMan(activity)
@@ -338,26 +337,23 @@ object UserProfileDialog {
 
 	private fun unsubscribeToUser(activity: AppCompatActivity, username: String) {
 		try {
-			//Every user has a user-subreddit that you can follow
-			val usernameToSubreddit = "u_"+username //subreddit of spez is u_spez
-			val userSubredditCanonicalId = SubredditCanonicalId(usernameToSubreddit)
+			val userSubredditCanonicalIdA = SubredditCanonicalId("/user/$username")
+			val userSubredditCanonicalIdB = SubredditCanonicalId("u_$username")
 
 			val subMan = getSubMan(activity)
-			if ((subMan.getSubscriptionState(userSubredditCanonicalId)
-							== SubredditSubscriptionState.SUBSCRIBED)
-			) {
-				subMan.unsubscribe(userSubredditCanonicalId, activity)
-				Toast.makeText(
-						activity,
-						R.string.userprofile_toast_unfollow_loading,
-						Toast.LENGTH_SHORT
-				).show()
-			} else {
-				Toast.makeText(
-						activity,
-						R.string.userprofile_toast_not_following,
-						Toast.LENGTH_SHORT
-				).show()
+
+			fun unsubscribeIfSubscribed(canonicalId: SubredditCanonicalId): Boolean {
+				return if (subMan.getSubscriptionState(canonicalId) == SubredditSubscriptionState.SUBSCRIBED) {
+					subMan.unsubscribe(canonicalId, activity)
+					Toast.makeText(activity, R.string.userprofile_toast_unfollow_loading, Toast.LENGTH_SHORT).show()
+					true
+				} else {
+					false
+				}
+			}
+
+			if (!unsubscribeIfSubscribed(userSubredditCanonicalIdA) && !unsubscribeIfSubscribed(userSubredditCanonicalIdB)) {
+				Toast.makeText(activity, R.string.userprofile_toast_not_following, Toast.LENGTH_SHORT).show()
 			}
 		} catch (e: InvalidSubredditNameException) {
 			throw RuntimeException(e)

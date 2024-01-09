@@ -1849,5 +1849,5 @@
 	<string name="unblock_button_loading" translatable="true">Unblocking…</string>
 	<string name="unblock_user_failed_title" translatable="true">Failed to unblock</string>
 	<string name="unblock_user_failed_message" translatable="true">Failed to unblock user. You may have to log out and re-add your account. Message from Reddit:</string>
-
+	<string name="blocked_user_comment" translatable="true">[blocked]</string>
 </resources>

@@ -1849,4 +1849,8 @@
 	<string name="block_permission_denied_message">A new login is required to enable RedReader to handle the blocking of users. Please do a re-login and try again.</string>
 	<string name="block_permission_denied_title">Missing permission to block</string>
 	<string name="block_permission_denied_relogin">Re-login</string>
+
+	<!-- 2024-04-14 -->
+	<string name="comment_upload_picture">Upload picture</string>
+	<string name="comment_picture_pretext">Picture</string>
 </resources>

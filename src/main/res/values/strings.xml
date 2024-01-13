@@ -1917,4 +1917,5 @@
 	<string name="crosspost">Crosspost</string>
 	<string name="pref_appearance_post_subtitle_items_crosspost">Crosspost tag</string>
 	<string name="accessibility_subtitle_crosspost">Crosspost.</string>
+	<string name="action_crosspost_origin">Go to Crosspost Origin</string>
 </resources>

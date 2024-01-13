@@ -55,6 +55,8 @@
     <attr name="rrGoldBackCol" format="color" />
     <attr name="rrGoldTextCol" format="color" />
 	<attr name="rrPostInlinePreviewDivider" format="color" />
+	<attr name="rrCrosspostBackCol" format="color" />
+	<attr name="rrCrosspostTextCol" format="color" />
 
     <attr name="rrCommentBodyCol" format="color" />
     <attr name="rrCommentHeaderCol" format="color" />

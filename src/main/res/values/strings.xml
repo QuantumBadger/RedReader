@@ -1914,4 +1914,7 @@
 	<string name="pref_behaviour_mark_posts_as_read_key" translatable="false">pref_behaviour_mark_posts_as_read</string>
 	<string name="pref_behaviour_mark_posts_as_read_title">Mark posts as read</string>
 
+	<string name="crosspost">Crosspost</string>
+	<string name="pref_appearance_post_subtitle_items_crosspost">Crosspost tag</string>
+	<string name="accessibility_subtitle_crosspost">Crosspost.</string>
 </resources>

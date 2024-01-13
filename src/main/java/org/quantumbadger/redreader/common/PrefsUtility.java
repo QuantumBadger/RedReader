@@ -589,6 +589,7 @@ public final class PrefsUtility {
 		SCORE,
 		AGE,
 		GOLD,
+		CROSSPOST,
 		SUBREDDIT,
 		DOMAIN,
 		STICKY,

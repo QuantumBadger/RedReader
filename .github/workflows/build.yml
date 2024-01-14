@@ -14,7 +14,11 @@ jobs:
             -   uses: gradle/wrapper-validation-action@v1
 
             -   name: Install NDK
-                run: echo "y" | ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT}
+                run: |
+                    ANDROID_ROOT=/usr/local/lib/android
+                    ANDROID_SDK_ROOT=${ANDROID_ROOT}/sdk
+                    SDKMANAGER=${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager
+                    echo "y" | $SDKMANAGER "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT}
 
             -   name: Run release build
                 run: ./gradlew assembleRelease

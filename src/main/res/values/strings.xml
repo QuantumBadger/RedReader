@@ -1831,23 +1831,22 @@
 
 	<!-- 2024-01-06 -->
 	<string name="pref_appearance_hide_comments_from_blocked_users_key" translatable="false">pref_appearance_hide_comments_from_blocked_users</string>
-	<string name="pref_appearance_hide_comments_from_blocked_users_title" translatable="true">Hide comment chains from blocked users</string>
-	<string name="userprofile_tag_blocked" translatable="true">Blocked</string>
+	<string name="pref_appearance_hide_comments_from_blocked_users_title">Hide comment chains from blocked users</string>
+	<string name="userprofile_tag_blocked">Blocked</string>
 
 	<!-- 2024-01-07 -->
-	<string name="userprofile_button_block" translatable="true">Block</string>
-	<string name="block_user_failed_title" translatable="true">Failed to block</string>
-	<string name="block_user_failed_message" translatable="true">Failed to block user. You may have to log out and re-add your account. Message from Reddit:</string>
-	<string name="block_button_loading" translatable="true">Blocking…</string>
-	<string name="block_confirmation" translatable="true">Block confirmation</string>
-	<string name="are_you_sure_block_user" translatable="true">Are you sure you want to block this user?</string>
-	<string name="block_yes" translatable="true">Yes, block</string>
-	<string name="block_no" translatable="true">No, do not block</string>
+	<string name="userprofile_button_block">Block</string>
+	<string name="block_button_loading">Blocking…</string>
+	<string name="block_confirmation">Block confirmation</string>
+	<string name="are_you_sure_block_user">Are you sure you want to block this user?</string>
 
 	<!-- 2024-01-08 -->
-	<string name="userprofile_button_unblock" translatable="true">Unblock</string>
-	<string name="unblock_button_loading" translatable="true">Unblocking…</string>
-	<string name="unblock_user_failed_title" translatable="true">Failed to unblock</string>
-	<string name="unblock_user_failed_message" translatable="true">Failed to unblock user. You may have to log out and re-add your account. Message from Reddit:</string>
-	<string name="blocked_user_comment" translatable="true">[blocked]</string>
+	<string name="userprofile_button_unblock">Unblock</string>
+	<string name="unblock_button_loading">Unblocking…</string>
+	<string name="blocked_user_comment">blocked</string>
+
+	<!-- 2024-01-25 -->
+	<string name="block_permission_denied_message">A new login is required to enable RedReader to handle the blocking of users. Please do a re-login and try again.</string>
+	<string name="block_permission_denied_title">Missing permission to block</string>
+	<string name="block_permission_denied_relogin">Re-login</string>
 </resources>

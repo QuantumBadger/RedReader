@@ -170,7 +170,8 @@ public class RedditRenderableComment
 						1f);
 			}
 			if (isBlockedUser) {
-				sb.append(" " + context.getString(R.string.blocked_user_comment), BetterSSB.FOREGROUND_COLOR, Color.RED, 0, 1f);
+				sb.append(" [" + context.getString(R.string.blocked_user_comment) + "]",
+				BetterSSB.FOREGROUND_COLOR, Color.RED, 0, 1f);
 			}
 		}
 

@@ -150,6 +150,12 @@ public final class RedditAPI {
 		}
 	}
 
+	public interface BlockUserResponseHandler {
+		void onSuccess();
+		void onBlockUserPermissionDenied();
+		void onFailure(@NonNull final RRError error);
+	}
+
 	public interface FlairSelectorResponseHandler {
 
 		void onSuccess(@NonNull Collection<RedditFlairChoice> choices);
@@ -684,7 +690,7 @@ public final class RedditAPI {
 	public static void blockUser(
 			final CacheManager cm,
 			final String usernameToBlock,
-			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final BlockUserResponseHandler responseHandler,
 			final RedditAccount user,
 			final Context context
 	) {
@@ -692,12 +698,34 @@ public final class RedditAPI {
 		postFields.add(new PostField("name", usernameToBlock));
 		postFields.add(new PostField("api_type", "json"));
 
-		cm.makeRequest(createPostRequest(
+		cm.makeRequest(createPostRequestUnprocessedResponse(
 				Constants.Reddit.getUri("/api/block_user"),
 				user,
 				postFields,
 				context,
-				new GenericResponseHandler(responseHandler)));
+				new CacheRequestCallbacks() {
+					@Override
+					public void onFailure(@NonNull final RRError error) {
+						// we upgraded the OAuth scope to include account,
+						// so check for missing permission
+						if (error.httpStatus != null && error.httpStatus == 403) {
+							responseHandler.onBlockUserPermissionDenied();
+						} else {
+							responseHandler.onFailure(error);
+						}
+					}
+
+					@Override
+					public void onDataStreamComplete(
+							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
+							final TimestampUTC timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
+						responseHandler.onSuccess();
+					}
+				}
+		));
 	}
 
 	public static void sendReplies(

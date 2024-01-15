@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.fragments
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
@@ -32,7 +33,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textview.MaterialTextView
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccountManager
+import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.activities.BugReportActivity
+import org.quantumbadger.redreader.activities.OAuthLoginActivity
 import org.quantumbadger.redreader.activities.PMSendActivity
 import org.quantumbadger.redreader.cache.CacheManager
 import org.quantumbadger.redreader.cache.CacheRequest
@@ -52,6 +55,7 @@ import org.quantumbadger.redreader.common.time.TimestampUTC.Companion.now
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
 import org.quantumbadger.redreader.reddit.APIResponseHandler.UserResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
+import org.quantumbadger.redreader.reddit.api.RedditOAuth.completeLogin
 import org.quantumbadger.redreader.reddit.things.RedditUser
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL
 import org.quantumbadger.redreader.views.LoadingSpinnerView
@@ -65,7 +69,7 @@ object UserProfileDialog {
 	@JvmStatic
 	fun show(
 		activity: AppCompatActivity,
-		username: String
+		username: String,
 	) {
 		val builder = MaterialAlertDialogBuilder(activity)
 		builder.setView(R.layout.user_profile_dialog)
@@ -137,12 +141,18 @@ object UserProfileDialog {
 							chipSuspended.visibility = View.GONE
 						}
 
-						if (user.is_blocked != true) {
-							chipBlocked.visibility = View.GONE
+						if (accountManager.getDefaultAccount().isAnonymous()) {
+							chipBlock.visibility = View.GONE
 							chipUnblock.visibility = View.GONE
-						}else {
-							chipBlock.visibility = View.GONE //dont show block button if blocked
-							chipUnblock.visibility = View.VISIBLE
+							chipBlocked.visibility = View.GONE
+						} else { //show block actions only if user is logged in
+							if (user.is_blocked != true) {
+								chipBlocked.visibility = View.GONE
+								chipUnblock.visibility = View.GONE
+							} else {
+								chipBlock.visibility = View.GONE
+								chipUnblock.visibility = View.VISIBLE
+							}
 						}
 
 						if (user.is_friend != true) {
@@ -238,15 +248,17 @@ object UserProfileDialog {
 							MaterialAlertDialogBuilder(activity)
 									.setTitle(activity.getString(R.string.block_confirmation))
 									.setMessage(activity.getString(R.string.are_you_sure_block_user))
-									.setPositiveButton(activity.getString(R.string.block_yes)) { dialog, which ->
+									.setPositiveButton(activity.getString(R.string.dialog_yes)) { dialog, which ->
 										chipBlock.text = activity.getString(R.string.block_button_loading)
-										blockUser(activity, username, chipBlock, chipBlocked, chipUnblock)
+										chipBlock.isEnabled = false //grey out
+										blockUser(activity, username, chipBlock, chipBlocked, chipUnblock, context)
 									}
-									.setNegativeButton(activity.getString(R.string.block_no), null)
+									.setNegativeButton(activity.getString(R.string.dialog_cancel), null)
 									.show()
 						}
 						chipUnblock.setOnClickListener {
 							chipUnblock.text = activity.getString(R.string.unblock_button_loading)
+							chipUnblock.isEnabled = false // grey out
 							unblockUser(activity, username, chipBlock, chipBlocked, chipUnblock)
 						}
 					}
@@ -291,6 +303,7 @@ object UserProfileDialog {
 					override fun onCallbackException(t: Throwable) {
 						activity.runOnUiThread {
 							chipUnblock.text = activity.getString(R.string.userprofile_button_unblock)
+							chipUnblock.isEnabled = true
 						}
 						BugReportActivity.handleGlobalError(context, t)
 					}
@@ -298,7 +311,9 @@ object UserProfileDialog {
 					override fun onFailure(error: RRError) {
 						activity.runOnUiThread {
 							chipUnblock.text = activity.getString(R.string.userprofile_button_unblock)
+							chipUnblock.isEnabled = true
 						}
+						General.showResultDialog(activity, error)
 					}
 				},
 				currentUser,
@@ -322,24 +337,23 @@ object UserProfileDialog {
 							chipUnblock.visibility = View.GONE
 							chipBlocked.visibility = View.GONE
 							chipBlock.visibility = View.VISIBLE
+							chipUnblock.isEnabled = true
 						}
 					}
 
 					override fun onFailure(error: RRError) {
 						activity.runOnUiThread {
 							chipUnblock.text = activity.getString(R.string.userprofile_button_unblock)
+							chipUnblock.isEnabled = true
 						}
-						//During testing I quickly ran into rate limits, so show the user what's going on
-						val errorTitle = activity.getString(R.string.unblock_user_failed_title)
-						val errorMessageBase = activity.getString(R.string.unblock_user_failed_message)
-						val errorMessage = "$errorMessageBase\n\n${error.message}"
-						DialogUtils.showDialog(activity, errorTitle, errorMessage)
+						General.showResultDialog(activity, error)
 					}
 
 					override fun onCallbackException(t: Throwable?) {
 						BugReportActivity.handleGlobalError(activity, t)
 						activity.runOnUiThread {
 							chipUnblock.text = activity.getString(R.string.userprofile_button_unblock)
+							chipUnblock.isEnabled = true
 						}
 					}
 				},
@@ -348,44 +362,68 @@ object UserProfileDialog {
 		)
 	}
 
-	private fun blockUser(activity: AppCompatActivity, username: String, chipBlock: Chip, chipBlocked: Chip, chipUnblock: Chip) {
+	private fun blockUser(activity: AppCompatActivity, username: String, chipBlock: Chip, chipBlocked: Chip, chipUnblock: Chip, context: AppCompatActivity) {
 		val cm = CacheManager.getInstance(activity)
 		val currentUser = RedditAccountManager.getInstance(activity).defaultAccount
 
 		RedditAPI.blockUser(
 				cm,
 				username,
-				object : ActionResponseHandler(activity) {
+				object : RedditAPI.BlockUserResponseHandler {
 					override fun onSuccess() {
 						activity.runOnUiThread {
 							chipBlock.text = activity.getString(R.string.userprofile_button_block)
 							chipBlock.visibility = View.GONE
 							chipBlocked.visibility = View.VISIBLE
 							chipUnblock.visibility = View.VISIBLE
+							chipBlock.isEnabled = true
+						}
+					}
+
+					override fun onBlockUserPermissionDenied() {
+						activity.runOnUiThread {
+							chipBlock.text = activity.getString(R.string.userprofile_button_block)
+							chipBlock.isEnabled = true
+
+							MaterialAlertDialogBuilder(activity)
+									.setTitle(activity.getString(R.string.block_permission_denied_title))
+									.setMessage(activity.getString(R.string.block_permission_denied_message))
+									.setPositiveButton(activity.getString(R.string.block_permission_denied_relogin)) { dialog, which ->
+										//perform a re-logion
+										launchAndCompleteLogin(activity, context)
+									}
+									.setNegativeButton(activity.getString(R.string.dialog_cancel), null)
+									.show()
 						}
 					}
 
 					override fun onFailure(error: RRError) {
 						activity.runOnUiThread {
 							chipBlock.text = activity.getString(R.string.userprofile_button_block)
+							chipBlock.isEnabled = true
 						}
-						//During testing I quickly ran into rate limits, so show the user what's going on
-						val errorTitle = activity.getString(R.string.block_user_failed_title)
-						val errorMessageBase = activity.getString(R.string.block_user_failed_message)
-						val errorMessage = "$errorMessageBase\n\n${error.message}"
-						DialogUtils.showDialog(activity, errorTitle, errorMessage)
+						General.showResultDialog(activity, error)
 					}
 
-					override fun onCallbackException(t: Throwable?) {
-						BugReportActivity.handleGlobalError(activity, t)
-						activity.runOnUiThread {
-							chipBlock.text = activity.getString(R.string.userprofile_button_block)
-						}
-					}
 				},
 				currentUser,
 				activity
 		)
+	}
+
+	private fun launchAndCompleteLogin(activity: AppCompatActivity, context: AppCompatActivity) {
+		val loginIntent = Intent(context, OAuthLoginActivity::class.java)
+		//let OAuthLoginActivity call back the url and code 123, then do completeLogin
+		(activity as BaseActivity).startActivityForResultWithCallback(
+				loginIntent
+		) { resultCode: Int, data: Intent? ->
+			if (data != null) {
+				if (resultCode == 123 && data.hasExtra("url")) {
+					val uri = Uri.parse(data.getStringExtra("url"))
+					completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+				}
+			}
+		}
 	}
 
 	@Throws(URISyntaxException::class)

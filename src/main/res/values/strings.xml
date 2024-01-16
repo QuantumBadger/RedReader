@@ -1853,4 +1853,7 @@
 
 	<string name="pref_appearance_highlight_own_username_key" translatable="false">pref_appearance_highlight_own_username</string>
 	<string name="pref_appearance_highlight_own_username_title">Highlight your own username in comments</string>
+
+	<!-- 2024-06-16 -->
+	<string name="mainmenu_submitted_comments">Submitted Comments</string>
 </resources>

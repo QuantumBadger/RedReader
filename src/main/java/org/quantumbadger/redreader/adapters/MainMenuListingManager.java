@@ -353,6 +353,18 @@ public class MainMenuListingManager {
 									isFirst.getAndSet(false)));
 				}
 
+				if(mainMenuUserItems.contains(
+					MainMenuFragment.MainMenuUserItems.SUBMITTED_COMMENTS)
+				){
+					mAdapter.appendToGroup(
+							GROUP_USER_ITEMS,
+							makeItem(
+									R.string.mainmenu_submitted_comments,
+									MainMenuFragment.MENU_MENU_ACTION_SUBMITTED_COMMENTS,
+									rrIconSend,
+									isFirst.getAndSet(false)));
+				}
+
 				if(mainMenuUserItems.contains(MainMenuFragment.MainMenuUserItems.SAVED)) {
 					mAdapter.appendToGroup(
 							GROUP_USER_ITEMS,

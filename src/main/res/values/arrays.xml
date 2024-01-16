@@ -630,6 +630,7 @@
         <item>@string/mainmenu_inbox</item>
         <item>@string/mainmenu_sent_messages</item>
         <item>@string/mainmenu_submitted</item>
+		<item>@string/mainmenu_submitted_comments</item>
         <item>@string/mainmenu_saved</item>
         <item>@string/mainmenu_hidden</item>
         <item>@string/mainmenu_upvoted</item>
@@ -643,6 +644,7 @@
         <item>inbox</item>
         <item>sent_messages</item>
         <item>submitted</item>
+		<item>submitted_comments</item>
         <item>saved</item>
         <item>hidden</item>
         <item>upvoted</item>

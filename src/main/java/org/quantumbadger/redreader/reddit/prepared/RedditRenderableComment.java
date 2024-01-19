@@ -148,6 +148,13 @@ public class RedditRenderableComment
 			} else if("admin".equals(rawComment.getDistinguished())) {
 				setBackgroundColour = true;
 				backgroundColour = Color.rgb(170, 0, 0);
+
+			} else if(rawComment.getAuthor().getDecoded().equalsIgnoreCase(
+					mCurrentCanonicalUserName)) {
+				if (PrefsUtility.pref_appearance_highlight_own_username()){
+					setBackgroundColour = true;
+					backgroundColour = Color.rgb(254, 187, 50);
+				}
 			}
 
 			if(setBackgroundColour) {

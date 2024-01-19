@@ -121,6 +121,8 @@ public final class PrefsUtility {
 						R.string.pref_appearance_hide_headertoolbar_postlist_key))
 				|| key.equals(context.getString(
 					R.string.pref_appearance_hide_comments_from_blocked_users_key))
+				|| key.equals(context.getString(
+						R.string.pref_appearance_highlight_own_username_key))
 				|| key.equals(context.getString(R.string.pref_images_thumbnail_size_key))
 				|| key.equals(context.getString(R.string.pref_images_inline_image_previews_key))
 				|| key.equals(context.getString(
@@ -582,6 +584,12 @@ public final class PrefsUtility {
 		return getBoolean(
 				R.string.pref_appearance_hide_comments_from_blocked_users_key,
 				false);
+	}
+
+	public static boolean pref_appearance_highlight_own_username() {
+		return getBoolean(
+				R.string.pref_appearance_highlight_own_username_key,
+				true);
 	}
 
 	public enum AppearancePostSubtitleItem {

@@ -7,7 +7,7 @@ buildscript {
 	}
 	dependencies {
 		// TODO share this with the "plugins" block
-		val rrKotlinVersion = "1.6.21"
+		val rrKotlinVersion = "1.9.22"
 
 		classpath("com.android.tools.build:gradle:7.3.1")
 		classpath(kotlin("gradle-plugin", version = rrKotlinVersion))
@@ -17,9 +17,9 @@ buildscript {
 
 plugins {
 	id("com.android.application") version("7.3.1") apply(true)
-	kotlin("android") version("1.6.21") apply(true)
-	kotlin("plugin.serialization") version("1.6.21") apply(true)
-	kotlin("plugin.parcelize") version("1.6.21") apply(true)
+	kotlin("android") version("1.9.22") apply(true)
+	kotlin("plugin.serialization") version("1.9.22") apply(true)
+	kotlin("plugin.parcelize") version("1.9.22") apply(true)
     pmd
 	checkstyle
 }
@@ -34,7 +34,7 @@ dependencies {
 	coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
 	implementation("androidx.core:core-ktx:1.9.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21") // TODO use constant
+	implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22") // TODO use constant
 	implementation("androidx.annotation:annotation:1.5.0")
 	implementation("androidx.appcompat:appcompat:1.6.0")
 	implementation("androidx.recyclerview:recyclerview:1.2.1")
@@ -117,6 +117,10 @@ android {
 
 	testOptions {
 		animationsDisabled = true
+	}
+
+	kotlinOptions {
+		jvmTarget = "1.8"
 	}
 }
 

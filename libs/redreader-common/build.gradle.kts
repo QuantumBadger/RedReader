@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 buildscript {
 	repositories {
@@ -9,12 +10,16 @@ buildscript {
 plugins {
     id("java-library")
     id("org.jetbrains.kotlin.jvm")
-	kotlin("plugin.serialization") version("1.6.21") apply(true)
+	kotlin("plugin.serialization") version("1.9.22") apply(true)
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+tasks.withType(KotlinJvmCompile::class) {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8.toString()
 }
 
 dependencies {

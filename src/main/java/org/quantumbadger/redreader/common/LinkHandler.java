@@ -551,7 +551,11 @@ public class LinkHandler {
 			intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true);
 
 			final TypedValue typedValue = new TypedValue();
-			activity.getTheme().resolveAttribute(R.attr.colorPrimary, typedValue, true);
+			activity.getTheme().resolveAttribute(
+					com.google.android.material.R.attr.colorPrimary,
+					typedValue,
+					true
+			);
 
 			intent.putExtra(
 					"android.support.customtabs.extra.TOOLBAR_COLOR",

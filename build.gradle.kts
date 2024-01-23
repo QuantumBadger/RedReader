@@ -1,25 +1,10 @@
 @file:Suppress("UnstableApiUsage")
 
-buildscript {
-	repositories {
-		mavenCentral()
-		google()
-	}
-	dependencies {
-		// TODO share this with the "plugins" block
-		val rrKotlinVersion = "1.9.22"
-
-		classpath("com.android.tools.build:gradle:7.3.1")
-		classpath(kotlin("gradle-plugin", version = rrKotlinVersion))
-		classpath(kotlin("serialization", version = rrKotlinVersion))
-	}
-}
-
 plugins {
-	id("com.android.application") version("7.3.1") apply(true)
-	kotlin("android") version("1.9.22") apply(true)
-	kotlin("plugin.serialization") version("1.9.22") apply(true)
-	kotlin("plugin.parcelize") version("1.9.22") apply(true)
+	id("com.android.application") version "8.2.2"
+	kotlin("android") version "1.9.22"
+	kotlin("plugin.serialization") version "1.9.22"
+	kotlin("plugin.parcelize") version "1.9.22"
     pmd
 	checkstyle
 }
@@ -65,7 +50,6 @@ dependencies {
 
 android {
 	compileSdk = 33
-	buildToolsVersion = "33.0.1"
 	ndkVersion = "23.1.7779620"
 	namespace = "org.quantumbadger.redreader"
 
@@ -83,7 +67,7 @@ android {
 
 	// Flag to tell aapt to keep the attribute ids around
 	androidResources {
-		additionalParameters("--no-version-vectors")
+		additionalParameters.add("--no-version-vectors")
 	}
 
 	buildTypes.forEach {
@@ -111,8 +95,8 @@ android {
 		lintConfig = file("config/lint/lint.xml")
 	}
 
-	packagingOptions {
-		excludes.add("META-INF/*")
+	packaging {
+		resources.excludes.add("META-INF/*")
 	}
 
 	testOptions {
@@ -121,6 +105,10 @@ android {
 
 	kotlinOptions {
 		jvmTarget = "1.8"
+	}
+
+	buildFeatures {
+		buildConfig = true
 	}
 }
 

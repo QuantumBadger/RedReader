@@ -10,7 +10,7 @@ jobs:
     ci:
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v4
             -   uses: gradle/wrapper-validation-action@v1
 
             -   name: Install NDK
@@ -27,7 +27,7 @@ jobs:
                 run: ./gradlew assembleDebug
 
             -   name: Upload artifact to GitHub
-                uses: actions/upload-artifact@v2
+                uses: actions/upload-artifact@v4
                 with:
                     name: RedReader-debug.apk
                     path: build/outputs/apk/debug/RedReader-debug.apk

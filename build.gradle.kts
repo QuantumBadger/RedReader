@@ -19,6 +19,7 @@ dependencies {
 	coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 	implementation("androidx.core:core-ktx:1.9.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-okio:1.6.3")
 	implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.22") // TODO use constant
 	implementation("androidx.annotation:annotation:1.7.1")
 	implementation("androidx.appcompat:appcompat:1.6.1")

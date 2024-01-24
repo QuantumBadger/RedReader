@@ -22,8 +22,6 @@ jobs:
 
             -   name: Install NDK
                 run: |
-                    ANDROID_ROOT=/usr/local/lib/android
-                    ANDROID_SDK_ROOT=${ANDROID_ROOT}/sdk
                     SDKMANAGER=${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager
                     echo "y" | $SDKMANAGER "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT}
 

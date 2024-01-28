@@ -37,3 +37,9 @@ jobs:
 
             -   name: Run checkstyle
                 run: ./gradlew checkstyle --stacktrace --info
+
+            -   name: Android Lint
+                run: ./gradlew lint
+
+            -   name: Unit tests
+                run: ./gradlew test

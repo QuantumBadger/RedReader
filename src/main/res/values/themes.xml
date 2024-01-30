@@ -89,6 +89,8 @@
         <item name="rrFlairTextCol">#AAAAAA</item>
         <item name="rrGoldBackCol">#B0923C</item>
         <item name="rrGoldTextCol">#000000</item>
+		<item name="rrCrosspostBackCol">#87CEEB</item>
+		<item name="rrCrosspostTextCol">#333333</item>
 
 		<item name="rrPostToolbarCol">#181818</item>
 
@@ -193,6 +195,8 @@
 		<item name="rrFlairTextCol">#AAAAAA</item>
 		<item name="rrGoldBackCol">#B0923C</item>
 		<item name="rrGoldTextCol">#000000</item>
+		<item name="rrCrosspostBackCol">#87CEEB</item>
+		<item name="rrCrosspostTextCol">#333333</item>
 
 		<!-- Comment -->
 
@@ -261,6 +265,8 @@
 		<item name="rrFlairTextCol">#AAAAAA</item>
 		<item name="rrGoldBackCol">#B0923C</item>
 		<item name="rrGoldTextCol">#000000</item>
+		<item name="rrCrosspostBackCol">#87CEEB</item>
+		<item name="rrCrosspostTextCol">#333333</item>
 
 		<item name="rrPostToolbarCol">#000000</item>
 
@@ -381,6 +387,8 @@
         <item name="rrFlairTextCol">#444444</item>
         <item name="rrGoldBackCol">#FFDF52</item>
         <item name="rrGoldTextCol">#000000</item>
+		<item name="rrCrosspostBackCol">#87CEEB</item>
+		<item name="rrCrosspostTextCol">#333333</item>
 
 		<item name="rrPostToolbarCol">#F2FBFB</item>
 

@@ -39,6 +39,7 @@ data class RedditPost(
 	val num_comments: Int,
 	val score: Int,
 	val gilded: Int = 0,
+	val crosspost_parent: String? = null,
 	val upvote_ratio: Double? = null,
 	val archived: Boolean = false,
 	val over_18: Boolean = false,

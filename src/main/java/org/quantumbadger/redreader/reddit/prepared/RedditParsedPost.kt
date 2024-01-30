@@ -31,7 +31,7 @@ class RedditParsedPost(
 	parseSelfText: Boolean
 ) : RedditThingWithIdAndType {
 
-    val title: String = src.title?.decoded?.replace('\n', ' ')?.trim() ?: "[null]"
+	val title: String = src.title?.decoded?.replace('\n', ' ')?.trim() ?: "[null]"
 
 	val url: String?
 	val selfText: BodyElement?
@@ -94,6 +94,8 @@ class RedditParsedPost(
 	val commentCount = src.num_comments
 
 	val goldAmount = src.gilded
+
+	val isCrosspost = src.crosspost_parent
 
 	val isNsfw = src.over_18
 

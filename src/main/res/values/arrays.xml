@@ -439,6 +439,7 @@
         <item>@string/action_upvote</item>
         <item>@string/action_downvote</item>
 		<item>@string/action_comments</item>
+		<item>@string/action_crosspost_origin</item>
         <item>@string/action_save</item>
         <item>@string/action_hide</item>
         <item>@string/action_delete</item>
@@ -466,6 +467,7 @@
         <item>upvote</item>
         <item>downvote</item>
 		<item>comments</item>
+		<item>crosspost_origin</item>
         <item>save</item>
         <item>hide</item>
         <item>delete</item>
@@ -871,6 +873,7 @@
 		<item>@string/pref_appearance_post_subtitle_items_sticky</item>
 		<item>@string/pref_appearance_post_subtitle_items_spoiler</item>
 		<item>@string/pref_appearance_post_subtitle_items_nsfw</item>
+		<item>@string/pref_appearance_post_subtitle_items_crosspost</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -887,6 +890,7 @@
 		<item>sticky</item>
 		<item>spoiler</item>
 		<item>nsfw</item>
+		<item>crosspost</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -901,6 +905,7 @@
 		<item>sticky</item>
 		<item>spoiler</item>
 		<item>nsfw</item>
+		<item>crosspost</item>
 	</string-array>
 
 	<!-- 2020-02-05 -->
@@ -1124,6 +1129,7 @@
 		<item>user_profile</item>
 		<item>properties</item>
 		<item>edit</item>
+		<item>crosspost_origin</item>
 	</string-array>
 
 	<!-- 2020-10-31 -->

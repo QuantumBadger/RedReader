@@ -37,6 +37,8 @@ public class RRThemeAttributes {
 	public final int rrCommentBodyCol;
 	public final int rrMainTextCol;
 	public final int colorAccent;
+	public final int rrCrosspostBackCol;
+	public final int rrCrosspostTextCol;
 
 	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItem> mCommentHeaderItems;
 
@@ -57,7 +59,9 @@ public class RRThemeAttributes {
 				R.attr.rrCommentHeaderCol,
 				R.attr.rrCommentBodyCol,
 				R.attr.rrMainTextCol,
-				R.attr.colorAccent
+				R.attr.colorAccent,
+				R.attr.rrCrosspostBackCol,
+				R.attr.rrCrosspostTextCol
 		});
 
 		rrCommentHeaderBoldCol = appearance.getColor(0, 255);
@@ -72,6 +76,8 @@ public class RRThemeAttributes {
 		rrCommentBodyCol = appearance.getColor(9, 255);
 		rrMainTextCol = appearance.getColor(10, 255);
 		colorAccent = appearance.getColor(11, 255);
+		rrCrosspostBackCol = appearance.getColor(12, 255);
+		rrCrosspostTextCol = appearance.getColor(13, 255);
 
 		appearance.recycle();
 

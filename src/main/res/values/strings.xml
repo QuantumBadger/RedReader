@@ -1829,4 +1829,7 @@
 	<string name="pref_album_skip_to_first_key" translatable="false">pref_album_skip_to_first_key</string>
 	<string name="pref_album_skip_to_first_title">Automatically open first album image</string>
 
+	<!-- 2024-01-19 -->
+	<string name="pref_appearance_highlight_own_username_key" translatable="false">pref_appearance_highlight_own_username</string>
+	<string name="pref_appearance_highlight_own_username_title">Highlight your own username in comments</string>
 </resources>

@@ -170,6 +170,11 @@
 				android:key="@string/pref_appearance_hide_headertoolbar_commentlist_key"
 				android:defaultValue="false"/>
 
+		<CheckBoxPreference
+				android:title="@string/pref_appearance_highlight_own_username_title"
+				android:key="@string/pref_appearance_highlight_own_username_key"
+				android:defaultValue="true"/>
+
     </PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_appearance_user_header">

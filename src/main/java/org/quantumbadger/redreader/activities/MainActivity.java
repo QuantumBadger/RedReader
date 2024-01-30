@@ -45,6 +45,7 @@ import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.adapters.MainMenuSelectionListener;
 import org.quantumbadger.redreader.common.AndroidCommon;
+import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.FeatureFlagHandler;
 import org.quantumbadger.redreader.common.General;
@@ -275,6 +276,16 @@ public class MainActivity extends RefreshableActivity
 
 			case MainMenuFragment.MENU_MENU_ACTION_SUBMITTED:
 				onSelected(UserPostListingURL.getSubmitted(username));
+				break;
+
+			case MainMenuFragment.MENU_MENU_ACTION_SUBMITTED_COMMENTS:
+				LinkHandler.onLinkClicked(
+						this,
+						Constants.Reddit.getUri(
+								"/user/" + username + "/comments.json"
+						).toString(),
+						false
+				);
 				break;
 
 			case MainMenuFragment.MENU_MENU_ACTION_SAVED:

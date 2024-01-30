@@ -33,6 +33,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Button;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -63,7 +64,7 @@ public class CommentReplyActivity extends BaseActivity {
 	private Spinner usernameSpinner;
 	private EditText textEdit;
 	private CheckBox inboxReplies;
-
+	private Button uploadPicture;
 	private RedditIdAndType parentIdAndType = null;
 
 	private ParentType mParentType;
@@ -106,6 +107,10 @@ public class CommentReplyActivity extends BaseActivity {
 		usernameSpinner = layout.findViewById(R.id.comment_reply_username);
 		inboxReplies = layout.findViewById(R.id.comment_reply_inbox);
 		textEdit = layout.findViewById(R.id.comment_reply_text);
+
+		uploadPicture = layout.findViewById(R.id.comment_reply_picture);
+
+		uploadPicture.setOnClickListener(v -> uploadPicture());
 
 		if(mParentType == ParentType.COMMENT_OR_POST) {
 			inboxReplies.setVisibility(View.VISIBLE);
@@ -361,4 +366,23 @@ public class CommentReplyActivity extends BaseActivity {
 			super.onBackPressed();
 		}
 	}
+
+	private void uploadPicture() {
+		final Intent intent = new Intent(this, ImgurUploadActivity.class);
+		startActivityForResultWithCallback(intent, (resultCode, data) -> {
+			if (resultCode == 0 && data != null) {
+				final Uri uploadedImageUrl = data.getData();
+				if (uploadedImageUrl != null) {
+					// set the picture into textedit as a link: [Picture](PictureURL)
+					final String existingText = textEdit.getText().toString();
+					final String picturePretext = getString(R.string.comment_picture_pretext);
+					final String linkText =
+						"["+ picturePretext +"](" + uploadedImageUrl + ")";
+					final String combinedText = existingText + " " + linkText;
+					textEdit.setText(combinedText);
+				}
+			}
+		});
+	}
+
 }

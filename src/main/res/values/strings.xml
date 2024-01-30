@@ -1829,4 +1829,7 @@
 	<string name="pref_album_skip_to_first_key" translatable="false">pref_album_skip_to_first_key</string>
 	<string name="pref_album_skip_to_first_title">Automatically open first album image</string>
 
+	<!-- 2024-01-10 -->
+	<string name="comment_upload_picture">Upload picture</string>
+	<string name="comment_picture_pretext">Picture</string>
 </resources>

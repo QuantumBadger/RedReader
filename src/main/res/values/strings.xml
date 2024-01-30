@@ -1829,4 +1829,12 @@
 	<string name="pref_album_skip_to_first_key" translatable="false">pref_album_skip_to_first_key</string>
 	<string name="pref_album_skip_to_first_title">Automatically open first album image</string>
 
+	<!-- 2024-01-09 -->
+	<string name="userprofile_button_follow" translatable="true">Follow</string>
+	<string name="userprofile_toast_follow_loading" translatable="true">Following…</string>
+	<string name="userprofile_tag_followed" translatable="true">Followed</string>
+	<string name="userprofile_toast_followed" translatable="true">You are already following this user!</string>
+	<string name="userprofile_button_unfollow" translatable="true">Unfollow</string>
+	<string name="userprofile_toast_unfollow_loading" translatable="true">Unfollowing…</string>
+	<string name="userprofile_toast_not_following" translatable="true">You are not following this user!</string>
 </resources>

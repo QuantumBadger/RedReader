@@ -40,6 +40,7 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 	@Nullable public Boolean is_mod;
 	@Nullable public Boolean is_suspended;
 	@Nullable public Boolean over_18;
+	@Nullable public Boolean is_followed;
 
 	@Nullable public String id;
 	@NonNull public String name;

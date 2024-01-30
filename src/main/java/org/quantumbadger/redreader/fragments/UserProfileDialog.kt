@@ -24,6 +24,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.card.MaterialCardView
@@ -51,7 +52,11 @@ import org.quantumbadger.redreader.common.time.TimestampUTC.Companion.fromUtcSec
 import org.quantumbadger.redreader.common.time.TimestampUTC.Companion.now
 import org.quantumbadger.redreader.reddit.APIResponseHandler.UserResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
+import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager
+import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException
 import org.quantumbadger.redreader.reddit.things.RedditUser
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL
 import org.quantumbadger.redreader.views.LoadingSpinnerView
 import org.quantumbadger.redreader.views.liststatus.ErrorView
@@ -87,6 +92,9 @@ object UserProfileDialog {
 		val postsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_posts_karma)!!
 		val commentsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_comments_karma)!!
 		val chipMoreInfo = dialog.findViewById<Chip>(R.id.user_profile_chip_more_info)!!
+		val chipFollow = dialog.findViewById<Chip>(R.id.user_profile_chip_follow)!!
+		val chipFollowed = dialog.findViewById<Chip>(R.id.user_profile_chip_followed)!!
+		val chipUnfollow = dialog.findViewById<Chip>(R.id.user_profile_chip_unfollow)!!
 
 		val cm = CacheManager.getInstance(activity)
 		val accountManager = RedditAccountManager.getInstance(activity)
@@ -145,6 +153,19 @@ object UserProfileDialog {
 
 						if (user.is_gold != true) {
 							chipGold.visibility = View.GONE
+						}
+
+						val userSubredditCanonicalIdA = SubredditCanonicalId("/user/$username")
+						val userSubredditCanonicalIdB = SubredditCanonicalId("u_$username")
+						val subMan = getSubMan(activity)
+						if (subMan.getSubscriptionState(userSubredditCanonicalIdA) == SubredditSubscriptionState.NOT_SUBSCRIBED &&
+								subMan.getSubscriptionState(userSubredditCanonicalIdB) == SubredditSubscriptionState.NOT_SUBSCRIBED) {
+							chipFollowed.visibility = View.GONE
+							chipFollow.visibility = View.VISIBLE
+							chipUnfollow.visibility = View.GONE
+						} else {
+							chipFollow.visibility = View.GONE
+							chipUnfollow.visibility = View.VISIBLE
 						}
 
 						if (PrefsUtility.appearance_user_show_avatars()) {
@@ -220,6 +241,12 @@ object UserProfileDialog {
 							UserPropertiesDialog.newInstance(user)
 								.show(activity.supportFragmentManager, null)
 						}
+						chipFollow.setOnClickListener {
+							subscribeToUser(activity, username)
+						}
+						chipUnfollow.setOnClickListener {
+							unsubscribeToUser(activity, username)
+						}
 					}
 				}
 
@@ -242,6 +269,66 @@ object UserProfileDialog {
 			DownloadStrategyAlways.INSTANCE,
 			activity
 		)
+	}
+
+	private fun subscribeToUser(activity: AppCompatActivity, username: String) {
+		try {
+			val usernameToSubreddit = "u_$username"
+			val userSubredditCanonicalId = SubredditCanonicalId(usernameToSubreddit)
+
+			val subMan = getSubMan(activity)
+			if ((subMan.getSubscriptionState(userSubredditCanonicalId)
+							== SubredditSubscriptionState.NOT_SUBSCRIBED)
+			) {
+				subMan.subscribe(userSubredditCanonicalId, activity)
+				Toast.makeText(
+						activity,
+						R.string.userprofile_toast_follow_loading,
+						Toast.LENGTH_SHORT
+				).show()
+			} else {
+				Toast.makeText(
+						activity,
+						R.string.userprofile_toast_followed,
+						Toast.LENGTH_SHORT
+				).show()
+			}
+		} catch (e: InvalidSubredditNameException) {
+			throw RuntimeException(e)
+		}
+	}
+
+	private fun unsubscribeToUser(activity: AppCompatActivity, username: String) {
+		try {
+			val userSubredditCanonicalIdA = SubredditCanonicalId("/user/$username")
+			val userSubredditCanonicalIdB = SubredditCanonicalId("u_$username")
+
+			val subMan = getSubMan(activity)
+
+			fun unsubscribeIfSubscribed(canonicalId: SubredditCanonicalId): Boolean {
+				return if (subMan.getSubscriptionState(canonicalId) == SubredditSubscriptionState.SUBSCRIBED) {
+					subMan.unsubscribe(canonicalId, activity)
+					Toast.makeText(activity, R.string.userprofile_toast_unfollow_loading, Toast.LENGTH_SHORT).show()
+					true
+				} else {
+					false
+				}
+			}
+
+			if (!unsubscribeIfSubscribed(userSubredditCanonicalIdA) && !unsubscribeIfSubscribed(userSubredditCanonicalIdB)) {
+				Toast.makeText(activity, R.string.userprofile_toast_not_following, Toast.LENGTH_SHORT).show()
+			}
+		} catch (e: InvalidSubredditNameException) {
+			throw RuntimeException(e)
+		}
+	}
+
+	private fun getSubMan(activity: AppCompatActivity): RedditSubredditSubscriptionManager {
+		val subMan = RedditSubredditSubscriptionManager.getSingleton(
+				activity,
+				RedditAccountManager.getInstance(activity).defaultAccount
+		)
+		return subMan
 	}
 
 	@Throws(URISyntaxException::class)

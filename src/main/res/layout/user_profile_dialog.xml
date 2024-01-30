@@ -149,6 +149,16 @@
 						android:checkable="false"
 						app:chipMinTouchTargetSize="0dp"/>
 
+				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_followed"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/userprofile_tag_followed"
+						style="@style/Widget.Material3.Chip.Assist"
+						android:clickable="false"
+						android:checkable="false"
+						app:chipMinTouchTargetSize="0dp"/>
+
 			</com.google.android.material.chip.ChipGroup>
 
 			<com.google.android.material.card.MaterialCardView
@@ -319,6 +329,26 @@
 						app:chipIcon="?rrIconInfo"
 						app:chipIconSize="16sp"
 						android:text="@string/userprofile_button_more_info"
+						style="@style/Widget.Material3.Chip.Assist.Elevated"
+						android:checkable="false"/>
+
+				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_follow"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:chipIcon="?rrIconPerson"
+						app:chipIconSize="16sp"
+						android:text="@string/userprofile_button_follow"
+						style="@style/Widget.Material3.Chip.Assist.Elevated"
+						android:checkable="false"/>
+
+				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_unfollow"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:chipIcon="?rrIconCross"
+						app:chipIconSize="16sp"
+						android:text="@string/userprofile_button_unfollow"
 						style="@style/Widget.Material3.Chip.Assist.Elevated"
 						android:checkable="false"/>
 

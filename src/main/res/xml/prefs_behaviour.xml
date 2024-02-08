@@ -175,6 +175,10 @@
 				android:key="@string/pref_behaviour_hide_read_posts_key"
 				android:defaultValue="false"/>
 
+		<CheckBoxPreference android:title="@string/pref_behaviour_hide_posts_few_comments_title"
+				android:key="@string/pref_behaviour_hide_posts_few_comments_key"
+				android:defaultValue="false"/>
+
         <ListPreference android:title="@string/pref_behaviour_postcount_title"
                         android:key="@string/pref_behaviour_postcount_key"
                         android:entries="@array/pref_behaviour_postcount_items"

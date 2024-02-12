@@ -175,9 +175,12 @@
 				android:key="@string/pref_behaviour_hide_read_posts_key"
 				android:defaultValue="false"/>
 
-		<CheckBoxPreference android:title="@string/pref_behaviour_hide_posts_few_comments_title"
-				android:key="@string/pref_behaviour_hide_posts_few_comments_key"
-				android:defaultValue="false"/>
+		<EditTextPreference android:title="@string/pref_behaviour_hide_posts_min_comments_title"
+				android:key="@string/pref_behaviour_hide_posts_min_comments_key"
+				android:dialogTitle="@string/pref_behaviour_hide_posts_min_comments_dialog_title"
+				android:inputType="numberSigned"
+				android:maxLength="5"
+				android:defaultValue="-1"/>
 
         <ListPreference android:title="@string/pref_behaviour_postcount_title"
                         android:key="@string/pref_behaviour_postcount_key"

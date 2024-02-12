@@ -82,8 +82,9 @@
     <string name="pref_behaviour_nsfw_key" translatable="false">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
 
-	<string name="pref_behaviour_hide_posts_few_comments_key" translatable="false">pref_behaviour_hide_posts_few_comments</string>
-	<string name="pref_behaviour_hide_posts_few_comments_title">Hide with few comments</string>
+	<string name="pref_behaviour_hide_posts_min_comments_key" translatable="false">pref_behaviour_hide_posts_few_comments</string>
+	<string name="pref_behaviour_hide_posts_min_comments_title">Hide posts with few comments</string>
+	<string name="pref_behaviour_hide_posts_min_comments_dialog_title">Hide posts with fewer than those comments (blank or -1 to show all)</string>
 
     <!-- Cache Prefs -->
 

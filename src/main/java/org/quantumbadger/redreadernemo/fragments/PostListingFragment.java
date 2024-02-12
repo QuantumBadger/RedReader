@@ -836,10 +836,10 @@ public class PostListingFragment extends RRFragment
 										&& blockedSubreddits.contains(
 										new SubredditCanonicalId(post.getSubreddit().getDecoded()));
 
-								final boolean hideWithFewComments = PrefsUtility.pref_behavior_hide_with_few_comments();
+								final long minCommentsOrHide = PrefsUtility.pref_behavior_hide_with_few_comments();
 
 								if(!isPostBlocked
-										&& (post.getNum_comments() >= 13 || !hideWithFewComments)
+										&& (minCommentsOrHide <= 0 || post.getNum_comments() >= minCommentsOrHide)
 										&& (!post.getOver_18() || isNsfwAllowed)
 										&& mPostIds.add(post.getIdAlone())) {
 

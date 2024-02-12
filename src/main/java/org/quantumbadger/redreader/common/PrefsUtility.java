@@ -1150,6 +1150,19 @@ public final class PrefsUtility {
 				false);
 	}
 
+	// How many comments a post should have to be shown?
+	public static long pref_behavior_hide_with_few_comments() {
+		final String value = getString(
+				R.string.pref_behaviour_hide_posts_min_comments_key,
+				"-1");
+		try {
+			return Long.parseLong(value);
+		} catch(final Throwable e) {
+			// The preference is unset, set to "", or somehow set to not-a-number
+			return -1;
+		}
+	}
+
 	public enum SharingDomain {
 		STANDARD_REDDIT("reddit.com"),
 		SHORT_REDDIT("redd.it"),

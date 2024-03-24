@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.fragments
 
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
@@ -32,7 +33,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textview.MaterialTextView
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccountManager
+import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.activities.BugReportActivity
+import org.quantumbadger.redreader.activities.OAuthLoginActivity
 import org.quantumbadger.redreader.activities.PMSendActivity
 import org.quantumbadger.redreader.cache.CacheManager
 import org.quantumbadger.redreader.cache.CacheRequest
@@ -49,8 +52,10 @@ import org.quantumbadger.redreader.common.time.TimeFormatHelper.format
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.common.time.TimestampUTC.Companion.fromUtcSecs
 import org.quantumbadger.redreader.common.time.TimestampUTC.Companion.now
+import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
 import org.quantumbadger.redreader.reddit.APIResponseHandler.UserResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
+import org.quantumbadger.redreader.reddit.api.RedditOAuth.completeLogin
 import org.quantumbadger.redreader.reddit.things.RedditUser
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL
 import org.quantumbadger.redreader.views.LoadingSpinnerView
@@ -64,7 +69,7 @@ object UserProfileDialog {
 	@JvmStatic
 	fun show(
 		activity: AppCompatActivity,
-		username: String
+		username: String,
 	) {
 		val builder = MaterialAlertDialogBuilder(activity)
 		builder.setView(R.layout.user_profile_dialog)
@@ -77,6 +82,7 @@ object UserProfileDialog {
 		val textviewAccountAge = dialog.findViewById<MaterialTextView>(R.id.user_profile_account_age)!!
 		val chipYou = dialog.findViewById<Chip>(R.id.user_profile_chip_you)!!
 		val chipSuspended = dialog.findViewById<Chip>(R.id.user_profile_chip_suspended)!!
+		val chipBlocked = dialog.findViewById<Chip>(R.id.user_profile_chip_blocked)!!
 		val chipFriend = dialog.findViewById<Chip>(R.id.user_profile_chip_friend)!!
 		val chipAdmin = dialog.findViewById<Chip>(R.id.user_profile_chip_admin)!!
 		val chipMod = dialog.findViewById<Chip>(R.id.user_profile_chip_moderator)!!
@@ -87,6 +93,8 @@ object UserProfileDialog {
 		val postsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_posts_karma)!!
 		val commentsKarma = dialog.findViewById<MaterialTextView>(R.id.user_profile_comments_karma)!!
 		val chipMoreInfo = dialog.findViewById<Chip>(R.id.user_profile_chip_more_info)!!
+		val chipBlock = dialog.findViewById<Chip>(R.id.user_profile_chip_block)!!
+		val chipUnblock = dialog.findViewById<Chip>(R.id.user_profile_chip_unblock)!!
 
 		val cm = CacheManager.getInstance(activity)
 		val accountManager = RedditAccountManager.getInstance(activity)
@@ -125,10 +133,26 @@ object UserProfileDialog {
 							accountManager.getDefaultAccount().canonicalUsername
 						)) {
 							chipYou.visibility = View.GONE
+						}else{
+							chipBlock.visibility = View.GONE //you should not block yourself
 						}
 
 						if (user.is_suspended != true) {
 							chipSuspended.visibility = View.GONE
+						}
+
+						if (accountManager.getDefaultAccount().isAnonymous()) {
+							chipBlock.visibility = View.GONE
+							chipUnblock.visibility = View.GONE
+							chipBlocked.visibility = View.GONE
+						} else { //show block actions only if user is logged in
+							if (user.is_blocked != true) {
+								chipBlocked.visibility = View.GONE
+								chipUnblock.visibility = View.GONE
+							} else {
+								chipBlock.visibility = View.GONE
+								chipUnblock.visibility = View.VISIBLE
+							}
 						}
 
 						if (user.is_friend != true) {
@@ -220,6 +244,23 @@ object UserProfileDialog {
 							UserPropertiesDialog.newInstance(user)
 								.show(activity.supportFragmentManager, null)
 						}
+						chipBlock.setOnClickListener {
+							MaterialAlertDialogBuilder(activity)
+									.setTitle(activity.getString(R.string.block_confirmation))
+									.setMessage(activity.getString(R.string.are_you_sure_block_user))
+									.setPositiveButton(activity.getString(R.string.dialog_yes)) { dialog, which ->
+										chipBlock.text = activity.getString(R.string.block_button_loading)
+										chipBlock.isEnabled = false //grey out
+										blockUser(activity, username, chipBlock, chipBlocked, chipUnblock, context)
+									}
+									.setNegativeButton(activity.getString(R.string.dialog_cancel), null)
+									.show()
+						}
+						chipUnblock.setOnClickListener {
+							chipUnblock.text = activity.getString(R.string.unblock_button_loading)
+							chipUnblock.isEnabled = false // grey out
+							unblockUser(activity, username, chipBlock, chipBlocked, chipUnblock)
+						}
 					}
 				}
 
@@ -242,6 +283,147 @@ object UserProfileDialog {
 			DownloadStrategyAlways.INSTANCE,
 			activity
 		)
+	}
+
+	private fun unblockUser(activity: AppCompatActivity, username: String, chipBlock: Chip, chipBlocked: Chip, chipUnblock: Chip) {
+		val cm = CacheManager.getInstance(activity)
+		val currentUser = RedditAccountManager.getInstance(activity).defaultAccount
+
+		RedditAPI.getUser(
+				cm,
+				currentUser.username,
+				object : UserResponseHandler(activity) {
+					override fun onDownloadStarted() {}
+
+					override fun onSuccess(redditUser: RedditUser, timestamp: TimestampUTC) {
+						val currentUserFullname = redditUser.fullname()
+						unblockUserApiCall(activity, username, currentUserFullname, chipBlock, chipBlocked, chipUnblock)
+					}
+
+					override fun onCallbackException(t: Throwable) {
+						activity.runOnUiThread {
+							chipUnblock.text = activity.getString(R.string.userprofile_button_unblock)
+							chipUnblock.isEnabled = true
+						}
+						BugReportActivity.handleGlobalError(context, t)
+					}
+
+					override fun onFailure(error: RRError) {
+						activity.runOnUiThread {
+							chipUnblock.text = activity.getString(R.string.userprofile_button_unblock)
+							chipUnblock.isEnabled = true
+						}
+						General.showResultDialog(activity, error)
+					}
+				},
+				currentUser,
+				DownloadStrategyAlways.INSTANCE,
+				activity
+		)
+	}
+
+	private fun unblockUserApiCall(activity: AppCompatActivity, usernameToUnblock: String, currentUserFullname: String, chipBlock: Chip, chipBlocked: Chip, chipUnblock: Chip) {
+		val cm = CacheManager.getInstance(activity)
+		val currentUser = RedditAccountManager.getInstance(activity).defaultAccount
+
+		RedditAPI.unblockUser(
+				cm,
+				usernameToUnblock,
+				currentUserFullname,
+				object : ActionResponseHandler(activity) {
+					override fun onSuccess() {
+						activity.runOnUiThread {
+							chipUnblock.text = activity.getString(R.string.userprofile_button_unblock)
+							chipUnblock.visibility = View.GONE
+							chipBlocked.visibility = View.GONE
+							chipBlock.visibility = View.VISIBLE
+							chipUnblock.isEnabled = true
+						}
+					}
+
+					override fun onFailure(error: RRError) {
+						activity.runOnUiThread {
+							chipUnblock.text = activity.getString(R.string.userprofile_button_unblock)
+							chipUnblock.isEnabled = true
+						}
+						General.showResultDialog(activity, error)
+					}
+
+					override fun onCallbackException(t: Throwable?) {
+						BugReportActivity.handleGlobalError(activity, t)
+						activity.runOnUiThread {
+							chipUnblock.text = activity.getString(R.string.userprofile_button_unblock)
+							chipUnblock.isEnabled = true
+						}
+					}
+				},
+				currentUser,
+				activity
+		)
+	}
+
+	private fun blockUser(activity: AppCompatActivity, username: String, chipBlock: Chip, chipBlocked: Chip, chipUnblock: Chip, context: AppCompatActivity) {
+		val cm = CacheManager.getInstance(activity)
+		val currentUser = RedditAccountManager.getInstance(activity).defaultAccount
+
+		RedditAPI.blockUser(
+				cm,
+				username,
+				object : RedditAPI.BlockUserResponseHandler {
+					override fun onSuccess() {
+						activity.runOnUiThread {
+							chipBlock.text = activity.getString(R.string.userprofile_button_block)
+							chipBlock.visibility = View.GONE
+							chipBlocked.visibility = View.VISIBLE
+							chipUnblock.visibility = View.VISIBLE
+							chipBlock.isEnabled = true
+						}
+					}
+
+					override fun onBlockUserPermissionDenied() {
+						activity.runOnUiThread {
+							chipBlock.text = activity.getString(R.string.userprofile_button_block)
+							chipBlock.isEnabled = true
+
+							MaterialAlertDialogBuilder(activity)
+									.setTitle(activity.getString(R.string.block_permission_denied_title))
+									.setMessage(activity.getString(R.string.block_permission_denied_message))
+									.setPositiveButton(activity.getString(R.string.block_permission_denied_relogin)) { dialog, which ->
+										//perform a re-logion
+										launchAndCompleteLogin(activity, context)
+									}
+									.setNegativeButton(activity.getString(R.string.dialog_cancel), null)
+									.show()
+						}
+					}
+
+					override fun onFailure(error: RRError) {
+						activity.runOnUiThread {
+							chipBlock.text = activity.getString(R.string.userprofile_button_block)
+							chipBlock.isEnabled = true
+						}
+						General.showResultDialog(activity, error)
+					}
+
+				},
+				currentUser,
+				activity
+		)
+	}
+
+	private fun launchAndCompleteLogin(activity: AppCompatActivity, context: AppCompatActivity) {
+		val loginIntent = Intent(context, OAuthLoginActivity::class.java)
+		//let OAuthLoginActivity call back the url and code 123, then do completeLogin
+		(activity as BaseActivity).startActivityForResultWithCallback(
+				loginIntent
+		) { resultCode: Int, data: Intent? ->
+			if (data != null) {
+				if (resultCode == 123 && data.hasExtra("url")) {
+					val uri = Uri.parse(data.getStringExtra("url"))
+					completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+				}
+			}
+		}
 	}
 
 	@Throws(URISyntaxException::class)

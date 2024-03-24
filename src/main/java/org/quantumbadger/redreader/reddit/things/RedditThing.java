@@ -26,6 +26,8 @@ import java.util.Map;
 
 public final class RedditThing implements JsonObject.JsonDeserializable {
 
+	public static final String KIND_USER = "t2";
+
 	public enum Kind {
 		POST, USER, COMMENT, MESSAGE, SUBREDDIT, MORE_COMMENTS, LISTING
 	}
@@ -35,7 +37,7 @@ public final class RedditThing implements JsonObject.JsonDeserializable {
 	static {
 		kinds = new HashMap<>();
 		kinds.put("t1", Kind.COMMENT);
-		kinds.put("t2", Kind.USER);
+		kinds.put(KIND_USER, Kind.USER);
 		kinds.put("t3", Kind.POST);
 		kinds.put("t4", Kind.MESSAGE);
 		kinds.put("t5", Kind.SUBREDDIT);

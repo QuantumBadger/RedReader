@@ -376,19 +376,33 @@ public class CommentListingRequest {
 			final boolean neverAutoCollapse = mCommentListingURL != null
 					&& mCommentListingURL.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL;
 
-			final RedditCommentListItem item = new RedditCommentListItem(
-					new RedditRenderableComment(
-							new RedditParsedComment(comment, mActivity),
-							parentPostAuthor,
-							minimumCommentScore,
-							currentCanonicalUserName,
-							true,
-							showSubredditName,
-							neverAutoCollapse),
+			final RedditCommentListItem item;
+			final RedditRenderableComment renderableComment = new RedditRenderableComment(
+					new RedditParsedComment(comment, mActivity),
+					parentPostAuthor,
+					minimumCommentScore,
+					currentCanonicalUserName,
+					true,
+					showSubredditName,
+					neverAutoCollapse);
+
+			if (comment.isBlockedByUser()
+					&& !PrefsUtility.pref_appearance_hide_comments_from_blocked_users()) {
+				renderableComment.setBlockedUser(true);
+			}
+
+			item = new RedditCommentListItem(
+					renderableComment,
 					parent,
 					mFragment,
 					mActivity,
 					mCommentListingURL);
+
+			// hide comment if user is blocked
+			if (comment.isBlockedByUser()
+					&& PrefsUtility.pref_appearance_hide_comments_from_blocked_users()) {
+				return;
+			}
 
 			output.add(item);
 

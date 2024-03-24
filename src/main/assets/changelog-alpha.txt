@@ -1,3 +1,6 @@
+/Alpha 349 (2024-03-24)
+Ability to block users in user profile (thanks to folkemat)
+
 /Alpha 348 (2023-12-29)
 Fix feature flag upgrade behaviour for post title action
 

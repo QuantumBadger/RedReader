@@ -26,6 +26,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
@@ -48,6 +50,7 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfTimestampOutsideBounds;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
@@ -219,27 +222,7 @@ public class CommentListingFragment extends RRFragment
 				mFloatingToolbar.addView(previousButton);
 
 				previousButton.setOnClickListener(view -> {
-
-					final LinearLayoutManager layoutManager
-							= (LinearLayoutManager)mRecyclerView.getLayoutManager();
-
-					for(int pos = layoutManager.findFirstVisibleItemPosition() - 1;
-						pos > 0;
-						pos--) {
-
-						final GroupedRecyclerViewAdapter.Item item
-								= mCommentListingManager.getItemAtPosition(pos);
-
-						if(item instanceof RedditCommentListItem
-								&& ((RedditCommentListItem)item).isComment()
-								&& ((RedditCommentListItem)item).getIndent() == 0) {
-
-							layoutManager.scrollToPositionWithOffset(pos, 0);
-							return;
-						}
-					}
-
-					layoutManager.scrollToPositionWithOffset(0, 0);
+					onPreviousParent();
 				});
 
 				previousButton.setOnLongClickListener(view -> {
@@ -265,25 +248,7 @@ public class CommentListingFragment extends RRFragment
 				mFloatingToolbar.addView(nextButton);
 
 				nextButton.setOnClickListener(view -> {
-
-					final LinearLayoutManager layoutManager
-							= (LinearLayoutManager)mRecyclerView.getLayoutManager();
-
-					for(int pos = layoutManager.findFirstVisibleItemPosition() + 1;
-						pos < layoutManager.getItemCount();
-						pos++) {
-
-						final GroupedRecyclerViewAdapter.Item item
-								= mCommentListingManager.getItemAtPosition(pos);
-
-						if(item instanceof RedditCommentListItem
-								&& ((RedditCommentListItem)item).isComment()
-								&& ((RedditCommentListItem)item).getIndent() == 0) {
-
-							layoutManager.scrollToPositionWithOffset(pos, 0);
-							break;
-						}
-					}
+					onNextParent();
 				});
 
 				nextButton.setOnLongClickListener(view -> {
@@ -735,5 +700,70 @@ public class CommentListingFragment extends RRFragment
 	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		((RedditPostView.PostSelectionListener)getActivity()).onPostCommentsSelected(post);
+	}
+
+	public void onPreviousParent() {
+		final LinearLayoutManager layoutManager = (LinearLayoutManager)
+			mRecyclerView.getLayoutManager();
+
+		for(
+			int pos = layoutManager.findFirstVisibleItemPosition() - 1;
+			pos > 0;
+			pos--
+		) {
+			final GroupedRecyclerViewAdapter.Item item = mCommentListingManager.getItemAtPosition(
+				pos
+			);
+			if(
+				item instanceof RedditCommentListItem
+				&& ((RedditCommentListItem)item).isComment()
+				&& ((RedditCommentListItem)item).getIndent() == 0
+			) {
+				layoutManager.scrollToPositionWithOffset(pos, 0);
+				setFocusDelayed(pos);
+				return;
+			}
+		}
+
+		layoutManager.scrollToPositionWithOffset(0, 0);
+		setFocusDelayed(0);
+	}
+
+	public void onNextParent() {
+		final LinearLayoutManager layoutManager = (LinearLayoutManager)
+			mRecyclerView.getLayoutManager();
+		for(
+			int pos = layoutManager.findFirstVisibleItemPosition() + 1;
+			pos < layoutManager.getItemCount();
+			pos++
+		) {
+			final GroupedRecyclerViewAdapter.Item item = mCommentListingManager.getItemAtPosition(
+				pos
+			);
+			if(
+				item instanceof RedditCommentListItem
+				&& ((RedditCommentListItem)item).isComment()
+				&& ((RedditCommentListItem)item).getIndent() == 0
+			) {
+				layoutManager.scrollToPositionWithOffset(pos, 0);
+				setFocusDelayed(pos);
+				break;
+			}
+		}
+	}
+
+	private void setFocusDelayed(final int pos) {
+		AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
+			final RecyclerView.ViewHolder view
+					= mRecyclerView.findViewHolderForAdapterPosition(pos);
+			if (view != null) {
+				final View item = view.itemView;
+				item.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+				item.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
+				item.performAccessibilityAction(
+						AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
+						null);
+			}
+		}, 500);
 	}
 }

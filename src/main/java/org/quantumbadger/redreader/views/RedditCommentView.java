@@ -475,6 +475,14 @@ public class RedditCommentView extends FlingableItemView
 		addAccessibilityActionFromDescriptionPair(
 			chooseFlingAction(PrefsUtility.CommentFlingAction.COLLAPSE));
 
+		mAccessibilityActionManager.addAction(R.string.button_next_comment_parent, () -> {
+			mFragment.onNextParent();
+		});
+
+		mAccessibilityActionManager.addAction(R.string.button_prev_comment_parent, () -> {
+			mFragment.onPreviousParent();
+		});
+
 		if (isAuthenticated) {
 			addAccessibilityActionFromDescriptionPair(
 					chooseFlingAction(PrefsUtility.CommentFlingAction.REPLY));

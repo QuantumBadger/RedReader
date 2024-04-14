@@ -2,6 +2,7 @@
 Ability to block users in user profile (thanks to folkemat)
 Ability to upload an image when submitting a comment (thanks to folkemat)
 Dependency updates and reorganisation (thanks to Alexey Rochev)
+Comments submitted by current user now have username highlighted (thanks to folkemat)
 
 111/1.23.1
 Added a preference to automatically open the first image in an album

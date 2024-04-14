@@ -1,3 +1,6 @@
+/Alpha 350 (2024-04-14)
+Ability to upload an image when submitting a comment (thanks to folkemat)
+
 /Alpha 349 (2024-03-24)
 Ability to block users in user profile (thanks to folkemat)
 Dependency updates and reorganisation (thanks to Alexey Rochev)

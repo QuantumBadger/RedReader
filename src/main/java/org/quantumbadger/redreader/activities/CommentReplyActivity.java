@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -33,7 +34,6 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Button;
 import androidx.annotation.NonNull;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -64,8 +64,7 @@ public class CommentReplyActivity extends BaseActivity {
 	private Spinner usernameSpinner;
 	private EditText textEdit;
 	private CheckBox inboxReplies;
-	private Button uploadPicture;
-	private RedditIdAndType parentIdAndType = null;
+    private RedditIdAndType parentIdAndType = null;
 
 	private ParentType mParentType;
 
@@ -108,7 +107,7 @@ public class CommentReplyActivity extends BaseActivity {
 		inboxReplies = layout.findViewById(R.id.comment_reply_inbox);
 		textEdit = layout.findViewById(R.id.comment_reply_text);
 
-		uploadPicture = layout.findViewById(R.id.comment_reply_picture);
+        final Button uploadPicture = layout.findViewById(R.id.comment_reply_picture);
 
 		uploadPicture.setOnClickListener(v -> uploadPicture());
 
@@ -202,9 +201,12 @@ public class CommentReplyActivity extends BaseActivity {
 
 		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
 
+			//noinspection deprecation
 			final ProgressDialog progressDialog = new ProgressDialog(this);
 			progressDialog.setTitle(getString(R.string.comment_reply_submitting_title));
+			//noinspection deprecation
 			progressDialog.setMessage(getString(R.string.comment_reply_submitting_message));
+			//noinspection deprecation
 			progressDialog.setIndeterminate(true);
 			progressDialog.setCancelable(true);
 			progressDialog.setCanceledOnTouchOutside(false);

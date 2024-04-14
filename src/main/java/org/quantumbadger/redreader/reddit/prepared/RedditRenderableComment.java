@@ -153,7 +153,7 @@ public class RedditRenderableComment
 					mCurrentCanonicalUserName)) {
 				if (PrefsUtility.pref_appearance_highlight_own_username()){
 					setBackgroundColour = true;
-					backgroundColour = Color.rgb(254, 187, 50);
+					backgroundColour = Color.rgb(0xEF, 0x6C, 0x00);
 				}
 			}
 

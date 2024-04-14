@@ -64,7 +64,7 @@ public class CommentReplyActivity extends BaseActivity {
 	private Spinner usernameSpinner;
 	private EditText textEdit;
 	private CheckBox inboxReplies;
-    private RedditIdAndType parentIdAndType = null;
+	private RedditIdAndType parentIdAndType = null;
 
 	private ParentType mParentType;
 
@@ -107,7 +107,7 @@ public class CommentReplyActivity extends BaseActivity {
 		inboxReplies = layout.findViewById(R.id.comment_reply_inbox);
 		textEdit = layout.findViewById(R.id.comment_reply_text);
 
-        final Button uploadPicture = layout.findViewById(R.id.comment_reply_picture);
+		final Button uploadPicture = layout.findViewById(R.id.comment_reply_picture);
 
 		uploadPicture.setOnClickListener(v -> uploadPicture());
 

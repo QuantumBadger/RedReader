@@ -9,7 +9,7 @@ on:
 
 jobs:
     ci:
-        runs-on: ubuntu-latest
+        runs-on: macos-14
         steps:
             -   uses: actions/checkout@v4
 

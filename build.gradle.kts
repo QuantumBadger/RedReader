@@ -86,7 +86,7 @@ android {
 	buildTypes.forEach {
 		it.isMinifyEnabled = true
 		it.isShrinkResources = false
-
+		it.versionNameSuffix = "-alpha"
 		it.proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 	}
 

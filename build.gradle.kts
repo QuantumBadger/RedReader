@@ -56,9 +56,11 @@ dependencies {
 
 	testImplementation(libs.junit)
 
+	androidTestImplementation(libs.androidx.test.core)
 	androidTestImplementation(libs.androidx.test.espresso.core)
 	androidTestImplementation(libs.androidx.test.espresso.contrib)
 	androidTestImplementation(libs.androidx.test.rules)
+	androidTestImplementation(libs.androidx.test.junit)
 }
 
 android {
@@ -83,11 +85,11 @@ android {
 		additionalParameters.add("--no-version-vectors")
 	}
 
-	buildTypes.forEach {
-		it.isMinifyEnabled = true
-		it.isShrinkResources = false
+	buildTypes.configureEach {
+		isMinifyEnabled = true
+		isShrinkResources = false
 
-		it.proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+		proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 	}
 
 	compileOptions {

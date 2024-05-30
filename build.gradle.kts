@@ -44,8 +44,8 @@ dependencies {
 
 	implementation(libs.okhttp)
 	implementation(libs.netcipher.webkit)
-	implementation(libs.exoplayer.core)
-	implementation(libs.exoplayer.ui)
+	implementation(libs.media3.exoplayer)
+	implementation(libs.media3.ui)
 	implementation(libs.zstd) {
 		artifact {
 			type = "aar"

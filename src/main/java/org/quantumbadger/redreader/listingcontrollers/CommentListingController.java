@@ -56,6 +56,7 @@ public class CommentListingController {
 			if(url.asUserCommentListURL().order == null) {
 				url = url.asUserCommentListURL().order(defaultUserOrder());
 			}
+			url = url.asUserCommentListURL().limit(100);
 		}
 
 		if(!(url instanceof CommentListingURL)) {

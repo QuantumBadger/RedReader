@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.settings;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -24,6 +25,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.StringRes;
@@ -55,6 +57,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
+import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
 import java.io.File;
@@ -175,7 +178,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				R.string.pref_accessibility_min_comment_height_key,
 				R.string.pref_appearance_android_status_key,
 				R.string.pref_behaviour_collapse_sticky_comments_key,
-				R.string.pref_behaviour_sharing_domain_key
+				R.string.pref_behaviour_sharing_domain_key,
+				R.string.pref_behaviour_post_tap_action_key
 		};
 
 		final int[] editTextPrefsToUpdate = {
@@ -229,7 +233,35 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 			});
 		}
 
+		{
+			final CheckBoxPreference notifPref =
+					findPreference(getString(R.string.pref_behaviour_notifications_key));
 
+			if (notifPref != null) {
+				notifPref.setOnPreferenceChangeListener((preference, newValue) -> {
+
+					final Activity activity = getActivity();
+
+					if (activity instanceof BaseActivity) {
+						// Delay this because the preference hasn't taken effect yet
+						AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
+							AndroidCommon.promptForNotificationPermission(
+									(BaseActivity) activity,
+									() -> {
+										notifPref.setChecked(false);
+									}
+							);
+						}, 300);
+					}
+
+					return true;
+				});
+			}
+		}
+
+
+		final Preference testNotificationPref =
+				findPreference(getString(R.string.pref_developer_test_notification_key));
 		final Preference versionPref =
 				findPreference(getString(R.string.pref_about_version_key));
 		final Preference changelogPref =
@@ -242,6 +274,18 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				findPreference(getString(R.string.pref_item_backup_preferences_key));
 		final Preference restorePreferencesPref =
 				findPreference(getString(R.string.pref_item_restore_preferences_key));
+
+		if(testNotificationPref != null) {
+			testNotificationPref.setOnPreferenceClickListener(preference -> {
+				Log.i("SettingsFragment", "Showing test notification");
+				NewMessageChecker.createNotification(
+						"Test notification title",
+						"Test notification message",
+						context
+				);
+				return true;
+			});
+		}
 
 		if(versionPref != null) {
 			versionPref.setSummary(

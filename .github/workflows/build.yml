@@ -10,11 +10,20 @@ jobs:
     ci:
         runs-on: ubuntu-latest
         steps:
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v4
+
+            -   name: Set up Java 17
+                uses: actions/setup-java@v4
+                with:
+                    distribution: temurin
+                    java-version: 17
+
             -   uses: gradle/wrapper-validation-action@v1
 
             -   name: Install NDK
-                run: echo "y" | sudo ${ANDROID_HOME}/tools/bin/sdkmanager --install "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT}
+                run: |
+                    SDKMANAGER=${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager
+                    echo "y" | $SDKMANAGER "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT}
 
             -   name: Run release build
                 run: ./gradlew assembleRelease
@@ -23,7 +32,7 @@ jobs:
                 run: ./gradlew assembleDebug
 
             -   name: Upload artifact to GitHub
-                uses: actions/upload-artifact@v2
+                uses: actions/upload-artifact@v4
                 with:
                     name: RedReader-debug.apk
                     path: build/outputs/apk/debug/RedReader-debug.apk
@@ -33,3 +42,9 @@ jobs:
 
             -   name: Run checkstyle
                 run: ./gradlew checkstyle --stacktrace --info
+
+            -   name: Android Lint
+                run: ./gradlew lint
+
+            -   name: Unit tests
+                run: ./gradlew test

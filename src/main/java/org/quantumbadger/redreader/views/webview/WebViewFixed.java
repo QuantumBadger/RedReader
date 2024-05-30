@@ -25,7 +25,7 @@ import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import info.guardianproject.netcipher.web.WebkitProxy;
+import info.guardianproject.netcipher.webkit.WebkitProxy;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.activities.BugReportActivity;

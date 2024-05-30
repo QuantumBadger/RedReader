@@ -84,6 +84,12 @@ public final class PrefsUtility {
 		return sharedPrefs.getBoolean(getPrefKey(id), defaultValue);
 	}
 
+	private static void setBoolean(
+			final int id,
+			final boolean newValue) {
+		sharedPrefs.edit().putBoolean(getPrefKey(id), newValue).apply();
+	}
+
 	@SuppressWarnings("unused")
 	private static long getLong(
 			final int id,
@@ -113,6 +119,10 @@ public final class PrefsUtility {
 						R.string.pref_appearance_hide_headertoolbar_commentlist_key))
 				|| key.equals(context.getString(
 						R.string.pref_appearance_hide_headertoolbar_postlist_key))
+				|| key.equals(context.getString(
+					R.string.pref_appearance_hide_comments_from_blocked_users_key))
+				|| key.equals(context.getString(
+						R.string.pref_appearance_highlight_own_username_key))
 				|| key.equals(context.getString(R.string.pref_images_thumbnail_size_key))
 				|| key.equals(context.getString(R.string.pref_images_inline_image_previews_key))
 				|| key.equals(context.getString(
@@ -126,6 +136,8 @@ public final class PrefsUtility {
 						R.string.pref_accessibility_min_comment_height_key))
 				|| key.equals(context.getString(
 						R.string.pref_behaviour_post_title_opens_comments_key))
+				|| key.equals(context.getString(
+						R.string.pref_behaviour_post_tap_action_key))
 				|| key.equals(context.getString(
 						R.string.pref_accessibility_say_comment_indent_level_key))
 				|| key.equals(context.getString(
@@ -514,6 +526,12 @@ public final class PrefsUtility {
 				false);
 	}
 
+	public static boolean pref_album_skip_to_first() {
+		return getBoolean(
+				R.string.pref_album_skip_to_first_key,
+				false);
+	}
+
 	public static boolean pref_appearance_comments_show_floating_toolbar() {
 		return getBoolean(
 				R.string.pref_appearance_comments_show_floating_toolbar_key,
@@ -560,6 +578,18 @@ public final class PrefsUtility {
 		return getBoolean(
 				R.string.pref_appearance_hide_headertoolbar_commentlist_key,
 				false);
+	}
+
+	public static boolean pref_appearance_hide_comments_from_blocked_users() {
+		return getBoolean(
+				R.string.pref_appearance_hide_comments_from_blocked_users_key,
+				false);
+	}
+
+	public static boolean pref_appearance_highlight_own_username() {
+		return getBoolean(
+				R.string.pref_appearance_highlight_own_username_key,
+				true);
 	}
 
 	public enum AppearancePostSubtitleItem {
@@ -761,6 +791,12 @@ public final class PrefsUtility {
 				false);
 	}
 
+	public static void set_pref_behaviour_notifications(final boolean enabled) {
+		setBoolean(
+				R.string.pref_behaviour_notifications_key,
+				enabled);
+	}
+
 	public static boolean pref_behaviour_notifications() {
 		return getBoolean(
 				R.string.pref_behaviour_notifications_key,
@@ -841,6 +877,17 @@ public final class PrefsUtility {
 		} catch(final Throwable e) {
 			return defaultValue;
 		}
+	}
+
+	public enum PostTapAction {
+		LINK, COMMENTS, TITLE_COMMENTS
+	}
+
+	public static PostTapAction pref_behaviour_post_tap_action() {
+		return PostTapAction.valueOf(StringUtils.asciiUppercase(getString(
+				R.string.pref_behaviour_post_tap_action_key,
+				"link"
+		)));
 	}
 
 	public static boolean pref_behaviour_post_title_opens_comments() {

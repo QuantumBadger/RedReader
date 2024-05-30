@@ -1,80 +1,77 @@
 @file:Suppress("UnstableApiUsage")
 
-buildscript {
-	repositories {
-		mavenCentral()
-		google()
-	}
-	dependencies {
-		// TODO share this with the "plugins" block
-		val rrKotlinVersion = "1.6.21"
-
-		classpath("com.android.tools.build:gradle:7.3.1")
-		classpath(kotlin("gradle-plugin", version = rrKotlinVersion))
-		classpath(kotlin("serialization", version = rrKotlinVersion))
-	}
-}
-
 plugins {
-	id("com.android.application") version("7.3.1") apply(true)
-	kotlin("android") version("1.6.21") apply(true)
-	kotlin("plugin.serialization") version("1.6.21") apply(true)
-	kotlin("plugin.parcelize") version("1.6.21") apply(true)
+	alias(libs.plugins.android.application)
+	alias(libs.plugins.kotlin.android)
+	alias(libs.plugins.kotlin.serialization)
+	alias(libs.plugins.kotlin.parcelize)
     pmd
 	checkstyle
+
+	// If plugin is used in multiple subprojects then it needs to be imported with apply(false) in the root project,
+	// otherwise bad things will happen.
+	// The reason is that Gradle isolates class loaders between subprojects and some plugins can't handle it.
+	// Root project's class loader however is available to all subprojects and importing plugin here (but not applying it) solves the issue
+	alias(libs.plugins.kotlin.jvm) apply false
 }
 
 dependencies {
-
-	implementation("androidx.multidex:multidex:2.0.1")
+	implementation(libs.androidx.multidex)
 
 	implementation(project(":redreader-common"))
 	implementation(project(":redreader-datamodel"))
 
-	coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.2.2")
-	implementation("androidx.core:core-ktx:1.9.0")
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
-	implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.21") // TODO use constant
-	implementation("androidx.annotation:annotation:1.5.0")
-	implementation("androidx.appcompat:appcompat:1.6.0")
-	implementation("androidx.recyclerview:recyclerview:1.2.1")
-	implementation("com.google.android.flexbox:flexbox:3.0.0")
-	implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-	implementation("androidx.preference:preference:1.2.0")
-	implementation("com.google.android.material:material:1.9.0")
-	implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-	implementation("androidx.fragment:fragment:1.5.5")
+	coreLibraryDesugaring(libs.jdk.desugar)
 
-	implementation("com.fasterxml.jackson.core:jackson-core:2.14.2")
-	implementation("org.apache.commons:commons-lang3:3.12.0")
+	implementation(libs.kotlinx.serialization.json)
+	implementation(libs.kotlinx.serialization.json.okio)
+	implementation(libs.kotlin.reflect)
 
-	implementation("org.apache.commons:commons-text:1.10.0")
+	implementation(libs.androidx.annotation)
+	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.constraintlayout)
+	implementation(libs.androidx.core)
+	implementation(libs.androidx.fragment)
+	implementation(libs.androidx.preference)
+	implementation(libs.androidx.recyclerview)
+	implementation(libs.androidx.swiperefreshlayout)
 
-	implementation("com.squareup.okhttp3:okhttp:3.12.13")
-	implementation("info.guardianproject.netcipher:netcipher:1.2.1")
-	implementation("com.google.android.exoplayer:exoplayer-core:2.19.0")
-	implementation("com.google.android.exoplayer:exoplayer-ui:2.19.0")
-	implementation("com.github.luben:zstd-jni:1.5.1-1@aar")
+	implementation(libs.google.flexbox)
+	implementation(libs.google.material)
 
-	testImplementation("junit:junit:4.13.2")
+	implementation(libs.jackson.core)
+	implementation(libs.commons.lang)
 
-	androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-	androidTestImplementation("androidx.test:rules:1.5.0")
-	androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+	implementation(libs.commons.text)
+
+	implementation(libs.okhttp)
+	implementation(libs.netcipher.webkit)
+	implementation(libs.exoplayer.core)
+	implementation(libs.exoplayer.ui)
+	implementation(libs.zstd) {
+		artifact {
+			type = "aar"
+		}
+	}
+
+	testImplementation(libs.junit)
+
+	androidTestImplementation(libs.androidx.test.espresso.core)
+	androidTestImplementation(libs.androidx.test.espresso.contrib)
+	androidTestImplementation(libs.androidx.test.rules)
 }
 
 android {
-	compileSdk = 33
-	buildToolsVersion = "33.0.1"
-	ndkVersion = "23.1.7779620"
+	compileSdk = libs.versions.sdk.compile.get().toInt()
+	ndkVersion = libs.versions.ndk.get()
 	namespace = "org.quantumbadger.redreader"
 
 	defaultConfig {
 		applicationId = "org.quantumbadger.redreader"
-		minSdk = 16
-		targetSdk = 33
-		versionCode = 108
-		versionName = "1.22"
+		minSdk = libs.versions.sdk.min.get().toInt()
+		targetSdk = libs.versions.sdk.target.get().toInt()
+		versionCode = 112
+		versionName = "1.23.1"
 
 		multiDexEnabled = true
 		vectorDrawables.generatedDensities("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi")
@@ -83,7 +80,7 @@ android {
 
 	// Flag to tell aapt to keep the attribute ids around
 	androidResources {
-		additionalParameters("--no-version-vectors")
+		additionalParameters.add("--no-version-vectors")
 	}
 
 	buildTypes.forEach {
@@ -96,8 +93,10 @@ android {
 	compileOptions {
 		encoding = "UTF-8"
 		isCoreLibraryDesugaringEnabled = true
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
+		JavaVersion.toVersion(libs.versions.java.get()).let {
+			sourceCompatibility = it
+			targetCompatibility = it
+		}
 	}
 
 	lint {
@@ -111,17 +110,25 @@ android {
 		lintConfig = file("config/lint/lint.xml")
 	}
 
-	packagingOptions {
-		excludes.add("META-INF/*")
+	packaging {
+		resources.excludes.add("META-INF/*")
 	}
 
 	testOptions {
 		animationsDisabled = true
 	}
+
+	kotlinOptions {
+		jvmTarget = libs.versions.java.get()
+	}
+
+	buildFeatures {
+		buildConfig = true
+	}
 }
 
 pmd {
-	toolVersion = "6.36.0"
+	toolVersion = libs.versions.pmd.get()
 }
 
 tasks.register("pmd", Pmd::class) {
@@ -134,7 +141,7 @@ tasks.register("pmd", Pmd::class) {
 }
 
 checkstyle {
-	toolVersion = "8.35"
+	toolVersion = libs.versions.checkstyle.get()
 }
 
 tasks.register("Checkstyle", Checkstyle::class) {

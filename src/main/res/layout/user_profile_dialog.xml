@@ -110,6 +110,16 @@
 						app:chipMinTouchTargetSize="0dp"/>
 
 				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_blocked"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/userprofile_tag_blocked"
+						style="@style/Widget.Material3.Chip.Assist"
+						android:clickable="false"
+						android:checkable="false"
+						app:chipMinTouchTargetSize="0dp"/>
+
+				<com.google.android.material.chip.Chip
 						android:id="@+id/user_profile_chip_friend"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -319,6 +329,26 @@
 						app:chipIcon="?rrIconInfo"
 						app:chipIconSize="16sp"
 						android:text="@string/userprofile_button_more_info"
+						style="@style/Widget.Material3.Chip.Assist.Elevated"
+						android:checkable="false"/>
+
+				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_block"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:chipIcon="?rrIconCross"
+						app:chipIconSize="16sp"
+						android:text="@string/userprofile_button_block"
+						style="@style/Widget.Material3.Chip.Assist.Elevated"
+						android:checkable="false"/>
+
+				<com.google.android.material.chip.Chip
+						android:id="@+id/user_profile_chip_unblock"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						app:chipIcon="?rrIconTick"
+						app:chipIconSize="16sp"
+						android:text="@string/userprofile_button_unblock"
 						style="@style/Widget.Material3.Chip.Assist.Elevated"
 						android:checkable="false"/>
 

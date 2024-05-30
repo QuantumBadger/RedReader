@@ -26,6 +26,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -63,7 +64,6 @@ public class CommentReplyActivity extends BaseActivity {
 	private Spinner usernameSpinner;
 	private EditText textEdit;
 	private CheckBox inboxReplies;
-
 	private RedditIdAndType parentIdAndType = null;
 
 	private ParentType mParentType;
@@ -106,6 +106,10 @@ public class CommentReplyActivity extends BaseActivity {
 		usernameSpinner = layout.findViewById(R.id.comment_reply_username);
 		inboxReplies = layout.findViewById(R.id.comment_reply_inbox);
 		textEdit = layout.findViewById(R.id.comment_reply_text);
+
+		final Button uploadPicture = layout.findViewById(R.id.comment_reply_picture);
+
+		uploadPicture.setOnClickListener(v -> uploadPicture());
 
 		if(mParentType == ParentType.COMMENT_OR_POST) {
 			inboxReplies.setVisibility(View.VISIBLE);
@@ -197,9 +201,12 @@ public class CommentReplyActivity extends BaseActivity {
 
 		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
 
+			//noinspection deprecation
 			final ProgressDialog progressDialog = new ProgressDialog(this);
 			progressDialog.setTitle(getString(R.string.comment_reply_submitting_title));
+			//noinspection deprecation
 			progressDialog.setMessage(getString(R.string.comment_reply_submitting_message));
+			//noinspection deprecation
 			progressDialog.setIndeterminate(true);
 			progressDialog.setCancelable(true);
 			progressDialog.setCanceledOnTouchOutside(false);
@@ -361,4 +368,23 @@ public class CommentReplyActivity extends BaseActivity {
 			super.onBackPressed();
 		}
 	}
+
+	private void uploadPicture() {
+		final Intent intent = new Intent(this, ImgurUploadActivity.class);
+		startActivityForResultWithCallback(intent, (resultCode, data) -> {
+			if (resultCode == 0 && data != null) {
+				final Uri uploadedImageUrl = data.getData();
+				if (uploadedImageUrl != null) {
+					// set the picture into textedit as a link: [Picture](PictureURL)
+					final String existingText = textEdit.getText().toString();
+					final String picturePretext = getString(R.string.comment_picture_pretext);
+					final String linkText =
+						"["+ picturePretext +"](" + uploadedImageUrl + ")";
+					final String combinedText = existingText + " " + linkText;
+					textEdit.setText(combinedText);
+				}
+			}
+		});
+	}
+
 }

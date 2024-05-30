@@ -103,28 +103,9 @@ class RedditParsedPost(
 
 	val upvotePercentage = src.upvote_ratio?.times(100.0)?.toInt()
 
-	private fun findUrl(): String? {
-
-		src.url_overridden_by_dest?.decoded?.apply {
-			return this
-		}
-
-		src.media?.reddit_video?.fallback_url?.decoded?.apply {
-			return this
-		}
-
-		if (src.url?.decoded?.contains(".gif") == true) {
-			src.preview?.images?.get(0)?.variants?.mp4?.source?.url?.decoded?.apply {
-				return this
-			}
-		}
-
-		return src.url?.decoded
-	}
-
     init {
 
-		url = findUrl()
+		url = src.findUrl()
 
 		selfText = if (parseSelfText && src.selftext_html != null) {
 			HtmlReader.parse(src.selftext_html.decoded, activity)

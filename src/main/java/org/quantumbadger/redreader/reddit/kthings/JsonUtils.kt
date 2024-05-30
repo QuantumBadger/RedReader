@@ -17,25 +17,45 @@
 
 package org.quantumbadger.redreader.reddit.kthings
 
+import android.os.Build
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.json.okio.decodeFromBufferedSource
+import okio.BufferedSource
+import okio.buffer
+import okio.source
 import java.io.IOException
 import java.io.InputStream
 
 object JsonUtils {
-	private val serializer = Json {
+	private val json = Json {
 		ignoreUnknownKeys = true
 		isLenient = true
 	}
 
-	@OptIn(ExperimentalSerializationApi::class)
 	@Throws(IOException::class)
-	fun decodeRedditThingFromStream(stream: InputStream)
-			= serializer.decodeFromStream(RedditThing.serializer(), stream)
+	fun decodeRedditThingFromStream(stream: InputStream): RedditThing =
+		decodeFromStream(RedditThing.serializer(), stream)
+
+	@Throws(IOException::class)
+	fun decodeRedditThingResponseFromStream(stream: InputStream): RedditThingResponse =
+		decodeFromStream(RedditThingResponse.serializer(), stream)
 
 	@OptIn(ExperimentalSerializationApi::class)
-	@Throws(IOException::class)
-	fun decodeRedditThingResponseFromStream(stream: InputStream)
-			= serializer.decodeFromStream(RedditThingResponse.serializer(), stream)
+	private fun <T> decodeFromStream(serializer: KSerializer<T>, stream: InputStream): T {
+		/**
+		 * [Json.decodeFromStream] is broken on API < 24
+		 * Wrap it in [BufferedSource] and use [Json.decodeFromBufferedSource] which works
+		 *
+		 * https://github.com/Kotlin/kotlinx.serialization/issues/2457
+		 * https://issuetracker.google.com/issues/37054036
+		 */
+		return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			json.decodeFromStream(serializer, stream)
+		} else {
+			json.decodeFromBufferedSource(serializer, stream.source().buffer())
+		}
+	}
 }

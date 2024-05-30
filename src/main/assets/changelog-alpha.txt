@@ -1,3 +1,39 @@
+/Alpha 350 (2024-04-14)
+Ability to upload an image when submitting a comment (thanks to folkemat)
+Comments submitted by current user now have username highlighted (thanks to folkemat)
+
+/Alpha 349 (2024-03-24)
+Ability to block users in user profile (thanks to folkemat)
+Dependency updates and reorganisation (thanks to Alexey Rochev)
+
+/Alpha 348 (2023-12-29)
+Fix feature flag upgrade behaviour for post title action
+
+/Alpha 347 (2023-12-29)
+Added a preference to automatically open the first image in an album
+Made links blue again in dark themes
+Added post tap action preference: open link, open comments, or use old "post title opens comments" behaviour
+Fixed long-click menu not appearing when post tap action changed from the default
+Reduced top and bottom margins on popup menus to avoid the need for scrolling
+Increase number of comments shown in user profile from 25 to 100
+
+/Alpha 346 (2023-12-18)
+When "post title opens comments" is enabled, clicking the inline image preview now opens the post rather than the comments
+
+/Alpha 345 (2023-12-17)
+When "post title opens comments" is enabled, the thumbnail now opens the post rather than the comments
+
+/Alpha 344 (2023-12-16)
+Significantly improved image gallery load speed
+Added help page for people having trouble logging in
+Increased popup menu text size
+
+/Alpha 343 (2023-12-15)
+Fixing regression in i.redd.it GIF links
+
+/Alpha 342 (2023-12-12)
+Show notification permission prompt on Android 13 and above (fixes Alpha issue where notifications were not shown)
+
 /Alpha 341 (2023-11-05)
 Fix when viewing profile of suspended users
 

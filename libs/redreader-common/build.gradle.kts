@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 buildscript {
 	repositories {
@@ -7,17 +8,23 @@ buildscript {
 }
 
 plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.jvm")
-	kotlin("plugin.serialization") version("1.6.21") apply(true)
+	`java-library`
+	alias(libs.plugins.kotlin.jvm)
+	alias(libs.plugins.kotlin.serialization)
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+	JavaVersion.toVersion(libs.versions.java.get()).let {
+		sourceCompatibility = it
+		targetCompatibility = it
+	}
+}
+
+tasks.withType(KotlinJvmCompile::class) {
+    kotlinOptions.jvmTarget = libs.versions.java.get()
 }
 
 dependencies {
-	implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-	implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+	implementation(libs.kotlinx.datetime)
+	implementation(libs.kotlinx.serialization.json)
 }

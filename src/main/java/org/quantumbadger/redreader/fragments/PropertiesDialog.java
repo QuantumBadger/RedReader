@@ -62,7 +62,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		final BaseActivity activity = (BaseActivity)getActivity();
 
 		final TypedArray attr = activity.obtainStyledAttributes(new int[] {
-				R.attr.colorPrimary,
+				com.google.android.material.R.attr.colorPrimary,
 				R.attr.rrMainTextCol
 		});
 

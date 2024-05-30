@@ -51,7 +51,8 @@ public final class FeatureFlagHandler {
 		HIDE_STATUS_BAR_FOR_MEDIA_FEATURE("hideStatusBarForMediaFeature"),
 		REPLY_IN_POST_ACTION_MENU_FEATURE("replyInPostActionMenuFeature"),
 		MAIN_MENU_FIND_SUBREDDIT_FEATURE("mainMenuFindSubreddit"),
-		OPEN_COMMENT_EXTERNALLY_FEATURE("openCommentExternallyFeature");
+		OPEN_COMMENT_EXTERNALLY_FEATURE("openCommentExternallyFeature"),
+		POST_TITLE_TAP_ACTION_FEATURE("postTitleTapActionFeature");
 
 		@NonNull private final String id;
 
@@ -263,6 +264,24 @@ public final class FeatureFlagHandler {
 								context.getString(R.string.pref_menus_comment_context_items_key),
 								existingCommentActionMenuItems)
 						.apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.POST_TITLE_TAP_ACTION_FEATURE)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				if(getBoolean(
+						R.string.pref_behaviour_post_title_opens_comments_key,
+						false,
+						context,
+						prefs
+				)) {
+					Log.i(TAG, "Updating new post tap action preference.");
+
+					prefs.edit().putString(
+							context.getString(R.string.pref_behaviour_post_tap_action_key),
+							"comments"
+					).apply();
+				}
 			}
 		});
 	}

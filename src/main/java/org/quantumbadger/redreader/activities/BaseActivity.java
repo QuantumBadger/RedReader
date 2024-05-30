@@ -280,8 +280,8 @@ public abstract class BaseActivity extends AppCompatActivity
 					final int colour;
 					{
 						final TypedArray appearance = obtainStyledAttributes(new int[] {
-								R.attr.colorPrimary,
-								R.attr.colorPrimaryDark});
+								com.google.android.material.R.attr.colorPrimary,
+								com.google.android.material.R.attr.colorPrimaryDark});
 
 						if(navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
 							colour = appearance.getColor(0, General.COLOR_INVALID);

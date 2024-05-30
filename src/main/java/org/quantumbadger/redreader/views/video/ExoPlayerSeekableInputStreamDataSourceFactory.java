@@ -18,12 +18,16 @@
 package org.quantumbadger.redreader.views.video;
 
 import androidx.annotation.NonNull;
-import com.google.android.exoplayer2.upstream.DataSource;
+import androidx.annotation.OptIn;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.DataSource;
+
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 
 import java.io.IOException;
 
+@OptIn(markerClass = UnstableApi.class)
 public class ExoPlayerSeekableInputStreamDataSourceFactory implements DataSource.Factory {
 
 	private final boolean mIsNetwork;
@@ -37,6 +41,7 @@ public class ExoPlayerSeekableInputStreamDataSourceFactory implements DataSource
 		mStreamFactory = streamFactory;
 	}
 
+	@NonNull
 	@Override
 	public DataSource createDataSource() {
 		return new ExoPlayerSeekableInputStreamDataSource(mIsNetwork, mStreamFactory);

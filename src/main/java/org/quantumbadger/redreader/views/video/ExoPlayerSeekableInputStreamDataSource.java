@@ -18,16 +18,22 @@
 package org.quantumbadger.redreader.views.video;
 
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.google.android.exoplayer2.C;
-import com.google.android.exoplayer2.upstream.BaseDataSource;
-import com.google.android.exoplayer2.upstream.DataSpec;
+import androidx.annotation.OptIn;
+import androidx.media3.common.C;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.BaseDataSource;
+import androidx.media3.datasource.DataSpec;
+
 import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 
 import java.io.IOException;
 import java.util.Objects;
 
+@OptIn(markerClass = UnstableApi.class)
 public class ExoPlayerSeekableInputStreamDataSource extends BaseDataSource {
 
 	public static final Uri URI = Uri.parse("redreader://video");
@@ -45,7 +51,7 @@ public class ExoPlayerSeekableInputStreamDataSource extends BaseDataSource {
 	}
 
 	@Override
-	public long open(final DataSpec dataSpec) throws IOException {
+	public long open(@NonNull final DataSpec dataSpec) throws IOException {
 
 		if(mCurrentStream != null) {
 			throw new IOException("Already open!");
@@ -63,7 +69,7 @@ public class ExoPlayerSeekableInputStreamDataSource extends BaseDataSource {
 
 	@Override
 	public int read(
-			final byte[] buffer,
+			@NonNull final byte[] buffer,
 			final int offset,
 			final int readLength) throws IOException {
 

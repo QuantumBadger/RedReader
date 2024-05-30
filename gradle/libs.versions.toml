@@ -1,6 +1,6 @@
 [versions]
 agp = "8.4.1"
-kotlin = "1.9.22"
+kotlin = "2.0.0"
 java = "1.8"
 
 sdk-compile = "33"

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.2.2"
+agp = "8.4.1"
 kotlin = "1.9.22"
 java = "1.8"
 

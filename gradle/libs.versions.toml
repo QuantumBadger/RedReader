@@ -3,9 +3,9 @@ agp = "8.4.1"
 kotlin = "2.0.0"
 java = "1.8"
 
-sdk-compile = "33"
+sdk-compile = "34"
 sdk-min = "16"
-sdk-target = "33"
+sdk-target = "34"
 ndk = "23.1.7779620"
 
 androidx-annotation = "1.8.0"

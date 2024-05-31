@@ -21,6 +21,11 @@ jobs:
             -   name: Validate Gradle wrapper
                 uses: gradle/actions/wrapper-validation-action@v3
 
+            -   name: Set up Gradle
+                uses: gradle/actions/setup-gradle@v3
+                with:
+                    cache-read-only: ${{ github.event_name == 'pull_request' }}
+
             -   name: Install NDK
                 run: |
                     SDKMANAGER=${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager

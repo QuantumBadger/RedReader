@@ -27,6 +27,8 @@ import android.os.Bundle;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.core.os.BundleCompat;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.ShareOrderAdapter;
@@ -64,7 +66,7 @@ public class ShareOrderDialog extends AppCompatDialogFragment
 		super.onCreate(savedInstanceState);
 		context = getContext();
 		packageManager = getActivity().getPackageManager();
-		shareIntent = getArguments().getParcelable("intent");
+		shareIntent = BundleCompat.getParcelable(requireArguments(), "intent", Intent.class);
 	}
 
 	@NonNull

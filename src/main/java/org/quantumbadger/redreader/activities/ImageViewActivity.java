@@ -45,6 +45,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.annotation.StringRes;
 import androidx.annotation.UiThread;
+import androidx.core.content.IntentCompat;
 import androidx.media3.common.MediaItem;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.source.MediaSource;
@@ -180,12 +181,14 @@ public class ImageViewActivity extends ViewsBaseActivity
 			return;
 		}
 
-		mPost = intent.getParcelableExtra("post");
+		mPost = IntentCompat.getParcelableExtra(intent, "post", RedditPost.class);
 
 		if(intent.hasExtra("albumUrl")) {
 			LinkHandler.getAlbumInfo(
 					this,
-					intent.getParcelableExtra("albumUrl"),
+					Objects.requireNonNull(IntentCompat.getParcelableExtra(
+							intent, "albumUrl",
+								UriString.class)),
 					new Priority(Constants.Priority.IMAGE_VIEW),
 					new GetAlbumInfoListener() {
 

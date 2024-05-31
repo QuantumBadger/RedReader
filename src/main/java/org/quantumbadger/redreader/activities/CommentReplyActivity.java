@@ -36,6 +36,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.IntentCompat;
+import androidx.core.os.BundleCompat;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -119,15 +121,16 @@ public class CommentReplyActivity extends ViewsBaseActivity {
 		}
 
 		if(intent != null && intent.hasExtra(PARENT_ID_AND_TYPE_KEY)) {
-			//noinspection deprecation
 			parentIdAndType = Objects.requireNonNull(
-					intent.getParcelableExtra(PARENT_ID_AND_TYPE_KEY));
+					IntentCompat.getParcelableExtra(intent,
+							PARENT_ID_AND_TYPE_KEY,
+							RedditIdAndType.class));
 
 		} else if(savedInstanceState != null
 				&& savedInstanceState.containsKey(PARENT_ID_AND_TYPE_KEY)) {
-			//noinspection deprecation
-			parentIdAndType = Objects.requireNonNull(
-					savedInstanceState.getParcelable(PARENT_ID_AND_TYPE_KEY));
+			parentIdAndType = Objects.requireNonNull(BundleCompat.getParcelable(savedInstanceState,
+					PARENT_ID_AND_TYPE_KEY,
+					RedditIdAndType.class));
 
 		} else {
 			throw new RuntimeException("No parent ID in CommentReplyActivity");

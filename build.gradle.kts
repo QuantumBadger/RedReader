@@ -183,3 +183,7 @@ tasks.register("Checkstyle", Checkstyle::class) {
 	maxWarnings = 0
 	configFile = rootProject.file("${project.rootDir}/config/checkstyle/checkstyle.xml")
 }
+
+tasks.withType<JavaCompile> {
+	options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
+}

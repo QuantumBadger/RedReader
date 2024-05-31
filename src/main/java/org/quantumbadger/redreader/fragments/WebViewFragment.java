@@ -37,6 +37,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.os.BundleCompat;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -110,8 +111,8 @@ public class WebViewFragment extends Fragment
 	public void onCreate(final Bundle savedInstanceState) {
 		// TODO load position/etc?
 		super.onCreate(savedInstanceState);
-		mUrl = getArguments().getParcelable("url");
-		html = getArguments().getString("html");
+		mUrl = BundleCompat.getParcelable(requireArguments(), "url", UriString.class);
+		html = requireArguments().getString("html");
 	}
 
 	@SuppressLint("SetJavaScriptEnabled")
@@ -127,7 +128,9 @@ public class WebViewFragment extends Fragment
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment, null);
 
-		final RedditPost srcPost = getArguments().getParcelable("post");
+		final RedditPost srcPost = BundleCompat.getParcelable(requireArguments(),
+				"post",
+				RedditPost.class);
 		final RedditPreparedPost post;
 
 		if(srcPost != null) {

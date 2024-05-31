@@ -22,11 +22,14 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.BundleCompat;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditFieldEdited;
+
+import java.util.Objects;
 
 public final class CommentPropertiesDialog extends PropertiesDialog {
 
@@ -51,7 +54,10 @@ public final class CommentPropertiesDialog extends PropertiesDialog {
 			@NonNull final BaseActivity context,
 			@NonNull final LinearLayout items) {
 
-		final RedditComment comment = getArguments().getParcelable("comment");
+		final RedditComment comment = Objects.requireNonNull(
+				BundleCompat.getParcelable(requireArguments(),
+						"comment",
+						RedditComment.class));
 
 		items.addView(propView(context, "ID", comment.getName().getValue(), true));
 

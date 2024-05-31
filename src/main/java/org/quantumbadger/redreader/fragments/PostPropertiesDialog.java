@@ -22,11 +22,14 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.BundleCompat;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.reddit.kthings.RedditFieldEdited;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
+
+import java.util.Objects;
 
 public final class PostPropertiesDialog extends PropertiesDialog {
 
@@ -51,7 +54,10 @@ public final class PostPropertiesDialog extends PropertiesDialog {
 			@NonNull final BaseActivity context,
 			@NonNull final LinearLayout items) {
 
-		final RedditPost post = getArguments().getParcelable("post");
+		final RedditPost post = Objects.requireNonNull(
+				BundleCompat.getParcelable(requireArguments(),
+						"post",
+						RedditPost.class));
 
 		// TODO nullability
 

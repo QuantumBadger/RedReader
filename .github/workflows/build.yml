@@ -18,7 +18,8 @@ jobs:
                     distribution: temurin
                     java-version: 17
 
-            -   uses: gradle/wrapper-validation-action@v1
+            -   name: Validate Gradle wrapper
+                uses: gradle/actions/wrapper-validation-action@v3
 
             -   name: Install NDK
                 run: |

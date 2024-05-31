@@ -18,6 +18,8 @@
 package org.quantumbadger.redreader.views.imageview;
 
 import android.view.MotionEvent;
+
+import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.common.MutableFloatPoint2D;
 
 public class FingerTracker {
@@ -43,11 +45,15 @@ public class FingerTracker {
 	}
 
 	public void onTouchEvent(final MotionEvent event) {
-
-		switch(event.getActionMasked()) {
+		final int action = event.getActionMasked();
+		switch(action) {
 
 			case MotionEvent.ACTION_DOWN:
 			case MotionEvent.ACTION_POINTER_DOWN:
+				// ACTION_DOWN starts the gesture, and all fingers must be up at this point
+				if (action == MotionEvent.ACTION_DOWN) {
+					assertThatAllFingersAreInactive("before ACTION_DOWN");
+				}
 
 				for(final Finger f : mFingers) {
 					if(!f.mActive) {
@@ -83,8 +89,35 @@ public class FingerTracker {
 						break;
 					}
 				}
+				// ACTION_UP ends the gesture, and all fingers must be up at this point
+				if (action == MotionEvent.ACTION_UP) {
+					assertThatAllFingersAreInactive("after ACTION_UP");
+				}
 
 				break;
+
+			case MotionEvent.ACTION_CANCEL:
+				// ACTION_CANCEL ends the gesture, process all fingers
+				for(final Finger f : mFingers) {
+					if(f.mActive) {
+						f.onUp(event);
+						mListener.onFingerUp(f);
+					}
+				}
+
+				break;
+		}
+	}
+
+	private void assertThatAllFingersAreInactive(final String when) {
+		if (BuildConfig.DEBUG) {
+			for (final Finger f : mFingers) {
+				if (f.mActive) {
+					throw new IllegalStateException(
+							"Finger for pointer id " + f.mAndroidId + " is active " + when
+					);
+				}
+			}
 		}
 	}
 

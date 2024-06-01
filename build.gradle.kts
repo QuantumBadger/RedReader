@@ -16,8 +16,6 @@ plugins {
 }
 
 dependencies {
-	implementation(libs.androidx.multidex)
-
 	implementation(project(":redreader-common"))
 	implementation(project(":redreader-datamodel"))
 
@@ -75,7 +73,6 @@ android {
 		versionCode = 112
 		versionName = "1.23.1"
 
-		multiDexEnabled = true
 		vectorDrawables.generatedDensities("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi")
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}

@@ -17,10 +17,10 @@
 
 package org.quantumbadger.redreader
 
+import android.app.Application
 import android.content.Context
 import android.os.Process
 import android.util.Log
-import androidx.multidex.MultiDexApplication
 import org.quantumbadger.redreader.cache.CacheManager
 import org.quantumbadger.redreader.common.*
 import org.quantumbadger.redreader.io.RedditChangeDataIO
@@ -29,7 +29,7 @@ import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloade
 import org.quantumbadger.redreader.reddit.api.RedditOAuth
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager
 
-class RedReader : MultiDexApplication() {
+class RedReader : Application() {
 
 	companion object {
 

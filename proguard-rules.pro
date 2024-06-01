@@ -25,3 +25,6 @@
 -keepnames class <1>$$serializer { # -keepnames suffices; class is kept when serializer() is kept.
     static <1>$$serializer INSTANCE;
 }
+
+# Needed for instrumented tests for some reason
+-keep class com.google.common.util.concurrent.ListenableFuture { *; }

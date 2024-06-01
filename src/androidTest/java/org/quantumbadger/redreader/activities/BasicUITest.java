@@ -21,9 +21,11 @@ package org.quantumbadger.redreader.activities;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -59,24 +61,21 @@ public class BasicUITest {
 				.perform(click());
 
 		onView(allOf(
-				withId(R.id.title),
+				withId(androidx.appcompat.R.id.title),
 				withText("Settings"),
 				childAtPosition(
 						childAtPosition(
-								withId(R.id.content),
+								withId(androidx.appcompat.R.id.content),
 								0),
 						0),
 				isDisplayed()))
 				.perform(click());
 
 		onView(allOf(
-				withContentDescription("Navigate up"),
+				withContentDescription("Back"),
 				childAtPosition(
-						allOf(withId(R.id.action_bar),
-								childAtPosition(
-										withId(R.id.action_bar_container),
-										0)),
-						1),
+						withId(R.id.rr_actionbar_toolbar),
+						0),
 				isDisplayed()))
 				.perform(click());
 

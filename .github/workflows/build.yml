@@ -29,8 +29,10 @@ jobs:
 
             -   name: Install NDK
                 run: |
-                    SDKMANAGER=${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager
-                    echo "y" | $SDKMANAGER "ndk;23.1.7779620" --sdk_root=${ANDROID_SDK_ROOT}
+                    SDKMANAGER="${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
+                    NDK_VERSION="$(yq .versions.ndk gradle/libs.versions.toml)"
+                    echo "Installing NDK ${NDK_VERSION}"
+                    echo "y" | "$SDKMANAGER" "ndk;$NDK_VERSION" --sdk_root="${ANDROID_SDK_ROOT}"
 
             -   name: Run release build
                 run: ./gradlew assembleRelease

@@ -6,7 +6,7 @@ java = "1.8"
 sdk-compile = "34"
 sdk-min = "21"
 sdk-target = "34"
-ndk = "23.1.7779620"
+ndk = "26.3.11579264"
 
 androidx-annotation = "1.8.0"
 androidx-appcompat = "1.7.0"

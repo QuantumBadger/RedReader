@@ -57,7 +57,6 @@
 						android:layout_width="0dp"
 						android:layout_height="wrap_content"
 						android:layout_marginStart="20dp"
-						android:layout_marginLeft="20dp"
 						android:orientation="vertical"
 						app:layout_constrainedWidth="true"
 						app:layout_constraintStart_toEndOf="@id/avatar_image_holder"
@@ -198,7 +197,6 @@
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:drawableStart="?rrIconArrowUpSmall"
-								android:drawableLeft="?rrIconArrowUpSmall"
 								android:drawablePadding="4dp"
 								android:textSize="14sp"/>
 
@@ -255,7 +253,6 @@
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:drawableStart="?rrIconArrowUpSmall"
-								android:drawableLeft="?rrIconArrowUpSmall"
 								android:drawablePadding="4dp"
 								android:textSize="14sp"/>
 

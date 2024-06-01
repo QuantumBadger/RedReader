@@ -26,8 +26,6 @@
 		android:layout_height="match_parent"
 		android:paddingStart="8dp"
 		android:paddingEnd="16dp"
-		android:paddingLeft="8dp"
-		android:paddingRight="16dp"
 		android:gravity="center_vertical"
 		android:background="@drawable/rr_actionbar_selector">
 
@@ -35,7 +33,6 @@
 			android:id="@+id/actionbar_title_back_image"
 			android:layout_margin="8dp"
 			android:layout_alignParentStart="true"
-			android:layout_alignParentLeft="true"
 			android:layout_centerVertical="true"
 			android:src="@drawable/ic_action_back_dark"
 			android:layout_width="24dp"
@@ -50,7 +47,6 @@
 			android:scrollHorizontally="true"
 			android:singleLine="true"
 			style="@style/RR.Toolbar.TitleText"
-			android:layout_toRightOf="@id/actionbar_title_back_image"
 			android:layout_toEndOf="@id/actionbar_title_back_image"
 			android:layout_centerVertical="true"
 			android:gravity="center_vertical"

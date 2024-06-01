@@ -4,7 +4,7 @@ kotlin = "2.0.0"
 java = "1.8"
 
 sdk-compile = "34"
-sdk-min = "16"
+sdk-min = "21"
 sdk-target = "34"
 ndk = "23.1.7779620"
 
@@ -29,7 +29,7 @@ jdk-desugar = "2.0.4"
 kotlinx-datetime = "0.6.0"
 kotlinx-serialization = "1.6.3"
 netcipher = "2.1.0"
-okhttp = "3.12.13"
+okhttp = "4.12.0"
 pmd = "6.55.0"
 zstd = "1.5.5-11"
 

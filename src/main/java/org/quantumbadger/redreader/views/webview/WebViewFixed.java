@@ -204,6 +204,6 @@ public class WebViewFixed extends WebView {
 		this.clearCache(true);
 		this.clearFormData();
 		this.clearHistory();
-		CookieManager.getInstance().removeAllCookie();
+		CookieManager.getInstance().removeAllCookies(null);
 	}
 }

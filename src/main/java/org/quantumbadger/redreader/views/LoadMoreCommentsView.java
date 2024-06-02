@@ -20,13 +20,13 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.MoreCommentsListingActivity;
 import org.quantumbadger.redreader.common.General;
@@ -60,10 +60,7 @@ public class LoadMoreCommentsView extends LinearLayout {
 
 		final LinearLayout layout = new LinearLayout(context);
 		layout.setOrientation(HORIZONTAL);
-
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			layout.setLayoutDirection(LAYOUT_DIRECTION_LTR);
-		}
+		layout.setLayoutDirection(LAYOUT_DIRECTION_LTR);
 
 		addView(layout);
 		final int marginPx = General.dpToPixels(context, 8);

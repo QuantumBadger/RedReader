@@ -27,9 +27,11 @@ import android.database.sqlite.SQLiteDatabaseCorruptException;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -298,11 +300,8 @@ public class NewMessageChecker extends BroadcastReceiver {
 				.setContentTitle(title)
 				.setContentText(text)
 				.setAutoCancel(true)
-				.setChannelId(NOTIFICATION_CHANNEL_ID);
-
-		if(Build.VERSION.SDK_INT >= 21) {
-			notification.setColor(Color.rgb(0xd3, 0x2f, 0x2f));
-		}
+				.setChannelId(NOTIFICATION_CHANNEL_ID)
+				.setColor(Color.rgb(0xd3, 0x2f, 0x2f));
 
 		final Intent intent = new Intent(context, InboxListingActivity.class);
 

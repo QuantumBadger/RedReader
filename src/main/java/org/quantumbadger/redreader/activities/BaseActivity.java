@@ -123,27 +123,20 @@ public abstract class BaseActivity extends AppCompatActivity
 	}
 
 	protected void configBackButton(final boolean isVisible, final View.OnClickListener listener) {
+		mActionbarBackIconView.setImportantForAccessibility(
+				View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
 
-		if(Build.VERSION.SDK_INT >= 19) {
-
-			mActionbarBackIconView.setImportantForAccessibility(
-					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-
-			mActionbarTitleTextView.apply(
-					titleView -> titleView.setImportantForAccessibility(
-							View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS));
-		}
+		mActionbarTitleTextView.apply(
+				titleView -> titleView.setImportantForAccessibility(
+						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS));
 
 		if(isVisible) {
 			mActionbarBackIconView.setVisibility(View.VISIBLE);
 			mActionbarTitleOuterView.setOnClickListener(listener);
 			mActionbarTitleOuterView.setClickable(true);
-
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-				mActionbarTitleOuterView.setContentDescription(getString(R.string.action_back));
-				mActionbarTitleOuterView.setImportantForAccessibility(
-						View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-			}
+			mActionbarTitleOuterView.setContentDescription(getString(R.string.action_back));
+			mActionbarTitleOuterView.setImportantForAccessibility(
+					View.IMPORTANT_FOR_ACCESSIBILITY_YES);
 
 			if(TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
 					== ViewCompat.LAYOUT_DIRECTION_RTL) {
@@ -157,10 +150,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
 			mActionbarTitleOuterView.setContentDescription(null);
 
-			if(Build.VERSION.SDK_INT >= 19) {
-				mActionbarTitleOuterView.setImportantForAccessibility(
-						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-			}
+			mActionbarTitleOuterView.setImportantForAccessibility(
+					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
 		}
 	}
 
@@ -265,35 +256,32 @@ public abstract class BaseActivity extends AppCompatActivity
 					baseActivityIsActionBarBackEnabled(),
 					v -> onBackPressed());
 
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			final PrefsUtility.AppearanceNavbarColour navbarColour
+					= PrefsUtility.appearance_navbar_colour();
 
-				final PrefsUtility.AppearanceNavbarColour navbarColour
-						= PrefsUtility.appearance_navbar_colour();
+			if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
+				getWindow().setNavigationBarColor(Color.BLACK);
 
-				if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
-					getWindow().setNavigationBarColor(Color.BLACK);
+			} else if(navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
+				getWindow().setNavigationBarColor(Color.WHITE);
 
-				} else if(navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
-					getWindow().setNavigationBarColor(Color.WHITE);
+			} else {
+				final int colour;
+				{
+					final TypedArray appearance = obtainStyledAttributes(new int[] {
+							com.google.android.material.R.attr.colorPrimary,
+							com.google.android.material.R.attr.colorPrimaryDark});
 
-				} else {
-					final int colour;
-					{
-						final TypedArray appearance = obtainStyledAttributes(new int[] {
-								com.google.android.material.R.attr.colorPrimary,
-								com.google.android.material.R.attr.colorPrimaryDark});
-
-						if(navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
-							colour = appearance.getColor(0, General.COLOR_INVALID);
-						} else {
-							colour = appearance.getColor(1, General.COLOR_INVALID);
-						}
-
-						appearance.recycle();
+					if(navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
+						colour = appearance.getColor(0, General.COLOR_INVALID);
+					} else {
+						colour = appearance.getColor(1, General.COLOR_INVALID);
 					}
 
-					getWindow().setNavigationBarColor(colour);
+					appearance.recycle();
 				}
+
+				getWindow().setNavigationBarColor(colour);
 			}
 
 		} else {

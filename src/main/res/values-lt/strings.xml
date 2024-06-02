@@ -496,8 +496,6 @@
     <string name="button_restore_preferences">Atkurti</string>
     <string name="backup_preferences_success">Atsarginė kopija sukurta sėkmingai</string>
     <string name="restore_preferences_success">Atkurta sėkmingai</string>
-    <string name="backup_preferences_error_old_android_title">Per sena sistema</string>
-    <string name="backup_preferences_error_old_android_message">Šiai funkcijai reikalinga 4.4 ar naujesnės versijos Android.</string>
     <string name="error_no_file_manager_title">Nėra failų tvarkyklės</string>
     <string name="error_post_submit_title">Pateikiant įrašą įvyko klaida</string>
     <string name="error_tor_connection_title">Tor klaida</string>
@@ -611,7 +609,6 @@
     <string name="pref_behaviour_postsort">Pranešimai (numatytasis)</string>
     <string name="action_copy_link">Kopijuoti nuorodą</string>
     <string name="action_copy_text">Kopijuoti tekstą</string>
-    <string name="pref_not_supported_before_lollipop">Nepalaikomas iki Android Lollipop</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Pirminė (tamsi)</string>
     <string name="pref_appearance_navbar_color_option_primary">Pirminė (šviesi)</string>
     <string name="pref_appearance_navbar_color_option_black">Juoda</string>

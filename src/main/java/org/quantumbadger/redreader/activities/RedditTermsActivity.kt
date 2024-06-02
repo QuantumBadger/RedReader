@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.activities
 
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -50,9 +49,7 @@ class RedditTermsActivity : BaseActivity() {
 
 		super.onCreate(savedInstanceState)
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			window.navigationBarColor = Color.rgb(0x55, 0x55, 0x55)
-		}
+		window.navigationBarColor = Color.rgb(0x55, 0x55, 0x55)
 
 		setBaseActivityListing(R.layout.reddit_terms_activity)
 

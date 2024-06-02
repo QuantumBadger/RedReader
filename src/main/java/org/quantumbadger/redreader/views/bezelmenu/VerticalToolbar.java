@@ -19,11 +19,11 @@ package org.quantumbadger.redreader.views.bezelmenu;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
 import org.quantumbadger.redreader.common.General;
 
 public class VerticalToolbar extends FrameLayout {
@@ -36,9 +36,7 @@ public class VerticalToolbar extends FrameLayout {
 
 		setBackgroundColor(Color.argb(192, 0, 0, 0)); // TODO change color based on theme?
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			setElevation(General.dpToPixels(context, 10));
-		}
+		setElevation(General.dpToPixels(context, 10));
 
 		// TODO add light, vertical line on swipe side
 

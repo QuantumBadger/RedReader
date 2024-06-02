@@ -24,8 +24,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StatFs;
@@ -209,15 +207,8 @@ public class FileUtils {
 	@SuppressWarnings("deprecation")
 	public static long getFreeSpaceAvailable(final String path) {
 		final StatFs stat = new StatFs(path);
-		final long availableBlocks;
-		final long blockSize;
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-			availableBlocks = stat.getAvailableBlocksLong();
-			blockSize = stat.getBlockSizeLong();
-		} else {
-			availableBlocks = stat.getAvailableBlocks();
-			blockSize = stat.getBlockSize();
-		}
+		final long availableBlocks = stat.getAvailableBlocksLong();
+		final long blockSize = stat.getBlockSizeLong();
 		return availableBlocks * blockSize;
 	}
 
@@ -246,29 +237,6 @@ public class FileUtils {
 
 			// Workaround for third party share apps
 			shareIntent.setClipData(ClipData.newRawUri(null, externalUri));
-
-			if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-
-				// Due to bugs in the API before Android Lollipop, we have to
-				// grant permission for every single app on the system to read
-				// this file!
-
-				for(final ResolveInfo resolveInfo
-						: activity.getPackageManager().queryIntentActivities(
-								shareIntent,
-								PackageManager.MATCH_DEFAULT_ONLY)) {
-
-					Log.i(TAG, "Legacy OS: granting permission to "
-							+ resolveInfo.activityInfo.packageName
-							+ " to read "
-							+ externalUri);
-
-					activity.grantUriPermission(
-							resolveInfo.activityInfo.packageName,
-							externalUri,
-							Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-				}
-			}
 
 			if(PrefsUtility.pref_behaviour_sharing_dialog()) {
 				ShareOrderDialog.newInstance(shareIntent)
@@ -361,7 +329,6 @@ public class FileUtils {
 		}).start();
 	}
 
-	@RequiresApi(19)
 	private static void createSAFDocumentWithIntent(
 			@NonNull final BaseActivity activity,
 			@NonNull final String filename,
@@ -418,81 +385,66 @@ public class FileUtils {
 			return;
 		}
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		final PrefsUtility.SaveLocation saveLocation
+				= PrefsUtility.pref_behaviour_save_location();
 
-			final PrefsUtility.SaveLocation saveLocation
-					= PrefsUtility.pref_behaviour_save_location();
+		switch(saveLocation) {
 
-			switch(saveLocation) {
+			case PROMPT_EVERY_TIME: {
 
-				case PROMPT_EVERY_TIME: {
+				downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
 
-					Log.i(TAG, "Android version Lollipop or higher, showing SAF prompt");
+					final String filename = General.filenameFromString(info.urlOriginal);
+
+					createSAFDocumentWithIntent(
+							activity,
+							filename,
+							mimetype,
+							new CacheFileDataSource(cacheFile),
+							() -> General.quickToast(
+									activity,
+									R.string.action_save_image_success_no_path));
+				});
+
+				break;
+			}
+
+			case SYSTEM_DEFAULT: {
+
+				if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+					Log.i(TAG, "Android version Q or higher, saving with MediaStore");
 
 					downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
 
 						final String filename = General.filenameFromString(info.urlOriginal);
 
-						createSAFDocumentWithIntent(
+						mediaStoreDownloadsInsertFile(
 								activity,
 								filename,
 								mimetype,
+								cacheFile.getFile().map(File::length).orElse(0L),
 								new CacheFileDataSource(cacheFile),
 								() -> General.quickToast(
 										activity,
 										R.string.action_save_image_success_no_path));
 					});
 
-					break;
+				} else {
+					Log.i(TAG, "Android version below Q, saving with legacy method");
+
+					activity.requestPermissionWithCallback(
+							Manifest.permission.WRITE_EXTERNAL_STORAGE,
+							new LegacySaveImageCallback(activity, uri));
 				}
 
-				case SYSTEM_DEFAULT: {
-
-					Log.i(TAG, "Android version Lollipop or higher, saving to Downloads");
-
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-
-						Log.i(TAG, "Android version Q or higher, saving with MediaStore");
-
-						downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
-
-							final String filename = General.filenameFromString(info.urlOriginal);
-
-							mediaStoreDownloadsInsertFile(
-									activity,
-									filename,
-									mimetype,
-									cacheFile.getFile().map(File::length).orElse(0L),
-									new CacheFileDataSource(cacheFile),
-									() -> General.quickToast(
-											activity,
-											R.string.action_save_image_success_no_path));
-						});
-
-					} else {
-						Log.i(TAG, "Android version below Q, saving with legacy method");
-
-						activity.requestPermissionWithCallback(
-								Manifest.permission.WRITE_EXTERNAL_STORAGE,
-								new LegacySaveImageCallback(activity, uri));
-					}
-
-					break;
-				}
-
-				default: {
-					BugReportActivity.handleGlobalError(activity, new RuntimeException(
-							"Missing handler for preference value " + saveLocation));
-				}
+				break;
 			}
 
-		} else {
-
-			Log.i(TAG, "Android version before Lollipop, using legacy save method");
-
-			activity.requestPermissionWithCallback(
-					Manifest.permission.WRITE_EXTERNAL_STORAGE,
-					new LegacySaveImageCallback(activity, uri));
+			default: {
+				BugReportActivity.handleGlobalError(activity, new RuntimeException(
+						"Missing handler for preference value " + saveLocation));
+			}
 		}
 	}
 
@@ -518,7 +470,6 @@ public class FileUtils {
 				String mimetype);
 	}
 
-	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 	private static void internalDownloadImageToSaveAudio(
 			@NonNull final BaseActivity activity,
 			@NonNull final ImageInfo info,
@@ -678,8 +629,7 @@ public class FileUtils {
 											final boolean fromCache,
 											final String mimetype) {
 
-										if(info.urlAudioStream != null
-												&& Build.VERSION.SDK_INT >= 18) {
+										if(info.urlAudioStream != null) {
 											Log.i(TAG, "Also downloading audio stream...");
 
 											internalDownloadImageToSaveAudio(

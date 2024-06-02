@@ -18,11 +18,11 @@
 package org.quantumbadger.redreader.activities;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.ChangelogManager;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -36,9 +36,7 @@ public class ChangelogActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			getWindow().setNavigationBarColor(Color.rgb(0x55, 0x55, 0x55));
-		}
+		getWindow().setNavigationBarColor(Color.rgb(0x55, 0x55, 0x55));
 
 		setTitle(R.string.title_changelog);
 

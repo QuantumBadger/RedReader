@@ -20,12 +20,14 @@ package org.quantumbadger.redreader.cache;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.github.luben.zstd.Zstd;
 import com.github.luben.zstd.ZstdInputStream;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.FileUtils;
@@ -167,17 +169,9 @@ public final class CacheManager {
 
 		dirs.add(context.getCacheDir());
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			for(final File dir : context.getExternalCacheDirs()) {
-				if(dir != null) {
-					dirs.add(dir);
-				}
-			}
-
-		} else {
-			final File extDir = context.getExternalCacheDir();
-			if(extDir != null) {
-				dirs.add(extDir);
+		for(final File dir : context.getExternalCacheDirs()) {
+			if(dir != null) {
+				dirs.add(dir);
 			}
 		}
 

@@ -537,7 +537,6 @@
     <string name="pref_appearance_navbar_color_option_black">Černá</string>
     <string name="pref_appearance_navbar_color_option_primary">Primární (světlá)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Primární (tmavá)</string>
-    <string name="pref_not_supported_before_lollipop">Nepodporováno před verzí Android Lollipop</string>
     <!-- 2016-08-03 -->
     <string name="action_copy_text">Kopíruj text</string>
     <string name="action_copy_link">Kopíruj odkaz</string>
@@ -901,8 +900,6 @@
     <string name="error_post_flair_required_title">Flér je nutný</string>
     <string name="error_no_file_manager_message">Operačnímu systému v tomto zařízení chybí správce souborů kompatibilní s Android Storage Access Framework. Je-li přítomen, pak je snad vypnut.</string>
     <string name="error_no_file_manager_title">Správce souborů nenalezen</string>
-    <string name="backup_preferences_error_old_android_message">Tato funkce si žádá Android 4.4 a novější.</string>
-    <string name="backup_preferences_error_old_android_title">Systém je příliš zastaralý</string>
     <string name="backup_preferences_success">Zálohování bylo úspěšné</string>
     <string name="restore_preferences_success">Obnovení bylo úspěšné</string>
     <string name="button_restore_preferences">Obnova</string>

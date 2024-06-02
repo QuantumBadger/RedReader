@@ -357,7 +357,6 @@
     <string name="no_search_results">Ez da bilaketa emaitzarik aurkitu.</string>
     <string name="action_search_comments">Bilatu iruzkinak</string>
     <string name="pref_appearance_navbar_color_option_black">Beltza</string>
-    <string name="pref_not_supported_before_lollipop">Ez da onartzen Android Lollipop baino lehen</string>
     <string name="action_copy_text">Kopiatu testua</string>
     <string name="action_copy_link">Kopiatu esteka</string>
     <string name="mainmenu_custom_destination">Kokaleku pertsonalizatua</string>
@@ -772,8 +771,6 @@
     <string name="error_post_flair_required_title">Bereizgarria beharrezkoa</string>
     <string name="error_no_file_manager_message">Gailu honetako sistema eragileari Android Storage Access Framework-rekin bateragarria den fitxategi kudeatzailea falta zaio. Fitxategi kudeatzailea badago, baliteke desgaituta egotea.</string>
     <string name="error_no_file_manager_title">Ez dago fitxategi kudeatzailerik</string>
-    <string name="backup_preferences_error_old_android_message">Ezaugarri honek Android 4.4 edo berriagoa behar du.</string>
-    <string name="backup_preferences_error_old_android_title">Sistema zaharregia da</string>
     <string name="restore_preferences_success">Lehenerapena ondo joan da</string>
     <string name="backup_preferences_success">Babeskopia ondo joan da</string>
     <string name="button_restore_preferences">Leheneratu</string>

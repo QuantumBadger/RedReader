@@ -20,7 +20,6 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.net.Uri
-import android.os.Build
 import android.os.SystemClock
 import android.util.Base64
 import android.util.Log
@@ -31,11 +30,18 @@ import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccount
 import org.quantumbadger.redreader.account.RedditAccountManager
 import org.quantumbadger.redreader.cache.CacheRequest.RequestFailureType
-import org.quantumbadger.redreader.common.*
+import org.quantumbadger.redreader.common.AndroidCommon
+import org.quantumbadger.redreader.common.CachedStringHash
+import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.General.closeSafely
 import org.quantumbadger.redreader.common.General.readWholeStreamAsUTF8
 import org.quantumbadger.redreader.common.General.safeDismissDialog
 import org.quantumbadger.redreader.common.General.uriFromString
+import org.quantumbadger.redreader.common.GlobalConfig
+import org.quantumbadger.redreader.common.Optional
+import org.quantumbadger.redreader.common.PrefsUtility
+import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.common.RunnableOnce
 import org.quantumbadger.redreader.http.FailedRequestBody
 import org.quantumbadger.redreader.http.HTTPBackend
 import org.quantumbadger.redreader.http.HTTPBackend.RequestDetails
@@ -809,9 +815,7 @@ object RedditOAuth {
                             R.string.dialog_close
                         ) { _: DialogInterface?, _: Int -> onDone.run() }
                         alertBuilder.setOnCancelListener { onDone.run() }
-                        if (Build.VERSION.SDK_INT >= 17) {
-                            alertBuilder.setOnDismissListener { onDone.run() }
-                        }
+                        alertBuilder.setOnDismissListener { onDone.run() }
                         val context = activity.applicationContext
                         alertBuilder.setTitle(
                             context.getString(R.string.general_success)
@@ -837,9 +841,7 @@ object RedditOAuth {
                             R.string.dialog_close
                         ) { _: DialogInterface?, _: Int -> onDone.run() }
                         builder.setOnCancelListener { onDone.run() }
-                        if (Build.VERSION.SDK_INT >= 17) {
-                            builder.setOnDismissListener { onDone.run() }
-                        }
+                        builder.setOnDismissListener { onDone.run() }
                         builder.setTitle(details!!.title)
                         builder.setMessage(details.message)
                         builder.show()

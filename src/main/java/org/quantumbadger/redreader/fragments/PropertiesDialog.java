@@ -20,17 +20,19 @@ package org.quantumbadger.redreader.fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
@@ -142,13 +144,10 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		textView.setTextSize(16.0f);
 		textView.setPadding(paddingPixels, 0, paddingPixels, 0);
 		textView.setTextIsSelectable(true);
+		textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
 		prop.addView(textView);
 
 		prop.setContentDescription(title + "\n" + text);
-
-		if(Build.VERSION.SDK_INT >= 16) {
-			textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-		}
 
 		return prop;
 	}

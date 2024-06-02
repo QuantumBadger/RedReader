@@ -22,7 +22,6 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -333,16 +332,6 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 					return true;
 				}
 
-				if(Build.VERSION.SDK_INT < 19) {
-
-					DialogUtils.showDialog(
-							activity,
-							R.string.backup_preferences_error_old_android_title,
-							R.string.backup_preferences_error_old_android_message);
-
-					return true;
-				}
-
 				final TimestampUTC utc = TimestampUTC.now();
 				final String filename
 						= utc.formatFilenameSafe()
@@ -395,16 +384,6 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 					return true;
 				}
 
-				if(Build.VERSION.SDK_INT < 19) {
-
-					DialogUtils.showDialog(
-							activity,
-							R.string.backup_preferences_error_old_android_title,
-							R.string.backup_preferences_error_old_android_message);
-
-					return true;
-				}
-
 				final Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
 						.setType("*/*")
 						.addCategory(Intent.CATEGORY_OPENABLE);
@@ -440,21 +419,6 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 
 				return true;
 			});
-		}
-
-		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-
-			for(final int key : new int[] {
-					R.string.pref_appearance_navbar_color_key,
-					R.string.pref_behaviour_save_location_key}) {
-
-				final Preference pref = findPreference(getString(key));
-
-				if(pref != null) {
-					pref.setEnabled(false);
-					pref.setSummary(R.string.pref_not_supported_before_lollipop);
-				}
-			}
 		}
 
 		final Preference cacheLocationPref =

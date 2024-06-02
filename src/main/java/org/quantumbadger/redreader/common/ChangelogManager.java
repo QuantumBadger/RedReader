@@ -17,15 +17,16 @@
 
 package org.quantumbadger.redreader.common;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.AccessibilityDelegateCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+
 import org.quantumbadger.redreader.R;
 
 import java.io.BufferedReader;
@@ -111,10 +112,8 @@ public class ChangelogManager {
 
 					final TextView bullet = new TextView(context);
 					bullet.setText("•  ");
+					bullet.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
 					bulletItem.addView(bullet);
-					if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-						bullet.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-					}
 
 					final TextView text = new TextView(context);
 					text.setText(line);

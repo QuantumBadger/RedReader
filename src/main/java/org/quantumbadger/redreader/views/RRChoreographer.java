@@ -17,27 +17,47 @@
 
 package org.quantumbadger.redreader.views;
 
-import android.os.Build;
-import androidx.annotation.NonNull;
-import android.util.Log;
+import android.view.Choreographer;
 
-public abstract class RRChoreographer {
+import androidx.annotation.NonNull;
+
+public class RRChoreographer implements Choreographer.FrameCallback {
 
 	public interface Callback {
 		void doFrame(long frameTimeNanos);
 	}
 
-	@NonNull
-	public static RRChoreographer getInstance() {
+	static final RRChoreographer INSTANCE = new RRChoreographer();
 
-		if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			Log.i("RRChoreographer", "Using modern Choreographer");
-			return RRChoreographerModern.INSTANCE;
-		} else {
-			Log.i("RRChoreographer", "Using legacy Choreographer");
-			return RRChoreographerLegacy.INSTANCE;
+	private static final Choreographer CHOREOGRAPHER = Choreographer.getInstance();
+
+	private final Callback[] mCallbacks = new Callback[128];
+	private int mCallbackCount = 0;
+	private boolean mPosted = false;
+
+	private RRChoreographer() {
+	}
+
+	public void postFrameCallback(@NonNull final Callback callback) {
+		mCallbacks[mCallbackCount] = callback;
+		mCallbackCount++;
+
+		if(!mPosted) {
+			CHOREOGRAPHER.postFrameCallback(this);
+			mPosted = true;
 		}
 	}
 
-	public abstract void postFrameCallback(@NonNull final Callback callback);
+	public void doFrame(final long frameTimeNanos) {
+
+		final int callbackCount = mCallbackCount;
+		mPosted = false;
+		mCallbackCount = 0;
+
+		for(int i = 0; i < callbackCount; i++) {
+			mCallbacks[i].doFrame(frameTimeNanos);
+		}
+
+
+	}
 }

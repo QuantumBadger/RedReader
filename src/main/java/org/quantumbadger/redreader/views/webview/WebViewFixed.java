@@ -19,13 +19,12 @@ package org.quantumbadger.redreader.views.webview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import info.guardianproject.netcipher.webkit.WebkitProxy;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -33,6 +32,8 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.TorCommon;
 
 import java.util.Map;
+
+import info.guardianproject.netcipher.webkit.WebkitProxy;
 
 /**
  * Fixes the onWindowFocusChanged bug, by catching NullPointerException.
@@ -142,16 +143,7 @@ public class WebViewFixed extends WebView {
 	}
 
 	public void loadHtmlUTF8WithBaseURL(final String baseUrl, final String html) {
-
-		final String mimeType;
-
-		if(Build.VERSION.SDK_INT < 21) {
-			mimeType = "text/html";
-		} else {
-			mimeType = "text/html; charset=utf-8";
-		}
-
-		loadDataWithBaseURL(baseUrl, html, mimeType, "UTF-8", null);
+		loadDataWithBaseURL(baseUrl, html, "text/html; charset=utf-8", "UTF-8", null);
 	}
 
 	@Override

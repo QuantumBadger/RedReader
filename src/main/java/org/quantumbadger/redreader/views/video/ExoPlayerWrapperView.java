@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.views.video;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -28,10 +27,12 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.PlaybackException;
 import com.google.android.exoplayer2.Player;
@@ -41,6 +42,7 @@ import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.ui.TimeBar;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
@@ -286,10 +288,8 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				((MarginLayoutParams)mTimeTextView.getLayoutParams())
 						.setMargins(marginSidesPx, 0, marginSidesPx, marginBottomPx);
 
-				if(Build.VERSION.SDK_INT >= 19) {
-					mTimeTextView.setImportantForAccessibility(
-							IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-				}
+				mTimeTextView.setImportantForAccessibility(
+						IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
 			}
 
 			mControlView.setVisibility(GONE);

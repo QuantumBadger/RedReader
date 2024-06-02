@@ -22,7 +22,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -36,10 +35,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -118,8 +119,6 @@ public final class RedditPostView extends FlingableItemView
 	private final int
 			rrPostTitleReadCol;
 	private final int rrPostTitleCol;
-	private final int rrListItemBackgroundCol;
-	private final int rrPostCommentsButtonBackCol;
 
 	private final int mThumbnailSizePrefPixels;
 
@@ -335,14 +334,10 @@ public final class RedditPostView extends FlingableItemView
 			final TypedArray attr = context.obtainStyledAttributes(new int[] {
 					R.attr.rrPostTitleCol,
 					R.attr.rrPostTitleReadCol,
-					R.attr.rrListItemBackgroundCol,
-					R.attr.rrPostCommentsButtonBackCol
 			});
 
 			rrPostTitleCol = attr.getColor(0, 0);
 			rrPostTitleReadCol = attr.getColor(1, 0);
-			rrListItemBackgroundCol = attr.getColor(2, 0);
-			rrPostCommentsButtonBackCol = attr.getColor(3, 0);
 			attr.recycle();
 		}
 
@@ -417,22 +412,12 @@ public final class RedditPostView extends FlingableItemView
 
 	public void updateAppearance() {
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+		mOuterView.setBackgroundResource(
+				R.drawable.rr_postlist_item_selector_main);
 
-			mOuterView.setBackgroundResource(
-					R.drawable.rr_postlist_item_selector_main);
-
-			if(mCommentsButtonPref) {
-				mCommentsButton.setBackgroundResource(
-						R.drawable.rr_postlist_commentbutton_selector_main);
-			}
-
-		} else {
-			// On KitKat and lower, we can't do easily themed highlighting
-			mOuterView.setBackgroundColor(rrListItemBackgroundCol);
-			if(mCommentsButtonPref) {
-				mCommentsButton.setBackgroundColor(rrPostCommentsButtonBackCol);
-			}
+		if(mCommentsButtonPref) {
+			mCommentsButton.setBackgroundResource(
+					R.drawable.rr_postlist_commentbutton_selector_main);
 		}
 
 		if(mPost.isRead()) {

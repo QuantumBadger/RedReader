@@ -631,7 +631,6 @@
     <string name="time_day">jour</string>
     <string name="screen_orientation_portrait">Portrait</string>
     <string name="theme_name_ultrablack">Ultra noir</string>
-    <string name="pref_not_supported_before_lollipop">Non pris en charge avant Android Lollipop</string>
     <string name="pref_behaviour_skiptofrontpage_title">Afficher « À la une » au lancement</string>
     <string name="sort_blocked_subreddit_date">Par date d\'ajout</string>
     <string name="pref_cache_rerequest_postlist_age_title">Actualiser les publications si cache plus ancien que</string>

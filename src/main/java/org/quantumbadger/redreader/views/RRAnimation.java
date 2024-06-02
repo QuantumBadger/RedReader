@@ -19,8 +19,6 @@ package org.quantumbadger.redreader.views;
 
 public abstract class RRAnimation implements RRChoreographer.Callback {
 
-	private static final RRChoreographer CHOREOGRAPHER = RRChoreographer.getInstance();
-
 	private long mFirstFrameNanos = -1;
 
 	private boolean mStarted = false;
@@ -34,7 +32,7 @@ public abstract class RRAnimation implements RRChoreographer.Callback {
 
 		mStarted = true;
 
-		CHOREOGRAPHER.postFrameCallback(this);
+		RRChoreographer.INSTANCE.postFrameCallback(this);
 	}
 
 	public final void stop() {
@@ -65,7 +63,7 @@ public abstract class RRAnimation implements RRChoreographer.Callback {
 		}
 
 		if(handleFrame(frameTimeNanos - mFirstFrameNanos)) {
-			CHOREOGRAPHER.postFrameCallback(this);
+			RRChoreographer.INSTANCE.postFrameCallback(this);
 		}
 	}
 }

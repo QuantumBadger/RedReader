@@ -534,7 +534,6 @@
     <string name="pref_appearance_navbar_color_option_black">Negro</string>
     <string name="pref_appearance_navbar_color_option_primary">Primario (claro)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Primario (oscuro)</string>
-    <string name="pref_not_supported_before_lollipop">No soportado en versiones anteriores a Lollipop</string>
     <!-- 2016-08-03 -->
     <string name="action_copy_text">Copiar texto</string>
     <string name="action_copy_link">Copiar enlace</string>
@@ -879,8 +878,6 @@
     <string name="error_post_flair_required_title">Se requiere un estilo</string>
     <string name="error_no_file_manager_message">El sistema operativo de este dispositivo carece de un gestor de archivos compatible con Android Storage Access Framework. Si hay un gestor de archivos, puede estar desactivado.</string>
     <string name="error_no_file_manager_title">No hay gestor de archivos</string>
-    <string name="backup_preferences_error_old_android_message">Esta función requiere Android 4.4 o superior.</string>
-    <string name="backup_preferences_error_old_android_title">Sistema demasiado antiguo</string>
     <string name="restore_preferences_success">Restaurar con éxito</string>
     <string name="backup_preferences_success">Copia de seguridad con éxito</string>
     <string name="button_restore_preferences">Restaurar</string>

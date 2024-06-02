@@ -24,18 +24,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.util.TypedValue;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.AlbumListingActivity;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -208,10 +209,8 @@ public class LinkHandler {
 				}
 
 				case INTERNAL_BROWSER: {
-					if(PrefsUtility.pref_behaviour_usecustomtabs()
-							&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+					if(PrefsUtility.pref_behaviour_usecustomtabs()) {
 						openCustomTab(activity, normalUrl, post);
-
 					} else {
 						openInternalBrowser(activity, normalUrlString, post);
 					}
@@ -328,10 +327,8 @@ public class LinkHandler {
 			}
 		}
 
-		if(PrefsUtility.pref_behaviour_usecustomtabs()
-				&& Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+		if(PrefsUtility.pref_behaviour_usecustomtabs()) {
 			openCustomTab(activity, normalUrl, post);
-
 		} else {
 			openInternalBrowser(activity, normalUrlString, post);
 		}
@@ -532,7 +529,6 @@ public class LinkHandler {
 		activity.startActivity(intent);
 	}
 
-	@RequiresApi(18)
 	public static void openCustomTab(
 			final AppCompatActivity activity,
 			final Uri uri,

@@ -22,7 +22,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,9 +35,12 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -193,12 +195,10 @@ public class WebViewFragment extends Fragment
 				attrs.flags |= WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 				mActivity.getWindow().setAttributes(attrs);
 				mActivity.getSupportActionBar().hide();
-				if(Build.VERSION.SDK_INT >= 14) {
-					//noinspection all
-					mActivity.getWindow()
-							.getDecorView()
-							.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-				}
+				//noinspection all
+				mActivity.getWindow()
+						.getDecorView()
+						.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
 			} else {
 				final WindowManager.LayoutParams attrs = mActivity.getWindow()
 						.getAttributes();
@@ -210,12 +210,10 @@ public class WebViewFragment extends Fragment
 				attrs.flags &= ~WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON;
 				mActivity.getWindow().setAttributes(attrs);
 				mActivity.getSupportActionBar().show();
-				if(Build.VERSION.SDK_INT >= 14) {
-					//noinspection all
-					mActivity.getWindow()
-							.getDecorView()
-							.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-				}
+				//noinspection all
+				mActivity.getWindow()
+						.getDecorView()
+						.setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
 			}
 
 		});
@@ -341,9 +339,7 @@ public class WebViewFragment extends Fragment
 									mActivity,
 									Uri.parse(url),
 									true);
-						} else if(PrefsUtility.pref_behaviour_usecustomtabs()
-								&& Build.VERSION.SDK_INT
-										>= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+						} else if(PrefsUtility.pref_behaviour_usecustomtabs()) {
 							LinkHandler.openCustomTab(
 									mActivity,
 									Uri.parse(url),

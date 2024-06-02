@@ -20,12 +20,13 @@ package org.quantumbadger.redreader.common;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
@@ -323,14 +324,7 @@ public final class PrefsUtility {
 			@NonNull final Locale locale) {
 
 		Locale.setDefault(locale);
-
-		if(Build.VERSION.SDK_INT >= 17) {
-			conf.setLocale(locale);
-		} else {
-			//noinspection deprecation
-			conf.locale = locale;
-		}
-
+		conf.setLocale(locale);
 	}
 
 	public static NeverAlwaysOrWifiOnly appearance_thumbnails_show() {

@@ -18,10 +18,11 @@
 package org.quantumbadger.redreader.settings;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -49,9 +50,7 @@ public class SettingsActivity extends BaseActivity {
 
 		super.onCreate(savedInstanceState);
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			getWindow().setNavigationBarColor(Color.rgb(0x55, 0x55, 0x55));
-		}
+		getWindow().setNavigationBarColor(Color.rgb(0x55, 0x55, 0x55));
 
 		setBaseActivityListing(R.layout.single_fragment_layout);
 

@@ -15,7 +15,6 @@
     <string name="time_2hr">2 Jam</string>
     <string name="time_3hr">3 Jam</string>
     <string name="action_back">Kembali</string>
-    <string name="pref_not_supported_before_lollipop">Tidak menyokong peranti Android sebelum Lolipop</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Utama (gelap)</string>
     <string name="pref_appearance_navbar_color_option_primary">Utama (cerah)</string>
     <string name="pref_appearance_navbar_color_option_black">Hitam</string>

@@ -27,7 +27,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
@@ -137,11 +139,9 @@ public class BugReportActivity extends BaseActivity {
 		intent.putExtra(Intent.EXTRA_SUBJECT, "Bug Report");
 		intent.putExtra(Intent.EXTRA_TEXT, sb.toString());
 
-		if(Build.VERSION.SDK_INT >= 15) {
-			final Intent emailSelectorIntent = new Intent(Intent.ACTION_SENDTO);
-			emailSelectorIntent.setData(Uri.parse("mailto:"));
-			intent.setSelector(emailSelectorIntent);
-		}
+		final Intent emailSelectorIntent = new Intent(Intent.ACTION_SENDTO);
+		emailSelectorIntent.setData(Uri.parse("mailto:"));
+		intent.setSelector(emailSelectorIntent);
 
 		try {
 			context.startActivity(Intent.createChooser(

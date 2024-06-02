@@ -502,7 +502,6 @@
     <string name="pref_menus_link_context_items_title">Link-Kontextmenü</string>
     <string name="pref_menus_subreddit_context_items_title">Subreddit Aktionsmenü</string>
     <string name="pref_network_tor_title">TOR benutzen</string>
-    <string name="pref_not_supported_before_lollipop">Vor Android Lollipop nicht unterstützt</string>
     <string name="props_caption">Bildunterschrift</string>
     <string name="props_image_title">Bildinformationen</string>
     <string name="props_resolution">Auflösung</string>
@@ -639,7 +638,6 @@
     <string name="error_imgur_400_title">Imgur Fehler</string>
     <string name="error_tor_connection_title">Tor Fehler</string>
     <string name="error_no_file_manager_title">Kein Dateimanager</string>
-    <string name="backup_preferences_error_old_android_title">System zu alt</string>
     <string name="restore_preferences_error_version_warning_title">Warnung</string>
     <string name="restore_preferences_error_invalid_file_version_message">Die ausgewählte Datei wurde von einer neueren Version von RedReader erstellt und kann deswegen nicht geöffnet werden.</string>
     <string name="restore_preferences_error_invalid_file_title">Ungültige Datei</string>

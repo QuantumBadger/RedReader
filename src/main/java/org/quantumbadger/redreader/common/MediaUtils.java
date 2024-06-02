@@ -23,8 +23,8 @@ import android.media.MediaFormat;
 import android.media.MediaMuxer;
 import android.os.Build;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import java.io.Closeable;
 import java.io.File;
@@ -41,7 +41,6 @@ public final class MediaUtils {
 
 	private MediaUtils() {}
 
-	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 	public static void muxFiles(
 			@NonNull final File outputFile,
 			@NonNull final File[] inputFiles,

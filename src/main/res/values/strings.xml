@@ -834,7 +834,6 @@
 	<string name="pref_appearance_navbar_color_option_primary">Primary (light)</string>
 	<string name="pref_appearance_navbar_color_option_primarydark">Primary (dark)</string>
 
-	<string name="pref_not_supported_before_lollipop">Not supported before Android Lollipop</string>
 
 	<!-- 2016-08-03 -->
 	<string name="action_copy_text">Copy Text</string>
@@ -1530,8 +1529,6 @@
 	<string name="backup_preferences_success">Backup successful</string>
 	<string name="restore_preferences_success">Restore successful</string>
 
-	<string name="backup_preferences_error_old_android_title">System too old</string>
-	<string name="backup_preferences_error_old_android_message">This feature requires Android 4.4 or above.</string>
 
 	<string name="error_no_file_manager_title">No file manager</string>
 	<string name="error_no_file_manager_message">The operating system on this device is missing a file manager compatible with the Android Storage Access Framework. If a file manager is present, it may be disabled.</string>

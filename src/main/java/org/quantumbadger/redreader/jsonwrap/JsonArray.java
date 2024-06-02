@@ -41,7 +41,7 @@ public final class JsonArray extends JsonValue implements Iterable<JsonValue> {
 			throw new JsonParseException(
 					parser,
 					"Expecting array start, got " + parser.currentToken(),
-					parser.getCurrentLocation());
+					parser.currentLocation());
 		}
 
 		parser.nextToken();

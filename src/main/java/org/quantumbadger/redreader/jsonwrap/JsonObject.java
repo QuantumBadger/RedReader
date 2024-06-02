@@ -47,7 +47,7 @@ public final class JsonObject extends JsonValue
 			throw new JsonParseException(
 					parser,
 					"Expecting object start, got " + parser.currentToken(),
-					parser.getCurrentLocation());
+					parser.currentLocation());
 		}
 
 		parser.nextToken();
@@ -58,10 +58,10 @@ public final class JsonObject extends JsonValue
 
 			if(jt != JsonToken.FIELD_NAME) {
 				throw new JsonParseException(parser, "Expecting field name, got " + jt.name(),
-						parser.getCurrentLocation());
+						parser.currentLocation());
 			}
 
-			final String fieldName = parser.getCurrentName();
+			final String fieldName = parser.currentName();
 
 			parser.nextToken();
 			final JsonValue value = JsonValue.parse(parser);

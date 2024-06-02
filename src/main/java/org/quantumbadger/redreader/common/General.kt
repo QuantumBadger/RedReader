@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.common
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
@@ -704,12 +705,17 @@ object General {
 
         // http://stackoverflow.com/a/3419987/1526861
         val intent = activity.intent
-        activity.overridePendingTransition(0, 0)
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         activity.finish()
-        activity.overridePendingTransition(0, 0)
+        activity.overridePendingTransitionWithNoAnimation()
         activity.startActivity(intent)
+        activity.overridePendingTransitionWithNoAnimation()
     }
+
+	@Suppress("DEPRECATION")
+	private fun Activity.overridePendingTransitionWithNoAnimation() {
+		overridePendingTransition(0, 0)
+	}
 
 	@JvmStatic
 	fun safeDismissDialog(dialog: Dialog) {

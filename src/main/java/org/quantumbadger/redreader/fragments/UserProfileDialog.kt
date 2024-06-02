@@ -19,12 +19,12 @@ package org.quantumbadger.redreader.fragments
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ScrollView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
 import com.google.android.material.card.MaterialCardView
@@ -33,7 +33,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textview.MaterialTextView
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccountManager
-import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.activities.BugReportActivity
 import org.quantumbadger.redreader.activities.OAuthLoginActivity
 import org.quantumbadger.redreader.activities.PMSendActivity
@@ -60,6 +59,7 @@ import org.quantumbadger.redreader.reddit.url.UserPostListingURL
 import org.quantumbadger.redreader.views.LoadingSpinnerView
 import org.quantumbadger.redreader.views.liststatus.ErrorView
 import java.io.IOException
+import java.lang.Void
 import java.net.URISyntaxException
 import java.text.NumberFormat
 import java.util.*
@@ -387,7 +387,7 @@ object UserProfileDialog {
 									.setMessage(activity.getString(R.string.block_permission_denied_message))
 									.setPositiveButton(activity.getString(R.string.block_permission_denied_relogin)) { dialog, which ->
 										//perform a re-logion
-										launchAndCompleteLogin(activity, context)
+										launchAndCompleteLogin(activity)
 									}
 									.setNegativeButton(activity.getString(R.string.dialog_cancel), null)
 									.show()
@@ -408,19 +408,15 @@ object UserProfileDialog {
 		)
 	}
 
-	private fun launchAndCompleteLogin(activity: AppCompatActivity, context: AppCompatActivity) {
-		val loginIntent = Intent(context, OAuthLoginActivity::class.java)
-		//let OAuthLoginActivity call back the url and code 123, then do completeLogin
-		(activity as BaseActivity).startActivityForResultWithCallback(
-				loginIntent
-		) { resultCode: Int, data: Intent? ->
-			if (data != null) {
-				if (resultCode == 123 && data.hasExtra("url")) {
-					val uri = Uri.parse(data.getStringExtra("url"))
-					completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
-				}
+	private fun launchAndCompleteLogin(activity: AppCompatActivity) {
+		lateinit var launcher: ActivityResultLauncher<Void>
+		launcher = activity.registerForActivityResult(OAuthLoginActivity.ResultContract()) { uri ->
+			launcher.unregister()
+			if (uri != null) {
+				completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
 			}
 		}
+		launcher.launch(null)
 	}
 
 	@Throws(URISyntaxException::class)

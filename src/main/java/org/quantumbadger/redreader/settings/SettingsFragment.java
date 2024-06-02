@@ -22,12 +22,16 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
@@ -73,6 +77,48 @@ import java.util.Objects;
 public final class SettingsFragment extends PreferenceFragmentCompat {
 
 	@StringRes private int mTitle;
+
+	private ActivityResultLauncher<String> mCreateDocumentActivityLauncher;
+	private ActivityResultLauncher<String[]> mOpenDocumentActivityLauncher;
+
+	@Override
+	public void onCreate(@Nullable final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mCreateDocumentActivityLauncher = registerForActivityResult(
+				new ActivityResultContracts.CreateDocument("application/vnd.redreader.prefsbackup"),
+				this::onCreatedBackupFile);
+		mOpenDocumentActivityLauncher = registerForActivityResult(
+				new ActivityResultContracts.OpenDocument(),
+				this::onOpenedBackupFile);
+	}
+
+	private void onCreatedBackupFile(@Nullable final Uri uri) {
+		if(uri == null) {
+			return;
+		}
+		final Activity activity = requireActivity();
+		final ContentResolver contentResolver = activity.getContentResolver();
+		PrefsBackup.backup(
+				(BaseActivity) activity,
+				() -> Objects.requireNonNull(contentResolver.openOutputStream(uri)),
+				() -> General.quickToast(
+						requireContext(),
+						R.string.backup_preferences_success));
+	}
+
+	private void onOpenedBackupFile(@Nullable final Uri uri) {
+		if(uri == null) {
+			return;
+		}
+		final Activity activity = requireActivity();
+		final ContentResolver contentResolver = activity.getContentResolver();
+		PrefsBackup.restore(
+				(BaseActivity) activity,
+				() -> Objects.requireNonNull(contentResolver.openInputStream(uri)),
+				() -> General.quickToast(
+						requireContext(),
+						R.string.restore_preferences_success));
+	}
 
 	@Override
 	public void onResume() {
@@ -340,34 +386,9 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 						= utc.formatFilenameSafe()
 								+ ".rr_prefs_backup";
 
-				//noinspection SpellCheckingInspection
-				final Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
-						.setType("application/vnd.redreader.prefsbackup")
-						.putExtra(Intent.EXTRA_TITLE, filename)
-						.addCategory(Intent.CATEGORY_OPENABLE);
-
 				try {
-					activity.startActivityForResultWithCallback(
-							intent,
-							(resultCode, data) -> {
-
-								if(data == null || data.getData() == null) {
-									return;
-								}
-
-								final ContentResolver contentResolver
-										= activity.getContentResolver();
-
-								PrefsBackup.backup(
-										activity,
-										() -> contentResolver.openOutputStream(data.getData()),
-										() -> General.quickToast(
-												context,
-												R.string.backup_preferences_success));
-							});
-
+					mCreateDocumentActivityLauncher.launch(filename);
 				} catch(final ActivityNotFoundException e) {
-
 					DialogUtils.showDialog(
 							activity,
 							R.string.error_no_file_manager_title,
@@ -387,33 +408,9 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 					return true;
 				}
 
-				final Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
-						.setType("*/*")
-						.addCategory(Intent.CATEGORY_OPENABLE);
-
 				try {
-					activity.startActivityForResultWithCallback(
-							intent,
-							(resultCode, data) -> {
-
-								if(data == null || data.getData() == null) {
-									return;
-								}
-
-								final ContentResolver contentResolver
-										= activity.getContentResolver();
-
-								PrefsBackup.restore(
-										activity,
-										() -> contentResolver.openInputStream(data.getData()),
-										() -> General.quickToast(
-												context,
-												R.string.restore_preferences_success));
-
-							});
-
+					mOpenDocumentActivityLauncher.launch(new String[]{});
 				} catch(final ActivityNotFoundException e) {
-
 					DialogUtils.showDialog(
 							activity,
 							R.string.error_no_file_manager_title,

@@ -17,7 +17,6 @@
 
 package org.quantumbadger.redreader.activities;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -25,7 +24,6 @@ import android.os.Bundle;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.quantumbadger.redreader.R;
@@ -50,17 +48,10 @@ public abstract class BaseActivity extends AppCompatActivity
 	private final HashMap<Integer, PermissionCallback> mPermissionRequestCallbacks
 			= new HashMap<>();
 
-	private final HashMap<Integer, ActivityResultCallback> mActivityResultCallbacks
-			= new HashMap<>();
-
 	public interface PermissionCallback {
 		void onPermissionGranted();
 
 		void onPermissionDenied();
-	}
-
-	public interface ActivityResultCallback {
-		void onActivityResult(int resultCode, @Nullable Intent data);
 	}
 
 	public void closeAllExceptMain() {
@@ -168,33 +159,6 @@ public abstract class BaseActivity extends AppCompatActivity
 		} else {
 			callback.onPermissionDenied();
 		}
-	}
-
-	public final void startActivityForResultWithCallback(
-			@NonNull final Intent intent,
-			@NonNull final ActivityResultCallback callback) {
-
-		final int requestCode = mRequestIdGenerator.incrementAndGet();
-		mActivityResultCallbacks.put(requestCode, callback);
-		startActivityForResult(intent, requestCode);
-	}
-
-	@Override
-	protected final void onActivityResult(
-			final int requestCode,
-			final int resultCode,
-			@Nullable final Intent data) {
-
-		super.onActivityResult(requestCode, resultCode, data);
-
-		final ActivityResultCallback callback
-				= mActivityResultCallbacks.remove(requestCode);
-
-		if (callback == null) {
-			return;
-		}
-
-		callback.onActivityResult(resultCode, data);
 	}
 
 	private void setOrientationFromPrefs() {

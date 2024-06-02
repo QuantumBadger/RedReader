@@ -17,22 +17,20 @@
 package org.quantumbadger.redreader.adapters
 
 import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textview.MaterialTextView
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccountManager
-import org.quantumbadger.redreader.activities.OAuthLoginActivity
 import org.quantumbadger.redreader.common.BetterSSB
 import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.UriString
@@ -40,7 +38,7 @@ import org.quantumbadger.redreader.reddit.api.RedditOAuth.needsRelogin
 import org.quantumbadger.redreader.viewholders.VH1Text
 
 
-class AccountListAdapter(private val context: AppCompatActivity, private val fragment: Fragment) :
+class AccountListAdapter(private val context: AppCompatActivity, private val loginActivityLauncher: ActivityResultLauncher<Void>) :
 	HeaderRecyclerAdapter<RecyclerView.ViewHolder?>() {
 	private val accounts = RedditAccountManager.getInstance(context).accounts
 	private val rrIconAdd: Drawable?
@@ -82,7 +80,7 @@ class AccountListAdapter(private val context: AppCompatActivity, private val fra
 			.setCancelable(true)
 			.setPositiveButton(
 				R.string.dialog_continue
-			) { _: DialogInterface?, _: Int -> launchLogin() }
+			) { _: DialogInterface?, _: Int -> loginActivityLauncher.launch(null) }
 			.setNegativeButton(
 				R.string.dialog_close
 			) { _: DialogInterface?, _: Int -> }
@@ -94,11 +92,6 @@ class AccountListAdapter(private val context: AppCompatActivity, private val fra
 				LinkHandler.onLinkClicked(this@AccountListAdapter.context, UriString("https://redreader.org/loginhelp/"))
 			}
 		}
-	}
-
-	private fun launchLogin() {
-		val loginIntent = Intent(context, OAuthLoginActivity::class.java)
-		fragment.startActivityForResult(loginIntent, 123)
 	}
 
 	override fun onBindContentItemViewHolder(

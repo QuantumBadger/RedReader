@@ -28,7 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -64,6 +64,7 @@ import org.quantumbadger.redreader.views.webview.WebViewFixed;
 
 import java.net.URISyntaxException;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -123,8 +124,6 @@ public class WebViewFragment extends Fragment
 			final Bundle savedInstanceState) {
 
 		mActivity = (BaseActivity)getActivity();
-
-		CookieSyncManager.createInstance(mActivity);
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment, null);
 
@@ -278,13 +277,15 @@ public class WebViewFragment extends Fragment
 			@Override
 			public boolean shouldOverrideUrlLoading(
 					final WebView view,
-					final String url) {
+					final WebResourceRequest request) {
 
-				if(url == null) {
+				if(request == null) {
 					return false;
 				}
 
-				if(url.startsWith("data:")) {
+				final Uri url = request.getUrl();
+
+				if (Objects.equals(url.getScheme(), "data")) {
 					// Prevent imgur bug where we're directed to some random data URI
 					return true;
 				}
@@ -307,8 +308,8 @@ public class WebViewFragment extends Fragment
 					}
 				} else {
 
-					if(RedditURLParser.parse(Uri.parse(url)) != null) {
-						LinkHandler.onLinkClicked(mActivity, new UriString(url), false);
+					if(RedditURLParser.parse(url) != null) {
+						LinkHandler.onLinkClicked(mActivity, UriString.from(url), false);
 					} else {
 						// When websites recognize the user agent is on Android, they sometimes
 						// redirect or offer deep links into native apps. These come in two flavors:
@@ -328,29 +329,30 @@ public class WebViewFragment extends Fragment
 						// fail, in which case the logic falls through and treats these URLs as
 						// HTTP URLs.
 
-						if (url.startsWith("intent:")) {
+						if (Objects.equals(url.getScheme(), "intent")) {
 							if (onEncounteredIntentUrl(url)) {
 								return true;
 							}
-						} else if (!url.startsWith("http:") && !url.startsWith("https:")) {
+						} else if (!Objects.equals(url.getScheme(), "http")
+								&& !Objects.equals(url.getScheme(), "https")) {
 							if (onEncounteredCustomSchemeUrl(url)) {
 								return true;
 							}
 						}
 
-						if(!PrefsUtility.pref_behaviour_useinternalbrowser()) {
+						if (!PrefsUtility.pref_behaviour_useinternalbrowser()) {
 							LinkHandler.openWebBrowser(
 									mActivity,
-									Uri.parse(url),
+									url,
 									true);
-						} else if(PrefsUtility.pref_behaviour_usecustomtabs()) {
+						} else if (PrefsUtility.pref_behaviour_usecustomtabs()) {
 							LinkHandler.openCustomTab(
 									mActivity,
-									Uri.parse(url),
+									url,
 									null);
 						} else {
-							webView.loadUrl(url);
-							currentUrl = new UriString(url);
+							webView.loadUrl(url.toString());
+							currentUrl = UriString.from(url);
 						}
 					}
 				}
@@ -361,10 +363,10 @@ public class WebViewFragment extends Fragment
 			/**
 			 * Assumes the {@code url} starts with `intent://`
 			 */
-			private boolean onEncounteredIntentUrl(final String url) {
+			private boolean onEncounteredIntentUrl(final Uri url) {
 				final Intent nativeAppIntent;
 				try {
-					nativeAppIntent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+					nativeAppIntent = Intent.parseUri(url.toString(), Intent.URI_INTENT_SCHEME);
 				} catch (final URISyntaxException e) {
 					return false;
 				}
@@ -387,8 +389,8 @@ public class WebViewFragment extends Fragment
 			 * Assumes the {@code url} starts with something other than `intent://`, `http://` or
 			 * `https://`
 			 */
-			private boolean onEncounteredCustomSchemeUrl(final String url) {
-				final Intent nativeAppIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+			private boolean onEncounteredCustomSchemeUrl(final Uri url) {
+				final Intent nativeAppIntent = new Intent(Intent.ACTION_VIEW, url);
 				try {
 					startActivity(nativeAppIntent);
 					return true;
@@ -521,7 +523,7 @@ public class WebViewFragment extends Fragment
 		webView.destroy();
 
 		final CookieManager cookieManager = CookieManager.getInstance();
-		cookieManager.removeAllCookie();
+		cookieManager.removeAllCookies(null);
 
 		super.onDestroyView();
 	}

@@ -24,6 +24,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -34,8 +35,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.text.TextUtilsCompat;
-import androidx.core.view.ViewCompat;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GlobalExceptionHandler;
@@ -138,8 +138,8 @@ public abstract class BaseActivity extends AppCompatActivity
 			mActionbarTitleOuterView.setImportantForAccessibility(
 					View.IMPORTANT_FOR_ACCESSIBILITY_YES);
 
-			if(TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault())
-					== ViewCompat.LAYOUT_DIRECTION_RTL) {
+			if(TextUtils.getLayoutDirectionFromLocale(Locale.getDefault())
+					== View.LAYOUT_DIRECTION_RTL) {
 
 				mActionbarBackIconView.setImageResource(R.drawable.ic_action_forward_dark);
 			}

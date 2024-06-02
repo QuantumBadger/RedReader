@@ -23,9 +23,11 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
@@ -70,7 +72,7 @@ public class SessionListAdapter extends HeaderRecyclerAdapter<RecyclerView.ViewH
 
 		final TypedArray attr
 				= context.obtainStyledAttributes(new int[] {R.attr.rrIconRefresh,});
-		rrIconRefresh = ContextCompat.getDrawable(context, attr.getResourceId(0, 0));
+		rrIconRefresh = AppCompatResources.getDrawable(context, attr.getResourceId(0, 0));
 		attr.recycle();
 	}
 

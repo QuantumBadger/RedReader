@@ -27,12 +27,15 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.content.res.AppCompatResources;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -159,19 +162,19 @@ public class MainMenuListingManager {
 					R.attr.rrIconAccountSearch
 			});
 
-			rrIconPerson = ContextCompat.getDrawable(activity, attr.getResourceId(0, 0));
-			rrIconEnvOpen = ContextCompat.getDrawable(activity, attr.getResourceId(1, 0));
-			rrIconSentMessages = ContextCompat.getDrawable(activity, attr.getResourceId(2,0));
-			rrIconSend = ContextCompat.getDrawable(activity, attr.getResourceId(3, 0));
-			rrIconStarFilled = ContextCompat.getDrawable(
+			rrIconPerson = AppCompatResources.getDrawable(activity, attr.getResourceId(0, 0));
+			rrIconEnvOpen = AppCompatResources.getDrawable(activity, attr.getResourceId(1, 0));
+			rrIconSentMessages = AppCompatResources.getDrawable(activity, attr.getResourceId(2,0));
+			rrIconSend = AppCompatResources.getDrawable(activity, attr.getResourceId(3, 0));
+			rrIconStarFilled = AppCompatResources.getDrawable(
 					activity,
 					attr.getResourceId(4, 0));
-			rrIconCross = ContextCompat.getDrawable(activity, attr.getResourceId(5, 0));
-			rrIconUpvote = ContextCompat.getDrawable(activity, attr.getResourceId(6, 0));
-			rrIconDownvote = ContextCompat.getDrawable(
+			rrIconCross = AppCompatResources.getDrawable(activity, attr.getResourceId(5, 0));
+			rrIconUpvote = AppCompatResources.getDrawable(activity, attr.getResourceId(6, 0));
+			rrIconDownvote = AppCompatResources.getDrawable(
 					activity,
 					attr.getResourceId(7, 0));
-			rrIconAccountSearch = Objects.requireNonNull(ContextCompat.getDrawable(
+			rrIconAccountSearch = Objects.requireNonNull(AppCompatResources.getDrawable(
 					activity,
 					attr.getResourceId(8, 0)));
 

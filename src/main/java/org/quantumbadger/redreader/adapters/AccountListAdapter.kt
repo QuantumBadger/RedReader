@@ -25,7 +25,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -47,9 +47,9 @@ class AccountListAdapter(private val context: AppCompatActivity, private val fra
 
 	init {
 		val attr = context.obtainStyledAttributes(intArrayOf(R.attr.rrIconAdd, R.attr.rrIconPerson))
-		rrIconAdd = ContextCompat.getDrawable(context, attr.getResourceId(0, 0))
+		rrIconAdd = AppCompatResources.getDrawable(context, attr.getResourceId(0, 0))
 		//noinspection ResourceType: bug in Lint
-		rrIconUser = ContextCompat.getDrawable(context, attr.getResourceId(1, 0))
+		rrIconUser = AppCompatResources.getDrawable(context, attr.getResourceId(1, 0))
 		attr.recycle()
 	}
 

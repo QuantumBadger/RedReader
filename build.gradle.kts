@@ -34,6 +34,7 @@ dependencies {
 	implementation(libs.androidx.preference)
 	implementation(libs.androidx.recyclerview)
 	implementation(libs.androidx.swiperefreshlayout)
+	implementation(libs.androidx.window)
 
 	implementation(libs.google.flexbox)
 	implementation(libs.google.material)

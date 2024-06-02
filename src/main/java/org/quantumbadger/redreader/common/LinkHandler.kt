@@ -196,7 +196,7 @@ object LinkHandler {
 				RedditURLParser.SUBREDDIT_POST_LISTING_URL, RedditURLParser.MULTIREDDIT_POST_LISTING_URL, RedditURLParser.USER_POST_LISTING_URL, RedditURLParser.SEARCH_POST_LISTING_URL, RedditURLParser.UNKNOWN_POST_LISTING_URL -> {
 					val intent = Intent(activity, PostListingActivity::class.java)
 					intent.setData(redditURL.generateJsonUri())
-					activity.startActivityForResult(intent, 1)
+					activity.startActivity(intent)
 					return
 				}
 
@@ -206,7 +206,7 @@ object LinkHandler {
 						CommentListingActivity::class.java
 					)
 					intent.setData(redditURL.generateJsonUri())
-					activity.startActivityForResult(intent, 1)
+					activity.startActivity(intent)
 					return
 				}
 
@@ -227,7 +227,7 @@ object LinkHandler {
 						intent.putExtra(PMSendActivity.EXTRA_TEXT, cmUrl.message)
 					}
 
-					activity.startActivityForResult(intent, 1)
+					activity.startActivity(intent)
 					return
 				}
 

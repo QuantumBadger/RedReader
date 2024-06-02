@@ -509,7 +509,7 @@ object RedditPostActions {
 					val intent = Intent(activity, PostListingActivity::class.java)
 					intent.data = SubredditPostListURL.getSubreddit(post.src.subreddit)
 						.generateJsonUri()
-					activity.startActivityForResult(intent, 1)
+					activity.startActivity(intent)
 				} catch (e: InvalidSubredditNameException) {
 					Toast.makeText(
 						activity,

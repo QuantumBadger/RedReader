@@ -100,8 +100,7 @@ public class LinkDetailsView extends FrameLayout {
 		border.getPaint().setStrokeWidth(borderPx);
 		border.getPaint().setStyle(Paint.Style.STROKE);
 
-		//noinspection deprecation
-		setBackgroundDrawable(border);
+		setBackground(border);
 
 		setOnTouchListener((v, event) -> {
 

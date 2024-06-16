@@ -1,3 +1,6 @@
+/Alpha 353 (2024-06-16)
+Add Submitted Comments as an optional main menu user item (thanks to folkemat)
+
 /Alpha 352 (2024-06-16)
 Dependency updates and reorganisation (thanks to Alexey Rochev)
 Migrating from ExoPlayer to Media3 (thanks to Alexey Rochev)

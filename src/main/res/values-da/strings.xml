@@ -587,6 +587,7 @@
     <string name="pref_appearance_navbar_color_option_black">Sort</string>
     <string name="pref_appearance_navbar_color_option_primary">Primær (lys)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Primær (mørk)</string>
+    <string name="pref_not_supported_before_lollipop">"Ikke supporteret  før Android Lollipop"</string>
     <string name="action_copy_text">Kopiér Tekst</string>
     <string name="action_copy_link">Kopiér Link</string>
     <string name="pref_behaviour_postsort">Standard oplægssortering</string>

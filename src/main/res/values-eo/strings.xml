@@ -536,6 +536,7 @@
     <string name="pref_appearance_navbar_color_option_black">Nigra</string>
     <string name="pref_appearance_navbar_color_option_primary">Ĉefa (hela)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Ĉefa (malhela)</string>
+    <string name="pref_not_supported_before_lollipop">Ne subtenata antaŭ Android Lollipop (5)</string>
     <!-- 2016-08-03 -->
     <string name="action_copy_text">Kopii tekston</string>
     <string name="action_copy_link">Kopii ligilon</string>
@@ -883,6 +884,7 @@
     <string name="prefs_category_backup_restore">Savkopio/Restaŭro</string>
     <string name="pref_item_restore_preferences_title">Agordoj pri restaŭrado</string>
     <string name="button_restore_preferences">Restaŭri</string>
+    <string name="backup_preferences_error_old_android_message">Ĉi tiu funkcio bezonas version 4.4 aŭ pli novan de Android.</string>
     <string name="button_continue_anyway">Daŭrigi malgraŭ tio</string>
     <string name="restore_preferences_error_invalid_file_title">Nevalida dosiero</string>
     <string name="error_content_blocker_title">Enhavoblokilo troviĝis</string>
@@ -891,6 +893,7 @@
     <string name="error_tor_connection_title">Eraro de Tor</string>
     <string name="error_no_file_manager_title">Neniu dosieradministrilo</string>
     <string name="error_imgur_400_title">Eraro de Imgur</string>
+    <string name="backup_preferences_error_old_android_title">Sistemo estas tro malnova</string>
     <string name="button_cancel">Nuligi</string>
     <string name="restore_preferences_error_version_warning_title">Averto</string>
     <string name="sort_posts_new_year">Novaj: ĉi-jare</string>

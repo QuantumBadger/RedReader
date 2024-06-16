@@ -540,6 +540,7 @@
     <string name="pref_appearance_navbar_color_option_black">Hitam</string>
     <string name="pref_appearance_navbar_color_option_primary">Utama (terang)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Utama (gelap)</string>
+    <string name="pref_not_supported_before_lollipop">Tidak didukung sebelum Android Lollipop</string>
     <!-- 2016-08-03 -->
     <string name="action_copy_text">Salin Teks</string>
     <string name="action_copy_link">Salin Tautan</string>
@@ -885,6 +886,8 @@
     <string name="error_post_flair_required_title">Membutuhkan flair</string>
     <string name="error_no_file_manager_message">Sistem oprasi pada perangkat ini tidak memiliki pengelola berkas yang kompatibel dengan Android Storage Access Framework. Jika pengelola berkas tersedia, kemungkinan dinonaktifkan.</string>
     <string name="error_no_file_manager_title">Pengelola berkas tidak ada</string>
+    <string name="backup_preferences_error_old_android_message">Fitur ini membutuhkan Android 4.4 atau lebih baru.</string>
+    <string name="backup_preferences_error_old_android_title">Sistem terlalu tua</string>
     <string name="restore_preferences_success">Pemulihan berhasil</string>
     <string name="backup_preferences_success">Pencadangan berhasil</string>
     <string name="button_restore_preferences">Pulihkan</string>

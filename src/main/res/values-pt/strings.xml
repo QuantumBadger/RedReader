@@ -314,6 +314,7 @@
     <string name="prefs_category_behaviour">Comportamento</string>
     <string name="prefs_category_appearance">Aparência</string>
     <string name="prefs_category_about">Sobre</string>
+    <string name="pref_not_supported_before_lollipop">Não suportado em versões anteriores ao Android Lollipop</string>
     <string name="pref_network_tor_title">Usar TOR (experimental)</string>
     <string name="pref_network_https_title">Habilitar HTTPS</string>
     <string name="pref_menus_post_toolbar_items_title">Barra Lateral do Post</string>

@@ -1,3 +1,7 @@
+/Alpha 352 (2024-06-16)
+Dependency updates and reorganisation (thanks to Alexey Rochev)
+Migrating from ExoPlayer to Media3 (thanks to Alexey Rochev)
+
 /Alpha 351 (2024-06-01)
 Minimum supported Android version is now 5.0
 

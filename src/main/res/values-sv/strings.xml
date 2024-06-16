@@ -581,6 +581,7 @@
     <string name="load_more_comments_failed_unknown_url_type">Kan inte ladda fler kommentarer: okänd URL-typ.</string>
     <string name="theme_name_ultrablack">Ultrasvart</string>
     <string name="pm_reply_done">Svar skickat.</string>
+    <string name="pref_not_supported_before_lollipop">Stöds inte tidigare än Android Lollipop</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Primär (mörk)</string>
     <string name="error_upload_fail_imgur_title">Uppladdning misslyckades</string>
     <string name="error_parse_imgur_title">Tolkningsfel</string>

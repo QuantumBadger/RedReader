@@ -433,6 +433,7 @@
     <string name="action_search_comments">Cerca Commenti</string>
     <string name="pref_appearance_navbar_color_title">Colore barra di stato e di navigazione</string>
     <string name="pref_appearance_navbar_color_option_black">Nero</string>
+    <string name="pref_not_supported_before_lollipop">Non supportata per versioni inferiori ad Android Lollipop</string>
     <string name="action_copy_text">Copia Testo</string>
     <string name="action_copy_link">Copia Link</string>
     <string name="pref_behaviour_postsort">Post (predefinito)</string>
@@ -738,6 +739,8 @@
     <string name="error_post_flair_required_title">Flair richiesto</string>
     <string name="error_no_file_manager_message">Il sistema operativo del dispositivo non ha un file manager compatibile con l\'Android Storage Access Framework. Se un file manager è presente, potrebbe essere disabilitato.</string>
     <string name="error_no_file_manager_title">Nessun file manager</string>
+    <string name="backup_preferences_error_old_android_message">Questa funzione richiede Android 4.4 o superiore.</string>
+    <string name="backup_preferences_error_old_android_title">Versione android troppo vecchia</string>
     <string name="restore_preferences_success">Ripristino avvenuto</string>
     <string name="backup_preferences_success">Backup avvenuto</string>
     <string name="button_restore_preferences">Ripristina</string>

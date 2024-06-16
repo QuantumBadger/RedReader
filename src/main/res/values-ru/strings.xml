@@ -451,6 +451,7 @@
     <string name="pref_appearance_navbar_color_option_black">Черный</string>
     <string name="pref_appearance_navbar_color_option_primary">Основной (светлый)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Основной (темный)</string>
+    <string name="pref_not_supported_before_lollipop">Не поддерживается на версиях Android ниже Lollipop</string>
     <string name="action_copy_text">Копировать текст</string>
     <string name="action_copy_link">Скопировать ссылку</string>
     <string name="pref_behaviour_postsort">Публикации (по умолчанию)</string>
@@ -772,6 +773,8 @@
     <string name="error_post_flair_required_title">Требуется вкус</string>
     <string name="error_no_file_manager_message">На этом устройстве отсутствует файловый менеджер, совместимый с Android Storage Access Framework. Если файловый менеджер присутствует, возможно он отключен.</string>
     <string name="error_no_file_manager_title">Нет файлового менеджера</string>
+    <string name="backup_preferences_error_old_android_message">Эта функция требует Android 4.4 или выше.</string>
+    <string name="backup_preferences_error_old_android_title">Система слишком старая</string>
     <string name="restore_preferences_success">Восстановлено успешно</string>
     <string name="backup_preferences_success">Резервное копирование успешно</string>
     <string name="button_restore_preferences">Восстановить</string>

@@ -454,6 +454,7 @@
     <string name="pref_appearance_navbar_color_option_black">Чорний</string>
     <string name="pref_appearance_navbar_color_option_primary">Основний (світлий)</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Основний (темний)</string>
+    <string name="pref_not_supported_before_lollipop">Не підтримується на версіях Android давніших за Lollipop</string>
     <string name="action_copy_text">Копіювати текст</string>
     <string name="action_copy_link">Копіювати посилання</string>
     <string name="pref_behaviour_postsort">Дописи (типово)</string>
@@ -577,6 +578,8 @@
     <string name="error_post_flair_required_title">Потрібен флейр</string>
     <string name="error_no_file_manager_message">В операційній системі цього пристрою відсутній менеджер файлів, сумісний з Android Storage Access Framework. Якщо менеджер файлів є, можливо його вимкнено.</string>
     <string name="error_no_file_manager_title">Немає файлового менеджера</string>
+    <string name="backup_preferences_error_old_android_message">Для цієї функції потрібен Android 4.4 або новішої версії.</string>
+    <string name="backup_preferences_error_old_android_title">Система занадто стара</string>
     <string name="restore_preferences_success">Відновлення виконано успішно</string>
     <string name="backup_preferences_success">Резервне копіювання виконано успішно</string>
     <string name="button_restore_preferences">Відновити</string>

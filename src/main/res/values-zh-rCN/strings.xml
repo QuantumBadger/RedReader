@@ -506,6 +506,7 @@
     <string name="pref_behaviour_fling_comment_left_title">左滑选项</string>
     <string name="pref_behaviour_fling_comment_right_title">右滑选项</string>
     <string name="comment_header_search_thread_title">以下是一则评论和其回复的搜索结果。</string>
+    <string name="pref_not_supported_before_lollipop">不支持比Android Lollipop更旧的版本</string>
     <string name="mainmenu_header_multireddits">Multireddit</string>
     <string name="pref_behaviour_share_permalink_title">分享永久链接</string>
     <string name="error_cache_dir_does_not_exist_title">缓存路径无效</string>
@@ -770,6 +771,8 @@
     <string name="error_post_flair_required_title">Flair 是必需的</string>
     <string name="error_no_file_manager_message">此设备上的操作系统缺少与 Android 存储访问框架兼容的文件管理器。 如果存在文件管理器，则它可能被禁用。</string>
     <string name="error_no_file_manager_title">无文件管理器</string>
+    <string name="backup_preferences_error_old_android_message">此功能需要 Android 4.4 或更高版本。</string>
+    <string name="backup_preferences_error_old_android_title">系统太旧</string>
     <string name="restore_preferences_success">还原成功</string>
     <string name="backup_preferences_success">成功备份</string>
     <string name="button_restore_preferences">还原</string>

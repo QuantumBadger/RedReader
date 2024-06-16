@@ -630,6 +630,7 @@
 	<string name="pref_appearance_navbar_color_option_primary">主色（光）</string>
 	<string name="pref_appearance_navbar_color_option_primarydark">主色（暗）</string>
 
+	<string name="pref_not_supported_before_lollipop">不支援比Android Lollipop更舊的版本</string>
 
 	<string name="action_copy_text">複製文字</string>
 	<string name="action_copy_link">複製連結</string>

@@ -214,6 +214,8 @@
     <string name="error_post_flair_required_message">Tämän subredditin säännöt vaativat asettamaan julkaisuusi flairin.</string>
     <string name="error_no_file_manager_message">Laitteen käyttöjärjestelmästä puuttuu tiedostonhallintaohjelma, joka olisi yhteensopiva Android Storage Access Frameworkin kanssa. Jos tiedostonhallintaohjelma löytyy, se on voitu poistaa käytöstä.</string>
     <string name="error_no_file_manager_title">Ei tiedostonhallintaohjelmaa</string>
+    <string name="backup_preferences_error_old_android_message">Tämä ominaisuus vaatii Android 4.4 -version tai uudemman.</string>
+    <string name="backup_preferences_error_old_android_title">Liian vanha järjestelmä</string>
     <string name="restore_preferences_success">Palautus onnistui</string>
     <string name="backup_preferences_success">Varmuuskopiointi onnistui</string>
     <string name="button_restore_preferences">Palauta</string>
@@ -465,6 +467,7 @@
     <string name="pref_behaviour_postsort">Julkaisut (oletus)</string>
     <string name="action_copy_link">Kopioi linkki</string>
     <string name="action_copy_text">Kopioi teksti</string>
+    <string name="pref_not_supported_before_lollipop">Ei tuettu Android Lollipopia edeltävissä versioissa</string>
     <string name="pref_appearance_navbar_color_option_primarydark">Ensisijainen (tumma)</string>
     <string name="pref_appearance_navbar_color_option_primary">Ensisijainen (vaalea)</string>
     <string name="pref_appearance_navbar_color_option_black">Musta</string>

@@ -38,6 +38,8 @@ androidx-test-espresso = "3.5.1"
 androidx-test-rules = "1.5.0"
 androidx-test-junit = "1.1.5"
 
+compose-bom = "2024.06.00"
+
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -70,6 +72,13 @@ androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core",
 androidx-test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidx-test-espresso" }
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test-rules" }
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-junit" }
+
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+androidx-compose-material = { module = "androidx.compose.material:material" }
+androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
+androidx-compose-ui = { module = "androidx.compose.ui:ui" }
+androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -22,7 +22,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.adapters.AlbumAdapter;
 import org.quantumbadger.redreader.common.AndroidCommon;
@@ -161,13 +163,17 @@ public class AlbumListingActivity extends BaseActivity {
 
 										@Override
 										public void onSuccess(final ImageInfo info) {
-											Log.i(
-													"AlbumListingActivity",
-													"Link was actually an image.");
-											LinkHandler.onLinkClicked(
-													AlbumListingActivity.this,
-													info.urlOriginal);
-											finish();
+											if (info.original != null) {
+												Log.i(
+														"AlbumListingActivity",
+														"Link was actually an image.");
+												LinkHandler.onLinkClicked(
+														AlbumListingActivity.this,
+														info.original.url);
+												finish();
+											} else {
+												revertToWeb();
+											}
 										}
 
 										@Override
@@ -208,7 +214,7 @@ public class AlbumListingActivity extends BaseActivity {
 							if(info.images.size() == 1) {
 								LinkHandler.onLinkClicked(
 										AlbumListingActivity.this,
-										info.images.get(0).urlOriginal);
+										info.images.get(0).original.url);
 								finish();
 
 							} else {
@@ -231,7 +237,7 @@ public class AlbumListingActivity extends BaseActivity {
 									AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
 										LinkHandler.onLinkClicked(
 												AlbumListingActivity.this,
-												info.images.get(0).urlOriginal,
+												info.images.get(0).original.url,
 												false,
 												null,
 												info,

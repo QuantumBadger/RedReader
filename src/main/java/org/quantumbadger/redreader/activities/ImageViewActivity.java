@@ -279,7 +279,7 @@ public class ImageViewActivity extends BaseActivity
 
 						mImageInfo = info;
 
-						final URI uri = General.uriFromString(info.urlOriginal);
+						final URI uri = General.uriFromString(info.original.url);
 						final URI audioUri;
 
 						if(uri == null) {
@@ -734,7 +734,7 @@ public class ImageViewActivity extends BaseActivity
 
 					LinkHandler.onLinkClicked(
 							this,
-							mAlbumInfo.images.get(mAlbumImageIndex - 1).urlOriginal,
+							mAlbumInfo.images.get(mAlbumImageIndex - 1).original.url,
 							false,
 							mPost,
 							mAlbumInfo,
@@ -758,7 +758,7 @@ public class ImageViewActivity extends BaseActivity
 
 					LinkHandler.onLinkClicked(
 							this,
-							mAlbumInfo.images.get(mAlbumImageIndex + 1).urlOriginal,
+							mAlbumInfo.images.get(mAlbumImageIndex + 1).original.url,
 							false,
 							mPost,
 							mAlbumInfo,
@@ -868,17 +868,15 @@ public class ImageViewActivity extends BaseActivity
 		makeCacheRequest(progressBar, uri, audioUri);
 	}
 
-
 	private void manageAspectRatioIndicator(final DonutProgress progressBar) {
 		findAspectRatio:
 		if(PrefsUtility.pref_appearance_show_aspect_ratio_indicator()) {
 
-			if(mImageInfo.width != null
-					&& mImageInfo.height != null
-					&& mImageInfo.width > 0
-					&& mImageInfo.height > 0) {
-				progressBar.setLoadingImageAspectRatio((float)mImageInfo.width
-						/ mImageInfo.height);
+			if(mImageInfo.original != null
+					&& mImageInfo.original.size != null
+					&& mImageInfo.original.size.getHeight() > 0) {
+				progressBar.setLoadingImageAspectRatio((float)mImageInfo.original.size.getWidth()
+						/ mImageInfo.original.size.getHeight());
 			} else {
 				break findAspectRatio;
 			}

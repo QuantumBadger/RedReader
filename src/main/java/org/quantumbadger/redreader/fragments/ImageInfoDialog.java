@@ -20,7 +20,9 @@ package org.quantumbadger.redreader.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.image.ImageInfo;
@@ -70,14 +72,17 @@ public final class ImageInfoDialog extends PropertiesDialog {
 			first = false;
 		}
 
-		items.addView(propView(context, R.string.props_url, info.urlOriginal, first));
+		if(info.original != null) {
 
-		if(info.width != null && info.height != null) {
-			items.addView(propView(
-					context,
-					R.string.props_resolution,
-					info.width + " x " + info.height,
-					false));
+			items.addView(propView(context, R.string.props_url, info.original.url, first));
+
+			if (info.original.size != null) {
+				items.addView(propView(
+						context,
+						R.string.props_resolution,
+						info.original.size.getWidth() + " x " + info.original.size.getHeight(),
+						false));
+			}
 		}
 	}
 }

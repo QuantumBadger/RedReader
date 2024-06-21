@@ -433,7 +433,7 @@ object UserProfileDialog {
 		context: AppCompatActivity
 	) {
 		CacheManager.getInstance(context).makeRequest(CacheRequest(
-			uriFromString(url),
+			uriFromString(url)!!,
 			RedditAccountManager.getAnon(),
 			null,
 			Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),

@@ -918,6 +918,7 @@ public final class PrefsUtility {
 		EXTERNAL_BROWSER
 	}
 
+	@NonNull
 	public static AlbumViewMode pref_behaviour_albumview_mode() {
 		return AlbumViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_albumview_mode_key,
@@ -939,6 +940,7 @@ public final class PrefsUtility {
 		}
 	}
 
+	@NonNull
 	public static GifViewMode pref_behaviour_gifview_mode() {
 		return GifViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_gifview_mode_key,
@@ -960,6 +962,7 @@ public final class PrefsUtility {
 		}
 	}
 
+	@NonNull
 	public static VideoViewMode pref_behaviour_videoview_mode() {
 		return VideoViewMode.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_videoview_mode_key,
@@ -990,12 +993,14 @@ public final class PrefsUtility {
 		DISABLED
 	}
 
+	@NonNull
 	public static PostFlingAction pref_behaviour_fling_post_left() {
 		return PostFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_post_left_key,
 				"downvote")));
 	}
 
+	@NonNull
 	public static PostFlingAction pref_behaviour_fling_post_right() {
 		return PostFlingAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_fling_post_right_key,
@@ -1006,6 +1011,7 @@ public final class PrefsUtility {
 		COLLAPSE, NOTHING
 	}
 
+	@NonNull
 	public static SelfpostAction pref_behaviour_self_post_tap_actions() {
 		return SelfpostAction.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_behaviour_self_post_tap_actions_key,

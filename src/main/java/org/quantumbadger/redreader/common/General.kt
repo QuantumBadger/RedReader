@@ -504,7 +504,7 @@ object General {
     )
 
     @JvmStatic
-	fun filenameFromString(url: String?): String {
+	fun filenameFromString(url: String): String {
         val uri = uriFromString(url)
         var filename = uri!!.path.replace(File.separator, "")
         val parts = filename.substring(1).split("\\.".toRegex(), limit = 2).toTypedArray()

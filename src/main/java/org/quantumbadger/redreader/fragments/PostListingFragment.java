@@ -26,12 +26,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -1061,14 +1063,18 @@ public class PostListingFragment extends RRFragment
 			@NonNull final PrefsUtility.ImageViewMode imageViewMode,
 			@NonNull final PrefsUtility.VideoViewMode videoViewMode) {
 
+		if (info.original == null) {
+			return;
+		}
+
 		// Don't precache huge images
-		if(info.size != null
-				&& info.size > 15 * 1024 * 1024) {
+		if(info.original.sizeBytes != null
+				&& info.original.sizeBytes > 15 * 1024 * 1024) {
 			if(General.isSensitiveDebugLoggingEnabled()) {
 				Log.i(TAG, String.format(
 						"Not precaching '%s': too big (%d kB)",
-						info.urlOriginal,
-						info.size / 1024));
+						info.original.url,
+						info.original.sizeBytes / 1024));
 			}
 			return;
 		}
@@ -1080,7 +1086,7 @@ public class PostListingFragment extends RRFragment
 			if(General.isSensitiveDebugLoggingEnabled()) {
 				Log.i(TAG, String.format(
 						"Not precaching '%s': GIFs opened externally",
-						info.urlOriginal));
+						info.original.url));
 			}
 			return;
 		}
@@ -1092,7 +1098,7 @@ public class PostListingFragment extends RRFragment
 			if(General.isSensitiveDebugLoggingEnabled()) {
 				Log.i(TAG, String.format(
 						"Not precaching '%s': images opened externally",
-						info.urlOriginal));
+						info.original.url));
 			}
 			return;
 		}
@@ -1105,14 +1111,14 @@ public class PostListingFragment extends RRFragment
 			if(General.isSensitiveDebugLoggingEnabled()) {
 				Log.i(TAG, String.format(
 						"Not precaching '%s': videos opened externally",
-						info.urlOriginal));
+						info.original.url));
 			}
 			return;
 		}
 
 		precacheImage(
 				activity,
-				info.urlOriginal,
+				info.original.url,
 				positionInList);
 
 		if(info.urlAudioStream != null) {

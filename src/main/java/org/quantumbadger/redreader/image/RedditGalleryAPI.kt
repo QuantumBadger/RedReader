@@ -38,7 +38,7 @@ import org.quantumbadger.redreader.reddit.kthings.RedditThing
 import org.quantumbadger.redreader.reddit.kthings.RedditThingResponse
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL
 import java.io.IOException
-import java.util.*
+import java.util.UUID
 
 class RedditGalleryAPI {
 
@@ -87,7 +87,7 @@ class RedditGalleryAPI {
 
             CacheManager.getInstance(context).makeRequest(
                 CacheRequest(
-                    uriFromString(apiUrl.toString()),
+                    uriFromString(apiUrl.toString())!!,
                     RedditAccountManager.getInstance(context).defaultAccount,
                     null,
                     priority,
@@ -144,7 +144,6 @@ class RedditGalleryAPI {
 						override fun onFailure(error: RRError) {
 							listener.onFailure(error)
 						}
-
 					}
                 )
             )

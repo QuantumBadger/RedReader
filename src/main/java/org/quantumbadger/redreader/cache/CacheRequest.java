@@ -19,9 +19,11 @@ package org.quantumbadger.redreader.cache;
 
 import android.content.Context;
 import android.util.Log;
+
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
@@ -128,16 +130,16 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public CacheRequest(
-			final URI url,
-			final RedditAccount user,
-			final UUID requestSession,
+			@NonNull final URI url,
+			@NonNull final RedditAccount user,
+			@Nullable final UUID requestSession,
 			@NonNull final Priority priority,
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
 			final boolean cache,
-			final Context context,
-			final CacheRequestCallbacks callbacks) {
+			@NonNull final Context context,
+			@NonNull final CacheRequestCallbacks callbacks) {
 
 		this(
 				url,
@@ -154,15 +156,15 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public CacheRequest(
-			final URI url,
-			final RedditAccount user,
-			final UUID requestSession,
+			@NonNull final URI url,
+			@NonNull final RedditAccount user,
+			@Nullable final UUID requestSession,
 			@NonNull final Priority priority,
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
-			final Context context,
-			final CacheRequestCallbacks callbacks) {
+			@NonNull final Context context,
+			@NonNull final CacheRequestCallbacks callbacks) {
 
 		this(
 				url,
@@ -178,16 +180,16 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public CacheRequest(
-			final URI url,
-			final RedditAccount user,
-			final UUID requestSession,
+			@NonNull final URI url,
+			@NonNull final RedditAccount user,
+			@Nullable final UUID requestSession,
 			@NonNull final Priority priority,
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
 			@Nullable final HTTPRequestBody requestBody,
-			final Context context,
-			final CacheRequestCallbacks callbacks) {
+			@NonNull final Context context,
+			@NonNull final CacheRequestCallbacks callbacks) {
 
 		this(
 				url,
@@ -205,17 +207,17 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 
 	// TODO remove this huge constructor, make mutable
 	private CacheRequest(
-			final URI url,
-			final RedditAccount user,
-			final UUID requestSession,
+			@NonNull final URI url,
+			@NonNull final RedditAccount user,
+			@Nullable final UUID requestSession,
 			@NonNull final Priority priority,
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final @DownloadQueueType int queueType,
 			@Nullable final HTTPRequestBody requestBody,
 			final boolean cache,
-			final Context context,
-			final CacheRequestCallbacks callbacks) {
+			@NonNull final Context context,
+			@NonNull final CacheRequestCallbacks callbacks) {
 
 		this.context = context.getApplicationContext();
 		mCallbacks = callbacks;

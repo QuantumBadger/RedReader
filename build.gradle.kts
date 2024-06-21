@@ -5,7 +5,8 @@ plugins {
 	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.kotlin.parcelize)
-    pmd
+	alias(libs.plugins.compose.compiler)
+	pmd
 	checkstyle
 
 	// If plugin is used in multiple subprojects then it needs to be imported with apply(false) in the root project,
@@ -103,6 +104,7 @@ android {
 			sourceCompatibility = it
 			targetCompatibility = it
 		}
+
 	}
 
 	lint {
@@ -130,6 +132,7 @@ android {
 
 	buildFeatures {
 		buildConfig = true
+		compose = true
 	}
 }
 

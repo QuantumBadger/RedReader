@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.image;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -48,7 +49,7 @@ public class LegacySaveImageCallback implements BaseActivity.PermissionCallback 
 				uri,
 				(info, cacheFile, mimetype) -> {
 
-					final String filename = General.filenameFromString(info.urlOriginal);
+					final String filename = General.filenameFromString(info.original.url);
 
 					File dst = new File(
 							Environment.getExternalStoragePublicDirectory(

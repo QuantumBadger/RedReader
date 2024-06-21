@@ -14,31 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-
 package org.quantumbadger.redreader.common
 
-import androidx.compose.runtime.Immutable
-import org.quantumbadger.redreader.http.FailedRequestBody
+fun String.asciiLowercase() = StringUtils.asciiLowercase(this)
 
-@Immutable
-class RRError @JvmOverloads constructor(
-	@JvmField val title: String? = null,
-	@JvmField val message: String? = null,
-	@JvmField val reportable: Boolean? = true,
-	@JvmField val t: Throwable? = null,
-	@JvmField val httpStatus: Int? = null,
-	@JvmField val url: String? = null,
-	@JvmField val debuggingContext: String? = null,
-	response: Optional<FailedRequestBody> = Optional.empty(),
-	@JvmField val resolution: Resolution? = null
-) {
-	enum class Resolution {
-		ACCEPT_REDDIT_TERMS,
-		ACCOUNTS_LIST
-	}
-
-    @JvmField
-	val response = response.map(FailedRequestBody::toString).orElseNull()
-
-	override fun toString() = "$title: $message (http: $httpStatus, thrown: $t)"
-}
+fun String.asciiUppercase() = StringUtils.asciiUppercase(this)

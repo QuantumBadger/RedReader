@@ -18,7 +18,9 @@
 package org.quantumbadger.redreader.image;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -39,12 +41,12 @@ import java.util.UUID;
 public final class ImgurAPIV3 {
 
 	public static void getAlbumInfo(
-			final Context context,
+			@NonNull final Context context,
 			final String albumUrl,
-			final String albumId,
+			@NonNull final String albumId,
 			@NonNull final Priority priority,
 			final boolean withAuth,
-			final GetAlbumInfoListener listener) {
+			@NonNull final GetAlbumInfoListener listener) {
 
 		final String apiUrl = "https://api.imgur.com/3/album/" + albumId;
 
@@ -90,11 +92,11 @@ public final class ImgurAPIV3 {
 	}
 
 	public static void getImageInfo(
-			final Context context,
-			final String imageId,
+			@NonNull final Context context,
+			@NonNull final String imageId,
 			@NonNull final Priority priority,
 			final boolean withAuth,
-			final GetImageInfoListener listener) {
+			@NonNull final GetImageInfoListener listener) {
 
 		final String apiUrl = "https://api.imgur.com/3/image/" + imageId;
 

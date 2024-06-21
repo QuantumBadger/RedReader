@@ -144,22 +144,27 @@ class AlbumInfo(
 
 					val urlEscaped = standardImage.u ?: standardImage.mp4 ?: standardImage.gif
 
+					val original = urlEscaped?.let {
+						ImageUrlInfo(
+							url = urlEscaped.decoded,
+							size = ImageSize.from(standardImage.x, standardImage.y)
+						)
+					}
+
+					val bigSquare = mediaMetadataEntry.p?.let { p -> getThumbnail(p) }?.let {
+						ImageUrlInfo(url = it)
+					}
+
+					// TODO find preview
 					ImageInfo(
-						urlEscaped?.decoded,
-						mediaMetadataEntry.p?.let { p -> getThumbnail(p) },
-						item.caption?.decoded,
-						null,
-						item.outbound_url?.decoded,
-						mediaMetadataEntry.m,
-						mediaType != ImageInfo.MediaType.IMAGE,
-						standardImage.x,
-						standardImage.y,
-						null,
-						mediaType,
-						ImageInfo.HasAudio.NO_AUDIO,
-						null,
-						null,
-						null
+						original = original,
+						bigSquare = bigSquare,
+						title = item.caption?.decoded,
+						outboundUrl = item.outbound_url?.decoded,
+						type = mediaMetadataEntry.m,
+						isAnimated = mediaType != ImageInfo.MediaType.IMAGE,
+						mediaType = mediaType,
+						hasAudio = ImageInfo.HasAudio.MAYBE_AUDIO,
 					)
 				}.toList()
 

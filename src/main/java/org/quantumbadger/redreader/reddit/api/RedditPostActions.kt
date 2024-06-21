@@ -17,7 +17,12 @@
 
 package org.quantumbadger.redreader.reddit.api
 
-import android.content.*
+import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.ImageButton
@@ -28,10 +33,22 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.apache.commons.text.StringEscapeUtils
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccountManager
-import org.quantumbadger.redreader.activities.*
+import org.quantumbadger.redreader.activities.BaseActivity
+import org.quantumbadger.redreader.activities.BugReportActivity
+import org.quantumbadger.redreader.activities.CommentEditActivity
+import org.quantumbadger.redreader.activities.CommentReplyActivity
+import org.quantumbadger.redreader.activities.MainActivity
+import org.quantumbadger.redreader.activities.PostListingActivity
+import org.quantumbadger.redreader.activities.WebViewActivity
 import org.quantumbadger.redreader.cache.CacheManager
-import org.quantumbadger.redreader.common.*
+import org.quantumbadger.redreader.common.AndroidCommon
+import org.quantumbadger.redreader.common.Constants
+import org.quantumbadger.redreader.common.FileUtils
+import org.quantumbadger.redreader.common.General
+import org.quantumbadger.redreader.common.LinkHandler
+import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.PrefsUtility.PostFlingAction
+import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
@@ -396,9 +413,10 @@ object RedditPostActions {
 				FileUtils.saveImageAtUri(activity, post.src.url)
 			}
 
-			Action.SHARE -> {
+			Action.SHARE -> if (post.src.url != null) {
 				val subject =
 					if (PrefsUtility.pref_behaviour_sharing_include_desc()) post.src.title else null
+
 				val body = LinkHandler.getPreferredRedditUriString(post.src.url)
 
 				LinkHandler.shareText(activity, subject, body)

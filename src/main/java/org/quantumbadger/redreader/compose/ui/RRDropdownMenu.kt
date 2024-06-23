@@ -46,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
+import org.quantumbadger.redreader.compose.prefs.Preference
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import kotlin.math.max
 import kotlin.math.min
@@ -70,16 +71,37 @@ class RRDropdownMenuScope(
 		radioButtonWithValue: Boolean? = null,
 		checkboxWithValue: Boolean? = null,
 		onClick: () -> Unit,
+		dismissOnClick: Boolean = true
 	) {
 		RRDropdownMenuItem(
 			text = text,
 			icon = icon,
-			onClick = {
-				menuState.expanded = false
-				onClick()
+			onClick = if (dismissOnClick) {
+				{
+					menuState.expanded = false
+					onClick()
+				}
+			} else {
+				onClick
 			},
 			radioButtonWithValue = radioButtonWithValue,
 			checkboxWithValue = checkboxWithValue,
+		)
+	}
+
+	@Composable
+	fun ItemPrefBool(
+		text: String, // TODO change to StringRes
+		@DrawableRes icon: Int? = null,
+		pref: Preference<Boolean>,
+		dismissOnClick: Boolean = false
+	) {
+		Item(
+			text = text,
+			icon = icon,
+			checkboxWithValue = pref.value,
+			onClick = { pref.value = !pref.value },
+			dismissOnClick = dismissOnClick
 		)
 	}
 
@@ -109,7 +131,7 @@ private fun RRDropdownMenuItem(
 	@DrawableRes icon: Int?,
 	onClick: () -> Unit,
 	radioButtonWithValue: Boolean?,
-	checkboxWithValue: Boolean?,
+	checkboxWithValue: Boolean?
 ) {
 	val theme = LocalComposeTheme.current
 

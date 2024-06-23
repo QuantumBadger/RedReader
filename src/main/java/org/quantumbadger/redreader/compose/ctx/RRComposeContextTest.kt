@@ -4,7 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import org.quantumbadger.redreader.compose.prefs.ComposePrefs
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
-import org.quantumbadger.redreader.compose.theme.ComposeThemeTest
+import org.quantumbadger.redreader.compose.prefs.Preference
+import org.quantumbadger.redreader.compose.theme.ComposeThemeLight
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 
 @Composable
@@ -15,11 +16,18 @@ fun RRComposeContextTest(content: @Composable () -> Unit) {
 		override val appearanceFontScaleBodyText = 1f
 		override val appearanceFontScalePosts = 1f
 		override val appearanceFontScalePostSubtitles = 1f
+		override val albumCardShowButtons = testPref(true)
 	}
 
 	CompositionLocalProvider(LocalComposePrefs provides prefValues) {
-		CompositionLocalProvider(LocalComposeTheme provides ComposeThemeTest(prefValues)) {
+		CompositionLocalProvider(LocalComposeTheme provides ComposeThemeLight(prefValues)) {
 			content()
 		}
 	}
+}
+
+private fun <T> testPref(value: T) = object : Preference<T> {
+	override var value: T
+		get() = value
+		set(value) {}
 }

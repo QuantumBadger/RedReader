@@ -42,6 +42,8 @@ import org.quantumbadger.redreader.image.AlbumInfo
 // TODO go through all todos on this branch
 // TODO strings
 // TODO screen reader testing
+// TODO move the initial loading screen inside Compose
+// TODO tidy up AlbumListingActivity2
 @Composable
 fun AlbumScreen(
 	album: AlbumInfo
@@ -142,10 +144,9 @@ fun AlbumSettingsButton(
 
 			ItemDivider()
 
-			Item(
+			ItemPrefBool(
 				text = "Show buttons on cards",
-				onClick = { /*TODO*/ },
-				checkboxWithValue = true
+				pref = prefs.albumCardShowButtons
 			)
 
 			ItemDivider()

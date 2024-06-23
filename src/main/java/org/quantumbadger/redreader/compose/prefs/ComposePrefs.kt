@@ -25,6 +25,7 @@ interface ComposePrefs {
     val albumViewMode: Preference<AlbumViewMode>
     val albumCardShowButtons: Preference<Boolean>
     val albumListShowThumbnails: Preference<Boolean>
+    val albumGridStagger: Preference<Boolean>
 }
 
 object ComposePrefsSingleton {
@@ -165,6 +166,11 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
     override val albumListShowThumbnails: Preference<Boolean> = BoolPref(
         "album_list_show_thumbnails",
         true
+    )
+
+    override val albumGridStagger: Preference<Boolean> = BoolPref(
+        "album_grid_stagger",
+        false
     )
 }
 

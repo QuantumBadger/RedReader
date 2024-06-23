@@ -63,9 +63,12 @@ fun AlbumScreen(
 					style = theme.album.title
 				)
 				Spacer(Modifier.height(6.dp))
+
+				val s = "s".takeIf { album.images.size != 1 } ?: ""
+
 				Text(
 					modifier = Modifier.fillMaxWidth(),
-					text = album.description ?: "${album.images.size} image(s)", // TODO string, "s"
+					text = album.description ?: "${album.images.size} image$s", // TODO string
 					style = theme.album.subtitle
 				)
 

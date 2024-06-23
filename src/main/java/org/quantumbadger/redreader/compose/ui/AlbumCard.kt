@@ -189,19 +189,12 @@ fun AlbumCard(
 
 			Row(
 				Modifier.fillMaxWidth(),
-
 				// TODO left hand mode
 				horizontalArrangement = Arrangement.Absolute.Right
 			) {
-				RRIconButton(
-					icon = R.drawable.ic_action_external_dark,
-					contentDescription = R.string.action_external
-				) {
-					// TODO
-				}
 
 				RRIconButton(
-					icon = R.drawable.ic_action_save_dark, // TODO download icon
+					icon = R.drawable.download,
 					contentDescription = R.string.action_save_image
 				) {
 					// TODO
@@ -210,6 +203,13 @@ fun AlbumCard(
 				RRIconButton(
 					icon = R.drawable.ic_action_share_dark,
 					contentDescription = R.string.action_share_image
+				) {
+					// TODO
+				}
+
+				RRIconButton(
+					icon = R.drawable.dots_vertical_dark,
+					contentDescription = R.string.three_dots_menu
 				) {
 					// TODO
 				}

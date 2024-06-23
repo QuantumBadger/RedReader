@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -58,9 +59,16 @@ fun NetImage(
             .fillMaxWidth()
             .widthIn(max = maxImageWidth ?: Dp.Unspecified)
             .heightIn(max = maxImageHeight ?: Dp.Unspecified)
+			.let {
+				if (aspectRatio != null) {
+					it.aspectRatio(aspectRatio)
+				} else {
+					it
+				}
+			}
 
-		if (data !is NetRequestStatus.Success && aspectRatio != null) {
-			Box(modifier = imageModifier.aspectRatio(aspectRatio))
+		if (data !is NetRequestStatus.Success) {
+			Box(modifier = imageModifier)
 		}
 
 		when (val it = data) {
@@ -83,14 +91,13 @@ fun NetImage(
 
 			is NetRequestStatus.Success -> {
 				Box(
-                    Modifier
-                        .fillMaxWidth()
+                    imageModifier
                         .background(
                             theme.postCard.previewImageBackgroundColor
                         )
 				) {
 					Image(
-						modifier = imageModifier,
+						modifier = Modifier.fillMaxSize(),
 						bitmap = it.result,
 						contentDescription = null,
 						contentScale = if (cropToAspect == null) {

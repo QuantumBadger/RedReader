@@ -26,6 +26,7 @@ interface ComposePrefs {
     val albumCardShowButtons: Preference<Boolean>
     val albumListShowThumbnails: Preference<Boolean>
     val albumGridStagger: Preference<Boolean>
+    val albumGridColumns: Preference<Float>
 }
 
 object ComposePrefsSingleton {
@@ -85,6 +86,7 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
             get() = mutableState.floatValue
             set(value) {
                 sharedPrefs.edit().putFloat(key, value).apply()
+                mutableState.floatValue = value
             }
     }
 
@@ -109,6 +111,7 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
             get() = mutableState.value
             set(value) {
                 sharedPrefs.edit().putBoolean(key, value).apply()
+                mutableState.value = value
             }
     }
 
@@ -134,6 +137,7 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
             get() = mutableState.value
             set(value) {
                 sharedPrefs.edit().putString(key, serializer.serialize(value)).apply()
+                mutableState.value = value
             }
     }
 
@@ -171,6 +175,11 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
     override val albumGridStagger: Preference<Boolean> = BoolPref(
         "album_grid_stagger",
         false
+    )
+
+    override val albumGridColumns: Preference<Float> = FloatPref(
+        "album_grid_columns",
+        2f
     )
 }
 

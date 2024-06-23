@@ -39,6 +39,7 @@ androidx-test-rules = "1.5.0"
 androidx-test-junit = "1.1.5"
 
 compose-bom = "2024.06.00"
+androidx-compose-constraintlayout = "1.0.1"
 
 [libraries]
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
@@ -79,6 +80,7 @@ androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-constraintlayout = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref="androidx-compose-constraintlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -59,6 +59,7 @@ dependencies {
 	implementation(libs.androidx.compose.ui)
 	implementation(libs.androidx.compose.ui.graphics)
 	implementation(libs.androidx.compose.ui.tooling)
+	implementation(libs.androidx.compose.constraintlayout)
 
 	testImplementation(libs.junit)
 

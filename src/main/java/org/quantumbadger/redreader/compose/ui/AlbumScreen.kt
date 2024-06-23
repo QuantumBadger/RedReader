@@ -17,11 +17,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Slider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,6 +38,7 @@ import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
+import kotlin.math.roundToInt
 
 // TODO check for unstable composables
 // TODO dark themes
@@ -147,8 +152,7 @@ fun AlbumScreen(
 
             AlbumViewMode.Grid -> {
                 LazyVerticalStaggeredGrid(
-                    // TODO slider
-                    columns = StaggeredGridCells.Fixed(2),
+                    columns = StaggeredGridCells.Fixed(prefs.albumGridColumns.value.roundToInt()),
                     modifier = Modifier
                         .fillMaxSize()
                         .background(theme.postCard.listBackgroundColor),
@@ -179,6 +183,7 @@ fun AlbumSettingsButton(
     modifier: Modifier = Modifier
 ) {
     val prefs = LocalComposePrefs.current
+    val theme = LocalComposeTheme.current
 
     Box(modifier = modifier) {
 
@@ -232,6 +237,37 @@ fun AlbumSettingsButton(
                         text = "Stagger items",
                         pref = prefs.albumGridStagger
                     )
+
+                    DropdownMenuItem(
+                        onClick = {},
+                        enabled = false
+                    ) {
+                        Column(
+                            Modifier
+                                .fillMaxWidth()
+                                .sizeIn(
+                                    minWidth = 112.dp,
+                                    maxWidth = 280.dp,
+                                    minHeight = 48.dp
+                                )
+                        ) {
+                            Text(
+                                text = "Columns",
+                                style = theme.dropdownMenu.text
+                            )
+
+                            // TODO plus/minus buttons?
+                            Slider(
+                                modifier = Modifier
+                                    .width(200.dp)
+                                    .height(40.dp),
+                                value = prefs.albumGridColumns.value,
+                                onValueChange = { prefs.albumGridColumns.value = it },
+                                valueRange = 2f..5f,
+                                steps = (5 - 2) + 1,
+                            )
+                        }
+                    }
                 }
             }
 

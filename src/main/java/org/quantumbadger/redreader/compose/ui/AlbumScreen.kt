@@ -46,6 +46,8 @@ import org.quantumbadger.redreader.settings.types.AlbumViewMode
 // TODO move the initial loading screen inside Compose
 // TODO tidy up AlbumListingActivity2
 // TODO gradient at top for status bar/nav bar?
+// TODO error view
+// TODO set RedditAccountId when fetching
 @Composable
 fun AlbumScreen(
     album: AlbumInfo

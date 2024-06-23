@@ -62,7 +62,7 @@ class ComposeThemeTest(prefs: ComposePrefs) : ComposeTheme {
 		override val title = baseTextStyle.copy(
 			color = Color.Black,
 			fontWeight = FontWeight.W600,
-			fontSize = 22.sp * prefs.appearanceFontScalePosts
+			fontSize = 22.sp * prefs.appearanceFontScalePosts // TODO different setting?
 		)
 
 		override val subtitle = baseTextStyle.copy(

@@ -5,7 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import org.quantumbadger.redreader.activities.BaseActivity
-import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
+import org.quantumbadger.redreader.compose.ctx.RRComposeContext
 
 open class ComposeBaseActivity: BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +20,7 @@ open class ComposeBaseActivity: BaseActivity() {
 	protected fun setContentCompose(content: @Composable () -> Unit) {
 		setContentView(ComposeView(this).also { view ->
 			view.setContent {
-				// TODO replace with non-test context
-				RRComposeContextTest {
+				RRComposeContext {
 					content()
 				}
 			}

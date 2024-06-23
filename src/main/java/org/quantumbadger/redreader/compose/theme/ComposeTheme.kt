@@ -33,7 +33,7 @@ interface ComposeTheme {
 	val album: ComposeThemeAlbum
 }
 
-class ComposeThemeTest(prefs: ComposePrefs) : ComposeTheme {
+class ComposeThemeLight(prefs: ComposePrefs) : ComposeTheme {
 
 	val baseTextStyle = TextStyle()
 

@@ -50,10 +50,6 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 
 		super.onCreate(savedInstanceState)
 
-		setTitle(R.string.image_gallery)
-
-		val intent = intent
-
 		mUrl = intent.dataString
 
 		if (mUrl == null) {

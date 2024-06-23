@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -63,7 +64,8 @@ public abstract class BaseActivity extends AppCompatActivity
 	private final HashMap<Integer, ActivityResultCallback> mActivityResultCallbacks
 			= new HashMap<>();
 
-	@NonNull private Optional<TextView> mActionbarTitleTextView = Optional.empty();
+	@NonNull
+	private Optional<TextView> mActionbarTitleTextView = Optional.empty();
 
 	private FrameLayout mContentListing;
 	private FrameLayout mContentOverlay;
@@ -115,7 +117,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		final ActionBar result = getSupportActionBar();
 
-		if(result == null) {
+		if (result == null) {
 			throw new RuntimeException("Action bar is null");
 		}
 
@@ -130,7 +132,7 @@ public abstract class BaseActivity extends AppCompatActivity
 				titleView -> titleView.setImportantForAccessibility(
 						View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS));
 
-		if(isVisible) {
+		if (isVisible) {
 			mActionbarBackIconView.setVisibility(View.VISIBLE);
 			mActionbarTitleOuterView.setOnClickListener(listener);
 			mActionbarTitleOuterView.setClickable(true);
@@ -138,7 +140,7 @@ public abstract class BaseActivity extends AppCompatActivity
 			mActionbarTitleOuterView.setImportantForAccessibility(
 					View.IMPORTANT_FOR_ACCESSIBILITY_YES);
 
-			if(TextUtils.getLayoutDirectionFromLocale(Locale.getDefault())
+			if (TextUtils.getLayoutDirectionFromLocale(Locale.getDefault())
 					== View.LAYOUT_DIRECTION_RTL) {
 
 				mActionbarBackIconView.setImageResource(R.drawable.ic_action_forward_dark);
@@ -167,18 +169,18 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		mSharedPreferences = General.getSharedPrefs(this);
 
-		if(PrefsUtility.pref_appearance_android_status()
+		if (PrefsUtility.pref_appearance_android_status()
 				== PrefsUtility.AppearanceStatusBarMode.ALWAYS_HIDE) {
 			getWindow().setFlags(
 					WindowManager.LayoutParams.FLAG_FULLSCREEN,
 					WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
 
-		if(PrefsUtility.behaviour_block_screenshots()) {
+		if (PrefsUtility.behaviour_block_screenshots()) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 		}
 
-		if(PrefsUtility.pref_behaviour_keep_screen_awake()) {
+		if (PrefsUtility.pref_behaviour_keep_screen_awake()) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		}
 
@@ -186,7 +188,7 @@ public abstract class BaseActivity extends AppCompatActivity
 		setOrientationFromPrefs();
 		closeIfNecessary();
 
-		if(baseActivityIsToolbarActionBarEnabled()) {
+		if (baseActivityIsToolbarActionBarEnabled()) {
 
 			final View outerView;
 
@@ -199,15 +201,15 @@ public abstract class BaseActivity extends AppCompatActivity
 
 			final int layoutRes;
 
-			if(prefHideOnScroll && !isTablet) {
+			if (prefHideOnScroll && !isTablet) {
 
-				if(baseActivityAllowToolbarHideOnScroll()) {
+				if (baseActivityAllowToolbarHideOnScroll()) {
 					layoutRes = R.layout.rr_actionbar_hide_on_scroll;
 				} else {
 					layoutRes = R.layout.rr_actionbar;
 				}
 
-			} else if(prefBottomToolbar) {
+			} else if (prefBottomToolbar) {
 				layoutRes = R.layout.rr_actionbar_reverse;
 
 			} else {
@@ -225,7 +227,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
 			final ActionBar supportActionBar = getSupportActionBarOrThrow();
 
-			if(baseActivityIsToolbarSearchBarEnabled()) {
+			if (baseActivityIsToolbarSearchBarEnabled()) {
 				supportActionBar.setCustomView(R.layout.actionbar_search);
 				General.setLayoutMatchParent(supportActionBar.getCustomView());
 
@@ -240,14 +242,14 @@ public abstract class BaseActivity extends AppCompatActivity
 			mActionbarBackIconView = toolbar.findViewById(R.id.actionbar_title_back_image);
 			mActionbarTitleOuterView = toolbar.findViewById(R.id.actionbar_title_outer);
 
-			if(baseActivityIsToolbarSearchBarEnabled()) {
+			if (baseActivityIsToolbarSearchBarEnabled()) {
 				mActionbarTitleTextView = Optional.empty();
 			} else {
 				mActionbarTitleTextView = Optional.of(
 						toolbar.findViewById(R.id.actionbar_title_text));
 			}
 
-			if(getTitle() != null) {
+			if (getTitle() != null) {
 				// Update custom action bar text
 				setTitle(getTitle());
 			}
@@ -259,20 +261,20 @@ public abstract class BaseActivity extends AppCompatActivity
 			final PrefsUtility.AppearanceNavbarColour navbarColour
 					= PrefsUtility.appearance_navbar_colour();
 
-			if(navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
+			if (navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
 				getWindow().setNavigationBarColor(Color.BLACK);
 
-			} else if(navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
+			} else if (navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
 				getWindow().setNavigationBarColor(Color.WHITE);
 
 			} else {
 				final int colour;
 				{
-					final TypedArray appearance = obtainStyledAttributes(new int[] {
+					final TypedArray appearance = obtainStyledAttributes(new int[]{
 							com.google.android.material.R.attr.colorPrimary,
 							com.google.android.material.R.attr.colorPrimaryDark});
 
-					if(navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
+					if (navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
 						colour = appearance.getColor(0, General.COLOR_INVALID);
 					} else {
 						colour = appearance.getColor(1, General.COLOR_INVALID);
@@ -329,8 +331,8 @@ public abstract class BaseActivity extends AppCompatActivity
 	}
 
 	private void closeIfNecessary() {
-		if(closingAll) {
-			if(this instanceof MainActivity) {
+		if (closingAll) {
+			if (this instanceof MainActivity) {
 				closingAll = false;
 			} else {
 				finish();
@@ -344,15 +346,15 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		General.checkThisIsUIThread();
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-			if(checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+			if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
 				callback.onPermissionGranted();
 
 			} else {
 				final int requestCode = mRequestIdGenerator.incrementAndGet();
 				mPermissionRequestCallbacks.put(requestCode, callback);
-				requestPermissions(new String[] {permission}, requestCode);
+				requestPermissions(new String[]{permission}, requestCode);
 			}
 
 		} else {
@@ -371,15 +373,15 @@ public abstract class BaseActivity extends AppCompatActivity
 		final PermissionCallback callback
 				= mPermissionRequestCallbacks.remove(requestCode);
 
-		if(callback == null) {
+		if (callback == null) {
 			return;
 		}
 
-		if(permissions.length != 1) {
+		if (permissions.length != 1) {
 			throw new RuntimeException("Unexpected permission result");
 		}
 
-		if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+		if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 			callback.onPermissionGranted();
 		} else {
 			callback.onPermissionDenied();
@@ -406,7 +408,7 @@ public abstract class BaseActivity extends AppCompatActivity
 		final ActivityResultCallback callback
 				= mActivityResultCallbacks.remove(requestCode);
 
-		if(callback == null) {
+		if (callback == null) {
 			return;
 		}
 
@@ -417,15 +419,15 @@ public abstract class BaseActivity extends AppCompatActivity
 		final PrefsUtility.ScreenOrientation orientation
 				= PrefsUtility.pref_behaviour_screen_orientation();
 
-		if(orientation == PrefsUtility.ScreenOrientation.AUTO) {
+		if (orientation == PrefsUtility.ScreenOrientation.AUTO) {
 			//noinspection SourceLockedOrientationActivity
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
-		} else if(orientation == PrefsUtility.ScreenOrientation.PORTRAIT) {
+		} else if (orientation == PrefsUtility.ScreenOrientation.PORTRAIT) {
 			//noinspection SourceLockedOrientationActivity
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		} else if(orientation == PrefsUtility.ScreenOrientation.LANDSCAPE) {
+		} else if (orientation == PrefsUtility.ScreenOrientation.LANDSCAPE) {
 			//noinspection SourceLockedOrientationActivity
 			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 		}
@@ -445,13 +447,13 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		onSharedPreferenceChangedInner(prefs, key);
 
-		if(key.startsWith(getString(R.string.pref_menus_appbar_prefix))
+		if (key.startsWith(getString(R.string.pref_menus_appbar_prefix))
 				|| key.equals(getString(R.string.pref_menus_quick_account_switcher_key))
 				|| key.equals(getString(R.string.pref_pinned_subreddits_key))) {
 			invalidateOptionsMenu();
 		}
 
-		if(key.equals(getString(R.string.pref_behaviour_screenorientation_key))) {
+		if (key.equals(getString(R.string.pref_behaviour_screenorientation_key))) {
 			setOrientationFromPrefs();
 		}
 	}

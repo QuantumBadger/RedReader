@@ -22,7 +22,13 @@ import android.content.Context
 import android.os.Process
 import android.util.Log
 import org.quantumbadger.redreader.cache.CacheManager
-import org.quantumbadger.redreader.common.*
+import org.quantumbadger.redreader.common.Alarms
+import org.quantumbadger.redreader.common.AndroidCommon
+import org.quantumbadger.redreader.common.Fonts
+import org.quantumbadger.redreader.common.GlobalConfig
+import org.quantumbadger.redreader.common.GlobalExceptionHandler
+import org.quantumbadger.redreader.common.PrefsUtility
+import org.quantumbadger.redreader.compose.prefs.ComposePrefsSingleton
 import org.quantumbadger.redreader.io.RedditChangeDataIO
 import org.quantumbadger.redreader.receivers.NewMessageChecker
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader
@@ -51,6 +57,7 @@ class RedReader : Application() {
 
 		GlobalExceptionHandler.init(this)
 		PrefsUtility.init(this)
+		ComposePrefsSingleton.init(this)
 		Fonts.onAppCreate(assets)
 
 		RedditOAuth.init(this)

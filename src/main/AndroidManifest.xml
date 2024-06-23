@@ -162,6 +162,9 @@
         <activity android:name=".activities.AlbumListingActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"/>
 
+		<activity android:name=".activities.AlbumListingActivity2"
+				android:configChanges="orientation|screenSize|keyboardHidden"/>
+
         <activity android:name=".activities.ImageViewActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:theme="@style/RR.Dark"/>

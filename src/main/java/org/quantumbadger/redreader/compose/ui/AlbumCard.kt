@@ -194,25 +194,22 @@ fun AlbumCard(
 			) {
 
 				RRIconButton(
+					onClick = {},
 					icon = R.drawable.download,
 					contentDescription = R.string.action_save_image
-				) {
-					// TODO
-				}
+				)
 
 				RRIconButton(
+					onClick = {},
 					icon = R.drawable.ic_action_share_dark,
 					contentDescription = R.string.action_share_image
-				) {
-					// TODO
-				}
+				)
 
 				RRIconButton(
+					onClick = {},
 					icon = R.drawable.dots_vertical_dark,
 					contentDescription = R.string.three_dots_menu
-				) {
-					// TODO
-				}
+				)
 
 				Spacer(Modifier.width(6.dp))
 			}

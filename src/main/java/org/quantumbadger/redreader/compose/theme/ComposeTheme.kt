@@ -23,7 +23,12 @@ interface ComposeThemeAlbum {
 	val subtitle: TextStyle
 }
 
+interface ComposeThemeDropdownMenu {
+	val text: TextStyle
+}
+
 interface ComposeTheme {
+	val dropdownMenu: ComposeThemeDropdownMenu
 	val postCard: ComposeThemePostCard
 	val album: ComposeThemeAlbum
 }
@@ -72,6 +77,14 @@ class ComposeThemeTest(prefs: ComposePrefs) : ComposeTheme {
 		)
 
 		override val toolbarIconColor = Color(0x44, 0x44, 0x44)
+	}
+
+	override val dropdownMenu = object : ComposeThemeDropdownMenu {
+		override val text = baseTextStyle.copy(
+			color = Color.Black,
+			fontWeight = FontWeight.W500,
+			fontSize = 16.sp * prefs.appearanceFontScaleGlobal // TODO different setting
+		)
 	}
 }
 

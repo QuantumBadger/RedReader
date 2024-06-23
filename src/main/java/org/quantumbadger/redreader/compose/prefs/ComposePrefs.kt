@@ -9,6 +9,7 @@ import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.General
 
 interface ComposePrefs {
+	val appearanceFontScaleGlobal: Float
 	val appearanceFontScaleBodyText: Float
 	val appearanceFontScalePosts: Float
 	val appearanceFontScalePostSubtitles: Float
@@ -68,6 +69,9 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
 
 	private fun fontScale(pref: FloatPref) = pref.state.value.takeUnless { it == -1f }
 		?: appearance_fontscale_global.state.value
+
+	override val appearanceFontScaleGlobal: Float
+		get() = appearance_fontscale_global.state.value
 
 	override val appearanceFontScaleBodyText: Float
 		get() = fontScale(appearance_fontscale_bodytext)

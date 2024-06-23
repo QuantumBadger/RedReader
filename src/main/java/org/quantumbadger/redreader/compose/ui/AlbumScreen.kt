@@ -1,6 +1,7 @@
 package org.quantumbadger.redreader.compose.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -17,12 +18,30 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.AlbumInfo
 
+// TODO check for unstable composables
+// TODO dark themes
+// TODO theme progress spinner
+// TODO make cards clickable
+// TODO compact view/"list view"
+// TODO grid view?
+// TODO handle long-click
+// TODO settings menu
+// TODO pref to hide card buttons
+// TODO find best reddit preview
+// TODO reusable RRCachedImage composable, taking ImageInfo as a param
+// TODO resize image on another thread
+// TODO actually hook up the buttons on the card
+// TODO go through all todos on this branch
+// TODO strings
+// TODO screen reader testing
 @Composable
 fun AlbumScreen(
 	album: AlbumInfo
@@ -42,25 +61,27 @@ fun AlbumScreen(
 	) {
 		item {
 			Column(
-				Modifier.padding(horizontal = 14.dp).fillMaxWidth()
+				Modifier
+					.padding(horizontal = 14.dp)
+					.fillMaxWidth()
 			) {
 
 				Spacer(Modifier.height(6.dp))
 
-				RRIconButton(
-					modifier = Modifier.align(Alignment.End),
-					icon = R.drawable.ic_settings_dark,
-					contentDescription = R.string.options_settings,
-				) {
-					// TODO
-				}
+				AlbumSettingsButton(Modifier.align(Alignment.End))
 
 				Spacer(Modifier.height(6.dp))
 
 				Text(
-					modifier = Modifier.fillMaxWidth(),
-					text = album.title ?: "Album",  // TODO string
-					style = theme.album.title
+					modifier = Modifier
+						.fillMaxWidth()
+						.semantics {
+							contentDescription = album.title?.let { title ->
+								"Image gallery: $title"
+							} ?: "Image gallery" // TODO strings
+						},
+					text = album.title ?: "Gallery",  // TODO string
+					style = theme.album.title,
 				)
 				Spacer(Modifier.height(6.dp))
 
@@ -78,6 +99,62 @@ fun AlbumScreen(
 
 		items(count = album.images.size) {
 			AlbumCard(image = album.images[it])
+		}
+	}
+}
+
+@Composable
+fun AlbumSettingsButton(
+	modifier: Modifier = Modifier
+) {
+	val prefs = LocalComposePrefs.current
+	val theme = LocalComposeTheme.current
+
+	Box(modifier = modifier) {
+
+		val settingsMenuState = rememberRRDropdownMenuState()
+
+		RRIconButton(
+			onClick = { settingsMenuState.expanded = true },
+			icon = R.drawable.ic_settings_dark,
+			contentDescription = R.string.options_settings,
+		)
+
+		RRDropdownMenu(state = settingsMenuState) {
+			Item(
+				text = "Card view",
+				icon = R.drawable.cards_variant,
+				onClick = { /*TODO*/ },
+				radioButtonWithValue = true
+			)
+			Item(
+				text = "List view",
+				icon = R.drawable.view_list,
+				onClick = { /*TODO*/ },
+				radioButtonWithValue = false
+			)
+			Item(
+				text = "Grid view",
+				icon = R.drawable.view_grid,
+				onClick = { /*TODO*/ },
+				radioButtonWithValue = false
+			)
+
+			ItemDivider()
+
+			Item(
+				text = "Show buttons on cards",
+				onClick = { /*TODO*/ },
+				checkboxWithValue = true
+			)
+
+			ItemDivider()
+
+			Item(
+				text = "All settings...",
+				icon = R.drawable.ic_settings_dark,
+				onClick = { /*TODO*/ },
+			)
 		}
 	}
 }

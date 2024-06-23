@@ -11,6 +11,7 @@ import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 fun RRComposeContextTest(content: @Composable () -> Unit) {
 
 	val prefValues = object : ComposePrefs {
+		override val appearanceFontScaleGlobal = 1f
 		override val appearanceFontScaleBodyText = 1f
 		override val appearanceFontScalePosts = 1f
 		override val appearanceFontScalePostSubtitles = 1f

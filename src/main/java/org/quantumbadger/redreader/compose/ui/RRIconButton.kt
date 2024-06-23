@@ -14,10 +14,10 @@ import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 
 @Composable
 fun RRIconButton(
+	onClick: () -> Unit,
 	@DrawableRes icon: Int,
 	@StringRes contentDescription: Int,
 	modifier: Modifier = Modifier,
-	onClick: () -> Unit,
 ) {
 	val theme = LocalComposeTheme.current
 

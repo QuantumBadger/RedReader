@@ -12,21 +12,19 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ * along with RedReader.  If not, see <http:></http:>//www.gnu.org/licenses/>.
+ ********************************************************************************/
+package org.quantumbadger.redreader.common
 
-package org.quantumbadger.redreader.cache.downloadstrategy;
-
-import androidx.compose.runtime.Immutable;
-
-import org.quantumbadger.redreader.cache.CacheEntry;
-
-@Immutable
-public interface DownloadStrategy {
-
-	boolean shouldDownloadWithoutCheckingCache();
-
-	boolean shouldDownloadIfCacheEntryFound(final CacheEntry entry);
-
-	boolean shouldDownloadIfNotCached();
+data class Priority @JvmOverloads constructor(
+	@JvmField val primary: Int,
+	@JvmField val secondary: Int = 0
+) {
+    fun isHigherPriorityThan(other: Priority): Boolean {
+        return if (primary != other.primary) {
+            primary < other.primary
+        } else {
+            secondary < other.secondary
+        }
+    }
 }

@@ -14,33 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+package org.quantumbadger.redreader.account
 
-package org.quantumbadger.redreader.common;
+import androidx.compose.runtime.Immutable
+import org.quantumbadger.redreader.common.asciiLowercase
 
-import androidx.annotation.NonNull;
-
-public class Priority {
-
-	public final int primary;
-	public final int secondary;
-
-	public Priority(final int primary, final int secondary) {
-		this.primary = primary;
-		this.secondary = secondary;
-	}
-
-	public Priority(final int primary) {
-		this.primary = primary;
-		this.secondary = 0;
-	}
-
-	public final boolean isHigherPriorityThan(@NonNull final Priority other) {
-
-		if(primary != other.primary) {
-			return primary < other.primary;
-
-		} else {
-			return secondary < other.secondary;
-		}
-	}
+@Immutable
+data class RedditAccountId(val username: String) {
+	val canonicalUsername = username.trim().asciiLowercase()
 }

@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.image
 
+import androidx.compose.runtime.Immutable
 import org.apache.commons.text.StringEscapeUtils
 import org.quantumbadger.redreader.jsonwrap.JsonObject
 import org.quantumbadger.redreader.reddit.kthings.ImageMetadata
@@ -24,6 +25,7 @@ import org.quantumbadger.redreader.reddit.kthings.MaybeParseError
 import org.quantumbadger.redreader.reddit.kthings.RedditPost
 import kotlin.math.min
 
+@Immutable
 class AlbumInfo(
 	@JvmField val url: String,
 	@JvmField val title: String?,

@@ -106,8 +106,37 @@ class RRDropdownMenuScope(
 	}
 
 	@Composable
+	fun <T> ItemPrefRadio(
+		pref: Preference<T>,
+		dismissOnClick: Boolean = false,
+		items: @Composable RRRadioScope<T>.() -> Unit
+	) {
+		items(RRRadioScope(pref, dismissOnClick))
+	}
+
+	@Composable
 	fun ItemDivider() {
 		Divider()
+	}
+}
+
+class RRRadioScope<T>(
+	private val pref: Preference<T>,
+	private val dismissOnClick: Boolean,
+) {
+	@Composable
+	fun RRDropdownMenuScope.Option(
+		value: T,
+		text: String, // TODO change to StringRes
+		@DrawableRes icon: Int? = null,
+	) {
+		Item(
+			text = text,
+			icon = icon,
+			dismissOnClick = dismissOnClick,
+			onClick = { pref.value = value },
+			radioButtonWithValue = pref.value == value
+		)
 	}
 }
 
@@ -273,9 +302,9 @@ private fun BaseDropdownMenuContent(
 	) {
 		Column(
 			modifier = modifier
-                .padding(vertical = 0.dp)
-                .width(IntrinsicSize.Max)
-                .verticalScroll(scrollState),
+				.padding(vertical = 0.dp)
+				.width(IntrinsicSize.Max)
+				.verticalScroll(scrollState),
 			content = content
 		)
 	}

@@ -7,6 +7,7 @@ import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.prefs.Preference
 import org.quantumbadger.redreader.compose.theme.ComposeThemeLight
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.settings.types.AlbumViewMode
 
 @Composable
 fun RRComposeContextTest(content: @Composable () -> Unit) {
@@ -16,7 +17,9 @@ fun RRComposeContextTest(content: @Composable () -> Unit) {
 		override val appearanceFontScaleBodyText = 1f
 		override val appearanceFontScalePosts = 1f
 		override val appearanceFontScalePostSubtitles = 1f
+		override val albumViewMode = testPref(AlbumViewMode.Cards)
 		override val albumCardShowButtons = testPref(true)
+		override val albumListShowThumbnails = testPref(true)
 	}
 
 	CompositionLocalProvider(LocalComposePrefs provides prefValues) {

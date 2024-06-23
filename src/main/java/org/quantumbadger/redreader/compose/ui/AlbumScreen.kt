@@ -25,6 +25,7 @@ import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.AlbumInfo
+import org.quantumbadger.redreader.settings.types.AlbumViewMode
 
 // TODO check for unstable composables
 // TODO dark themes
@@ -44,118 +45,133 @@ import org.quantumbadger.redreader.image.AlbumInfo
 // TODO screen reader testing
 // TODO move the initial loading screen inside Compose
 // TODO tidy up AlbumListingActivity2
+// TODO gradient at top for status bar/nav bar?
 @Composable
 fun AlbumScreen(
-	album: AlbumInfo
+    album: AlbumInfo
 ) {
-	val prefs = LocalComposePrefs.current
-	val theme = LocalComposeTheme.current
+    val prefs = LocalComposePrefs.current
+    val theme = LocalComposeTheme.current
 
-	val contentPadding: PaddingValues = WindowInsets(top = 8.dp, bottom = 24.dp)
-		.add(WindowInsets.systemBars)
-		.asPaddingValues()
+    val contentPadding: PaddingValues = WindowInsets(top = 8.dp, bottom = 24.dp)
+        .add(WindowInsets.systemBars)
+        .asPaddingValues()
 
-	LazyColumn(
-		Modifier
-			.fillMaxSize()
-			.background(theme.postCard.listBackgroundColor),
-		contentPadding = contentPadding
-	) {
-		item {
-			Column(
-				Modifier
-					.padding(horizontal = 14.dp)
-					.fillMaxWidth()
-			) {
+    LazyColumn(
+        Modifier
+            .fillMaxSize()
+            .background(theme.postCard.listBackgroundColor),
+        contentPadding = contentPadding
+    ) {
+        item {
+            Column(
+                Modifier
+                    .padding(horizontal = 14.dp)
+                    .fillMaxWidth()
+            ) {
 
-				Spacer(Modifier.height(6.dp))
+                Spacer(Modifier.height(6.dp))
 
-				AlbumSettingsButton(Modifier.align(Alignment.End))
+                AlbumSettingsButton(Modifier.align(Alignment.End))
 
-				Spacer(Modifier.height(6.dp))
+                Spacer(Modifier.height(6.dp))
 
-				Text(
-					modifier = Modifier
-						.fillMaxWidth()
-						.semantics {
-							contentDescription = album.title?.let { title ->
-								"Image gallery: $title"
-							} ?: "Image gallery" // TODO strings
-						},
-					text = album.title ?: "Gallery",  // TODO string
-					style = theme.album.title,
-				)
-				Spacer(Modifier.height(6.dp))
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics {
+                            contentDescription = album.title?.let { title ->
+                                "Image gallery: $title"
+                            } ?: "Image gallery" // TODO strings
+                        },
+                    text = album.title ?: "Gallery",  // TODO string
+                    style = theme.album.title,
+                )
+                Spacer(Modifier.height(6.dp))
 
-				val s = "s".takeIf { album.images.size != 1 } ?: ""
+                val s = "s".takeIf { album.images.size != 1 } ?: ""
 
-				Text(
-					modifier = Modifier.fillMaxWidth(),
-					text = album.description ?: "${album.images.size} image$s", // TODO string
-					style = theme.album.subtitle
-				)
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = album.description ?: "${album.images.size} image$s", // TODO string
+                    style = theme.album.subtitle
+                )
 
-				Spacer(Modifier.height(16.dp))
-			}
-		}
+                Spacer(Modifier.height(16.dp))
+            }
+        }
 
-		items(count = album.images.size) {
-			AlbumCard(image = album.images[it])
-		}
-	}
+        items(count = album.images.size) {
+            AlbumCard(image = album.images[it])
+        }
+    }
 }
 
 @Composable
 fun AlbumSettingsButton(
-	modifier: Modifier = Modifier
+    modifier: Modifier = Modifier
 ) {
-	val prefs = LocalComposePrefs.current
-	val theme = LocalComposeTheme.current
+    val prefs = LocalComposePrefs.current
+    val theme = LocalComposeTheme.current
 
-	Box(modifier = modifier) {
+    Box(modifier = modifier) {
 
-		val settingsMenuState = rememberRRDropdownMenuState()
+        val settingsMenuState = rememberRRDropdownMenuState()
 
-		RRIconButton(
-			onClick = { settingsMenuState.expanded = true },
-			icon = R.drawable.ic_settings_dark,
-			contentDescription = R.string.options_settings,
-		)
+        RRIconButton(
+            onClick = { settingsMenuState.expanded = true },
+            icon = R.drawable.ic_settings_dark,
+            contentDescription = R.string.options_settings,
+        )
 
-		RRDropdownMenu(state = settingsMenuState) {
-			Item(
-				text = "Card view",
-				icon = R.drawable.cards_variant,
-				onClick = { /*TODO*/ },
-				radioButtonWithValue = true
-			)
-			Item(
-				text = "List view",
-				icon = R.drawable.view_list,
-				onClick = { /*TODO*/ },
-				radioButtonWithValue = false
-			)
-			Item(
-				text = "Grid view",
-				icon = R.drawable.view_grid,
-				onClick = { /*TODO*/ },
-				radioButtonWithValue = false
-			)
+        RRDropdownMenu(state = settingsMenuState) {
 
-			ItemDivider()
+            ItemPrefRadio(pref = prefs.albumViewMode) {
+                Option(
+                    value = AlbumViewMode.Cards,
+                    text = "Card view",
+                    icon = R.drawable.cards_variant,
+                )
+                Option(
+                    value = AlbumViewMode.List,
+                    text = "List view",
+                    icon = R.drawable.view_list,
+                )
+                Option(
+                    value = AlbumViewMode.Grid,
+                    text = "Grid view",
+                    icon = R.drawable.view_grid,
+                )
+            }
 
-			ItemPrefBool(
-				text = "Show buttons on cards",
-				pref = prefs.albumCardShowButtons
-			)
+            ItemDivider()
 
-			ItemDivider()
+            when (prefs.albumViewMode.value) {
+                AlbumViewMode.Cards -> {
+                    ItemPrefBool(
+                        text = "Show buttons on cards",
+                        pref = prefs.albumCardShowButtons
+                    )
+                }
 
-			Item(
-				text = "All settings...",
-				icon = R.drawable.ic_settings_dark,
-				onClick = { /*TODO*/ },
-			)
-		}
-	}
+                AlbumViewMode.List -> {
+                    ItemPrefBool(
+                        text = "Show thumbnails",
+                        pref = prefs.albumListShowThumbnails
+                    )
+                }
+
+                AlbumViewMode.Grid -> {}
+            }
+
+
+            ItemDivider()
+
+            Item(
+                text = "All settings...",
+                icon = R.drawable.ic_settings_dark,
+                onClick = { /*TODO*/ },
+            )
+        }
+    }
 }

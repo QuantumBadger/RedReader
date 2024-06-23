@@ -8,6 +8,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.General
+import org.quantumbadger.redreader.settings.types.AlbumViewMode
+import org.quantumbadger.redreader.settings.types.SettingSerializer
 
 @Stable
 interface Preference<T> {
@@ -20,7 +22,9 @@ interface ComposePrefs {
     val appearanceFontScalePosts: Float
     val appearanceFontScalePostSubtitles: Float
 
+    val albumViewMode: Preference<AlbumViewMode>
     val albumCardShowButtons: Preference<Boolean>
+    val albumListShowThumbnails: Preference<Boolean>
 }
 
 object ComposePrefsSingleton {
@@ -58,15 +62,17 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
         }
     }
 
-    private inner class FloatPref(private val key: String, private val default: Float) :
-        Preference<Float> {
+    private inner class FloatPref(
+        private val key: String,
+        private val default: Float
+    ) : Preference<Float> {
 
         constructor(@StringRes key: Int, default: Float) : this(context.getString(key), default)
 
         private val mutableState = mutableFloatStateOf(loadPref())
 
         init {
-            changeObservers.put(key) {
+            changeObservers[key] = {
                 mutableState.floatValue = loadPref()
             }
         }
@@ -81,15 +87,17 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
             }
     }
 
-    private inner class BoolPref(private val key: String, private val default: Boolean) :
-        Preference<Boolean> {
+    private inner class BoolPref(
+        private val key: String,
+        private val default: Boolean
+    ) : Preference<Boolean> {
 
         constructor(@StringRes key: Int, default: Boolean) : this(context.getString(key), default)
 
         private val mutableState = mutableStateOf(loadPref())
 
         init {
-            changeObservers.put(key) {
+            changeObservers[key] = {
                 mutableState.value = loadPref()
             }
         }
@@ -100,6 +108,31 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
             get() = mutableState.value
             set(value) {
                 sharedPrefs.edit().putBoolean(key, value).apply()
+            }
+    }
+
+    private inner class EnumPref<T>(
+        private val key: String,
+        private val default: T,
+        private val serializer: SettingSerializer<T>
+    ) : Preference<T> {
+
+        private val mutableState = mutableStateOf(loadPref())
+
+        init {
+            changeObservers[key] = {
+                mutableState.value = loadPref()
+            }
+        }
+
+        private fun loadPref() =
+            sharedPrefs.getString(key, serializer.serialize(default))?.let(serializer::deserialize)
+                ?: default
+
+        override var value: T
+            get() = mutableState.value
+            set(value) {
+                sharedPrefs.edit().putString(key, serializer.serialize(value)).apply()
             }
     }
 
@@ -118,7 +151,21 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
     override val appearanceFontScalePostSubtitles: Float
         get() = fontScale(appearance_fontscale_post_subtitles)
 
-    override val albumCardShowButtons: Preference<Boolean> = BoolPref("albumCardShowButtons", true)
+    override val albumViewMode: Preference<AlbumViewMode> = EnumPref(
+        "album_view_mode",
+        AlbumViewMode.Cards,
+        AlbumViewMode.settingSerializer
+    )
+
+    override val albumCardShowButtons: Preference<Boolean> = BoolPref(
+        "album_card_show_buttons",
+        true
+    )
+
+    override val albumListShowThumbnails: Preference<Boolean> = BoolPref(
+        "album_list_show_thumbnails",
+        true
+    )
 }
 
 val LocalComposePrefs = staticCompositionLocalOf { ComposePrefsSingleton.instance }

@@ -16,6 +16,7 @@
  ******************************************************************************/
 package org.quantumbadger.redreader.compose.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -58,177 +59,179 @@ import org.quantumbadger.redreader.image.ImageUrlInfo
 
 @Composable
 fun AlbumCard(
-	image: ImageInfo
+    image: ImageInfo
 ) {
-	val prefs = LocalComposePrefs.current
-	val theme = LocalComposeTheme.current
+    val prefs = LocalComposePrefs.current
+    val theme = LocalComposeTheme.current
 
-	val preview = image.preview ?: image.original
-	val url = General.uriFromString(preview?.url)
+    val preview = image.preview ?: image.original
+    val url = General.uriFromString(preview?.url)
 
-	val systemBarsHeight = WindowInsets.systemBars.let { insets ->
-		with(LocalDensity.current) {
-			(insets.getTop(this) + insets.getBottom(this)).toDp()
-		}
-	}
+    val systemBarsHeight = WindowInsets.systemBars.let { insets ->
+        with(LocalDensity.current) {
+            (insets.getTop(this) + insets.getBottom(this)).toDp()
+        }
+    }
 
-	val usableHeight = LocalConfiguration.current.screenHeightDp.dp - systemBarsHeight
-	val maxImageHeight = (usableHeight * 6) / 7
+    val usableHeight = LocalConfiguration.current.screenHeightDp.dp - systemBarsHeight
+    val maxImageHeight = (usableHeight * 6) / 7
 
-	// TODO parse reddit image previews
-	// TODO handle videos
+    // TODO parse reddit image previews
+    // TODO handle videos
 
-	Box(
-		modifier = Modifier
+    Box(
+        modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 6.dp)
-	) {
-		Column(
-			modifier = Modifier
+    ) {
+        Column(
+            modifier = Modifier
                 .shadow(3.dp, RoundedCornerShape(6.dp))
                 .clip(RoundedCornerShape(6.dp))
                 .background(theme.postCard.backgroundColor)
-		) {
-			Box(
-				modifier = Modifier
+        ) {
+            Box(
+                modifier = Modifier
                     .fillMaxWidth()
                     .animateContentSize(),
-				contentAlignment = Alignment.Center,
-			) {
-				if (preview != null && url != null) {
-					val data by fetchImage(
-						uri = url,
-						user = RedditAccountId(""), // TODO
-					)
+                contentAlignment = Alignment.Center,
+            ) {
+                if (preview != null && url != null) {
+                    val data by fetchImage(
+                        uri = url,
+                        user = RedditAccountId(""), // TODO
+                    )
 
-					val aspectRatio = preview.size?.takeIf { it.height > 0 }?.let {
-						it.width.toFloat() / it.height.toFloat()
-					}
+                    val aspectRatio = preview.size?.takeIf { it.height > 0 }?.let {
+                        it.width.toFloat() / it.height.toFloat()
+                    }
 
-					if (data !is NetRequestStatus.Success && aspectRatio != null) {
-						Box(
-							modifier = Modifier
+                    if (data !is NetRequestStatus.Success && aspectRatio != null) {
+                        Box(
+                            modifier = Modifier
                                 .heightIn(max = maxImageHeight)
                                 .fillMaxWidth()
                                 .aspectRatio(aspectRatio)
-						)
-					}
+                        )
+                    }
 
-					when (val it = data) {
-						NetRequestStatus.Connecting -> {
-							CircularProgressIndicator(
-								Modifier.padding(24.dp)
-							)
-						}
+                    when (val it = data) {
+                        NetRequestStatus.Connecting -> {
+                            CircularProgressIndicator(
+                                Modifier.padding(24.dp)
+                            )
+                        }
 
-						is NetRequestStatus.Downloading -> {
-							CircularProgressIndicator(
-								modifier = Modifier.padding(24.dp),
-								progress = it.fractionComplete
-							)
-						}
+                        is NetRequestStatus.Downloading -> {
+                            CircularProgressIndicator(
+                                modifier = Modifier.padding(24.dp),
+                                progress = it.fractionComplete
+                            )
+                        }
 
-						is NetRequestStatus.Failed -> {
-							// TODO
-						}
+                        is NetRequestStatus.Failed -> {
+                            // TODO
+                        }
 
-						is NetRequestStatus.Success -> {
-							Box(
+                        is NetRequestStatus.Success -> {
+                            Box(
                                 Modifier
                                     .fillMaxWidth()
                                     .background(
                                         theme.postCard.previewImageBackgroundColor
                                     )
-							) {
-								Image(
-									modifier = Modifier
+                            ) {
+                                Image(
+                                    modifier = Modifier
                                         .fillMaxWidth()
                                         .heightIn(max = maxImageHeight),
-									bitmap = it.result,
-									contentDescription = null
-								)
-							}
-						}
-					}
+                                    bitmap = it.result,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    }
 
-				}
-			}
+                }
+            }
 
 
-			val title = image.title?.trim()?.takeUnless { it.isEmpty() }
-			val caption = image.caption?.trim()?.takeUnless { it.isEmpty() }
+            val title = image.title?.trim()?.takeUnless { it.isEmpty() }
+            val caption = image.caption?.trim()?.takeUnless { it.isEmpty() }
 
-			if (title != null && caption != null) {
-				Column(
-					modifier = Modifier.padding(14.dp)
-				) {
-					Text(
-						text = title,
-						style = theme.postCard.title,
-					)
+            if (title != null && caption != null) {
+                Column(
+                    modifier = Modifier.padding(14.dp)
+                ) {
+                    Text(
+                        text = title,
+                        style = theme.postCard.title,
+                    )
 
-					Text(
-						text = caption,
-						style = theme.postCard.subtitle,
-					)
-				}
-			} else {
-				val text = title ?: caption
+                    Text(
+                        text = caption,
+                        style = theme.postCard.subtitle,
+                    )
+                }
+            } else {
+                val text = title ?: caption
 
-				if (text != null) {
-					Column(
-						modifier = Modifier.padding(14.dp)
-					) {
-						Text(
-							text = text,
-							style = theme.postCard.caption,
-						)
-					}
-				}
-			}
+                if (text != null) {
+                    Column(
+                        modifier = Modifier.padding(14.dp)
+                    ) {
+                        Text(
+                            text = text,
+                            style = theme.postCard.caption,
+                        )
+                    }
+                }
+            }
 
-			Row(
-				Modifier.fillMaxWidth(),
-				// TODO left hand mode
-				horizontalArrangement = Arrangement.Absolute.Right
-			) {
+            AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
+                Row(
+                    Modifier.fillMaxWidth(),
+                    // TODO left hand mode
+                    horizontalArrangement = Arrangement.Absolute.Right
+                ) {
 
-				RRIconButton(
-					onClick = {},
-					icon = R.drawable.download,
-					contentDescription = R.string.action_save_image
-				)
+                    RRIconButton(
+                        onClick = {},
+                        icon = R.drawable.download,
+                        contentDescription = R.string.action_save_image
+                    )
 
-				RRIconButton(
-					onClick = {},
-					icon = R.drawable.ic_action_share_dark,
-					contentDescription = R.string.action_share_image
-				)
+                    RRIconButton(
+                        onClick = {},
+                        icon = R.drawable.ic_action_share_dark,
+                        contentDescription = R.string.action_share_image
+                    )
 
-				RRIconButton(
-					onClick = {},
-					icon = R.drawable.dots_vertical_dark,
-					contentDescription = R.string.three_dots_menu
-				)
+                    RRIconButton(
+                        onClick = {},
+                        icon = R.drawable.dots_vertical_dark,
+                        contentDescription = R.string.three_dots_menu
+                    )
 
-				Spacer(Modifier.width(6.dp))
-			}
-		}
-	}
+                    Spacer(Modifier.width(4.dp))
+                }
+            }
+        }
+    }
 }
 
 
 @Composable
 @Preview(backgroundColor = 0x999999)
 fun PreviewAlbumCard() {
-	RRComposeContextTest {
-		AlbumCard(
-			ImageInfo(
-				original = ImageUrlInfo("testimage", size = ImageSize(100, 100)),
-				title = "Test title",
-				caption = "Test caption",
-				hasAudio = ImageInfo.HasAudio.NO_AUDIO,
-			)
-		)
-	}
+    RRComposeContextTest {
+        AlbumCard(
+            ImageInfo(
+                original = ImageUrlInfo("testimage", size = ImageSize(100, 100)),
+                title = "Test title",
+                caption = "Test caption",
+                hasAudio = ImageInfo.HasAudio.NO_AUDIO,
+            )
+        )
+    }
 }

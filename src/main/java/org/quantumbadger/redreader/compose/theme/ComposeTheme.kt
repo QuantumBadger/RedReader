@@ -1,11 +1,16 @@
 package org.quantumbadger.redreader.compose.theme
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import org.quantumbadger.redreader.compose.prefs.ComposePrefs
+import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 
 interface ComposeThemePostCard {
 	val title: TextStyle
@@ -31,6 +36,27 @@ interface ComposeTheme {
 	val dropdownMenu: ComposeThemeDropdownMenu
 	val postCard: ComposeThemePostCard
 	val album: ComposeThemeAlbum
+}
+
+@Composable
+fun RRComposeContextTheme(
+	content: @Composable () -> Unit,
+) {
+	val prefs = LocalComposePrefs.current
+
+	val theme = ComposeThemeLight(prefs)
+
+	MaterialTheme(
+		// TODO set all values from theme
+		colorScheme = lightColorScheme(
+			primary = Color(0xE7, 0x00, 0x00),
+			secondary = Color(0xD0, 0x00, 0x00),
+		)
+	) {
+		CompositionLocalProvider(LocalComposeTheme provides theme) {
+			content()
+		}
+	}
 }
 
 class ComposeThemeLight(prefs: ComposePrefs) : ComposeTheme {

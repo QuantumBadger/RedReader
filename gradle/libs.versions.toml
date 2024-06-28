@@ -75,7 +75,7 @@ androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-
 androidx-test-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-test-junit" }
 
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
-androidx-compose-material = { module = "androidx.compose.material:material" }
+androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }

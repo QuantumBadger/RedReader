@@ -21,6 +21,7 @@ fun RRComposeContextTest(content: @Composable () -> Unit) {
 		override val albumCardShowButtons = testPref(true)
 		override val albumListShowThumbnails = testPref(true)
 		override val albumGridStagger = testPref(false)
+		override val albumGridColumns = testPref(2f)
 	}
 
 	CompositionLocalProvider(LocalComposePrefs provides prefValues) {

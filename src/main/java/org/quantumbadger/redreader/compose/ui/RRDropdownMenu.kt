@@ -7,21 +7,22 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.Checkbox
-import androidx.compose.material.Divider
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.RadioButton
-import androidx.compose.material.Text
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.MutableState
@@ -31,6 +32,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
@@ -166,32 +170,31 @@ private fun RRDropdownMenuItem(
 
 	DropdownMenuItem(
 		modifier = Modifier.semantics(mergeDescendants = true) {},
-		onClick = onClick
-	) {
-		if (icon != null) {
-			Icon(
-				painter = painterResource(id = icon),
-				contentDescription = null
+		onClick = onClick,
+		leadingIcon = {
+			if (icon != null) {
+				Icon(
+					painter = painterResource(id = icon),
+					contentDescription = null
+				)
+			}
+		},
+		text = {
+			Text(
+				text = text,
+				style = theme.dropdownMenu.text
 			)
-			Spacer(Modifier.width(16.dp))
+		},
+		trailingIcon = {
+			if (radioButtonWithValue != null) {
+				RadioButton(selected = radioButtonWithValue, onClick = onClick)
+			}
+
+			if (checkboxWithValue != null) {
+				Checkbox(checked = checkboxWithValue, onCheckedChange = { onClick() })
+			}
 		}
-
-		Text(
-			text = text,
-			style = theme.dropdownMenu.text
-		)
-
-		Spacer(Modifier.weight(1f))
-		Spacer(Modifier.width(8.dp))
-
-		if (radioButtonWithValue != null) {
-			RadioButton(selected = radioButtonWithValue, onClick = onClick)
-		}
-
-		if (checkboxWithValue != null) {
-			Checkbox(checked = checkboxWithValue, onCheckedChange = { onClick() })
-		}
-	}
+	)
 }
 
 // Classes and functions below taken from Compose, and modified to remove unnecessary padding
@@ -261,7 +264,7 @@ private fun BaseDropdownMenuContent(
 					delayMillis = 75 - 1
 				)
 			}
-		}
+		}, label = "Dropdown menu open/close"
 	) {
 		if (it) {
 			// Menu is expanded.
@@ -281,7 +284,7 @@ private fun BaseDropdownMenuContent(
 				// Expanded to dismissed.
 				tween(durationMillis = 75)
 			}
-		}
+		}, label = "Dropdown menu alpha"
 	) {
 		if (it) {
 			// Menu is expanded.
@@ -291,20 +294,23 @@ private fun BaseDropdownMenuContent(
 			0f
 		}
 	}
-	Card(
-		modifier = Modifier.graphicsLayer {
-			scaleX = scale
-			scaleY = scale
-			this.alpha = alpha
-			transformOrigin = transformOriginState.value
-		},
-		elevation = 8.dp
+	Box(
+		modifier = Modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+                this.alpha = alpha
+                transformOrigin = transformOriginState.value
+            }
+			.shadow(10.dp, RoundedCornerShape(6.dp))
+            .clip(RoundedCornerShape(6.dp))
+            .background(Color.White),
 	) {
 		Column(
 			modifier = modifier
-				.padding(vertical = 0.dp)
-				.width(IntrinsicSize.Max)
-				.verticalScroll(scrollState),
+                .padding(vertical = 0.dp)
+                .width(IntrinsicSize.Max)
+                .verticalScroll(scrollState),
 			content = content
 		)
 	}

@@ -5,17 +5,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import org.quantumbadger.redreader.compose.prefs.ComposePrefsSingleton
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.prefs.Preference
-import org.quantumbadger.redreader.compose.theme.ComposeThemeLight
-import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.compose.theme.RRComposeContextTheme
 
 @Composable
 fun RRComposeContext(content: @Composable () -> Unit) {
 
 	CompositionLocalProvider(LocalComposePrefs provides ComposePrefsSingleton.instance) {
-
-		val prefs = LocalComposePrefs.current
-
-		CompositionLocalProvider(LocalComposeTheme provides ComposeThemeLight(prefs)) {
+		RRComposeContextTheme {
 			content()
 		}
 	}

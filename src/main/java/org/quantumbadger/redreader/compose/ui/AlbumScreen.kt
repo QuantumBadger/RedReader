@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
@@ -24,14 +25,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Slider
-import androidx.compose.material.Text
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
@@ -69,113 +73,138 @@ fun AlbumScreen(
     val prefs = LocalComposePrefs.current
     val theme = LocalComposeTheme.current
 
+	val topBarHeight = 48.dp
+
     val contentPadding: PaddingValues = WindowInsets(top = 8.dp, bottom = 24.dp)
         .add(WindowInsets.systemBars)
         .asPaddingValues()
 
-    val head: @Composable () -> Unit = {
-        Column(
-            Modifier
-                .padding(horizontal = 14.dp)
-                .fillMaxWidth()
-        ) {
+	val head = @Composable {
+		Column(
+			Modifier
+				.padding(horizontal = 14.dp)
+				.fillMaxWidth()) {
 
-            Spacer(Modifier.height(6.dp))
+			// Space for the top bar
+			Spacer(Modifier.height(topBarHeight))
 
-            AlbumSettingsButton(Modifier.align(Alignment.End))
+			Text(
+				modifier = Modifier
+					.fillMaxWidth()
+					.semantics {
+						contentDescription = album.title?.let { title ->
+							"Image gallery: $title"
+						} ?: "Image gallery" // TODO strings
+					},
+				text = album.title ?: "Gallery",  // TODO string
+				style = theme.album.title,
+				overflow = TextOverflow.Ellipsis,
+				maxLines = 2
+			)
 
-            Spacer(Modifier.height(6.dp))
+			Spacer(Modifier.height(6.dp))
 
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .semantics {
-                        contentDescription = album.title?.let { title ->
-                            "Image gallery: $title"
-                        } ?: "Image gallery" // TODO strings
-                    },
-                text = album.title ?: "Gallery",  // TODO string
-                style = theme.album.title,
-            )
-            Spacer(Modifier.height(6.dp))
+			val s = "s".takeIf { album.images.size != 1 } ?: ""
 
-            val s = "s".takeIf { album.images.size != 1 } ?: ""
+			Text(
+				modifier = Modifier.fillMaxWidth(),
+				text = album.description ?: "${album.images.size} image$s", // TODO string
+				style = theme.album.subtitle,
+				overflow = TextOverflow.Ellipsis,
+				maxLines = 3
+			)
 
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = album.description ?: "${album.images.size} image$s", // TODO string
-                style = theme.album.subtitle
-            )
+			Spacer(Modifier.height(12.dp))
+		}
+	}
 
-            Spacer(Modifier.height(16.dp))
-        }
-    }
+	Box {
 
-    AnimatedContent(
-        targetState = prefs.albumViewMode.value,
-        transitionSpec = { fadeIn() togetherWith fadeOut() }
-    ) { mode ->
-        when (mode) {
-            AlbumViewMode.Cards -> {
-                LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .background(theme.postCard.listBackgroundColor),
-                    contentPadding = contentPadding
-                ) {
-                    item {
-                        head()
-                    }
+		// Content
+		AnimatedContent(
+			targetState = prefs.albumViewMode.value,
+			transitionSpec = { fadeIn() togetherWith fadeOut() }
+		) { mode ->
 
-                    items(count = album.images.size) {
-                        AlbumCard(image = album.images[it])
-                    }
-                }
-            }
+			when (mode) {
+				AlbumViewMode.Cards -> {
+					LazyColumn(
+						Modifier
+							.fillMaxSize()
+							.background(theme.postCard.listBackgroundColor),
+						contentPadding = contentPadding
+					) {
+						item {
+							head()
+						}
 
-            AlbumViewMode.List -> {
-                LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .background(theme.postCard.listBackgroundColor),
-                    contentPadding = contentPadding
-                ) {
-                    item {
-                        head()
-                    }
+						items(count = album.images.size) {
+							AlbumCard(image = album.images[it])
+						}
+					}
+				}
 
-                    items(count = album.images.size) {
-                        AlbumCard(image = album.images[it])
-                    }
-                }
-            }
+				AlbumViewMode.List -> {
+					LazyColumn(
+						Modifier
+							.fillMaxSize()
+							.background(theme.postCard.listBackgroundColor),
+						contentPadding = contentPadding
+					) {
+						item {
+							head()
+						}
 
-            AlbumViewMode.Grid -> {
-                LazyVerticalStaggeredGrid(
-                    columns = StaggeredGridCells.Fixed(prefs.albumGridColumns.value.roundToInt()),
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(theme.postCard.listBackgroundColor),
-                    contentPadding = contentPadding,
-                    verticalItemSpacing = 8.dp,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    item(span = StaggeredGridItemSpan.FullLine) {
-                        head()
-                    }
+						items(count = album.images.size) {
+							AlbumCard(image = album.images[it])
+						}
+					}
+				}
 
-                    items(count = album.images.size, key = { it }) {
-                        Box() {
-                            NetImage(
-                                image = album.images[it].run { bigSquare ?: preview ?: original },
-                                cropToAspect = 1f.takeUnless { prefs.albumGridStagger.value }
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
+				AlbumViewMode.Grid -> {
+					LazyVerticalStaggeredGrid(
+						columns = StaggeredGridCells.Fixed(prefs.albumGridColumns.value.roundToInt()),
+						modifier = Modifier
+							.fillMaxSize()
+							.background(theme.postCard.listBackgroundColor),
+						contentPadding = contentPadding,
+						verticalItemSpacing = 8.dp,
+						horizontalArrangement = Arrangement.spacedBy(8.dp)
+					) {
+						item(span = StaggeredGridItemSpan.FullLine) {
+							head()
+						}
+
+						items(count = album.images.size, key = { it }) {
+							Box {
+								NetImage(
+									image = album.images[it].run {
+										bigSquare ?: preview ?: original
+									},
+									cropToAspect = 1f.takeUnless { prefs.albumGridStagger.value }
+								)
+							}
+						}
+					}
+				}
+			}
+		}
+
+		val insets = WindowInsets.systemBars.asPaddingValues().override(bottom = 0.dp)
+
+		// Top bar
+		Row(
+			modifier = Modifier
+				.background(theme.postCard.listBackgroundColor)
+				.padding(insets)
+				.height(topBarHeight)
+				.fillMaxWidth(),
+			verticalAlignment = Alignment.CenterVertically,
+			horizontalArrangement = Arrangement.End
+		) {
+			AlbumSettingsButton()
+		}
+	}
 }
 
 @Composable
@@ -189,11 +218,11 @@ fun AlbumSettingsButton(
 
         val settingsMenuState = rememberRRDropdownMenuState()
 
-        RRIconButton(
-            onClick = { settingsMenuState.expanded = true },
-            icon = R.drawable.ic_settings_dark,
-            contentDescription = R.string.options_settings,
-        )
+		RRIconButton(
+			onClick = { settingsMenuState.expanded = true },
+			icon = R.drawable.ic_settings_dark,
+			contentDescription = R.string.options_settings,
+		)
 
         RRDropdownMenu(state = settingsMenuState) {
 
@@ -220,7 +249,7 @@ fun AlbumSettingsButton(
             when (prefs.albumViewMode.value) {
                 AlbumViewMode.Cards -> {
                     ItemPrefBool(
-                        text = "Show buttons on cards",
+                        text = "Buttons on cards",
                         pref = prefs.albumCardShowButtons
                     )
                 }
@@ -238,36 +267,39 @@ fun AlbumSettingsButton(
                         pref = prefs.albumGridStagger
                     )
 
+                    ItemDivider()
+
                     DropdownMenuItem(
                         onClick = {},
-                        enabled = false
-                    ) {
-                        Column(
-                            Modifier
-                                .fillMaxWidth()
-                                .sizeIn(
-                                    minWidth = 112.dp,
-                                    maxWidth = 280.dp,
-                                    minHeight = 48.dp
+                        enabled = false,
+                        text = {
+                            Column(
+								Modifier
+									.fillMaxWidth()
+									.sizeIn(
+										minWidth = 112.dp,
+										maxWidth = 280.dp,
+										minHeight = 48.dp
+									)
+                            ) {
+                                Text(
+                                    text = "Columns",
+                                    style = theme.dropdownMenu.text
                                 )
-                        ) {
-                            Text(
-                                text = "Columns",
-                                style = theme.dropdownMenu.text
-                            )
 
-                            // TODO plus/minus buttons?
-                            Slider(
-                                modifier = Modifier
-                                    .width(200.dp)
-                                    .height(40.dp),
-                                value = prefs.albumGridColumns.value,
-                                onValueChange = { prefs.albumGridColumns.value = it },
-                                valueRange = 2f..5f,
-                                steps = (5 - 2) + 1,
-                            )
+                                // TODO plus/minus buttons?
+                                Slider(
+                                    modifier = Modifier
+                                        .width(200.dp)
+                                        .height(40.dp),
+                                    value = prefs.albumGridColumns.value,
+                                    onValueChange = { prefs.albumGridColumns.value = it },
+                                    valueRange = 2f..5f,
+                                    steps = (5 - 2) + 1,
+                                )
+                            }
                         }
-                    }
+                    )
                 }
             }
 
@@ -282,3 +314,32 @@ fun AlbumSettingsButton(
         }
     }
 }
+
+class OverridePaddingValues(
+	private val parent: PaddingValues,
+	private val top: Dp? = null,
+	private val bottom: Dp? = null,
+	private val left: Dp? = null,
+	private val right: Dp? = null,
+) : PaddingValues {
+	override fun calculateBottomPadding() = bottom ?: parent.calculateBottomPadding()
+
+	override fun calculateLeftPadding(layoutDirection: LayoutDirection) = left ?: parent.calculateLeftPadding(layoutDirection)
+
+	override fun calculateRightPadding(layoutDirection: LayoutDirection) = right ?: parent.calculateRightPadding(layoutDirection)
+
+	override fun calculateTopPadding() = top ?: parent.calculateTopPadding()
+}
+
+fun PaddingValues.override(
+	top: Dp? = null,
+	bottom: Dp? = null,
+	left: Dp? = null,
+	right: Dp? = null,
+) = OverridePaddingValues(
+	parent = this,
+	top = top,
+	bottom = bottom,
+	left = left,
+	right = right
+)

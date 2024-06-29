@@ -1,9 +1,5 @@
 package org.quantumbadger.redreader.compose.ui
 
-import androidx.compose.animation.AnimatedContent
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,15 +18,23 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
@@ -42,6 +46,7 @@ import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 // TODO check for unstable composables
@@ -68,34 +73,35 @@ import kotlin.math.roundToInt
 // TODO action bar on scroll, move head() out of the list
 @Composable
 fun AlbumScreen(
-    album: AlbumInfo
+	album: AlbumInfo
 ) {
-    val prefs = LocalComposePrefs.current
-    val theme = LocalComposeTheme.current
+	val prefs = LocalComposePrefs.current
+	val theme = LocalComposeTheme.current
 
 	val topBarHeight = 48.dp
 
-    val contentPadding: PaddingValues = WindowInsets(top = 8.dp, bottom = 24.dp)
-        .add(WindowInsets.systemBars)
-        .asPaddingValues()
+	val contentPadding: PaddingValues = WindowInsets(top = 8.dp, bottom = 24.dp)
+		.add(WindowInsets.systemBars)
+		.asPaddingValues()
 
 	val head = @Composable {
 		Column(
-			Modifier
-				.padding(horizontal = 14.dp)
-				.fillMaxWidth()) {
+            Modifier
+                .padding(horizontal = 14.dp)
+                .fillMaxWidth()
+		) {
 
 			// Space for the top bar
 			Spacer(Modifier.height(topBarHeight))
 
 			Text(
 				modifier = Modifier
-					.fillMaxWidth()
-					.semantics {
-						contentDescription = album.title?.let { title ->
-							"Image gallery: $title"
-						} ?: "Image gallery" // TODO strings
-					},
+                    .fillMaxWidth()
+                    .semantics {
+                        contentDescription = album.title?.let { title ->
+                            "Image gallery: $title"
+                        } ?: "Image gallery" // TODO strings
+                    },
 				text = album.title ?: "Gallery",  // TODO string
 				style = theme.album.title,
 				overflow = TextOverflow.Ellipsis,
@@ -121,84 +127,123 @@ fun AlbumScreen(
 	Box {
 
 		// Content
-		AnimatedContent(
-			targetState = prefs.albumViewMode.value,
-			transitionSpec = { fadeIn() togetherWith fadeOut() }
-		) { mode ->
 
-			when (mode) {
-				AlbumViewMode.Cards -> {
-					LazyColumn(
-						Modifier
-							.fillMaxSize()
-							.background(theme.postCard.listBackgroundColor),
-						contentPadding = contentPadding
-					) {
-						item {
-							head()
-						}
+		val scrollState = when (prefs.albumViewMode.value) {
+			AlbumViewMode.Cards -> {
 
-						items(count = album.images.size) {
-							AlbumCard(image = album.images[it])
+				val state = rememberLazyListState()
+
+				LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                        .background(theme.postCard.listBackgroundColor),
+					contentPadding = contentPadding,
+					state = state
+				) {
+					item {
+						head()
+					}
+
+					items(count = album.images.size) {
+						AlbumCard(image = album.images[it])
+					}
+				}
+
+				object : TopBarScrollObservable {
+					override val firstVisibleItemIndex: Int
+						get() = state.firstVisibleItemIndex
+					override val firstVisibleItemOffset: Int
+						get() = state.firstVisibleItemScrollOffset
+				}
+			}
+
+			AlbumViewMode.List -> {
+				val state = rememberLazyListState()
+
+				LazyColumn(
+                    Modifier
+                        .fillMaxSize()
+                        .background(theme.postCard.listBackgroundColor),
+					contentPadding = contentPadding,
+					state = state
+				) {
+					item {
+						head()
+					}
+
+					items(count = album.images.size) {
+						AlbumCard(image = album.images[it])
+					}
+				}
+
+				object : TopBarScrollObservable {
+					override val firstVisibleItemIndex: Int
+						get() = state.firstVisibleItemIndex
+					override val firstVisibleItemOffset: Int
+						get() = state.firstVisibleItemScrollOffset
+				}
+			}
+
+			AlbumViewMode.Grid -> {
+				val state = rememberLazyStaggeredGridState()
+
+				LazyVerticalStaggeredGrid(
+					state = state,
+					columns = StaggeredGridCells.Fixed(prefs.albumGridColumns.value.roundToInt()),
+					modifier = Modifier
+                        .fillMaxSize()
+                        .background(theme.postCard.listBackgroundColor),
+					contentPadding = contentPadding,
+					verticalItemSpacing = 8.dp,
+					horizontalArrangement = Arrangement.spacedBy(8.dp),
+				) {
+					item(span = StaggeredGridItemSpan.FullLine) {
+						head()
+					}
+
+					items(count = album.images.size, key = { it }) {
+						Box {
+							NetImage(
+								image = album.images[it].run {
+									bigSquare ?: preview ?: original
+								},
+								cropToAspect = 1f.takeUnless { prefs.albumGridStagger.value }
+							)
 						}
 					}
 				}
 
-				AlbumViewMode.List -> {
-					LazyColumn(
-						Modifier
-							.fillMaxSize()
-							.background(theme.postCard.listBackgroundColor),
-						contentPadding = contentPadding
-					) {
-						item {
-							head()
-						}
-
-						items(count = album.images.size) {
-							AlbumCard(image = album.images[it])
-						}
-					}
-				}
-
-				AlbumViewMode.Grid -> {
-					LazyVerticalStaggeredGrid(
-						columns = StaggeredGridCells.Fixed(prefs.albumGridColumns.value.roundToInt()),
-						modifier = Modifier
-							.fillMaxSize()
-							.background(theme.postCard.listBackgroundColor),
-						contentPadding = contentPadding,
-						verticalItemSpacing = 8.dp,
-						horizontalArrangement = Arrangement.spacedBy(8.dp)
-					) {
-						item(span = StaggeredGridItemSpan.FullLine) {
-							head()
-						}
-
-						items(count = album.images.size, key = { it }) {
-							Box {
-								NetImage(
-									image = album.images[it].run {
-										bigSquare ?: preview ?: original
-									},
-									cropToAspect = 1f.takeUnless { prefs.albumGridStagger.value }
-								)
-							}
-						}
-					}
+				object : TopBarScrollObservable {
+					override val firstVisibleItemIndex: Int
+						get() = state.firstVisibleItemIndex
+					override val firstVisibleItemOffset: Int
+						get() = state.firstVisibleItemScrollOffset
 				}
 			}
 		}
 
 		val insets = WindowInsets.systemBars.asPaddingValues().override(bottom = 0.dp)
 
+		val topBarShadow by with(LocalDensity.current) {
+			remember(scrollState) {
+				derivedStateOf {
+					if (scrollState.firstVisibleItemIndex > 0) {
+						10.dp
+					} else {
+						min(10f, scrollState.firstVisibleItemOffset.toDp().value / 10f).dp
+					}
+				}
+			}
+		}
+
 		// Top bar
 		Row(
 			modifier = Modifier
-				.background(theme.postCard.listBackgroundColor)
-				.padding(insets)
-				.height(topBarHeight)
-				.fillMaxWidth(),
+                .shadow(topBarShadow)
+                .background(theme.postCard.listBackgroundColor)
+                .padding(insets)
+                .height(topBarHeight)
+                .fillMaxWidth(),
 			verticalAlignment = Alignment.CenterVertically,
 			horizontalArrangement = Arrangement.End
 		) {
@@ -209,14 +254,14 @@ fun AlbumScreen(
 
 @Composable
 fun AlbumSettingsButton(
-    modifier: Modifier = Modifier
+	modifier: Modifier = Modifier
 ) {
-    val prefs = LocalComposePrefs.current
-    val theme = LocalComposeTheme.current
+	val prefs = LocalComposePrefs.current
+	val theme = LocalComposeTheme.current
 
-    Box(modifier = modifier) {
+	Box(modifier = modifier) {
 
-        val settingsMenuState = rememberRRDropdownMenuState()
+		val settingsMenuState = rememberRRDropdownMenuState()
 
 		RRIconButton(
 			onClick = { settingsMenuState.expanded = true },
@@ -224,95 +269,95 @@ fun AlbumSettingsButton(
 			contentDescription = R.string.options_settings,
 		)
 
-        RRDropdownMenu(state = settingsMenuState) {
+		RRDropdownMenu(state = settingsMenuState) {
 
-            ItemPrefRadio(pref = prefs.albumViewMode) {
-                Option(
-                    value = AlbumViewMode.Cards,
-                    text = "Card view",
-                    icon = R.drawable.cards_variant,
-                )
-                Option(
-                    value = AlbumViewMode.List,
-                    text = "List view",
-                    icon = R.drawable.view_list,
-                )
-                Option(
-                    value = AlbumViewMode.Grid,
-                    text = "Grid view",
-                    icon = R.drawable.view_grid,
-                )
-            }
+			ItemPrefRadio(pref = prefs.albumViewMode) {
+				Option(
+					value = AlbumViewMode.Cards,
+					text = "Card view",
+					icon = R.drawable.cards_variant,
+				)
+				Option(
+					value = AlbumViewMode.List,
+					text = "List view",
+					icon = R.drawable.view_list,
+				)
+				Option(
+					value = AlbumViewMode.Grid,
+					text = "Grid view",
+					icon = R.drawable.view_grid,
+				)
+			}
 
-            ItemDivider()
+			ItemDivider()
 
-            when (prefs.albumViewMode.value) {
-                AlbumViewMode.Cards -> {
-                    ItemPrefBool(
-                        text = "Buttons on cards",
-                        pref = prefs.albumCardShowButtons
-                    )
-                }
+			when (prefs.albumViewMode.value) {
+				AlbumViewMode.Cards -> {
+					ItemPrefBool(
+						text = "Buttons on cards",
+						pref = prefs.albumCardShowButtons
+					)
+				}
 
-                AlbumViewMode.List -> {
-                    ItemPrefBool(
-                        text = "Show thumbnails",
-                        pref = prefs.albumListShowThumbnails
-                    )
-                }
+				AlbumViewMode.List -> {
+					ItemPrefBool(
+						text = "Show thumbnails",
+						pref = prefs.albumListShowThumbnails
+					)
+				}
 
-                AlbumViewMode.Grid -> {
-                    ItemPrefBool(
-                        text = "Stagger items",
-                        pref = prefs.albumGridStagger
-                    )
+				AlbumViewMode.Grid -> {
+					ItemPrefBool(
+						text = "Stagger items",
+						pref = prefs.albumGridStagger
+					)
 
-                    ItemDivider()
+					ItemDivider()
 
-                    DropdownMenuItem(
-                        onClick = {},
-                        enabled = false,
-                        text = {
-                            Column(
-								Modifier
-									.fillMaxWidth()
-									.sizeIn(
-										minWidth = 112.dp,
-										maxWidth = 280.dp,
-										minHeight = 48.dp
-									)
-                            ) {
-                                Text(
-                                    text = "Columns",
-                                    style = theme.dropdownMenu.text
-                                )
+					DropdownMenuItem(
+						onClick = {},
+						enabled = false,
+						text = {
+							Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .sizeIn(
+                                        minWidth = 112.dp,
+                                        maxWidth = 280.dp,
+                                        minHeight = 48.dp
+                                    )
+							) {
+								Text(
+									text = "Columns",
+									style = theme.dropdownMenu.text
+								)
 
-                                // TODO plus/minus buttons?
-                                Slider(
-                                    modifier = Modifier
+								// TODO plus/minus buttons?
+								Slider(
+									modifier = Modifier
                                         .width(200.dp)
                                         .height(40.dp),
-                                    value = prefs.albumGridColumns.value,
-                                    onValueChange = { prefs.albumGridColumns.value = it },
-                                    valueRange = 2f..5f,
-                                    steps = (5 - 2) + 1,
-                                )
-                            }
-                        }
-                    )
-                }
-            }
+									value = prefs.albumGridColumns.value,
+									onValueChange = { prefs.albumGridColumns.value = it },
+									valueRange = 2f..5f,
+									steps = (5 - 2) + 1,
+								)
+							}
+						}
+					)
+				}
+			}
 
 
-            ItemDivider()
+			ItemDivider()
 
-            Item(
-                text = "All settings...",
-                icon = R.drawable.ic_settings_dark,
-                onClick = { /*TODO*/ },
-            )
-        }
-    }
+			Item(
+				text = "All settings...",
+				icon = R.drawable.ic_settings_dark,
+				onClick = { /*TODO*/ },
+			)
+		}
+	}
 }
 
 class OverridePaddingValues(
@@ -324,9 +369,11 @@ class OverridePaddingValues(
 ) : PaddingValues {
 	override fun calculateBottomPadding() = bottom ?: parent.calculateBottomPadding()
 
-	override fun calculateLeftPadding(layoutDirection: LayoutDirection) = left ?: parent.calculateLeftPadding(layoutDirection)
+	override fun calculateLeftPadding(layoutDirection: LayoutDirection) =
+		left ?: parent.calculateLeftPadding(layoutDirection)
 
-	override fun calculateRightPadding(layoutDirection: LayoutDirection) = right ?: parent.calculateRightPadding(layoutDirection)
+	override fun calculateRightPadding(layoutDirection: LayoutDirection) =
+		right ?: parent.calculateRightPadding(layoutDirection)
 
 	override fun calculateTopPadding() = top ?: parent.calculateTopPadding()
 }
@@ -343,3 +390,9 @@ fun PaddingValues.override(
 	left = left,
 	right = right
 )
+
+@Stable
+interface TopBarScrollObservable {
+	val firstVisibleItemIndex: Int
+	val firstVisibleItemOffset: Int
+}

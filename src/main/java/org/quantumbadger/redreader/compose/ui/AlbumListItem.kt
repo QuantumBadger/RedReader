@@ -115,7 +115,7 @@ fun AlbumListItem(
 				bottom.linkTo(parent.bottom)
 				end.linkTo(parent.end)
 			},
-			visible = prefs.albumCardShowButtons.value
+			visible = prefs.albumListShowButtons.value
 		) {
 			Row(
 				// TODO left hand mode

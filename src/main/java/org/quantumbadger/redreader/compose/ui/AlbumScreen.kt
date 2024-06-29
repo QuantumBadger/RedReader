@@ -207,7 +207,7 @@ fun AlbumScreen(
 								image = album.images[it].run {
 									bigSquare ?: preview ?: original
 								},
-								cropToAspect = 1f.takeUnless { prefs.albumGridStagger.value }
+								cropToAspect = 1f.takeIf { prefs.albumGridCropToSquare.value }
 							)
 						}
 					}
@@ -308,8 +308,8 @@ fun AlbumSettingsButton(
 
 				AlbumViewMode.Grid -> {
 					ItemPrefBool(
-						text = "Stagger items",
-						pref = prefs.albumGridStagger
+						text = "Crop to square",
+						pref = prefs.albumGridCropToSquare
 					)
 
 					ItemDivider()
@@ -321,18 +321,20 @@ fun AlbumSettingsButton(
 							Column(
                                 Modifier
                                     .fillMaxWidth()
+									.padding(6.dp)
                                     .sizeIn(
                                         minWidth = 112.dp,
                                         maxWidth = 280.dp,
                                         minHeight = 48.dp
                                     )
 							) {
+								Spacer(Modifier.height(6.dp))
+
 								Text(
 									text = "Columns",
 									style = theme.dropdownMenu.text
 								)
 
-								// TODO plus/minus buttons?
 								Slider(
 									modifier = Modifier
                                         .width(200.dp)
@@ -340,7 +342,7 @@ fun AlbumSettingsButton(
 									value = prefs.albumGridColumns.value,
 									onValueChange = { prefs.albumGridColumns.value = it },
 									valueRange = 2f..5f,
-									steps = (5 - 2) + 1,
+									steps = (5 - 2) - 1,
 								)
 							}
 						}

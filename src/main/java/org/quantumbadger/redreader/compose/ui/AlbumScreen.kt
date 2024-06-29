@@ -22,6 +22,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -82,9 +83,9 @@ fun AlbumScreen(
 
 	val head = @Composable {
 		Column(
-            Modifier
-                .padding(horizontal = 14.dp)
-                .fillMaxWidth()
+			Modifier
+				.padding(horizontal = 14.dp)
+				.fillMaxWidth()
 		) {
 
 			// Space for the top bar
@@ -165,10 +166,12 @@ fun AlbumScreen(
 				) {
 					item {
 						head()
+						HorizontalDivider(thickness = 0.5.dp)
 					}
 
 					items(count = album.images.size) {
-						AlbumCard(image = album.images[it])
+						AlbumListItem(index = it, image = album.images[it])
+						HorizontalDivider(thickness = 0.5.dp)
 					}
 				}
 
@@ -200,6 +203,7 @@ fun AlbumScreen(
 					items(count = album.images.size, key = { it }) {
 						Box {
 							NetImage(
+								modifier = Modifier,
 								image = album.images[it].run {
 									bigSquare ?: preview ?: original
 								},

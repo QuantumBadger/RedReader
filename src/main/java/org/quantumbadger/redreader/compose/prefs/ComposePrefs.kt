@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.staticCompositionLocalOf
 import org.quantumbadger.redreader.R
@@ -26,7 +27,7 @@ interface ComposePrefs {
     val albumCardShowButtons: Preference<Boolean>
     val albumListShowThumbnails: Preference<Boolean>
     val albumGridCropToSquare: Preference<Boolean>
-    val albumGridColumns: Preference<Float>
+    val albumGridColumns: Preference<Int>
 }
 
 object ComposePrefsSingleton {
@@ -89,6 +90,31 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
                 mutableState.floatValue = value
             }
     }
+
+	private inner class IntPref(
+		private val key: String,
+		private val default: Int
+	) : Preference<Int> {
+
+		constructor(@StringRes key: Int, default: Int) : this(context.getString(key), default)
+
+		private val mutableState = mutableIntStateOf(loadPref())
+
+		init {
+			changeObservers[key] = {
+				mutableState.intValue = loadPref()
+			}
+		}
+
+		private fun loadPref() = sharedPrefs.getInt(key, default)
+
+		override var value: Int
+			get() = mutableState.intValue
+			set(value) {
+				sharedPrefs.edit().putInt(key, value).apply()
+				mutableState.intValue = value
+			}
+	}
 
     private inner class BoolPref(
         private val key: String,
@@ -177,9 +203,9 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
         true
     )
 
-    override val albumGridColumns: Preference<Float> = FloatPref(
+    override val albumGridColumns: Preference<Int> = IntPref(
         "album_grid_columns",
-        2f
+        2
     )
 }
 

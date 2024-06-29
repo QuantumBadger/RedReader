@@ -189,7 +189,7 @@ fun AlbumScreen(
 
 				LazyVerticalStaggeredGrid(
 					state = state,
-					columns = StaggeredGridCells.Fixed(prefs.albumGridColumns.value.roundToInt()),
+					columns = StaggeredGridCells.Fixed(prefs.albumGridColumns.value),
 					modifier = Modifier
                         .fillMaxSize()
                         .background(theme.postCard.listBackgroundColor),
@@ -339,8 +339,8 @@ fun AlbumSettingsButton(
 									modifier = Modifier
                                         .width(200.dp)
                                         .height(40.dp),
-									value = prefs.albumGridColumns.value,
-									onValueChange = { prefs.albumGridColumns.value = it },
+									value = prefs.albumGridColumns.value.toFloat(),
+									onValueChange = { prefs.albumGridColumns.value = it.roundToInt() },
 									valueRange = 2f..5f,
 									steps = (5 - 2) - 1,
 								)

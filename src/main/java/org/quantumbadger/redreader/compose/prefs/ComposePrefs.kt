@@ -217,7 +217,7 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
 
     override val albumGridColumns: Preference<Int> = IntPref(
         "album_grid_columns",
-        2
+        3
     )
 }
 

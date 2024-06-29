@@ -134,6 +134,7 @@ class RRDropdownMenuScope(
 		pref: Preference<Int>,
 		min: Int,
 		max: Int,
+		continuous: Boolean
 	) {
 		val theme = LocalComposeTheme.current
 
@@ -160,12 +161,11 @@ class RRDropdownMenuScope(
 
 					Slider(
 						modifier = Modifier
-							.width(200.dp)
-							.height(40.dp),
+							.fillMaxWidth(),
 						value = pref.value.toFloat(),
 						onValueChange = { pref.value = it.roundToInt() },
 						valueRange = min.toFloat()..max.toFloat(),
-						steps = (max - min) - 1,
+						steps = ((max - min) - 1).takeUnless { continuous } ?: 0,
 					)
 				}
 			}

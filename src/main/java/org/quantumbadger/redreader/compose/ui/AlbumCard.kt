@@ -18,17 +18,13 @@ package org.quantumbadger.redreader.compose.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,7 +35,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -118,32 +113,7 @@ fun AlbumCard(
 			}
 
 			AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
-				Row(
-					Modifier.fillMaxWidth(),
-					// TODO left hand mode
-					horizontalArrangement = Arrangement.Absolute.Right
-				) {
-
-					RRIconButton(
-						onClick = {},
-						icon = R.drawable.download,
-						contentDescription = R.string.action_save_image
-					)
-
-					RRIconButton(
-						onClick = {},
-						icon = R.drawable.ic_action_share_dark,
-						contentDescription = R.string.action_share_image
-					)
-
-					RRIconButton(
-						onClick = {},
-						icon = R.drawable.dots_vertical_dark,
-						contentDescription = R.string.three_dots_menu
-					)
-
-					Spacer(Modifier.width(4.dp))
-				}
+				AlbumEntryButtons(Modifier.fillMaxWidth())
 			}
 		}
 	}

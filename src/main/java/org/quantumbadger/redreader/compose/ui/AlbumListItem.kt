@@ -18,10 +18,8 @@ package org.quantumbadger.redreader.compose.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -54,8 +51,8 @@ fun AlbumListItem(
 
 	ConstraintLayout(
 		modifier = Modifier
-            .fillMaxWidth()
-            .background(theme.postCard.backgroundColor),
+			.fillMaxWidth()
+			.background(theme.postCard.backgroundColor),
 	) {
 		val (thumbnail, text, buttons) = createRefs()
 
@@ -69,7 +66,7 @@ fun AlbumListItem(
                 }) {
 			if (prefs.albumListShowThumbnails.value) {
 				NetImage(
-					modifier = Modifier.width(64.dp), // TODO add pref slider for thumbnail size
+					modifier = Modifier.width(prefs.albumListThumbnailSize.value.dp),
 					image = preview,
 					cropToAspect = 1f,
 				)
@@ -117,31 +114,7 @@ fun AlbumListItem(
 			},
 			visible = prefs.albumListShowButtons.value
 		) {
-			Row(
-				// TODO left hand mode
-				horizontalArrangement = Arrangement.Absolute.Right
-			) {
-
-				RRIconButton(
-					onClick = {},
-					icon = R.drawable.download,
-					contentDescription = R.string.action_save_image
-				)
-
-				RRIconButton(
-					onClick = {},
-					icon = R.drawable.ic_action_share_dark,
-					contentDescription = R.string.action_share_image
-				)
-
-				RRIconButton(
-					onClick = {},
-					icon = R.drawable.dots_vertical_dark,
-					contentDescription = R.string.three_dots_menu
-				)
-
-				Spacer(Modifier.width(4.dp))
-			}
+			AlbumEntryButtons()
 		}
 	}
 }
@@ -156,7 +129,7 @@ fun PreviewAlbumListItem() {
 			ImageInfo(
 				original = ImageUrlInfo("testimage", size = ImageSize(100, 100)),
 				title = "Test title which is very long",
-				caption = "Test caption",
+				caption = null,
 				hasAudio = ImageInfo.HasAudio.NO_AUDIO,
 			)
 		)

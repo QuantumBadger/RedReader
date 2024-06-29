@@ -14,16 +14,20 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -57,6 +61,7 @@ import org.quantumbadger.redreader.compose.prefs.Preference
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 @Stable
 class RRDropdownMenuState {
@@ -121,9 +126,55 @@ class RRDropdownMenuScope(
 		items(RRRadioScope(pref, dismissOnClick))
 	}
 
+
+
+	@Composable
+	fun ItemPrefIntSlider(
+		text: String, // TODO change to StringRes
+		pref: Preference<Int>,
+		min: Int,
+		max: Int,
+	) {
+		val theme = LocalComposeTheme.current
+
+		DropdownMenuItem(
+			onClick = {},
+			enabled = false,
+			text = {
+				Column(
+					Modifier
+						.fillMaxWidth()
+						.padding(6.dp)
+						.sizeIn(
+							minWidth = 112.dp,
+							maxWidth = 280.dp,
+							minHeight = 48.dp
+						)
+				) {
+					Spacer(Modifier.height(6.dp))
+
+					Text(
+						text = text,
+						style = theme.dropdownMenu.text
+					)
+
+					Slider(
+						modifier = Modifier
+							.width(200.dp)
+							.height(40.dp),
+						value = pref.value.toFloat(),
+						onValueChange = { pref.value = it.roundToInt() },
+						valueRange = min.toFloat()..max.toFloat(),
+						steps = (max - min) - 1,
+					)
+				}
+			}
+		)
+	}
+
 	@Composable
 	fun ItemDivider() {
-		Divider()
+		HorizontalDivider()
 	}
 }
 

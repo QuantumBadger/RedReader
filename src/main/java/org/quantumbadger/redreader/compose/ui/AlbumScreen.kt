@@ -48,26 +48,22 @@ import kotlin.math.min
 
 // TODO check for unstable composables
 // TODO dark themes
-// TODO theme progress spinner
+// TODO theme small progress spinner
 // TODO make cards clickable
-// TODO compact view/"list view"
-// TODO grid view?
 // TODO handle long-click
-// TODO settings menu
-// TODO pref to hide card buttons
+// TODO "all settings" option
 // TODO find best reddit preview
-// TODO resize image on another thread
 // TODO actually hook up the buttons on the card
 // TODO go through all todos on this branch
 // TODO strings
 // TODO screen reader testing
 // TODO move the initial loading screen inside Compose
 // TODO tidy up AlbumListingActivity2
-// TODO gradient at top for status bar/nav bar?
 // TODO error view
 // TODO set RedditAccountId when fetching
 // TODO handle videos in all three views
-// TODO action bar on scroll, move head() out of the list
+// TODO handle extra URL on images
+// TODO add resolution and image size to list view
 @Composable
 fun AlbumScreen(
 	album: AlbumInfo

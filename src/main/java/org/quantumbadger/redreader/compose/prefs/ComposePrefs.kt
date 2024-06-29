@@ -25,7 +25,7 @@ interface ComposePrefs {
     val albumViewMode: Preference<AlbumViewMode>
     val albumCardShowButtons: Preference<Boolean>
     val albumListShowThumbnails: Preference<Boolean>
-    val albumGridStagger: Preference<Boolean>
+    val albumGridCropToSquare: Preference<Boolean>
     val albumGridColumns: Preference<Float>
 }
 
@@ -172,9 +172,9 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
         true
     )
 
-    override val albumGridStagger: Preference<Boolean> = BoolPref(
-        "album_grid_stagger",
-        false
+    override val albumGridCropToSquare: Preference<Boolean> = BoolPref(
+        "album_grid_crop_to_square",
+        true
     )
 
     override val albumGridColumns: Preference<Float> = FloatPref(

@@ -83,9 +83,9 @@ fun AlbumScreen(
 
 	val head = @Composable {
 		Column(
-			Modifier
-				.padding(horizontal = 14.dp)
-				.fillMaxWidth()
+            Modifier
+                .padding(horizontal = 14.dp)
+                .fillMaxWidth()
 		) {
 
 			// Space for the top bar
@@ -303,6 +303,10 @@ fun AlbumSettingsButton(
 					ItemPrefBool(
 						text = "Show thumbnails",
 						pref = prefs.albumListShowThumbnails
+					)
+					ItemPrefBool(
+						text = "Show buttons",
+						pref = prefs.albumListShowButtons
 					)
 				}
 

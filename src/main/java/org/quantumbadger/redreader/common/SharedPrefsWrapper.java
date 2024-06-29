@@ -173,6 +173,9 @@ public class SharedPrefsWrapper {
 
 		try(Locker ignored = new Locker(mRestoreLock.readLock())) {
 			return mPrefs.getInt(key, defValue);
+		} catch(final Exception e) {
+			Log.e(TAG, "Failed to get pref", e);
+			return defValue;
 		}
 	}
 
@@ -182,6 +185,9 @@ public class SharedPrefsWrapper {
 
 		try(Locker ignored = new Locker(mRestoreLock.readLock())) {
 			return mPrefs.getLong(key, defValue);
+		} catch(final Exception e) {
+			Log.e(TAG, "Failed to get pref", e);
+			return defValue;
 		}
 	}
 

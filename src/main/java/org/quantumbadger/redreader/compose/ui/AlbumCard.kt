@@ -25,6 +25,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
@@ -48,116 +49,118 @@ import org.quantumbadger.redreader.image.ImageUrlInfo
 
 @Composable
 fun AlbumCard(
-    image: ImageInfo
+	image: ImageInfo
 ) {
-    val prefs = LocalComposePrefs.current
-    val theme = LocalComposeTheme.current
+	val prefs = LocalComposePrefs.current
+	val theme = LocalComposeTheme.current
 
-    val preview = image.preview ?: image.original
+	val preview = image.preview ?: image.original
 
-    val systemBarsHeight = WindowInsets.systemBars.let { insets ->
-        with(LocalDensity.current) {
-            (insets.getTop(this) + insets.getBottom(this)).toDp()
-        }
-    }
+	val systemBarsHeight = WindowInsets.systemBars.let { insets ->
+		with(LocalDensity.current) {
+			(insets.getTop(this) + insets.getBottom(this)).toDp()
+		}
+	}
 
-    val usableHeight = LocalConfiguration.current.screenHeightDp.dp - systemBarsHeight
-    val maxImageHeight = (usableHeight * 6) / 7
+	val usableHeight = LocalConfiguration.current.screenHeightDp.dp - systemBarsHeight
+	val maxImageHeight = (usableHeight * 6) / 7
 
-    // TODO parse reddit image previews
-    // TODO handle videos
+	// TODO parse reddit image previews
+	// TODO handle videos
 
-    Box(
-        modifier = Modifier
+	Box(
+		modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 6.dp)
-    ) {
-        Column(
-            modifier = Modifier
+	) {
+		Column(
+			modifier = Modifier
                 .shadow(3.dp, RoundedCornerShape(6.dp))
                 .clip(RoundedCornerShape(6.dp))
                 .background(theme.postCard.backgroundColor)
-        ) {
-            NetImage(
-                image = preview,
-                maxImageHeight = maxImageHeight
-            )
+		) {
+			NetImage(
+				modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = maxImageHeight),
+				image = preview,
+			)
 
-            val title = image.title?.trim()?.takeUnless { it.isEmpty() }
-            val caption = image.caption?.trim()?.takeUnless { it.isEmpty() }
+			val title = image.title?.trim()?.takeUnless { it.isEmpty() }
+			val caption = image.caption?.trim()?.takeUnless { it.isEmpty() }
 
-            if (title != null && caption != null) {
-                Column(
-                    modifier = Modifier.padding(14.dp)
-                ) {
-                    Text(
-                        text = title,
-                        style = theme.postCard.title,
-                    )
-                    Text(
-                        text = caption,
-                        style = theme.postCard.subtitle,
-                    )
-                }
-            } else {
-                val text = title ?: caption
+			if (title != null && caption != null) {
+				Column(
+					modifier = Modifier.padding(14.dp)
+				) {
+					Text(
+						text = title,
+						style = theme.postCard.title,
+					)
+					Text(
+						text = caption,
+						style = theme.postCard.subtitle,
+					)
+				}
+			} else {
+				val text = title ?: caption
 
-                if (text != null) {
-                    Column(
-                        modifier = Modifier.padding(14.dp)
-                    ) {
-                        Text(
-                            text = text,
-                            style = theme.postCard.caption,
-                        )
-                    }
-                }
-            }
+				if (text != null) {
+					Column(
+						modifier = Modifier.padding(14.dp)
+					) {
+						Text(
+							text = text,
+							style = theme.postCard.caption,
+						)
+					}
+				}
+			}
 
-            AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
-                Row(
-                    Modifier.fillMaxWidth(),
-                    // TODO left hand mode
-                    horizontalArrangement = Arrangement.Absolute.Right
-                ) {
+			AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
+				Row(
+					Modifier.fillMaxWidth(),
+					// TODO left hand mode
+					horizontalArrangement = Arrangement.Absolute.Right
+				) {
 
-                    RRIconButton(
-                        onClick = {},
-                        icon = R.drawable.download,
-                        contentDescription = R.string.action_save_image
-                    )
+					RRIconButton(
+						onClick = {},
+						icon = R.drawable.download,
+						contentDescription = R.string.action_save_image
+					)
 
-                    RRIconButton(
-                        onClick = {},
-                        icon = R.drawable.ic_action_share_dark,
-                        contentDescription = R.string.action_share_image
-                    )
+					RRIconButton(
+						onClick = {},
+						icon = R.drawable.ic_action_share_dark,
+						contentDescription = R.string.action_share_image
+					)
 
-                    RRIconButton(
-                        onClick = {},
-                        icon = R.drawable.dots_vertical_dark,
-                        contentDescription = R.string.three_dots_menu
-                    )
+					RRIconButton(
+						onClick = {},
+						icon = R.drawable.dots_vertical_dark,
+						contentDescription = R.string.three_dots_menu
+					)
 
-                    Spacer(Modifier.width(4.dp))
-                }
-            }
-        }
-    }
+					Spacer(Modifier.width(4.dp))
+				}
+			}
+		}
+	}
 }
 
 
 @Composable
 @Preview(backgroundColor = 0x999999)
 fun PreviewAlbumCard() {
-    RRComposeContextTest {
-        AlbumCard(
-            ImageInfo(
-                original = ImageUrlInfo("testimage", size = ImageSize(100, 100)),
-                title = "Test title",
-                caption = "Test caption",
-                hasAudio = ImageInfo.HasAudio.NO_AUDIO,
-            )
-        )
-    }
+	RRComposeContextTest {
+		AlbumCard(
+			ImageInfo(
+				original = ImageUrlInfo("testimage", size = ImageSize(100, 100)),
+				title = "Test title",
+				caption = "Test caption",
+				hasAudio = ImageInfo.HasAudio.NO_AUDIO,
+			)
+		)
+	}
 }

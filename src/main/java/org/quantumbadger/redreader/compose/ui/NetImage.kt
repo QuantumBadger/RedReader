@@ -6,17 +6,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.account.RedditAccountId
 import org.quantumbadger.redreader.common.General
@@ -27,49 +23,39 @@ import org.quantumbadger.redreader.image.ImageUrlInfo
 
 @Composable
 fun NetImage(
+	modifier: Modifier,
 	image: ImageUrlInfo?,
-	maxImageWidth: Dp? = null,
-	maxImageHeight: Dp? = null,
 	cropToAspect: Float? = null
 ) {
+	val aspectRatio = cropToAspect ?: image?.size?.takeIf { it.height > 0 }?.let {
+		it.width.toFloat() / it.height.toFloat()
+	}
+
+	val url = image?.url?.let(General::uriFromString)
+
+	if (url == null) {
+		// TODO show error
+		return
+	}
+
+	val data by fetchImage(
+		uri = url,
+		user = RedditAccountId(""), // TODO
+	)
+
 	Box(
-		modifier = Modifier
-            .fillMaxWidth()
+		modifier = modifier
+            .let {
+                if ((cropToAspect != null && data !is NetRequestStatus.Success) || aspectRatio != null) {
+                    it.aspectRatio(aspectRatio!!)
+                } else {
+                    it
+                }
+            }
             .animateContentSize(),
 		contentAlignment = Alignment.Center,
 	) {
 		val theme = LocalComposeTheme.current
-		val url = image?.url?.let(General::uriFromString)
-
-		if (url == null) {
-			// TODO show error
-			return
-		}
-
-		val data by fetchImage(
-			uri = url,
-			user = RedditAccountId(""), // TODO
-		)
-
-		val aspectRatio = cropToAspect ?: image.size?.takeIf { it.height > 0 }?.let {
-			it.width.toFloat() / it.height.toFloat()
-		}
-
-		val imageModifier = Modifier
-            .fillMaxWidth()
-            .widthIn(max = maxImageWidth ?: Dp.Unspecified)
-            .heightIn(max = maxImageHeight ?: Dp.Unspecified)
-			.let {
-				if (aspectRatio != null) {
-					it.aspectRatio(aspectRatio)
-				} else {
-					it
-				}
-			}
-
-		if (data !is NetRequestStatus.Success) {
-			Box(modifier = imageModifier)
-		}
 
 		when (val it = data) {
 			NetRequestStatus.Connecting -> {
@@ -81,7 +67,7 @@ fun NetImage(
 			is NetRequestStatus.Downloading -> {
 				CircularProgressIndicator(
 					modifier = Modifier.padding(24.dp),
-					progress = it.fractionComplete
+					progress = { it.fractionComplete }
 				)
 			}
 
@@ -90,12 +76,7 @@ fun NetImage(
 			}
 
 			is NetRequestStatus.Success -> {
-				Box(
-                    imageModifier
-                        .background(
-                            theme.postCard.previewImageBackgroundColor
-                        )
-				) {
+				Box(Modifier.background(theme.postCard.previewImageBackgroundColor)) {
 					Image(
 						modifier = Modifier.fillMaxSize(),
 						bitmap = it.result,

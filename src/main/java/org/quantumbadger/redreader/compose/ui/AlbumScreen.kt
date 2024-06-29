@@ -79,9 +79,9 @@ fun AlbumScreen(
 
 	val head = @Composable {
 		Column(
-            Modifier
-                .padding(horizontal = 14.dp)
-                .fillMaxWidth()
+			Modifier
+				.padding(horizontal = 14.dp)
+				.fillMaxWidth()
 		) {
 
 			// Space for the top bar
@@ -89,12 +89,12 @@ fun AlbumScreen(
 
 			Text(
 				modifier = Modifier
-                    .fillMaxWidth()
-                    .semantics {
-                        contentDescription = album.title?.let { title ->
-                            "Image gallery: $title"
-                        } ?: "Image gallery" // TODO strings
-                    },
+					.fillMaxWidth()
+					.semantics {
+						contentDescription = album.title?.let { title ->
+							"Image gallery: $title"
+						} ?: "Image gallery" // TODO strings
+					},
 				text = album.title ?: "Gallery",  // TODO string
 				style = theme.album.title,
 				overflow = TextOverflow.Ellipsis,
@@ -300,6 +300,17 @@ fun AlbumSettingsButton(
 						text = "Show thumbnails",
 						pref = prefs.albumListShowThumbnails
 					)
+
+					if (prefs.albumListShowThumbnails.value) {
+						ItemDivider()
+						ItemPrefIntSlider(
+							text = "Thumbnail size",
+							pref = prefs.albumListThumbnailSize,
+							min = 64,
+							max = 384)
+					}
+
+					ItemDivider()
 					ItemPrefBool(
 						text = "Show buttons",
 						pref = prefs.albumListShowButtons

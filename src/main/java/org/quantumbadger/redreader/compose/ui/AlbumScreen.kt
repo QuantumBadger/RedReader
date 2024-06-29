@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,8 +22,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -47,7 +44,6 @@ import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
-import kotlin.math.roundToInt
 
 // TODO check for unstable composables
 // TODO dark themes
@@ -248,6 +244,7 @@ fun AlbumScreen(
 			horizontalArrangement = Arrangement.End
 		) {
 			AlbumSettingsButton()
+			Spacer(Modifier.width(6.dp))
 		}
 	}
 }
@@ -257,7 +254,6 @@ fun AlbumSettingsButton(
 	modifier: Modifier = Modifier
 ) {
 	val prefs = LocalComposePrefs.current
-	val theme = LocalComposeTheme.current
 
 	Box(modifier = modifier) {
 
@@ -314,39 +310,7 @@ fun AlbumSettingsButton(
 
 					ItemDivider()
 
-					DropdownMenuItem(
-						onClick = {},
-						enabled = false,
-						text = {
-							Column(
-                                Modifier
-                                    .fillMaxWidth()
-									.padding(6.dp)
-                                    .sizeIn(
-                                        minWidth = 112.dp,
-                                        maxWidth = 280.dp,
-                                        minHeight = 48.dp
-                                    )
-							) {
-								Spacer(Modifier.height(6.dp))
-
-								Text(
-									text = "Columns",
-									style = theme.dropdownMenu.text
-								)
-
-								Slider(
-									modifier = Modifier
-                                        .width(200.dp)
-                                        .height(40.dp),
-									value = prefs.albumGridColumns.value.toFloat(),
-									onValueChange = { prefs.albumGridColumns.value = it.roundToInt() },
-									valueRange = 2f..5f,
-									steps = (5 - 2) - 1,
-								)
-							}
-						}
-					)
+					ItemPrefIntSlider("Columns", prefs.albumGridColumns, 2, 5)
 				}
 			}
 

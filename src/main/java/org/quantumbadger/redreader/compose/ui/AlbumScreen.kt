@@ -307,7 +307,8 @@ fun AlbumSettingsButton(
 							text = "Thumbnail size",
 							pref = prefs.albumListThumbnailSize,
 							min = 64,
-							max = 384)
+							max = 384,
+							continuous = true)
 					}
 
 					ItemDivider()
@@ -325,7 +326,13 @@ fun AlbumSettingsButton(
 
 					ItemDivider()
 
-					ItemPrefIntSlider("Columns", prefs.albumGridColumns, 2, 5)
+					ItemPrefIntSlider(
+						text = "Columns",
+						pref = prefs.albumGridColumns,
+						min = 2,
+						max = 5,
+						continuous = false
+					)
 				}
 			}
 

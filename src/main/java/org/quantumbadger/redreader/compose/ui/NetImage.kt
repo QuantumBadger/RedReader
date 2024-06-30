@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.account.RedditAccountId
 import org.quantumbadger.redreader.common.General
+import org.quantumbadger.redreader.common.invokeIf
 import org.quantumbadger.redreader.compose.net.NetRequestStatus
 import org.quantumbadger.redreader.compose.net.fetchImage
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -45,12 +46,10 @@ fun NetImage(
 
 	Box(
 		modifier = modifier
-            .let {
-                if ((cropToAspect != null && data !is NetRequestStatus.Success) || aspectRatio != null) {
-                    it.aspectRatio(aspectRatio!!)
-                } else {
-                    it
-                }
+            .invokeIf((cropToAspect != null &&
+					data !is NetRequestStatus.Success &&
+					data !is NetRequestStatus.Failed) || aspectRatio != null) {
+                aspectRatio(aspectRatio!!)
             }
             .animateContentSize(),
 		contentAlignment = Alignment.Center,
@@ -72,7 +71,7 @@ fun NetImage(
 			}
 
 			is NetRequestStatus.Failed -> {
-				// TODO
+				RRErrorView(error = it.error)
 			}
 
 			is NetRequestStatus.Success -> {

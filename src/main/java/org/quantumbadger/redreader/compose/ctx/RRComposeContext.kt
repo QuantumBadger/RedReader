@@ -1,5 +1,6 @@
 package org.quantumbadger.redreader.compose.ctx
 
+import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -17,7 +18,10 @@ fun RRComposeContext(
 
 	CompositionLocalProvider(
 		LocalComposePrefs provides ComposePrefsSingleton.instance,
-		LocalActivity provides activity
+		LocalActivity provides activity,
+		LocalDialogLauncher provides {
+			it.show(activity.supportFragmentManager, null)
+		}
 	) {
 		RRComposeContextTheme {
 			content()
@@ -27,6 +31,14 @@ fun RRComposeContext(
 
 val LocalActivity = staticCompositionLocalOf<ComposeBaseActivity> {
 	throw Exception("LocalActivity not set")
+}
+
+val LocalDialogLauncher = staticCompositionLocalOf<DialogLauncher> {
+	throw Exception("LocalDialogLauncher not set")
+}
+
+fun interface DialogLauncher {
+	fun launch(dialog: AppCompatDialogFragment)
 }
 
 private fun <T> testPref(value: T) = object : Preference<T> {

@@ -896,3 +896,9 @@ object General {
         }
     }
 }
+
+fun <E> E.invokeIf(condition: Boolean, action: E.() -> E): E = if (condition) {
+	action()
+} else {
+	this
+}

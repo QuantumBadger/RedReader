@@ -113,17 +113,17 @@ fun AlbumListItem(
 			}
 		}
 
-		// TODO separate pref for list buttons
-		// TODO buttons in separate composable
-		AnimatedVisibility(
-			modifier = Modifier.constrainAs(buttons) {
-				top.linkTo(parent.top)
-				bottom.linkTo(parent.bottom)
-				end.linkTo(parent.end)
-			},
-			visible = prefs.albumListShowButtons.value
-		) {
-			AlbumEntryButtons()
+		if (image.original != null) {
+			AnimatedVisibility(
+				modifier = Modifier.constrainAs(buttons) {
+					top.linkTo(parent.top)
+					bottom.linkTo(parent.bottom)
+					end.linkTo(parent.end)
+				},
+				visible = prefs.albumListShowButtons.value
+			) {
+				AlbumEntryButtons(image = image.original)
+			}
 		}
 	}
 }

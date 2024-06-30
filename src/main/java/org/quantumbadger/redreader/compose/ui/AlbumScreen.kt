@@ -53,22 +53,20 @@ import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
-// TODO check for unstable composables
-// TODO dark themes
-// TODO theme small progress spinner
 // TODO "all settings" option
 // TODO find best reddit preview
-// TODO actually hook up the buttons on the card
 // TODO go through all todos on this branch
-// TODO strings
-// TODO screen reader testing
 // TODO move the initial loading screen inside Compose
-// TODO tidy up AlbumListingActivity2
-// TODO error view
+// TODO error view (hide when view is small)
 // TODO set RedditAccountId when fetching
 // TODO handle videos in all three views
 // TODO handle extra URL on images
 // TODO add resolution and image size to list view
+// TODO theme small progress spinner
+// TODO tidy up AlbumListingActivity2
+// TODO check for unstable composables
+// TODO strings
+// TODO screen reader testing
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AlbumScreen(
@@ -121,9 +119,9 @@ fun AlbumScreen(
 
 	val head = @Composable {
 		Column(
-			Modifier
-				.padding(horizontal = 14.dp)
-				.fillMaxWidth()
+            Modifier
+                .padding(horizontal = 14.dp)
+                .fillMaxWidth()
 		) {
 
 			// Space for the top bar
@@ -131,12 +129,12 @@ fun AlbumScreen(
 
 			Text(
 				modifier = Modifier
-					.fillMaxWidth()
-					.semantics {
-						contentDescription = album.title?.let { title ->
-							"Image gallery: $title"
-						} ?: "Image gallery" // TODO strings
-					},
+                    .fillMaxWidth()
+                    .semantics {
+                        contentDescription = album.title?.let { title ->
+                            "Image gallery: $title"
+                        } ?: "Image gallery" // TODO strings
+                    },
 				text = album.title ?: "Gallery",  // TODO string
 				style = theme.album.title,
 				overflow = TextOverflow.Ellipsis,
@@ -169,9 +167,9 @@ fun AlbumScreen(
 				val state = rememberLazyListState()
 
 				LazyColumn(
-					Modifier
-						.fillMaxSize()
-						.background(theme.postCard.listBackgroundColor),
+                    Modifier
+                        .fillMaxSize()
+                        .background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
 					state = state
 				) {
@@ -201,9 +199,9 @@ fun AlbumScreen(
 				val state = rememberLazyListState()
 
 				LazyColumn(
-					Modifier
-						.fillMaxSize()
-						.background(theme.postCard.listBackgroundColor),
+                    Modifier
+                        .fillMaxSize()
+                        .background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
 					state = state
 				) {
@@ -238,8 +236,8 @@ fun AlbumScreen(
 					state = state,
 					columns = StaggeredGridCells.Fixed(prefs.albumGridColumns.value),
 					modifier = Modifier
-						.fillMaxSize()
-						.background(theme.postCard.listBackgroundColor),
+                        .fillMaxSize()
+                        .background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
 					verticalItemSpacing = 8.dp,
 					horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -288,11 +286,11 @@ fun AlbumScreen(
 		// Top bar
 		Row(
 			modifier = Modifier
-				.shadow(topBarShadow)
-				.background(theme.postCard.listBackgroundColor)
-				.padding(insets)
-				.height(topBarHeight)
-				.fillMaxWidth(),
+                .shadow(topBarShadow)
+                .background(theme.postCard.listBackgroundColor)
+                .padding(insets)
+                .height(topBarHeight)
+                .fillMaxWidth(),
 			verticalAlignment = Alignment.CenterVertically,
 			horizontalArrangement = Arrangement.End
 		) {
@@ -308,97 +306,89 @@ fun AlbumSettingsButton(
 ) {
 	val prefs = LocalComposePrefs.current
 
-	Box(modifier = modifier) {
-
-		val settingsMenuState = rememberRRDropdownMenuState()
-
-		RRIconButton(
-			onClick = { settingsMenuState.expanded = true },
-			icon = R.drawable.ic_settings_dark,
-			contentDescription = R.string.options_settings,
-		)
-
-		RRDropdownMenu(state = settingsMenuState) {
-
-			ItemPrefRadio(pref = prefs.albumViewMode) {
-				Option(
-					value = AlbumViewMode.Cards,
-					text = "Card view",
-					icon = R.drawable.cards_variant,
-				)
-				Option(
-					value = AlbumViewMode.List,
-					text = "List view",
-					icon = R.drawable.view_list,
-				)
-				Option(
-					value = AlbumViewMode.Grid,
-					text = "Grid view",
-					icon = R.drawable.view_grid,
-				)
-			}
-
-			ItemDivider()
-
-			when (prefs.albumViewMode.value) {
-				AlbumViewMode.Cards -> {
-					ItemPrefBool(
-						text = "Buttons on cards",
-						pref = prefs.albumCardShowButtons
-					)
-				}
-
-				AlbumViewMode.List -> {
-					ItemPrefBool(
-						text = "Show thumbnails",
-						pref = prefs.albumListShowThumbnails
-					)
-
-					if (prefs.albumListShowThumbnails.value) {
-						ItemDivider()
-						ItemPrefIntSlider(
-							text = "Thumbnail size",
-							pref = prefs.albumListThumbnailSize,
-							min = 64,
-							max = 384,
-							continuous = true
-						)
-					}
-
-					ItemDivider()
-					ItemPrefBool(
-						text = "Show buttons",
-						pref = prefs.albumListShowButtons
-					)
-				}
-
-				AlbumViewMode.Grid -> {
-					ItemPrefBool(
-						text = "Crop to square",
-						pref = prefs.albumGridCropToSquare
-					)
-
-					ItemDivider()
-
-					ItemPrefIntSlider(
-						text = "Columns",
-						pref = prefs.albumGridColumns,
-						min = 2,
-						max = 5,
-						continuous = false
-					)
-				}
-			}
-
-
-			ItemDivider()
-
-			Item(
-				text = "All settings...",
-				icon = R.drawable.ic_settings_dark,
-				onClick = { /*TODO*/ },
+	RRDropdownMenuIconButton(
+		modifier = modifier,
+		icon = R.drawable.ic_settings_dark,
+		contentDescription = R.string.options_settings,
+	) {
+		ItemPrefRadio(pref = prefs.albumViewMode) {
+			Option(
+				value = AlbumViewMode.Cards,
+				text = "Card view",
+				icon = R.drawable.cards_variant,
+			)
+			Option(
+				value = AlbumViewMode.List,
+				text = "List view",
+				icon = R.drawable.view_list,
+			)
+			Option(
+				value = AlbumViewMode.Grid,
+				text = "Grid view",
+				icon = R.drawable.view_grid,
 			)
 		}
+
+		ItemDivider()
+
+		when (prefs.albumViewMode.value) {
+			AlbumViewMode.Cards -> {
+				ItemPrefBool(
+					text = "Buttons on cards",
+					pref = prefs.albumCardShowButtons
+				)
+			}
+
+			AlbumViewMode.List -> {
+				ItemPrefBool(
+					text = "Show thumbnails",
+					pref = prefs.albumListShowThumbnails
+				)
+
+				if (prefs.albumListShowThumbnails.value) {
+					ItemDivider()
+					ItemPrefIntSlider(
+						text = "Thumbnail size",
+						pref = prefs.albumListThumbnailSize,
+						min = 64,
+						max = 384,
+						continuous = true
+					)
+				}
+
+				ItemDivider()
+				ItemPrefBool(
+					text = "Show buttons",
+					pref = prefs.albumListShowButtons
+				)
+			}
+
+			AlbumViewMode.Grid -> {
+				ItemPrefBool(
+					text = "Crop to square",
+					pref = prefs.albumGridCropToSquare
+				)
+
+				ItemDivider()
+
+				ItemPrefIntSlider(
+					text = "Columns",
+					pref = prefs.albumGridColumns,
+					min = 2,
+					max = 5,
+					continuous = false
+				)
+			}
+		}
+
+
+		ItemDivider()
+
+		Item(
+			text = "All settings...",
+			icon = R.drawable.ic_settings_dark,
+			onClick = { /*TODO*/ },
+		)
 	}
 }
 

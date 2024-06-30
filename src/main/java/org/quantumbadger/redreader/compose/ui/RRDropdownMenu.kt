@@ -1,6 +1,7 @@
 package org.quantumbadger.redreader.compose.ui
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.animation.core.animateFloat
@@ -61,6 +62,30 @@ import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
+
+@Composable
+fun RRDropdownMenuIconButton(
+	modifier: Modifier = Modifier,
+	@DrawableRes icon: Int,
+	@StringRes contentDescription: Int,
+	content: @Composable RRDropdownMenuScope.() -> Unit,
+) {
+	Box(modifier = modifier) {
+
+		val state = rememberRRDropdownMenuState()
+
+		RRIconButton(
+			onClick = { state.expanded = true },
+			icon = icon,
+			contentDescription = contentDescription,
+		)
+
+		RRDropdownMenu(
+			state = state,
+			content = content
+		)
+	}
+}
 
 @Stable
 class RRDropdownMenuState {

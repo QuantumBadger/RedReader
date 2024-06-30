@@ -124,8 +124,10 @@ fun AlbumCard(
 					}
 				}
 
-				AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
-					AlbumEntryButtons(Modifier.fillMaxWidth())
+				if (image.original != null) {
+					AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
+						AlbumEntryButtons(Modifier.fillMaxWidth(), image.original)
+					}
 				}
 			}
 		}

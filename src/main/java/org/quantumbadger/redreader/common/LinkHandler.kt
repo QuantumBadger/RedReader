@@ -352,7 +352,7 @@ object LinkHandler {
 		alert.show()
 	}
 
-	private fun onActionMenuItemSelected(
+	fun onActionMenuItemSelected(
 		uri: String,
 		activity: BaseActivity,
 		action: LinkAction

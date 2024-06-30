@@ -17,7 +17,9 @@
 package org.quantumbadger.redreader.compose.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -39,10 +41,13 @@ import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.image.ImageSize
 import org.quantumbadger.redreader.image.ImageUrlInfo
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AlbumListItem(
 	index: Int,
-	image: ImageInfo
+	image: ImageInfo,
+	onClick: (Int) -> Unit,
+	onLongClick: (Int) -> Unit,
 ) {
 	val prefs = LocalComposePrefs.current
 	val theme = LocalComposeTheme.current
@@ -52,7 +57,11 @@ fun AlbumListItem(
 	ConstraintLayout(
 		modifier = Modifier
 			.fillMaxWidth()
-			.background(theme.postCard.backgroundColor),
+			.background(theme.postCard.backgroundColor)
+			.combinedClickable(
+				onClick = { onClick(index) },
+				onLongClick = { onLongClick(index) }
+			),
 	) {
 		val (thumbnail, text, buttons) = createRefs()
 
@@ -131,7 +140,9 @@ fun PreviewAlbumListItem() {
 				title = "Test title which is very long",
 				caption = null,
 				hasAudio = ImageInfo.HasAudio.NO_AUDIO,
-			)
+			),
+			{},
+			{}
 		)
 	}
 }

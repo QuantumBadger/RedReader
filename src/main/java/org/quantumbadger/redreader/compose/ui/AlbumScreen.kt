@@ -1,5 +1,6 @@
 package org.quantumbadger.redreader.compose.ui
 
+import android.content.Intent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -50,12 +51,11 @@ import org.quantumbadger.redreader.compose.ctx.LocalActivity
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.AlbumInfo
+import org.quantumbadger.redreader.settings.SettingsActivity
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
-// TODO "all settings" option
 // TODO find best reddit preview
-// TODO go through all todos on this branch
 // TODO move the initial loading screen inside Compose
 // TODO error view (hide when view is small)
 // TODO set RedditAccountId when fetching
@@ -63,6 +63,7 @@ import kotlin.math.min
 // TODO handle extra URL on images
 // TODO add resolution and image size to list view
 // TODO theme small progress spinner
+// TODO go through all todos on this branch
 // TODO tidy up AlbumListingActivity2
 // TODO check for unstable composables
 // TODO strings
@@ -305,6 +306,7 @@ fun AlbumSettingsButton(
 	modifier: Modifier = Modifier
 ) {
 	val prefs = LocalComposePrefs.current
+	val activity = LocalActivity.current
 
 	RRDropdownMenuIconButton(
 		modifier = modifier,
@@ -387,7 +389,9 @@ fun AlbumSettingsButton(
 		Item(
 			text = "All settings...",
 			icon = R.drawable.ic_settings_dark,
-			onClick = { /*TODO*/ },
+			onClick = {
+				activity.startActivity(Intent(activity, SettingsActivity::class.java))
+			},
 		)
 	}
 }

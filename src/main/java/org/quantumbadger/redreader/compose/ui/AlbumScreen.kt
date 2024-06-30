@@ -20,11 +20,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,7 +55,6 @@ import org.quantumbadger.redreader.settings.SettingsActivity
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
-// TODO find best reddit preview
 // TODO move the initial loading screen inside Compose
 // TODO error view (hide when view is small)
 // TODO set RedditAccountId when fetching
@@ -120,9 +119,9 @@ fun AlbumScreen(
 
 	val head = @Composable {
 		Column(
-            Modifier
-                .padding(horizontal = 14.dp)
-                .fillMaxWidth()
+			Modifier
+				.padding(horizontal = 14.dp)
+				.fillMaxWidth()
 		) {
 
 			// Space for the top bar
@@ -231,19 +230,20 @@ fun AlbumScreen(
 			}
 
 			AlbumViewMode.Grid -> {
-				val state = rememberLazyStaggeredGridState()
+				val state = rememberLazyGridState()
+				val colCount = prefs.albumGridColumns.value
 
-				LazyVerticalStaggeredGrid(
+				LazyVerticalGrid(
 					state = state,
-					columns = StaggeredGridCells.Fixed(prefs.albumGridColumns.value),
+					columns = GridCells.Fixed(colCount),
 					modifier = Modifier
                         .fillMaxSize()
                         .background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
-					verticalItemSpacing = 8.dp,
-					horizontalArrangement = Arrangement.spacedBy(8.dp),
+					verticalArrangement = Arrangement.spacedBy(2.dp),
+					horizontalArrangement = Arrangement.spacedBy(2.dp),
 				) {
-					item(span = StaggeredGridItemSpan.FullLine) {
+					item(span = { GridItemSpan(colCount) }) {
 						head()
 					}
 

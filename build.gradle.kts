@@ -91,11 +91,12 @@ android {
 		additionalParameters.add("--no-version-vectors")
 	}
 
-	buildTypes.configureEach {
-		isMinifyEnabled = true
-		isShrinkResources = false
-
-		proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+	buildTypes {
+		getByName("release") {
+			isMinifyEnabled = true
+			isShrinkResources = false
+			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+		}
 	}
 
 	compileOptions {

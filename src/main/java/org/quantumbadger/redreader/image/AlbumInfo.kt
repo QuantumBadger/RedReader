@@ -32,113 +32,123 @@ class AlbumInfo(
 	val description: String?,
 	images: List<ImageInfo>
 ) {
-    @JvmField
+	@JvmField
 	val images = ArrayList(images)
 
-    companion object {
-        @JvmStatic
+	companion object {
+		@JvmStatic
 		fun parseImgur(
 			url: String,
 			obj: JsonObject
-        ): AlbumInfo {
-            var title = obj.getString("title")
-            var description = obj.getString("description")
+		): AlbumInfo {
+			var title = obj.getString("title")
+			var description = obj.getString("description")
 
-            if (title != null) {
-                title = StringEscapeUtils.unescapeHtml4(title)
-            }
+			if (title != null) {
+				title = StringEscapeUtils.unescapeHtml4(title)
+			}
 
-            if (description != null) {
-                description = StringEscapeUtils.unescapeHtml4(description)
-            }
+			if (description != null) {
+				description = StringEscapeUtils.unescapeHtml4(description)
+			}
 
-            val imagesJson = obj.getArray("images")
-            val images = ArrayList<ImageInfo>()
+			val imagesJson = obj.getArray("images")
+			val images = ArrayList<ImageInfo>()
 
-            for (imageJson in imagesJson!!) {
-                images.add(ImageInfo.parseImgur(imageJson.asObject()))
-            }
+			for (imageJson in imagesJson!!) {
+				images.add(ImageInfo.parseImgur(imageJson.asObject()))
+			}
 
-            return AlbumInfo(url, title, description, images)
-        }
+			return AlbumInfo(url, title, description, images)
+		}
 
-        @JvmStatic
+		@JvmStatic
 		fun parseImgurV3(
 			url: String,
 			obj: JsonObject
-        ): AlbumInfo {
-            var title = obj.getString("title")
-            var description = obj.getString("description")
+		): AlbumInfo {
+			var title = obj.getString("title")
+			var description = obj.getString("description")
 
-            if (title != null) {
-                title = StringEscapeUtils.unescapeHtml4(title)
-            }
+			if (title != null) {
+				title = StringEscapeUtils.unescapeHtml4(title)
+			}
 
-            if (description != null) {
-                description = StringEscapeUtils.unescapeHtml4(description)
-            }
+			if (description != null) {
+				description = StringEscapeUtils.unescapeHtml4(description)
+			}
 
-            val imagesJson = obj.getArray("images")
-            val images = ArrayList<ImageInfo>()
+			val imagesJson = obj.getArray("images")
+			val images = ArrayList<ImageInfo>()
 
-            for (imageJson in imagesJson!!) {
-                images.add(ImageInfo.parseImgurV3(imageJson.asObject()))
-            }
+			for (imageJson in imagesJson!!) {
+				images.add(ImageInfo.parseImgurV3(imageJson.asObject()))
+			}
 
-            return AlbumInfo(url, title, description, images)
-        }
+			return AlbumInfo(url, title, description, images)
+		}
 
-        private fun stringToMediaType(mediaTypeString: String?): ImageInfo.MediaType {
-            return if (mediaTypeString == null) {
-                ImageInfo.MediaType.IMAGE
-            } else {
-                when (mediaTypeString) {
-                    "AnimatedImage" -> ImageInfo.MediaType.GIF
+		private fun stringToMediaType(mediaTypeString: String?): ImageInfo.MediaType {
+			return if (mediaTypeString == null) {
+				ImageInfo.MediaType.IMAGE
+			} else {
+				when (mediaTypeString) {
+					"AnimatedImage" -> ImageInfo.MediaType.GIF
 					// This string doesn't seem to exist yet, but it might do in future
-                    "Video" -> ImageInfo.MediaType.VIDEO
-                    "Image" -> ImageInfo.MediaType.IMAGE
-                    else -> ImageInfo.MediaType.IMAGE
-                }
-            }
-        }
+					"Video" -> ImageInfo.MediaType.VIDEO
+					"Image" -> ImageInfo.MediaType.IMAGE
+					else -> ImageInfo.MediaType.IMAGE
+				}
+			}
+		}
 
-        private fun getThumbnail(images: List<ImageMetadata>): String? {
-            val minThumbSize = 200
+		private fun getPreview(
+			minSizePx: Int,
+			images: List<ImageMetadata>
+		): ImageUrlInfo? {
 
-            var bestSizeMinAxis: Long? = null
-            var bestUrl: String? = null
+			var bestSizeMinAxis: Long? = null
+			var bestUrl: String? = null
+			var bestSize: ImageSize? = null
 
-            for (image in images) {
+			for (image in images) {
 
 				if (image.u == null) {
 					continue
 				}
 
-                val x = image.x
-                val y = image.y
+				val x = image.x
+				val y = image.y
 
-                val minAxis = min(x, y)
+				val minAxis = min(x, y)
 
-                if (bestSizeMinAxis == null || (bestSizeMinAxis < minThumbSize && minAxis > bestSizeMinAxis)
-                    || (minAxis >= minThumbSize && minAxis < bestSizeMinAxis)
-                ) {
-                    bestSizeMinAxis = minAxis
-                    bestUrl = image.u.decoded
-                }
-            }
+				if (bestSizeMinAxis == null || (bestSizeMinAxis < minSizePx && minAxis > bestSizeMinAxis)
+					|| (minAxis >= minSizePx && minAxis < bestSizeMinAxis)
+				) {
+					bestSizeMinAxis = minAxis
+					bestUrl = image.u.decoded
+					bestSize = ImageSize.from(image.x, image.y)
+				}
+			}
 
-            return StringEscapeUtils.unescapeHtml4(bestUrl)
-        }
+			return bestUrl?.let {
+				ImageUrlInfo(
+					bestUrl,
+					size = bestSize
+				)
+			}
+		}
 
-        fun parseRedditGallery(post: RedditPost): AlbumInfo? {
+		fun parseRedditGallery(post: RedditPost): AlbumInfo? {
 
-            val galleryItems = post.gallery_data?.items ?: return null
+			val galleryItems = post.gallery_data?.items ?: return null
 
-            val images = galleryItems.mapNotNull { (it as? MaybeParseError.Ok)?.value }
+			val images = galleryItems.mapNotNull { (it as? MaybeParseError.Ok)?.value }
 				.mapNotNull { item ->
 
-					val mediaMetadataEntry = (post.media_metadata?.get(item.media_id) as? MaybeParseError.Ok)?.value ?:
-						return@mapNotNull null
+					val mediaMetadataEntry =
+						(post.media_metadata?.get(item.media_id) as? MaybeParseError.Ok)?.value
+							?: return@mapNotNull null
 
 					val standardImage = mediaMetadataEntry.s
 
@@ -153,13 +163,19 @@ class AlbumInfo(
 						)
 					}
 
-					val bigSquare = mediaMetadataEntry.p?.let { p -> getThumbnail(p) }?.let {
-						ImageUrlInfo(url = it)
+					var bigSquare: ImageUrlInfo? = null
+					var preview: ImageUrlInfo? = null
+
+					mediaMetadataEntry.p?.let { p ->
+						val images = p + listOf(standardImage)
+
+						bigSquare = getPreview(minSizePx = 300, images = images)
+						preview = getPreview(minSizePx = 1400, images = images)
 					}
 
-					// TODO find preview
 					ImageInfo(
 						original = original,
+						preview = preview,
 						bigSquare = bigSquare,
 						title = item.caption?.decoded,
 						outboundUrl = item.outbound_url?.decoded,
@@ -170,9 +186,9 @@ class AlbumInfo(
 					)
 				}.toList()
 
-            val title = post.title?.decoded
+			val title = post.title?.decoded
 
-            return AlbumInfo(post.findUrl()!!, title, null, images)
-        }
-    }
+			return AlbumInfo(post.findUrl()!!, title, null, images)
+		}
+	}
 }

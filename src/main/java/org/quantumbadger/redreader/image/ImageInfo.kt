@@ -66,6 +66,7 @@ data class ImageUrlInfo(
 @Parcelize
 data class ImageInfo(
 
+	// TODO include all sizes and select at usage time
 	@JvmField val original: ImageUrlInfo?,
 	@JvmField val bigSquare: ImageUrlInfo? = null,
 	@JvmField val preview: ImageUrlInfo? = null,

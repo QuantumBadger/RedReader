@@ -40,6 +40,7 @@ import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
+import org.quantumbadger.redreader.settings.types.AppearanceTheme;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -201,10 +202,6 @@ public final class PrefsUtility {
 		return AppearanceTwopane.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_twopane_key,
 				"auto")));
-	}
-
-	public enum AppearanceTheme {
-		RED, GREEN, BLUE, LTBLUE, ORANGE, GRAY, NIGHT, NIGHT_LOWCONTRAST, ULTRABLACK
 	}
 
 	public static boolean isNightMode() {

@@ -5,14 +5,16 @@ import androidx.compose.runtime.CompositionLocalProvider
 import org.quantumbadger.redreader.compose.prefs.ComposePrefs
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.prefs.Preference
-import org.quantumbadger.redreader.compose.theme.ComposeThemeLight
+import org.quantumbadger.redreader.compose.theme.ComposeThemeImpl
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
+import org.quantumbadger.redreader.settings.types.AppearanceTheme
 
 @Composable
 fun RRComposeContextTest(content: @Composable () -> Unit) {
 
 	val prefValues = object : ComposePrefs {
+		override val appearanceTheme: Preference<AppearanceTheme> = testPref(AppearanceTheme.RED)
 		override val appearanceFontScaleGlobal = 1f
 		override val appearanceFontScaleBodyText = 1f
 		override val appearanceFontScalePosts = 1f
@@ -21,11 +23,13 @@ fun RRComposeContextTest(content: @Composable () -> Unit) {
 		override val albumCardShowButtons = testPref(true)
 		override val albumListShowThumbnails = testPref(true)
 		override val albumGridCropToSquare = testPref(false)
-		override val albumGridColumns = testPref(2f)
+		override val albumGridColumns = testPref(3)
+		override val albumListThumbnailSize = testPref(64)
+		override val albumListShowButtons = testPref(true)
 	}
 
 	CompositionLocalProvider(LocalComposePrefs provides prefValues) {
-		CompositionLocalProvider(LocalComposeTheme provides ComposeThemeLight(prefValues)) {
+		CompositionLocalProvider(LocalComposeTheme provides ComposeThemeImpl(prefValues)) {
 			content()
 		}
 	}

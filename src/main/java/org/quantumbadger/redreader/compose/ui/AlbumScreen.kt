@@ -56,8 +56,6 @@ import kotlin.math.min
 // TODO check for unstable composables
 // TODO dark themes
 // TODO theme small progress spinner
-// TODO make cards clickable
-// TODO handle long-click
 // TODO "all settings" option
 // TODO find best reddit preview
 // TODO actually hook up the buttons on the card

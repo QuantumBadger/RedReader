@@ -25,10 +25,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.WindowManager;
+
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -43,6 +46,7 @@ import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.settings.SettingsActivity;
+import org.quantumbadger.redreader.settings.types.AppearanceTheme;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -664,7 +668,7 @@ public final class OptionsMenuUtility {
 
 							final SharedPrefsWrapper prefs
 									= General.getSharedPrefs(activity);
-							final PrefsUtility.AppearanceTheme currentTheme
+							final AppearanceTheme currentTheme
 									= PrefsUtility.appearance_theme();
 
 							final String[] themeNames = activity.getResources()
@@ -675,7 +679,7 @@ public final class OptionsMenuUtility {
 
 							int selectedPos = -1;
 							for(int i = 0; i < themeValues.length; i++) {
-								if(PrefsUtility.AppearanceTheme.valueOf(
+								if(AppearanceTheme.valueOf(
 										StringUtils.asciiUppercase(themeValues[i]))
 										.equals(currentTheme)) {
 									selectedPos = i;

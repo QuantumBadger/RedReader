@@ -1,6 +1,7 @@
 package org.quantumbadger.redreader.settings.types
 
 import androidx.compose.ui.graphics.Color
+import org.quantumbadger.redreader.compose.theme.Colors
 
 enum class AppearanceTheme(
 	override val stringValue: String,
@@ -11,8 +12,8 @@ enum class AppearanceTheme(
 	RED(
 		stringValue = "red",
 		lightness = ThemeLightness.Light,
-		colorPrimary = Color(0xd3, 0x2f, 0x2f),
-		colorPrimaryDark = Color(0xb5, 0x26, 0x26)
+		colorPrimary = Colors.Red.mid,
+		colorPrimaryDark = Colors.Red.s6
 	),
 	GREEN(
 		stringValue = "green",

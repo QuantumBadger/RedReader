@@ -29,6 +29,7 @@ fun RRComposeContextTest(content: @Composable () -> Unit) {
 
 	CompositionLocalProvider(
 		LocalComposePrefs provides prefValues,
+		LocalDialogLauncher provides {}
 	) {
 		RRComposeContextTheme {
 			content()

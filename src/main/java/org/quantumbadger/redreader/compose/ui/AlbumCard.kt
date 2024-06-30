@@ -74,8 +74,9 @@ fun AlbumCard(
             .fillMaxWidth()
             .padding(horizontal = 12.dp, vertical = 6.dp)
 	) {
-		Column(
+		Box(
 			modifier = Modifier
+				.fillMaxWidth()
                 .shadow(3.dp, RoundedCornerShape(6.dp))
                 .clip(RoundedCornerShape(6.dp))
                 .background(theme.postCard.backgroundColor)
@@ -84,46 +85,48 @@ fun AlbumCard(
 					onLongClick = { onLongClick(index) }
 				)
 		) {
-			NetImage(
-				modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(max = maxImageHeight),
-				image = preview,
-			)
+			Column(Modifier.fillMaxWidth()) {
+				NetImage(
+					modifier = Modifier
+						.fillMaxWidth()
+						.heightIn(max = maxImageHeight),
+					image = preview,
+				)
 
-			val title = image.title?.trim()?.takeUnless { it.isEmpty() }
-			val caption = image.caption?.trim()?.takeUnless { it.isEmpty() }
+				val title = image.title?.trim()?.takeUnless { it.isEmpty() }
+				val caption = image.caption?.trim()?.takeUnless { it.isEmpty() }
 
-			if (title != null && caption != null) {
-				Column(
-					modifier = Modifier.padding(14.dp)
-				) {
-					Text(
-						text = title,
-						style = theme.postCard.title,
-					)
-					Text(
-						text = caption,
-						style = theme.postCard.subtitle,
-					)
-				}
-			} else {
-				val text = title ?: caption
-
-				if (text != null) {
+				if (title != null && caption != null) {
 					Column(
 						modifier = Modifier.padding(14.dp)
 					) {
 						Text(
-							text = text,
-							style = theme.postCard.caption,
+							text = title,
+							style = theme.postCard.title,
+						)
+						Text(
+							text = caption,
+							style = theme.postCard.subtitle,
 						)
 					}
-				}
-			}
+				} else {
+					val text = title ?: caption
 
-			AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
-				AlbumEntryButtons(Modifier.fillMaxWidth())
+					if (text != null) {
+						Column(
+							modifier = Modifier.padding(14.dp)
+						) {
+							Text(
+								text = text,
+								style = theme.postCard.caption,
+							)
+						}
+					}
+				}
+
+				AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
+					AlbumEntryButtons(Modifier.fillMaxWidth())
+				}
 			}
 		}
 	}

@@ -10,88 +10,91 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
+import org.quantumbadger.redreader.settings.types.AppearanceTheme
 import org.quantumbadger.redreader.settings.types.SettingSerializer
 
 @Stable
 interface Preference<T> {
-    var value: T
+	var value: T
 }
 
 interface ComposePrefs {
-    val appearanceFontScaleGlobal: Float
-    val appearanceFontScaleBodyText: Float
-    val appearanceFontScalePosts: Float
-    val appearanceFontScalePostSubtitles: Float
+	val appearanceTheme: Preference<AppearanceTheme>
 
-    val albumViewMode: Preference<AlbumViewMode>
-    val albumCardShowButtons: Preference<Boolean>
-    val albumListShowThumbnails: Preference<Boolean>
+	val appearanceFontScaleGlobal: Float
+	val appearanceFontScaleBodyText: Float
+	val appearanceFontScalePosts: Float
+	val appearanceFontScalePostSubtitles: Float
+
+	val albumViewMode: Preference<AlbumViewMode>
+	val albumCardShowButtons: Preference<Boolean>
+	val albumListShowThumbnails: Preference<Boolean>
 	val albumListThumbnailSize: Preference<Int>
 	val albumListShowButtons: Preference<Boolean>
-    val albumGridCropToSquare: Preference<Boolean>
-    val albumGridColumns: Preference<Int>
+	val albumGridCropToSquare: Preference<Boolean>
+	val albumGridColumns: Preference<Int>
 }
 
 object ComposePrefsSingleton {
-    private lateinit var SINGLETON: ComposePrefs
+	private lateinit var SINGLETON: ComposePrefs
 
-    fun init(context: Context) {
-        General.checkThisIsUIThread()
-        SINGLETON = ComposePrefsImpl(context)
-    }
+	fun init(context: Context) {
+		General.checkThisIsUIThread()
+		SINGLETON = ComposePrefsImpl(context)
+	}
 
-    val instance: ComposePrefs
-        get() = SINGLETON
+	val instance: ComposePrefs
+		get() = SINGLETON
 }
 
 @Suppress("PrivatePropertyName")
 private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
 
-    private val sharedPrefs = General.getSharedPrefs(context)
+	private val sharedPrefs = General.getSharedPrefs(context)
 
-    private val changeObservers = HashMap<String, () -> Unit>()
+	private val changeObservers = HashMap<String, () -> Unit>()
 
-    private val appearance_fontscale_global =
-        FloatPref(R.string.pref_appearance_fontscale_global_key, 1f)
-    private val appearance_fontscale_bodytext =
-        FloatPref(R.string.pref_appearance_fontscale_bodytext_key, -1f)
-    private val appearance_fontscale_posts =
-        FloatPref(R.string.pref_appearance_fontscale_posts_key, -1f)
-    private val appearance_fontscale_post_subtitles =
-        FloatPref(R.string.pref_appearance_fontscale_post_subtitles_key, -1f)
+	private val appearance_fontscale_global =
+		FloatPref(R.string.pref_appearance_fontscale_global_key, 1f)
+	private val appearance_fontscale_bodytext =
+		FloatPref(R.string.pref_appearance_fontscale_bodytext_key, -1f)
+	private val appearance_fontscale_posts =
+		FloatPref(R.string.pref_appearance_fontscale_posts_key, -1f)
+	private val appearance_fontscale_post_subtitles =
+		FloatPref(R.string.pref_appearance_fontscale_post_subtitles_key, -1f)
 
-    init {
-        General.checkThisIsUIThread()
-        sharedPrefs.registerOnSharedPreferenceChangeListener { prefs, key ->
-            changeObservers[key]?.invoke()
-        }
-    }
+	init {
+		General.checkThisIsUIThread()
+		sharedPrefs.registerOnSharedPreferenceChangeListener { prefs, key ->
+			changeObservers[key]?.invoke()
+		}
+	}
 
-    private inner class FloatPref(
-        private val key: String,
-        private val default: Float
-    ) : Preference<Float> {
+	private inner class FloatPref(
+		private val key: String,
+		private val default: Float
+	) : Preference<Float> {
 
-        constructor(@StringRes key: Int, default: Float) : this(context.getString(key), default)
+		constructor(@StringRes key: Int, default: Float) : this(context.getString(key), default)
 
-        private val mutableState = mutableFloatStateOf(loadPref())
+		private val mutableState = mutableFloatStateOf(loadPref())
 
-        init {
-            changeObservers[key] = {
-                mutableState.floatValue = loadPref()
-            }
-        }
+		init {
+			changeObservers[key] = {
+				mutableState.floatValue = loadPref()
+			}
+		}
 
-        private fun loadPref() =
-            sharedPrefs.getString(key, default.toString())?.toFloatOrNull() ?: default
+		private fun loadPref() =
+			sharedPrefs.getString(key, default.toString())?.toFloatOrNull() ?: default
 
-        override var value: Float
-            get() = mutableState.floatValue
-            set(value) {
-                sharedPrefs.edit().putFloat(key, value).apply()
-                mutableState.floatValue = value
-            }
-    }
+		override var value: Float
+			get() = mutableState.floatValue
+			set(value) {
+				sharedPrefs.edit().putFloat(key, value).apply()
+				mutableState.floatValue = value
+			}
+	}
 
 	private inner class IntPref(
 		private val key: String,
@@ -118,82 +121,94 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
 			}
 	}
 
-    private inner class BoolPref(
-        private val key: String,
-        private val default: Boolean
-    ) : Preference<Boolean> {
+	private inner class BoolPref(
+		private val key: String,
+		private val default: Boolean
+	) : Preference<Boolean> {
 
-        constructor(@StringRes key: Int, default: Boolean) : this(context.getString(key), default)
+		constructor(@StringRes key: Int, default: Boolean) : this(context.getString(key), default)
 
-        private val mutableState = mutableStateOf(loadPref())
+		private val mutableState = mutableStateOf(loadPref())
 
-        init {
-            changeObservers[key] = {
-                mutableState.value = loadPref()
-            }
-        }
+		init {
+			changeObservers[key] = {
+				mutableState.value = loadPref()
+			}
+		}
 
-        private fun loadPref() = sharedPrefs.getBoolean(key, default)
+		private fun loadPref() = sharedPrefs.getBoolean(key, default)
 
-        override var value: Boolean
-            get() = mutableState.value
-            set(value) {
-                sharedPrefs.edit().putBoolean(key, value).apply()
-                mutableState.value = value
-            }
-    }
+		override var value: Boolean
+			get() = mutableState.value
+			set(value) {
+				sharedPrefs.edit().putBoolean(key, value).apply()
+				mutableState.value = value
+			}
+	}
 
-    private inner class EnumPref<T>(
-        private val key: String,
-        private val default: T,
-        private val serializer: SettingSerializer<T>
-    ) : Preference<T> {
+	private inner class EnumPref<T>(
+		private val key: String,
+		private val default: T,
+		private val serializer: SettingSerializer<T>
+	) : Preference<T> {
 
-        private val mutableState = mutableStateOf(loadPref())
+		constructor(
+			@StringRes key: Int,
+			default: T,
+			serializer: SettingSerializer<T>
+		) : this(context.getString(key), default, serializer)
 
-        init {
-            changeObservers[key] = {
-                mutableState.value = loadPref()
-            }
-        }
+		private val mutableState = mutableStateOf(loadPref())
 
-        private fun loadPref() =
-            sharedPrefs.getString(key, serializer.serialize(default))?.let(serializer::deserialize)
-                ?: default
+		init {
+			changeObservers[key] = {
+				mutableState.value = loadPref()
+			}
+		}
 
-        override var value: T
-            get() = mutableState.value
-            set(value) {
-                sharedPrefs.edit().putString(key, serializer.serialize(value)).apply()
-                mutableState.value = value
-            }
-    }
+		private fun loadPref() =
+			sharedPrefs.getString(key, serializer.serialize(default))?.let(serializer::deserialize)
+				?: default
 
-    private fun fontScale(pref: FloatPref) = pref.value.takeUnless { it == -1f }
-        ?: appearance_fontscale_global.value
+		override var value: T
+			get() = mutableState.value
+			set(value) {
+				sharedPrefs.edit().putString(key, serializer.serialize(value)).apply()
+				mutableState.value = value
+			}
+	}
 
-    override val appearanceFontScaleGlobal: Float
-        get() = appearance_fontscale_global.value
+	private fun fontScale(pref: FloatPref) = pref.value.takeUnless { it == -1f }
+		?: appearance_fontscale_global.value
 
-    override val appearanceFontScaleBodyText: Float
-        get() = fontScale(appearance_fontscale_bodytext)
+	override val appearanceFontScaleGlobal: Float
+		get() = appearance_fontscale_global.value
 
-    override val appearanceFontScalePosts: Float
-        get() = fontScale(appearance_fontscale_posts)
+	override val appearanceFontScaleBodyText: Float
+		get() = fontScale(appearance_fontscale_bodytext)
 
-    override val appearanceFontScalePostSubtitles: Float
-        get() = fontScale(appearance_fontscale_post_subtitles)
+	override val appearanceFontScalePosts: Float
+		get() = fontScale(appearance_fontscale_posts)
 
-    override val albumViewMode: Preference<AlbumViewMode> = EnumPref(
-        "album_view_mode",
-        AlbumViewMode.Cards,
-        AlbumViewMode.settingSerializer
-    )
+	override val appearanceFontScalePostSubtitles: Float
+		get() = fontScale(appearance_fontscale_post_subtitles)
 
-    override val albumCardShowButtons: Preference<Boolean> = BoolPref(
-        "album_card_show_buttons",
-        true
-    )
+	override val appearanceTheme: Preference<AppearanceTheme> = EnumPref(
+		R.string.pref_appearance_theme_key,
+		AppearanceTheme.RED,
+		AppearanceTheme.settingSerializer
+	)
+
+	override val albumViewMode: Preference<AlbumViewMode> = EnumPref(
+		"album_view_mode",
+		AlbumViewMode.Cards,
+		AlbumViewMode.settingSerializer
+	)
+
+	override val albumCardShowButtons: Preference<Boolean> = BoolPref(
+		"album_card_show_buttons",
+		true
+	)
 
 	override val albumListShowThumbnails: Preference<Boolean> = BoolPref(
 		"album_list_show_thumbnails",
@@ -210,15 +225,15 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
 		true
 	)
 
-    override val albumGridCropToSquare: Preference<Boolean> = BoolPref(
-        "album_grid_crop_to_square",
-        true
-    )
+	override val albumGridCropToSquare: Preference<Boolean> = BoolPref(
+		"album_grid_crop_to_square",
+		true
+	)
 
-    override val albumGridColumns: Preference<Int> = IntPref(
-        "album_grid_columns",
-        3
-    )
+	override val albumGridColumns: Preference<Int> = IntPref(
+		"album_grid_columns",
+		3
+	)
 }
 
 val LocalComposePrefs = staticCompositionLocalOf { ComposePrefsSingleton.instance }

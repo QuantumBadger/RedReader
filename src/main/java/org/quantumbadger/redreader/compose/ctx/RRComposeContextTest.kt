@@ -5,8 +5,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import org.quantumbadger.redreader.compose.prefs.ComposePrefs
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.prefs.Preference
-import org.quantumbadger.redreader.compose.theme.ComposeThemeImpl
-import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.compose.theme.RRComposeContextTheme
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import org.quantumbadger.redreader.settings.types.AppearanceTheme
 
@@ -28,8 +27,10 @@ fun RRComposeContextTest(content: @Composable () -> Unit) {
 		override val albumListShowButtons = testPref(true)
 	}
 
-	CompositionLocalProvider(LocalComposePrefs provides prefValues) {
-		CompositionLocalProvider(LocalComposeTheme provides ComposeThemeImpl(prefValues)) {
+	CompositionLocalProvider(
+		LocalComposePrefs provides prefValues,
+	) {
+		RRComposeContextTheme {
 			content()
 		}
 	}

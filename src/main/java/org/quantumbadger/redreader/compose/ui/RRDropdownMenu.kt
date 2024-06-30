@@ -41,7 +41,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
@@ -306,6 +305,8 @@ private fun BaseDropdownMenuContent(
 	modifier: Modifier = Modifier,
 	content: @Composable ColumnScope.() -> Unit
 ) {
+	val theme = LocalComposeTheme.current
+
 	// Menu open/close animation.
 	val transition = updateTransition(expandedStates, "DropDownMenu")
 
@@ -364,7 +365,7 @@ private fun BaseDropdownMenuContent(
             }
 			.shadow(10.dp, RoundedCornerShape(6.dp))
             .clip(RoundedCornerShape(6.dp))
-            .background(Color.White),
+            .background(theme.dropdownMenu.background),
 	) {
 		Column(
 			modifier = modifier

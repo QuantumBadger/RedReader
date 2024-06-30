@@ -1,15 +1,19 @@
 package org.quantumbadger.redreader.compose.theme
 
+import android.app.Activity
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowCompat
 import org.quantumbadger.redreader.compose.prefs.ComposePrefs
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.settings.types.AppearanceTheme
@@ -33,6 +37,7 @@ interface ComposeThemeAlbum {
 
 interface ComposeThemeDropdownMenu {
 	val text: TextStyle
+	val background: Color
 }
 
 interface ComposeTheme {
@@ -49,6 +54,16 @@ fun RRComposeContextTheme(
 	val themePref = prefs.appearanceTheme.value
 
 	val theme = ComposeThemeImpl(prefs)
+
+	val view = LocalView.current
+	if (!view.isInEditMode) {
+		SideEffect {
+			val window = (view.context as Activity).window
+			WindowCompat.getInsetsController(window, view).apply {
+				isAppearanceLightStatusBars = themePref.lightness == ThemeLightness.Light
+			}
+		}
+	}
 
 	MaterialTheme(
 		colorScheme = when (themePref.lightness) {
@@ -76,28 +91,58 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 
 	val baseTextStyle = TextStyle()
 
-	val colorText = if (light) Color.Black else Color.White
-	val colorSubtext = if (light) Color.DarkGray else Color.LightGray
-	val colorIcon = if (light) Color(0x44, 0x44, 0x44) else Color(0xAA, 0xAA, 0xAA)
+	val colorText = if (light) {
+		Colors.Grey.s10
+	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+		Colors.Grey.s2
+	} else {
+		Colors.Grey.s1
+	}
+
+	val colorSubtext = if (light) {
+		Colors.Grey.s7
+	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+		Colors.Grey.s5
+	} else {
+		Colors.Grey.s3
+	}
+
+	val colorIcon = if (light) {
+		Colors.Grey.s7
+	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+		Colors.Grey.s6
+	} else {
+		Colors.Grey.s4
+	}
 
 	val colorCardBackground = if (light) {
 		Color.White
 	} else if (theme == AppearanceTheme.ULTRABLACK) {
 		Color.Black
 	} else {
-		Color(0x22, 0x22, 0x22)
+		Colors.Grey.s9
 	}
 
 	val colorListBackground = if (light) {
-		Color(0.97f, 0.97f, 0.97f)
+		Colors.Grey.s1
+	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+		Colors.Grey.s10
 	} else {
 		Color.Black
 	}
 
-	val colorImageBackground = if (light) {
-		Color(0.96f, 0.96f, 0.96f)
+	val colorPopupBackground = if (light) {
+		Color.White
+	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+		Colors.Grey.s7
 	} else {
-		Color(0x33, 0x33, 0x33)
+		Colors.Grey.s8
+	}
+
+	val colorImageBackground = if (light) {
+		Colors.Grey.s2
+	} else {
+		Colors.Grey.s8
 	}
 
 	override val postCard = object : ComposeThemePostCard {
@@ -148,8 +193,24 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 			fontWeight = FontWeight.W500,
 			fontSize = 16.sp * prefs.appearanceFontScaleGlobal // TODO different setting
 		)
+		override val background = colorPopupBackground
 	}
 }
 
 val LocalComposeTheme =
 	staticCompositionLocalOf<ComposeTheme> { throw RuntimeException("Theme not initialized") }
+
+private object Colors {
+	object Grey {
+		val s1 = Color(0xFFF8F9FA)
+		val s2 = Color(0xFFE9ECEF)
+		val s3 = Color(0xFFDEE2E6)
+		val s4 = Color(0xFFCED4DA)
+		val s5 = Color(0xFFADB5BD)
+		val s6 = Color(0xFF6C757D)
+		val s7 = Color(0xFF495057)
+		val s8 = Color(0xFF343A40)
+		val s9 = Color(0xFF212529)
+		val s10 = Color(0xFF111213)
+	}
+}

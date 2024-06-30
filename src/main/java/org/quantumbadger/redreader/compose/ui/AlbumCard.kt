@@ -17,7 +17,9 @@
 package org.quantumbadger.redreader.compose.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -42,9 +44,13 @@ import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.image.ImageSize
 import org.quantumbadger.redreader.image.ImageUrlInfo
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AlbumCard(
-	image: ImageInfo
+	index: Int,
+	image: ImageInfo,
+	onClick: (Int) -> Unit,
+	onLongClick: (Int) -> Unit,
 ) {
 	val prefs = LocalComposePrefs.current
 	val theme = LocalComposeTheme.current
@@ -73,6 +79,10 @@ fun AlbumCard(
                 .shadow(3.dp, RoundedCornerShape(6.dp))
                 .clip(RoundedCornerShape(6.dp))
                 .background(theme.postCard.backgroundColor)
+				.combinedClickable(
+					onClick = { onClick(index) },
+					onLongClick = { onLongClick(index) }
+				)
 		) {
 			NetImage(
 				modifier = Modifier
@@ -125,12 +135,15 @@ fun AlbumCard(
 fun PreviewAlbumCard() {
 	RRComposeContextTest {
 		AlbumCard(
+			0,
 			ImageInfo(
 				original = ImageUrlInfo("testimage", size = ImageSize(100, 100)),
 				title = "Test title",
 				caption = "Test caption",
 				hasAudio = ImageInfo.HasAudio.NO_AUDIO,
-			)
+			),
+			{},
+			{}
 		)
 	}
 }

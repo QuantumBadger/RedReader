@@ -20,7 +20,7 @@ open class ComposeBaseActivity: BaseActivity() {
 	protected fun setContentCompose(content: @Composable () -> Unit) {
 		setContentView(ComposeView(this).also { view ->
 			view.setContent {
-				RRComposeContext {
+				RRComposeContext(this) {
 					content()
 				}
 			}

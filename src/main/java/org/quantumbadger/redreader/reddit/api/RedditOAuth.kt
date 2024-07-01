@@ -399,7 +399,7 @@ object RedditOAuth {
                         result.set(
                             FetchUserInfoResult(
                                 FetchUserInfoResultStatus.CONNECTION_ERROR,
-                                RRError(
+                                RRError.createLegacy(
                                     context.getString(R.string.error_unknown_title),
                                     context.getString(R.string.error_unknown_message),
                                     true,
@@ -415,7 +415,7 @@ object RedditOAuth {
                         result.set(
                             FetchUserInfoResult(
                                 FetchUserInfoResultStatus.UNKNOWN_ERROR,
-                                RRError(
+                                RRError.createLegacy(
                                     context.getString(R.string.error_unknown_title),
                                     context.getString(R.string.error_unknown_message),
                                     true,
@@ -443,7 +443,7 @@ object RedditOAuth {
                             result.set(
                                 FetchUserInfoResult(
                                     FetchUserInfoResultStatus.INVALID_RESPONSE,
-                                    RRError(
+                                    RRError.createLegacy(
                                         context.getString(R.string.error_unknown_title),
                                         context.getString(R.string.error_unknown_message),
                                         true,

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -35,6 +37,7 @@ import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.invokeIf
 import org.quantumbadger.redreader.compose.ctx.Dest
+import org.quantumbadger.redreader.compose.ctx.GlobalNetworkRetry
 import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -49,9 +52,9 @@ fun RRErrorView(error: RRError) {
 
 	Box(
 		modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-            .onSizeChanged { size = it },
+			.padding(8.dp)
+			.fillMaxWidth()
+			.onSizeChanged { size = it },
 		contentAlignment = Alignment.Center
 	) {
 		val smallWidth = with(LocalDensity.current) {
@@ -127,8 +130,34 @@ fun RRErrorView(error: RRError) {
 									launch(Dest.ErrorPropertiesDialog(error))
 								},
 								text = "Details", // TODO string
-								theme = theme.detailsButton
+								theme = if (error.resolution == null) {
+									theme.primaryButton
+								} else {
+									theme.secondaryButton
+								}
 							)
+
+							if (error.resolution != null) {
+								Spacer(Modifier.width(8.dp))
+
+								RRButton(
+									onClick = {
+										when (error.resolution) {
+											RRError.Resolution.ACCEPT_REDDIT_TERMS -> {
+												launch(Dest.RedditTerms)
+											}
+											RRError.Resolution.ACCOUNTS_LIST -> {
+												launch(Dest.AccountsList)
+											}
+											RRError.Resolution.RETRY -> {
+												GlobalNetworkRetry.intValue++
+											}
+										}
+									},
+									text = stringResource(error.resolution.buttonText),
+									theme = theme.primaryButton
+								)
+							}
 						}
 					}
 				}

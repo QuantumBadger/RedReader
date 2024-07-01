@@ -50,7 +50,8 @@ interface ComposeThemeError {
 	val message: TextStyle
 	val border: Color
 	val background: Color
-	val detailsButton: ComposeThemeButton
+	val primaryButton: ComposeThemeButton
+	val secondaryButton: ComposeThemeButton
 }
 
 @Immutable
@@ -255,7 +256,7 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 			Colors.Red.s7
 		}
 
-		override val detailsButton = ComposeThemeButton(
+		override val primaryButton = ComposeThemeButton(
 			text = baseTextStyle.copy(
 				color = Color.White,
 				fontWeight = FontWeight.W500,
@@ -267,6 +268,16 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 				Colors.Red.s7
 			},
 			shape = RoundedCornerShape(6.dp)
+		)
+
+		override val secondaryButton = ComposeThemeButton(
+			text = baseTextStyle.copy(
+				color = colorText,
+				fontWeight = FontWeight.W500,
+				fontSize = 13.sp
+			),
+			background = Color.Transparent,
+			shape = RoundedCornerShape(6.dp),
 		)
 	}
 

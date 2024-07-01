@@ -1853,4 +1853,7 @@
 
 	<string name="pref_appearance_highlight_own_username_key" translatable="false">pref_appearance_highlight_own_username</string>
 	<string name="pref_appearance_highlight_own_username_title">Highlight your own username in comments</string>
+
+	<!-- 2024-07-01 -->
+	<string name="error_resolution_button_retry">Retry</string>
 </resources>

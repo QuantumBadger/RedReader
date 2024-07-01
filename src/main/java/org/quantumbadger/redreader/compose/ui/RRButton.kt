@@ -51,7 +51,7 @@ private fun PreviewRRButton() {
 		RRButton(
 			onClick = { },
 			text = "Test Button",
-			theme = theme.error.detailsButton
+			theme = theme.error.primaryButton
 		)
 	}
 }

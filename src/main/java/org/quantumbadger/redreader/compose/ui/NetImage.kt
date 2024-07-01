@@ -69,7 +69,7 @@ fun NetImage(
 				Box(Modifier.background(theme.postCard.previewImageBackgroundColor)) {
 					Image(
 						modifier = Modifier.fillMaxSize(),
-						bitmap = it.result,
+						bitmap = it.result.data,
 						contentDescription = null,
 						contentScale = if (cropToAspect == null) {
 							ContentScale.Fit

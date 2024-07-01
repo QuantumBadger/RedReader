@@ -18,158 +18,39 @@ package org.quantumbadger.redreader.activities
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import org.quantumbadger.redreader.R
-import org.quantumbadger.redreader.common.AndroidCommon
-import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.General.isSensitiveDebugLoggingEnabled
-import org.quantumbadger.redreader.common.LinkHandler.getAlbumInfo
-import org.quantumbadger.redreader.common.LinkHandler.onLinkClicked
 import org.quantumbadger.redreader.common.PrefsUtility
-import org.quantumbadger.redreader.common.Priority
-import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.activity.ComposeBaseActivity
 import org.quantumbadger.redreader.compose.ui.AlbumScreen
-import org.quantumbadger.redreader.image.AlbumInfo
-import org.quantumbadger.redreader.image.GetAlbumInfoListener
-import org.quantumbadger.redreader.views.liststatus.ErrorView
 
 class AlbumListingActivity : ComposeBaseActivity() {
-	private var mUrl: UriString? = null
-	private var mHaveReverted = false
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		PrefsUtility.applyTheme(this)
 
 		super.onCreate(savedInstanceState)
 
-		mUrl = UriString.fromNullable(intent.dataString)
+		val url = UriString.fromNullable(intent.dataString)
 
-		if (mUrl == null) {
+		if (url == null) {
 			finish()
 			return
 		}
 
 		if (isSensitiveDebugLoggingEnabled) {
-			Log.i("AlbumListingActivity", "Loading URL $mUrl")
+			Log.i("AlbumListingActivity", "Loading URL $url")
 		}
 
-		val progressBar = ProgressBar(
-			this,
-			null,
-			android.R.attr.progressBarStyleHorizontal
-		)
-		progressBar.isIndeterminate = true
-
-		val layout = LinearLayout(this)
-		layout.orientation = LinearLayout.VERTICAL
-		layout.addView(progressBar)
-
-		getAlbumInfo(
-			this,
-			mUrl!!,
-			Priority(Constants.Priority.IMAGE_VIEW),
-			object : GetAlbumInfoListener {
-				override fun onGalleryRemoved() {
-					AndroidCommon.UI_THREAD_HANDLER.post {
-						layout.removeAllViews()
-						layout.addView(
-							ErrorView(
-								this@AlbumListingActivity,
-								RRError(
-									applicationContext.getString(
-										R.string.image_gallery_removed_title
-									),
-									applicationContext.getString(
-										R.string.image_gallery_removed_message
-									),
-									true,
-									null,
-									null,
-									mUrl,
-									null
-								)
-							)
-						)
-					}
-				}
-
-				override fun onGalleryDataNotPresent() {
-					AndroidCommon.UI_THREAD_HANDLER.post {
-						layout.removeAllViews()
-						layout.addView(
-							ErrorView(
-								this@AlbumListingActivity,
-								RRError(
-									applicationContext.getString(
-										R.string.image_gallery_no_data_present_title
-									),
-									applicationContext.getString(
-										R.string.image_gallery_no_data_present_message
-									),
-									true,
-									null,
-									null,
-									mUrl,
-									null
-								)
-							)
-						)
-					}
-				}
-
-				override fun onFailure(error: RRError) {
-					Log.e(
-						"AlbumListingActivity",
-						"getAlbumInfo call failed: $error"
-					)
-
-					revertToWeb()
-				}
-
-				override fun onSuccess(info: AlbumInfo) {
-					if (isSensitiveDebugLoggingEnabled) {
-						Log.i(
-							"AlbumListingActivity",
-							"Got album, " + info.images.size + " image(s)"
-						)
-					}
-
-					AndroidCommon.UI_THREAD_HANDLER.post {
-						if (info.images.size == 1) {
-							onLinkClicked(
-								this@AlbumListingActivity,
-								info.images[0].original.url
-							)
-							finish()
-						} else {
-							setContentCompose {
-								AlbumScreen(album = info)
-							}
-						}
-					}
-				}
-			})
-
-		setBaseActivityListing(layout)
+		setContentCompose {
+			AlbumScreen(albumUrl = url)
+		}
 	}
 
 	override fun onBackPressed() {
 		if (General.onBackPressed()) {
 			super.onBackPressed()
-		}
-	}
-
-	private fun revertToWeb() {
-		AndroidCommon.runOnUiThread {
-			if (!mHaveReverted) {
-				mHaveReverted = true
-				onLinkClicked(this, mUrl, true)
-				finish()
-			}
 		}
 	}
 }

@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.UriString
+import org.quantumbadger.redreader.compose.ctx.Dest
 import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.theme.ComposeThemeLinkButton
@@ -35,7 +36,7 @@ fun RRLinkButton(
 	link: UriString,
 	theme: ComposeThemeLinkButton
 ) {
-	val launcher = LocalLauncher.current
+	val launch = LocalLauncher.current
 
 	ConstraintLayout(
 		modifier = Modifier
@@ -45,8 +46,8 @@ fun RRLinkButton(
             .clip(theme.shape)
 			.combinedClickable(
 				role = Role.Button,
-				onClick = { launcher.launch(link) },
-				onLongClick = { launcher.linkLongClicked(link) }
+				onClick = { launch(Dest.Link(link)) },
+				onLongClick = { launch(Dest.LinkLongClick(link)) }
 			)
             .padding(horizontal = 16.dp, vertical = 12.dp),
 	) {

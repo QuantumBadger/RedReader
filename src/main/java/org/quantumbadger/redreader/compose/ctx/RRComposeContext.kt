@@ -1,10 +1,9 @@
 package org.quantumbadger.redreader.compose.ctx
 
-import androidx.appcompat.app.AppCompatDialogFragment
+import android.content.Intent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -13,13 +12,18 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import org.quantumbadger.redreader.account.RedditAccountId
 import org.quantumbadger.redreader.account.RedditAccountManager
 import org.quantumbadger.redreader.common.AndroidCommon
+import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.LinkHandler
+import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.activity.ComposeBaseActivity
 import org.quantumbadger.redreader.compose.prefs.ComposePrefsSingleton
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.prefs.Preference
 import org.quantumbadger.redreader.compose.theme.RRComposeContextTheme
+import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog
+import org.quantumbadger.redreader.image.AlbumInfo
+import org.quantumbadger.redreader.settings.SettingsActivity
 
 @Composable
 fun RRComposeContext(
@@ -47,21 +51,61 @@ fun RRComposeContext(
 	CompositionLocalProvider(
 		LocalRedditUser provides currentAccountId,
 		LocalComposePrefs provides ComposePrefsSingleton.instance,
-		LocalActivity provides activity,
-		LocalLauncher provides object : Launcher {
-			override fun launch(dialog: AppCompatDialogFragment) {
-				dialog.show(activity.supportFragmentManager, null)
-			}
+		LocalLauncher provides {
+			when (it) {
+				Dest.Settings -> {
+					activity.startActivity(Intent(activity, SettingsActivity::class.java))
+				}
 
-			override fun launch(url: UriString) {
-				LinkHandler.onLinkClicked(activity, url)
-			}
+				is Dest.Link -> {
+					LinkHandler.onLinkClicked(
+						activity = activity,
+						url = it.url,
+						albumInfo = it.albumInfo,
+						albumImageIndex = it.albumImageIndex
+					)
+				}
 
-			override fun linkLongClicked(url: UriString) {
-				LinkHandler.onLinkLongClicked(
-					activity = activity,
-					uri = url,
-					forceNoImage = false)
+				is Dest.LinkLongClick -> {
+					LinkHandler.onLinkLongClicked(
+						activity = activity,
+						uri = it.url,
+						forceNoImage = false
+					)
+				}
+
+				is Dest.ResultDialog -> {
+					General.showResultDialog(activity, it.error)
+				}
+
+				is Dest.SaveMedia -> {
+					LinkHandler.onActionMenuItemSelected(
+						uri = it.url,
+						activity = activity,
+						action = LinkHandler.LinkAction.SAVE_IMAGE
+					)
+				}
+
+				is Dest.ShareLink -> {
+					LinkHandler.onActionMenuItemSelected(
+						uri = it.url,
+						activity = activity,
+						action = LinkHandler.LinkAction.SHARE
+					)
+				}
+
+				is Dest.ShareMedia -> {
+					LinkHandler.onActionMenuItemSelected(
+						uri = it.url,
+						activity = activity,
+						action = LinkHandler.LinkAction.SHARE_IMAGE
+					)
+				}
+
+				is Dest.ErrorPropertiesDialog -> {
+					ErrorPropertiesDialog.newInstance(it.error)
+						.show(activity.supportFragmentManager, null)
+				}
 			}
 		},
 	) {
@@ -73,19 +117,43 @@ fun RRComposeContext(
 
 val LocalRedditUser = staticCompositionLocalOf { RedditAccountId.ANON }
 
-val LocalActivity = staticCompositionLocalOf<ComposeBaseActivity> {
-	throw Exception("LocalActivity not set")
-}
-
-val LocalLauncher = staticCompositionLocalOf<Launcher> {
+val LocalLauncher = staticCompositionLocalOf<(Dest) -> Unit> {
 	throw Exception("LocalLauncher not set")
 }
 
-@Stable
-interface Launcher {
-	fun launch(dialog: AppCompatDialogFragment)
-	fun launch(url: UriString)
-	fun linkLongClicked(url: UriString)
+sealed interface Dest {
+
+	data object Settings : Dest
+
+	data class Link(
+		val url: UriString,
+		val albumInfo: AlbumInfo? = null,
+		val albumImageIndex: Int? = null
+	) : Dest
+
+	data class LinkLongClick(
+		val url: UriString
+	) : Dest
+
+	data class ResultDialog(
+		val error: RRError
+	) : Dest
+
+	data class ErrorPropertiesDialog(
+		val error: RRError
+	) : Dest
+
+	data class SaveMedia(
+		val url: UriString
+	) : Dest
+
+	data class ShareMedia(
+		val url: UriString
+	) : Dest
+
+	data class ShareLink(
+		val url: UriString
+	) : Dest
 }
 
 private fun <T> testPref(value: T) = object : Preference<T> {

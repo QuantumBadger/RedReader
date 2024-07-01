@@ -86,7 +86,7 @@ object LinkHandler {
 		forceNoImage: Boolean = false,
 		post: RedditPost? = null,
 		albumInfo: AlbumInfo? = null,
-		albumImageIndex: Int = 0,
+		albumImageIndex: Int? = null,
 		fromExternalIntent: Boolean = false
 	) {
 		if (url == null) {
@@ -117,7 +117,7 @@ object LinkHandler {
 			intent.setData(normalUrl)
 			intent.putExtra("post", post)
 
-			if (albumInfo != null) {
+			if (albumInfo != null && albumImageIndex != null) {
 				intent.putExtra("albumUrl", albumInfo.url)
 				intent.putExtra("albumImageIndex", albumImageIndex)
 			}

@@ -34,7 +34,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -43,7 +42,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.R
-import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.compose.ctx.Dest
 import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
@@ -67,7 +65,6 @@ fun AlbumScreen(
 ) {
 	val prefs = LocalComposePrefs.current
 	val theme = LocalComposeTheme.current
-	val context = LocalContext.current
 	val launch = LocalLauncher.current
 
 	val topBarHeight = 48.dp
@@ -76,31 +73,20 @@ fun AlbumScreen(
 		.add(WindowInsets.systemBars)
 		.asPaddingValues()
 
-	val itemNotPresentHandler = {
-		launch(
-			Dest.ResultDialog(
-				RRError(
-					title = context.getString(R.string.image_gallery_no_image_present_title),
-					message = context.getString(R.string.image_gallery_no_image_present_message),
-					reportable = true,
-					url = album.url,
+	val itemClickHandler: (Int) -> Unit = { index ->
+		album.images[index].original.apply {
+			launch(
+				Dest.Link(
+					url = url,
+					albumInfo = album,
+					albumImageIndex = index
 				)
 			)
-		)
-	}
-
-	val itemClickHandler: (Int) -> Unit = { index ->
-		album.images[index].original?.apply {
-			launch(Dest.Link(
-				url = url,
-				albumInfo = album,
-				albumImageIndex = index
-			))
-		} ?: itemNotPresentHandler()
+		}
 	}
 
 	val itemLongClickListener: (Int) -> Unit = { index ->
-		album.images[index].original?.apply {
+		album.images[index].original.apply {
 			launch(Dest.LinkLongClick(url))
 		}
 	}

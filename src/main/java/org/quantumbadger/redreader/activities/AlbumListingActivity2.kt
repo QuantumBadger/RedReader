@@ -142,7 +142,7 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 						if (info.images.size == 1) {
 							onLinkClicked(
 								this@AlbumListingActivity2,
-								info.images[0].original!!.url
+								info.images[0].original.url
 							)
 							finish()
 						} else {

@@ -164,6 +164,10 @@ class AlbumInfo(
 						)
 					}
 
+					if (original == null) {
+						throw RuntimeException("url missing from response")
+					}
+
 					var bigSquare: ImageUrlInfo? = null
 					var preview: ImageUrlInfo? = null
 

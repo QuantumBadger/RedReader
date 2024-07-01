@@ -20,22 +20,18 @@ import org.quantumbadger.redreader.compose.net.fetchImage
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.ImageUrlInfo
 
+// TODO dynamically select the best preview based on size
 @Composable
 fun NetImage(
 	modifier: Modifier,
-	image: ImageUrlInfo?,
+	image: ImageUrlInfo,
 	cropToAspect: Float? = null
 ) {
-	val aspectRatio = cropToAspect ?: image?.size?.takeIf { it.height > 0 }?.let {
+	val aspectRatio = cropToAspect ?: image.size?.takeIf { it.height > 0 }?.let {
 		it.width.toFloat() / it.height.toFloat()
 	}
 
-	val url = image?.url
-
-	if (url == null) {
-		// TODO show error
-		return
-	}
+	val url = image.url
 
 	val data by fetchImage(url)
 

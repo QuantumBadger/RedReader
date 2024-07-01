@@ -165,18 +165,14 @@ public class AlbumListingActivity extends BaseActivity {
 
 										@Override
 										public void onSuccess(final ImageInfo info) {
-											if (info.original != null) {
-												Log.i(
-														"AlbumListingActivity",
-														"Link was actually an image.");
-												LinkHandler.onLinkClicked(
-														AlbumListingActivity.this,
-														info.original.url);
-												finish();
-											} else {
-												revertToWeb();
-											}
-										}
+                                            Log.i(
+                                                    "AlbumListingActivity",
+                                                    "Link was actually an image.");
+                                            LinkHandler.onLinkClicked(
+                                                    AlbumListingActivity.this,
+                                                    info.original.url);
+                                            finish();
+                                        }
 
 										@Override
 										public void onNotAnImage() {

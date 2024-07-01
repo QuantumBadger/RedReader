@@ -62,7 +62,7 @@ fun AlbumListItem(
 	val prefs = LocalComposePrefs.current
 	val theme = LocalComposeTheme.current
 
-	val preview = image.bigSquare ?: image.preview
+	val thumbnailImage = image.bigSquare ?: image.preview
 
 	ConstraintLayout(
 		modifier = Modifier
@@ -88,14 +88,10 @@ fun AlbumListItem(
 				},
 			contentAlignment = Alignment.Center
 		) {
-			AnimatedVisibility(
-				visible = prefs.albumListShowThumbnails.value,
-				enter = slideInHorizontally { -it },
-				exit = slideOutHorizontally { -it }
-			) {
+			if (prefs.albumListShowThumbnails.value && thumbnailImage != null) {
 				NetImage(
 					modifier = Modifier.width(thumbnailSize),
-					image = preview,
+					image = thumbnailImage,
 					cropToAspect = 1f,
 				)
 			}
@@ -115,8 +111,8 @@ fun AlbumListItem(
 						else -> this
 					}
 				},
-				image.original?.size?.run { "${width}x$height" },
-				image.original?.sizeBytes?.let {
+				image.original.size?.run { "${width}x$height" },
+				image.original.sizeBytes?.let {
 					if (it < 512 * 1024) {
 						String.format(Locale.US, "%.1f kB", it.toFloat() / 1024)
 					} else {
@@ -167,25 +163,23 @@ fun AlbumListItem(
 			}
 		}
 
-		if (image.original != null) {
-			AnimatedVisibility(
-				modifier = Modifier.constrainAs(buttons) {
-					top.linkTo(parent.top)
-					bottom.linkTo(parent.bottom)
-					end.linkTo(parent.end)
-				},
-				visible = prefs.albumListShowButtons.value,
-				enter = slideInHorizontally { it },
-				exit = slideOutHorizontally { it }
-			) {
-				val launch = LocalLauncher.current
+		AnimatedVisibility(
+			modifier = Modifier.constrainAs(buttons) {
+				top.linkTo(parent.top)
+				bottom.linkTo(parent.bottom)
+				end.linkTo(parent.end)
+			},
+			visible = prefs.albumListShowButtons.value,
+			enter = slideInHorizontally { it },
+			exit = slideOutHorizontally { it }
+		) {
+			val launch = LocalLauncher.current
 
-				RRIconButton(
-					onClick = { launch(Dest.LinkLongClick(image.original.url)) },
-					icon = R.drawable.dots_vertical_dark,
-					contentDescription = R.string.three_dots_menu
-				)
-			}
+			RRIconButton(
+				onClick = { launch(Dest.LinkLongClick(image.original.url)) },
+				icon = R.drawable.dots_vertical_dark,
+				contentDescription = R.string.three_dots_menu
+			)
 		}
 	}
 }

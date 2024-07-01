@@ -1,3 +1,7 @@
+/Alpha 353 (2024-07-01)
+Improved gallery viewer with card, list, and grid modes
+Improved network performance
+
 /Alpha 352 (2024-06-16)
 Dependency updates and reorganisation (thanks to Alexey Rochev)
 Migrating from ExoPlayer to Media3 (thanks to Alexey Rochev)

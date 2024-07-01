@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream
 import org.quantumbadger.redreader.common.time.TimestampUTC
+import org.quantumbadger.redreader.compose.ctx.LocalRedditUser
 import java.io.IOException
 import java.util.UUID
 
@@ -80,7 +81,7 @@ sealed interface NetRequestStatus<out R> {
 @Composable
 fun fetchImage(
 	uri: UriString,
-	user: RedditAccountId,
+	user: RedditAccountId = LocalRedditUser.current,
 ) = fetch(
 	uri = uri,
 	user = user,

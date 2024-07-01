@@ -55,7 +55,7 @@ import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
-// TODO handle legacy "go straight to first image" pref
+// TODO handle legacy "go straight to first image" pref -- add optional callbacks to fetchAlbum
 // TODO revert to web on failure (add option to error view, onLinkClicked(forceNoImage = true))
 // TODO handle videos in all three views
 // TODO theme small progress spinner

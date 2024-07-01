@@ -47,15 +47,11 @@ fun RRErrorView(error: RRError) {
 
 	var size by remember { mutableStateOf(IntSize.Zero) }
 
-	val onClick = {
-		launch(Dest.ErrorPropertiesDialog(error))
-	}
-
 	Box(
 		modifier = Modifier
-			.padding(8.dp)
-			.fillMaxWidth()
-			.onSizeChanged { size = it },
+            .padding(8.dp)
+            .fillMaxWidth()
+            .onSizeChanged { size = it },
 		contentAlignment = Alignment.Center
 	) {
 		val smallWidth = with(LocalDensity.current) {
@@ -63,15 +59,17 @@ fun RRErrorView(error: RRError) {
 		}
 
 		Box(
-			Modifier
-				.fillMaxWidth()
-				.border(1.dp, theme.border, RoundedCornerShape(6.dp))
-				.clip(RoundedCornerShape(6.dp))
-				.background(theme.background)
-				.padding(12.dp)
-				.invokeIf(smallWidth) {
-					clickable(onClick = onClick).fillMaxHeight()
-				},
+            Modifier
+                .fillMaxWidth()
+                .border(1.dp, theme.border, RoundedCornerShape(6.dp))
+                .clip(RoundedCornerShape(6.dp))
+                .background(theme.background)
+                .invokeIf(smallWidth) {
+                    fillMaxHeight().clickable(onClick = {
+                        launch(Dest.ResultDialog(error))
+                    })
+                }
+                .padding(12.dp),
 			contentAlignment = Alignment.Center
 		) {
 			if (smallWidth) {
@@ -125,7 +123,9 @@ fun RRErrorView(error: RRError) {
 							horizontalArrangement = Arrangement.End
 						) {
 							RRButton(
-								onClick = onClick,
+								onClick = {
+									launch(Dest.ErrorPropertiesDialog(error))
+								},
 								text = "Details", // TODO string
 								theme = theme.detailsButton
 							)

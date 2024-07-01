@@ -222,12 +222,7 @@ public class FileUtils {
 
 		downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
 
-			if (info.original == null) {
-				// TODO
-				return;
-			}
-
-			final Uri externalUri = CacheContentProvider.getUriForFile(
+            final Uri externalUri = CacheContentProvider.getUriForFile(
 					cacheFile.getId(),
 					mimetype,
 					getExtensionFromPath(info.original.url.value).orElse("jpg"));
@@ -400,11 +395,7 @@ public class FileUtils {
 
 				downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
 
-					if (info.original == null) {
-						return; // TODO
-					}
-
-					final String filename = General.filenameFromString(info.original.url.value);
+                    final String filename = General.filenameFromString(info.original.url.value);
 
 					createSAFDocumentWithIntent(
 							activity,
@@ -427,11 +418,7 @@ public class FileUtils {
 
 					downloadImageToSave(activity, uri, (info, cacheFile, mimetype) -> {
 
-						if (info.original == null) {
-							return; // TODO
-						}
-
-						final String filename = General.filenameFromString(info.original.url.value);
+                        final String filename = General.filenameFromString(info.original.url.value);
 
 						mediaStoreDownloadsInsertFile(
 								activity,
@@ -502,11 +489,8 @@ public class FileUtils {
 				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
 				activity,
 				new CacheRequestCallbacks() {
-					@Override
-					public void onDownloadNecessary() {
-					}
 
-					@Override
+                    @Override
 					public void onFailure(@NonNull final RRError error) {
 						General.showResultDialog(activity, error);
 					}

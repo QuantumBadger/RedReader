@@ -35,7 +35,6 @@ import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.General.getGeneralErrorForFailure
 import org.quantumbadger.redreader.common.General.isConnectionWifi
 import org.quantumbadger.redreader.common.General.isSensitiveDebugLoggingEnabled
-import org.quantumbadger.redreader.common.General.showResultDialog
 import org.quantumbadger.redreader.common.GenericFactory
 import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.NeverAlwaysOrWifiOnly
@@ -83,14 +82,14 @@ class AlbumAdapter(
 			subtitle += imageInfo.type
 		}
 
-		imageInfo.original?.size?.apply {
+		imageInfo.original.size?.apply {
 			if (subtitle.isNotEmpty()) {
 				subtitle += ", "
 			}
 			subtitle += "${width}x$height"
 		}
 
-		imageInfo.original?.sizeBytes?.let { sizeBytes ->
+		imageInfo.original.sizeBytes?.let { sizeBytes ->
 			if (subtitle.isNotEmpty()) {
 				subtitle += ", "
 			}
@@ -136,103 +135,82 @@ class AlbumAdapter(
 				|| (thumbnailsPref === NeverAlwaysOrWifiOnly.WIFIONLY
 				&& isConnectionWifi))
 
-		if (!downloadThumbnails || (imageInfo.bigSquare == null && imageInfo.original == null)) {
-			vh.icon.visibility = View.GONE
-		} else {
-			vh.text2.visibility = View.VISIBLE
+		vh.text2.visibility = View.VISIBLE
 
-			val thumbnailUrl = (imageInfo.bigSquare ?: imageInfo.preview ?: imageInfo.original)?.url
+		val thumbnailUrl = (imageInfo.bigSquare ?: imageInfo.preview ?: imageInfo.original).url
 
-			CacheManager.getInstance(activity).makeRequest(
-				CacheRequest(
-					thumbnailUrl!!,
-					RedditAccountManager.getAnon(),
-					null,
-					Priority(Constants.Priority.THUMBNAIL, position),
-					DownloadStrategyIfNotCached.INSTANCE,
-					Constants.FileType.THUMBNAIL,
-					CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-					activity,
-					object : CacheRequestCallbacks {
-						override fun onFailure(error: RRError) {
-							if (isSensitiveDebugLoggingEnabled) {
-								Log.e(
-									"AlbumAdapter",
-									"Failed to fetch thumbnail $thumbnailUrl: $error",
-									error.t
-								)
-							}
+		CacheManager.getInstance(activity).makeRequest(
+			CacheRequest(
+				thumbnailUrl,
+				RedditAccountManager.getAnon(),
+				null,
+				Priority(Constants.Priority.THUMBNAIL, position),
+				DownloadStrategyIfNotCached.INSTANCE,
+				Constants.FileType.THUMBNAIL,
+				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				activity,
+				object : CacheRequestCallbacks {
+					override fun onFailure(error: RRError) {
+						if (isSensitiveDebugLoggingEnabled) {
+							Log.e(
+								"AlbumAdapter",
+								"Failed to fetch thumbnail $thumbnailUrl: $error",
+								error.t
+							)
 						}
+					}
 
-						override fun onDataStreamComplete(
-							streamFactory: GenericFactory<SeekableInputStream, IOException>,
-							timestamp: TimestampUTC,
-							session: UUID,
-							fromCache: Boolean,
-							mimetype: String?
-						) {
-							try {
-								val stream = streamFactory.create()
+					override fun onDataStreamComplete(
+						streamFactory: GenericFactory<SeekableInputStream, IOException>,
+						timestamp: TimestampUTC,
+						session: UUID,
+						fromCache: Boolean,
+						mimetype: String?
+					) {
+						try {
+							val stream = streamFactory.create()
 
-								val bitmap = BitmapFactory.decodeStream(stream)
+							val bitmap = BitmapFactory.decodeStream(stream)
 
-								runOnUiThread {
-									if (vh.bindingId == bindingId) {
-										vh.icon.setImageBitmap(bitmap)
-									}
+							runOnUiThread {
+								if (vh.bindingId == bindingId) {
+									vh.icon.setImageBitmap(bitmap)
 								}
-							} catch (e: IOException) {
-								onFailure(
-									getGeneralErrorForFailure(
-										activity,
-										CacheRequest.REQUEST_FAILURE_CONNECTION,
-										e,
-										null,
-										null,
-										Optional.empty()
-									)
-								)
 							}
+						} catch (e: IOException) {
+							onFailure(
+								getGeneralErrorForFailure(
+									activity,
+									CacheRequest.REQUEST_FAILURE_CONNECTION,
+									e,
+									null,
+									null,
+									Optional.empty()
+								)
+							)
 						}
-					})
+					}
+				})
+		)
+
+		vh.itemView.setOnClickListener { _: View? ->
+			LinkHandler.onLinkClicked(
+				activity,
+				imageInfo.original.url,
+				false,
+				null,
+				albumInfo,
+				vh.adapterPosition
 			)
 		}
 
-		if (imageInfo.original != null) {
-			vh.itemView.setOnClickListener { _: View? ->
-				LinkHandler.onLinkClicked(
-					activity,
-					imageInfo.original.url,
-					false,
-					null,
-					albumInfo,
-					vh.adapterPosition
-				)
-			}
-
-			vh.itemView.setOnLongClickListener { _: View? ->
-				LinkHandler.onLinkLongClicked(
-					activity, imageInfo.original.url, false
-				)
-				true
-			}
-
-		} else {
-			vh.itemView.setOnClickListener { v: View? ->
-				showResultDialog(
-					activity,
-					RRError(
-						activity.getString(R.string.image_gallery_no_image_present_title),
-						activity.getString(R.string.image_gallery_no_image_present_message),
-						true,
-						RuntimeException(),
-						null,
-						albumInfo.url,
-						null
-					)
-				)
-			}
+		vh.itemView.setOnLongClickListener { _: View? ->
+			LinkHandler.onLinkLongClicked(
+				activity, imageInfo.original.url, false
+			)
+			true
 		}
+
 	}
 
 	override fun getItemCount() = albumInfo.images.size

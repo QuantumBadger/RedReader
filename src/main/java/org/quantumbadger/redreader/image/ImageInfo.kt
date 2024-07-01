@@ -68,7 +68,7 @@ data class ImageUrlInfo(
 data class ImageInfo(
 
 	// TODO include all sizes and select at usage time
-	@JvmField val original: ImageUrlInfo?,
+	@JvmField val original: ImageUrlInfo,
 	@JvmField val bigSquare: ImageUrlInfo? = null,
 	@JvmField val preview: ImageUrlInfo? = null,
 
@@ -122,6 +122,10 @@ data class ImageInfo(
 					size = ImageSize.from(obj.getLong("width"), obj.getLong("height")),
 					sizeBytes = obj.getLong("mp4Size")
 				)
+			}
+
+			if (original == null) {
+				throw RuntimeException("mp4Url field missing from response")
 			}
 
 			val mobilePoster = obj.getObjectAtPath("content_urls", "mobilePoster").asNullable()
@@ -189,6 +193,10 @@ data class ImageInfo(
 				)
 			}
 
+			if (original == null) {
+				throw RuntimeException("url field missing from response")
+			}
+
 			return ImageInfo(
 				original = original,
 				type = mimeType,
@@ -218,7 +226,11 @@ data class ImageInfo(
 				)
 			}
 
-			val bigSquare = links?.getString("big_square")?.let { bigSquareUrl ->
+			if (original == null) {
+				throw RuntimeException("original field missing from response")
+			}
+
+			val bigSquare = links.getString("big_square")?.let { bigSquareUrl ->
 				ImageUrlInfo(url = UriString(bigSquareUrl))
 			}
 
@@ -268,6 +280,10 @@ data class ImageInfo(
 				}
 			}
 
+			if (original == null) {
+				throw RuntimeException("original field missing from response")
+			}
+
 			val bigSquare = obj?.getString("id")?.let {
 				ImageUrlInfo(url = UriString("https://i.imgur.com/${it}b.jpg"))
 			}
@@ -298,12 +314,16 @@ data class ImageInfo(
 				ImageUrlInfo(url = UriString(url))
 			}
 
+			if (original == null) {
+				throw RuntimeException("url field missing from response")
+			}
+
 			return ImageInfo(
 				original = original,
 				bigSquare = bigSquare,
-				title = obj?.getString("title")?.let(StringEscapeUtils::unescapeHtml4),
-				caption = obj?.getString("tags")?.let(StringEscapeUtils::unescapeHtml4),
-				type = obj?.getString("imagetype"),
+				title = obj.getString("title")?.let(StringEscapeUtils::unescapeHtml4),
+				caption = obj.getString("tags")?.let(StringEscapeUtils::unescapeHtml4),
+				type = obj.getString("imagetype"),
 				isAnimated = false,
 				mediaType = MediaType.IMAGE,
 				hasAudio = HasAudio.NO_AUDIO,
@@ -326,6 +346,10 @@ data class ImageInfo(
 
 			val preview = obj.getStringAtPath("urls", "poster").orElseNull()?.let { url ->
 				ImageUrlInfo(url = UriString(url))
+			}
+
+			if (original == null) {
+				throw RuntimeException("original field missing from response")
 			}
 
 			return ImageInfo(

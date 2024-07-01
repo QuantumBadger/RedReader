@@ -67,9 +67,6 @@ fun AlbumCard(
 	val usableHeight = LocalConfiguration.current.screenHeightDp.dp - systemBarsHeight
 	val maxImageHeight = (usableHeight * 6) / 7
 
-	// TODO parse reddit image previews
-	// TODO handle videos
-
 	Box(
 		modifier = Modifier
 			.fillMaxWidth()
@@ -135,10 +132,8 @@ fun AlbumCard(
 					}
 				}
 
-				if (image.original != null) {
-					AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
-						AlbumEntryButtons(Modifier.fillMaxWidth(), image.original)
-					}
+				AnimatedVisibility(visible = prefs.albumCardShowButtons.value) {
+					AlbumEntryButtons(Modifier.fillMaxWidth(), image.original)
 				}
 			}
 		}

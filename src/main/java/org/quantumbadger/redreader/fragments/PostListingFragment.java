@@ -1056,11 +1056,7 @@ public class PostListingFragment extends RRFragment
 			@NonNull final PrefsUtility.ImageViewMode imageViewMode,
 			@NonNull final PrefsUtility.VideoViewMode videoViewMode) {
 
-		if (info.original == null) {
-			return;
-		}
-
-		// Don't precache huge images
+        // Don't precache huge images
 		if(info.original.sizeBytes != null
 				&& info.original.sizeBytes > 15 * 1024 * 1024) {
 			if(General.isSensitiveDebugLoggingEnabled()) {

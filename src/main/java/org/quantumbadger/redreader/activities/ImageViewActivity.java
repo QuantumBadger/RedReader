@@ -276,21 +276,8 @@ public class ImageViewActivity extends BaseActivity
 
 					@Override
 					public void onSuccess(final ImageInfo info) {
-
 						mImageInfo = info;
-
-						if(info.original == null) {
-
-							General.quickToast(
-									ImageViewActivity.this,
-									R.string.imageview_image_info_failed);
-
-							revertToWeb();
-							return;
-						}
-
-						final UriString audioUri = info.urlAudioStream == null ? null : info.urlAudioStream;
-
+                        final UriString audioUri = info.urlAudioStream == null ? null : info.urlAudioStream;
 						openImage(progressBar, info.original.url, audioUri);
 					}
 
@@ -474,8 +461,8 @@ public class ImageViewActivity extends BaseActivity
 
 				Log.i(TAG, "Fully downloading before starting playback");
 
-				try {
-					videoStream.create().readRemainingAsBytes((buf, offset, length)
+				try(final SeekableInputStream is = videoStream.create()) {
+					is.readRemainingAsBytes((buf, offset, length)
 							-> Log.i(TAG, "Video fully downloaded, starting playback"));
 
 				} catch(final IOException e) {
@@ -864,9 +851,7 @@ public class ImageViewActivity extends BaseActivity
 		findAspectRatio:
 		if(PrefsUtility.pref_appearance_show_aspect_ratio_indicator()) {
 
-			if(mImageInfo.original != null
-					&& mImageInfo.original.size != null
-					&& mImageInfo.original.size.getHeight() > 0) {
+			if(mImageInfo.original.size != null && mImageInfo.original.size.getHeight() > 0) {
 				progressBar.setLoadingImageAspectRatio((float)mImageInfo.original.size.getWidth()
 						/ mImageInfo.original.size.getHeight());
 			} else {
@@ -1211,7 +1196,7 @@ public class ImageViewActivity extends BaseActivity
 
 				Log.i(TAG, "Got byte array");
 
-				@SuppressWarnings("deprecation") final Movie movie;
+				final Movie movie;
 
 				try {
 					movie = GIFView.prepareMovie(buf, offset, length);

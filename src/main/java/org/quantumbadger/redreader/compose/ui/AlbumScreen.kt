@@ -56,7 +56,7 @@ import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
 // TODO handle legacy "go straight to first image" pref -- add optional callbacks to fetchAlbum
-// TODO revert to web on failure (add option to error view, onLinkClicked(forceNoImage = true))
+// TODO revert to web on failure (add "view in browser" resolution, onLinkClicked(forceNoImage = true))
 // TODO handle videos in all three views
 // TODO theme small progress spinner
 // TODO go through all todos on this branch
@@ -225,7 +225,7 @@ fun AlbumScreen(
 							index = it,
 							image = album.images[it],
 							onClick = itemClickHandler,
-							onLongClick = itemLongClickListener
+							onLongClick = itemLongClickListener,
 						)
 						HorizontalDivider(thickness = 0.5.dp)
 					}

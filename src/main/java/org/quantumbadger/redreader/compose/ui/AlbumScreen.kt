@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -24,6 +25,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,15 +44,19 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.R
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.ctx.Dest
 import org.quantumbadger.redreader.compose.ctx.LocalLauncher
+import org.quantumbadger.redreader.compose.net.NetRequestStatus
+import org.quantumbadger.redreader.compose.net.fetchAlbum
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
-// TODO move the initial loading screen inside Compose
+// TODO handle legacy "go straight to first image" pref
+// TODO revert to web on failure (add option to error view, onLinkClicked(forceNoImage = true))
 // TODO handle videos in all three views
 // TODO theme small progress spinner
 // TODO go through all todos on this branch
@@ -58,6 +64,37 @@ import kotlin.math.min
 // TODO check for unstable composables
 // TODO strings
 // TODO screen reader testing
+@Composable
+fun AlbumScreen(
+	albumUrl: UriString
+) {
+	val theme = LocalComposeTheme.current
+
+	val album by fetchAlbum(albumUrl)
+
+	Box(
+		Modifier
+			.fillMaxSize()
+			.background(theme.postCard.listBackgroundColor)
+			.systemBarsPadding(),
+		contentAlignment = Alignment.Center
+	) {
+		when (val it = album) {
+			NetRequestStatus.Connecting, is NetRequestStatus.Downloading -> {
+				CircularProgressIndicator()
+			}
+
+			is NetRequestStatus.Failed -> {
+				RRErrorView(error = it.error)
+			}
+			is NetRequestStatus.Success -> {
+				AlbumScreen(it.result)
+			}
+		}
+	}
+}
+
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AlbumScreen(

@@ -20,12 +20,14 @@ import android.graphics.BitmapFactory
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccount
 import org.quantumbadger.redreader.account.RedditAccountId
 import org.quantumbadger.redreader.account.RedditAccountManager
@@ -37,12 +39,15 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.AndroidCommon
 import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.GenericFactory
+import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.Priority
 import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.compose.ctx.LocalRedditUser
+import org.quantumbadger.redreader.image.AlbumInfo
+import org.quantumbadger.redreader.image.GetAlbumInfoListener
 import java.io.IOException
 import java.util.UUID
 
@@ -59,30 +64,101 @@ sealed interface NetRequestStatus<out R> {
 
 	@Immutable
 	data class Success<R>(
-		val streamFactory: GenericFactory<SeekableInputStream, IOException>,
-		val timestamp: TimestampUTC?,
-		val session: UUID,
-		val fromCache: Boolean,
-		val mimetype: String?,
 		val result: R
-	) : NetRequestStatus<R> {
+	) : NetRequestStatus<R>
+}
 
-		fun <E> withResult(newResult: E) = Success(
-			streamFactory = streamFactory,
-			timestamp = timestamp,
-			session = session,
-			fromCache = fromCache,
-			mimetype = mimetype,
-			result = newResult
+@Immutable
+class FileRequestMetadata(
+	val streamFactory: GenericFactory<SeekableInputStream, IOException>,
+	val timestamp: TimestampUTC?,
+	val session: UUID,
+	val fromCache: Boolean,
+	val mimetype: String?,
+)
+
+@Immutable
+class FileRequestResult<R>(
+	val metadata: FileRequestMetadata?,
+	val data: R
+)
+
+@Composable
+fun fetchAlbum(
+	uri: UriString,
+	user: RedditAccountId = LocalRedditUser.current,
+): State<NetRequestStatus<AlbumInfo>> {
+	val state =
+		remember { mutableStateOf<NetRequestStatus<AlbumInfo>>(NetRequestStatus.Connecting) }
+
+	// Prevent conflicting updates to state
+	val currentRequest = remember { mutableIntStateOf(0) }
+
+	val context = LocalContext.current.applicationContext
+
+	LaunchedEffect(uri, user) {
+
+		state.value = NetRequestStatus.Connecting
+
+		val thisRequest = ++currentRequest.intValue
+
+		LinkHandler.getAlbumInfo(
+			context,
+			uri,
+			Priority(Constants.Priority.IMAGE_VIEW),
+			object : GetAlbumInfoListener {
+				override fun onFailure(error: RRError) {
+					AndroidCommon.runOnUiThread {
+						if (thisRequest == currentRequest.intValue) {
+							state.value = NetRequestStatus.Failed(error)
+						}
+					}
+				}
+
+				override fun onSuccess(info: AlbumInfo) {
+					AndroidCommon.runOnUiThread {
+						if (thisRequest == currentRequest.intValue) {
+							state.value = NetRequestStatus.Success(
+								info
+							)
+						}
+					}
+				}
+
+				override fun onGalleryRemoved() {
+					onFailure(
+						RRError(
+							context.getString(R.string.image_gallery_removed_title),
+							context.getString(R.string.image_gallery_removed_message),
+							reportable = false,
+							url = uri,
+						)
+					)
+				}
+
+				override fun onGalleryDataNotPresent() {
+					onFailure(
+						RRError(
+							context.getString(R.string.image_gallery_no_data_present_title),
+							context.getString(R.string.image_gallery_no_data_present_message),
+							reportable = true,
+							url = uri
+						)
+					)
+				}
+
+			}
 		)
 	}
+
+	return state
 }
 
 @Composable
 fun fetchImage(
 	uri: UriString,
 	user: RedditAccountId = LocalRedditUser.current,
-) = fetch(
+) = fetchFile(
 	uri = uri,
 	user = user,
 	priority = Priority(Constants.Priority.IMAGE_VIEW),
@@ -97,21 +173,27 @@ fun fetchImage(
 		if (result == null) {
 			throw RuntimeException("Decoded bitmap was null")
 		} else {
-			it.withResult(result)
+			NetRequestStatus.Success(
+				FileRequestResult(
+					metadata = it,
+					data = result
+				)
+			)
 		}
-	} catch(e: Exception) {
-		NetRequestStatus.Failed(RRError(
-			title = "Image decoding failed",
-			url = uri,
-			t = e
-		))
+	} catch (e: Exception) {
+		NetRequestStatus.Failed(
+			RRError(
+				title = "Image decoding failed",
+				url = uri,
+				t = e
+			)
+		)
 	}
 }
 
 // TODO make this a member of an interface, provided in a CompositionLocal, to allow mocking for previews/etc?
-// TODO optional processing step for off-main-thread parsing/etc
 @Composable
-fun <R> fetch(
+fun <R> fetchFile(
 	uri: UriString,
 	user: RedditAccountId,
 	priority: Priority,
@@ -119,10 +201,11 @@ fun <R> fetch(
 	fileType: Int,
 	@CacheRequest.DownloadQueueType queueType: Int,
 	cache: Boolean,
-	filter: ((NetRequestStatus.Success<Unit>) -> NetRequestStatus<R>)
-): State<NetRequestStatus<R>> {
+	filter: ((FileRequestMetadata) -> NetRequestStatus<FileRequestResult<R>>)
+): State<NetRequestStatus<FileRequestResult<R>>> {
 
-	val state = remember { mutableStateOf<NetRequestStatus<R>>(NetRequestStatus.Connecting) }
+	val state =
+		remember { mutableStateOf<NetRequestStatus<FileRequestResult<R>>>(NetRequestStatus.Connecting) }
 
 	// Prevent conflicting updates to state
 	val currentRequest = remember { mutableIntStateOf(0) }
@@ -181,14 +264,15 @@ fun <R> fetch(
 					fromCache: Boolean,
 					mimetype: String?
 				) {
-					val result = filter(NetRequestStatus.Success(
-						streamFactory,
-						timestamp,
-						session,
-						fromCache,
-						mimetype,
-						Unit
-					))
+					val result = filter(
+						FileRequestMetadata(
+							streamFactory,
+							timestamp,
+							session,
+							fromCache,
+							mimetype
+						)
+					)
 
 					AndroidCommon.runOnUiThread {
 						if (active) {

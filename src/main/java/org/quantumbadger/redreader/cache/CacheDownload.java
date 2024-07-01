@@ -89,7 +89,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							CacheRequest.REQUEST_FAILURE_CANCELLED,
 							null,
 							null,
-							mInitiator.url.toString(),
+							mInitiator.url,
 							Optional.empty()));
 				}
 			}
@@ -179,7 +179,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						failureType,
 						exception,
 						httpStatus,
-						mInitiator.url.toString(),
+						mInitiator.url,
 						body));
 			}
 
@@ -252,7 +252,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 							CacheRequest.REQUEST_FAILURE_CONNECTION,
 							t,
 							null,
-							mInitiator.url.toString(),
+							mInitiator.url,
 							Optional.empty()));
 
 					return;
@@ -322,7 +322,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 								failureType,
 								e,
 								null,
-								mInitiator.url.toString(),
+								mInitiator.url,
 								Optional.empty()));
 
 						return;
@@ -350,7 +350,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 								CacheRequest.REQUEST_FAILURE_STORAGE,
 								e,
 								null,
-								mInitiator.url.toString(),
+								mInitiator.url,
 								Optional.empty()));
 					}
 				}

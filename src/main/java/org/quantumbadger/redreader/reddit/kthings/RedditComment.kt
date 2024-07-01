@@ -22,6 +22,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.quantumbadger.redreader.common.LinkHandler
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL
 
@@ -103,8 +104,12 @@ data class RedditComment(
 		)
 	}
 
-	fun computeAllLinks(): Set<String> {
+	fun computeAllLinks(): Set<UriString> {
 		return body_html?.decoded?.run { LinkHandler.computeAllLinks(this) } ?: emptySet()
+	}
+
+	fun computeAllLinksString(): List<String> {
+		return computeAllLinks().map { it.value }
 	}
 
 	fun wasEdited(): Boolean = edited != RedditFieldEdited.Bool(false)

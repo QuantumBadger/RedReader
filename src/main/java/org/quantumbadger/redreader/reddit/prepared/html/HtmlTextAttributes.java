@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 
 import androidx.annotation.Nullable;
 
+import org.quantumbadger.redreader.common.UriString;
+
 public class HtmlTextAttributes {
 
 	public int bold;
@@ -31,5 +33,5 @@ public class HtmlTextAttributes {
 	public int extraLarge;
 	public int large;
 
-	@Nullable public String href;
+	@Nullable public UriString href;
 }

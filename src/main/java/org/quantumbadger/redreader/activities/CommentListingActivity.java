@@ -23,7 +23,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -263,7 +265,7 @@ public class CommentListingActivity extends RefreshableActivity
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(
 				this,
-				PostCommentListingURL.forPostId(post.src.getIdAlone()).toString(),
+				PostCommentListingURL.forPostId(post.src.getIdAlone()).toUriString(),
 				false);
 	}
 

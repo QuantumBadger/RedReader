@@ -37,6 +37,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.MemoryDataStream;
 import org.quantumbadger.redreader.common.datastream.SeekableFileInputStream;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
@@ -49,7 +50,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -284,7 +284,7 @@ public final class CacheManager {
 		requests.put(request);
 	}
 
-	public List<CacheEntry> getSessions(final URI url, final RedditAccount user) {
+	public List<CacheEntry> getSessions(final UriString url, final RedditAccount user) {
 		return dbManager.select(url, user.username, null);
 	}
 
@@ -304,7 +304,7 @@ public final class CacheManager {
 
 		private final OutputStream mOutStream;
 		private ReadableCacheFile readableCacheFile = null;
-		@NonNull final URI mUrl;
+		@NonNull final UriString mUrl;
 		@NonNull final RedditAccount mUser;
 		final int mFileType;
 		private final File location;
@@ -320,7 +320,7 @@ public final class CacheManager {
 		private long mCompressedLength = 0;
 
 		private WritableCacheFile(
-				@NonNull final URI url,
+				@NonNull final UriString url,
 				@NonNull final RedditAccount user,
 				final int fileType,
 				@NonNull final UUID session,
@@ -513,7 +513,7 @@ public final class CacheManager {
 
 	@NonNull
 	public WritableCacheFile openNewCacheFile(
-			@NonNull final URI url,
+			@NonNull final UriString url,
 			@NonNull final RedditAccount user,
 			final int fileType,
 			final UUID session,
@@ -611,7 +611,7 @@ public final class CacheManager {
 						CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
 						new NullPointerException("URL was null"),
 						null,
-						"null",
+						null,
 						Optional.empty()));
 				return;
 			}
@@ -637,7 +637,7 @@ public final class CacheManager {
 								CacheRequest.REQUEST_FAILURE_CACHE_MISS,
 								null,
 								null,
-								request.url.toString(),
+								request.url,
 								Optional.empty()));
 					}
 
@@ -678,7 +678,7 @@ public final class CacheManager {
 						CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
 						e,
 						null,
-						request.url.toString(),
+						request.url,
 						Optional.empty()));
 			}
 		}
@@ -696,7 +696,7 @@ public final class CacheManager {
 						CacheRequest.REQUEST_FAILURE_STORAGE,
 						new RuntimeException(),
 						null,
-						request.url.toString(),
+						request.url,
 						Optional.empty()));
 
 				dbManager.delete(entry.id);

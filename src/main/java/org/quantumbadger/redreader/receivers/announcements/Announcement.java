@@ -19,6 +19,8 @@ package org.quantumbadger.redreader.receivers.announcements;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 
@@ -37,7 +39,7 @@ public class Announcement {
 	@NonNull public final String title;
 	@Nullable public final String message;
 
-	@NonNull public final String url;
+	@NonNull public final UriString url;
 
 	public final TimestampUTC showUntil;
 
@@ -45,7 +47,7 @@ public class Announcement {
 			@NonNull final String id,
 			@NonNull final String title,
 			@Nullable final String message,
-			@NonNull final String url,
+			@NonNull final UriString url,
 			final TimestampUTC showUntil) {
 		this.id = id;
 
@@ -60,7 +62,7 @@ public class Announcement {
 			@NonNull final String id,
 			@NonNull final String title,
 			@Nullable final String message,
-			@NonNull final String url,
+			@NonNull final UriString url,
 			final TimeDuration duration) {
 
 		return new Announcement(
@@ -87,7 +89,7 @@ public class Announcement {
 			result.setString(ENTRY_MESSAGE, message);
 		}
 
-		result.setString(ENTRY_URL, url);
+		result.setString(ENTRY_URL, url.value);
 		result.setLong(ENTRY_SHOW_UNTIL, showUntil.toUtcMs());
 
 		return result;
@@ -110,6 +112,11 @@ public class Announcement {
 			id = url;
 		}
 
-		return new Announcement(id, title, message, url, TimestampUTC.fromUtcMs(showUntil));
+		return new Announcement(
+				id,
+				title,
+				message,
+				new UriString(url),
+				TimestampUTC.fromUtcMs(showUntil));
 	}
 }

@@ -59,7 +59,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.UUID;
 
 public class FileUtils {
@@ -206,7 +205,6 @@ public class FileUtils {
 	}
 
 	/// Get the number of free bytes that are available on the external storage.
-	@SuppressWarnings("deprecation")
 	public static long getFreeSpaceAvailable(final String path) {
 		final StatFs stat = new StatFs(path);
 		final long availableBlocks = stat.getAvailableBlocksLong();
@@ -216,7 +214,7 @@ public class FileUtils {
 
 	public static void shareImageAtUri(
 			@NonNull final BaseActivity activity,
-			@Nullable final String uri) {
+			@Nullable final UriString uri) {
 
 		if (uri == null) {
 			return;
@@ -232,7 +230,7 @@ public class FileUtils {
 			final Uri externalUri = CacheContentProvider.getUriForFile(
 					cacheFile.getId(),
 					mimetype,
-					getExtensionFromPath(info.original.url).orElse("jpg"));
+					getExtensionFromPath(info.original.url.value).orElse("jpg"));
 
 			Log.i(TAG, "Sharing image with external uri: " + externalUri);
 
@@ -322,7 +320,7 @@ public class FileUtils {
 				showUnexpectedStorageErrorDialog(
 						activity,
 						e,
-						fileUri.toString());
+						new UriString(fileUri.toString()));
 
 				resolver.delete(fileUri, null, null);
 
@@ -371,7 +369,7 @@ public class FileUtils {
 								showUnexpectedStorageErrorDialog(
 										activity,
 										e,
-										data.getData().toString());
+										new UriString(data.getData().toString()));
 							}
 
 						}).start();
@@ -387,7 +385,7 @@ public class FileUtils {
 
 	public static void saveImageAtUri(
 			@NonNull final BaseActivity activity,
-			@Nullable final String uri) {
+			@Nullable final UriString uri) {
 
 		if (uri == null) {
 			return;
@@ -406,7 +404,7 @@ public class FileUtils {
 						return; // TODO
 					}
 
-					final String filename = General.filenameFromString(info.original.url);
+					final String filename = General.filenameFromString(info.original.url.value);
 
 					createSAFDocumentWithIntent(
 							activity,
@@ -433,7 +431,7 @@ public class FileUtils {
 							return; // TODO
 						}
 
-						final String filename = General.filenameFromString(info.original.url);
+						final String filename = General.filenameFromString(info.original.url.value);
 
 						mediaStoreDownloadsInsertFile(
 								activity,
@@ -467,7 +465,7 @@ public class FileUtils {
 	private static void showUnexpectedStorageErrorDialog(
 			@NonNull final BaseActivity activity,
 			@NonNull final Throwable throwable,
-			@NonNull final String uri) {
+			@NonNull final UriString uri) {
 
 		General.showResultDialog(activity, new RRError(
 				activity.getString(R.string.error_unexpected_storage_title),
@@ -495,7 +493,7 @@ public class FileUtils {
 		final CacheManager cacheManager = CacheManager.getInstance(activity);
 
 		cacheManager.makeRequest(new CacheRequest(
-				General.uriFromString(info.urlAudioStream),
+				info.urlAudioStream,
 				RedditAccountManager.getAnon(),
 				null,
 				new Priority(Constants.Priority.IMAGE_VIEW),
@@ -524,10 +522,10 @@ public class FileUtils {
 						try {
 							final CacheManager.WritableCacheFile output
 									= cacheManager.openNewCacheFile(
-									Objects.requireNonNull(General.uriFromString(
+									new UriString(
 											"redreader://muxedmedia/"
 													+ UUID.randomUUID()
-													+ ".mp4")),
+													+ ".mp4"),
 									RedditAccountManager.getAnon(),
 									Constants.FileType.IMAGE,
 									session,
@@ -597,7 +595,7 @@ public class FileUtils {
 
 	public static void downloadImageToSave(
 			@NonNull final BaseActivity activity,
-			@NonNull final String uri,
+			@NonNull final UriString uri,
 			@NonNull final DownloadImageToSaveSuccessCallback callback) {
 
 		LinkHandler.getImageInfo(
@@ -615,7 +613,7 @@ public class FileUtils {
 					public void onSuccess(final ImageInfo info) {
 
 						CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-								General.uriFromString(info.original.url),
+								info.original.url,
 								RedditAccountManager.getAnon(),
 								null,
 								new Priority(Constants.Priority.IMAGE_VIEW),

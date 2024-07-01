@@ -47,6 +47,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -60,7 +61,6 @@ import org.quantumbadger.redreader.reddit.kthings.RedditThing;
 import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -106,7 +106,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 		final CacheManager cm = CacheManager.getInstance(context);
 
-		final URI url = Constants.Reddit.getUri("/message/unread.json?limit=2");
+		final UriString url = Constants.Reddit.getUri("/message/unread.json?limit=2");
 
 		final CacheRequest request = new CacheRequest(
 				url,
@@ -243,7 +243,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									e,
 									null,
-									url.toString(),
+									url,
 									FailedRequestBody.from(streamFactory)));
 						}
 					}

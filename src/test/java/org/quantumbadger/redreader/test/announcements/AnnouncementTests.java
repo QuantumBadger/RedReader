@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.test.announcements;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.receivers.announcements.Announcement;
@@ -35,7 +36,7 @@ public class AnnouncementTests {
 				"test_id",
 				"myTitle",
 				"my message",
-				"https://my_url",
+				new UriString("https://my_url"),
 				TimeDuration.ms(100000)).toPayload().toBytes();
 
 		final TimestampUTC estUntil = TimestampUTC.now().add(TimeDuration.ms(100000));
@@ -45,7 +46,7 @@ public class AnnouncementTests {
 		Assert.assertEquals("test_id", reinflated.id);
 		Assert.assertEquals("myTitle", reinflated.title);
 		Assert.assertEquals("my message", reinflated.message);
-		Assert.assertEquals("https://my_url", reinflated.url);
+		Assert.assertEquals(new UriString("https://my_url"), reinflated.url);
 
 		Assert.assertFalse(estUntil.isLessThan(reinflated.showUntil));
 		Assert.assertTrue(estUntil.subtract(TimeDuration.secs(1)).isLessThan(reinflated.showUntil));
@@ -59,7 +60,7 @@ public class AnnouncementTests {
 				"test_id",
 				"myTitle",
 				null,
-				"https://my_url",
+				new UriString("https://my_url"),
 				TimeDuration.ms(100000)).toPayload().toBytes();
 
 		final TimestampUTC estUntil = TimestampUTC.now().add(TimeDuration.ms(100000));
@@ -69,7 +70,7 @@ public class AnnouncementTests {
 		Assert.assertEquals("test_id", reinflated.id);
 		Assert.assertEquals("myTitle", reinflated.title);
 		Assert.assertNull(reinflated.message);
-		Assert.assertEquals("https://my_url", reinflated.url);
+		Assert.assertEquals(new UriString("https://my_url"), reinflated.url);
 
 		Assert.assertFalse(estUntil.isLessThan(reinflated.showUntil));
 		Assert.assertTrue(estUntil.subtract(TimeDuration.secs(1)).isLessThan(reinflated.showUntil));

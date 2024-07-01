@@ -62,6 +62,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -97,7 +98,6 @@ import org.quantumbadger.redreader.views.SearchListingHeader;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
 import java.io.IOException;
-import java.net.URI;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -181,7 +181,7 @@ public class PostListingFragment extends RRFragment
 									true,
 									new RuntimeException(),
 									null,
-									url.toString(),
+									UriString.from(url),
 									null)));
 			// TODO proper error handling
 			throw new RuntimeException("Invalid post listing URL");
@@ -257,7 +257,7 @@ public class PostListingFragment extends RRFragment
 		}
 
 		mRequest = createPostListingRequest(
-				mPostListingURL.generateJsonUri(),
+				UriString.from(mPostListingURL.generateJsonUri()),
 				RedditAccountManager.getInstance(context).getDefaultAccount(),
 				session,
 				downloadStrategy,
@@ -427,7 +427,7 @@ public class PostListingFragment extends RRFragment
 				mPostListingURL = mPostListingURL.asSubredditPostListURL()
 						.changeSubreddit(RedditSubreddit.stripRPrefix(mSubreddit.url));
 				mRequest = createPostListingRequest(
-						mPostListingURL.generateJsonUri(),
+						UriString.from(mPostListingURL.generateJsonUri()),
 						RedditAccountManager.getInstance(getContext())
 								.getDefaultAccount(),
 						mSession,
@@ -550,7 +550,7 @@ public class PostListingFragment extends RRFragment
 						: DownloadStrategyNever.INSTANCE;
 
 				mRequest = createPostListingRequest(
-						newUri,
+						UriString.from(newUri),
 						RedditAccountManager.getInstance(getActivity())
 								.getDefaultAccount(),
 						mSession,
@@ -649,7 +649,7 @@ public class PostListingFragment extends RRFragment
 
 	@NonNull
 	private CacheRequest createPostListingRequest(
-				final Uri url,
+				final UriString url,
 				final RedditAccount user,
 				final UUID requestSession,
 				final DownloadStrategy downloadStrategy,
@@ -658,7 +658,7 @@ public class PostListingFragment extends RRFragment
 		final AppCompatActivity activity = getActivity();
 
 		return new CacheRequest(
-				General.uriFromString(url.toString()),
+				url,
 				user,
 				requestSession,
 				new Priority(Constants.Priority.API_POST_LIST),
@@ -976,7 +976,7 @@ public class PostListingFragment extends RRFragment
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									url.toString(),
+									url,
 									FailedRequestBody.from(streamFactory)));
 						}
 					}
@@ -1004,14 +1004,7 @@ public class PostListingFragment extends RRFragment
 		final CommentListingController controller = new CommentListingController(
 				PostCommentListingURL.forPostId(preparedPost.src.getIdAlone()));
 
-		final URI url = General.uriFromString(controller.getUri().toString());
-
-		if(url == null) {
-			if(General.isSensitiveDebugLoggingEnabled()) {
-				Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
-			}
-			return;
-		}
+		final UriString url = UriString.from(controller.getUri());
 
 		CacheManager.getInstance(activity)
 				.makeRequest(new CacheRequest(
@@ -1131,19 +1124,11 @@ public class PostListingFragment extends RRFragment
 
 	private void precacheImage(
 			final Activity activity,
-			final String url,
+			final UriString url,
 			final int positionInList) {
 
-		final URI uri = General.uriFromString(url);
-		if(uri == null) {
-			if(General.isSensitiveDebugLoggingEnabled()) {
-				Log.i(TAG, String.format("Not precaching '%s': failed to parse URL", url));
-			}
-			return;
-		}
-
 		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-				uri,
+				url,
 				RedditAccountManager.getAnon(),
 				null,
 				new Priority(

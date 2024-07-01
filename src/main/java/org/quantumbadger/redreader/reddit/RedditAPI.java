@@ -19,10 +19,12 @@ package org.quantumbadger.redreader.reddit;
 
 import android.content.Context;
 import android.net.Uri;
+
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -40,6 +42,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -59,7 +62,6 @@ import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -177,7 +179,7 @@ public final class RedditAPI {
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("is_newlink", "true"));
 
-		final URI apiUrl = Constants.Reddit.getUri(subreddit + "/api/flairselector");
+		final UriString apiUrl = Constants.Reddit.getUri(subreddit + "/api/flairselector");
 
 		cm.makeRequest(createPostRequest(
 				apiUrl,
@@ -233,7 +235,7 @@ public final class RedditAPI {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									new RuntimeException(),
 									null,
-									apiUrl.toString(),
+									apiUrl,
 									Optional.of(new FailedRequestBody(result))));
 							return;
 						}
@@ -516,7 +518,7 @@ public final class RedditAPI {
 		final LinkedList<PostField> postFields = new LinkedList<>();
 		postFields.add(new PostField("id", idAndType.getValue()));
 
-		final URI url = prepareActionUri(action, postFields);
+		final UriString url = prepareActionUri(action, postFields);
 
 		cm.makeRequest(createPostRequest(
 				url,
@@ -526,7 +528,7 @@ public final class RedditAPI {
 				new GenericResponseHandler(responseHandler)));
 	}
 
-	private static URI prepareActionUri(
+	private static UriString prepareActionUri(
 			final @RedditAction int action,
 			final LinkedList<PostField> postFields) {
 		switch(action) {
@@ -587,7 +589,7 @@ public final class RedditAPI {
 
 						postFields.add(new PostField("sr", subreddit.name));
 
-						final URI url = subscriptionPrepareActionUri(action, postFields);
+						final UriString url = subscriptionPrepareActionUri(action, postFields);
 
 						cm.makeRequest(createPostRequest(
 								url,
@@ -600,7 +602,7 @@ public final class RedditAPI {
 				null);
 	}
 
-	private static URI subscriptionPrepareActionUri(
+	private static UriString subscriptionPrepareActionUri(
 			final @RedditSubredditAction int action,
 			final LinkedList<PostField> postFields) {
 		switch(action) {
@@ -625,7 +627,7 @@ public final class RedditAPI {
 			final DownloadStrategy downloadStrategy,
 			final Context context) {
 
-		final URI uri = Constants.Reddit.getUri("/user/" + usernameToGet + "/about.json");
+		final UriString uri = Constants.Reddit.getUri("/user/" + usernameToGet + "/about.json");
 
 		cm.makeRequest(createGetRequest(
 				uri,
@@ -654,7 +656,7 @@ public final class RedditAPI {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									t,
 									null,
-									uri.toString(),
+									uri,
 									Optional.of(new FailedRequestBody(result))));
 						}
 					}
@@ -764,7 +766,7 @@ public final class RedditAPI {
 
 		after.apply(value -> builder.appendQueryParameter("after", value));
 
-		final URI uri = Objects.requireNonNull(General.uriFromString(builder.build().toString()));
+		final UriString uri = UriString.from(builder.build());
 
 		requestSubredditList(
 				cm,
@@ -799,7 +801,7 @@ public final class RedditAPI {
 
 		after.apply(value -> builder.appendQueryParameter("after", value));
 
-		final URI uri = Objects.requireNonNull(General.uriFromString(builder.build().toString()));
+		final UriString uri = UriString.from(builder.build());
 
 		requestSubredditList(
 				cm,
@@ -841,7 +843,7 @@ public final class RedditAPI {
 
 		after.apply(value -> builder.appendQueryParameter("after", value));
 
-		final URI uri = Objects.requireNonNull(General.uriFromString(builder.build().toString()));
+		final UriString uri = UriString.from(builder.build());
 
 		requestSubredditList(
 				cm,
@@ -894,7 +896,7 @@ public final class RedditAPI {
 
 	public static void requestSubredditList(
 			@NonNull final CacheManager cm,
-			@NonNull final URI uri,
+			@NonNull final UriString uri,
 			@NonNull final RedditAccount user,
 			@NonNull final Context context,
 			@NonNull final APIResponseHandler.ValueResponseHandler<
@@ -944,7 +946,7 @@ public final class RedditAPI {
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									e,
 									null,
-									uri.toString(),
+									uri,
 									Optional.of(new FailedRequestBody(result))));
 						}
 					}
@@ -1059,7 +1061,7 @@ public final class RedditAPI {
 
 	@NonNull
 	private static CacheRequest createPostRequest(
-			@NonNull final URI url,
+			@NonNull final UriString url,
 			@NonNull final RedditAccount user,
 			@NonNull final List<PostField> postFields,
 			@NonNull final Context context,
@@ -1075,7 +1077,7 @@ public final class RedditAPI {
 
 	@NonNull
 	private static CacheRequest createPostRequestUnprocessedResponse(
-			@NonNull final URI url,
+			@NonNull final UriString url,
 			@NonNull final RedditAccount user,
 			@NonNull final List<PostField> postFields,
 			@NonNull final Context context,
@@ -1096,7 +1098,7 @@ public final class RedditAPI {
 
 	@NonNull
 	private static CacheRequest createGetRequest(
-			@NonNull final URI url,
+			@NonNull final UriString url,
 			@NonNull final RedditAccount user,
 			@NonNull final Priority priority,
 			final int fileType,

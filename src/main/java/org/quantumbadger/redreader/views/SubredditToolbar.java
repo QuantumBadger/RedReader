@@ -24,10 +24,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.TooltipCompat;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -38,6 +40,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.reddit.SubredditDetails;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
@@ -61,13 +64,13 @@ public class SubredditToolbar extends LinearLayout implements
 	private Runnable mRunnableOnPinnedChange;
 
 	@NonNull private Optional<SubredditDetails> mSubredditDetails = Optional.empty();
-	@NonNull private Optional<String> mUrl = Optional.empty();
+	@NonNull private Optional<UriString> mUrl = Optional.empty();
 
 	private ImageButton mButtonInfo;
 
 	public void bindSubreddit(
 			@NonNull final SubredditDetails subreddit,
-			@NonNull final Optional<String> url) {
+			@NonNull final Optional<UriString> url) {
 
 		mSubredditDetails = Optional.of(subreddit);
 		mUrl = url;
@@ -237,7 +240,7 @@ public class SubredditToolbar extends LinearLayout implements
 		buttonShare.setOnClickListener(v -> LinkHandler.shareText(
 				activity,
 				mSubredditDetails.get().id.toString(),
-				mUrl.orElse(mSubredditDetails.get().url)));
+				mUrl.orElse(mSubredditDetails.get().url).value));
 
 		mButtonInfo.setOnClickListener(
 				v -> mSubredditDetails.get().showSidebarActivity(activity));

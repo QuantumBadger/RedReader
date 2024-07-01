@@ -20,7 +20,9 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
@@ -36,12 +38,12 @@ public abstract class HtmlRawElement {
 	public static class LinkButtonDetails {
 
 		@Nullable public final String name;
-		@NonNull public final String url;
+		@NonNull public final UriString url;
 
 
 		public LinkButtonDetails(
 				@Nullable final String name,
-				@NonNull final String url) {
+				@NonNull final UriString url) {
 			this.name = name;
 			this.url = url;
 		}
@@ -50,7 +52,7 @@ public abstract class HtmlRawElement {
 		public final String getButtonTitle() {
 
 			if(name == null || name.isEmpty()) {
-				return url;
+				return url.value;
 			} else {
 				return name;
 			}
@@ -62,7 +64,7 @@ public abstract class HtmlRawElement {
 			if(name == null || name.isEmpty()) {
 				return null;
 			} else {
-				return url;
+				return url.value;
 			}
 		}
 	}
@@ -223,7 +225,7 @@ public abstract class HtmlRawElement {
 						result = new HtmlRawElementTagPassthrough(children);
 
 					} else {
-						result = new HtmlRawElementTagAnchor(children, href);
+						result = new HtmlRawElementTagAnchor(children, new UriString(href));
 					}
 					break;
 				}
@@ -275,7 +277,7 @@ public abstract class HtmlRawElement {
 					break;
 
 				case "emote":
-					final String src = startToken.src;
+					final UriString src = Objects.requireNonNull(startToken.src);
 					result = new HtmlRawElementImg(children,
 							startToken.title == null || startToken.title.isEmpty()
 									? "emote" : startToken.title,

@@ -33,15 +33,18 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -56,6 +59,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -111,7 +115,7 @@ public class PostSubmitContentFragment extends Fragment {
 	}
 
 	public interface Listener {
-		void onContentFragmentSubmissionSuccess(@Nullable String redirectUrl);
+		void onContentFragmentSubmissionSuccess(@Nullable UriString redirectUrl);
 		void onContentFragmentSubredditDoesNotExist();
 		void onContentFragmentSubredditPermissionDenied();
 		void onContentFragmentFlairRequestError(@NonNull RRError error);
@@ -528,7 +532,7 @@ public class PostSubmitContentFragment extends Fragment {
 
 							if(activity != null) {
 								((Listener)activity).onContentFragmentSubmissionSuccess(
-										redirectUrl.orElseNull());
+										UriString.fromNullable(redirectUrl.orElseNull()));
 							}
 						});
 					}

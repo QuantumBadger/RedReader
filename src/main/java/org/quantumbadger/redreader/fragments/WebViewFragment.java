@@ -48,6 +48,7 @@ import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
@@ -70,9 +71,9 @@ public class WebViewFragment extends Fragment
 
 	private BaseActivity mActivity;
 
-	private String mUrl;
+	private UriString mUrl;
 	private String html;
-	private volatile String currentUrl;
+	private volatile UriString currentUrl;
 	private volatile boolean goingBack;
 	private volatile int lastBackDepthAttempt;
 
@@ -80,12 +81,12 @@ public class WebViewFragment extends Fragment
 	private ProgressBar progressView;
 	private FrameLayout outer;
 
-	public static WebViewFragment newInstance(final String url, final RedditPost post) {
+	public static WebViewFragment newInstance(final UriString url, final RedditPost post) {
 
 		final WebViewFragment f = new WebViewFragment();
 
 		final Bundle bundle = new Bundle(1);
-		bundle.putString("url", url);
+		bundle.putParcelable("url", url);
 		if(post != null) {
 			bundle.putParcelable("post", post);
 		}
@@ -109,7 +110,7 @@ public class WebViewFragment extends Fragment
 	public void onCreate(final Bundle savedInstanceState) {
 		// TODO load position/etc?
 		super.onCreate(savedInstanceState);
-		mUrl = getArguments().getString("url");
+		mUrl = getArguments().getParcelable("url");
 		html = getArguments().getString("html");
 	}
 
@@ -265,7 +266,7 @@ public class WebViewFragment extends Fragment
 
 
 		if(mUrl != null) {
-			webView.loadUrl(mUrl);
+			webView.loadUrl(mUrl.value);
 		} else {
 			webView.loadHtmlUTF8WithBaseURL("https://reddit.com/", html);
 		}
@@ -304,7 +305,7 @@ public class WebViewFragment extends Fragment
 				} else {
 
 					if(RedditURLParser.parse(Uri.parse(url)) != null) {
-						LinkHandler.onLinkClicked(mActivity, url, false);
+						LinkHandler.onLinkClicked(mActivity, new UriString(url), false);
 					} else {
 						// When websites recognize the user agent is on Android, they sometimes
 						// redirect or offer deep links into native apps. These come in two flavors:
@@ -346,7 +347,7 @@ public class WebViewFragment extends Fragment
 									null);
 						} else {
 							webView.loadUrl(url);
-							currentUrl = url;
+							currentUrl = new UriString(url);
 						}
 					}
 				}
@@ -375,7 +376,7 @@ public class WebViewFragment extends Fragment
 				}
 
 				webView.loadUrl(fallbackUrl);
-				currentUrl = fallbackUrl;
+				currentUrl = new UriString(fallbackUrl);
 				return true;
 			}
 
@@ -544,7 +545,7 @@ public class WebViewFragment extends Fragment
 		((RedditPostView.PostSelectionListener)mActivity).onPostCommentsSelected(post);
 	}
 
-	public String getCurrentUrl() {
+	public UriString getCurrentUrl() {
 		return (currentUrl != null) ? currentUrl : mUrl;
 	}
 

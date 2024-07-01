@@ -67,6 +67,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.ImageInfoDialog;
@@ -97,7 +98,6 @@ import org.quantumbadger.redreader.views.video.ExoPlayerWrapperView;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
@@ -118,7 +118,7 @@ public class ImageViewActivity extends BaseActivity
 
 	private ExoPlayerWrapperView mVideoPlayerWrapper;
 
-	private String mUrl;
+	private UriString mUrl;
 
 	private boolean mIsPaused = true;
 	private boolean mIsDestroyed = false;
@@ -173,7 +173,7 @@ public class ImageViewActivity extends BaseActivity
 
 		final Intent intent = getIntent();
 
-		mUrl = intent.getDataString();
+		mUrl = UriString.fromNullable(intent.getDataString());
 
 		if(mUrl == null) {
 			finish();
@@ -185,7 +185,7 @@ public class ImageViewActivity extends BaseActivity
 		if(intent.hasExtra("albumUrl")) {
 			LinkHandler.getAlbumInfo(
 					this,
-					intent.getStringExtra("albumUrl"),
+					intent.getParcelableExtra("albumUrl"),
 					new Priority(Constants.Priority.IMAGE_VIEW),
 					new GetAlbumInfoListener() {
 
@@ -279,10 +279,7 @@ public class ImageViewActivity extends BaseActivity
 
 						mImageInfo = info;
 
-						final URI uri = General.uriFromString(info.original.url);
-						final URI audioUri;
-
-						if(uri == null) {
+						if(info.original == null) {
 
 							General.quickToast(
 									ImageViewActivity.this,
@@ -292,14 +289,9 @@ public class ImageViewActivity extends BaseActivity
 							return;
 						}
 
-						if(info.urlAudioStream == null) {
-							audioUri = null;
+						final UriString audioUri = info.urlAudioStream == null ? null : info.urlAudioStream;
 
-						} else {
-							audioUri = General.uriFromString(info.urlAudioStream);
-						}
-
-						openImage(progressBar, uri, audioUri);
+						openImage(progressBar, info.original.url, audioUri);
 					}
 
 					@Override
@@ -568,9 +560,9 @@ public class ImageViewActivity extends BaseActivity
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(
 				this,
-				PostCommentListingURL.forPostId(post.src.getIdAlone())
+				new UriString(PostCommentListingURL.forPostId(post.src.getIdAlone())
 						.generateJsonUri()
-						.toString(),
+						.toString()),
 				false);
 	}
 
@@ -616,7 +608,7 @@ public class ImageViewActivity extends BaseActivity
 		Log.i(TAG, "Using external browser");
 
 		final Runnable r = () -> {
-			LinkHandler.openWebBrowser(this, Uri.parse(mUrl), false);
+			LinkHandler.openWebBrowser(this, mUrl.toUri(), false);
 			finish();
 		};
 
@@ -809,8 +801,8 @@ public class ImageViewActivity extends BaseActivity
 
 	private void openImage(
 			final DonutProgress progressBar,
-			final URI uri,
-			@Nullable final URI audioUri) {
+			final UriString uri,
+			@Nullable final UriString audioUri) {
 
 		if(mImageInfo.mediaType != null) {
 
@@ -890,8 +882,8 @@ public class ImageViewActivity extends BaseActivity
 
 	private void makeCacheRequest(
 			final DonutProgress progressBar,
-			final URI uri,
-			@Nullable final URI audioUri) {
+			final UriString uri,
+			@Nullable final UriString audioUri) {
 
 		final Object resultLock = new Object();
 

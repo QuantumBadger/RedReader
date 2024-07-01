@@ -47,6 +47,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.receivers.announcements.Announcement;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
@@ -700,7 +701,7 @@ public class MainMenuListingManager {
 						subreddit));
 
 			} else {
-				LinkHandler.onLinkClicked(mActivity, subreddit.toString());
+				LinkHandler.onLinkClicked(mActivity, new UriString(subreddit.toString()));
 			}
 		};
 
@@ -842,8 +843,7 @@ public class MainMenuListingManager {
 			final AppCompatActivity activity,
 			final SubredditAction action) {
 
-		final String url = Constants.Reddit.getNonAPIUri(subredditCanonicalId.toString())
-				.toString();
+		final UriString url = Constants.Reddit.getNonAPIUri(subredditCanonicalId.toString());
 
 		final RedditSubredditSubscriptionManager subMan = RedditSubredditSubscriptionManager
 				.getSingleton(
@@ -857,7 +857,7 @@ public class MainMenuListingManager {
 				LinkHandler.shareText(
 						activity,
 						subredditCanonicalId.toString(),
-						LinkHandler.getPreferredRedditUriString(url));
+						LinkHandler.getPreferredRedditUriString(url).toString());
 				break;
 			}
 
@@ -865,7 +865,7 @@ public class MainMenuListingManager {
 				final ClipboardManager clipboardManager
 						= (ClipboardManager)activity.getSystemService(Context.CLIPBOARD_SERVICE);
 				if(clipboardManager != null) {
-					final ClipData data = ClipData.newPlainText(null, url);
+					final ClipData data = ClipData.newPlainText(null, url.value);
 					clipboardManager.setPrimaryClip(data);
 
 					General.quickToast(
@@ -877,7 +877,7 @@ public class MainMenuListingManager {
 
 			case EXTERNAL: {
 				final Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setData(Uri.parse(url));
+				intent.setData(Uri.parse(url.value));
 				activity.startActivity(intent);
 				break;
 			}

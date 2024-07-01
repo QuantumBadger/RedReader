@@ -21,6 +21,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
@@ -28,6 +29,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.Void;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.HTTPBackend;
@@ -149,7 +151,8 @@ public class OKHTTPBackend extends HTTPBackend {
 	}
 
 	@Override
-	public String resolveRedirectUri(final String url) {
+	@Nullable
+	public UriString resolveRedirectUri(final String url) {
 		try {
 			final Builder builder = new Builder();
 			final okhttp3.Request headRequest = builder.url(url).head().build();
@@ -157,7 +160,7 @@ public class OKHTTPBackend extends HTTPBackend {
 					mClient.newBuilder().followRedirects(false).build();
 			try (Response response = noRedirectsClient.newCall(headRequest).execute()) {
 				if (response.isRedirect()) {
-					return response.header("Location");
+					return UriString.fromNullable(response.header("Location"));
 				}
 			}
 		} catch (final IOException e) {
@@ -228,7 +231,7 @@ public class OKHTTPBackend extends HTTPBackend {
 			builder.get();
 		}
 
-		builder.url(details.getUrl().toString());
+		builder.url(details.getUrl().value);
 		builder.cacheControl(CacheControl.FORCE_NETWORK);
 
 		final AtomicBoolean cancelled = new AtomicBoolean(false);

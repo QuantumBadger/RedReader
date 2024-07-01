@@ -20,7 +20,9 @@ package org.quantumbadger.redreader.image;
 import android.content.Context;
 import android.os.SystemClock;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -34,6 +36,7 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
@@ -79,11 +82,11 @@ public final class RedgifsAPIV2 {
 			@NonNull final Priority priority,
 			final GetImageInfoListener listener) {
 
-		final String apiUrl = "https://api.redgifs.com/v2/gifs/"
-				+ StringUtils.asciiLowercase(imageId);
+		final UriString apiUrl = new UriString("https://api.redgifs.com/v2/gifs/"
+				+ StringUtils.asciiLowercase(imageId));
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				General.uriFromString(apiUrl),
+				apiUrl,
 				RedditAccountManager.getAnon(),
 				null,
 				priority,
@@ -141,10 +144,10 @@ public final class RedgifsAPIV2 {
 
 		Log.i(TAG, "Retrieving new token");
 
-		final String apiUrl = "https://api.redgifs.com/v2/oauth/client";
+		final UriString apiUrl = new UriString("https://api.redgifs.com/v2/oauth/client");
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				General.uriFromString(apiUrl),
+				apiUrl,
 				RedditAccountManager.getAnon(),
 				null,
 				priority,

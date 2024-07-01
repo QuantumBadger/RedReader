@@ -20,7 +20,9 @@ package org.quantumbadger.redreader.views.liststatus;
 import android.content.res.TypedArray;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
@@ -80,7 +82,7 @@ public final class CommentSubThreadView extends StatusListItemView {
 
 		setOnClickListener(v -> {
 			final PostCommentListingURL allComments = mUrl.commentId(null);
-			LinkHandler.onLinkClicked(activity, allComments.toString());
+			LinkHandler.onLinkClicked(activity, allComments.toUriString());
 		});
 	}
 

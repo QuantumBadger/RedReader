@@ -19,10 +19,13 @@ package org.quantumbadger.redreader.reddit.things;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.common.ParcelUtils;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 
 public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
@@ -127,11 +130,11 @@ public class RedditUser implements Parcelable, JsonObject.JsonDeserializable {
 	}
 
 	@Nullable
-	public String getIconUrl() {
+	public UriString getIconUrl() {
 		if(icon_img == null) {
 			return null;
 		} else {
-			return StringEscapeUtils.unescapeHtml4(icon_img);
+			return new UriString(StringEscapeUtils.unescapeHtml4(icon_img));
 		}
 	}
 

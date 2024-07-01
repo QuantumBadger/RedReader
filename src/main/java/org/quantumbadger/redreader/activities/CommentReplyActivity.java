@@ -34,7 +34,9 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -47,6 +49,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.fragments.MarkdownPreviewDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
@@ -269,11 +272,10 @@ public class CommentReplyActivity extends BaseActivity {
 
 						redirectUrl.ifPresent(url -> LinkHandler.onLinkClicked(
 								CommentReplyActivity.this,
-								Uri.parse(url)
+								UriString.from(Uri.parse(url)
 										.buildUpon()
 										.appendQueryParameter("context", "1")
-										.build()
-										.toString()));
+										.build())));
 
 						finish();
 					});

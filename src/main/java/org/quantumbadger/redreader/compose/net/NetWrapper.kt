@@ -39,10 +39,10 @@ import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.GenericFactory
 import org.quantumbadger.redreader.common.Priority
 import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import java.io.IOException
-import java.net.URI
 import java.util.UUID
 
 @Immutable
@@ -79,7 +79,7 @@ sealed interface NetRequestStatus<out R> {
 
 @Composable
 fun fetchImage(
-	uri: URI,
+	uri: UriString,
 	user: RedditAccountId,
 ) = fetch(
 	uri = uri,
@@ -101,7 +101,7 @@ fun fetchImage(
 	} catch(e: Exception) {
 		NetRequestStatus.Failed(RRError(
 			title = "Image decoding failed",
-			url = uri.toString(),
+			url = uri,
 			t = e
 		))
 	}
@@ -111,7 +111,7 @@ fun fetchImage(
 // TODO optional processing step for off-main-thread parsing/etc
 @Composable
 fun <R> fetch(
-	uri: URI,
+	uri: UriString,
 	user: RedditAccountId,
 	priority: Priority,
 	downloadStrategy: DownloadStrategy,

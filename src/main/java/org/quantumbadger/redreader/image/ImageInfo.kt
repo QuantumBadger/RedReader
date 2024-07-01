@@ -20,6 +20,7 @@ import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import kotlinx.parcelize.Parcelize
 import org.apache.commons.text.StringEscapeUtils
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.jsonwrap.JsonObject
 import java.io.IOException
 
@@ -57,7 +58,7 @@ data class ImageSize(
 @Immutable
 @Parcelize
 data class ImageUrlInfo(
-	@JvmField val url: String,
+	@JvmField val url: UriString,
 	@JvmField val size: ImageSize? = null,
 	@JvmField val sizeBytes: Long? = null,
 ) : Parcelable
@@ -71,7 +72,7 @@ data class ImageInfo(
 	@JvmField val bigSquare: ImageUrlInfo? = null,
 	@JvmField val preview: ImageUrlInfo? = null,
 
-	@JvmField val urlAudioStream: String? = null,
+	@JvmField val urlAudioStream: UriString? = null,
 
 	@JvmField val title: String? = null,
 	@JvmField val caption: String? = null,
@@ -117,7 +118,7 @@ data class ImageInfo(
 
 			val original = obj.getString("mp4Url")?.let { originalUrl ->
 				ImageUrlInfo(
-					url = originalUrl,
+					url = UriString(originalUrl),
 					size = ImageSize.from(obj.getLong("width"), obj.getLong("height")),
 					sizeBytes = obj.getLong("mp4Size")
 				)
@@ -127,7 +128,7 @@ data class ImageInfo(
 
 			val preview = mobilePoster?.getString("url")?.let { previewUrl ->
 				ImageUrlInfo(
-					url = previewUrl,
+					url = UriString(previewUrl),
 					size = ImageSize.fromJson(mobilePoster)
 				)
 			}
@@ -179,11 +180,11 @@ data class ImageInfo(
 
 			val original = fileObj.getString("url")?.let { originalUrl ->
 				ImageUrlInfo(
-					url = if (originalUrl.startsWith("//")) {
+					url = UriString(if (originalUrl.startsWith("//")) {
 						"https:$originalUrl"
 					} else {
 						originalUrl
-					},
+					}),
 					size = ImageSize.fromJson(fileObj)
 				)
 			}
@@ -207,18 +208,18 @@ data class ImageInfo(
 
 			val original = links?.getString("original")?.let { originalUrl ->
 				ImageUrlInfo(
-					url = if (isAnimated) {
+					url = UriString(if (isAnimated) {
 						originalUrl.replace(".gif", ".mp4")
 					} else {
 						originalUrl
-					},
+					}),
 					size = ImageSize.fromJson(image),
 					sizeBytes = image?.getLong("size")
 				)
 			}
 
 			val bigSquare = links?.getString("big_square")?.let { bigSquareUrl ->
-				ImageUrlInfo(url = bigSquareUrl)
+				ImageUrlInfo(url = UriString(bigSquareUrl))
 			}
 
 			return ImageInfo(
@@ -249,7 +250,7 @@ data class ImageInfo(
 				mp4 = true
 
 				ImageUrlInfo(
-					url = urlMp4,
+					url = UriString(urlMp4),
 					size = originalSize,
 					sizeBytes = obj.getLong("mp4_size"),
 				)
@@ -260,7 +261,7 @@ data class ImageInfo(
 
 				obj?.getString("link")?.let { urlLink ->
 					ImageUrlInfo(
-						url = urlLink,
+						url = UriString(urlLink),
 						size = originalSize,
 						sizeBytes = obj.getLong("size")
 					)
@@ -268,7 +269,7 @@ data class ImageInfo(
 			}
 
 			val bigSquare = obj?.getString("id")?.let {
-				ImageUrlInfo(url = "https://i.imgur.com/${it}b.jpg")
+				ImageUrlInfo(url = UriString("https://i.imgur.com/${it}b.jpg"))
 			}
 
 			return ImageInfo(
@@ -288,13 +289,13 @@ data class ImageInfo(
 
 			val original = obj?.getString("url")?.let { url ->
 				ImageUrlInfo(
-					url = url,
+					url = UriString(url),
 					size = ImageSize.fromJson(obj),
 				)
 			}
 
 			val bigSquare = obj?.getString("thumbnail_url")?.let { url ->
-				ImageUrlInfo(url = url)
+				ImageUrlInfo(url = UriString(url))
 			}
 
 			return ImageInfo(
@@ -316,7 +317,7 @@ data class ImageInfo(
 				.orElse(obj.getStringAtPath("urls", "sd"))
 				.asNullable()?.let {
 					ImageUrlInfo(
-						url = it,
+						url = UriString(it),
 						size = ImageSize.fromJson(obj)
 					)
 				}
@@ -324,7 +325,7 @@ data class ImageInfo(
 			val hasAudio = obj.getBoolean("hasAudio")
 
 			val preview = obj.getStringAtPath("urls", "poster").orElseNull()?.let { url ->
-				ImageUrlInfo(url = url)
+				ImageUrlInfo(url = UriString(url))
 			}
 
 			return ImageInfo(

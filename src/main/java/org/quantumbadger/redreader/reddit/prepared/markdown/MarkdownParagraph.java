@@ -29,9 +29,12 @@ import android.text.style.StyleSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.TypefaceSpan;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
 
 import java.util.ArrayList;
@@ -53,9 +56,9 @@ public final class MarkdownParagraph {
 	public static class Link {
 		final String title;
 		final String subtitle;
-		private final String url;
+		private final UriString url;
 
-		public Link(final String title, final String subtitle, final String url) {
+		public Link(final String title, final String subtitle, final UriString url) {
 			this.title = title;
 			this.subtitle = subtitle;
 			this.url = url;
@@ -224,7 +227,7 @@ public final class MarkdownParagraph {
 						links.add(new Link(
 								"Spoiler",
 								null,
-								spoilerUriBuilder.toString()));
+								UriString.from(spoilerUriBuilder)));
 
 					} else if(url.length() > 3 && url.charAt(2) == ' '
 							&& (url.charAt(0) == '#' || url.charAt(0) == '/')) {
@@ -253,10 +256,10 @@ public final class MarkdownParagraph {
 						links.add(new Link(
 								linkText,
 								subtitle,
-								spoilerUriBuilder.toString()));
+								UriString.from(spoilerUriBuilder)));
 
 					} else {
-						links.add(new Link(linkText, url, url));
+						links.add(new Link(linkText, url, new UriString(url)));
 					}
 
 					// TODO
@@ -267,7 +270,7 @@ public final class MarkdownParagraph {
 						public void onClick(final View widget) {
 							final AppCompatActivity activity = ((LinkifiedTextView)widget)
 									.getActivity();
-							LinkHandler.onLinkClicked(activity, url);
+							LinkHandler.onLinkClicked(activity, new UriString(url));
 						}
 					};
 

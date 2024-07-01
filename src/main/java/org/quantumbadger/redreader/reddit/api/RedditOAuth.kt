@@ -36,12 +36,12 @@ import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.General.closeSafely
 import org.quantumbadger.redreader.common.General.readWholeStreamAsUTF8
 import org.quantumbadger.redreader.common.General.safeDismissDialog
-import org.quantumbadger.redreader.common.General.uriFromString
 import org.quantumbadger.redreader.common.GlobalConfig
 import org.quantumbadger.redreader.common.Optional
 import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.RunnableOnce
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.http.FailedRequestBody
 import org.quantumbadger.redreader.http.HTTPBackend
 import org.quantumbadger.redreader.http.HTTPBackend.RequestDetails
@@ -60,7 +60,7 @@ object RedditOAuth {
             + "modconfig modflair modlog modposts modwiki mysubreddits "
             + "privatemessages read report save submit subscribe vote "
             + "wikiedit wikiread account")
-    private const val ACCESS_TOKEN_URL = "https://www.reddit.com/api/v1/access_token"
+    private val ACCESS_TOKEN_URL = UriString("https://www.reddit.com/api/v1/access_token")
 
     @JvmStatic
 	val promptUri: Uri
@@ -144,7 +144,7 @@ object RedditOAuth {
         exception: Throwable?,
         httpStatus: Int?,
         context: Context,
-        uri: String
+        uri: UriString
     ): FetchRefreshTokenResult {
         return if (httpStatus != null && httpStatus != 200) {
             FetchRefreshTokenResult(
@@ -192,7 +192,7 @@ object RedditOAuth {
         exception: Throwable?,
         httpStatus: Int?,
         context: Context,
-        uri: String
+        uri: UriString
     ): FetchAccessTokenResult {
         return if (httpStatus != null && httpStatus != 200) {
             FetchAccessTokenResult(
@@ -292,7 +292,7 @@ object RedditOAuth {
             val request = HTTPBackend.getBackend().prepareRequest(
                 context,
                 RequestDetails(
-                    uriFromString(uri)!!,
+                    uri,
                     Optional.of(HTTPRequestBodyPostFields(postFields))
                 )
             )
@@ -405,7 +405,7 @@ object RedditOAuth {
                                     true,
                                     null,
                                     httpStatus,
-                                    uri.toString(),
+                                    uri,
                                     null,
                                     body
                                 )
@@ -421,7 +421,7 @@ object RedditOAuth {
                                     true,
                                     exception,
                                     null,
-                                    uri.toString(),
+                                    uri,
                                     null,
                                     body
                                 )
@@ -449,7 +449,7 @@ object RedditOAuth {
                                         true,
                                         null,
                                         null,
-                                        uri.toString(),
+                                        uri,
                                         null,
                                         Optional.of(FailedRequestBody(jsonValue))
                                     )
@@ -468,7 +468,7 @@ object RedditOAuth {
                                     true,
                                     e,
                                     null,
-                                    uri.toString(),
+                                    uri,
                                     null
                                 )
                             )
@@ -490,7 +490,7 @@ object RedditOAuth {
                     true,
                     t,
                     null,
-                    uri.toString(),
+                    uri,
                     null
                 )
             )
@@ -573,7 +573,7 @@ object RedditOAuth {
                 .prepareRequest(
                     context,
                     RequestDetails(
-                        uriFromString(uri)!!,
+                        uri,
                         Optional.of(HTTPRequestBodyPostFields(postFields))
                     )
                 )
@@ -684,7 +684,7 @@ object RedditOAuth {
                 .prepareRequest(
                     context,
                     RequestDetails(
-                        uriFromString(uri)!!,
+                        uri,
                         Optional.of(HTTPRequestBodyPostFields(postFields))
                     )
                 )

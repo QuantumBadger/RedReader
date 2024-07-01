@@ -18,11 +18,12 @@
 package org.quantumbadger.redreader.cache;
 
 import android.database.Cursor;
+
 import androidx.annotation.NonNull;
-import org.quantumbadger.redreader.common.General;
+
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 
-import java.net.URI;
 import java.util.UUID;
 
 public final class CacheEntry {
@@ -38,7 +39,7 @@ public final class CacheEntry {
 			CacheDbManager.FIELD_LENGTH_UNCOMPRESSED};
 
 	public final long id;
-	public final URI url;
+	public final UriString url;
 	public final UUID session;
 	public final TimestampUTC timestamp;
 	public final String mimetype;
@@ -49,7 +50,7 @@ public final class CacheEntry {
 	CacheEntry(@NonNull final Cursor cursor) {
 
 		id = cursor.getLong(0);
-		url = General.uriFromString(cursor.getString(1));
+		url = new UriString(cursor.getString(1));
 		session = UUID.fromString(cursor.getString(2));
 		timestamp = TimestampUTC.fromUtcMs(cursor.getLong(3));
 		mimetype = cursor.getString(4);

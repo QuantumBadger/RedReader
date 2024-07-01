@@ -31,6 +31,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -42,16 +43,16 @@ public final class ImgurAPIV3 {
 
 	public static void getAlbumInfo(
 			@NonNull final Context context,
-			final String albumUrl,
+			final UriString albumUrl,
 			@NonNull final String albumId,
 			@NonNull final Priority priority,
 			final boolean withAuth,
 			@NonNull final GetAlbumInfoListener listener) {
 
-		final String apiUrl = "https://api.imgur.com/3/album/" + albumId;
+		final UriString apiUrl = new UriString("https://api.imgur.com/3/album/" + albumId);
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				General.uriFromString(apiUrl),
+				apiUrl,
 				RedditAccountManager.getAnon(),
 				null,
 				priority,
@@ -98,10 +99,10 @@ public final class ImgurAPIV3 {
 			final boolean withAuth,
 			@NonNull final GetImageInfoListener listener) {
 
-		final String apiUrl = "https://api.imgur.com/3/image/" + imageId;
+		final UriString apiUrl = new UriString("https://api.imgur.com/3/image/" + imageId);
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				General.uriFromString(apiUrl),
+				apiUrl,
 				RedditAccountManager.getAnon(),
 				null,
 				priority,

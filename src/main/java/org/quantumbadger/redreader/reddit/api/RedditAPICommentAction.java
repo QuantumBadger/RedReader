@@ -24,10 +24,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -38,6 +41,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
@@ -51,8 +55,8 @@ import org.quantumbadger.redreader.views.RedditCommentView;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class RedditAPICommentAction {
 
@@ -412,13 +416,12 @@ public class RedditAPICommentAction {
 			}
 
 			case COMMENT_LINKS:
-				final Set<String> linksInComment = comment.computeAllLinks();
+				final List<String> linksInComment = comment.computeAllLinksString();
 
 				if(linksInComment.isEmpty()) {
 					General.quickToast(activity, R.string.error_toast_no_urls_in_comment);
 
 				} else {
-
 					final String[] linksArr =
 							linksInComment.toArray(new String[0]);
 
@@ -426,7 +429,7 @@ public class RedditAPICommentAction {
 							= new MaterialAlertDialogBuilder(activity);
 
 					builder.setItems(linksArr, (dialog, which) -> {
-						LinkHandler.onLinkClicked(activity, linksArr[which], false);
+						LinkHandler.onLinkClicked(activity, new UriString(linksArr[which]), false);
 						dialog.dismiss();
 					});
 
@@ -458,7 +461,7 @@ public class RedditAPICommentAction {
 				}
 
 				body += LinkHandler.getPreferredRedditUriString(
-						comment.getContextUrl().generateNonJsonUri().toString());
+						UriString.from(comment.getContextUrl().generateNonJsonUri()));
 
 				LinkHandler.shareText(activity, subject, body);
 				break;
@@ -505,7 +508,7 @@ public class RedditAPICommentAction {
 			case USER_PROFILE:
 				LinkHandler.onLinkClicked(
 						activity,
-						new UserProfileURL(comment.getAuthor().getDecoded()).toString());
+						new UserProfileURL(comment.getAuthor().getDecoded()).toUriString());
 				break;
 
 			case PROPERTIES:
@@ -516,12 +519,12 @@ public class RedditAPICommentAction {
 			case GO_TO_COMMENT: {
 				LinkHandler.onLinkClicked(
 						activity,
-						comment.getContextUrl().context(null).toString());
+						comment.getContextUrl().context(null).toUriString());
 				break;
 			}
 
 			case CONTEXT: {
-				LinkHandler.onLinkClicked(activity, comment.getContextUrl().toString());
+				LinkHandler.onLinkClicked(activity, comment.getContextUrl().toUriString());
 				break;
 			}
 			case ACTION_MENU:

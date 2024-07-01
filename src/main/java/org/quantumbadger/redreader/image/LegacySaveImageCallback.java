@@ -27,6 +27,7 @@ import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.UriString;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,9 +35,9 @@ import java.io.InputStream;
 
 public class LegacySaveImageCallback implements BaseActivity.PermissionCallback {
 	private final BaseActivity activity;
-	private final String uri;
+	private final UriString uri;
 
-	public LegacySaveImageCallback(final BaseActivity activity, final String uri) {
+	public LegacySaveImageCallback(final BaseActivity activity, final UriString uri) {
 		this.activity = activity;
 		this.uri = uri;
 	}
@@ -49,7 +50,7 @@ public class LegacySaveImageCallback implements BaseActivity.PermissionCallback 
 				uri,
 				(info, cacheFile, mimetype) -> {
 
-					final String filename = General.filenameFromString(info.original.url);
+					final String filename = General.filenameFromString(info.original.url.value);
 
 					File dst = new File(
 							Environment.getExternalStoragePublicDirectory(

@@ -21,13 +21,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.fragments.postsubmit.PostSubmitContentFragment;
 import org.quantumbadger.redreader.fragments.postsubmit.PostSubmitSubredditSelectionFragment;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
@@ -115,7 +118,7 @@ public class PostSubmitActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onContentFragmentSubmissionSuccess(@Nullable final String redirectUrl) {
+	public void onContentFragmentSubmissionSuccess(@Nullable final UriString redirectUrl) {
 
 		if(redirectUrl != null) {
 			LinkHandler.onLinkClicked(this, redirectUrl);

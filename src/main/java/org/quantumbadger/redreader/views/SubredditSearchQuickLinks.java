@@ -20,15 +20,19 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.content.Intent;
 import android.util.AttributeSet;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.button.MaterialButton;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.PostListingActivity;
 import org.quantumbadger.redreader.common.EventListenerSet;
 import org.quantumbadger.redreader.common.LinkHandler;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
 
 import java.util.Objects;
@@ -150,7 +154,9 @@ public class SubredditSearchQuickLinks extends FlexboxLayout {
 				mButtonSubreddit.setText(subredditPrefixed);
 
 				mButtonSubreddit.setOnClickListener(
-						view -> LinkHandler.onLinkClicked(mActivity, subredditPrefixed));
+						view -> LinkHandler.onLinkClicked(
+								mActivity,
+								new UriString(subredditPrefixed)));
 
 			} else {
 				mButtonSubreddit.setVisibility(GONE);
@@ -161,7 +167,7 @@ public class SubredditSearchQuickLinks extends FlexboxLayout {
 
 				mButtonUser.setOnClickListener(view -> LinkHandler.onLinkClicked(
 						mActivity,
-						"/u/" + queryProcessed.queryUser));
+						new UriString("/u/" + queryProcessed.queryUser)));
 
 			} else {
 				mButtonUser.setVisibility(GONE);
@@ -199,7 +205,7 @@ public class SubredditSearchQuickLinks extends FlexboxLayout {
 
 		@Nullable public final String querySubreddit;
 		@Nullable public final String queryUser;
-		@Nullable public final String queryUrl;
+		@Nullable public final UriString queryUrl;
 		@Nullable public final String querySearch;
 
 		public ProcessedQuery(@NonNull final String query) {
@@ -215,7 +221,7 @@ public class SubredditSearchQuickLinks extends FlexboxLayout {
 			if(query.contains("://")) {
 				querySubreddit = null;
 				queryUser = null;
-				queryUrl = query;
+				queryUrl = new UriString(query);
 
 			} else if(startsWithSlashRSlash || startsWithRSlash) {
 
@@ -242,12 +248,12 @@ public class SubredditSearchQuickLinks extends FlexboxLayout {
 			} else if(query.startsWith("/")) {
 				querySubreddit = null;
 				queryUser = null;
-				queryUrl = "https://reddit.com" + query;
+				queryUrl = new UriString("https://reddit.com" + query);
 
 			} else {
 				querySubreddit = query.replaceAll("[ \t]+", "_");
 				queryUser = querySubreddit;
-				queryUrl = "https://" + query;
+				queryUrl = new UriString("https://" + query);
 			}
 		}
 	}

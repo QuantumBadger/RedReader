@@ -18,7 +18,9 @@
 package org.quantumbadger.redreader.reddit.api;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -30,6 +32,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.CacheDataSource;
@@ -38,7 +41,6 @@ import org.quantumbadger.redreader.io.WritableHashSet;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
-import java.net.URI;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -87,7 +89,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 	private void doRequest(
 			final RequestResponseHandler<WritableHashSet, RRError> handler) {
 
-		final URI uri = Constants.Reddit.getUri(Constants.Reddit.PATH_MULTIREDDITS_MINE);
+		final UriString uri = Constants.Reddit.getUri(Constants.Reddit.PATH_MULTIREDDITS_MINE);
 
 		final CacheRequest request = new CacheRequest(
 				uri,
@@ -129,7 +131,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									e,
 									null,
-									uri.toString(),
+									uri,
 									Optional.of(new FailedRequestBody(result))));
 						}
 					}

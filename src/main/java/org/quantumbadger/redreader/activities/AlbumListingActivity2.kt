@@ -33,6 +33,7 @@ import org.quantumbadger.redreader.common.LinkHandler.onLinkClicked
 import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.Priority
 import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.activity.ComposeBaseActivity
 import org.quantumbadger.redreader.compose.ui.AlbumScreen
 import org.quantumbadger.redreader.image.AlbumInfo
@@ -42,7 +43,7 @@ import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.views.liststatus.ErrorView
 
 class AlbumListingActivity2 : ComposeBaseActivity() {
-	private var mUrl: String? = null
+	private var mUrl: UriString? = null
 	private var mHaveReverted = false
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +51,7 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 
 		super.onCreate(savedInstanceState)
 
-		mUrl = intent.dataString
+		mUrl = UriString.fromNullable(intent.dataString)
 
 		if (mUrl == null) {
 			finish()
@@ -137,7 +138,7 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 					}
 
 					// It might be a single image, not an album
-					val matchImgur = LinkHandler.imgurAlbumPattern.matcher(mUrl)
+					val matchImgur = LinkHandler.imgurAlbumPattern.matcher(mUrl!!.value)
 
 					if (matchImgur.find()) {
 						val albumId = matchImgur.group(2)

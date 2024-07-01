@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.image
 
 import androidx.compose.runtime.Immutable
 import org.apache.commons.text.StringEscapeUtils
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.jsonwrap.JsonObject
 import org.quantumbadger.redreader.reddit.kthings.ImageMetadata
 import org.quantumbadger.redreader.reddit.kthings.MaybeParseError
@@ -27,7 +28,7 @@ import kotlin.math.min
 
 @Immutable
 class AlbumInfo(
-	@JvmField val url: String,
+	@JvmField val url: UriString,
 	@JvmField val title: String?,
 	val description: String?,
 	images: List<ImageInfo>
@@ -38,7 +39,7 @@ class AlbumInfo(
 	companion object {
 		@JvmStatic
 		fun parseImgur(
-			url: String,
+			url: UriString,
 			obj: JsonObject
 		): AlbumInfo {
 			var title = obj.getString("title")
@@ -64,7 +65,7 @@ class AlbumInfo(
 
 		@JvmStatic
 		fun parseImgurV3(
-			url: String,
+			url: UriString,
 			obj: JsonObject
 		): AlbumInfo {
 			var title = obj.getString("title")
@@ -133,7 +134,7 @@ class AlbumInfo(
 
 			return bestUrl?.let {
 				ImageUrlInfo(
-					bestUrl,
+					UriString(bestUrl),
 					size = bestSize
 				)
 			}
@@ -158,7 +159,7 @@ class AlbumInfo(
 
 					val original = urlEscaped?.let {
 						ImageUrlInfo(
-							url = urlEscaped.decoded,
+							url = UriString(urlEscaped.decoded),
 							size = ImageSize.from(standardImage.x, standardImage.y)
 						)
 					}

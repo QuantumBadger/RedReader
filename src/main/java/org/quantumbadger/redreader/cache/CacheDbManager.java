@@ -23,14 +23,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -152,7 +154,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 	}
 
 	synchronized List<CacheEntry> select(
-			final URI url,
+			final UriString url,
 			final String user,
 			final UUID session) {
 
@@ -169,7 +171,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 					STATUS_DONE,
 					FIELD_URL,
 					FIELD_USER);
-			queryParams = new String[] {url.toString(), user};
+			queryParams = new String[] {url.value, user};
 
 		} else {
 			queryString = String.format(
@@ -180,7 +182,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 					FIELD_URL,
 					FIELD_USER,
 					FIELD_SESSION);
-			queryParams = new String[] {url.toString(), user, session.toString()};
+			queryParams = new String[] {url.value, user, session.toString()};
 		}
 
 		try(Cursor cursor = db.query(
@@ -209,7 +211,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 	}
 
 	synchronized long newEntry(
-			@NonNull final URI url,
+			@NonNull final UriString url,
 			@NonNull final RedditAccount user,
 			final int fileType,
 			final UUID session,
@@ -226,7 +228,7 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 		final ContentValues row = new ContentValues();
 
-		row.put(FIELD_URL, url.toString());
+		row.put(FIELD_URL, url.value);
 		row.put(FIELD_USER, user.username);
 		row.put(FIELD_SESSION, session.toString());
 		row.put(FIELD_TYPE, fileType);

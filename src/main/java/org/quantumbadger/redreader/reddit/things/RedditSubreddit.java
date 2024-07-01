@@ -20,14 +20,17 @@ package org.quantumbadger.redreader.reddit.things;
 import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
 import org.quantumbadger.redreader.common.HasUniqueId;
 import org.quantumbadger.redreader.common.ParcelHelper;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.io.WritableObject;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -112,13 +115,13 @@ public class RedditSubreddit implements
 		return new SubredditCanonicalId(url);
 	}
 
-	public String getUrl() {
+	public UriString getUrl() {
 
 		if(url != null) {
-			return url;
+			return new UriString(url);
 		}
 
-		return "https://reddit.com/r/" + display_name;
+		return new UriString("https://reddit.com/r/" + display_name);
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.body.HTTPRequestBody;
@@ -39,7 +40,6 @@ import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.net.URI;
 import java.util.UUID;
 
 public final class CacheRequest implements Comparable<CacheRequest> {
@@ -87,7 +87,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	public @interface RequestFailureType {
 	}
 
-	public final URI url;
+	public final UriString url;
 	public final RedditAccount user;
 	public final UUID requestSession;
 
@@ -130,7 +130,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public CacheRequest(
-			@NonNull final URI url,
+			@NonNull final UriString url,
 			@NonNull final RedditAccount user,
 			@Nullable final UUID requestSession,
 			@NonNull final Priority priority,
@@ -156,7 +156,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public CacheRequest(
-			@NonNull final URI url,
+			@NonNull final UriString url,
 			@NonNull final RedditAccount user,
 			@Nullable final UUID requestSession,
 			@NonNull final Priority priority,
@@ -180,7 +180,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	}
 
 	public CacheRequest(
-			@NonNull final URI url,
+			@NonNull final UriString url,
 			@NonNull final RedditAccount user,
 			@Nullable final UUID requestSession,
 			@NonNull final Priority priority,
@@ -207,7 +207,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 
 	// TODO remove this huge constructor, make mutable
 	private CacheRequest(
-			@NonNull final URI url,
+			@NonNull final UriString url,
 			@NonNull final RedditAccount user,
 			@Nullable final UUID requestSession,
 			@NonNull final Priority priority,
@@ -248,7 +248,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 					REQUEST_FAILURE_MALFORMED_URL,
 					null,
 					null,
-					"null",
+					null,
 					Optional.empty()));
 			cancel();
 		}

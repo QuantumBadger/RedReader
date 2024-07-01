@@ -36,7 +36,6 @@ import org.quantumbadger.redreader.common.General.getGeneralErrorForFailure
 import org.quantumbadger.redreader.common.General.isConnectionWifi
 import org.quantumbadger.redreader.common.General.isSensitiveDebugLoggingEnabled
 import org.quantumbadger.redreader.common.General.showResultDialog
-import org.quantumbadger.redreader.common.General.uriFromString
 import org.quantumbadger.redreader.common.GenericFactory
 import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.NeverAlwaysOrWifiOnly
@@ -146,7 +145,7 @@ class AlbumAdapter(
 
 			CacheManager.getInstance(activity).makeRequest(
 				CacheRequest(
-					uriFromString(thumbnailUrl)!!,
+					thumbnailUrl!!,
 					RedditAccountManager.getAnon(),
 					null,
 					Priority(Constants.Priority.THUMBNAIL, position),

@@ -24,9 +24,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.text.SpannableStringBuilder;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -44,6 +46,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimeFormatHelper;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -53,7 +56,6 @@ import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.EnumSet;
 import java.util.Locale;
 import java.util.UUID;
@@ -670,13 +672,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	// lol, reddit api
 	private static boolean hasThumbnail(final RedditParsedPost post) {
 
-		final String url = post.getThumbnailUrl();
+		final UriString url = post.getThumbnailUrl();
 
 		return url != null
-				&& !url.isEmpty()
-				&& !url.equalsIgnoreCase("nsfw")
-				&& !url.equalsIgnoreCase("self")
-				&& !url.equalsIgnoreCase("default");
+				&& !url.value.isEmpty()
+				&& !url.value.equalsIgnoreCase("nsfw")
+				&& !url.value.equalsIgnoreCase("self")
+				&& !url.value.equalsIgnoreCase("default");
 	}
 
 	private void downloadThumbnail(
@@ -690,15 +692,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				? src.getPreview(sizePixels, sizePixels)
 				: null;
 
-		final String uriStr;
+		final UriString uri;
 
 		if(preview != null) {
-			uriStr = preview.url;
+			uri = preview.url;
 		} else {
-			uriStr = src.getThumbnailUrl();
+			uri = src.getThumbnailUrl();
 		}
-
-		final URI uri = General.uriFromString(uriStr);
 
 		final int priority = Constants.Priority.THUMBNAIL;
 		final int fileType = Constants.FileType.THUMBNAIL;
@@ -734,7 +734,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 							Log.e(
 									TAG,
 									"Failed to download thumbnail "
-											+ uriStr
+											+ uri
 											+ " with error "
 											+ error,
 									error.t);

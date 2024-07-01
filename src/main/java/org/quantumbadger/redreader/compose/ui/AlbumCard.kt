@@ -72,15 +72,15 @@ fun AlbumCard(
 
 	Box(
 		modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 6.dp)
+			.fillMaxWidth()
+			.padding(horizontal = 12.dp, vertical = 6.dp)
 	) {
 		Box(
 			modifier = Modifier
 				.fillMaxWidth()
-                .shadow(3.dp, RoundedCornerShape(6.dp))
-                .clip(RoundedCornerShape(6.dp))
-                .background(theme.postCard.backgroundColor)
+				.shadow(3.dp, RoundedCornerShape(6.dp))
+				.clip(RoundedCornerShape(6.dp))
+				.background(theme.postCard.backgroundColor)
 				.combinedClickable(
 					onClick = { onClick(index) },
 					onLongClick = { onLongClick(index) }
@@ -122,6 +122,16 @@ fun AlbumCard(
 								style = theme.postCard.caption,
 							)
 						}
+					}
+				}
+
+				if (image.outboundUrl != null) {
+					Box(Modifier.padding(12.dp)) {
+						RRLinkButton(
+							title = "Link",
+							link = image.outboundUrl,
+							theme = theme.linkButton
+						)
 					}
 				}
 

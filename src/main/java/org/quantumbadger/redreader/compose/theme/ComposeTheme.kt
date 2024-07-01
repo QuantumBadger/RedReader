@@ -62,11 +62,22 @@ data class ComposeThemeButton(
 	val borderThickness: Dp? = null,
 )
 
+@Immutable
+data class ComposeThemeLinkButton(
+	val title: TextStyle,
+	val subtitle: TextStyle,
+	val shape: Shape,
+	val borderColor: Color,
+	val borderThickness: Dp,
+	val iconColor: Color
+)
+
 interface ComposeTheme {
 	val dropdownMenu: ComposeThemeDropdownMenu
 	val postCard: ComposeThemePostCard
 	val album: ComposeThemeAlbum
 	val error: ComposeThemeError
+	val linkButton: ComposeThemeLinkButton
 }
 
 @Composable
@@ -123,7 +134,7 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 	}
 
 	val colorSubtext = if (light) {
-		Colors.Grey.s7
+		Colors.Grey.s6
 	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
 		Colors.Grey.s5
 	} else {
@@ -258,6 +269,23 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 			shape = RoundedCornerShape(6.dp)
 		)
 	}
+
+	override val linkButton = ComposeThemeLinkButton(
+		title = baseTextStyle.copy(
+			color = colorText,
+			fontWeight = FontWeight.W500,
+			fontSize = 14.sp
+		),
+		subtitle = baseTextStyle.copy(
+			color = colorSubtext,
+			fontWeight = FontWeight.W400,
+			fontSize = 12.sp
+		),
+		shape = RoundedCornerShape(6.dp),
+		borderColor = if (light) Colors.Grey.s4 else Colors.Grey.s7,
+		borderThickness = 1.dp,
+		iconColor = if (light) Colors.Grey.s4 else Colors.Grey.s7
+	)
 }
 
 val LocalComposeTheme =

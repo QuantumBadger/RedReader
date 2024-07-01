@@ -60,7 +60,6 @@ import kotlin.math.min
 // TODO handle videos in all three views
 // TODO theme small progress spinner
 // TODO go through all todos on this branch
-// TODO tidy up AlbumListingActivity
 // TODO check for unstable composables
 // TODO strings
 // TODO screen reader testing

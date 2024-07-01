@@ -22,9 +22,11 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import org.quantumbadger.redreader.R
@@ -44,7 +46,9 @@ import org.quantumbadger.redreader.common.Priority
 import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream
+import org.quantumbadger.redreader.common.invokeIf
 import org.quantumbadger.redreader.common.time.TimestampUTC
+import org.quantumbadger.redreader.compose.ctx.GlobalNetworkRetry
 import org.quantumbadger.redreader.compose.ctx.LocalRedditUser
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.image.GetAlbumInfoListener
@@ -210,6 +214,9 @@ fun <R> fetchFile(
 	// Prevent conflicting updates to state
 	val currentRequest = remember { mutableIntStateOf(0) }
 
+	val currentGlobalRetry by GlobalNetworkRetry
+	var currentLocalRetry by remember { mutableIntStateOf(currentGlobalRetry) }
+
 	val context = LocalContext.current
 
 	val account: RedditAccount =
@@ -225,7 +232,33 @@ fun <R> fetchFile(
 				return state
 			}
 
-	DisposableEffect(uri, user, priority, downloadStrategy, fileType, queueType, cache) {
+	LaunchedEffect(
+		currentLocalRetry,
+		currentGlobalRetry,
+		uri, user, priority, downloadStrategy, fileType, queueType, cache, filter
+	) {
+
+		if (state.value is NetRequestStatus.Failed && currentLocalRetry != currentGlobalRetry) {
+			state.value = NetRequestStatus.Connecting
+
+			// Visual feedback
+			AndroidCommon.UI_THREAD_HANDLER.postDelayed({
+				currentLocalRetry = currentGlobalRetry
+			}, 2000)
+		}
+	}
+
+	DisposableEffect(
+		currentLocalRetry,
+		uri,
+		user,
+		priority,
+		downloadStrategy,
+		fileType,
+		queueType,
+		cache,
+		filter
+	) {
 
 		state.value = NetRequestStatus.Connecting
 
@@ -251,7 +284,10 @@ fun <R> fetchFile(
 				override fun onFailure(error: RRError) {
 					AndroidCommon.runOnUiThread {
 						if (active) {
-							state.value = NetRequestStatus.Failed(error)
+							state.value =
+								NetRequestStatus.Failed(error.invokeIf(error.resolution == null) {
+									error.copy(resolution = RRError.Resolution.RETRY)
+								})
 							done = true
 						}
 					}

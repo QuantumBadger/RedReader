@@ -5,12 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
 import org.quantumbadger.redreader.account.RedditAccountId
 import org.quantumbadger.redreader.account.RedditAccountManager
+import org.quantumbadger.redreader.activities.RedditTermsActivity
 import org.quantumbadger.redreader.common.AndroidCommon
 import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.LinkHandler
@@ -21,6 +23,7 @@ import org.quantumbadger.redreader.compose.prefs.ComposePrefsSingleton
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.prefs.Preference
 import org.quantumbadger.redreader.compose.theme.RRComposeContextTheme
+import org.quantumbadger.redreader.fragments.AccountListDialog
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.settings.SettingsActivity
@@ -106,6 +109,14 @@ fun RRComposeContext(
 					ErrorPropertiesDialog.newInstance(it.error)
 						.show(activity.supportFragmentManager, null)
 				}
+
+				Dest.AccountsList -> {
+					AccountListDialog.show(activity)
+				}
+
+				Dest.RedditTerms -> {
+					RedditTermsActivity.launch(activity, false)
+				}
 			}
 		},
 	) {
@@ -120,6 +131,9 @@ val LocalRedditUser = staticCompositionLocalOf { RedditAccountId.ANON }
 val LocalLauncher = staticCompositionLocalOf<(Dest) -> Unit> {
 	throw Exception("LocalLauncher not set")
 }
+
+// Increment this to retry all failed in-scope network requests
+val GlobalNetworkRetry = mutableIntStateOf(0)
 
 sealed interface Dest {
 
@@ -154,6 +168,10 @@ sealed interface Dest {
 	data class ShareLink(
 		val url: UriString
 	) : Dest
+
+	data object RedditTerms : Dest
+
+	data object AccountsList : Dest
 }
 
 private fun <T> testPref(value: T) = object : Preference<T> {

@@ -1856,4 +1856,7 @@
 
 	<!-- 2024-06-16 -->
 	<string name="mainmenu_submitted_comments">Submitted Comments</string>
+
+	<!-- 2024-07-01 -->
+	<string name="error_resolution_button_retry">Retry</string>
 </resources>

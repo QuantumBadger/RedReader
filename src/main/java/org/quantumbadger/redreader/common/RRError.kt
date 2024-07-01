@@ -17,28 +17,53 @@
 
 package org.quantumbadger.redreader.common
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Immutable
+import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.http.FailedRequestBody
 
 @Immutable
-class RRError @JvmOverloads constructor(
+data class RRError @JvmOverloads constructor(
 	@JvmField val title: String? = null,
 	@JvmField val message: String? = null,
-	@JvmField val reportable: Boolean? = true,
+	@JvmField val reportable: Boolean = true,
 	@JvmField val t: Throwable? = null,
 	@JvmField val httpStatus: Int? = null,
 	@JvmField val url: UriString? = null,
 	@JvmField val debuggingContext: String? = null,
-	response: Optional<FailedRequestBody> = Optional.empty(),
+	@JvmField val responseString: String? = null,
 	@JvmField val resolution: Resolution? = null
 ) {
-	enum class Resolution {
-		ACCEPT_REDDIT_TERMS,
-		ACCOUNTS_LIST
+	enum class Resolution(@StringRes val buttonText: Int) {
+		ACCEPT_REDDIT_TERMS(buttonText = R.string.reddit_terms_error_resolution_button),
+		ACCOUNTS_LIST(buttonText = R.string.options_accounts),
+		RETRY(buttonText = R.string.error_resolution_button_retry)
 	}
 
-    @JvmField
-	val response = response.map(FailedRequestBody::toString).orElseNull()
-
 	override fun toString() = "$title: $message (http: $httpStatus, thrown: $t)"
+
+	companion object {
+		@JvmStatic
+		fun createLegacy(
+			title: String? = null,
+			message: String? = null,
+			reportable: Boolean = true,
+			t: Throwable? = null,
+			httpStatus: Int? = null,
+			url: UriString? = null,
+			debuggingContext: String? = null,
+			response: Optional<FailedRequestBody> = Optional.empty(),
+			resolution: Resolution? = null
+		) = RRError(
+			title = title,
+			message = message,
+			reportable = reportable,
+			t = t,
+			httpStatus = httpStatus,
+			url = url,
+			debuggingContext = debuggingContext,
+			responseString = response.map(FailedRequestBody::toString).orElseNull(),
+			resolution = resolution
+		)
+	}
 }

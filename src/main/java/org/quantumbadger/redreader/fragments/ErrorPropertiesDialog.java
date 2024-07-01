@@ -66,8 +66,8 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 			args.putString("url", error.url.value);
 		}
 
-		if(error.response != null) {
-			args.putString("response", error.response.toString());
+		if(error.responseString != null) {
+			args.putString("response", error.responseString);
 		}
 
 		dialog.setArguments(args);

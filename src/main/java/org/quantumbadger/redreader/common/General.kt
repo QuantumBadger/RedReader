@@ -377,7 +377,7 @@ object General {
                 }
             }
         }
-        return RRError(
+        return RRError.createLegacy(
             context.getString(title),
             context.getString(message),
             reportable,
@@ -453,7 +453,7 @@ object General {
                 message = R.string.error_unknown_api_message
             }
         }
-        return RRError(
+        return RRError.createLegacy(
             context.getString(title),
             context.getString(message),
             true,

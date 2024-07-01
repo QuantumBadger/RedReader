@@ -24,6 +24,7 @@ import com.google.android.material.textview.MaterialTextView
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.activities.RedditTermsActivity
 import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.compose.ctx.GlobalNetworkRetry
 import org.quantumbadger.redreader.fragments.AccountListDialog
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog
 
@@ -45,17 +46,22 @@ class ErrorView(activity: AppCompatActivity, error: RRError) : StatusListItemVie
 		message.text = error.message
 
 		error.resolution?.apply {
+			resolveButton.setText(buttonText)
+
 			when (this) {
 				RRError.Resolution.ACCEPT_REDDIT_TERMS -> {
-					resolveButton.setText(R.string.reddit_terms_error_resolution_button)
 					resolveButton.setOnClickListener {
 						RedditTermsActivity.launch(activity, false)
 					}
 				}
 				RRError.Resolution.ACCOUNTS_LIST -> {
-					resolveButton.setText(R.string.options_accounts)
 					resolveButton.setOnClickListener {
 						AccountListDialog.show(activity)
+					}
+				}
+				RRError.Resolution.RETRY -> {
+					resolveButton.setOnClickListener {
+						GlobalNetworkRetry.intValue++
 					}
 				}
 			}

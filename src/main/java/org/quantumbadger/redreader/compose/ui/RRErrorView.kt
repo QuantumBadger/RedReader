@@ -34,21 +34,21 @@ import androidx.constraintlayout.compose.Dimension
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.invokeIf
+import org.quantumbadger.redreader.compose.ctx.Dest
 import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
-import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog
 
 @Composable
 fun RRErrorView(error: RRError) {
 
 	val theme = LocalComposeTheme.current.error
-	val launcher = LocalLauncher.current
+	val launch = LocalLauncher.current
 
 	var size by remember { mutableStateOf(IntSize.Zero) }
 
 	val onClick = {
-		launcher.launch(ErrorPropertiesDialog.newInstance(error))
+		launch(Dest.ErrorPropertiesDialog(error))
 	}
 
 	Box(

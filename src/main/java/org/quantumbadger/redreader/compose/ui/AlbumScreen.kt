@@ -1,6 +1,5 @@
 package org.quantumbadger.redreader.compose.ui
 
-import android.content.Intent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -44,14 +43,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.R
-import org.quantumbadger.redreader.common.General
-import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.RRError
-import org.quantumbadger.redreader.compose.ctx.LocalActivity
+import org.quantumbadger.redreader.compose.ctx.Dest
+import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.AlbumInfo
-import org.quantumbadger.redreader.settings.SettingsActivity
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
@@ -59,7 +56,7 @@ import kotlin.math.min
 // TODO handle videos in all three views
 // TODO theme small progress spinner
 // TODO go through all todos on this branch
-// TODO tidy up AlbumListingActivity2
+// TODO tidy up AlbumListingActivity2 and delete old adapter/activity
 // TODO check for unstable composables
 // TODO strings
 // TODO screen reader testing
@@ -70,8 +67,8 @@ fun AlbumScreen(
 ) {
 	val prefs = LocalComposePrefs.current
 	val theme = LocalComposeTheme.current
-	val activity = LocalActivity.current
 	val context = LocalContext.current
+	val launch = LocalLauncher.current
 
 	val topBarHeight = 48.dp
 
@@ -80,36 +77,31 @@ fun AlbumScreen(
 		.asPaddingValues()
 
 	val itemNotPresentHandler = {
-		General.showResultDialog(
-			activity,
-			RRError(
-				title = context.getString(R.string.image_gallery_no_image_present_title),
-				message = context.getString(R.string.image_gallery_no_image_present_message),
-				reportable = true,
-				url = album.url,
+		launch(
+			Dest.ResultDialog(
+				RRError(
+					title = context.getString(R.string.image_gallery_no_image_present_title),
+					message = context.getString(R.string.image_gallery_no_image_present_message),
+					reportable = true,
+					url = album.url,
+				)
 			)
 		)
 	}
 
 	val itemClickHandler: (Int) -> Unit = { index ->
 		album.images[index].original?.apply {
-			LinkHandler.onLinkClicked(
-				activity = activity,
+			launch(Dest.Link(
 				url = url,
-				forceNoImage = false,
 				albumInfo = album,
 				albumImageIndex = index
-			)
+			))
 		} ?: itemNotPresentHandler()
 	}
 
 	val itemLongClickListener: (Int) -> Unit = { index ->
 		album.images[index].original?.apply {
-			LinkHandler.onLinkLongClicked(
-				activity = activity,
-				uri = url,
-				forceNoImage = false
-			)
+			launch(Dest.LinkLongClick(url))
 		}
 	}
 
@@ -125,12 +117,12 @@ fun AlbumScreen(
 
 			Text(
 				modifier = Modifier
-                    .fillMaxWidth()
-                    .semantics {
-                        contentDescription = album.title?.let { title ->
-                            "Image gallery: $title"
-                        } ?: "Image gallery" // TODO strings
-                    },
+					.fillMaxWidth()
+					.semantics {
+						contentDescription = album.title?.let { title ->
+							"Image gallery: $title"
+						} ?: "Image gallery" // TODO strings
+					},
 				text = album.title ?: "Gallery",  // TODO string
 				style = theme.album.title,
 				overflow = TextOverflow.Ellipsis,
@@ -163,9 +155,9 @@ fun AlbumScreen(
 				val state = rememberLazyListState()
 
 				LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .background(theme.postCard.listBackgroundColor),
+					Modifier
+						.fillMaxSize()
+						.background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
 					state = state
 				) {
@@ -195,9 +187,9 @@ fun AlbumScreen(
 				val state = rememberLazyListState()
 
 				LazyColumn(
-                    Modifier
-                        .fillMaxSize()
-                        .background(theme.postCard.listBackgroundColor),
+					Modifier
+						.fillMaxSize()
+						.background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
 					state = state
 				) {
@@ -233,8 +225,8 @@ fun AlbumScreen(
 					state = state,
 					columns = GridCells.Fixed(colCount),
 					modifier = Modifier
-                        .fillMaxSize()
-                        .background(theme.postCard.listBackgroundColor),
+						.fillMaxSize()
+						.background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
 					verticalArrangement = Arrangement.spacedBy(2.dp),
 					horizontalArrangement = Arrangement.spacedBy(2.dp),
@@ -283,11 +275,11 @@ fun AlbumScreen(
 		// Top bar
 		Row(
 			modifier = Modifier
-                .shadow(topBarShadow)
-                .background(theme.postCard.listBackgroundColor)
-                .padding(insets)
-                .height(topBarHeight)
-                .fillMaxWidth(),
+				.shadow(topBarShadow)
+				.background(theme.postCard.listBackgroundColor)
+				.padding(insets)
+				.height(topBarHeight)
+				.fillMaxWidth(),
 			verticalAlignment = Alignment.CenterVertically,
 			horizontalArrangement = Arrangement.End
 		) {
@@ -302,7 +294,7 @@ fun AlbumSettingsButton(
 	modifier: Modifier = Modifier
 ) {
 	val prefs = LocalComposePrefs.current
-	val activity = LocalActivity.current
+	val launch = LocalLauncher.current
 
 	RRDropdownMenuIconButton(
 		modifier = modifier,
@@ -385,9 +377,7 @@ fun AlbumSettingsButton(
 		Item(
 			text = "All settings...",
 			icon = R.drawable.ic_settings_dark,
-			onClick = {
-				activity.startActivity(Intent(activity, SettingsActivity::class.java))
-			},
+			onClick = { launch(Dest.Settings) },
 		)
 	}
 }

@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.R
-import org.quantumbadger.redreader.common.LinkHandler
-import org.quantumbadger.redreader.compose.ctx.LocalActivity
+import org.quantumbadger.redreader.compose.ctx.Dest
+import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.image.ImageUrlInfo
 
 @Composable
@@ -17,7 +17,7 @@ fun AlbumEntryButtons(
 	modifier: Modifier = Modifier,
 	image: ImageUrlInfo,
 ) {
-	val activity = LocalActivity.current
+	val launch = LocalLauncher.current
 
 	Row(
 		modifier = modifier,
@@ -27,11 +27,7 @@ fun AlbumEntryButtons(
 
 		RRIconButton(
 			onClick = {
-				LinkHandler.onActionMenuItemSelected(
-					uri = image.url,
-					activity = activity,
-					action = LinkHandler.LinkAction.SAVE_IMAGE
-				)
+				launch(Dest.SaveMedia(image.url))
 			},
 			icon = R.drawable.download,
 			contentDescription = R.string.action_save_image
@@ -45,33 +41,21 @@ fun AlbumEntryButtons(
 				icon = R.drawable.ic_action_image_dark,
 				text = "Share media",
 				onClick = {
-					LinkHandler.onActionMenuItemSelected(
-						uri = image.url,
-						activity = activity,
-						action = LinkHandler.LinkAction.SHARE_IMAGE
-					)
+					launch(Dest.ShareMedia(image.url))
 				}
 			)
 			Item(
 				icon = R.drawable.ic_action_link_dark,
 				text = "Share link",
 				onClick = {
-					LinkHandler.onActionMenuItemSelected(
-						uri = image.url,
-						activity = activity,
-						action = LinkHandler.LinkAction.SHARE
-					)
+					launch(Dest.ShareLink(image.url))
 				}
 			)
 		}
 
 		RRIconButton(
 			onClick = {
-				LinkHandler.onLinkLongClicked(
-					activity = activity,
-					uri = image.url,
-					forceNoImage = false
-				)
+				launch(Dest.LinkLongClick(image.url))
 			},
 			icon = R.drawable.dots_vertical_dark,
 			contentDescription = R.string.three_dots_menu

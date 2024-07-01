@@ -1,9 +1,7 @@
 package org.quantumbadger.redreader.compose.ctx
 
-import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.prefs.ComposePrefs
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.prefs.Preference
@@ -31,11 +29,7 @@ fun RRComposeContextTest(content: @Composable () -> Unit) {
 
 	CompositionLocalProvider(
 		LocalComposePrefs provides prefValues,
-		LocalLauncher provides object : Launcher {
-			override fun launch(dialog: AppCompatDialogFragment) {}
-			override fun launch(url: UriString) {}
-			override fun linkLongClicked(url: UriString) {}
-		},
+		LocalLauncher provides {},
 	) {
 		RRComposeContextTheme {
 			content()

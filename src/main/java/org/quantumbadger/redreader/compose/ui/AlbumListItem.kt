@@ -41,6 +41,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.atLeastWrapContent
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.UriString
+import org.quantumbadger.redreader.compose.ctx.Dest
 import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
@@ -65,26 +66,26 @@ fun AlbumListItem(
 
 	ConstraintLayout(
 		modifier = Modifier
-            .fillMaxWidth()
-            .background(theme.postCard.backgroundColor)
-            .combinedClickable(
-                onClick = { onClick(index) },
-                onLongClick = { onLongClick(index) }
-            ),
+			.fillMaxWidth()
+			.background(theme.postCard.backgroundColor)
+			.combinedClickable(
+				onClick = { onClick(index) },
+				onLongClick = { onLongClick(index) }
+			),
 	) {
 		val (thumbnail, text, buttons) = createRefs()
 
 		val thumbnailSize = prefs.albumListThumbnailSize.value.dp
 
 		Box(
-            Modifier
-                .background(theme.postCard.previewImageBackgroundColor)
-                .constrainAs(thumbnail) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
+			Modifier
+				.background(theme.postCard.previewImageBackgroundColor)
+				.constrainAs(thumbnail) {
+					top.linkTo(parent.top)
+					bottom.linkTo(parent.bottom)
+					start.linkTo(parent.start)
 					height = Dimension.fillToConstraints.atLeastWrapContent
-                },
+				},
 			contentAlignment = Alignment.Center
 		) {
 			AnimatedVisibility(
@@ -133,14 +134,14 @@ fun AlbumListItem(
 
 		Column(
 			modifier = Modifier
-                .padding(vertical = 8.dp, horizontal = 12.dp)
-                .constrainAs(text) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(thumbnail.end)
-                    end.linkTo(buttons.start)
-                    width = Dimension.fillToConstraints
-                }
+				.padding(vertical = 8.dp, horizontal = 12.dp)
+				.constrainAs(text) {
+					top.linkTo(parent.top)
+					bottom.linkTo(parent.bottom)
+					start.linkTo(thumbnail.end)
+					end.linkTo(buttons.start)
+					width = Dimension.fillToConstraints
+				}
 		) {
 			Text(
 				text = title ?: "Image ${index + 1}",
@@ -177,10 +178,10 @@ fun AlbumListItem(
 				enter = slideInHorizontally { it },
 				exit = slideOutHorizontally { it }
 			) {
-				val launcher = LocalLauncher.current
+				val launch = LocalLauncher.current
 
 				RRIconButton(
-					onClick = { launcher.linkLongClicked(image.original.url) },
+					onClick = { launch(Dest.LinkLongClick(image.original.url)) },
 					icon = R.drawable.dots_vertical_dark,
 					contentDescription = R.string.three_dots_menu
 				)

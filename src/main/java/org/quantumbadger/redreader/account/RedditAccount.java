@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.account;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
@@ -27,6 +28,7 @@ import java.util.Objects;
 public class RedditAccount {
 
 	@NonNull public final String username;
+	@NonNull public final String canonicalUsername;
 	public final RedditOAuth.RefreshToken refreshToken;
 
 	private RedditOAuth.AccessToken accessToken;
@@ -46,6 +48,7 @@ public class RedditAccount {
 		}
 
 		this.username = username.trim();
+		this.canonicalUsername = StringUtils.asciiLowercase(this.username);
 		this.refreshToken = refreshToken;
 		this.priority = priority;
 		this.clientId = clientId;
@@ -60,7 +63,7 @@ public class RedditAccount {
 	}
 
 	public String getCanonicalUsername() {
-		return StringUtils.asciiLowercase(username.trim());
+		return canonicalUsername;
 	}
 
 	public synchronized RedditOAuth.AccessToken getMostRecentAccessToken() {
@@ -80,7 +83,7 @@ public class RedditAccount {
 
 		final RedditAccount other = (RedditAccount)o;
 
-		return username.equalsIgnoreCase(other.username)
+		return canonicalUsername.equalsIgnoreCase(other.canonicalUsername)
 				&& Objects.equals(clientId, other.clientId)
 				&& Objects.equals(refreshToken, other.refreshToken);
 	}

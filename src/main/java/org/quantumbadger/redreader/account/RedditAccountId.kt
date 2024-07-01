@@ -22,4 +22,8 @@ import org.quantumbadger.redreader.common.asciiLowercase
 @Immutable
 data class RedditAccountId(val username: String) {
 	val canonicalUsername = username.trim().asciiLowercase()
+
+	companion object {
+		val ANON = RedditAccountId("")
+	}
 }

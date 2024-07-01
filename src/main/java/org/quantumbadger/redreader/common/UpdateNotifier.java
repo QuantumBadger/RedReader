@@ -29,6 +29,18 @@ public abstract class UpdateNotifier<E> {
 		listeners.add(new WeakReference<>(updateListener));
 	}
 
+	public synchronized void removeListener(final E updateListener) {
+		final Iterator<WeakReference<E>> iter = listeners.iterator();
+
+		while(iter.hasNext()) {
+			final E listener = iter.next().get();
+
+			if(listener == null || listener == updateListener) {
+				iter.remove();
+			}
+		}
+	}
+
 	public synchronized void updateAllListeners() {
 
 		final Iterator<WeakReference<E>> iter = listeners.iterator();

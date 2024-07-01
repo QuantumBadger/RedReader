@@ -56,7 +56,6 @@ import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
 // TODO move the initial loading screen inside Compose
-// TODO set RedditAccountId when fetching
 // TODO handle videos in all three views
 // TODO handle extra URL on images
 // TODO add resolution and image size to list view

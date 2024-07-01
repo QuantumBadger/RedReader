@@ -23,9 +23,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.UpdateNotifier;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
@@ -197,7 +200,9 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 	@Nullable
 	public RedditAccount getAccount(@NonNull final String username) {
 
-		if("".equals(username)) {
+		final String usernameCanonical = StringUtils.asciiLowercase(username.trim());
+
+		if(usernameCanonical.isEmpty()) {
 			return getAnon();
 		}
 
@@ -205,7 +210,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		RedditAccount selectedAccount = null;
 
 		for(final RedditAccount account : accounts) {
-			if(!account.isAnonymous() && account.username.equalsIgnoreCase(username)) {
+			if(!account.isAnonymous() && account.canonicalUsername.equals(usernameCanonical)) {
 				selectedAccount = account;
 				break;
 			}
@@ -305,6 +310,10 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 
 	public void addUpdateListener(final RedditAccountChangeListener listener) {
 		updateNotifier.addListener(listener);
+	}
+
+	public void removeUpdateListener(final RedditAccountChangeListener listener) {
+		updateNotifier.removeListener(listener);
 	}
 
 	public void deleteAccount(final RedditAccount account) {

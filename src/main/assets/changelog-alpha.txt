@@ -1,4 +1,6 @@
-/Alpha 353 (2024-06-16)
+/Alpha 353 (2024-07-05)
+Improved gallery viewer with card, list, and grid modes
+Improved network performance
 Add Submitted Comments as an optional main menu user item (thanks to folkemat)
 
 /Alpha 352 (2024-06-16)

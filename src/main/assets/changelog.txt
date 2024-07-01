@@ -1,10 +1,12 @@
 112/1.24
+Improved gallery viewer with card, list, and grid modes
 Ability to block users in user profile (thanks to folkemat)
 Ability to upload an image when submitting a comment (thanks to folkemat)
 Dependency updates and reorganisation (thanks to Alexey Rochev)
 Migrating from ExoPlayer to Media3 (thanks to Alexey Rochev)
 Comments submitted by current user now have username highlighted (thanks to folkemat)
 Add Submitted Comments as an optional main menu user item (thanks to folkemat)
+Improved network performance
 Minimum supported Android version is now 5.0
 
 111/1.23.1

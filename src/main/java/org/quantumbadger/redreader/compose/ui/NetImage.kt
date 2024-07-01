@@ -14,9 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import org.quantumbadger.redreader.account.RedditAccountId
 import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.invokeIf
+import org.quantumbadger.redreader.compose.ctx.LocalRedditUser
 import org.quantumbadger.redreader.compose.net.NetRequestStatus
 import org.quantumbadger.redreader.compose.net.fetchImage
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -41,7 +41,7 @@ fun NetImage(
 
 	val data by fetchImage(
 		uri = url,
-		user = RedditAccountId(""), // TODO
+		user = LocalRedditUser.current,
 	)
 
 	Box(

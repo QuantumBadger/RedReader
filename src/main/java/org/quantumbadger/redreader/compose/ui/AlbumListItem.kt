@@ -17,6 +17,8 @@
 package org.quantumbadger.redreader.compose.ui
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -37,6 +39,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.atLeastWrapContent
+import org.quantumbadger.redreader.R
+import org.quantumbadger.redreader.common.LinkHandler
+import org.quantumbadger.redreader.compose.ctx.LocalActivity
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -82,7 +87,11 @@ fun AlbumListItem(
                 },
 			contentAlignment = Alignment.Center
 		) {
-			if (prefs.albumListShowThumbnails.value) {
+			AnimatedVisibility(
+				visible = prefs.albumListShowThumbnails.value,
+				enter = slideInHorizontally { -it },
+				exit = slideOutHorizontally { -it }
+			) {
 				NetImage(
 					modifier = Modifier.width(thumbnailSize),
 					image = preview,
@@ -154,9 +163,23 @@ fun AlbumListItem(
 					bottom.linkTo(parent.bottom)
 					end.linkTo(parent.end)
 				},
-				visible = prefs.albumListShowButtons.value
+				visible = prefs.albumListShowButtons.value,
+				enter = slideInHorizontally { it },
+				exit = slideOutHorizontally { it }
 			) {
-				AlbumEntryButtons(image = image.original)
+				val activity = LocalActivity.current
+
+				RRIconButton(
+					onClick = {
+						LinkHandler.onLinkLongClicked(
+							activity = activity,
+							uri = image.original.url,
+							forceNoImage = false
+						)
+					},
+					icon = R.drawable.dots_vertical_dark,
+					contentDescription = R.string.three_dots_menu
+				)
 			}
 		}
 	}

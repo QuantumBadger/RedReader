@@ -40,9 +40,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.atLeastWrapContent
 import org.quantumbadger.redreader.R
-import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.UriString
-import org.quantumbadger.redreader.compose.ctx.LocalActivity
+import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -155,6 +154,16 @@ fun AlbumListItem(
 					style = theme.postCard.subtitle,
 				)
 			}
+
+			if (image.outboundUrl != null) {
+				Spacer(Modifier.height(12.dp))
+
+				RRLinkButton(
+					title = "Link",
+					link = image.outboundUrl,
+					theme = theme.linkButton
+				)
+			}
 		}
 
 		if (image.original != null) {
@@ -168,16 +177,10 @@ fun AlbumListItem(
 				enter = slideInHorizontally { it },
 				exit = slideOutHorizontally { it }
 			) {
-				val activity = LocalActivity.current
+				val launcher = LocalLauncher.current
 
 				RRIconButton(
-					onClick = {
-						LinkHandler.onLinkLongClicked(
-							activity = activity,
-							uri = image.original.url,
-							forceNoImage = false
-						)
-					},
+					onClick = { launcher.linkLongClicked(image.original.url) },
 					icon = R.drawable.dots_vertical_dark,
 					contentDescription = R.string.three_dots_menu
 				)
@@ -198,6 +201,7 @@ fun PreviewAlbumListItem() {
 				title = "Test title which is very long",
 				caption = null,
 				hasAudio = ImageInfo.HasAudio.NO_AUDIO,
+				outboundUrl = UriString("https://redreader.org")
 			),
 			{},
 			{}

@@ -57,7 +57,6 @@ import kotlin.math.min
 
 // TODO move the initial loading screen inside Compose
 // TODO handle videos in all three views
-// TODO handle extra URL on images
 // TODO theme small progress spinner
 // TODO go through all todos on this branch
 // TODO tidy up AlbumListingActivity2

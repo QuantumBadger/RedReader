@@ -77,7 +77,7 @@ data class ImageInfo(
 	@JvmField val title: String? = null,
 	@JvmField val caption: String? = null,
 
-	@JvmField val outboundUrl: String? = null,
+	@JvmField val outboundUrl: UriString? = null,
 
 	@JvmField val type: String? = null,
 	val isAnimated: Boolean? = null,

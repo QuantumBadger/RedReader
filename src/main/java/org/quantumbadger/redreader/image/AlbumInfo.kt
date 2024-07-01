@@ -179,7 +179,8 @@ class AlbumInfo(
 						preview = preview,
 						bigSquare = bigSquare,
 						title = item.caption?.decoded,
-						outboundUrl = item.outbound_url?.decoded,
+						outboundUrl = UriString.fromNullable(
+							item.outbound_url?.decoded?.trim()?.takeUnless { it.isEmpty() }),
 						type = mediaMetadataEntry.m,
 						isAnimated = mediaType != ImageInfo.MediaType.IMAGE,
 						mediaType = mediaType,

@@ -120,7 +120,7 @@ class AlbumAdapter(
 
 		vh.removeExtras()
 
-		if (!imageInfo.outboundUrl.isNullOrEmpty()) {
+		imageInfo.outboundUrl.takeUnless { it?.value.isNullOrEmpty() }?.let {
 			vh.addLinkButton(activity, imageInfo.outboundUrl)
 		}
 

@@ -73,6 +73,9 @@ target/
 build/
 .gradle/
 
+# Kotlin
+.kotlin
+
 reddit_auth.txt
 /release/**
 /releases/**/**

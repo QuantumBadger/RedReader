@@ -25,10 +25,7 @@ import org.quantumbadger.redreader.common.AndroidCommon
 import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.General.isSensitiveDebugLoggingEnabled
-import org.quantumbadger.redreader.common.General.isThisUIThread
-import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.LinkHandler.getAlbumInfo
-import org.quantumbadger.redreader.common.LinkHandler.getImgurImageInfo
 import org.quantumbadger.redreader.common.LinkHandler.onLinkClicked
 import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.Priority
@@ -38,8 +35,6 @@ import org.quantumbadger.redreader.compose.activity.ComposeBaseActivity
 import org.quantumbadger.redreader.compose.ui.AlbumScreen
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.image.GetAlbumInfoListener
-import org.quantumbadger.redreader.image.GetImageInfoListener
-import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.views.liststatus.ErrorView
 
 class AlbumListingActivity2 : ComposeBaseActivity() {
@@ -132,63 +127,7 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 						"getAlbumInfo call failed: $error"
 					)
 
-					if (error.httpStatus == null) {
-						revertToWeb()
-						return
-					}
-
-					// It might be a single image, not an album
-					val matchImgur = LinkHandler.imgurAlbumPattern.matcher(mUrl!!.value)
-
-					if (matchImgur.find()) {
-						val albumId = matchImgur.group(2)
-
-						getImgurImageInfo(
-							this@AlbumListingActivity2,
-							albumId,
-							Priority(Constants.Priority.IMAGE_VIEW),
-							false,
-							object : GetImageInfoListener {
-								override fun onFailure(error: RRError) {
-									Log.e(
-										"AlbumListingActivity",
-										"Image info request also failed: "
-												+ error
-									)
-									revertToWeb()
-								}
-
-								override fun onSuccess(info: ImageInfo) {
-									if (info.original != null) {
-										Log.i(
-											"AlbumListingActivity",
-											"Link was actually an image."
-										)
-										onLinkClicked(
-											this@AlbumListingActivity2,
-											info.original.url
-										)
-										finish()
-									} else {
-										revertToWeb()
-									}
-								}
-
-								override fun onNotAnImage() {
-									Log.i(
-										"AlbumListingActivity",
-										"Not an image either"
-									)
-									revertToWeb()
-								}
-							})
-					} else {
-						Log.e(
-							"AlbumListingActivity",
-							"Not an imgur album, not checking for single image"
-						)
-						revertToWeb()
-					}
+					revertToWeb()
 				}
 
 				override fun onSuccess(info: AlbumInfo) {
@@ -200,12 +139,6 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 					}
 
 					AndroidCommon.UI_THREAD_HANDLER.post {
-						if (info.title != null && !info.title.trim { it <= ' ' }.isEmpty()) {
-							title = (getString(R.string.image_gallery)
-									+ ": "
-									+ info.title)
-						}
-
 						if (info.images.size == 1) {
 							onLinkClicked(
 								this@AlbumListingActivity2,
@@ -213,7 +146,6 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 							)
 							finish()
 						} else {
-
 							setContentCompose {
 								AlbumScreen(album = info)
 							}
@@ -232,18 +164,12 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 	}
 
 	private fun revertToWeb() {
-		val r = Runnable {
+		AndroidCommon.runOnUiThread {
 			if (!mHaveReverted) {
 				mHaveReverted = true
 				onLinkClicked(this, mUrl, true)
 				finish()
 			}
-		}
-
-		if (isThisUIThread) {
-			r.run()
-		} else {
-			AndroidCommon.UI_THREAD_HANDLER.post(r)
 		}
 	}
 }

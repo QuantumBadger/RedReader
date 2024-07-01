@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.common.invokeIf
-import org.quantumbadger.redreader.compose.ctx.LocalRedditUser
 import org.quantumbadger.redreader.compose.net.NetRequestStatus
 import org.quantumbadger.redreader.compose.net.fetchImage
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -38,10 +37,7 @@ fun NetImage(
 		return
 	}
 
-	val data by fetchImage(
-		uri = url,
-		user = LocalRedditUser.current,
-	)
+	val data by fetchImage(url)
 
 	Box(
 		modifier = modifier

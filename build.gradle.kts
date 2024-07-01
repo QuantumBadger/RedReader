@@ -95,7 +95,10 @@ android {
 		getByName("release") {
 			isMinifyEnabled = true
 			isShrinkResources = false
-			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+			proguardFiles(
+				getDefaultProguardFile("proguard-android-optimize.txt"),
+				"proguard-rules.pro"
+			)
 		}
 	}
 
@@ -130,6 +133,22 @@ android {
 
 	kotlinOptions {
 		jvmTarget = libs.versions.java.get()
+
+		val buildDir = project.layout.buildDirectory.get().asFile.absolutePath
+
+		if (project.findProperty("composeCompilerReports") == "true") {
+			freeCompilerArgs += listOf(
+				"-P",
+				"plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$buildDir/compose_compiler"
+			)
+		}
+
+		if (project.findProperty("composeCompilerMetrics") == "true") {
+			freeCompilerArgs += listOf(
+				"-P",
+				"plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$buildDir/compose_compiler"
+			)
+		}
 	}
 
 	buildFeatures {

@@ -30,7 +30,7 @@ import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.quantumbadger.redreader.R
-import org.quantumbadger.redreader.activities.AlbumListingActivity2
+import org.quantumbadger.redreader.activities.AlbumListingActivity
 import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.activities.CommentListingActivity
 import org.quantumbadger.redreader.activities.ImageViewActivity
@@ -135,7 +135,7 @@ object LinkHandler {
 				AlbumViewMode.INTERNAL_LIST -> {
 					val intent = Intent(
 						activity,
-						AlbumListingActivity2::class.java
+						AlbumListingActivity::class.java
 					)
 					intent.setData(normalUrl)
 					intent.putExtra("post", post)

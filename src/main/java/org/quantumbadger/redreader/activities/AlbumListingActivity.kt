@@ -37,7 +37,7 @@ import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.image.GetAlbumInfoListener
 import org.quantumbadger.redreader.views.liststatus.ErrorView
 
-class AlbumListingActivity2 : ComposeBaseActivity() {
+class AlbumListingActivity : ComposeBaseActivity() {
 	private var mUrl: UriString? = null
 	private var mHaveReverted = false
 
@@ -78,7 +78,7 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 						layout.removeAllViews()
 						layout.addView(
 							ErrorView(
-								this@AlbumListingActivity2,
+								this@AlbumListingActivity,
 								RRError(
 									applicationContext.getString(
 										R.string.image_gallery_removed_title
@@ -102,7 +102,7 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 						layout.removeAllViews()
 						layout.addView(
 							ErrorView(
-								this@AlbumListingActivity2,
+								this@AlbumListingActivity,
 								RRError(
 									applicationContext.getString(
 										R.string.image_gallery_no_data_present_title
@@ -141,7 +141,7 @@ class AlbumListingActivity2 : ComposeBaseActivity() {
 					AndroidCommon.UI_THREAD_HANDLER.post {
 						if (info.images.size == 1) {
 							onLinkClicked(
-								this@AlbumListingActivity2,
+								this@AlbumListingActivity,
 								info.images[0].original.url
 							)
 							finish()

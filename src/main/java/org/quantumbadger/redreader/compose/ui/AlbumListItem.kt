@@ -29,17 +29,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.atLeastWrapContent
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.image.ImageSize
 import org.quantumbadger.redreader.image.ImageUrlInfo
+import java.util.Locale
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -56,14 +60,16 @@ fun AlbumListItem(
 
 	ConstraintLayout(
 		modifier = Modifier
-			.fillMaxWidth()
-			.background(theme.postCard.backgroundColor)
-			.combinedClickable(
-				onClick = { onClick(index) },
-				onLongClick = { onLongClick(index) }
-			),
+            .fillMaxWidth()
+            .background(theme.postCard.backgroundColor)
+            .combinedClickable(
+                onClick = { onClick(index) },
+                onLongClick = { onLongClick(index) }
+            ),
 	) {
 		val (thumbnail, text, buttons) = createRefs()
+
+		val thumbnailSize = prefs.albumListThumbnailSize.value.dp
 
 		Box(
             Modifier
@@ -72,43 +78,71 @@ fun AlbumListItem(
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                     start.linkTo(parent.start)
-                }) {
+					height = Dimension.fillToConstraints.atLeastWrapContent
+                },
+			contentAlignment = Alignment.Center
+		) {
 			if (prefs.albumListShowThumbnails.value) {
 				NetImage(
-					modifier = Modifier.width(prefs.albumListThumbnailSize.value.dp),
+					modifier = Modifier.width(thumbnailSize),
 					image = preview,
 					cropToAspect = 1f,
 				)
 			}
 		}
 
-		val title = image.title?.trim()?.takeUnless { it.isEmpty() }
-		val caption = image.caption?.trim()?.takeUnless { it.isEmpty() }
+		val title = remember(image) {
+			image.title?.trim()?.takeUnless { it.isEmpty() }
+		}
+
+		val caption = remember(image) {
+			image.caption?.trim()?.takeUnless { it.isEmpty() } ?: listOfNotNull(
+				image.type?.run {
+					when (this) {
+						"image/png" -> "PNG"
+						"image/gif" -> "GIF"
+						"image/jpg", "image/jpeg" -> "JPEG"
+						else -> this
+					}
+				},
+				image.original?.size?.run { "${width}x$height" },
+				image.original?.sizeBytes?.let {
+					if (it < 512 * 1024) {
+						String.format(Locale.US, "%.1f kB", it.toFloat() / 1024)
+					} else {
+						String.format(
+							Locale.US,
+							"%.1f MB",
+							it.toFloat() / (1024 * 1024)
+						)
+					}
+				}
+			)
+				.joinToString(separator = ", ")
+				.takeUnless { it.isEmpty() }
+		}
 
 		Column(
-			modifier = Modifier.padding(14.dp).constrainAs(text) {
-				top.linkTo(parent.top)
-				bottom.linkTo(parent.bottom)
-				start.linkTo(thumbnail.end)
-				end.linkTo(buttons.start)
-				width = Dimension.fillToConstraints
-			}
+			modifier = Modifier
+                .padding(vertical = 8.dp, horizontal = 12.dp)
+                .constrainAs(text) {
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                    start.linkTo(thumbnail.end)
+                    end.linkTo(buttons.start)
+                    width = Dimension.fillToConstraints
+                }
 		) {
-			if (title != null && caption != null) {
-				Text(
-					text = title,
-					style = theme.postCard.title,
-				)
+			Text(
+				text = title ?: "Image ${index + 1}",
+				style = theme.postCard.title,
+			)
+
+			if (caption != null) {
 				Spacer(Modifier.height(4.dp))
 				Text(
 					text = caption,
 					style = theme.postCard.subtitle,
-				)
-
-			} else {
-				Text(
-					text = title ?: caption ?: "Image ${index + 1}",
-					style = theme.postCard.caption,
 				)
 			}
 		}

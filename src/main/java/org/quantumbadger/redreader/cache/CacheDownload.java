@@ -18,7 +18,9 @@
 package org.quantumbadger.redreader.cache;
 
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -210,7 +212,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					int bytesRead;
 					long totalBytesRead = 0;
 
-					while((bytesRead = is.read(buf)) > 0) {
+					while((bytesRead = tryReadFully(is, buf)) > 0) {
 
 						totalBytesRead += bytesRead;
 
@@ -365,5 +367,26 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 	@Override
 	public void run() {
 		doDownload();
+	}
+
+	private static int tryReadFully(
+			final InputStream src,
+			final byte[] dst
+	) throws IOException {
+		int totalBytesRead = 0;
+
+		while(true) {
+			final int bytesRead = src.read(dst, totalBytesRead, dst.length - totalBytesRead);
+
+			if (bytesRead <= 0) {
+				return totalBytesRead;
+			}
+
+			totalBytesRead += bytesRead;
+
+			if (totalBytesRead >= dst.length) {
+				return totalBytesRead;
+			}
+		}
 	}
 }

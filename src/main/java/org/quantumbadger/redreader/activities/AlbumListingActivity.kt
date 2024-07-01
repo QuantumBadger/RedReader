@@ -28,6 +28,8 @@ import org.quantumbadger.redreader.compose.ui.AlbumScreen
 class AlbumListingActivity : ComposeBaseActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
+
+		// Keep this here for dialogs
 		PrefsUtility.applyTheme(this)
 
 		super.onCreate(savedInstanceState)

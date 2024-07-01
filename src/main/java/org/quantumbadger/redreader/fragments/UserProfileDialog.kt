@@ -45,7 +45,6 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.*
 import org.quantumbadger.redreader.common.AndroidCommon.runOnUiThread
 import org.quantumbadger.redreader.common.General.getGeneralErrorForFailure
-import org.quantumbadger.redreader.common.General.uriFromString
 import org.quantumbadger.redreader.common.Optional
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream
 import org.quantumbadger.redreader.common.time.TimeFormatHelper.format
@@ -173,7 +172,7 @@ object UserProfileDialog {
 
 						if (PrefsUtility.appearance_user_show_avatars()) {
 							val iconUrl = user.iconUrl
-							if (!iconUrl.isNullOrEmpty()) {
+							if (iconUrl?.value?.isNotEmpty() == true) {
 
 								val avatarView =
 									dialog.findViewById<AppCompatImageView>(R.id.avatar_image)!!
@@ -212,18 +211,16 @@ object UserProfileDialog {
 						postsCard.setOnClickListener {
 							LinkHandler.onLinkClicked(
 								context,
-								UserPostListingURL.getSubmitted(username)
+								UriString(UserPostListingURL.getSubmitted(username)
 									.generateJsonUri()
-									.toString(),
+									.toString()),
 								false
 							)
 						}
 						commentsCard.setOnClickListener {
 							LinkHandler.onLinkClicked(
 								context,
-								Constants.Reddit.getUri(
-									"/user/$username/comments.json"
-								).toString(),
+								Constants.Reddit.getUri("/user/$username/comments.json"),
 								false
 							)
 						}
@@ -428,12 +425,12 @@ object UserProfileDialog {
 
 	@Throws(URISyntaxException::class)
 	private fun assignUserAvatar(
-		url: String,
+		url: UriString,
 		imageOutput: ImageView,
 		context: AppCompatActivity
 	) {
 		CacheManager.getInstance(context).makeRequest(CacheRequest(
-			uriFromString(url)!!,
+			url,
 			RedditAccountManager.getAnon(),
 			null,
 			Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),

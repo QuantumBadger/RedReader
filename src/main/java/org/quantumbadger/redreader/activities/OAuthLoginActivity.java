@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
@@ -26,15 +27,14 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import info.guardianproject.netcipher.webkit.WebkitProxy;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
-import java.net.URI;
+import info.guardianproject.netcipher.webkit.WebkitProxy;
 
 public class OAuthLoginActivity extends BaseActivity {
 
@@ -111,7 +111,7 @@ public class OAuthLoginActivity extends BaseActivity {
 					finish();
 
 				} else {
-					setTitle(General.mapIfNotNull(General.uriFromString(url), URI::getHost));
+					setTitle(Uri.parse(url).getHost());
 					return false;
 				}
 

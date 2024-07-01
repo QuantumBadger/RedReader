@@ -31,7 +31,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -45,6 +47,7 @@ import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.body.HTTPRequestBodyMultipart;
@@ -272,8 +275,10 @@ public class ImgurUploadActivity extends BaseActivity {
 
 		showLoadingOverlay();
 
+		final UriString apiUrl = new UriString("https://api.imgur.com/3/image");
+
 		CacheManager.getInstance(this).makeRequest(new CacheRequest(
-				General.uriFromString("https://api.imgur.com/3/image"),
+				apiUrl,
 				RedditAccountManager.getInstance(this).getDefaultAccount(),
 				null,
 				new Priority(Constants.Priority.API_ACTION),
@@ -322,7 +327,7 @@ public class ImgurUploadActivity extends BaseActivity {
 									CacheRequest.REQUEST_FAILURE_PARSE_IMGUR,
 									t,
 									null,
-									t.toString(),
+									apiUrl,
 									Optional.of(new FailedRequestBody(result))));
 							return;
 						}

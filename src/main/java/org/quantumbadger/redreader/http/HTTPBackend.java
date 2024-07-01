@@ -24,11 +24,11 @@ import androidx.annotation.Nullable;
 
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Optional;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend;
 
 import java.io.InputStream;
-import java.net.URI;
 
 public abstract class HTTPBackend {
 	/**
@@ -40,18 +40,18 @@ public abstract class HTTPBackend {
 
 	public static class RequestDetails {
 
-		@NonNull private final URI mUrl;
+		@NonNull private final UriString mUrl;
 		@NonNull private final Optional<HTTPRequestBody> mRequestBody;
 
 		public RequestDetails(
-				@NonNull final URI url,
+				@NonNull final UriString url,
 				@NonNull final Optional<HTTPRequestBody> requestBody) {
 			mUrl = url;
 			mRequestBody = requestBody;
 		}
 
 		@NonNull
-		public URI getUrl() {
+		public UriString getUrl() {
 			return mUrl;
 		}
 
@@ -89,7 +89,7 @@ public abstract class HTTPBackend {
 		void onSuccess(String mimetype, Long bodyBytes, InputStream body);
 	}
 
-	public abstract @Nullable String resolveRedirectUri(String url);
+	public abstract @Nullable UriString resolveRedirectUri(String url);
 
 	public abstract Request prepareRequest(Context context, RequestDetails details);
 

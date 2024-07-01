@@ -26,11 +26,11 @@ import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotC
 import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.General.getGeneralErrorForFailure
 import org.quantumbadger.redreader.common.General.readWholeStreamAsUTF8
-import org.quantumbadger.redreader.common.General.uriFromString
 import org.quantumbadger.redreader.common.GenericFactory
 import org.quantumbadger.redreader.common.Optional
 import org.quantumbadger.redreader.common.Priority
 import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.http.FailedRequestBody
@@ -62,11 +62,11 @@ object RedditVideosAPI {
         priority: Priority,
         listener: GetImageInfoListener
     ) {
-        val apiUrl = "https://v.redd.it/$imageId/DASHPlaylist.mpd"
+        val apiUrl = UriString("https://v.redd.it/$imageId/DASHPlaylist.mpd")
 
         CacheManager.getInstance(context).makeRequest(
             CacheRequest(
-                uriFromString(apiUrl)!!,
+                apiUrl,
                 RedditAccountManager.getAnon(),
                 null,
                 priority,
@@ -106,8 +106,8 @@ object RedditVideosAPI {
                         }
 
                         try {
-                            var videoUrl: String? = null
-                            var audioUrl: String? = null
+                            var videoUrl: UriString? = null
+                            var audioUrl: UriString? = null
 
                             // Hacky workaround -- we should parse the MPD
                             val possibleFiles = arrayOf(
@@ -122,26 +122,26 @@ object RedditVideosAPI {
 
                             for (file in possibleFiles) {
                                 if (mpd.contains(file)) {
-                                    audioUrl = "https://v.redd.it/$imageId/$file"
+                                    audioUrl = UriString("https://v.redd.it/$imageId/$file")
                                     break
                                 }
                             }
 
                             for (format in PREFERRED_VIDEO_FORMATS) {
                                 if (mpd.contains("$format.mp4")) {
-                                    videoUrl = ("https://v.redd.it/$imageId/$format.mp4")
+                                    videoUrl = UriString("https://v.redd.it/$imageId/$format.mp4")
                                     break
                                 }
 
                                 if (mpd.contains(format)) {
-                                    videoUrl = "https://v.redd.it/$imageId/$format"
+                                    videoUrl = UriString("https://v.redd.it/$imageId/$format")
                                     break
                                 }
                             }
 
                             if (videoUrl == null) {
                                 // Fallback
-                                videoUrl = "https://v.redd.it/$imageId/DASH_480.mp4"
+                                videoUrl = UriString("https://v.redd.it/$imageId/DASH_480.mp4")
                             }
 
                             val result = if (audioUrl != null) {
@@ -170,7 +170,7 @@ object RedditVideosAPI {
                                         CacheRequest.REQUEST_FAILURE_STORAGE,
                                         e,
                                         null,
-                                        "Failed to parse mpd",
+                                        apiUrl,
                                         Optional.of(FailedRequestBody(mpd))
                                     )
                                 )

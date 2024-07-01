@@ -19,12 +19,15 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.content.Context;
 import android.net.Uri;
+
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.StringUtils;
+import org.quantumbadger.redreader.common.UriString;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -278,13 +281,17 @@ public class RedditURLParser {
 			return builder.toString();
 		}
 
-		public String browserUrl() {
-			return Constants.Reddit.SCHEME_HTTPS + "://" + humanReadableUrl();
+		public UriString browserUrl() {
+			return new UriString(Constants.Reddit.SCHEME_HTTPS + "://" + humanReadableUrl());
 		}
 
 		@Override
 		public String toString() {
 			return generateJsonUri().toString();
+		}
+
+		public UriString toUriString() {
+			return new UriString(toString());
 		}
 	}
 }

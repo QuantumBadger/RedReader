@@ -20,11 +20,11 @@ package org.quantumbadger.redreader.common;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -165,12 +165,12 @@ public final class Constants {
 			return Uri.parse(getUri(path).toString()).buildUpon();
 		}
 
-		public static URI getUri(final String path) {
-			return General.uriFromString(getScheme() + "://" + getDomain() + path);
+		public static UriString getUri(final String path) {
+			return new UriString(getScheme() + "://" + getDomain() + path);
 		}
 
-		public static URI getNonAPIUri(final String path) {
-			return General.uriFromString(getScheme() + "://reddit.com" + path);
+		public static UriString getNonAPIUri(final String path) {
+			return new UriString(getScheme() + "://reddit.com" + path);
 		}
 
 		public static boolean isApiErrorUser(final String str) {

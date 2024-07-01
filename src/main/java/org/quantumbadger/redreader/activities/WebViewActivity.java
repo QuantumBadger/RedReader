@@ -18,16 +18,17 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
@@ -54,7 +55,7 @@ public class WebViewActivity extends BaseActivity
 
 		final Intent intent = getIntent();
 
-		final String url = intent.getStringExtra("url");
+		final UriString url = intent.getParcelableExtra("url");
 		mPost = intent.getParcelableExtra("post");
 
 		if(url == null) {
@@ -87,14 +88,14 @@ public class WebViewActivity extends BaseActivity
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 		LinkHandler.onLinkClicked(
 				this,
-				PostCommentListingURL.forPostId(post.src.getIdAlone()).toString(),
+				PostCommentListingURL.forPostId(post.src.getIdAlone()).toUriString(),
 				false);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
-		final String currentUrl = webView.getCurrentUrl();
+		final UriString currentUrl = webView.getCurrentUrl();
 
 		switch(item.getItemId()) {
 
@@ -102,7 +103,7 @@ public class WebViewActivity extends BaseActivity
 				if(currentUrl != null) {
 					try {
 						final Intent intent = new Intent(Intent.ACTION_VIEW);
-						intent.setData(Uri.parse(currentUrl));
+						intent.setData(currentUrl.toUri());
 						startActivity(intent);
 						finish(); //to clear from backstack
 
@@ -128,19 +129,19 @@ public class WebViewActivity extends BaseActivity
 
 				if(currentUrl != null) {
 
-					if(currentUrl.startsWith("https://")) {
+					if(currentUrl.value.startsWith("https://")) {
 						General.quickToast(this, R.string.webview_https_already);
 						return true;
 					}
 
-					if(!currentUrl.startsWith("http://")) {
+					if(!currentUrl.value.startsWith("http://")) {
 						General.quickToast(this, R.string.webview_https_unknownprotocol);
 						return true;
 					}
 
 					LinkHandler.onLinkClicked(
 							this,
-							currentUrl.replace("http://", "https://"),
+							new UriString(currentUrl.value.replace("http://", "https://")),
 							true,
 							mPost);
 					return true;
@@ -151,7 +152,7 @@ public class WebViewActivity extends BaseActivity
 					LinkHandler.shareText(
 							this,
 							mPost != null ? mPost.getTitle().getDecoded() : null,
-							currentUrl);
+							currentUrl.value);
 				}
 				return true;
 
@@ -169,7 +170,7 @@ public class WebViewActivity extends BaseActivity
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	public String getCurrentUrl() {
+	public UriString getCurrentUrl() {
 		return webView.getCurrentUrl();
 	}
 }

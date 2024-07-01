@@ -41,6 +41,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.constraintlayout.compose.atLeastWrapContent
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.LinkHandler
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.ctx.LocalActivity
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
@@ -193,7 +194,7 @@ fun PreviewAlbumListItem() {
 		AlbumListItem(
 			2,
 			ImageInfo(
-				original = ImageUrlInfo("testimage", size = ImageSize(100, 100)),
+				original = ImageUrlInfo(UriString("testimage"), size = ImageSize(100, 100)),
 				title = "Test title which is very long",
 				caption = null,
 				hasAudio = ImageInfo.HasAudio.NO_AUDIO,

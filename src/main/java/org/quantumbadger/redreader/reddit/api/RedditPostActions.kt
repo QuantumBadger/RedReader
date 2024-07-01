@@ -49,6 +49,7 @@ import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.PrefsUtility.PostFlingAction
 import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
@@ -365,7 +366,7 @@ object RedditPostActions {
 
 			Action.EXTERNAL -> {
 				try {
-					val url = if (activity is WebViewActivity) activity.currentUrl else post.src.url
+					val url: UriString? = if (activity is WebViewActivity) activity.currentUrl else post.src.url
 					if (url == null) {
 						General.quickToast(activity, R.string.link_does_not_exist)
 						return
@@ -382,7 +383,7 @@ object RedditPostActions {
 			}
 
 			Action.SELFTEXT_LINKS -> {
-				val linksInComment: HashSet<String> = LinkHandler.computeAllLinks(
+				val linksInComment: HashSet<UriString> = LinkHandler.computeAllLinks(
 					StringEscapeUtils.unescapeHtml4(
 						post.src
 							.rawSelfTextMarkdown
@@ -391,12 +392,13 @@ object RedditPostActions {
 				if (linksInComment.isEmpty()) {
 					General.quickToast(activity, R.string.error_toast_no_urls_in_self)
 				} else {
-					val linksArr = linksInComment.toTypedArray()
+					val links = linksInComment.toList()
+					val linksArr = linksInComment.map { it.value }.toTypedArray()
 					val builder = MaterialAlertDialogBuilder(activity)
 					builder.setItems(linksArr) { dialog: DialogInterface, which: Int ->
 						LinkHandler.onLinkClicked(
 							activity,
-							linksArr.get(which),
+							links.get(which),
 							false,
 							post.src.src
 						)
@@ -419,7 +421,7 @@ object RedditPostActions {
 
 				val body = LinkHandler.getPreferredRedditUriString(post.src.url)
 
-				LinkHandler.shareText(activity, subject, body)
+				LinkHandler.shareText(activity, subject, body.value)
 			}
 
 			Action.SHARE_COMMENTS -> {
@@ -430,17 +432,16 @@ object RedditPostActions {
 					null
 				}
 
-				var body = if (PrefsUtility.pref_behaviour_share_permalink()) {
-					Constants.Reddit.getNonAPIUri(post.src.permalink).toString()
+				var body: UriString = if (PrefsUtility.pref_behaviour_share_permalink()) {
+					Constants.Reddit.getNonAPIUri(post.src.permalink)
 				} else {
 					Constants.Reddit.getNonAPIUri(
 							Constants.Reddit.PATH_COMMENTS + post.src.idAlone)
-							.toString()
 				}
 
 				body = LinkHandler.getPreferredRedditUriString(body)
 
-				LinkHandler.shareText(activity, subject, body)
+				LinkHandler.shareText(activity, subject, body.value)
 			}
 
 			Action.SHARE_IMAGE -> {
@@ -452,7 +453,7 @@ object RedditPostActions {
 					activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 				val data = ClipData.newPlainText(
 					post.src.author,
-					post.src.url
+					post.src.url?.value
 				)
 				clipboardManager.setPrimaryClip(data)
 				General.quickToast(
@@ -500,7 +501,7 @@ object RedditPostActions {
 
 			Action.USER_PROFILE -> LinkHandler.onLinkClicked(
 				activity,
-				UserProfileURL(post.src.author).toString()
+				UriString(UserProfileURL(post.src.author).toString())
 			)
 
 			Action.PROPERTIES -> PostPropertiesDialog.newInstance(post.src.src)
@@ -814,7 +815,7 @@ object RedditPostActions {
 			}
 		}
 		val url = post.src.url
-		val isRedditVideo = url != null && url.contains("v.redd.it")
+		val isRedditVideo = url != null && url.value.contains("v.redd.it")
 		if (itemPref.contains(Action.SHARE)) {
 			menu.add(
 				RPVMenuItem(

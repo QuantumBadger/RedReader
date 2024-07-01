@@ -20,7 +20,9 @@ package org.quantumbadger.redreader.reddit.api;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -33,6 +35,7 @@ import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.TimestampBound;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.io.CacheDataSource;
@@ -47,7 +50,6 @@ import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.RedditThing;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -147,10 +149,10 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 			final RequestResponseHandler<WritableHashSet, RRError> handler,
 			final String after) {
 
-		final URI uri;
+		final UriString uri;
 
 		{
-			final URI baseUri;
+			final UriString baseUri;
 
 			switch(type) {
 				case SUBSCRIBED:
@@ -175,7 +177,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 			} else {
 				final Uri.Builder builder = Uri.parse(baseUri.toString()).buildUpon();
 				builder.appendQueryParameter("after", after);
-				uri = General.uriFromString(builder.toString());
+				uri = UriString.from(builder);
 			}
 		}
 
@@ -288,7 +290,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 									CacheRequest.REQUEST_FAILURE_PARSE,
 									e,
 									null,
-									uri != null ? uri.toString() : null,
+									uri,
 									Optional.of(new FailedRequestBody(result))));
 						}
 					}

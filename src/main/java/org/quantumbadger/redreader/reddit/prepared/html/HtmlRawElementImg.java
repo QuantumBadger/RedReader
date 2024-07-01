@@ -22,9 +22,11 @@ import android.graphics.BitmapFactory;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ImageSpan;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -36,6 +38,7 @@ import org.quantumbadger.redreader.common.GenericFactory;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
@@ -49,12 +52,12 @@ import java.util.UUID;
 public class HtmlRawElementImg extends HtmlRawElement{
 	@NonNull private final ArrayList<HtmlRawElement> mChildren;
 	@NonNull private final String mTitle;
-	@NonNull private final String mSrc;
+	@NonNull private final UriString mSrc;
 
 	public HtmlRawElementImg(
 			@NonNull final ArrayList<HtmlRawElement> children,
 			@NonNull final String title,
-			@NonNull final String src) {
+			@NonNull final UriString src) {
 		mChildren = children;
 		mTitle = title;
 		mSrc = src;
@@ -76,7 +79,7 @@ public class HtmlRawElementImg extends HtmlRawElement{
 		ssb.append(mTitle);
 
 		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-				General.uriFromString(mSrc),
+				mSrc,
 				RedditAccountManager.getAnon(),
 				null,
 				new Priority(Constants.Priority.API_COMMENT_LIST),

@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.invokeIf
 import org.quantumbadger.redreader.compose.ctx.LocalRedditUser
 import org.quantumbadger.redreader.compose.net.NetRequestStatus
@@ -32,7 +31,7 @@ fun NetImage(
 		it.width.toFloat() / it.height.toFloat()
 	}
 
-	val url = image?.url?.let(General::uriFromString)
+	val url = image?.url
 
 	if (url == null) {
 		// TODO show error

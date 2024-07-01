@@ -74,7 +74,7 @@ public final class ImageInfoDialog extends PropertiesDialog {
 
 		if(info.original != null) {
 
-			items.addView(propView(context, R.string.props_url, info.original.url, first));
+			items.addView(propView(context, R.string.props_url, info.original.url.value, first));
 
 			if (info.original.size != null) {
 				items.addView(propView(

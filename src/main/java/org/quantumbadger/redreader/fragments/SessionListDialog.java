@@ -22,26 +22,28 @@ import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
 import org.quantumbadger.redreader.adapters.SessionListAdapter;
 import org.quantumbadger.redreader.common.AndroidCommon;
-import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.UriString;
 
-import java.net.URI;
 import java.util.UUID;
 
 public class SessionListDialog extends AppCompatDialogFragment
 		implements RedditAccountChangeListener {
 
-	private URI url;
+	private UriString url;
 	private UUID current;
 	private SessionChangeListener.SessionChangeType type;
 
@@ -73,7 +75,7 @@ public class SessionListDialog extends AppCompatDialogFragment
 
 		super.onCreate(savedInstanceState);
 
-		url = General.uriFromString(getArguments().getString("url"));
+		url = new UriString(getArguments().getString("url"));
 
 		if(getArguments().containsKey("current")) {
 			current = UUID.fromString(getArguments().getString("current"));

@@ -18,7 +18,9 @@
 package org.quantumbadger.redreader.image;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -29,6 +31,7 @@ import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
@@ -44,10 +47,10 @@ public final class StreamableAPI {
 			@NonNull final Priority priority,
 			final GetImageInfoListener listener) {
 
-		final String apiUrl = "https://api.streamable.com/videos/" + imageId;
+		final UriString apiUrl = new UriString("https://api.streamable.com/videos/" + imageId);
 
 		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				General.uriFromString(apiUrl),
+				apiUrl,
 				RedditAccountManager.getAnon(),
 				null,
 				priority,
@@ -67,7 +70,7 @@ public final class StreamableAPI {
 							final JsonObject outer = result.asObject();
 							listener.onSuccess(ImageInfo.parseStreamable(outer));
 
-						} catch(final Throwable t) {
+						} catch (final Throwable t) {
 							listener.onFailure(General.getGeneralErrorForFailure(
 									context,
 									CacheRequest.REQUEST_FAILURE_PARSE,

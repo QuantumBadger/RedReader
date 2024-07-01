@@ -23,10 +23,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.RunnableOnce;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 public class LinkDispatchActivity extends AppCompatActivity {
@@ -67,7 +70,7 @@ public class LinkDispatchActivity extends AppCompatActivity {
 			RedditOAuth.completeLogin(this, data, new RunnableOnce(this::finish));
 
 		} else {
-			LinkHandler.onLinkClicked(this, data.toString(), true, null, null, 0, true);
+			LinkHandler.onLinkClicked(this, UriString.from(data), true, null, null, 0, true);
 			finish();
 		}
 	}

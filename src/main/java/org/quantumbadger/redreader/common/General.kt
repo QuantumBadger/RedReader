@@ -49,12 +49,10 @@ import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog
 import org.quantumbadger.redreader.http.FailedRequestBody
 import org.quantumbadger.redreader.reddit.APIResponseHandler.APIFailureType
 import java.io.*
-import java.net.URI
 import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.util.*
 import java.util.concurrent.atomic.AtomicReference
-import java.util.regex.Pattern
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -217,7 +215,7 @@ object General {
         @RequestFailureType type: Int,
         t: Throwable?,
         status: Int?,
-        url: String?,
+        url: UriString?,
         response: Optional<FailedRequestBody>
     ): RRError {
         val title: Int
@@ -275,12 +273,12 @@ object General {
             CacheRequest.REQUEST_FAILURE_REQUEST -> if (status != null) {
                 when (status) {
                     400, 401, 403, 404 -> {
-                        val uri = uriFromString(url)
+                        val uri = Uri.parse(url?.value)
                         var isImgurApiRequest = false
                         var isRedditRequest = false
                         if (uri != null && uri.host != null) {
                             if ("reddit.com".equals(uri.host, ignoreCase = true)
-                                || uri.host.endsWith(".reddit.com")
+                                || uri.host?.endsWith(".reddit.com") == true
                             ) {
                                 isRedditRequest = true
                             } else if (uri.host.equals(
@@ -499,14 +497,10 @@ object General {
         }
     }
 
-    private val urlPattern = Pattern.compile(
-        "^(https?)://([^/]+)/+([^?#]+)((?:\\?[^#]+)?)((?:#.+)?)$"
-    )
-
     @JvmStatic
 	fun filenameFromString(url: String): String {
-        val uri = uriFromString(url)
-        var filename = uri!!.path.replace(File.separator, "")
+        val uri = Uri.parse(url)
+        var filename = uri.path?.replace(File.separator, "") ?: "file"
         val parts = filename.substring(1).split("\\.".toRegex(), limit = 2).toTypedArray()
         if (parts.size < 2) {
             filename += if ("v.redd.it" == uri.host) {
@@ -516,49 +510,6 @@ object General {
             }
         }
         return filename
-    }
-
-    @JvmStatic
-	fun uriFromString(url: String?): URI? {
-
-		if (url == null) {
-			return null
-		}
-
-        return try {
-            URI(url)
-        } catch (t1: Throwable) {
-            try {
-                val urlMatcher = urlPattern.matcher(url)
-                if (urlMatcher.find()) {
-                    val scheme = urlMatcher.group(1)
-                    val authority = urlMatcher.group(2)
-                    val path =
-                        if (urlMatcher.group(3)?.isEmpty() == true) null else "/" + urlMatcher.group(3)
-                    val query = if (urlMatcher.group(4)?.isEmpty() == true) null else urlMatcher.group(4)
-                    val fragment = if (urlMatcher.group(5)?.isEmpty() == true) null else urlMatcher.group(5)
-                    try {
-                        URI(scheme, authority, path, query, fragment)
-                    } catch (t3: Throwable) {
-                        if (path != null && path.contains(" ")) {
-                            URI(
-                                scheme,
-                                authority,
-                                path.replace(" ", "%20"),
-                                query,
-                                fragment
-                            )
-                        } else {
-                            null
-                        }
-                    }
-                } else {
-                    null
-                }
-            } catch (t2: Throwable) {
-                null
-            }
-        }
     }
 
 	fun toHex(bytes: ByteArray): String {

@@ -25,10 +25,10 @@ import org.quantumbadger.redreader.cache.CacheRequestCallbacks
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached
 import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.General.getGeneralErrorForFailure
-import org.quantumbadger.redreader.common.General.uriFromString
 import org.quantumbadger.redreader.common.GenericFactory
 import org.quantumbadger.redreader.common.Priority
 import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.http.FailedRequestBody
@@ -61,7 +61,7 @@ class RedditGalleryAPI {
         @JvmStatic
 		fun getAlbumInfo(
             context: Context,
-            albumUrl: String,
+            albumUrl: UriString,
             albumId: String,
             priority: Priority,
             listener: GetAlbumInfoListener
@@ -87,7 +87,7 @@ class RedditGalleryAPI {
 
             CacheManager.getInstance(context).makeRequest(
                 CacheRequest(
-                    uriFromString(apiUrl.toString())!!,
+					UriString.from(apiUrl),
                     RedditAccountManager.getInstance(context).defaultAccount,
                     null,
                     priority,

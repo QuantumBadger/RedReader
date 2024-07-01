@@ -34,6 +34,7 @@ import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.image.AlbumInfo;
 import org.quantumbadger.redreader.image.GetAlbumInfoListener;
 import org.quantumbadger.redreader.image.GetImageInfoListener;
@@ -45,7 +46,7 @@ import java.util.regex.Matcher;
 
 public class AlbumListingActivity extends BaseActivity {
 
-	private String mUrl;
+	private UriString mUrl;
 	private boolean mHaveReverted = false;
 
 	@Override
@@ -59,7 +60,7 @@ public class AlbumListingActivity extends BaseActivity {
 
 		final Intent intent = getIntent();
 
-		mUrl = intent.getDataString();
+		mUrl = UriString.fromNullable(intent.getDataString());
 
 		if(mUrl == null) {
 			finish();
@@ -141,7 +142,8 @@ public class AlbumListingActivity extends BaseActivity {
 
 						// It might be a single image, not an album
 
-						final Matcher matchImgur = LinkHandler.imgurAlbumPattern.matcher(mUrl);
+						final Matcher matchImgur
+								= LinkHandler.imgurAlbumPattern.matcher(mUrl.value);
 
 						if(matchImgur.find()) {
 							final String albumId = matchImgur.group(2);

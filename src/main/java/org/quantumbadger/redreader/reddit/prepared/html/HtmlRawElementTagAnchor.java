@@ -19,15 +19,17 @@ package org.quantumbadger.redreader.reddit.prepared.html;
 
 import androidx.annotation.NonNull;
 
+import org.quantumbadger.redreader.common.UriString;
+
 import java.util.ArrayList;
 
 public class HtmlRawElementTagAnchor extends HtmlRawElementTagAttributeChange {
 
-	@NonNull private final String mHref;
+	@NonNull private final UriString mHref;
 
 	public HtmlRawElementTagAnchor(
 			final ArrayList<HtmlRawElement> children,
-			@NonNull final String href) {
+			@NonNull final UriString href) {
 		super(children);
 		mHref = href;
 	}

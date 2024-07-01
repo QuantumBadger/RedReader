@@ -28,6 +28,7 @@ import android.text.style.StyleSpan;
 import android.text.style.SuperscriptSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
+
 import androidx.annotation.NonNull;
 
 import java.util.HashSet;
@@ -156,9 +157,11 @@ public class BetterSSB {
 	public void linkify() {
 
 		final String asText = sb.toString();
-		final HashSet<String> links = LinkHandler.computeAllLinks(asText);
+		final HashSet<UriString> links = LinkHandler.computeAllLinks(asText);
 
-		for(final String link : links) {
+		for(final UriString uri : links) {
+
+			final String link = uri.value;
 
 			int index = -1;
 

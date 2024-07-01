@@ -18,6 +18,7 @@ package org.quantumbadger.redreader.reddit.prepared
 
 import androidx.appcompat.app.AppCompatActivity
 import org.quantumbadger.redreader.R
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.reddit.PostCommentSort
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType
 import org.quantumbadger.redreader.reddit.kthings.RedditPost
@@ -33,14 +34,14 @@ class RedditParsedPost(
 
     val title: String = src.title?.decoded?.replace('\n', ' ')?.trim() ?: "[null]"
 
-	val url: String?
+	val url: UriString?
 	val selfText: BodyElement?
 	val flairText: String?
 	val domain: String
 
 	val permalink = src.permalink.decoded
 	val isStickied = src.stickied
-	val thumbnailUrl = src.thumbnail?.decoded
+	val thumbnailUrl = UriString.fromNullable(src.thumbnail?.decoded)
 
 	val isPreviewEnabled = src.preview?.enabled == true
 
@@ -135,7 +136,7 @@ class RedditParsedPost(
 	}
 
     data class ImagePreviewDetails(
-		@JvmField val url: String,
+		@JvmField val url: UriString,
 		@JvmField val width: Int,
 		@JvmField val height: Int
 	)
@@ -211,7 +212,7 @@ class RedditParsedPost(
 		}
 
 		return best?.run {
-			ImagePreviewDetails(url.decoded, width, height)
+			ImagePreviewDetails(UriString(url.decoded), width, height)
 		}
 	}
 }

@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -142,7 +143,7 @@ fun PreviewAlbumCard() {
 		AlbumCard(
 			0,
 			ImageInfo(
-				original = ImageUrlInfo("testimage", size = ImageSize(100, 100)),
+				original = ImageUrlInfo(UriString("testimage"), size = ImageSize(100, 100)),
 				title = "Test title",
 				caption = "Test caption",
 				hasAudio = ImageInfo.HasAudio.NO_AUDIO,

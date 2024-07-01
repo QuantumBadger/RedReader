@@ -18,13 +18,16 @@
 package org.quantumbadger.redreader.reddit;
 
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
 import org.quantumbadger.redreader.common.HasUniqueId;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
@@ -35,7 +38,7 @@ public class SubredditDetails implements HasUniqueId {
 
 	@NonNull public final SubredditCanonicalId id;
 	@NonNull public final String name;
-	@NonNull public final String url;
+	@NonNull public final UriString url;
 	@Nullable public final String publicDescriptionHtmlEscaped;
 	@Nullable public final Integer subscribers;
 
@@ -51,7 +54,7 @@ public class SubredditDetails implements HasUniqueId {
 	public SubredditDetails(@NonNull final SubredditCanonicalId subreddit) {
 		id = subreddit;
 		name = subreddit.getDisplayNameLowercase();
-		url = subreddit.toString();
+		url = new UriString(subreddit.toString());
 		publicDescriptionHtmlEscaped = null;
 		subscribers = null;
 	}

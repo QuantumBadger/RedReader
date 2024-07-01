@@ -82,7 +82,7 @@ object LinkHandler {
 	@JvmOverloads
 	fun onLinkClicked(
 		activity: AppCompatActivity,
-		url: String?,
+		url: UriString?,
 		forceNoImage: Boolean = false,
 		post: RedditPost? = null,
 		albumInfo: AlbumInfo? = null,
@@ -94,8 +94,8 @@ object LinkHandler {
 			return
 		}
 
-		if (url.startsWith("rr://")) {
-			val rrUri = Uri.parse(url)
+		if (url.value.startsWith("rr://")) {
+			val rrUri = Uri.parse(url.value)
 
 			if (rrUri.authority == "msg") {
 				AndroidCommon.runOnUiThread {
@@ -110,7 +110,7 @@ object LinkHandler {
 		}
 
 		val normalUrl = convertAndNormalizeUri(url)
-		val normalUrlString = normalUrl.toString()
+		val normalUrlString = UriString(normalUrl.toString())
 
 		if (!forceNoImage && isProbablyAnImage(normalUrlString)) {
 			val intent = Intent(activity, ImageViewActivity::class.java)
@@ -126,8 +126,8 @@ object LinkHandler {
 			return
 		}
 
-		if (!forceNoImage && (imgurAlbumPattern.matcher(normalUrlString).matches()
-					|| redditGalleryPattern.matcher(normalUrlString).matches())
+		if (!forceNoImage && (imgurAlbumPattern.matcher(normalUrlString.value).matches()
+					|| redditGalleryPattern.matcher(normalUrlString.value).matches())
 		) {
 			val albumViewMode = PrefsUtility.pref_behaviour_albumview_mode()
 
@@ -239,17 +239,17 @@ object LinkHandler {
 			}
 		}
 
-		if (youtubeDotComPattern.matcher(normalUrlString).matches()
-			|| vimeoPattern.matcher(normalUrlString).matches()
-			|| googlePlayPattern.matcher(normalUrlString).matches()
-			|| normalUrlString.startsWith("mailto:")
+		if (youtubeDotComPattern.matcher(normalUrlString.value).matches()
+			|| vimeoPattern.matcher(normalUrlString.value).matches()
+			|| googlePlayPattern.matcher(normalUrlString.value).matches()
+			|| normalUrlString.value.startsWith("mailto:")
 		) {
 			if (openWebBrowser(activity, normalUrl, fromExternalIntent)) {
 				return
 			}
 		}
 
-		val youtuDotBeMatcher = youtuDotBePattern.matcher(normalUrlString)
+		val youtuDotBeMatcher = youtuDotBePattern.matcher(normalUrlString.value)
 
 		if (youtuDotBeMatcher.find() && youtuDotBeMatcher.group(1) != null) {
 			val youtuBeUrl = ("http://youtube.com/watch?v="
@@ -272,14 +272,14 @@ object LinkHandler {
 	@JvmStatic
 	fun onLinkLongClicked(
 		activity: BaseActivity,
-		uri: String?,
+		uri: UriString?,
 		forceNoImage: Boolean = false
 	) {
 		if (uri == null) {
 			return
 		}
 
-		val normalUriString = convertAndNormalizeUri(uri).toString()
+		val normalUriString = UriString(convertAndNormalizeUri(uri).toString())
 
 		val itemPref = PrefsUtility.pref_menus_link_context_items()
 
@@ -353,19 +353,19 @@ object LinkHandler {
 	}
 
 	fun onActionMenuItemSelected(
-		uri: String,
+		uri: UriString,
 		activity: BaseActivity,
 		action: LinkAction
 	) {
 		when (action) {
-			LinkAction.SHARE -> shareText(activity, null, getPreferredRedditUriString(uri))
+			LinkAction.SHARE -> shareText(activity, null, getPreferredRedditUriString(uri).value)
 			LinkAction.COPY_URL -> {
 				val clipboardManager =
 					activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
 				if (clipboardManager != null) {
 					// Using newPlainText here instead of newRawUri because links from
 					// comments/self-text are often not valid URIs
-					val data = ClipData.newPlainText(null, uri)
+					val data = ClipData.newPlainText(null, uri.value)
 					clipboardManager.setPrimaryClip(data)
 
 					quickToast(
@@ -377,7 +377,7 @@ object LinkHandler {
 
 			LinkAction.EXTERNAL -> try {
 				val intent = Intent(Intent.ACTION_VIEW)
-				intent.setData(Uri.parse(uri))
+				intent.setData(Uri.parse(uri.value))
 				activity.startActivity(intent)
 			} catch (e: ActivityNotFoundException) {
 				quickToast(
@@ -460,7 +460,7 @@ object LinkHandler {
 
 	private fun openInternalBrowser(
 		activity: AppCompatActivity,
-		url: String?,
+		url: UriString?,
 		post: RedditPost?
 	) {
 		if (url != null) {
@@ -507,7 +507,7 @@ object LinkHandler {
 			activity.startActivity(intent)
 		} catch (e: ActivityNotFoundException) {
 			// No suitable web browser installed. Use internal browser.
-			openInternalBrowser(activity, uri.toString(), post)
+			openInternalBrowser(activity, UriString(uri.toString()), post)
 		}
 	}
 
@@ -533,13 +533,13 @@ object LinkHandler {
 	private val giphyPattern: Pattern = Pattern.compile(".*[^A-Za-z]giphy\\.com/gifs/(\\w+).*")
 
 	@JvmStatic
-	fun isProbablyAnImage(url: String?): Boolean {
+	fun isProbablyAnImage(url: UriString?): Boolean {
 		if (url == null) {
 			return false
 		}
 
 		run {
-			val matchImgur = imgurPattern.matcher(url)
+			val matchImgur = imgurPattern.matcher(url.value)
 			if (matchImgur.find()) {
 				matchImgur.group(2)?.let { imgId ->
 					if (imgId.length > 2 && !imgId.startsWith("gallery")) {
@@ -550,7 +550,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchGfycat = gfycatPattern.matcher(url)
+			val matchGfycat = gfycatPattern.matcher(url.value)
 			if (matchGfycat.find()) {
 				matchGfycat.group(1)?.let { imgId ->
 					if (imgId.length > 5) {
@@ -561,7 +561,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchRedgifs = redgifsPattern.matcher(url)
+			val matchRedgifs = redgifsPattern.matcher(url.value)
 			if (matchRedgifs.find()) {
 				matchRedgifs.group(1)?.let { imgId ->
 					if (imgId.length > 5) {
@@ -572,7 +572,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchStreamable = streamablePattern.matcher(url)
+			val matchStreamable = streamablePattern.matcher(url.value)
 			if (matchStreamable.find()) {
 				matchStreamable.group(1)?.let { imgId ->
 					if (imgId.length > 2) {
@@ -583,7 +583,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchRedditUploads = reddituploadsPattern.matcher(url)
+			val matchRedditUploads = reddituploadsPattern.matcher(url.value)
 			if (matchRedditUploads.find()) {
 				matchRedditUploads.group(1)?.let { imgId ->
 					if (imgId.length > 10) {
@@ -594,7 +594,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchImgflip = imgflipPattern.matcher(url)
+			val matchImgflip = imgflipPattern.matcher(url.value)
 			if (matchImgflip.find()) {
 				matchImgflip.group(1)?.let { imgId ->
 					if (imgId.length > 3) {
@@ -605,7 +605,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchMakeameme = makeamemePattern.matcher(url)
+			val matchMakeameme = makeamemePattern.matcher(url.value)
 			if (matchMakeameme.find()) {
 				matchMakeameme.group(1)?.let { imgId ->
 					if (imgId.length > 3) {
@@ -616,16 +616,16 @@ object LinkHandler {
 		}
 
 		run {
-			val matchDeviantart = deviantartPattern.matcher(url)
+			val matchDeviantart = deviantartPattern.matcher(url.value)
 			if (matchDeviantart.find()) {
-				if (url.length > 40) {
+				if (url.value.length > 40) {
 					return true
 				}
 			}
 		}
 
 		run {
-			val matchRedditVideos = redditVideosPattern.matcher(url)
+			val matchRedditVideos = redditVideosPattern.matcher(url.value)
 			if (matchRedditVideos.find()) {
 				matchRedditVideos.group(1)?.let { imgId ->
 					if (imgId.length > 3) {
@@ -694,7 +694,7 @@ object LinkHandler {
 											if (returnUrlOnFailure) {
 												listener.onSuccess(
 													ImageInfo(
-														original = ImageUrlInfo(url = "https://i.imgur.com/$imgId.jpg"),
+														original = ImageUrlInfo(url = UriString("https://i.imgur.com/$imgId.jpg")),
 														hasAudio = HasAudio.MAYBE_AUDIO
 													)
 												)
@@ -711,7 +711,7 @@ object LinkHandler {
 
 	private fun getImgurAlbumInfo(
 		context: Context,
-		albumUrl: String?,
+		albumUrl: UriString?,
 		albumId: String,
 		priority: Priority,
 		listener: GetAlbumInfoListener
@@ -775,12 +775,12 @@ object LinkHandler {
 	@JvmStatic
 	fun getAlbumInfo(
 		context: Context,
-		url: String,
+		url: UriString,
 		priority: Priority,
 		listener: GetAlbumInfoListener
 	) {
 		run {
-			val matchImgur = imgurAlbumPattern.matcher(url)
+			val matchImgur = imgurAlbumPattern.matcher(url.value)
 			if (matchImgur.find()) {
 				matchImgur.group(2)?.let { albumId ->
 					if (albumId.length > 2) {
@@ -792,7 +792,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchReddit = redditGalleryPattern.matcher(url)
+			val matchReddit = redditGalleryPattern.matcher(url.value)
 			if (matchReddit.find()) {
 				matchReddit.group(1)?.let { albumId ->
 					if (albumId.length > 2) {
@@ -818,7 +818,7 @@ object LinkHandler {
 	@JvmStatic
 	fun getImageInfo(
 		context: Context,
-		url: String?,
+		url: UriString?,
 		priority: Priority,
 		listener: GetImageInfoListener
 	) {
@@ -828,7 +828,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchImgur = imgurPattern.matcher(url)
+			val matchImgur = imgurPattern.matcher(url.value)
 			if (matchImgur.find()) {
 				matchImgur.group(2)?.let { imgId ->
 					if (imgId.length > 2 && !imgId.startsWith("gallery")) {
@@ -840,7 +840,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchGfycat = gfycatPattern.matcher(url)
+			val matchGfycat = gfycatPattern.matcher(url.value)
 			if (matchGfycat.find()) {
 				matchGfycat.group(1)?.let { imgId ->
 					if (imgId.length > 5) {
@@ -852,7 +852,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchRedgifs = redgifsPattern.matcher(url)
+			val matchRedgifs = redgifsPattern.matcher(url.value)
 			if (matchRedgifs.find()) {
 				matchRedgifs.group(1)?.let { imgId ->
 					if (imgId.length > 5) {
@@ -900,7 +900,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchStreamable = streamablePattern.matcher(url)
+			val matchStreamable = streamablePattern.matcher(url.value)
 			if (matchStreamable.find()) {
 				matchStreamable.group(1)?.let { imgId ->
 					if (imgId.length > 2) {
@@ -916,9 +916,9 @@ object LinkHandler {
 			}
 		}
 		run {
-			val matchDeviantart = deviantartPattern.matcher(url)
+			val matchDeviantart = deviantartPattern.matcher(url.value)
 			if (matchDeviantart.find()) {
-				if (url.length > 40) {
+				if (url.value.length > 40) {
 					DeviantArtAPI.getImageInfo(
 						context,
 						url,
@@ -930,7 +930,7 @@ object LinkHandler {
 			}
 		}
 		run {
-			val matchRedditVideos = redditVideosPattern.matcher(url)
+			val matchRedditVideos = redditVideosPattern.matcher(url.value)
 			if (matchRedditVideos.find()) {
 				matchRedditVideos.group(1)?.let { imgId ->
 					if (imgId.length > 3) {
@@ -955,11 +955,11 @@ object LinkHandler {
 		}
 	}
 
-	private fun getImageUrlPatternMatch(url: String): ImageInfo? {
-		val urlLower = StringUtils.asciiLowercase(url)
+	private fun getImageUrlPatternMatch(url: UriString): ImageInfo? {
+		val urlLower = StringUtils.asciiLowercase(url.value)
 
 		run {
-			val matchRedditUploads = reddituploadsPattern.matcher(url)
+			val matchRedditUploads = reddituploadsPattern.matcher(url.value)
 			if (matchRedditUploads.find()) {
 				matchRedditUploads.group(1)?.let { imgId ->
 					if (imgId.length > 10) {
@@ -974,13 +974,13 @@ object LinkHandler {
 		}
 
 		run {
-			val matchImgflip = imgflipPattern.matcher(url)
+			val matchImgflip = imgflipPattern.matcher(url.value)
 			if (matchImgflip.find()) {
 				matchImgflip.group(1)?.let { imgId ->
 					if (imgId.length > 3) {
 						val imageUrl = "https://i.imgflip.com/$imgId.jpg"
 						return ImageInfo(
-							original = ImageUrlInfo(imageUrl),
+							original = ImageUrlInfo(UriString(imageUrl)),
 							mediaType = ImageInfo.MediaType.IMAGE,
 							hasAudio = HasAudio.NO_AUDIO
 						)
@@ -990,7 +990,7 @@ object LinkHandler {
 		}
 
 		run {
-			val matchMakeameme = makeamemePattern.matcher(url)
+			val matchMakeameme = makeamemePattern.matcher(url.value)
 			if (matchMakeameme.find()) {
 				matchMakeameme.group(1)?.let { imgId ->
 					if (imgId.length > 3) {
@@ -998,7 +998,7 @@ object LinkHandler {
 								+ imgId
 								+ ".jpg")
 						return ImageInfo(
-							original = ImageUrlInfo(imageUrl),
+							original = ImageUrlInfo(UriString(imageUrl)),
 							mediaType = ImageInfo.MediaType.IMAGE,
 							hasAudio = HasAudio.NO_AUDIO
 						)
@@ -1008,14 +1008,14 @@ object LinkHandler {
 		}
 
 		run {
-			val matchGiphy = giphyPattern.matcher(url)
+			val matchGiphy = giphyPattern.matcher(url.value)
 			if (matchGiphy.find()) {
 				return ImageInfo(
-					original = ImageUrlInfo(
+					original = ImageUrlInfo(UriString(
 						"https://media.giphy.com/media/"
 								+ matchGiphy.group(1)
 								+ "/giphy.mp4"
-					),
+					)),
 					mediaType = ImageInfo.MediaType.VIDEO,
 					hasAudio = HasAudio.NO_AUDIO
 				)
@@ -1069,7 +1069,7 @@ object LinkHandler {
 		}
 
 
-		if (url.contains("?")) {
+		if (url.value.contains("?")) {
 			val urlBeforeQ = urlLower.split("\\?".toRegex()).dropLastWhile { it.isEmpty() }
 				.toTypedArray()[0]
 
@@ -1108,19 +1108,19 @@ object LinkHandler {
 			}
 		}
 
-		val matchQkme1 = qkmePattern1.matcher(url)
+		val matchQkme1 = qkmePattern1.matcher(url.value)
 
 		if (matchQkme1.find()) {
 			matchQkme1.group(1)?.let { imgId ->
 				if (imgId.length > 2) {
 					return ImageInfo(
-						original = ImageUrlInfo(
+						original = ImageUrlInfo(UriString(
 							String.format(
 								Locale.US,
 								"http://i.qkme.me/%s.jpg",
 								imgId
 							)
-						),
+						)),
 						mediaType = ImageInfo.MediaType.IMAGE,
 						hasAudio = HasAudio.NO_AUDIO
 					)
@@ -1128,19 +1128,19 @@ object LinkHandler {
 			}
 		}
 
-		val matchQkme2 = qkmePattern2.matcher(url)
+		val matchQkme2 = qkmePattern2.matcher(url.value)
 
 		if (matchQkme2.find()) {
 			matchQkme2.group(1)?.let { imgId ->
 				if (imgId.length > 2) {
 					return ImageInfo(
-						original = ImageUrlInfo(
+						original = ImageUrlInfo(UriString(
 							String.format(
 								Locale.US,
 								"http://i.qkme.me/%s.jpg",
 								imgId
 							)
-						),
+						)),
 						mediaType = ImageInfo.MediaType.IMAGE,
 						hasAudio = HasAudio.NO_AUDIO
 					)
@@ -1148,19 +1148,19 @@ object LinkHandler {
 			}
 		}
 
-		val matchLvme = lvmePattern.matcher(url)
+		val matchLvme = lvmePattern.matcher(url.value)
 
 		if (matchLvme.find()) {
 			matchLvme.group(1)?.let { imgId ->
 				if (imgId.length > 2) {
 					return ImageInfo(
-						original = ImageUrlInfo(
+						original = ImageUrlInfo(UriString(
 							String.format(
 								Locale.US,
 								"http://www.livememe.com/%s.jpg",
 								imgId
 							)
-						),
+						)),
 						mediaType = ImageInfo.MediaType.IMAGE,
 						hasAudio = HasAudio.NO_AUDIO
 					)
@@ -1172,8 +1172,8 @@ object LinkHandler {
 	}
 
 	@JvmStatic
-	fun computeAllLinks(text: String): LinkedHashSet<String> {
-		val result = LinkedHashSet<String>()
+	fun computeAllLinks(text: String): LinkedHashSet<UriString> {
+		val result = LinkedHashSet<UriString>()
 
 		// From http://stackoverflow.com/a/1806161/1526861
 		// TODO may not handle .co.uk, similar (but should handle .co/.us/.it/etc fine)
@@ -1193,14 +1193,14 @@ object LinkHandler {
 		val urlMatcher = urlPattern.matcher(text)
 
 		while (urlMatcher.find()) {
-			urlMatcher.group(1)?.let(result::add)
+			urlMatcher.group(1)?.let { result.add(UriString(it)) }
 		}
 
 		val subredditMatcher = Pattern.compile("(?<!\\w)(/?[ru]/\\w+)\\b")
 			.matcher(text)
 
 		while (subredditMatcher.find()) {
-			subredditMatcher.group(1)?.let(result::add)
+			subredditMatcher.group(1)?.let { result.add(UriString(it)) }
 		}
 
 		return result
@@ -1235,8 +1235,8 @@ object LinkHandler {
 		}
 	}
 
-	fun convertAndNormalizeUri(uri: String): Uri {
-		@Suppress("NAME_SHADOWING") var uri = uri
+	fun convertAndNormalizeUri(uri: UriString): Uri {
+		@Suppress("NAME_SHADOWING") var uri = uri.value
 		if (uri.startsWith("r/") || uri.startsWith("u/")) {
 			uri = "/$uri"
 		}
@@ -1274,17 +1274,17 @@ object LinkHandler {
 	}
 
 	@JvmStatic
-	fun getPreferredRedditUriString(uri: String): String {
+	fun getPreferredRedditUriString(uri: UriString): UriString {
 		val parsedUri = convertAndNormalizeUri(uri)
 
 		//Return non-Reddit links normalized but otherwise unaltered
 		if (RedditURLParser.parse(parsedUri) == null) {
-			return parsedUri.toString()
+			return UriString.from(parsedUri)
 		}
 
 		//Respect non-participation links
 		if (parsedUri.host == "np.reddit.com") {
-			return parsedUri.toString()
+			return UriString.from(parsedUri)
 		}
 
 		val potentialPostLink = PostCommentListingURL.parse(parsedUri)
@@ -1299,7 +1299,7 @@ object LinkHandler {
 
 		//Only direct links to posts will be converted to redd.it links
 		if (preferredDomain == SharingDomain.SHORT_REDDIT && postId == null) {
-			return parsedUri.toString()
+			return UriString.from(parsedUri)
 		}
 
 		val uriBuilder = parsedUri.buildUpon()
@@ -1309,7 +1309,7 @@ object LinkHandler {
 			uriBuilder.encodedPath("/$postId")
 		}
 
-		return uriBuilder.build().toString()
+		return UriString.from(uriBuilder.build())
 	}
 
 	enum class LinkAction(val descriptionResId: Int) {

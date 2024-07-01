@@ -18,12 +18,15 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementRRError;
@@ -50,7 +53,7 @@ public class HtmlReader {
 		@Nullable public final String href;
 		@Nullable public final String cssClass;
 		@Nullable public final String title;
-		@Nullable public final String src;
+		@Nullable public final UriString src;
 
 		public Token(
 				@NonNull final TokenType type,
@@ -72,7 +75,7 @@ public class HtmlReader {
 				@Nullable final String href,
 				@Nullable final String cssClass,
 				@Nullable final String title,
-				@Nullable final String src) {
+				@Nullable final UriString src) {
 			this.type = type;
 			this.text = text;
 			this.href = href;
@@ -278,7 +281,7 @@ public class HtmlReader {
 					@Nullable String href = null;
 					@Nullable String cssClass = null;
 					@Nullable String title = null;
-					@Nullable String src = null;
+					@Nullable UriString src = null;
 
 					if(tagName.equalsIgnoreCase("pre")) {
 						mPreformattedTextPending = true;
@@ -314,7 +317,7 @@ public class HtmlReader {
 							} else if(propertyName.equalsIgnoreCase("title")) {
 								title = value;
 							} else if(propertyName.equalsIgnoreCase("src")) {
-								src = value;
+								src = new UriString(value);
 							}
 						}
 					}

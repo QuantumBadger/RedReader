@@ -26,6 +26,7 @@ import com.google.android.material.button.MaterialButton
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.PrefsUtility
+import org.quantumbadger.redreader.common.UriString
 
 class RedditTermsActivity : BaseActivity() {
 
@@ -69,7 +70,7 @@ class RedditTermsActivity : BaseActivity() {
 		onClick(R.id.terms_button_view) {
 			LinkHandler.onLinkClicked(
 				this,
-				"https://www.redditinc.com/policies/user-agreement-april-18-2023"
+				UriString("https://www.redditinc.com/policies/user-agreement-april-18-2023")
 			)
 		}
 

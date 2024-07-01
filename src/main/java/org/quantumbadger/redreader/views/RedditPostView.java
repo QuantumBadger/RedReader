@@ -527,7 +527,7 @@ public final class RedditPostView extends FlingableItemView
 		setBottomMargin(true);
 
 		CacheManager.getInstance(mActivity).makeRequest(new CacheRequest(
-				General.uriFromString(preview.url),
+				preview.url,
 				RedditAccountManager.getAnon(),
 				null,
 				new Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),

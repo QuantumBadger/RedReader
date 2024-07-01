@@ -21,6 +21,7 @@ import android.os.Parcelable
 import android.util.Log
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.image.RedditGalleryAPI
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 
@@ -170,22 +171,22 @@ data class RedditPost(
 		return name
 	}
 
-	fun findUrl(): String? {
+	fun findUrl(): UriString? {
 
 		media?.reddit_video?.fallback_url?.decoded?.apply {
-			return this
+			return UriString(this)
 		}
 
 		if (url?.decoded?.contains(".gif") == true) {
 			preview?.images?.get(0)?.variants?.mp4?.source?.url?.decoded?.apply {
-				return this
+				return UriString(this)
 			}
 		}
 
 		url_overridden_by_dest?.decoded?.apply {
-			return this
+			return UriString(this)
 		}
 
-		return url?.decoded
+		return url?.decoded?.let(::UriString)
 	}
 }

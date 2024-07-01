@@ -27,7 +27,7 @@ class RRError @JvmOverloads constructor(
 	@JvmField val reportable: Boolean? = true,
 	@JvmField val t: Throwable? = null,
 	@JvmField val httpStatus: Int? = null,
-	@JvmField val url: String? = null,
+	@JvmField val url: UriString? = null,
 	@JvmField val debuggingContext: String? = null,
 	response: Optional<FailedRequestBody> = Optional.empty(),
 	@JvmField val resolution: Resolution? = null

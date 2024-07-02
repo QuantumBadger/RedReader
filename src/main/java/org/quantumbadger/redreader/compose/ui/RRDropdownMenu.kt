@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -16,7 +17,6 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
@@ -46,6 +46,8 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.DpOffset
@@ -151,7 +153,6 @@ class RRDropdownMenuScope(
 	}
 
 
-
 	@Composable
 	fun ItemPrefIntSlider(
 		text: String, // TODO change to StringRes
@@ -162,38 +163,34 @@ class RRDropdownMenuScope(
 	) {
 		val theme = LocalComposeTheme.current
 
-		DropdownMenuItem(
-			onClick = {},
-			enabled = false,
-			text = {
-				Column(
-					Modifier
-						.fillMaxWidth()
-						.padding(6.dp)
-						.sizeIn(
-							minWidth = 112.dp,
-							maxWidth = 280.dp,
-							minHeight = 48.dp
-						)
-				) {
-					Spacer(Modifier.height(6.dp))
+		Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(
+					top = 12.dp,
+					start = 18.dp,
+					end = 18.dp
+				)
+                .sizeIn(
+                    minWidth = 112.dp,
+                    maxWidth = 280.dp,
+                    minHeight = 48.dp
+                )
+		) {
+			Text(
+				text = text,
+				style = theme.dropdownMenu.text
+			)
 
-					Text(
-						text = text,
-						style = theme.dropdownMenu.text
-					)
-
-					Slider(
-						modifier = Modifier
-							.fillMaxWidth(),
-						value = pref.value.toFloat(),
-						onValueChange = { pref.value = it.roundToInt() },
-						valueRange = min.toFloat()..max.toFloat(),
-						steps = ((max - min) - 1).takeUnless { continuous } ?: 0,
-					)
-				}
-			}
-		)
+			Slider(
+				modifier = Modifier
+					.fillMaxWidth(),
+				value = pref.value.toFloat(),
+				onValueChange = { pref.value = it.roundToInt() },
+				valueRange = min.toFloat()..max.toFloat(),
+				steps = ((max - min) - 1).takeUnless { continuous } ?: 0,
+			)
+		}
 	}
 
 	@Composable
@@ -271,11 +268,35 @@ private fun RRDropdownMenuItem(
 		},
 		trailingIcon = {
 			if (radioButtonWithValue != null) {
-				RadioButton(selected = radioButtonWithValue, onClick = onClick)
+				RadioButton(
+					modifier = Modifier
+                        .clearAndSetSemantics {
+                            contentDescription = if (radioButtonWithValue) {
+                                "Selected"
+                            } else {
+                                "Not selected"
+                            }
+                        }
+                        .focusable(false),
+					selected = radioButtonWithValue,
+					onClick = onClick,
+				)
 			}
 
 			if (checkboxWithValue != null) {
-				Checkbox(checked = checkboxWithValue, onCheckedChange = { onClick() })
+				Checkbox(
+					modifier = Modifier
+                        .clearAndSetSemantics {
+                            contentDescription = if (checkboxWithValue) {
+                                "Checked"
+                            } else {
+                                "Not checked"
+                            }
+                        }
+                        .focusable(false),
+					checked = checkboxWithValue,
+					onCheckedChange = { onClick() }
+				)
 			}
 		}
 	)
@@ -388,7 +409,7 @@ private fun BaseDropdownMenuContent(
                 this.alpha = alpha
                 transformOrigin = transformOriginState.value
             }
-			.shadow(10.dp, RoundedCornerShape(6.dp))
+            .shadow(10.dp, RoundedCornerShape(6.dp))
             .clip(RoundedCornerShape(6.dp))
             .background(theme.dropdownMenu.background),
 	) {

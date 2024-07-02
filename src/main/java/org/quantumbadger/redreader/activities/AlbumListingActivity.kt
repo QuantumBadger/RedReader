@@ -18,6 +18,7 @@ package org.quantumbadger.redreader.activities
 
 import android.os.Bundle
 import android.util.Log
+import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.General.isSensitiveDebugLoggingEnabled
 import org.quantumbadger.redreader.common.PrefsUtility
@@ -33,6 +34,8 @@ class AlbumListingActivity : ComposeBaseActivity() {
 		PrefsUtility.applyTheme(this)
 
 		super.onCreate(savedInstanceState)
+
+		setTitle(R.string.image_gallery)
 
 		val url = UriString.fromNullable(intent.dataString)
 

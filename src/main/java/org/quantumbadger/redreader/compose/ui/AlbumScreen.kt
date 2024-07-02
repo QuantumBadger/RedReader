@@ -3,6 +3,7 @@ package org.quantumbadger.redreader.compose.ui
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -36,13 +38,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.ctx.Dest
@@ -112,6 +120,13 @@ fun AlbumScreen(
 	val theme = LocalComposeTheme.current
 	val launch = LocalLauncher.current
 
+	val accessibilityFocusRequester = remember { FocusRequester() }
+
+	LaunchedEffect(album) {
+		delay(1000)
+		accessibilityFocusRequester.requestFocus()
+	}
+
 	val topBarHeight = 48.dp
 
 	val contentPadding: PaddingValues = WindowInsets(top = 8.dp, bottom = 24.dp)
@@ -149,10 +164,10 @@ fun AlbumScreen(
 			Text(
 				modifier = Modifier
 					.fillMaxWidth()
+					.focusRequester(accessibilityFocusRequester)
+					.focusable(true)
 					.semantics {
-						contentDescription = album.title?.let { title ->
-							"Image gallery: $title"
-						} ?: "Image gallery" // TODO strings
+						heading()
 					},
 				text = album.title ?: "Gallery",  // TODO string
 				style = theme.album.title,
@@ -271,10 +286,15 @@ fun AlbumScreen(
 						val image = album.images[it]
 
 						NetImage(
-							modifier = Modifier.combinedClickable(
-								onClick = { itemClickHandler(it) },
-								onLongClick = { itemLongClickListener(it) }
-							),
+							modifier = Modifier
+								.combinedClickable(
+									onClick = { itemClickHandler(it) },
+									onLongClick = { itemLongClickListener(it) }
+								)
+								.semantics {
+									role = Role.Image
+									contentDescription = "Image " + (it + 1)
+								},
 							image = image.run {
 								bigSquare ?: preview ?: original
 							},
@@ -412,7 +432,7 @@ fun AlbumSettingsButton(
 		ItemDivider()
 
 		Item(
-			text = "All settings...",
+			text = "All settings",
 			icon = R.drawable.ic_settings_dark,
 			onClick = { launch(Dest.Settings) },
 		)

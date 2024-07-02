@@ -35,6 +35,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.common.RRError
@@ -80,6 +84,10 @@ fun AlbumCard(
 		Box(
 			modifier = Modifier
 				.fillMaxWidth()
+				.semantics {
+					role = Role.Button
+					contentDescription = "Image " + (index + 1)
+				}
 				.shadow(3.dp, RoundedCornerShape(6.dp))
 				.clip(RoundedCornerShape(6.dp))
 				.background(theme.postCard.backgroundColor)

@@ -52,12 +52,12 @@ import org.quantumbadger.redreader.compose.net.fetchAlbum
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.image.AlbumInfo
+import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
 // TODO handle legacy "go straight to first image" pref -- add optional callbacks to fetchAlbum
 // TODO revert to web on failure (add "view in browser" resolution, onLinkClicked(forceNoImage = true))
-// TODO handle videos in all three views
 // TODO theme small progress spinner
 // TODO go through all todos on this branch
 // TODO check for unstable composables
@@ -267,15 +267,21 @@ fun AlbumScreen(
 					}
 
 					items(count = album.images.size, key = { it }) {
+
+						val image = album.images[it]
+
 						NetImage(
 							modifier = Modifier.combinedClickable(
 								onClick = { itemClickHandler(it) },
 								onLongClick = { itemLongClickListener(it) }
 							),
-							image = album.images[it].run {
+							image = image.run {
 								bigSquare ?: preview ?: original
 							},
-							cropToAspect = 1f.takeIf { prefs.albumGridCropToSquare.value }
+							cropToAspect = 1f.takeIf { prefs.albumGridCropToSquare.value },
+							showVideoPlayOverlay = (image.mediaType == ImageInfo.MediaType.VIDEO
+									|| image.mediaType == ImageInfo.MediaType.GIF
+									|| image.isAnimated == true)
 						)
 					}
 				}

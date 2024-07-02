@@ -55,8 +55,6 @@ import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
-// TODO fix toolbar/edge-to-edge bug
-// TODO		-> split BaseActivity to remove layout stuff for Compose
 // TODO handle legacy "go straight to first image" pref -- add optional callbacks to fetchAlbum
 // TODO revert to web on failure (add "view in browser" resolution, onLinkClicked(forceNoImage = true))
 // TODO handle videos in all three views
@@ -69,9 +67,30 @@ import kotlin.math.min
 fun AlbumScreen(
 	albumUrl: UriString
 ) {
-	val theme = LocalComposeTheme.current
-
 	val album by fetchAlbum(albumUrl)
+
+	when (val it = album) {
+		NetRequestStatus.Connecting, is NetRequestStatus.Downloading -> {
+			InitialContainer {
+				CircularProgressIndicator()
+			}
+		}
+
+		is NetRequestStatus.Failed -> {
+			InitialContainer {
+				RRErrorView(error = it.error)
+			}
+		}
+
+		is NetRequestStatus.Success -> {
+			AlbumScreen(it.result)
+		}
+	}
+}
+
+@Composable
+private fun InitialContainer(content: @Composable () -> Unit) {
+	val theme = LocalComposeTheme.current
 
 	Box(
 		Modifier
@@ -80,21 +99,9 @@ fun AlbumScreen(
 			.systemBarsPadding(),
 		contentAlignment = Alignment.Center
 	) {
-		when (val it = album) {
-			NetRequestStatus.Connecting, is NetRequestStatus.Downloading -> {
-				CircularProgressIndicator()
-			}
-
-			is NetRequestStatus.Failed -> {
-				RRErrorView(error = it.error)
-			}
-			is NetRequestStatus.Success -> {
-				AlbumScreen(it.result)
-			}
-		}
+		content()
 	}
 }
-
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

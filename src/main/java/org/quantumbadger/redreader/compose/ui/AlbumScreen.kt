@@ -118,14 +118,14 @@ private fun InitialContainer(
 }
 
 @Composable
-fun DoOnce(vararg inputs: Any?, action: suspend () -> Unit) {
+private fun DoOnce(input: AlbumInfo, action: () -> Unit) {
 
 	// Only do this once, even if the activity gets relaunched
-	var alreadyDone by rememberSaveable(inputs = inputs) {
+	var alreadyDone by rememberSaveable(input) {
 		mutableStateOf(false)
 	}
 
-	LaunchedEffect(inputs) {
+	LaunchedEffect(input) {
 		if (!alreadyDone) {
 			alreadyDone = true
 			action()
@@ -149,7 +149,7 @@ fun AlbumScreen(
 		accessibilityFocusRequester.requestFocus()
 	}
 
-	DoOnce {
+	DoOnce(album) {
 		if (PrefsUtility.pref_album_skip_to_first()) {
 			album.images.firstOrNull()?.let {
 				launch(Dest.Link(it.original.url))

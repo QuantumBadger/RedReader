@@ -29,7 +29,7 @@ import androidx.appcompat.widget.TooltipCompat;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -46,7 +46,7 @@ public class RedditPostHeaderView extends LinearLayout {
 	@Nullable private final Runnable mChangeListenerRemoveTask;
 
 	public RedditPostHeaderView(
-			final ViewsBaseActivity activity,
+			final BaseActivity activity,
 			final RedditPreparedPost post) {
 
 		super(activity);

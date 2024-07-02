@@ -22,7 +22,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
 
 public abstract class BodyElement {
 
@@ -38,7 +38,7 @@ public abstract class BodyElement {
 	}
 
 	public abstract View generateView(
-			@NonNull ViewsBaseActivity activity,
+			@NonNull BaseActivity activity,
 			@Nullable Integer textColor,
 			@Nullable Float textSize,
 			boolean showLinkButtons);

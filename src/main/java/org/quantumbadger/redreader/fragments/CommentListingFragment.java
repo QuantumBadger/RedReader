@@ -42,8 +42,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.adapters.FilteredCommentListingManager;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy;
@@ -309,7 +309,7 @@ public class CommentListingFragment extends RRFragment
 
 						toolbarOverlay.setContents(RedditPostActions.INSTANCE.generateToolbar(
 								mPost,
-								(ViewsBaseActivity)getActivity(),
+								(BaseActivity)getActivity(),
 								true,
 								toolbarOverlay));
 						toolbarOverlay.show(edge == BezelSwipeOverlay.LEFT
@@ -406,7 +406,7 @@ public class CommentListingFragment extends RRFragment
 			new CommentListingRequest(
 					context,
 					this,
-					(ViewsBaseActivity)getActivity(),
+					(BaseActivity)getActivity(),
 					mUrlsToDownload.getFirst(),
 					mAllUrls.size() == 1,
 					mUrlsToDownload.getFirst(),
@@ -493,7 +493,7 @@ public class CommentListingFragment extends RRFragment
 	@Override
 	public void onCommentListingRequestPostDownloaded(final RedditPreparedPost post) {
 
-		final ViewsBaseActivity activity = (ViewsBaseActivity)getActivity();
+		final BaseActivity activity = (BaseActivity)getActivity();
 
 		if(mPost == null) {
 
@@ -721,7 +721,7 @@ public class CommentListingFragment extends RRFragment
 
 			RedditPostActions.INSTANCE.onActionMenuItemSelected(
 					mPost,
-					(ViewsBaseActivity)getActivity(),
+					(BaseActivity)getActivity(),
 					RedditPostActions.Action.REPLY);
 			return true;
 		}

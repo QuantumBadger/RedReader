@@ -26,7 +26,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.Fonts;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LinkDetailsView;
@@ -41,7 +41,7 @@ public final class MarkdownParagraphGroup {
 	}
 
 	public ViewGroup buildView(
-			final ViewsBaseActivity activity,
+			final BaseActivity activity,
 			final Integer textColor,
 			final Float textSize,
 			final boolean showLinkButtons) {

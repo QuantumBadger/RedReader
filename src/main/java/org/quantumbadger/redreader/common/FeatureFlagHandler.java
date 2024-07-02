@@ -23,11 +23,11 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ChangelogDialog;
@@ -323,7 +323,7 @@ public final class FeatureFlagHandler {
 
 
 	public static void handleLegacyUpgrade(
-			@NonNull final ViewsBaseActivity activity,
+			@NonNull final AppCompatActivity activity,
 			final int appVersion,
 			@NonNull final String versionName) {
 

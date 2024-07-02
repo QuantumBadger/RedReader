@@ -37,7 +37,6 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccountManager
 import org.quantumbadger.redreader.activities.BaseActivity
-import org.quantumbadger.redreader.activities.ViewsBaseActivity
 import org.quantumbadger.redreader.adapters.NoFilterAdapter
 import java.io.ByteArrayInputStream
 import java.security.cert.CertificateFactory
@@ -148,7 +147,7 @@ object AndroidCommon {
 
 	@JvmStatic
 	fun promptForNotificationPermission(
-        activity: ViewsBaseActivity,
+        activity: BaseActivity,
         onDisabled: Runnable? = null
 	) {
 		if (Build.VERSION.SDK_INT < 33) {

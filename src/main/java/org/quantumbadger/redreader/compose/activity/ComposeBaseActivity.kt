@@ -9,8 +9,8 @@ import org.quantumbadger.redreader.compose.ctx.RRComposeContext
 
 open class ComposeBaseActivity: BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
 		enableEdgeToEdge()
+		super.onCreate(savedInstanceState)
 	}
 
 	protected fun setContentCompose(content: @Composable () -> Unit) {

@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
@@ -56,7 +57,11 @@ fun AlbumCard(
 	val prefs = LocalComposePrefs.current
 	val theme = LocalComposeTheme.current
 
-	val preview = image.preview ?: image.original
+	val preview = if (image.mediaType == ImageInfo.MediaType.IMAGE) {
+		image.preview ?: image.original
+	} else {
+		image.preview ?: image.bigSquare
+	}
 
 	val systemBarsHeight = WindowInsets.systemBars.let { insets ->
 		with(LocalDensity.current) {
@@ -84,12 +89,22 @@ fun AlbumCard(
 				)
 		) {
 			Column(Modifier.fillMaxWidth()) {
-				NetImage(
-					modifier = Modifier
-						.fillMaxWidth()
-						.heightIn(max = maxImageHeight),
-					image = preview,
-				)
+				if (preview != null) {
+					NetImage(
+						modifier = Modifier
+							.fillMaxWidth()
+							.heightIn(max = maxImageHeight),
+						image = preview,
+						showVideoPlayOverlay = (image.mediaType == ImageInfo.MediaType.VIDEO
+								|| image.mediaType == ImageInfo.MediaType.GIF
+								|| image.isAnimated == true)
+					)
+				} else {
+					RRErrorView(RRError(
+						title = "No image preview available", // TODO string
+						url = image.original.url
+					))
+				}
 
 				val title = image.title?.trim()?.takeUnless { it.isEmpty() }
 				val caption = image.caption?.trim()?.takeUnless { it.isEmpty() }

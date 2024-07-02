@@ -25,15 +25,17 @@ import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.CommentReplyActivity;
 import org.quantumbadger.redreader.activities.InboxListingActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
@@ -160,7 +162,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	}
 
 	@Override
-	public void handleInboxClick(final BaseActivity activity) {
+	public void handleInboxClick(final ViewsBaseActivity activity) {
 
 		if(src.getAuthor() == null) {
 			return;
@@ -176,7 +178,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	}
 
 	@Override
-	public void handleInboxLongClick(final BaseActivity activity) {
+	public void handleInboxLongClick(final ViewsBaseActivity activity) {
 		handleInboxClick(activity);
 	}
 
@@ -240,7 +242,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 
 	@Override
 	public View getBody(
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final Integer textColor,
 			final Float textSize,
 			final boolean showLinkButtons) {

@@ -24,10 +24,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import org.quantumbadger.redreader.activities.BaseActivity;
+
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.General;
 
 public abstract class RRFragment {
@@ -102,7 +104,7 @@ public abstract class RRFragment {
 		return outer;
 	}
 
-	public final void setBaseActivityContent(@NonNull final BaseActivity baseActivity) {
+	public final void setBaseActivityContent(@NonNull final ViewsBaseActivity baseActivity) {
 
 		{
 			final View view = getListingView();

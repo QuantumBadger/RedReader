@@ -18,8 +18,10 @@
 package org.quantumbadger.redreader.common;
 
 import android.graphics.Rect;
+
 import androidx.annotation.NonNull;
-import org.quantumbadger.redreader.activities.BaseActivity;
+
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 
 public final class DisplayUtils {
 
@@ -29,7 +31,7 @@ public final class DisplayUtils {
 
 	@NonNull
 	public static Rect getWindowVisibleDisplayFrame(
-			@NonNull final BaseActivity activity) {
+			@NonNull final ViewsBaseActivity activity) {
 
 		activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(
 				sWindowVisibleDisplayFrame);

@@ -21,16 +21,19 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.adapters.AccountListAdapter;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
@@ -103,8 +106,8 @@ public class AccountListDialog extends AppCompatDialogFragment
 		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 			rv.setAdapter(new AccountListAdapter(mActivity, this));
 
-			if(mActivity instanceof BaseActivity) {
-				AndroidCommon.promptForNotificationPermission((BaseActivity) mActivity, null);
+			if(mActivity instanceof ViewsBaseActivity) {
+				AndroidCommon.promptForNotificationPermission((ViewsBaseActivity) mActivity, null);
 			}
 		});
 	}

@@ -19,9 +19,11 @@ package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import org.quantumbadger.redreader.activities.BaseActivity;
+
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -47,7 +49,7 @@ public interface RedditRenderableCommentListItem {
 			@NonNull final Optional<Integer> indentLevel);
 
 	View getBody(
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final Integer textColor,
 			final Float textSize,
 			final boolean showLinkButtons);

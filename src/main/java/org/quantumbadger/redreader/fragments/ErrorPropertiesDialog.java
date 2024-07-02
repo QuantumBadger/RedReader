@@ -27,8 +27,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.RRError;
 
 import java.net.SocketTimeoutException;
@@ -95,7 +95,7 @@ public final class ErrorPropertiesDialog extends PropertiesDialog {
 
 	@Override
 	protected void prepare(
-			@NonNull final BaseActivity context,
+			@NonNull final ViewsBaseActivity context,
 			@NonNull final LinearLayout items) {
 
 		mContext = context;

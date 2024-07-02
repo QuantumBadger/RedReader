@@ -23,7 +23,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import org.quantumbadger.redreader.activities.BaseActivity;
+
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -43,10 +44,10 @@ public class RedditInboxItemView extends LinearLayout {
 
 	private RedditRenderableInboxItem currentItem = null;
 
-	private final BaseActivity mActivity;
+	private final ViewsBaseActivity mActivity;
 
 	public RedditInboxItemView(
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final RRThemeAttributes theme) {
 
 		super(activity);
@@ -98,7 +99,7 @@ public class RedditInboxItemView extends LinearLayout {
 	}
 
 	public void reset(
-			final BaseActivity context,
+			final ViewsBaseActivity context,
 			final RedditChangeDataManager changeDataManager,
 			final RRThemeAttributes theme,
 			final RedditRenderableInboxItem item,
@@ -136,13 +137,13 @@ public class RedditInboxItemView extends LinearLayout {
 		General.setLayoutMatchWidthWrapHeight(body);
 	}
 
-	public void handleInboxClick(final BaseActivity activity) {
+	public void handleInboxClick(final ViewsBaseActivity activity) {
 		if(currentItem != null) {
 			currentItem.handleInboxClick(activity);
 		}
 	}
 
-	public void handleInboxLongClick(final BaseActivity activity) {
+	public void handleInboxLongClick(final ViewsBaseActivity activity) {
 		if(currentItem != null) {
 			currentItem.handleInboxLongClick(activity);
 		}

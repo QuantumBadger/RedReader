@@ -42,7 +42,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
@@ -69,7 +69,7 @@ import java.util.TimerTask;
 public class WebViewFragment extends Fragment
 		implements RedditPostView.PostSelectionListener {
 
-	private BaseActivity mActivity;
+	private ViewsBaseActivity mActivity;
 
 	private UriString mUrl;
 	private String html;
@@ -121,7 +121,7 @@ public class WebViewFragment extends Fragment
 			final ViewGroup container,
 			final Bundle savedInstanceState) {
 
-		mActivity = (BaseActivity)getActivity();
+		mActivity = (ViewsBaseActivity)getActivity();
 
 		CookieSyncManager.createInstance(mActivity);
 

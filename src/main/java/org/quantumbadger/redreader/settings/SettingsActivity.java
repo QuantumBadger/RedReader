@@ -24,10 +24,10 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentTransaction;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
-public class SettingsActivity extends BaseActivity {
+public class SettingsActivity extends ViewsBaseActivity {
 
 	private void launchFragment(@NonNull final String panel) {
 

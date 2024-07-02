@@ -37,7 +37,7 @@ import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 
-public class PostSubmitActivity extends BaseActivity implements
+public class PostSubmitActivity extends ViewsBaseActivity implements
 		PostSubmitSubredditSelectionFragment.Listener,
 		PostSubmitContentFragment.Listener {
 

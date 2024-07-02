@@ -28,7 +28,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -43,7 +45,7 @@ import org.quantumbadger.redreader.reddit.RedditAPI;
 
 import java.util.ArrayList;
 
-public class PMSendActivity extends BaseActivity {
+public class PMSendActivity extends ViewsBaseActivity {
 
 	public static final String EXTRA_RECIPIENT = "recipient";
 	public static final String EXTRA_SUBJECT = "subject";

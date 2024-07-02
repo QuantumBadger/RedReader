@@ -22,10 +22,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -59,7 +61,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class SubredditSearchActivity extends BaseActivity implements
+public class SubredditSearchActivity extends ViewsBaseActivity implements
 		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
 	private static final String TAG = "SubredditSearchActivity";

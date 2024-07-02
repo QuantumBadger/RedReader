@@ -20,11 +20,14 @@ package org.quantumbadger.redreader.common;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ChangelogDialog;
@@ -320,7 +323,7 @@ public final class FeatureFlagHandler {
 
 
 	public static void handleLegacyUpgrade(
-			@NonNull final BaseActivity activity,
+			@NonNull final ViewsBaseActivity activity,
 			final int appVersion,
 			@NonNull final String versionName) {
 

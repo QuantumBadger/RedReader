@@ -24,13 +24,15 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -52,7 +54,7 @@ public class RedditCommentView extends FlingableItemView
 
 	private RedditCommentListItem mComment;
 
-	private final BaseActivity mActivity;
+	private final ViewsBaseActivity mActivity;
 	private final RedditChangeDataManager mChangeDataManager;
 	private final RRThemeAttributes mTheme;
 
@@ -309,7 +311,7 @@ public class RedditCommentView extends FlingableItemView
 	}
 
 	public RedditCommentView(
-			final BaseActivity context,
+			final ViewsBaseActivity context,
 			final RRThemeAttributes themeAttributes,
 			final CommentListener listener,
 			@Nullable final CommentListingFragment fragment) {
@@ -363,13 +365,13 @@ public class RedditCommentView extends FlingableItemView
 	}
 
 	public void reset(
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final RedditCommentListItem comment) {
 		reset(activity, comment, false);
 	}
 
 	public void reset(
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final RedditCommentListItem comment,
 			final boolean updateOnly) {
 

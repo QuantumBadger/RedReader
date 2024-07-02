@@ -104,7 +104,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class ImageViewActivity extends BaseActivity
+public class ImageViewActivity extends ViewsBaseActivity
 		implements RedditPostView.PostSelectionListener,
 		ImageViewDisplayListManager.Listener {
 

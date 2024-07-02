@@ -19,9 +19,11 @@ package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
 import android.text.SpannableStringBuilder;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import org.quantumbadger.redreader.activities.BaseActivity;
+
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
@@ -51,7 +53,7 @@ public class BodyElementTextSpanned extends BodyElement implements DynamicSpanne
 
 	@Override
 	public View generateView(
-			@NonNull final BaseActivity activity,
+			@NonNull final ViewsBaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {

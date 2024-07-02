@@ -28,7 +28,7 @@ import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.UriString
 
-class RedditTermsActivity : BaseActivity() {
+class RedditTermsActivity : ViewsBaseActivity() {
 
 	companion object {
 

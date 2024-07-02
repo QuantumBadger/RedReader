@@ -24,9 +24,11 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import org.quantumbadger.redreader.activities.BaseActivity;
+
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 
 import java.util.ArrayList;
 
@@ -41,7 +43,7 @@ public class BodyElementTable extends BodyElement {
 
 	@Override
 	public View generateView(
-			@NonNull final BaseActivity activity,
+			@NonNull final ViewsBaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {

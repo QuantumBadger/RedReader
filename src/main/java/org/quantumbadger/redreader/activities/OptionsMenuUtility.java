@@ -99,7 +99,7 @@ public final class OptionsMenuUtility {
 		UNBLOCK
 	}
 
-	public static <E extends BaseActivity & OptionsMenuListener> void prepare(
+	public static <E extends ViewsBaseActivity & OptionsMenuListener> void prepare(
 			final E activity,
 			final Menu menu,
 			final boolean subredditsVisible,
@@ -544,8 +544,8 @@ public final class OptionsMenuUtility {
 	}
 
 	private static void addSubscriptionItem(
-			final BaseActivity activity, final Menu menu, final int showAsAction,
-			final SubredditSubscriptionState subredditSubscriptionState) {
+            final ViewsBaseActivity activity, final Menu menu, final int showAsAction,
+            final SubredditSubscriptionState subredditSubscriptionState) {
 
 		if(subredditSubscriptionState == null) {
 			return;
@@ -571,14 +571,14 @@ public final class OptionsMenuUtility {
 	}
 
 	private static void add(
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final Menu menu,
 			final Option option) {
 		add(activity, menu, option, MenuItem.SHOW_AS_ACTION_NEVER, true);
 	}
 
 	private static void add(
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final Menu menu,
 			final Option option,
 			int showAsAction,
@@ -1322,7 +1322,7 @@ public final class OptionsMenuUtility {
 	}
 
 	private static void addAccounts(
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final Menu menu,
 			final int showAsAction) {
 

@@ -20,9 +20,11 @@ package org.quantumbadger.redreader.reddit;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
@@ -45,7 +47,7 @@ public class RedditCommentListItem
 	private final int mIndent;
 	private final RedditCommentListItem mParent;
 	private final CommentListingFragment mFragment;
-	private final BaseActivity mActivity;
+	private final ViewsBaseActivity mActivity;
 	private final RedditURLParser.RedditURL mCommentListingUrl;
 
 	private final RedditRenderableComment mComment;
@@ -57,7 +59,7 @@ public class RedditCommentListItem
 			final RedditRenderableComment comment,
 			final RedditCommentListItem parent,
 			final CommentListingFragment fragment,
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final RedditURLParser.RedditURL commentListingUrl) {
 
 		mParent = parent;
@@ -82,7 +84,7 @@ public class RedditCommentListItem
 			final RedditMore moreComments,
 			final RedditCommentListItem parent,
 			final CommentListingFragment fragment,
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final RedditURLParser.RedditURL commentListingUrl) {
 
 		mParent = parent;

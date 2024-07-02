@@ -27,8 +27,8 @@ import androidx.annotation.UiThread;
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
@@ -74,7 +74,7 @@ public class CommentListingRequest {
 
 	private final Context mContext;
 	private final CommentListingFragment mFragment;
-	private final BaseActivity mActivity;
+	private final ViewsBaseActivity mActivity;
 	private final RedditURLParser.RedditURL mCommentListingURL;
 
 	private final boolean mParsePostSelfText;
@@ -89,7 +89,7 @@ public class CommentListingRequest {
 	public CommentListingRequest(
 			final Context context,
 			final CommentListingFragment fragment,
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final RedditURLParser.RedditURL commentListingURL,
 			final boolean parsePostSelfText,
 			final RedditURLParser.RedditURL url,

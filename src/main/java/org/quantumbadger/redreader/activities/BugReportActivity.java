@@ -39,7 +39,7 @@ import org.quantumbadger.redreader.common.RRError;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class BugReportActivity extends BaseActivity {
+public class BugReportActivity extends ViewsBaseActivity {
 
 	private static final ArrayList<RRError> errors = new ArrayList<>();
 

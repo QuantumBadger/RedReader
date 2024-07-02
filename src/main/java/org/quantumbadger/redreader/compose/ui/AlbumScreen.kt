@@ -34,7 +34,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -52,6 +55,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import org.quantumbadger.redreader.R
+import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.ctx.Dest
 import org.quantumbadger.redreader.compose.ctx.LocalLauncher
@@ -64,7 +68,6 @@ import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
-// TODO handle legacy "go straight to first image" pref -- add optional callbacks to fetchAlbum
 // TODO revert to web on failure (add "view in browser" resolution, onLinkClicked(forceNoImage = true))
 // TODO theme small progress spinner
 // TODO go through all todos on this branch
@@ -97,17 +100,36 @@ fun AlbumScreen(
 }
 
 @Composable
-private fun InitialContainer(content: @Composable () -> Unit) {
+private fun InitialContainer(
+	modifier: Modifier = Modifier,
+	content: @Composable () -> Unit
+) {
 	val theme = LocalComposeTheme.current
 
 	Box(
-		Modifier
+		modifier
 			.fillMaxSize()
 			.background(theme.postCard.listBackgroundColor)
 			.systemBarsPadding(),
 		contentAlignment = Alignment.Center
 	) {
 		content()
+	}
+}
+
+@Composable
+fun DoOnce(vararg inputs: Any?, action: suspend () -> Unit) {
+
+	// Only do this once, even if the activity gets relaunched
+	var alreadyDone by rememberSaveable(inputs = inputs) {
+		mutableStateOf(false)
+	}
+
+	LaunchedEffect(inputs) {
+		if (!alreadyDone) {
+			alreadyDone = true
+			action()
+		}
 	}
 }
 
@@ -125,6 +147,14 @@ fun AlbumScreen(
 	LaunchedEffect(album) {
 		delay(1000)
 		accessibilityFocusRequester.requestFocus()
+	}
+
+	DoOnce {
+		if (PrefsUtility.pref_album_skip_to_first()) {
+			album.images.firstOrNull()?.let {
+				launch(Dest.Link(it.original.url))
+			}
+		}
 	}
 
 	val topBarHeight = 48.dp

@@ -35,7 +35,7 @@ fun AlbumEntryButtons(
 
 		RRDropdownMenuIconButton(
 			icon = R.drawable.ic_action_share_dark,
-			contentDescription = R.string.action_share_image
+			contentDescription = R.string.action_share
 		) {
 			Item(
 				icon = R.drawable.ic_action_image_dark,

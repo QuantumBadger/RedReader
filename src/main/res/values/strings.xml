@@ -1823,7 +1823,7 @@
 
 	<string name="pref_header_album_viewer">Album viewer</string>
 
-	<string name="pref_album_skip_to_first_key" translatable="false">pref_album_skip_to_first_key</string>
+	<string name="pref_album_skip_to_first_key" translatable="false">pref_album_skip_to_first_key_2</string>
 	<string name="pref_album_skip_to_first_title">Automatically open first album image</string>
 
 	<!-- 2024-01-06 -->

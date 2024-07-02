@@ -33,10 +33,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textview.MaterialTextView
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccountManager
+import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.activities.BugReportActivity
 import org.quantumbadger.redreader.activities.OAuthLoginActivity
 import org.quantumbadger.redreader.activities.PMSendActivity
-import org.quantumbadger.redreader.activities.ViewsBaseActivity
 import org.quantumbadger.redreader.cache.CacheManager
 import org.quantumbadger.redreader.cache.CacheRequest
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks
@@ -411,7 +411,7 @@ object UserProfileDialog {
 	private fun launchAndCompleteLogin(activity: AppCompatActivity, context: AppCompatActivity) {
 		val loginIntent = Intent(context, OAuthLoginActivity::class.java)
 		//let OAuthLoginActivity call back the url and code 123, then do completeLogin
-		(activity as ViewsBaseActivity).startActivityForResultWithCallback(
+		(activity as BaseActivity).startActivityForResultWithCallback(
 				loginIntent
 		) { resultCode: Int, data: Intent? ->
 			if (data != null) {

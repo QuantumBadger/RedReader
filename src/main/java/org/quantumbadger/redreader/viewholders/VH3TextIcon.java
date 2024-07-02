@@ -26,7 +26,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
 import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementLinkButton;
@@ -63,7 +63,7 @@ public class VH3TextIcon extends RecyclerView.ViewHolder {
 		extra.removeAllViews();
 	}
 
-	public void addLinkButton(final ViewsBaseActivity activity, final UriString url) {
+	public void addLinkButton(final BaseActivity activity, final UriString url) {
 		final BodyElementLinkButton linkButton
 				= new BodyElementLinkButton(new HtmlRawElement.LinkButtonDetails(url.value, url));
 

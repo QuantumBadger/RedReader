@@ -38,10 +38,10 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
 import org.quantumbadger.redreader.adapters.PostListingManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -676,7 +676,7 @@ public class PostListingFragment extends RRFragment
 							final boolean fromCache,
 							@Nullable final String mimetype) {
 
-						final ViewsBaseActivity activity = (ViewsBaseActivity)getActivity();
+						final BaseActivity activity = (BaseActivity)getActivity();
 
 						// One hour (matches default refresh value)
 						if(firstDownload && fromCache) {

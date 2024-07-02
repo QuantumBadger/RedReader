@@ -48,9 +48,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.ImgurUploadActivity;
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Consumer;
@@ -340,7 +340,7 @@ public class PostSubmitContentFragment extends Fragment {
 
 			final Intent intent = new Intent(activity, ImgurUploadActivity.class);
 
-			((ViewsBaseActivity)activity).startActivityForResultWithCallback(
+			((BaseActivity)activity).startActivityForResultWithCallback(
 					intent,
 					(resultCode, data) -> {
 				if(data != null && data.getData() != null) {

@@ -32,7 +32,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.views.LinkifiedTextView;
@@ -64,11 +64,11 @@ public final class MarkdownParagraph {
 			this.url = url;
 		}
 
-		public void onClicked(final ViewsBaseActivity activity) {
+		public void onClicked(final BaseActivity activity) {
 			LinkHandler.onLinkClicked(activity, url, false);
 		}
 
-		public void onLongClicked(final ViewsBaseActivity activity) {
+		public void onLongClicked(final BaseActivity activity) {
 			LinkHandler.onLinkLongClicked(activity, url);
 		}
 	}

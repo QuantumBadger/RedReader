@@ -44,10 +44,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.ChangelogActivity;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
@@ -244,11 +244,11 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 
 					final Activity activity = getActivity();
 
-					if (activity instanceof ViewsBaseActivity) {
+					if (activity instanceof BaseActivity) {
 						// Delay this because the preference hasn't taken effect yet
 						AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
 							AndroidCommon.promptForNotificationPermission(
-									(ViewsBaseActivity) activity,
+									(BaseActivity) activity,
 									() -> {
 										notifPref.setChecked(false);
 									}
@@ -329,7 +329,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 		if(backupPreferencesPref != null) {
 			backupPreferencesPref.setOnPreferenceClickListener(preference -> {
 
-				final ViewsBaseActivity activity = (ViewsBaseActivity)getActivity();
+				final BaseActivity activity = (BaseActivity)getActivity();
 
 				if(activity == null) {
 					return true;

@@ -30,7 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 
 public class BodyElementSpoilerButton extends BodyElementBaseButton {
@@ -48,7 +48,7 @@ public class BodyElementSpoilerButton extends BodyElementBaseButton {
 	@NonNull
 	@Override
 	protected View.OnClickListener generateOnClickListener(
-			@NonNull final ViewsBaseActivity activity,
+			@NonNull final BaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
@@ -86,7 +86,7 @@ public class BodyElementSpoilerButton extends BodyElementBaseButton {
 	@Nullable
 	@Override
 	protected View.OnLongClickListener generateOnLongClickListener(
-			@NonNull final ViewsBaseActivity activity,
+			@NonNull final BaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {

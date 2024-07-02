@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
+import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class BodyElementVerticalSequence extends BodyElement {
 
 	@Override
 	public View generateView(
-			@NonNull final ViewsBaseActivity activity,
+			@NonNull final BaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {

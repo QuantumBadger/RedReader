@@ -21,11 +21,11 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BugReportActivity;
-import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
@@ -83,7 +83,7 @@ public final class PrefsBackup {
 	private PrefsBackup() {}
 
 	public static void backup(
-			@NonNull final ViewsBaseActivity activity,
+			@NonNull final AppCompatActivity activity,
 			@NonNull final BackupDestination destination,
 			@NonNull final Runnable onSuccess) {
 
@@ -237,7 +237,7 @@ public final class PrefsBackup {
 	}
 
 	public static void restore(
-			@NonNull final ViewsBaseActivity activity,
+			@NonNull final AppCompatActivity activity,
 			@NonNull final BackupSource source,
 			@NonNull final Runnable onSuccess) {
 

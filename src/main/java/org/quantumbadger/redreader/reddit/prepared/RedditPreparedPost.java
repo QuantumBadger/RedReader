@@ -32,7 +32,7 @@ import androidx.annotation.StringRes;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
@@ -139,7 +139,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return src.isVideoPreview();
 	}
 
-	public void performAction(final BaseActivity activity, final RedditPostActions.Action action) {
+	public void performAction(final ViewsBaseActivity activity, final RedditPostActions.Action action) {
 		RedditPostActions.INSTANCE.onActionMenuItemSelected(this, activity, action);
 	}
 

@@ -27,6 +27,7 @@ import android.text.Html;
 import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
@@ -37,14 +38,16 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.BuildConfig;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.ChangelogActivity;
 import org.quantumbadger.redreader.activities.HtmlViewActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.Constants;
@@ -241,11 +244,11 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 
 					final Activity activity = getActivity();
 
-					if (activity instanceof BaseActivity) {
+					if (activity instanceof ViewsBaseActivity) {
 						// Delay this because the preference hasn't taken effect yet
 						AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
 							AndroidCommon.promptForNotificationPermission(
-									(BaseActivity) activity,
+									(ViewsBaseActivity) activity,
 									() -> {
 										notifPref.setChecked(false);
 									}
@@ -326,7 +329,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 		if(backupPreferencesPref != null) {
 			backupPreferencesPref.setOnPreferenceClickListener(preference -> {
 
-				final BaseActivity activity = (BaseActivity)getActivity();
+				final ViewsBaseActivity activity = (ViewsBaseActivity)getActivity();
 
 				if(activity == null) {
 					return true;

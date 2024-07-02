@@ -22,11 +22,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -41,7 +43,7 @@ import java.util.Locale;
 
 public class SubredditItemViewHolder extends RecyclerView.ViewHolder {
 
-	private final BaseActivity mActivity;
+	private final ViewsBaseActivity mActivity;
 	private final RRThemeAttributes mTheme;
 	private final float mBodyFontScale;
 
@@ -53,7 +55,7 @@ public class SubredditItemViewHolder extends RecyclerView.ViewHolder {
 
 	public SubredditItemViewHolder(
 			@NonNull final ViewGroup parent,
-			final BaseActivity activity) {
+			final ViewsBaseActivity activity) {
 
 		super(LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.subreddit_item_view, parent, false));

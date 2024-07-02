@@ -34,7 +34,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.General;
 
 public abstract class PropertiesDialog extends AppCompatDialogFragment {
@@ -48,7 +48,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 	protected abstract String getTitle(Context context);
 
 	protected abstract void prepare(
-			@NonNull BaseActivity context,
+			@NonNull ViewsBaseActivity context,
 			@NonNull LinearLayout items);
 
 	@NonNull
@@ -61,7 +61,7 @@ public abstract class PropertiesDialog extends AppCompatDialogFragment {
 		}
 		alreadyCreated = true;
 
-		final BaseActivity activity = (BaseActivity)getActivity();
+		final ViewsBaseActivity activity = (ViewsBaseActivity)getActivity();
 
 		final TypedArray attr = activity.obtainStyledAttributes(new int[] {
 				com.google.android.material.R.attr.colorPrimary,

@@ -62,7 +62,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
-public class ImgurUploadActivity extends BaseActivity {
+public class ImgurUploadActivity extends ViewsBaseActivity {
 
 	private TextView mTextView;
 

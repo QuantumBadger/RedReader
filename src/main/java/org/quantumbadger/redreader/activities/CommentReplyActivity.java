@@ -58,7 +58,7 @@ import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class CommentReplyActivity extends BaseActivity {
+public class CommentReplyActivity extends ViewsBaseActivity {
 
 	private enum ParentType {
 		MESSAGE, COMMENT_OR_POST

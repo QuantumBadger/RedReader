@@ -18,9 +18,11 @@
 package org.quantumbadger.redreader.reddit.prepared.bodytext;
 
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import org.quantumbadger.redreader.activities.BaseActivity;
+
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlRawElement;
 
@@ -37,7 +39,7 @@ public class BodyElementLinkButton extends BodyElementBaseButton {
 	@NonNull
 	@Override
 	protected View.OnClickListener generateOnClickListener(
-			@NonNull final BaseActivity activity,
+			@NonNull final ViewsBaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {
@@ -48,7 +50,7 @@ public class BodyElementLinkButton extends BodyElementBaseButton {
 	@Nullable
 	@Override
 	protected View.OnLongClickListener generateOnLongClickListener(
-			@NonNull final BaseActivity activity,
+			@NonNull final ViewsBaseActivity activity,
 			@Nullable final Integer textColor,
 			@Nullable final Float textSize,
 			final boolean showLinkButtons) {

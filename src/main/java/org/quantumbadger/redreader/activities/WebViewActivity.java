@@ -35,7 +35,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
-public class WebViewActivity extends BaseActivity
+public class WebViewActivity extends ViewsBaseActivity
 		implements RedditPostView.PostSelectionListener {
 
 	private WebViewFragment webView;

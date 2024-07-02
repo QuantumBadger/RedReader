@@ -36,7 +36,7 @@ import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import info.guardianproject.netcipher.webkit.WebkitProxy;
 
-public class OAuthLoginActivity extends BaseActivity {
+public class OAuthLoginActivity extends ViewsBaseActivity {
 
 	private WebView mWebView;
 

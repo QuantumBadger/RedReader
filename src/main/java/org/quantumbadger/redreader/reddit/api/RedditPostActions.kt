@@ -33,12 +33,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.apache.commons.text.StringEscapeUtils
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccountManager
-import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.activities.BugReportActivity
 import org.quantumbadger.redreader.activities.CommentEditActivity
 import org.quantumbadger.redreader.activities.CommentReplyActivity
 import org.quantumbadger.redreader.activities.MainActivity
 import org.quantumbadger.redreader.activities.PostListingActivity
+import org.quantumbadger.redreader.activities.ViewsBaseActivity
 import org.quantumbadger.redreader.activities.WebViewActivity
 import org.quantumbadger.redreader.cache.CacheManager
 import org.quantumbadger.redreader.common.AndroidCommon
@@ -252,7 +252,7 @@ object RedditPostActions {
 	fun setupAccessibilityActions(
 		accessibilityActionManager: AccessibilityActionManager,
 		post: RedditPreparedPost,
-		activity: BaseActivity,
+		activity: ViewsBaseActivity,
 		isOpen: Boolean
 	) {
 		fun addAccessibilityActionFromDescriptionPair(
@@ -324,7 +324,7 @@ object RedditPostActions {
 
 	fun onActionMenuItemSelected(
 		post: RedditPreparedPost,
-		activity: BaseActivity,
+		activity: ViewsBaseActivity,
 		action: Action
 	) {
 		when (action) {
@@ -649,7 +649,7 @@ object RedditPostActions {
 	}
 
 	fun showActionMenu(
-		activity: BaseActivity,
+		activity: ViewsBaseActivity,
 		post: RedditPreparedPost
 	) {
 		val itemPref = PrefsUtility.pref_menus_post_context_items()
@@ -893,7 +893,7 @@ object RedditPostActions {
 
 	fun generateToolbar(
 		post: RedditPreparedPost,
-		activity: BaseActivity,
+		activity: ViewsBaseActivity,
 		isComments: Boolean,
 		overlay: SideToolbarOverlay
 	): VerticalToolbar {
@@ -1014,7 +1014,7 @@ object RedditPostActions {
 
 	fun action(
 		post: RedditPreparedPost,
-		activity: BaseActivity,
+		activity: ViewsBaseActivity,
 		@RedditAction action: Int
 	) {
 		val user = RedditAccountManager.getInstance(activity).defaultAccount

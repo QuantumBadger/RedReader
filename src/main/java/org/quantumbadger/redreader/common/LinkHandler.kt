@@ -353,9 +353,9 @@ object LinkHandler {
 	}
 
 	fun onActionMenuItemSelected(
-		uri: UriString,
-		activity: BaseActivity,
-		action: LinkAction
+        uri: UriString,
+        activity: BaseActivity,
+        action: LinkAction
 	) {
 		when (action) {
 			LinkAction.SHARE -> shareText(activity, null, getPreferredRedditUriString(uri).value)

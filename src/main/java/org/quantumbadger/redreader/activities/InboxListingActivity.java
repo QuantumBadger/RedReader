@@ -78,7 +78,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public final class InboxListingActivity extends BaseActivity {
+public final class InboxListingActivity extends ViewsBaseActivity {
 
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;

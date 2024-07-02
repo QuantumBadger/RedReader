@@ -27,7 +27,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.ChangelogManager;
 import org.quantumbadger.redreader.common.PrefsUtility;
 
-public class ChangelogActivity extends BaseActivity {
+public class ChangelogActivity extends ViewsBaseActivity {
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {

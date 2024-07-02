@@ -21,9 +21,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParagraphGroup;
 import org.quantumbadger.redreader.reddit.prepared.markdown.MarkdownParser;
@@ -48,7 +50,7 @@ public class MarkdownPreviewDialog extends PropertiesDialog {
 
 	@Override
 	protected void prepare(
-			@NonNull final BaseActivity activity,
+			@NonNull final ViewsBaseActivity activity,
 			@NonNull final LinearLayout items) {
 
 		final MarkdownParagraphGroup parsedGen

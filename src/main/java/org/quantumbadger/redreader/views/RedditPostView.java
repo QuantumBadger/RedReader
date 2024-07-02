@@ -43,7 +43,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.ViewsBaseActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
@@ -107,7 +107,7 @@ public final class RedditPostView extends FlingableItemView
 
 	private final Handler thumbnailHandler;
 
-	private final BaseActivity mActivity;
+	private final ViewsBaseActivity mActivity;
 
 	private final PrefsUtility.PostFlingAction mLeftFlingPref;
 	private final PrefsUtility.PostFlingAction mRightFlingPref;
@@ -184,7 +184,7 @@ public final class RedditPostView extends FlingableItemView
 	public RedditPostView(
 			final Context context,
 			final PostListingFragment fragmentParent,
-			final BaseActivity activity,
+			final ViewsBaseActivity activity,
 			final boolean leftHandedMode) {
 
 		super(context);

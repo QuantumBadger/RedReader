@@ -13,10 +13,6 @@ open class ComposeBaseActivity: BaseActivity() {
 		enableEdgeToEdge()
 	}
 
-	override fun baseActivityIsToolbarActionBarEnabled(): Boolean {
-		return false;
-	}
-
 	protected fun setContentCompose(content: @Composable () -> Unit) {
 		setContentView(ComposeView(this).also { view ->
 			view.setContent {

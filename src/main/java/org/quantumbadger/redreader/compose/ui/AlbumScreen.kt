@@ -55,6 +55,8 @@ import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
+// TODO fix toolbar/edge-to-edge bug
+// TODO		-> split BaseActivity to remove layout stuff for Compose
 // TODO handle legacy "go straight to first image" pref -- add optional callbacks to fetchAlbum
 // TODO revert to web on failure (add "view in browser" resolution, onLinkClicked(forceNoImage = true))
 // TODO handle videos in all three views

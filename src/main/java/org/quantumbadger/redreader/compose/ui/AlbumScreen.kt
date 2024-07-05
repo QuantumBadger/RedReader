@@ -228,6 +228,7 @@ fun AlbumScreen(
 				modifier = Modifier.fillMaxWidth(),
 				text = album.description ?: pluralStringResource(
 					R.plurals.album_image_count,
+					album.images.size,
 					album.images.size
 				),
 				style = theme.album.subtitle,

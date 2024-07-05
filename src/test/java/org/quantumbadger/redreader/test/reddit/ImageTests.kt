@@ -18,6 +18,7 @@ package org.quantumbadger.redreader.test.reddit
 
 import org.junit.Assert
 import org.junit.Test
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.reddit.kthings.JsonUtils
 import org.quantumbadger.redreader.reddit.kthings.RedditThing
 
@@ -226,7 +227,7 @@ class ImageTests {
 		val post = JsonUtils.decodeRedditThingFromStream(json.byteInputStream())
 
 		Assert.assertEquals(
-			"https://preview.redd.it/kcxj4pb54r3c1.gif?format=mp4&s=10d866af8122f89103f57b6ee19a64cd3fefaf14",
+			UriString("https://preview.redd.it/kcxj4pb54r3c1.gif?format=mp4&s=10d866af8122f89103f57b6ee19a64cd3fefaf14"),
 			(post as RedditThing.Post).data.findUrl())
 	}
 
@@ -393,6 +394,6 @@ class ImageTests {
 
 		val post = JsonUtils.decodeRedditThingFromStream(json.byteInputStream())
 
-		Assert.assertEquals("https://www.reddit.com/gallery/13v4t0m", (post as RedditThing.Post).data.findUrl())
+		Assert.assertEquals(UriString("https://www.reddit.com/gallery/13v4t0m"), (post as RedditThing.Post).data.findUrl())
 	}
 }

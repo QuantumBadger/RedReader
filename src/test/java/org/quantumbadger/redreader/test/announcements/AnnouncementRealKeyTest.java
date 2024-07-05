@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.test.announcements;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.receivers.announcements.Announcement;
 import org.quantumbadger.redreader.receivers.announcements.Payload;
 import org.quantumbadger.redreader.receivers.announcements.SignatureHandler;
@@ -47,7 +48,7 @@ public class AnnouncementRealKeyTest {
 
 		Assert.assertEquals("Test title", announcement.title);
 		Assert.assertEquals("Test message", announcement.message);
-		Assert.assertEquals("https://test_url", announcement.url);
+		Assert.assertEquals(new UriString("https://test_url"), announcement.url);
 		Assert.assertEquals(1609085745063L, announcement.showUntil.toUtcMs());
 	}
 }

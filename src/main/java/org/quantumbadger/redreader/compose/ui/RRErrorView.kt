@@ -62,23 +62,23 @@ fun RRErrorView(error: RRError) {
 		}
 
 		Box(
-            Modifier
-                .fillMaxWidth()
-                .border(1.dp, theme.border, RoundedCornerShape(6.dp))
-                .clip(RoundedCornerShape(6.dp))
-                .background(theme.background)
-                .invokeIf(smallWidth) {
-                    fillMaxHeight().clickable(onClick = {
-                        launch(Dest.ResultDialog(error))
-                    })
-                }
-                .padding(12.dp),
+			Modifier
+				.fillMaxWidth()
+				.border(1.dp, theme.border, RoundedCornerShape(6.dp))
+				.clip(RoundedCornerShape(6.dp))
+				.background(theme.background)
+				.invokeIf(smallWidth) {
+					fillMaxHeight().clickable(onClick = {
+						launch(Dest.ResultDialog(error))
+					})
+				}
+				.padding(12.dp),
 			contentAlignment = Alignment.Center
 		) {
 			if (smallWidth) {
 				Icon(
 					painter = painterResource(id = R.drawable.alert_circle_outline),
-					contentDescription = "Error", // TODO string
+					contentDescription = stringResource(R.string.error_title),
 					tint = theme.border,
 				)
 
@@ -110,7 +110,7 @@ fun RRErrorView(error: RRError) {
 					) {
 
 						Text(
-							text = error.title ?: "Error",  // TODO string
+							text = error.title ?: stringResource(R.string.error_title),
 							style = theme.title
 						)
 
@@ -129,7 +129,7 @@ fun RRErrorView(error: RRError) {
 								onClick = {
 									launch(Dest.ErrorPropertiesDialog(error))
 								},
-								text = "Details", // TODO string
+								text = stringResource(R.string.button_error_details),
 								theme = if (error.resolution == null) {
 									theme.primaryButton
 								} else {

@@ -46,6 +46,7 @@ import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -59,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
+import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.compose.prefs.Preference
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import kotlin.math.max
@@ -104,7 +106,7 @@ class RRDropdownMenuScope(
 ) {
 	@Composable
 	fun Item(
-		text: String, // TODO change to StringRes
+		@StringRes text: Int,
 		@DrawableRes icon: Int? = null,
 		radioButtonWithValue: Boolean? = null,
 		checkboxWithValue: Boolean? = null,
@@ -129,7 +131,7 @@ class RRDropdownMenuScope(
 
 	@Composable
 	fun ItemPrefBool(
-		text: String, // TODO change to StringRes
+		@StringRes text: Int,
 		@DrawableRes icon: Int? = null,
 		pref: Preference<Boolean>,
 		dismissOnClick: Boolean = false
@@ -155,7 +157,7 @@ class RRDropdownMenuScope(
 
 	@Composable
 	fun ItemPrefIntSlider(
-		text: String, // TODO change to StringRes
+		@StringRes text: Int,
 		pref: Preference<Int>,
 		min: Int,
 		max: Int,
@@ -164,21 +166,21 @@ class RRDropdownMenuScope(
 		val theme = LocalComposeTheme.current
 
 		Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(
+			Modifier
+				.fillMaxWidth()
+				.padding(
 					top = 12.dp,
 					start = 18.dp,
 					end = 18.dp
 				)
-                .sizeIn(
-                    minWidth = 112.dp,
-                    maxWidth = 280.dp,
-                    minHeight = 48.dp
-                )
+				.sizeIn(
+					minWidth = 112.dp,
+					maxWidth = 280.dp,
+					minHeight = 48.dp
+				)
 		) {
 			Text(
-				text = text,
+				text = stringResource(text),
 				style = theme.dropdownMenu.text
 			)
 
@@ -206,7 +208,7 @@ class RRRadioScope<T>(
 	@Composable
 	fun RRDropdownMenuScope.Option(
 		value: T,
-		text: String, // TODO change to StringRes
+		@StringRes text: Int,
 		@DrawableRes icon: Int? = null,
 	) {
 		Item(
@@ -235,7 +237,7 @@ fun RRDropdownMenu(
 
 @Composable
 private fun RRDropdownMenuItem(
-	text: String, // TODO change to StringRes
+	@StringRes text: Int,
 	@DrawableRes icon: Int?,
 	onClick: () -> Unit,
 	radioButtonWithValue: Boolean?,
@@ -261,39 +263,43 @@ private fun RRDropdownMenuItem(
 				}
 
 				Text(
-					text = text,
+					text = stringResource(text),
 					style = theme.dropdownMenu.text
 				)
 			}
 		},
 		trailingIcon = {
 			if (radioButtonWithValue != null) {
+				val description = if (radioButtonWithValue) {
+					stringResource(R.string.radio_button_selected)
+				} else {
+					stringResource(R.string.radio_button_not_selected)
+				}
+
 				RadioButton(
 					modifier = Modifier
-                        .clearAndSetSemantics {
-                            contentDescription = if (radioButtonWithValue) {
-                                "Selected"
-                            } else {
-                                "Not selected"
-                            }
-                        }
-                        .focusable(false),
+						.clearAndSetSemantics {
+							contentDescription = description
+						}
+						.focusable(false),
 					selected = radioButtonWithValue,
 					onClick = onClick,
 				)
 			}
 
 			if (checkboxWithValue != null) {
+				val description = if (checkboxWithValue) {
+					stringResource(R.string.checkbox_checked)
+				} else {
+					stringResource(R.string.checkbox_not_checked)
+				}
+
 				Checkbox(
 					modifier = Modifier
-                        .clearAndSetSemantics {
-                            contentDescription = if (checkboxWithValue) {
-                                "Checked"
-                            } else {
-                                "Not checked"
-                            }
-                        }
-                        .focusable(false),
+						.clearAndSetSemantics {
+							contentDescription = description
+						}
+						.focusable(false),
 					checked = checkboxWithValue,
 					onCheckedChange = { onClick() }
 				)
@@ -403,15 +409,15 @@ private fun BaseDropdownMenuContent(
 	}
 	Box(
 		modifier = Modifier
-            .graphicsLayer {
-                scaleX = scale
-                scaleY = scale
-                this.alpha = alpha
-                transformOrigin = transformOriginState.value
-            }
-            .shadow(10.dp, RoundedCornerShape(6.dp))
-            .clip(RoundedCornerShape(6.dp))
-            .background(theme.dropdownMenu.background),
+			.graphicsLayer {
+				scaleX = scale
+				scaleY = scale
+				this.alpha = alpha
+				transformOrigin = transformOriginState.value
+			}
+			.shadow(10.dp, RoundedCornerShape(6.dp))
+			.clip(RoundedCornerShape(6.dp))
+			.background(theme.dropdownMenu.background),
 	) {
 		Column(
 			modifier = modifier

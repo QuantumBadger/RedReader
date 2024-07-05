@@ -35,13 +35,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
@@ -81,12 +82,14 @@ fun AlbumCard(
 			.fillMaxWidth()
 			.padding(horizontal = 12.dp, vertical = 6.dp)
 	) {
+		val description = stringResource(R.string.album_image_default_text, index + 1)
+
 		Box(
 			modifier = Modifier
 				.fillMaxWidth()
 				.semantics {
 					role = Role.Button
-					contentDescription = "Image " + (index + 1)
+					contentDescription = description
 				}
 				.shadow(3.dp, RoundedCornerShape(6.dp))
 				.clip(RoundedCornerShape(6.dp))
@@ -107,14 +110,10 @@ fun AlbumCard(
 								|| image.mediaType == ImageInfo.MediaType.GIF
 								|| image.isAnimated == true)
 					)
-				} else {
-					RRErrorView(RRError(
-						title = "No image preview available", // TODO string
-						url = image.original.url
-					))
 				}
 
 				val title = image.title?.trim()?.takeUnless { it.isEmpty() }
+					?: description.takeIf { preview == null }
 				val caption = image.caption?.trim()?.takeUnless { it.isEmpty() }
 
 				if (title != null && caption != null) {
@@ -148,7 +147,7 @@ fun AlbumCard(
 				if (image.outboundUrl != null) {
 					Box(Modifier.padding(12.dp)) {
 						RRLinkButton(
-							title = "Link",
+							title = stringResource(R.string.album_link_button),
 							link = image.outboundUrl,
 							theme = theme.linkButton
 						)

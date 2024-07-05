@@ -44,6 +44,8 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
@@ -72,8 +74,6 @@ import kotlin.math.min
 // TODO theme small progress spinner
 // TODO go through all todos on this branch
 // TODO check for unstable composables
-// TODO strings
-// TODO screen reader testing
 @Composable
 fun AlbumScreen(
 	albumUrl: UriString
@@ -199,7 +199,7 @@ fun AlbumScreen(
 					.semantics {
 						heading()
 					},
-				text = album.title ?: "Gallery",  // TODO string
+				text = album.title ?: stringResource(R.string.image_gallery),
 				style = theme.album.title,
 				overflow = TextOverflow.Ellipsis,
 				maxLines = 2
@@ -207,11 +207,12 @@ fun AlbumScreen(
 
 			Spacer(Modifier.height(6.dp))
 
-			val s = "s".takeIf { album.images.size != 1 } ?: ""
-
 			Text(
 				modifier = Modifier.fillMaxWidth(),
-				text = album.description ?: "${album.images.size} image$s", // TODO string
+				text = album.description ?: pluralStringResource(
+					R.plurals.album_image_count,
+					album.images.size
+				),
 				style = theme.album.subtitle,
 				overflow = TextOverflow.Ellipsis,
 				maxLines = 3
@@ -315,6 +316,8 @@ fun AlbumScreen(
 
 						val image = album.images[it]
 
+						val description = stringResource(R.string.album_image_default_text, it + 1)
+
 						NetImage(
 							modifier = Modifier
 								.combinedClickable(
@@ -323,7 +326,7 @@ fun AlbumScreen(
 								)
 								.semantics {
 									role = Role.Image
-									contentDescription = "Image " + (it + 1)
+									contentDescription = description
 								},
 							image = image.run {
 								bigSquare ?: preview ?: original
@@ -391,17 +394,17 @@ fun AlbumSettingsButton(
 		ItemPrefRadio(pref = prefs.albumViewMode) {
 			Option(
 				value = AlbumViewMode.Cards,
-				text = "Card view",
+				text = R.string.album_card_view,
 				icon = R.drawable.cards_variant,
 			)
 			Option(
 				value = AlbumViewMode.List,
-				text = "List view",
+				text = R.string.album_list_view,
 				icon = R.drawable.view_list,
 			)
 			Option(
 				value = AlbumViewMode.Grid,
-				text = "Grid view",
+				text = R.string.album_grid_view,
 				icon = R.drawable.view_grid,
 			)
 		}
@@ -411,45 +414,45 @@ fun AlbumSettingsButton(
 		when (prefs.albumViewMode.value) {
 			AlbumViewMode.Cards -> {
 				ItemPrefBool(
-					text = "Buttons on cards",
+					text = R.string.album_card_pref_buttons,
 					pref = prefs.albumCardShowButtons
 				)
 			}
 
 			AlbumViewMode.List -> {
 				ItemPrefBool(
-					text = "Show thumbnails",
+					text = R.string.album_list_pref_thumbnails,
 					pref = prefs.albumListShowThumbnails
 				)
 
 				if (prefs.albumListShowThumbnails.value) {
 					ItemDivider()
 					ItemPrefIntSlider(
-						text = "Thumbnail size",
+						text = R.string.album_list_pref_thumbnail_size,
 						pref = prefs.albumListThumbnailSize,
 						min = 64,
-						max = 384,
+						max = 256,
 						continuous = true
 					)
 				}
 
 				ItemDivider()
 				ItemPrefBool(
-					text = "Show buttons",
+					text = R.string.album_list_pref_buttons,
 					pref = prefs.albumListShowButtons
 				)
 			}
 
 			AlbumViewMode.Grid -> {
 				ItemPrefBool(
-					text = "Crop to square",
+					text = R.string.album_grid_pref_crop_to_square,
 					pref = prefs.albumGridCropToSquare
 				)
 
 				ItemDivider()
 
 				ItemPrefIntSlider(
-					text = "Columns",
+					text = R.string.album_grid_pref_column_count,
 					pref = prefs.albumGridColumns,
 					min = 2,
 					max = 5,
@@ -462,7 +465,7 @@ fun AlbumSettingsButton(
 		ItemDivider()
 
 		Item(
-			text = "All settings",
+			text = R.string.album_pref_all_settings,
 			icon = R.drawable.ic_settings_dark,
 			onClick = { launch(Dest.Settings) },
 		)

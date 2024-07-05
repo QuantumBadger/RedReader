@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -140,7 +141,7 @@ fun AlbumListItem(
 				}
 		) {
 			Text(
-				text = title ?: "Image ${index + 1}",
+				text = title ?: stringResource(R.string.album_image_default_text, index + 1),
 				style = theme.postCard.title,
 			)
 
@@ -156,7 +157,7 @@ fun AlbumListItem(
 				Spacer(Modifier.height(12.dp))
 
 				RRLinkButton(
-					title = "Link",
+					title = stringResource(R.string.album_link_button),
 					link = image.outboundUrl,
 					theme = theme.linkButton
 				)

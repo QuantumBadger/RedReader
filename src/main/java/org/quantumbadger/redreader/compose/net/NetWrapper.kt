@@ -27,8 +27,10 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccount
 import org.quantumbadger.redreader.account.RedditAccountId
@@ -162,42 +164,47 @@ fun fetchAlbum(
 fun fetchImage(
 	uri: UriString,
 	user: RedditAccountId = LocalRedditUser.current,
-) = fetchFile(
-	uri = uri,
-	user = user,
-	priority = Priority(Constants.Priority.IMAGE_VIEW),
-	downloadStrategy = DownloadStrategyIfNotCached.INSTANCE,
-	fileType = Constants.FileType.IMAGE,
-	queueType = CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-	cache = true
-) {
-	try {
-		val result = BitmapFactory.decodeStream(it.streamFactory.create())?.asImageBitmap()
+): State<NetRequestStatus<FileRequestResult<ImageBitmap>>> {
 
-		if (result == null) {
-			throw RuntimeException("Decoded bitmap was null")
-		} else {
-			NetRequestStatus.Success(
-				FileRequestResult(
-					metadata = it,
-					data = result
+	val context = LocalContext.current.applicationContext
+
+	return fetchFile(
+		uri = uri,
+		user = user,
+		priority = Priority(Constants.Priority.IMAGE_VIEW),
+		downloadStrategy = DownloadStrategyIfNotCached.INSTANCE,
+		fileType = Constants.FileType.IMAGE,
+		queueType = CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+		cache = true
+	) {
+		try {
+			val result = BitmapFactory.decodeStream(it.streamFactory.create())?.asImageBitmap()
+
+			if (result == null) {
+				throw RuntimeException("Decoded bitmap was null")
+			} else {
+				NetRequestStatus.Success(
+					FileRequestResult(
+						metadata = it,
+						data = result
+					)
+				)
+			}
+		} catch (e: Exception) {
+			NetRequestStatus.Failed(
+				RRError(
+					title = context.getString(R.string.error_image_decode_failed),
+					url = uri,
+					t = e
 				)
 			)
 		}
-	} catch (e: Exception) {
-		NetRequestStatus.Failed(
-			RRError(
-				title = "Image decoding failed",
-				url = uri,
-				t = e
-			)
-		)
 	}
 }
 
 // TODO make this a member of an interface, provided in a CompositionLocal, to allow mocking for previews/etc?
 @Composable
-fun <R> fetchFile(
+fun <T> fetchFile(
 	uri: UriString,
 	user: RedditAccountId,
 	priority: Priority,
@@ -205,11 +212,11 @@ fun <R> fetchFile(
 	fileType: Int,
 	@CacheRequest.DownloadQueueType queueType: Int,
 	cache: Boolean,
-	filter: ((FileRequestMetadata) -> NetRequestStatus<FileRequestResult<R>>)
-): State<NetRequestStatus<FileRequestResult<R>>> {
+	filter: ((FileRequestMetadata) -> NetRequestStatus<FileRequestResult<T>>)
+): State<NetRequestStatus<FileRequestResult<T>>> {
 
 	val state =
-		remember { mutableStateOf<NetRequestStatus<FileRequestResult<R>>>(NetRequestStatus.Connecting) }
+		remember { mutableStateOf<NetRequestStatus<FileRequestResult<T>>>(NetRequestStatus.Connecting) }
 
 	// Prevent conflicting updates to state
 	val currentRequest = remember { mutableIntStateOf(0) }
@@ -224,8 +231,8 @@ fun <R> fetchFile(
 			?: run {
 				state.value = NetRequestStatus.Failed(
 					RRError(
-						title = "Invalid account",
-						message = "Selected account (${user.username}) is not currently logged in"
+						title = stringResource(R.string.error_invalid_account_title),
+						message = stringResource(R.string.error_invalid_account_message),
 					)
 				)
 

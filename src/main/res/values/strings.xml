@@ -1859,4 +1859,38 @@
 
 	<!-- 2024-07-01 -->
 	<string name="error_resolution_button_retry">Retry</string>
+	<string name="error_image_decode_failed">Image data corrupt</string>
+
+	<plurals name="album_image_count">
+		<item quantity="one">"%d image"</item>
+		<item quantity="other">"%d images"</item>
+	</plurals>
+
+	<string name="album_card_view">Card view</string>
+	<string name="album_list_view">List view</string>
+	<string name="album_grid_view">Grid view</string>
+
+	<string name="album_card_pref_buttons">Buttons on cards</string>
+
+	<string name="album_list_pref_thumbnails">Show thumbnails</string>
+	<string name="album_list_pref_thumbnail_size">Thumbnail size</string>
+	<string name="album_list_pref_buttons">Show buttons</string>
+
+	<string name="album_grid_pref_crop_to_square">Crop to square</string>
+	<string name="album_grid_pref_column_count">Columns</string>
+
+	<string name="album_pref_all_settings">All settings</string>
+
+	<string name="album_link_button">Link</string>
+	
+	<string name="radio_button_selected">Selected</string>
+	<string name="radio_button_not_selected">Not selected</string>
+
+	<string name="checkbox_checked">Checked</string>
+	<string name="checkbox_not_checked">Not checked</string>
+
+	<string name="error_title">Error</string>
+
+	<string name="error_invalid_account_title">Invalid account</string>
+	<string name="error_invalid_account_message">Selected account is not currently logged in</string>
 </resources>

@@ -39,14 +39,14 @@ fun AlbumEntryButtons(
 		) {
 			Item(
 				icon = R.drawable.ic_action_image_dark,
-				text = "Share media",
+				text = R.string.action_share_image,
 				onClick = {
 					launch(Dest.ShareMedia(image.url))
 				}
 			)
 			Item(
 				icon = R.drawable.ic_action_link_dark,
-				text = "Share link",
+				text = R.string.action_share_link,
 				onClick = {
 					launch(Dest.ShareLink(image.url))
 				}

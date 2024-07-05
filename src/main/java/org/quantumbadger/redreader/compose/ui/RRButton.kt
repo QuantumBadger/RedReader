@@ -24,7 +24,6 @@ fun RRButton(
 	text: String,
 	theme: ComposeThemeButton
 ) {
-	// TODO accessibility: test mergeDescendants
 	Box(
 		modifier = modifier
 			.clickable(onClick = onClick, role = Role.Button)

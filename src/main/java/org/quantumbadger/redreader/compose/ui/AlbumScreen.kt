@@ -61,6 +61,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -160,9 +161,12 @@ fun AlbumScreen(
 	val launch = LocalLauncher.current
 
 	val accessibilityFocusRequester = remember { FocusRequester() }
+	val focusManager = LocalFocusManager.current
 
 	LaunchedEffect(album) {
-		delay(1000)
+		focusManager.clearFocus()
+		delay(1500)
+		accessibilityFocusRequester.freeFocus()
 		accessibilityFocusRequester.requestFocus()
 	}
 

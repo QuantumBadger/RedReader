@@ -463,7 +463,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 
 				Log.i(TAG, "Fully downloading before starting playback");
 
-				try(final SeekableInputStream is = videoStream.create()) {
+				try(SeekableInputStream is = videoStream.create()) {
 					is.readRemainingAsBytes((buf, offset, length)
 							-> Log.i(TAG, "Video fully downloaded, starting playback"));
 

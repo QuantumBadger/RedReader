@@ -169,6 +169,33 @@ fun fetchImage(
 
 	val context = LocalContext.current.applicationContext
 
+	val filter: (FileRequestMetadata) -> NetRequestStatus<FileRequestResult<ImageBitmap>> = remember(uri, user) {
+		{
+			try {
+				val result = BitmapFactory.decodeStream(it.streamFactory.create())?.asImageBitmap()
+
+				if (result == null) {
+					throw RuntimeException("Decoded bitmap was null")
+				} else {
+					NetRequestStatus.Success(
+						FileRequestResult(
+							metadata = it,
+							data = result
+						)
+					)
+				}
+			} catch (e: Exception) {
+				NetRequestStatus.Failed(
+					RRError(
+						title = context.getString(R.string.error_image_decode_failed),
+						url = uri,
+						t = e
+					)
+				)
+			}
+		}
+	}
+
 	return fetchFile(
 		uri = uri,
 		user = user,
@@ -176,36 +203,14 @@ fun fetchImage(
 		downloadStrategy = DownloadStrategyIfNotCached.INSTANCE,
 		fileType = Constants.FileType.IMAGE,
 		queueType = CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
-		cache = true
-	) {
-		try {
-			val result = BitmapFactory.decodeStream(it.streamFactory.create())?.asImageBitmap()
-
-			if (result == null) {
-				throw RuntimeException("Decoded bitmap was null")
-			} else {
-				NetRequestStatus.Success(
-					FileRequestResult(
-						metadata = it,
-						data = result
-					)
-				)
-			}
-		} catch (e: Exception) {
-			NetRequestStatus.Failed(
-				RRError(
-					title = context.getString(R.string.error_image_decode_failed),
-					url = uri,
-					t = e
-				)
-			)
-		}
-	}
+		cache = true,
+		filter = filter
+	)
 }
 
 // TODO make this a member of an interface, provided in a CompositionLocal, to allow mocking for previews/etc?
 @Composable
-fun <T> fetchFile(
+private fun <T> fetchFile(
 	uri: UriString,
 	user: RedditAccountId,
 	priority: Priority,

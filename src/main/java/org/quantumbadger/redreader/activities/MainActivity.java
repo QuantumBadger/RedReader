@@ -285,9 +285,7 @@ public class MainActivity extends RefreshableActivity
 			case MainMenuFragment.MENU_MENU_ACTION_SUBMITTED_COMMENTS:
 				LinkHandler.onLinkClicked(
 						this,
-						Constants.Reddit.getUri(
-								"/user/" + username + "/comments.json"
-						).toString(),
+						Constants.Reddit.getUri("/user/" + username + "/comments.json"),
 						false
 				);
 				break;

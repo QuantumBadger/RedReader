@@ -18,7 +18,6 @@
 package org.quantumbadger.redreader.image;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -71,12 +70,9 @@ public final class ImgurAPIV3 {
 							@NonNull final UUID session,
 							final boolean fromCache) {
 
-						Log.i("RRDEBUG", "JSON from Imgur: " + result.toString());
-
 						try {
 							final JsonObject outer = result.asObject().getObject("data");
 							final AlbumInfo album = AlbumInfo.parseImgurV3(albumUrl, outer);
-							Log.i("RRDEBUG", "Parsed image from Imgur: " + album.images.get(0));
 							listener.onSuccess(album);
 
 						} catch(final Throwable t) {

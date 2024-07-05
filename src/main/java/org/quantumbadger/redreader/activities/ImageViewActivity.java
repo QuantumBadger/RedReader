@@ -277,7 +277,9 @@ public class ImageViewActivity extends ViewsBaseActivity
 					@Override
 					public void onSuccess(final ImageInfo info) {
 						mImageInfo = info;
-                        final UriString audioUri = info.urlAudioStream == null ? null : info.urlAudioStream;
+						final UriString audioUri = info.urlAudioStream == null
+								? null
+								: info.urlAudioStream;
 						openImage(progressBar, info.original.url, audioUri);
 					}
 

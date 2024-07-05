@@ -72,14 +72,14 @@ public final class ImageInfoDialog extends PropertiesDialog {
 			first = false;
 		}
 
-        items.addView(propView(context, R.string.props_url, info.original.url.value, first));
+		items.addView(propView(context, R.string.props_url, info.original.url.value, first));
 
-        if (info.original.size != null) {
-            items.addView(propView(
-                    context,
-                    R.string.props_resolution,
-                    info.original.size.getWidth() + " x " + info.original.size.getHeight(),
-                    false));
-        }
-    }
+		if (info.original.size != null) {
+			items.addView(propView(
+					context,
+					R.string.props_resolution,
+					info.original.size.getWidth() + " x " + info.original.size.getHeight(),
+					false));
+		}
+	}
 }

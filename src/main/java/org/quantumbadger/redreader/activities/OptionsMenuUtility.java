@@ -544,8 +544,8 @@ public final class OptionsMenuUtility {
 	}
 
 	private static void addSubscriptionItem(
-            final ViewsBaseActivity activity, final Menu menu, final int showAsAction,
-            final SubredditSubscriptionState subredditSubscriptionState) {
+			final ViewsBaseActivity activity, final Menu menu, final int showAsAction,
+			final SubredditSubscriptionState subredditSubscriptionState) {
 
 		if(subredditSubscriptionState == null) {
 			return;

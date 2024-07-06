@@ -140,7 +140,8 @@
     <!-- Main Menu -->
 
     <string name="mainmenu_frontpage">Front Page</string>
-    <string name="mainmenu_all">All Subreddits</string>
+	<string name="mainmenu_subscribed_posts">Subscribed Posts</string>
+    <string name="mainmenu_all">All Posts</string>
     <string name="mainmenu_custom">Custom Subreddit</string>
     <string name="mainmenu_custom_invalid_name">Invalid subreddit name.</string>
     <string name="mainmenu_saved">Saved Posts</string>
@@ -222,7 +223,7 @@
     <string name="action_actionmenu_short">Actions</string>
     <string name="action_actionmenu">Open Action Menu</string>
     <string name="action_comment_links">Links in Comment</string>
-    <string name="action_selftext_links">Links in Self Text</string>
+    <string name="action_selftext_links">Links in Text</string>
     <string name="action_share">Share</string>
     <string name="action_share_comments">Share Comments</string>
     <string name="action_copy">Copy</string>
@@ -434,7 +435,7 @@
     <string name="message_cannotlogin">Could not log in.</string>
 
     <string name="error_toast_no_urls_in_comment">No URLs found in this comment.</string>
-    <string name="error_toast_no_urls_in_self">No URLs found in this self text.</string>
+    <string name="error_toast_no_urls_in_self">No URLs found in this text.</string>
     <string name="error_toast_parent_post_not_downloaded">Parent post not downloaded yet.</string>
 
     <string name="download_subreddits">Downloading subreddits…</string>
@@ -767,7 +768,7 @@
 	<string name="submit_post_specify_subreddit">Specify subreddit</string>
 	<string name="submit_post_title_empty">Title cannot be empty</string>
 	<string name="submit_post_url_empty">URL cannot be empty</string>
-	<string name="submit_post_self_text_hint">Self Text</string>
+	<string name="submit_post_self_text_hint">Text</string>
 	<string name="submit_post_url_hint">URL</string>
 
 	<!-- 2016-06-24 -->
@@ -970,7 +971,7 @@
 	<string name="action_unsubscribe_subreddit">Unsubscribe from Subreddit</string>
 
 	<!-- 2017-04-14 -->
-	<string name="collapsed_self_post">Self post collapsed</string>
+	<string name="collapsed_self_post">Post collapsed</string>
 
 	<!-- 2017-05-08 -->
 	<string name="button_next_comment_parent">Next Parent Comment</string>
@@ -985,7 +986,7 @@
 
 	<!--2017-05-21-->
 	<string name="pref_behaviour_self_post_tap_actions_key" translatable="false">pref_behaviour_self_post_tap_actions</string>
-	<string name="pref_behaviour_self_post_tap_actions_title">Self post tap</string>
+	<string name="pref_behaviour_self_post_tap_actions_title">Post text tap</string>
 
 	<!-- 2017-06-05 -->
 	<string name="lang_in" translatable="false">Bahasa Indonesia</string>
@@ -1381,7 +1382,7 @@
 	<string name="accessibility_subtitle_author_withperiod">Author: %s.</string>
 	<string name="accessibility_subtitle_subreddit_withperiod">Sub-reddit: %s.</string>
 	<string name="accessibility_subtitle_domain_withperiod">Domain: %s.</string>
-	<string name="accessibility_subtitle_selfpost_withperiod">Self post.</string>
+	<string name="accessibility_subtitle_selfpost_withperiod">Text post.</string>
 	<string name="accessibility_subtitle_points_unknown_withperiod">Score hidden.</string>
 	<string name="accessibility_subtitle_edited_since_being_posted">Edited.</string>
 	<string name="accessibility_subtitle_comment_collapsed">Comment collapsed.</string>
@@ -1430,7 +1431,7 @@
 	<string name="prefs_category_accessibility">Accessibility</string>
 
 	<string name="pref_accessibility_separate_body_text_lines_title">Separate body text lines</string>
-	<string name="pref_accessibility_separate_body_text_lines_summary">In comment and self post body text, make each line individually focusable, rather than reading the whole comment at once</string>
+	<string name="pref_accessibility_separate_body_text_lines_summary">In comment and post body text, make each line individually focusable, rather than reading the whole comment at once</string>
 	<string name="pref_accessibility_separate_body_text_lines_key" translatable="false">pref_accessibility_separate_body_text_lines_key</string>
 
 	<!-- 2020-12-27 -->

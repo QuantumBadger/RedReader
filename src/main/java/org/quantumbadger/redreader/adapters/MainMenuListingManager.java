@@ -190,7 +190,9 @@ public class MainMenuListingManager {
 				mAdapter.appendToGroup(
 						GROUP_MAIN_ITEMS,
 						makeItem(
-								R.string.mainmenu_frontpage,
+								user.isAnonymous()
+										? R.string.mainmenu_frontpage
+										: R.string.mainmenu_subscribed_posts,
 								MainMenuFragment.MENU_MENU_ACTION_FRONTPAGE,
 								null,
 								true));

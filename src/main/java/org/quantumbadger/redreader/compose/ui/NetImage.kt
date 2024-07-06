@@ -21,6 +21,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -101,7 +102,11 @@ fun NetImage(
 
 			is NetRequestStatus.Success -> {
 				Image(
-					modifier = Modifier.fillMaxWidth(),
+					modifier = if (cropToAspect == null) {
+						Modifier.fillMaxWidth()
+					} else {
+						Modifier.fillMaxSize()
+				   },
 					bitmap = it.result.data,
 					contentDescription = null,
 					contentScale = if (cropToAspect == null) {

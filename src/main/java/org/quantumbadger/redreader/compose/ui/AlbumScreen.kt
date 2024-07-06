@@ -163,6 +163,11 @@ fun AlbumScreen(
 	val accessibilityFocusRequester = remember { FocusRequester() }
 	val focusManager = LocalFocusManager.current
 
+	// Workaround for potential Compose accessibility issue. Someone else reported this here:
+	// https://stackoverflow.com/questions/78705279/talkback-does-not-focus-at-the-top-of-the-screen-on-navigation-with-compose
+	// Without this code, the screenreader focus jumps to one of the "share" buttons halfway down
+	// the screen, rather than the header at the top.
+	// Only the `requestFocus()` call actually seems to have any effect here.
 	LaunchedEffect(album) {
 		focusManager.clearFocus()
 		delay(1500)

@@ -50,7 +50,8 @@ fun NetImage(
 	modifier: Modifier,
 	image: ImageUrlInfo,
 	cropToAspect: Float? = null,
-	showVideoPlayOverlay: Boolean = false
+	showVideoPlayOverlay: Boolean = false,
+	maxCanvasDimension: Int = 2048
 ) {
 	val theme = LocalComposeTheme.current
 
@@ -60,7 +61,7 @@ fun NetImage(
 
 	val url = image.url
 
-	val data by fetchImage(url)
+	val data by fetchImage(url, scaleToMaxAxis = maxCanvasDimension)
 
 	Box(
 		modifier = modifier

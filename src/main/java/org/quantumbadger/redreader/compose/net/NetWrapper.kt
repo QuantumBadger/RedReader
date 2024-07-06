@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.compose.net
 
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.core.graphics.scale
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccount
 import org.quantumbadger.redreader.account.RedditAccountId
@@ -55,8 +57,11 @@ import org.quantumbadger.redreader.compose.ctx.GlobalNetworkRetry
 import org.quantumbadger.redreader.compose.ctx.LocalRedditUser
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.image.GetAlbumInfoListener
+import org.quantumbadger.redreader.image.ImageSize
 import java.io.IOException
 import java.util.UUID
+import kotlin.math.max
+import kotlin.math.roundToInt
 
 @Immutable
 sealed interface NetRequestStatus<out R> {
@@ -165,36 +170,60 @@ fun fetchAlbum(
 fun fetchImage(
 	uri: UriString,
 	user: RedditAccountId = LocalRedditUser.current,
+	scaleToMaxAxis: Int = 2048
 ): State<NetRequestStatus<FileRequestResult<ImageBitmap>>> {
+
+	val TAG = "NetWrapper:fetchImage"
 
 	val context = LocalContext.current.applicationContext
 
-	val filter: (FileRequestMetadata) -> NetRequestStatus<FileRequestResult<ImageBitmap>> = remember(uri, user) {
-		{
-			try {
-				val result = BitmapFactory.decodeStream(it.streamFactory.create())?.asImageBitmap()
+	val filter: (FileRequestMetadata) -> NetRequestStatus<FileRequestResult<ImageBitmap>> =
+		remember(uri, user) {
+			{
+				try {
+					val result = BitmapFactory.decodeStream(it.streamFactory.create())
+						?: throw RuntimeException("Decoded bitmap was null")
 
-				if (result == null) {
-					throw RuntimeException("Decoded bitmap was null")
-				} else {
+					val maxAxis = max(result.width, result.height)
+
+					val scaledResult = result.invokeIf(maxAxis > scaleToMaxAxis) {
+
+						val newSize = if (result.width > result.height) {
+							val scale = scaleToMaxAxis / result.width.toFloat()
+							ImageSize(
+								scaleToMaxAxis,
+								(result.height.toFloat() * scale).roundToInt()
+							)
+						} else {
+							val scale = scaleToMaxAxis / result.height.toFloat()
+							ImageSize((result.width.toFloat() * scale).roundToInt(), scaleToMaxAxis)
+						}
+
+						Log.i(
+							TAG,
+							"Scaling image from ${result.width}x${result.height} to $newSize"
+						)
+
+						scale(newSize.width, newSize.height)
+					}
+
 					NetRequestStatus.Success(
 						FileRequestResult(
 							metadata = it,
-							data = result
+							data = scaledResult.asImageBitmap()
+						)
+					)
+				} catch (e: Exception) {
+					NetRequestStatus.Failed(
+						RRError(
+							title = context.getString(R.string.error_image_decode_failed),
+							url = uri,
+							t = e
 						)
 					)
 				}
-			} catch (e: Exception) {
-				NetRequestStatus.Failed(
-					RRError(
-						title = context.getString(R.string.error_image_decode_failed),
-						url = uri,
-						t = e
-					)
-				)
 			}
 		}
-	}
 
 	return fetchFile(
 		uri = uri,

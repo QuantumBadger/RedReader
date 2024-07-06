@@ -53,6 +53,8 @@ data class ImageSize(
 			obj?.getLong(fieldHeight)
 		)
 	}
+
+	override fun toString() = "${width}x$height"
 }
 
 @Immutable
@@ -184,11 +186,13 @@ data class ImageInfo(
 
 			val original = fileObj.getString("url")?.let { originalUrl ->
 				ImageUrlInfo(
-					url = UriString(if (originalUrl.startsWith("//")) {
-						"https:$originalUrl"
-					} else {
-						originalUrl
-					}),
+					url = UriString(
+						if (originalUrl.startsWith("//")) {
+							"https:$originalUrl"
+						} else {
+							originalUrl
+						}
+					),
 					size = ImageSize.fromJson(fileObj)
 				)
 			}
@@ -216,11 +220,13 @@ data class ImageInfo(
 
 			val original = links?.getString("original")?.let { originalUrl ->
 				ImageUrlInfo(
-					url = UriString(if (isAnimated) {
-						originalUrl.replace(".gif", ".mp4")
-					} else {
-						originalUrl
-					}),
+					url = UriString(
+						if (isAnimated) {
+							originalUrl.replace(".gif", ".mp4")
+						} else {
+							originalUrl
+						}
+					),
 					size = ImageSize.fromJson(image),
 					sizeBytes = image?.getLong("size")
 				)

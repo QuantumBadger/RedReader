@@ -27,7 +27,7 @@ Features
 * Image and comment precaching (optional: always, never, or Wi-Fi only)
 * Built-in image viewer, and GIF/video player
 * Multiple themes, including night mode, and ultra black for AMOLED displays
-* Support for Android 4.0+
+* Support for Android 5.0+
 * Translations for multiple languages
 * Accessibility features and optimization for screen reader use
 

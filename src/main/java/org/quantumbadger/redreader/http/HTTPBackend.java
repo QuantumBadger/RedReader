@@ -82,7 +82,7 @@ public abstract class HTTPBackend {
 
 	public interface Listener {
 		void onError(
-				@CacheRequest.RequestFailureType int failureType,
+				CacheRequest.RequestFailureType failureType,
 				@Nullable Throwable exception,
 				@Nullable Integer httpStatus,
 				@NonNull Optional<FailedRequestBody> body);

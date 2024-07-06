@@ -813,7 +813,7 @@ object LinkHandler {
 		listener.onFailure(
 			getGeneralErrorForFailure(
 				context,
-				CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
+				CacheRequest.RequestFailureType.MALFORMED_URL,
 				null,
 				null,
 				url,

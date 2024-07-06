@@ -188,7 +188,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 				new Priority(Constants.Priority.API_SUBREDDIT_INVIDIVUAL),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.SUBREDDIT_LIST,
-				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -287,7 +287,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 						} catch(final Exception e) {
 							handler.onRequestFailed(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									e,
 									null,
 									uri,

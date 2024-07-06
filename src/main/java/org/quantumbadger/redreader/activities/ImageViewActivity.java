@@ -888,7 +888,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 				new Priority(Constants.Priority.IMAGE_VIEW),
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				this,
 				new CacheRequestCallbacks() {
 
@@ -978,7 +978,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 					new Priority(Constants.Priority.IMAGE_VIEW),
 					DownloadStrategyIfNotCached.INSTANCE,
 					Constants.FileType.IMAGE,
-					CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+					CacheRequest.DownloadQueueType.IMMEDIATE,
 					this,
 					new CacheRequestCallbacks() {
 						@Override

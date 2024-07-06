@@ -245,7 +245,7 @@ public class CommentListingRequest {
 				new Priority(Constants.Priority.API_COMMENT_LIST),
 				mDownloadStrategy,
 				Constants.FileType.COMMENT_LIST,
-				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				mContext,
 				new CacheRequestCallbacks() {
 					@Override
@@ -280,7 +280,7 @@ public class CommentListingRequest {
 							} catch(final Exception e) {
 								onFailure(General.getGeneralErrorForFailure(
 										mContext,
-										CacheRequest.REQUEST_FAILURE_PARSE,
+										CacheRequest.RequestFailureType.PARSE,
 										e,
 										null,
 										url,

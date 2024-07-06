@@ -94,7 +94,7 @@ public final class RedgifsAPIV2 {
 				new DownloadStrategyIfTimestampOutsideBounds(
 						TimestampBound.notOlderThan(TimeDuration.minutes(10))),
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DOWNLOAD_QUEUE_REDGIFS_API_V2,
+				CacheRequest.DownloadQueueType.REDGIFS_API_V2,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -114,7 +114,7 @@ public final class RedgifsAPIV2 {
 						} catch(final Throwable t) {
 							listener.onFailure(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									t,
 									null,
 									apiUrl,
@@ -153,7 +153,7 @@ public final class RedgifsAPIV2 {
 				priority,
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				new HTTPRequestBodyPostFields(
 						new PostField("grant_type", "client_credentials"),
 						new PostField(
@@ -179,7 +179,7 @@ public final class RedgifsAPIV2 {
 							Log.i(TAG, "Failed to get RedGifs v2 token: result not present");
 							listener.onFailure(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_REQUEST,
+									CacheRequest.RequestFailureType.REQUEST,
 									null,
 									null,
 									apiUrl,

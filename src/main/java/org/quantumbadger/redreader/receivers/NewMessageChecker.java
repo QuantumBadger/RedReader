@@ -115,7 +115,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 				new Priority(Constants.Priority.API_INBOX_LIST),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.INBOX_LIST,
-				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				false,
 				context,
 				new CacheRequestCallbacks() {
@@ -240,7 +240,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 						} catch(final Exception e) {
 							onFailure(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									e,
 									null,
 									url,

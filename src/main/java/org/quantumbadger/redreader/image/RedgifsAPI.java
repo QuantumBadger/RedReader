@@ -60,7 +60,7 @@ public final class RedgifsAPI {
 				new DownloadStrategyIfTimestampOutsideBounds(
 						TimestampBound.notOlderThan(TimeDuration.minutes(10))),
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -77,7 +77,7 @@ public final class RedgifsAPI {
 						} catch(final Throwable t) {
 							listener.onFailure(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									t,
 									null,
 									apiUrl,

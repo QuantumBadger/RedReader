@@ -608,7 +608,7 @@ public final class CacheManager {
 			if(request.url == null) {
 				request.notifyFailure(General.getGeneralErrorForFailure(
 						context,
-						CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
+						CacheRequest.RequestFailureType.MALFORMED_URL,
 						new NullPointerException("URL was null"),
 						null,
 						null,
@@ -634,7 +634,7 @@ public final class CacheManager {
 					} else {
 						request.notifyFailure(General.getGeneralErrorForFailure(
 								context,
-								CacheRequest.REQUEST_FAILURE_CACHE_MISS,
+								CacheRequest.RequestFailureType.CACHE_MISS,
 								null,
 								null,
 								request.url,
@@ -675,7 +675,7 @@ public final class CacheManager {
 			} catch(final Exception e) {
 				request.notifyFailure(General.getGeneralErrorForFailure(
 						context,
-						CacheRequest.REQUEST_FAILURE_MALFORMED_URL,
+						CacheRequest.RequestFailureType.MALFORMED_URL,
 						e,
 						null,
 						request.url,
@@ -693,7 +693,7 @@ public final class CacheManager {
 
 				request.notifyFailure(General.getGeneralErrorForFailure(
 						context,
-						CacheRequest.REQUEST_FAILURE_STORAGE,
+						CacheRequest.RequestFailureType.STORAGE,
 						new RuntimeException(),
 						null,
 						request.url,

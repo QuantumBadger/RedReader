@@ -85,7 +85,7 @@ public class HtmlRawElementImg extends HtmlRawElement{
 				new Priority(Constants.Priority.API_COMMENT_LIST),
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				activity,
 				new CacheRequestCallbacks() {
 					Bitmap image = null;
@@ -118,7 +118,7 @@ public class HtmlRawElementImg extends HtmlRawElement{
 						} catch (final Throwable t) {
 							onFailure(General.getGeneralErrorForFailure(
 									activity,
-									CacheRequest.REQUEST_FAILURE_CONNECTION,
+									CacheRequest.RequestFailureType.CONNECTION,
 									t,
 									null,
 									mSrc,

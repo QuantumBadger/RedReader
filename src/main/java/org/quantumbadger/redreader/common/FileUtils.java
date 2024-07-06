@@ -486,7 +486,7 @@ public class FileUtils {
 				new Priority(Constants.Priority.IMAGE_VIEW),
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				activity,
 				new CacheRequestCallbacks() {
 
@@ -541,7 +541,7 @@ public class FileUtils {
 													activity,
 													General.getGeneralErrorForFailure(
 															activity,
-															CacheRequest.REQUEST_FAILURE_STORAGE,
+															CacheRequest.RequestFailureType.STORAGE,
 															e,
 															null,
 															info.original.url,
@@ -567,7 +567,7 @@ public class FileUtils {
 									activity,
 									General.getGeneralErrorForFailure(
 											activity,
-											CacheRequest.REQUEST_FAILURE_STORAGE,
+											CacheRequest.RequestFailureType.STORAGE,
 											e,
 											null,
 											info.original.url,
@@ -603,7 +603,7 @@ public class FileUtils {
 								new Priority(Constants.Priority.IMAGE_VIEW),
 								DownloadStrategyIfNotCached.INSTANCE,
 								Constants.FileType.IMAGE,
-								CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+								CacheRequest.DownloadQueueType.IMMEDIATE,
 								activity,
 								new CacheRequestCallbacks() {
 									@Override

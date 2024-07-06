@@ -664,7 +664,7 @@ public class PostListingFragment extends RRFragment
 				new Priority(Constants.Priority.API_POST_LIST),
 				downloadStrategy,
 				Constants.FileType.POST_LIST,
-				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				activity,
 				new CacheRequestCallbacks() {
 					@Override
@@ -973,7 +973,7 @@ public class PostListingFragment extends RRFragment
 						} catch(final Throwable t) {
 							onFailure(General.getGeneralErrorForFailure(
 									activity,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									t,
 									null,
 									url,
@@ -1017,7 +1017,7 @@ public class PostListingFragment extends RRFragment
 						new DownloadStrategyIfTimestampOutsideBounds(
 								TimestampBound.notOlderThan(TimeDuration.minutes(15))),
 						Constants.FileType.COMMENT_LIST,
-						CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+						CacheRequest.DownloadQueueType.REDDIT_API,
 						// Don't parse the JSON
 						activity,
 						new CacheRequestCallbacks() {
@@ -1132,7 +1132,7 @@ public class PostListingFragment extends RRFragment
 						positionInList),
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE,
-				CacheRequest.DOWNLOAD_QUEUE_IMAGE_PRECACHE,
+				CacheRequest.DownloadQueueType.IMAGE_PRECACHE,
 				activity,
 				new CacheRequestCallbacks() {
 					@Override

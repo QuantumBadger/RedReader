@@ -58,7 +58,7 @@ public final class ImgurAPI {
 				priority,
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				context,
 				new CacheRequestJSONParser(
 						context,
@@ -78,7 +78,7 @@ public final class ImgurAPI {
 						} catch(final Throwable t) {
 							listener.onFailure(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									t,
 									null,
 									apiUrl,
@@ -109,7 +109,7 @@ public final class ImgurAPI {
 				priority,
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -126,7 +126,7 @@ public final class ImgurAPI {
 						} catch(final Throwable t) {
 							listener.onFailure(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									t,
 									null,
 									apiUrl,

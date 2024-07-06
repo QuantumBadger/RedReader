@@ -98,7 +98,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 				new Priority(Constants.Priority.API_SUBREDDIT_LIST),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.MULTIREDDIT_LIST,
-				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -128,7 +128,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 						} catch(final Exception e) {
 							handler.onRequestFailed(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									e,
 									null,
 									uri,

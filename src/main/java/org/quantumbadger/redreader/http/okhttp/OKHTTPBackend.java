@@ -185,7 +185,7 @@ public class OKHTTPBackend extends HTTPBackend {
 		} catch (final Exception e) {
 			return new Result.Err(General.getGeneralErrorForFailure(
 					context,
-					CacheRequest.REQUEST_FAILURE_CONNECTION,
+					CacheRequest.RequestFailureType.CONNECTION,
 					e,
 					null,
 					url,
@@ -280,7 +280,7 @@ public class OKHTTPBackend extends HTTPBackend {
 					response = call.execute();
 				} catch(final Exception e) {
 					listener.onError(
-							CacheRequest.REQUEST_FAILURE_CONNECTION,
+							CacheRequest.RequestFailureType.CONNECTION,
 							e,
 							null,
 							Optional.empty());
@@ -337,7 +337,7 @@ public class OKHTTPBackend extends HTTPBackend {
 
 
 						listener.onError(
-								CacheRequest.REQUEST_FAILURE_REQUEST,
+								CacheRequest.RequestFailureType.REQUEST,
 								null,
 								status,
 								bodyBytes);

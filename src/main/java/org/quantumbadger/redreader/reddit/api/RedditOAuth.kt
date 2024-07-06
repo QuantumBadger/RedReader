@@ -306,7 +306,7 @@ object RedditOAuth {
             val result = AtomicReference<FetchRefreshTokenResult>()
             request.executeInThisThread(object : HTTPBackend.Listener {
                 override fun onError(
-                    @RequestFailureType failureType: Int,
+                    failureType: RequestFailureType,
                     exception: Throwable?,
                     httpStatus: Int?,
                     body: Optional<FailedRequestBody>
@@ -390,7 +390,7 @@ object RedditOAuth {
             val result = AtomicReference<FetchUserInfoResult>()
             request.executeInThisThread(object : HTTPBackend.Listener {
                 override fun onError(
-                    @RequestFailureType failureType: Int,
+                    failureType: RequestFailureType,
                     exception: Throwable?,
                     httpStatus: Int?,
                     body: Optional<FailedRequestBody>
@@ -587,7 +587,7 @@ object RedditOAuth {
             val result = AtomicReference<FetchAccessTokenResult>()
             request.executeInThisThread(object : HTTPBackend.Listener {
                 override fun onError(
-                    @RequestFailureType failureType: Int,
+                    failureType: RequestFailureType,
                     exception: Throwable?,
                     httpStatus: Int?,
                     body: Optional<FailedRequestBody>
@@ -698,7 +698,7 @@ object RedditOAuth {
             val result = AtomicReference<FetchAccessTokenResult>()
             request.executeInThisThread(object : HTTPBackend.Listener {
                 override fun onError(
-                    @RequestFailureType failureType: Int,
+                    failureType: RequestFailureType,
                     exception: Throwable?,
                     httpStatus: Int?,
                     body: Optional<FailedRequestBody>

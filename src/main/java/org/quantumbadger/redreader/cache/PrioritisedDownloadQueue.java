@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.cache;
 
 import android.content.Context;
+
 import org.quantumbadger.redreader.common.PrioritisedCachedThreadPool;
 
 import java.util.HashSet;
@@ -38,12 +39,12 @@ class PrioritisedDownloadQueue {
 
 		final CacheDownload download = new CacheDownload(request, manager);
 
-		if(request.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API) {
+		if(request.queueType == CacheRequest.DownloadQueueType.REDDIT_API) {
 			redditDownloadsQueued.add(download);
 			notifyAll();
 
-		} else if(request.queueType == CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE
-				|| request.queueType == CacheRequest.DOWNLOAD_QUEUE_IMGUR_API) {
+		} else if(request.queueType == CacheRequest.DownloadQueueType.IMMEDIATE
+				|| request.queueType == CacheRequest.DownloadQueueType.IMGUR_API) {
 			new CacheDownloadThread(download, true, "Cache Download Thread: Immediate");
 
 		} else {

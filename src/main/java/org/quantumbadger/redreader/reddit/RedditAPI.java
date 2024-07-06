@@ -232,7 +232,7 @@ public final class RedditAPI {
 						if(choices.isEmpty()) {
 							responseHandler.onFailure(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									new RuntimeException(),
 									null,
 									apiUrl,
@@ -653,7 +653,7 @@ public final class RedditAPI {
 							// TODO look for error
 							responseHandler.notifyFailure(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									t,
 									null,
 									uri,
@@ -943,7 +943,7 @@ public final class RedditAPI {
 						} catch(final Exception e) {
 							onFailure(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									e,
 									null,
 									uri,
@@ -1090,7 +1090,7 @@ public final class RedditAPI {
 				new Priority(Constants.Priority.API_ACTION),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
-				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				new HTTPRequestBodyPostFields(postFields),
 				context,
 				callbacks);
@@ -1113,7 +1113,7 @@ public final class RedditAPI {
 				priority,
 				downloadStrategy,
 				fileType,
-				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				null,
 				context,
 				new CacheRequestJSONParser(context, handler));

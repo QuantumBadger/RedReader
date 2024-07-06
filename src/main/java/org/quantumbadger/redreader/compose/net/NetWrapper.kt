@@ -40,6 +40,7 @@ import org.quantumbadger.redreader.account.RedditAccountId
 import org.quantumbadger.redreader.account.RedditAccountManager
 import org.quantumbadger.redreader.cache.CacheManager
 import org.quantumbadger.redreader.cache.CacheRequest
+import org.quantumbadger.redreader.cache.CacheRequest.DownloadQueueType
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached
@@ -231,7 +232,7 @@ fun fetchImage(
 		priority = Priority(Constants.Priority.IMAGE_VIEW),
 		downloadStrategy = DownloadStrategyIfNotCached.INSTANCE,
 		fileType = Constants.FileType.IMAGE,
-		queueType = CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+		queueType = CacheRequest.DownloadQueueType.IMMEDIATE,
 		cache = true,
 		filter = filter
 	)
@@ -245,7 +246,7 @@ private fun <T> fetchFile(
 	priority: Priority,
 	downloadStrategy: DownloadStrategy,
 	fileType: Int,
-	@CacheRequest.DownloadQueueType queueType: Int,
+	queueType: DownloadQueueType,
 	cache: Boolean,
 	filter: ((FileRequestMetadata) -> NetRequestStatus<FileRequestResult<T>>)
 ): State<NetRequestStatus<FileRequestResult<T>>> {

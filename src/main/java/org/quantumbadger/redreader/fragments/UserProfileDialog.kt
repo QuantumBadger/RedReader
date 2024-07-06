@@ -436,7 +436,7 @@ object UserProfileDialog {
 			Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
 			DownloadStrategyIfNotCached.INSTANCE,
 			Constants.FileType.INLINE_IMAGE_PREVIEW,
-			CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+			CacheRequest.DownloadQueueType.IMMEDIATE,
 			context,
 			object : CacheRequestCallbacks {
 				override fun onDataStreamComplete(
@@ -464,7 +464,7 @@ object UserProfileDialog {
 						onFailure(
 							getGeneralErrorForFailure(
 								context,
-								CacheRequest.REQUEST_FAILURE_CONNECTION,
+								CacheRequest.RequestFailureType.CONNECTION,
 								t,
 								null,
 								url,

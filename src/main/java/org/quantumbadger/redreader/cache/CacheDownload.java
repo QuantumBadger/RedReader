@@ -86,7 +86,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					mRequest.cancel();
 					mInitiator.notifyFailure(General.getGeneralErrorForFailure(
 							mInitiator.context,
-							CacheRequest.REQUEST_FAILURE_CANCELLED,
+							CacheRequest.RequestFailureType.CANCELLED,
 							null,
 							null,
 							mInitiator.url,
@@ -116,7 +116,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 	private void performDownload(final HTTPBackend.Request request) {
 
-		if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API) {
+		if(mInitiator.queueType == CacheRequest.DownloadQueueType.REDDIT_API) {
 
 			if(resetUserCredentials.getAndSet(false)) {
 				mInitiator.user.setAccessToken(null);
@@ -152,10 +152,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 			request.addHeader("Authorization", "bearer " + accessToken.token);
 		}
 
-		if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_IMGUR_API) {
+		if(mInitiator.queueType == CacheRequest.DownloadQueueType.IMGUR_API) {
 			request.addHeader("Authorization", "Client-ID c3713d9e7674477");
 
-		} else if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDGIFS_API_V2) {
+		} else if(mInitiator.queueType == CacheRequest.DownloadQueueType.REDGIFS_API_V2) {
 			request.addHeader("Authorization", "Bearer " + RedgifsAPIV2.getLatestToken());
 		}
 
@@ -164,11 +164,11 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		request.executeInThisThread(new HTTPBackend.Listener() {
 			@Override
 			public void onError(
-					final @CacheRequest.RequestFailureType int failureType,
+					final CacheRequest.RequestFailureType failureType,
 					final Throwable exception,
 					final Integer httpStatus,
 					@NonNull final Optional<FailedRequestBody> body) {
-				if(mInitiator.queueType == CacheRequest.DOWNLOAD_QUEUE_REDDIT_API
+				if(mInitiator.queueType == CacheRequest.DownloadQueueType.REDDIT_API
 						&& TorCommon.isTorEnabled()) {
 					HTTPBackend.getBackend().recreateHttpBackend();
 					resetUserCredentialsOnNextRequest();
@@ -249,7 +249,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 					mInitiator.notifyFailure(General.getGeneralErrorForFailure(
 							mInitiator.context,
-							CacheRequest.REQUEST_FAILURE_CONNECTION,
+							CacheRequest.RequestFailureType.CONNECTION,
 							t,
 							null,
 							mInitiator.url,
@@ -308,13 +308,13 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 						Log.e(TAG, "Exception opening cache file for write", e);
 
-						final int failureType;
+						final CacheRequest.RequestFailureType failureType;
 
 						if(manager.getPreferredCacheLocation().exists()) {
-							failureType = CacheRequest.REQUEST_FAILURE_STORAGE;
+							failureType = CacheRequest.RequestFailureType.STORAGE;
 						} else {
-							failureType
-									= CacheRequest.REQUEST_FAILURE_CACHE_DIR_DOES_NOT_EXIST;
+							failureType = CacheRequest
+									.RequestFailureType.CACHE_DIR_DOES_NOT_EXIST;
 						}
 
 						mInitiator.notifyFailure(General.getGeneralErrorForFailure(
@@ -347,7 +347,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 						mInitiator.notifyFailure(General.getGeneralErrorForFailure(
 								mInitiator.context,
-								CacheRequest.REQUEST_FAILURE_STORAGE,
+								CacheRequest.RequestFailureType.STORAGE,
 								e,
 								null,
 								mInitiator.url,

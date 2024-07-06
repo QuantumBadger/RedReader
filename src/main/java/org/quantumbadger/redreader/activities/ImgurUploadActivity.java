@@ -284,7 +284,7 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 				new Priority(Constants.Priority.API_ACTION),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
-				CacheRequest.DOWNLOAD_QUEUE_IMGUR_API,
+				CacheRequest.DownloadQueueType.IMGUR_API,
 				new HTTPRequestBodyMultipart()
 						.addPart(new PartFormDataBinary("image", mImageData)),
 				this,
@@ -310,7 +310,7 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 							if(!Boolean.TRUE.equals(success)) {
 								onFailure(General.getGeneralErrorForFailure(
 										ImgurUploadActivity.this,
-										CacheRequest.REQUEST_FAILURE_UPLOAD_FAIL_IMGUR,
+										CacheRequest.RequestFailureType.UPLOAD_FAIL_IMGUR,
 										null,
 										null,
 										null,
@@ -324,7 +324,7 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 						} catch(final Throwable t) {
 							onFailure(General.getGeneralErrorForFailure(
 									ImgurUploadActivity.this,
-									CacheRequest.REQUEST_FAILURE_PARSE_IMGUR,
+									CacheRequest.RequestFailureType.PARSE_IMGUR,
 									t,
 									null,
 									apiUrl,

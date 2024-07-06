@@ -19,7 +19,9 @@ package org.quantumbadger.redreader.receivers.announcements;
 
 import android.content.Context;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
@@ -65,7 +67,7 @@ public final class AnnouncementDownloader {
 				new Priority(Constants.Priority.DEV_ANNOUNCEMENTS),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.POST_LIST,
-				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				false,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {

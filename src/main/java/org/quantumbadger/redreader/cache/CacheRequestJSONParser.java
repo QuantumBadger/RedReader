@@ -18,8 +18,10 @@
 package org.quantumbadger.redreader.cache;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.CachedThreadPool;
 import org.quantumbadger.redreader.common.General;
@@ -87,7 +89,7 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 					if(!mNotifiedFailure.getAndSet(true)) {
 						mListener.onFailure(General.getGeneralErrorForFailure(
 								mContext,
-								CacheRequest.REQUEST_FAILURE_PARSE,
+								CacheRequest.RequestFailureType.PARSE,
 								e,
 								null,
 								null,
@@ -109,7 +111,7 @@ public final class CacheRequestJSONParser implements CacheRequestCallbacks {
 			if(!mNotifiedFailure.getAndSet(true)) {
 				onFailure(General.getGeneralErrorForFailure(
 						mContext,
-						CacheRequest.REQUEST_FAILURE_STORAGE,
+						CacheRequest.RequestFailureType.STORAGE,
 						e,
 						null,
 						null,

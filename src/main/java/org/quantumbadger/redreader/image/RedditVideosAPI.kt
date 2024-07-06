@@ -72,7 +72,7 @@ object RedditVideosAPI {
                 priority,
                 DownloadStrategyIfNotCached.INSTANCE,
                 Constants.FileType.IMAGE_INFO,
-                CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
                 context,
                 object : CacheRequestCallbacks {
                     private val mNotifiedFailure = AtomicBoolean(false)
@@ -93,7 +93,7 @@ object RedditVideosAPI {
                                 listener.onFailure(
                                     getGeneralErrorForFailure(
                                         context,
-                                        CacheRequest.REQUEST_FAILURE_STORAGE,
+										CacheRequest.RequestFailureType.STORAGE,
                                         e,
                                         null,
                                         apiUrl,
@@ -167,7 +167,7 @@ object RedditVideosAPI {
                                 listener.onFailure(
                                     getGeneralErrorForFailure(
                                         context,
-                                        CacheRequest.REQUEST_FAILURE_STORAGE,
+										CacheRequest.RequestFailureType.STORAGE,
                                         e,
                                         null,
                                         apiUrl,

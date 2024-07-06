@@ -533,7 +533,7 @@ public final class RedditPostView extends FlingableItemView
 				new Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.INLINE_IMAGE_PREVIEW,
-				CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
 				mActivity,
 				new CacheRequestCallbacks() {
 					@Override
@@ -593,7 +593,7 @@ public final class RedditPostView extends FlingableItemView
 						} catch(final Throwable t) {
 							onFailure(General.getGeneralErrorForFailure(
 									mActivity,
-									CacheRequest.REQUEST_FAILURE_CONNECTION,
+									CacheRequest.RequestFailureType.CONNECTION,
 									t,
 									null,
 									preview.url,

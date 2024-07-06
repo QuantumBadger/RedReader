@@ -40,7 +40,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.quantumbadger.redreader.BuildConfig
 import org.quantumbadger.redreader.R
-import org.quantumbadger.redreader.cache.CacheRequest
 import org.quantumbadger.redreader.cache.CacheRequest.RequestFailureType
 import org.quantumbadger.redreader.common.AndroidCommon.runOnUiThread
 import org.quantumbadger.redreader.common.PrefsUtility.AppearanceTwopane
@@ -212,7 +211,7 @@ object General {
     @JvmStatic
 	fun getGeneralErrorForFailure(
         context: Context,
-        @RequestFailureType type: Int,
+        type: RequestFailureType,
         t: Throwable?,
         status: Int?,
         url: UriString?,
@@ -222,27 +221,27 @@ object General {
         val message: Int
         var reportable = true
         when (type) {
-            CacheRequest.REQUEST_FAILURE_CANCELLED -> {
+			RequestFailureType.CANCELLED -> {
                 title = R.string.error_cancelled_title
                 message = R.string.error_cancelled_message
             }
 
-            CacheRequest.REQUEST_FAILURE_PARSE -> {
+			RequestFailureType.PARSE -> {
                 title = R.string.error_parse_title
                 message = R.string.error_parse_message
             }
 
-            CacheRequest.REQUEST_FAILURE_CACHE_MISS -> {
+			RequestFailureType.CACHE_MISS -> {
                 title = R.string.error_postlist_cache_title
                 message = R.string.error_postlist_cache_message
             }
 
-            CacheRequest.REQUEST_FAILURE_STORAGE -> {
+			RequestFailureType.STORAGE -> {
                 title = R.string.error_unexpected_storage_title
                 message = R.string.error_unexpected_storage_message
             }
 
-            CacheRequest.REQUEST_FAILURE_CONNECTION ->
+			RequestFailureType.CONNECTION ->
                 // TODO check network and customise message
                 if (isTorError(t)) {
                     title = R.string.error_tor_connection_title
@@ -255,22 +254,22 @@ object General {
                     message = R.string.error_connection_message
                 }
 
-            CacheRequest.REQUEST_FAILURE_MALFORMED_URL -> {
+			RequestFailureType.MALFORMED_URL -> {
                 title = R.string.error_malformed_url_title
                 message = R.string.error_malformed_url_message
             }
 
-            CacheRequest.REQUEST_FAILURE_DISK_SPACE -> {
+			RequestFailureType.DISK_SPACE -> {
                 title = R.string.error_disk_space_title
                 message = R.string.error_disk_space_message
             }
 
-            CacheRequest.REQUEST_FAILURE_CACHE_DIR_DOES_NOT_EXIST -> {
+			RequestFailureType.CACHE_DIR_DOES_NOT_EXIST -> {
                 title = R.string.error_cache_dir_does_not_exist_title
                 message = R.string.error_cache_dir_does_not_exist_message
             }
 
-            CacheRequest.REQUEST_FAILURE_REQUEST -> if (status != null) {
+			RequestFailureType.REQUEST -> if (status != null) {
                 when (status) {
                     400, 401, 403, 404 -> {
                         val uri = Uri.parse(url?.value)
@@ -352,31 +351,21 @@ object General {
                 message = R.string.error_unknown_api_message
             }
 
-            CacheRequest.REQUEST_FAILURE_REDDIT_REDIRECT -> {
+			RequestFailureType.REDDIT_REDIRECT -> {
                 title = R.string.error_403_title
                 message = R.string.error_403_message
             }
 
-            CacheRequest.REQUEST_FAILURE_PARSE_IMGUR -> {
+			RequestFailureType.PARSE_IMGUR -> {
                 title = R.string.error_parse_imgur_title
                 message = R.string.error_parse_imgur_message
             }
 
-            CacheRequest.REQUEST_FAILURE_UPLOAD_FAIL_IMGUR -> {
+			RequestFailureType.UPLOAD_FAIL_IMGUR -> {
                 title = R.string.error_upload_fail_imgur_title
                 message = R.string.error_upload_fail_imgur_message
             }
-
-            else -> {
-                if (isTorError(t)) {
-                    title = R.string.error_tor_connection_title
-                    message = R.string.error_tor_connection_message
-                } else {
-                    title = R.string.error_unknown_title
-                    message = R.string.error_unknown_message
-                }
-            }
-        }
+		}
         return RRError.createLegacy(
             context.getString(title),
             context.getString(message),
@@ -512,7 +501,7 @@ object General {
         return filename
     }
 
-	fun toHex(bytes: ByteArray): String {
+	private fun toHex(bytes: ByteArray): String {
 		val result = StringBuilder(bytes.size * 2)
 		for (b in bytes) {
 			result.append(String.format(Locale.US, "%02X", b))

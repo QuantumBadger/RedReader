@@ -83,7 +83,7 @@ public class RedditAPIIndividualSubredditDataRequester implements
 				new Priority(Constants.Priority.API_SUBREDDIT_INVIDIVUAL),
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.SUBREDDIT_ABOUT,
-				CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+				CacheRequest.DownloadQueueType.REDDIT_API,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -104,7 +104,7 @@ public class RedditAPIIndividualSubredditDataRequester implements
 						} catch(final Exception e) {
 							handler.onRequestFailed(General.getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									e,
 									null,
 									url,

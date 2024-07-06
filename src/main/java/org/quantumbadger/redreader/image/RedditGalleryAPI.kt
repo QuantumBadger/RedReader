@@ -93,7 +93,7 @@ class RedditGalleryAPI {
                     priority,
                     DownloadStrategyIfNotCached.INSTANCE,
                     Constants.FileType.IMAGE_INFO,
-                    CacheRequest.DOWNLOAD_QUEUE_REDDIT_API,
+					CacheRequest.DownloadQueueType.REDDIT_API,
                     context,
 					object : CacheRequestCallbacks {
 
@@ -133,7 +133,7 @@ class RedditGalleryAPI {
 							} catch(t: Throwable) {
 								onFailure(getGeneralErrorForFailure(
 									context,
-									CacheRequest.REQUEST_FAILURE_PARSE,
+									CacheRequest.RequestFailureType.PARSE,
 									t,
 									null,
 									albumUrl,

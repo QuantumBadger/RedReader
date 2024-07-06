@@ -61,8 +61,8 @@ public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 			return null;
 		}
 
-		// ensure the first segment is "r" or "u", and the third is "s"
-        if (pathSegments.get(2).equals("s")) {
+		// Ensure the first segment is "r" or "u", and the third is "s"
+		if (pathSegments.get(2).equals("s")) {
 			if (pathSegments.get(0).equals("r")) {
 				return new OpaqueSharedURL(pathSegments.get(1), null, pathSegments.get(3));
 			} else if(pathSegments.get(0).equals("u")) {
@@ -71,10 +71,10 @@ public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 				return null;
 			}
 
-        } else {
-            return null;
-        }
-    }
+		} else {
+			return null;
+		}
+	}
 
 	@NonNull
 	public UriString getUrlToFetch() {

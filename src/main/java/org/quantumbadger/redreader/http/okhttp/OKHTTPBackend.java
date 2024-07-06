@@ -17,8 +17,6 @@
 
 package org.quantumbadger.redreader.http.okhttp;
 
-import static org.quantumbadger.redreader.cache.CacheRequest.REQUEST_FAILURE_CONNECTION;
-
 import android.content.Context;
 import android.util.Log;
 
@@ -187,7 +185,7 @@ public class OKHTTPBackend extends HTTPBackend {
 		} catch (final Exception e) {
 			return new Result.Err(General.getGeneralErrorForFailure(
 					context,
-					REQUEST_FAILURE_CONNECTION,
+					CacheRequest.REQUEST_FAILURE_CONNECTION,
 					e,
 					null,
 					url,
@@ -282,7 +280,7 @@ public class OKHTTPBackend extends HTTPBackend {
 					response = call.execute();
 				} catch(final Exception e) {
 					listener.onError(
-							REQUEST_FAILURE_CONNECTION,
+							CacheRequest.REQUEST_FAILURE_CONNECTION,
 							e,
 							null,
 							Optional.empty());

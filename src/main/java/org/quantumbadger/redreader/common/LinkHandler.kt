@@ -168,7 +168,7 @@ object LinkHandler {
 					// kick off a thread to get the real url
 					thread {
 						val toFetchUrl = (redditURL as OpaqueSharedURL).urlToFetch
-						val result = HTTPBackend.getBackend()
+						val result = HTTPBackend.backend
 							.resolveRedirectUri(activity.applicationContext, toFetchUrl)
 
 						when (result) {

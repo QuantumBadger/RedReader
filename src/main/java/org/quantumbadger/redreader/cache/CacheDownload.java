@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.cache;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.common.Constants;
@@ -72,7 +73,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 		mRequest = HTTPBackend.getBackend().prepareRequest(
 				initiator.context,
-				new HTTPBackend.RequestDetails(mInitiator.url, mInitiator.requestBody));
+				new HTTPBackend.RequestDetails(
+						mInitiator.url,
+						mInitiator.requestBody.asNullable()));
 	}
 
 	public synchronized void cancel() {
@@ -164,10 +167,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		request.executeInThisThread(new HTTPBackend.Listener() {
 			@Override
 			public void onError(
-					final CacheRequest.RequestFailureType failureType,
+					@NonNull final CacheRequest.RequestFailureType failureType,
 					final Throwable exception,
 					final Integer httpStatus,
-					@NonNull final Optional<FailedRequestBody> body) {
+					@Nullable final FailedRequestBody body) {
 				if(mInitiator.queueType == CacheRequest.DownloadQueueType.REDDIT_API
 						&& TorCommon.isTorEnabled()) {
 					HTTPBackend.getBackend().recreateHttpBackend();
@@ -180,7 +183,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						exception,
 						httpStatus,
 						mInitiator.url,
-						body));
+						Optional.ofNullable(body)));
 			}
 
 			@Override

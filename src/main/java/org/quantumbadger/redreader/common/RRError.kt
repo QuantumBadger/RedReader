@@ -65,6 +65,28 @@ data class RRError @JvmOverloads constructor(
 			responseString = response.map(FailedRequestBody::toString).orElseNull(),
 			resolution = resolution
 		)
+
+		fun create(
+			title: String? = null,
+			message: String? = null,
+			reportable: Boolean = true,
+			t: Throwable? = null,
+			httpStatus: Int? = null,
+			url: UriString? = null,
+			debuggingContext: String? = null,
+			response: FailedRequestBody? = null,
+			resolution: Resolution? = null
+		) = RRError(
+			title = title,
+			message = message,
+			reportable = reportable,
+			t = t,
+			httpStatus = httpStatus,
+			url = url,
+			debuggingContext = debuggingContext,
+			responseString = response?.toString(),
+			resolution = resolution
+		)
 	}
 }
 

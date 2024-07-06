@@ -48,7 +48,7 @@ import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.PostField;
-import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
+import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.jsonwrap.JsonArray;
 import org.quantumbadger.redreader.jsonwrap.JsonString;
@@ -1091,7 +1091,7 @@ public final class RedditAPI {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
 				CacheRequest.DownloadQueueType.REDDIT_API,
-				new HTTPRequestBodyPostFields(postFields),
+				new HTTPRequestBody.PostFields(postFields),
 				context,
 				callbacks);
 	}

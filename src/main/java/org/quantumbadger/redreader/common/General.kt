@@ -725,9 +725,9 @@ object General {
     }
 
     @JvmStatic
-	fun closeSafely(closeable: Closeable) {
+	fun closeSafely(closeable: Closeable?) {
         try {
-            closeable.close()
+            closeable?.close()
         } catch (e: IOException) {
             Log.e("closeSafely", "Failed to close resource", e)
         }

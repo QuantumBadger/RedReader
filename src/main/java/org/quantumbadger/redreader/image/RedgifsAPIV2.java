@@ -41,7 +41,7 @@ import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.http.PostField;
-import org.quantumbadger.redreader.http.body.HTTPRequestBodyPostFields;
+import org.quantumbadger.redreader.http.body.HTTPRequestBody;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
 
 import java.util.UUID;
@@ -154,7 +154,7 @@ public final class RedgifsAPIV2 {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
-				new HTTPRequestBodyPostFields(
+				new HTTPRequestBody.PostFields(
 						new PostField("grant_type", "client_credentials"),
 						new PostField(
 								Constants.OA_CI,

@@ -50,8 +50,8 @@ import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
-import org.quantumbadger.redreader.http.body.HTTPRequestBodyMultipart;
-import org.quantumbadger.redreader.http.body.multipart.PartFormDataBinary;
+import org.quantumbadger.redreader.http.body.HTTPRequestBody;
+import org.quantumbadger.redreader.http.body.multipart.Part;
 import org.quantumbadger.redreader.image.ThumbnailScaler;
 import org.quantumbadger.redreader.jsonwrap.JsonObject;
 import org.quantumbadger.redreader.jsonwrap.JsonValue;
@@ -285,8 +285,8 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
 				CacheRequest.DownloadQueueType.IMGUR_API,
-				new HTTPRequestBodyMultipart()
-						.addPart(new PartFormDataBinary("image", mImageData)),
+				new HTTPRequestBody.Multipart()
+						.addPart(new Part.FormDataBinary("image", mImageData)),
 				this,
 				new CacheRequestJSONParser(this, new CacheRequestJSONParser.Listener() {
 					@Override

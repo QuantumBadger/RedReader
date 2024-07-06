@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.compose.ui
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -169,10 +170,14 @@ fun AlbumScreen(
 	// the screen, rather than the header at the top.
 	// Only the `requestFocus()` call actually seems to have any effect here.
 	LaunchedEffect(album) {
-		focusManager.clearFocus()
-		delay(1500)
-		accessibilityFocusRequester.freeFocus()
-		accessibilityFocusRequester.requestFocus()
+		try {
+			focusManager.clearFocus()
+			delay(1500)
+			accessibilityFocusRequester.freeFocus()
+			accessibilityFocusRequester.requestFocus()
+		} catch(e: Exception) {
+			Log.e("AlbumScreen", "requestFocus exception", e)
+		}
 	}
 
 	DoOnce(album) {

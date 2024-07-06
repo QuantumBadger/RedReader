@@ -1,4 +1,7 @@
-/Alpha 353 (2024-07-05)
+/Alpha 354 (2024-07-06)
+Workaround for requestFocus exception in album view
+
+/Alpha 353 (2024-07-06)
 Improved gallery viewer with card, list, and grid modes
 Improved network performance
 Add Submitted Comments as an optional main menu user item (thanks to folkemat)

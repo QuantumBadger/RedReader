@@ -67,3 +67,15 @@ data class RRError @JvmOverloads constructor(
 		)
 	}
 }
+
+sealed class Result<out T> {
+	data class Ok<out T>(val value: T) : Result<T>()
+	data class Err(val error: RRError) : Result<Nothing>()
+
+	inline fun orElse(action: () -> Nothing): T {
+		when (this) {
+			is Err -> action()
+			is Ok -> return value
+		}
+	}
+}

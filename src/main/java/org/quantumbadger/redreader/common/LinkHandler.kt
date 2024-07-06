@@ -67,6 +67,7 @@ import org.quantumbadger.redreader.reddit.url.PostCommentListingURL
 import org.quantumbadger.redreader.reddit.url.RedditURLParser
 import java.util.Locale
 import java.util.regex.Pattern
+import kotlin.concurrent.thread
 
 object LinkHandler {
 	private val youtubeDotComPattern = Pattern.compile("^https?://[.\\w]*youtube\\.\\w+/.*")
@@ -163,27 +164,32 @@ object LinkHandler {
 		if (redditURL != null) {
 			when (redditURL.pathType()) {
 				RedditURLParser.OPAQUE_SHARED_URL -> {
+
 					// kick off a thread to get the real url
-					Thread {
-						val toFetchUrl = OpaqueSharedURL.getUrlToFetch(
-							redditURL as OpaqueSharedURL?
-						).toString()
-						val realUrl = HTTPBackend.getBackend()
-							.resolveRedirectUri(toFetchUrl)
-						if (realUrl != null) {
-							activity.runOnUiThread {
-								onLinkClicked(
-									activity,
-									realUrl,
-									forceNoImage,
-									post,
-									albumInfo,
-									albumImageIndex,
-									fromExternalIntent
-								)
+					thread {
+						val toFetchUrl = (redditURL as OpaqueSharedURL).urlToFetch
+						val result = HTTPBackend.getBackend()
+							.resolveRedirectUri(activity.applicationContext, toFetchUrl)
+
+						when (result) {
+							is Result.Err -> {
+								General.showResultDialog(activity, result.error)
+							}
+							is Result.Ok -> {
+								activity.runOnUiThread {
+									onLinkClicked(
+										activity,
+										result.value,
+										forceNoImage,
+										post,
+										albumInfo,
+										albumImageIndex,
+										fromExternalIntent
+									)
+								}
 							}
 						}
-					}.start()
+					}
 					return
 				}
 

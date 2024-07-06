@@ -17,17 +17,20 @@
 
 package org.quantumbadger.redreader.http.okhttp;
 
+import static org.quantumbadger.redreader.cache.CacheRequest.REQUEST_FAILURE_CONNECTION;
+
 import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.Result;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.Void;
@@ -151,23 +154,46 @@ public class OKHTTPBackend extends HTTPBackend {
 	}
 
 	@Override
-	@Nullable
-	public UriString resolveRedirectUri(final String url) {
+	@NonNull
+	public Result<UriString> resolveRedirectUri(
+			final Context context,
+			final UriString url
+	) {
 		try {
 			final Builder builder = new Builder();
-			final okhttp3.Request headRequest = builder.url(url).head().build();
+			final okhttp3.Request headRequest = builder.url(url.value).head().build();
 			final OkHttpClient noRedirectsClient =
 					mClient.newBuilder().followRedirects(false).build();
 			try (Response response = noRedirectsClient.newCall(headRequest).execute()) {
-				if (response.isRedirect()) {
-					return UriString.fromNullable(response.header("Location"));
+				if (!response.isRedirect()) {
+					return new Result.Err(new RRError(
+							"Redirect response not received",
+							null,
+							true,
+							null,
+							response.code(),
+							url
+					));
 				}
+
+				final String locationHeader = response.header("Location");
+
+				if (locationHeader == null) {
+					throw new RuntimeException("Location header was null");
+				}
+
+				return new Result.Ok<>(new UriString(locationHeader));
 			}
-		} catch (final IOException e) {
-			Log.e(TAG, "Failed to resolve redirect URL", e);
-			return null;
+		} catch (final Exception e) {
+			return new Result.Err(General.getGeneralErrorForFailure(
+					context,
+					REQUEST_FAILURE_CONNECTION,
+					e,
+					null,
+					url,
+					Optional.empty()
+			));
 		}
-		return null;
 	}
 
 	@Override
@@ -256,7 +282,7 @@ public class OKHTTPBackend extends HTTPBackend {
 					response = call.execute();
 				} catch(final Exception e) {
 					listener.onError(
-							CacheRequest.REQUEST_FAILURE_CONNECTION,
+							REQUEST_FAILURE_CONNECTION,
 							e,
 							null,
 							Optional.empty());

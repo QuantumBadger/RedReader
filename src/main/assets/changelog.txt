@@ -7,6 +7,7 @@ Migrating from ExoPlayer to Media3 (thanks to Alexey Rochev)
 Comments submitted by current user now have username highlighted (thanks to folkemat)
 Add Submitted Comments as an optional main menu user item (thanks to folkemat)
 Improved network performance
+Fixed crash with some Reddit links in share format
 Minimum supported Android version is now 5.0
 
 111/1.23.1

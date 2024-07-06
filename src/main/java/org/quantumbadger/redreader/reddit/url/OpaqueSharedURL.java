@@ -19,18 +19,26 @@ package org.quantumbadger.redreader.reddit.url;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import org.quantumbadger.redreader.common.UriString;
 
 import java.util.List;
 
 public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 
-	@Nullable
-	public final String subreddit;
+	@Nullable public final String subreddit;
+	@Nullable public final String user;
 	@Nullable public final String shareKey;
 
-	public OpaqueSharedURL(@Nullable final String subreddit, @Nullable final String shareKey) {
+	private OpaqueSharedURL(
+			@Nullable final String subreddit,
+			@Nullable final String user,
+			@Nullable final String shareKey
+	) {
 		this.subreddit = subreddit;
+		this.user = user;
 		this.shareKey = shareKey;
 	}
 
@@ -44,6 +52,7 @@ public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 		return RedditURLParser.OPAQUE_SHARED_URL;
 	}
 
+	@Nullable
 	public static OpaqueSharedURL parse(final Uri uri) {
 		// URLs look like https://reddit.com/r/RedReader/s/<alphanumeric>
 		// first pull out the path segments and ensure they match the example (should be 4)
@@ -52,25 +61,31 @@ public class OpaqueSharedURL extends RedditURLParser.RedditURL {
 			return null;
 		}
 
-		// ensure the first segment is "r" and the third is "s"
-		if (!pathSegments.get(0).equals("r") || !pathSegments.get(2).equals("s")) {
-			return null;
+		// ensure the first segment is "r" or "u", and the third is "s"
+        if (pathSegments.get(2).equals("s")) {
+			if (pathSegments.get(0).equals("r")) {
+				return new OpaqueSharedURL(pathSegments.get(1), null, pathSegments.get(3));
+			} else if(pathSegments.get(0).equals("u")) {
+				return new OpaqueSharedURL(pathSegments.get(1), pathSegments.get(3), null);
+			} else {
+				return null;
+			}
+
+        } else {
+            return null;
+        }
+    }
+
+	@NonNull
+	public UriString getUrlToFetch() {
+		if (subreddit != null) {
+			return new UriString(
+					String.format("https://www.reddit.com/r/%s/s/%s", subreddit, shareKey));
+		} else if (user != null) {
+			return new UriString(
+					String.format("https://www.reddit.com/u/%s/s/%s", user, shareKey));
+		} else {
+			throw new RuntimeException("Neither subreddit nor user set");
 		}
-
-		return new OpaqueSharedURL(pathSegments.get(1), pathSegments.get(3));
-	}
-
-	public static Uri getUrlToFetch(final OpaqueSharedURL url) {
-		return Uri.parse(String.format("https://www.reddit.com/r/%s/s/%s", url.subreddit, url.shareKey));
-	}
-
-	@Nullable
-	public String getSubreddit() {
-		return subreddit;
-	}
-
-	@Nullable
-	public String getShareKey() {
-		return shareKey;
 	}
 }

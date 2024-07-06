@@ -5,6 +5,7 @@ Add Submitted Comments as an optional main menu user item (thanks to folkemat)
 Fixed crash with some Reddit links in share format
 Fixed issue where some GIFs wouldn't play
 Renamed some menu items and labels for clarity
+Support for Imgur album URLs containing title
 
 /Alpha 352 (2024-06-16)
 Dependency updates and reorganisation (thanks to Alexey Rochev)

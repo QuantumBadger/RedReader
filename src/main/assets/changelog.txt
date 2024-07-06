@@ -10,6 +10,7 @@ Improved network performance
 Fixed issue with gesture cancellation in image viewer (thanks to Alexey Rochev)
 Fixed crash with some Reddit links in share format
 Fixed issue where some GIFs wouldn't play
+Support for Imgur album URLs containing title
 Renamed some menu items and labels for clarity
 Minimum supported Android version is now 5.0
 

@@ -520,7 +520,7 @@ object LinkHandler {
 	private val imgurPattern = Pattern.compile("https?://?(i\\.)?imgur\\.com/(\\w+).*")
 
 	@JvmField
-	val imgurAlbumPattern: Pattern = Pattern.compile(".*[^A-Za-z]imgur\\.com/(a|gallery)/(\\w+).*")
+	val imgurAlbumPattern: Pattern = Pattern.compile(".*[^A-Za-z]imgur\\.com/(a|gallery)/([\\w\\-]+).*")
 	private val redditGalleryPattern: Pattern = Pattern.compile(".*[^A-Za-z]reddit\\.com/gallery/(\\w+).*")
 	private val qkmePattern1: Pattern = Pattern.compile(".*[^A-Za-z]qkme\\.me/(\\w+).*")
 	private val qkmePattern2: Pattern = Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*")
@@ -788,7 +788,8 @@ object LinkHandler {
 		run {
 			val matchImgur = imgurAlbumPattern.matcher(url.value)
 			if (matchImgur.find()) {
-				matchImgur.group(2)?.let { albumId ->
+				matchImgur.group(2)?.let {
+					val albumId = it.split("-").last()
 					if (albumId.length > 2) {
 						getImgurAlbumInfo(context, url, albumId, priority, listener)
 						return

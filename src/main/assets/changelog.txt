@@ -8,6 +8,7 @@ Comments submitted by current user now have username highlighted (thanks to folk
 Add Submitted Comments as an optional main menu user item (thanks to folkemat)
 Improved network performance
 Fixed crash with some Reddit links in share format
+Fixed issue where some GIFs wouldn't play
 Renamed some menu items and labels for clarity
 Minimum supported Android version is now 5.0
 

@@ -3,6 +3,7 @@ Improved gallery viewer with card, list, and grid modes
 Improved network performance
 Add Submitted Comments as an optional main menu user item (thanks to folkemat)
 Fixed crash with some Reddit links in share format
+Fixed issue where some GIFs wouldn't play
 Renamed some menu items and labels for clarity
 
 /Alpha 352 (2024-06-16)

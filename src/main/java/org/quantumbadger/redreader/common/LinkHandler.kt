@@ -1070,7 +1070,8 @@ object LinkHandler {
 			return ImageInfo(
 				ImageUrlInfo(url),
 				mediaType = ImageInfo.MediaType.GIF,
-				hasAudio = audio
+				hasAudio = audio,
+				isAnimated = true
 			)
 		}
 

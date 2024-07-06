@@ -853,3 +853,9 @@ fun <E> E.invokeIf(condition: Boolean, action: E.() -> E): E = if (condition) {
 } else {
 	this
 }
+
+fun <V, E> E.invokeIfNotNull(value: V?, action: E.(V) -> E): E = if (value != null) {
+	action(value)
+} else {
+	this
+}

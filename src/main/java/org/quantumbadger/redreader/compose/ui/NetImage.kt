@@ -17,12 +17,11 @@
 
 package org.quantumbadger.redreader.compose.ui
 
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
@@ -38,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.invokeIf
+import org.quantumbadger.redreader.common.invokeIfNotNull
 import org.quantumbadger.redreader.compose.net.NetRequestStatus
 import org.quantumbadger.redreader.compose.net.fetchImage
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
@@ -51,7 +51,9 @@ fun NetImage(
 	cropToAspect: Float? = null,
 	showVideoPlayOverlay: Boolean = false
 ) {
-	val aspectRatio = cropToAspect ?: image.size?.takeIf { it.height > 0 }?.let {
+	val theme = LocalComposeTheme.current
+
+	val imageAspectRatio = image.size?.takeIf { it.height > 0 }?.let {
 		it.width.toFloat() / it.height.toFloat()
 	}
 
@@ -61,17 +63,23 @@ fun NetImage(
 
 	Box(
 		modifier = modifier
-			.invokeIf(
-				(cropToAspect != null &&
-						data !is NetRequestStatus.Success &&
-						data !is NetRequestStatus.Failed) || aspectRatio != null
-			) {
-				aspectRatio(aspectRatio!!)
-			}
-			.animateContentSize(),
+            .invokeIfNotNull(cropToAspect, Modifier::aspectRatio)
+            .invokeIf(data is NetRequestStatus.Success) {
+                background(theme.postCard.previewImageBackgroundColor)
+            },
 		contentAlignment = Alignment.Center,
 	) {
-		val theme = LocalComposeTheme.current
+
+		if (imageAspectRatio != null
+			&& data !is NetRequestStatus.Success
+			&& data !is NetRequestStatus.Failed
+		) {
+			// Pad the view to the desired aspect ratio
+			Box(
+                Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(imageAspectRatio))
+		}
 
 		when (val it = data) {
 			NetRequestStatus.Connecting -> {
@@ -92,35 +100,35 @@ fun NetImage(
 			}
 
 			is NetRequestStatus.Success -> {
-				Box(Modifier.background(theme.postCard.previewImageBackgroundColor)) {
-					Image(
-						modifier = Modifier.fillMaxSize(),
-						bitmap = it.result.data,
-						contentDescription = null,
-						contentScale = if (cropToAspect == null) {
-							ContentScale.Fit
-						} else {
-							ContentScale.Crop
-						}
-					)
+				Image(
+					modifier = Modifier.fillMaxWidth(),
+					bitmap = it.result.data,
+					contentDescription = null,
+					contentScale = if (cropToAspect == null) {
+						ContentScale.Fit
+					} else {
+						ContentScale.Crop
+					}
+				)
 
-					if (showVideoPlayOverlay) {
+				if (showVideoPlayOverlay) {
+					Box(
+                        Modifier
+                            .background(Color(0f, 0f, 0f, 0.2f))
+                            .matchParentSize(),
+						contentAlignment = Alignment.Center
+					) {
 						Box(
-							Modifier
-								.background(Color(0f, 0f, 0f, 0.2f))
-								.matchParentSize(),
-							contentAlignment = Alignment.Center
+                            Modifier
+                                .clip(CircleShape)
+                                .background(Color(0f, 0f, 0f, 0.7f))
+                                .padding(12.dp)
 						) {
-							Box(Modifier
-								.clip(CircleShape)
-								.background(Color(0f, 0f, 0f, 0.7f))
-								.padding(12.dp)) {
-								Icon(
-									painter = painterResource(R.drawable.icon_play),
-									contentDescription = null,
-									tint = Color.White
-								)
-							}
+							Icon(
+								painter = painterResource(R.drawable.icon_play),
+								contentDescription = null,
+								tint = Color.White
+							)
 						}
 					}
 				}

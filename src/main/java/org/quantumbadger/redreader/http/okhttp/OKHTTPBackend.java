@@ -213,8 +213,8 @@ public class OKHTTPBackend extends HTTPBackend {
 						@NonNull final HTTPRequestBodyPostFields body) {
 
 					return RequestBody.create(
-							MediaType.parse("application/x-www-form-urlencoded"),
-							PostField.encodeList(body.getPostFields()));
+							PostField.encodeList(body.getPostFields()),
+							MediaType.parse("application/x-www-form-urlencoded"));
 				}
 
 				@Override
@@ -240,8 +240,8 @@ public class OKHTTPBackend extends HTTPBackend {
 									part.name,
 									null,
 									RequestBody.create(
-											MediaType.parse("application/octet-stream"),
-											part.value));
+											part.value,
+											MediaType.parse("application/octet-stream")));
 
 							return Void.INSTANCE;
 						}

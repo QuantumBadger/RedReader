@@ -185,8 +185,7 @@ public final class MediaUtils {
 
 									if((extractor.getSampleFlags()
 											& MediaExtractor.SAMPLE_FLAG_SYNC) != 0) {
-										//noinspection deprecation
-										flags |= MediaCodec.BUFFER_FLAG_SYNC_FRAME;
+										flags |= MediaCodec.BUFFER_FLAG_KEY_FRAME;
 									}
 
 									if((extractor.getSampleFlags()

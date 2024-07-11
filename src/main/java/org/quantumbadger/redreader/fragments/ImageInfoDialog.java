@@ -22,10 +22,13 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.BundleCompat;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.image.ImageInfo;
+
+import java.util.Objects;
 
 public final class ImageInfoDialog extends PropertiesDialog {
 
@@ -50,7 +53,9 @@ public final class ImageInfoDialog extends PropertiesDialog {
 			@NonNull final BaseActivity context,
 			@NonNull final LinearLayout items) {
 
-		final ImageInfo info = getArguments().getParcelable("info");
+		final ImageInfo info = Objects.requireNonNull(BundleCompat.getParcelable(requireArguments(),
+				"info",
+				ImageInfo.class));
 
 		boolean first = true;
 

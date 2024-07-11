@@ -22,11 +22,14 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.BundleCompat;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.things.RedditUser;
+
+import java.util.Objects;
 
 public final class UserPropertiesDialog extends PropertiesDialog {
 
@@ -43,7 +46,9 @@ public final class UserPropertiesDialog extends PropertiesDialog {
 
 	@Override
 	protected String getTitle(final Context context) {
-		return getArguments().<RedditUser>getParcelable("user").name;
+		return Objects.requireNonNull(BundleCompat.getParcelable(requireArguments(),
+				"user",
+				RedditUser.class)).name;
 	}
 
 	@Override
@@ -51,7 +56,10 @@ public final class UserPropertiesDialog extends PropertiesDialog {
 			@NonNull final BaseActivity context,
 			@NonNull final LinearLayout items) {
 
-		final RedditUser user = getArguments().getParcelable("user");
+		final RedditUser user = Objects.requireNonNull(
+				BundleCompat.getParcelable(requireArguments(),
+						"user",
+						RedditUser.class));
 
 		items.addView(propView(
 				context,

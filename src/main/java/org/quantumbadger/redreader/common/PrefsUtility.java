@@ -802,6 +802,11 @@ public final class PrefsUtility {
 				true);
 	}
 
+	public static boolean pref_behaviour_video_frame_step() {
+		return getBoolean(R.string.pref_behaviour_video_frame_step_key,
+				false);
+	}
+
 	public static boolean pref_behaviour_video_mute_default() {
 		return getBoolean(
 				R.string.pref_behaviour_video_mute_default_key,

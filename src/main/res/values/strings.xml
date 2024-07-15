@@ -1490,9 +1490,13 @@
 	<string name="video_unmute">Unmute</string>
 	<string name="video_restart">Restart video</string>
 	<string name="video_rewind">Rewind</string>
+	<string name="video_step_back">Step back</string>
+	<string name="video_step_back_disabled">Step back disabled</string>
 	<string name="video_play">Play</string>
 	<string name="video_pause">Pause</string>
 	<string name="video_fast_forward">Fast forward</string>
+	<string name="video_step_forward">Step forward</string>
+	<string name="video_step_forward_disabled">Step forward disabled</string>
 	<string name="video_zoom_in">Zoom in</string>
 	<string name="video_zoom_out">Zoom out</string>
 
@@ -1894,4 +1898,9 @@
 
 	<string name="error_invalid_account_title">Invalid account</string>
 	<string name="error_invalid_account_message">Selected account is not currently logged in</string>
+
+	<!-- 2024-07-11 -->
+	<string name="pref_behaviour_video_frame_step_title">Enable stepping frame by frame</string>
+	<string name="pref_behaviour_video_frame_step_key" translatable="false">pref_behaviour_video_frame_step</string>
+
 </resources>

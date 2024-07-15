@@ -33,7 +33,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.annotation.StringRes;
-
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
 import androidx.media3.common.util.UnstableApi;
@@ -44,7 +43,6 @@ import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.DefaultTimeBar;
 import androidx.media3.ui.PlayerView;
 import androidx.media3.ui.TimeBar;
-
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.AndroidCommon;
@@ -140,7 +138,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			addButton(createButton(
 					context,
 					mControlView,
-					R.drawable.icon_previous,
+					R.drawable.icon_restart,
 					R.string.video_restart,
 					view -> {
 						mVideoPlayer.seekTo(0);
@@ -188,7 +186,66 @@ public class ExoPlayerWrapperView extends FrameLayout {
 							updateProgress();
 						}));
 
-				addButton(playButton.get(), buttons);
+				if (PrefsUtility.pref_behaviour_video_frame_step()) {
+					final AtomicReference<ImageButton> stepBackButton = new AtomicReference<>();
+					final AtomicReference<ImageButton> stepForwardButton = new AtomicReference<>();
+					stepBackButton.set(createButton(
+							context,
+							mControlView,
+							R.drawable.icon_step_back,
+							R.string.video_step_back,
+							view -> {
+								mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - 33);
+								updateProgress();
+							}
+					));
+
+					stepForwardButton.set(createButton(
+							context,
+							mControlView,
+							R.drawable.icon_step_forward,
+							R.string.video_step_forward,
+							view -> {
+								mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + 33);
+								updateProgress();
+							}
+					));
+
+					mVideoPlayer.addListener(new Player.Listener() {
+						@Override
+						public void onIsPlayingChanged(final boolean isPlaying) {
+							if (isPlaying) {
+								stepBackButton.get().setImageAlpha(0x3F);
+								stepBackButton.get().setContentDescription(
+										context.getString(R.string.video_step_back_disabled));
+								stepBackButton.get().setEnabled(false);
+
+								stepForwardButton.get().setImageAlpha(0x3F);
+								stepForwardButton.get().setContentDescription(
+										context.getString(R.string.video_step_forward_disabled));
+								stepForwardButton.get().setEnabled(false);
+
+							} else {
+								stepBackButton.get().setImageAlpha(0xFF);
+								stepBackButton.get().setContentDescription(
+										context.getString(R.string.video_step_back));
+								stepBackButton.get().setEnabled(true);
+
+								stepForwardButton.get().setImageAlpha(0xFF);
+								stepForwardButton.get().setContentDescription(
+										context.getString(R.string.video_step_forward));
+								stepForwardButton.get().setEnabled(true);
+							}
+						}
+					});
+
+					addButton(stepBackButton.get(), buttons);
+					addButton(playButton.get(), buttons);
+					addButton(stepForwardButton.get(), buttons);
+
+				} else {
+					addButton(playButton.get(), buttons);
+				}
 			}
 
 			addButton(createButton(

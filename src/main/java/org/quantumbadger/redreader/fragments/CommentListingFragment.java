@@ -21,6 +21,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -191,6 +192,13 @@ public class CommentListingFragment extends RRFragment
 					R.layout.floating_toolbar,
 					mOverlayFrame,
 					false);
+
+			if (PrefsUtility.pref_appearance_left_handed()) {
+				final FrameLayout.LayoutParams toolBarParams =
+						(FrameLayout.LayoutParams) mFloatingToolbar.getLayoutParams();
+				toolBarParams.gravity = Gravity.START | Gravity.BOTTOM;
+				mFloatingToolbar.setLayoutParams(toolBarParams);
+			}
 
 			// We need a container so that setVisible() doesn't mess with the Z-order
 			final FrameLayout floatingToolbarContainer = new FrameLayout(context);

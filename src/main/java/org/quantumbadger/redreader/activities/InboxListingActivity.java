@@ -485,7 +485,8 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 		menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 0, R.string.mark_all_as_read);
 		menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 1, R.string.inbox_unread_only);
-		menu.add(0, OPTIONS_MENU_MARK_INBOX_AS_READ_WHEN_BACK, 2, R.string.mark_inbox_as_read_when_back);
+		menu.add(0, OPTIONS_MENU_MARK_INBOX_AS_READ_WHEN_BACK,
+				2, R.string.mark_inbox_as_read_when_back);
 		menu.getItem(1).setCheckable(true);
 		if(mOnlyShowUnread) {
 			menu.getItem(1).setChecked(true);

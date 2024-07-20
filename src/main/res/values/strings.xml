@@ -1918,4 +1918,6 @@
 	<string name="pref_behaviour_video_frame_step_title">Enable stepping frame by frame</string>
 	<string name="pref_behaviour_video_frame_step_key" translatable="false">pref_behaviour_video_frame_step</string>
 
+	<!-- 2025-04-21 -->
+	<string name="mark_inbox_as_read_when_back">Read all when leaving</string>
 </resources>

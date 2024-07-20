@@ -82,12 +82,15 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
+	private static final int OPTIONS_MENU_MARK_INBOX_AS_READ_WHEN_BACK = 2;
 
 	public enum InboxType {
 		INBOX, SENT, MODMAIL
 	}
 
 	private static final String PREF_ONLY_UNREAD = "inbox_only_show_unread";
+
+	private static final String PREF_MARK_INBOX_READ_BACK = "inbox_mark_as_read_when_back";
 
 	private GroupedRecyclerViewAdapter adapter;
 
@@ -98,6 +101,10 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 	private InboxType inboxType;
 	private boolean mOnlyShowUnread;
+
+	private boolean mMarkInboxAsReadWhenBack;
+
+	private boolean mUserWantsBack = false;
 
 	private RRThemeAttributes mTheme;
 	private RedditChangeDataManager mChangeDataManager;
@@ -185,6 +192,8 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 		}
 
 		mOnlyShowUnread = sharedPreferences.getBoolean(PREF_ONLY_UNREAD, false);
+
+		mMarkInboxAsReadWhenBack = sharedPreferences.getBoolean(PREF_MARK_INBOX_READ_BACK, false);
 
 		switch(inboxType) {
 			case SENT:
@@ -424,9 +433,46 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 		cm.makeRequest(request);
 	}
 
+	private void markInboxAsRead() {
+		RedditAPI.markAllAsRead(
+				CacheManager.getInstance(this),
+				new APIResponseHandler.ActionResponseHandler(this) {
+					@Override
+					protected void onSuccess() {
+						if (!mUserWantsBack) { //Don't annoy the user
+							General.quickToast(
+									context,
+									R.string.mark_all_as_read_success);
+						}
+					}
+
+					@Override
+					protected void onCallbackException(final Throwable t) {
+						BugReportActivity.addGlobalError(new RRError(
+								"Mark all as Read failed",
+								"Callback exception",
+								true,
+								t));
+					}
+
+					@Override
+					protected void onFailure(@NonNull final RRError error) {
+						if (!mUserWantsBack) { //Don't annoy the user
+							General.showResultDialog(
+									InboxListingActivity.this,
+									error);
+						}
+					}
+				},
+				RedditAccountManager.getInstance(this).getDefaultAccount(),
+				this);
+	}
+
 	@Override
 	public void onBackPressed() {
 		if(General.onBackPressed()) {
+			mUserWantsBack = true;
+			markInboxAsRead();
 			super.onBackPressed();
 		}
 	}
@@ -439,9 +485,14 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 		menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 0, R.string.mark_all_as_read);
 		menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 1, R.string.inbox_unread_only);
+		menu.add(0, OPTIONS_MENU_MARK_INBOX_AS_READ_WHEN_BACK, 2, R.string.mark_inbox_as_read_when_back);
 		menu.getItem(1).setCheckable(true);
 		if(mOnlyShowUnread) {
 			menu.getItem(1).setChecked(true);
+		}
+		menu.getItem(2).setCheckable(true);
+		if(mMarkInboxAsReadWhenBack) {
+			menu.getItem(2).setChecked(true);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -450,37 +501,23 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch(item.getItemId()) {
 			case OPTIONS_MENU_MARK_ALL_AS_READ:
-				RedditAPI.markAllAsRead(
-						CacheManager.getInstance(this),
-						new APIResponseHandler.ActionResponseHandler(this) {
-							@Override
-							protected void onSuccess() {
-								General.quickToast(
-										context,
-										R.string.mark_all_as_read_success);
-							}
-
-							@Override
-							protected void onCallbackException(final Throwable t) {
-								BugReportActivity.addGlobalError(new RRError(
-										"Mark all as Read failed",
-										"Callback exception",
-										true,
-										t));
-							}
-
-							@Override
-							protected void onFailure(@NonNull final RRError error) {
-								General.showResultDialog(
-										InboxListingActivity.this,
-										error);
-							}
-						},
-						RedditAccountManager.getInstance(this).getDefaultAccount(),
-						this);
-
+				markInboxAsRead();
 				return true;
 
+			case OPTIONS_MENU_MARK_INBOX_AS_READ_WHEN_BACK: {
+
+				final boolean enabled = !item.isChecked();
+
+				item.setChecked(enabled);
+				mMarkInboxAsReadWhenBack = enabled;
+
+				General.getSharedPrefs(this)
+						.edit()
+						.putBoolean(PREF_MARK_INBOX_READ_BACK, enabled)
+						.apply();
+
+				return true;
+			}
 			case OPTIONS_MENU_SHOW_UNREAD_ONLY: {
 
 				final boolean enabled = !item.isChecked();

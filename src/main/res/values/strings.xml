@@ -1894,4 +1894,7 @@
 
 	<string name="error_invalid_account_title">Invalid account</string>
 	<string name="error_invalid_account_message">Selected account is not currently logged in</string>
+
+	<!-- 2024-07-20 -->
+	<string name="mark_inbox_as_read_when_back">Read all when leaving</string>
 </resources>

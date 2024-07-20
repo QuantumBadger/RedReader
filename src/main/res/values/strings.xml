@@ -1802,6 +1802,10 @@
 	<!-- 2023-10-22 -->
 	<string name="userprofile_tag_suspended">Suspended</string>
 
+	<!-- 2023-11-25 -->
+	<string name="pref_behaviour_mark_posts_as_read_key" translatable="false">pref_behaviour_mark_posts_as_read</string>
+	<string name="pref_behaviour_mark_posts_as_read_title">Mark posts as read</string>
+
 	<!-- 2023-12-12 -->
 	<string name="pref_developer_header" translatable="false">Developer Options</string>
 	<string name="pref_developer_test_notification_key" translatable="false">pref_developer_test_notification_key</string>

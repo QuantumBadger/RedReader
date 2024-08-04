@@ -125,10 +125,10 @@ private fun InitialContainer(
 	val theme = LocalComposeTheme.current
 
 	Box(
-		modifier
-			.fillMaxSize()
-			.background(theme.postCard.listBackgroundColor)
-			.systemBarsPadding(),
+        modifier
+            .fillMaxSize()
+            .background(theme.postCard.listBackgroundColor)
+            .systemBarsPadding(),
 		contentAlignment = Alignment.Center
 	) {
 		content()
@@ -175,7 +175,7 @@ fun AlbumScreen(
 			delay(1500)
 			accessibilityFocusRequester.freeFocus()
 			accessibilityFocusRequester.requestFocus()
-		} catch(e: Exception) {
+		} catch (e: Exception) {
 			Log.e("AlbumScreen", "requestFocus exception", e)
 		}
 	}
@@ -190,7 +190,7 @@ fun AlbumScreen(
 
 	val topBarHeight = 48.dp
 
-	val contentPadding: PaddingValues = WindowInsets(top = 8.dp, bottom = 24.dp)
+	val contentPadding: PaddingValues = WindowInsets(bottom = 24.dp)
 		.add(WindowInsets.systemBars)
 		.asPaddingValues()
 
@@ -214,45 +214,48 @@ fun AlbumScreen(
 
 	val head = @Composable {
 		Column(
-			Modifier
-				.padding(horizontal = 16.dp, vertical = 4.dp)
-				.fillMaxWidth()
+            Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxWidth()
 		) {
 
 			// Space for the top bar
 			Spacer(Modifier.height(topBarHeight))
 
-			Spacer(Modifier.height(6.dp))
+			if (!prefs.albumCompactTitle.value) {
 
-			Text(
-				modifier = Modifier
-					.fillMaxWidth()
-					.focusRequester(accessibilityFocusRequester)
-					.focusable(true)
-					.semantics {
-						heading()
-					},
-				text = album.title ?: stringResource(R.string.image_gallery),
-				style = theme.album.title,
-				overflow = TextOverflow.Ellipsis,
-				maxLines = 2
-			)
+				Spacer(Modifier.height(10.dp))
 
-			Spacer(Modifier.height(6.dp))
+				Text(
+					modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(accessibilityFocusRequester)
+                        .focusable(true)
+                        .semantics {
+                            heading()
+                        },
+					text = album.title ?: stringResource(R.string.image_gallery),
+					style = theme.album.title,
+					overflow = TextOverflow.Ellipsis,
+					maxLines = 2
+				)
 
-			Text(
-				modifier = Modifier.fillMaxWidth(),
-				text = album.description ?: pluralStringResource(
-					R.plurals.album_image_count,
-					album.images.size,
-					album.images.size
-				),
-				style = theme.album.subtitle,
-				overflow = TextOverflow.Ellipsis,
-				maxLines = 3
-			)
+				Spacer(Modifier.height(6.dp))
 
-			Spacer(Modifier.height(12.dp))
+				Text(
+					modifier = Modifier.fillMaxWidth(),
+					text = album.description ?: pluralStringResource(
+						R.plurals.album_image_count,
+						album.images.size,
+						album.images.size
+					),
+					style = theme.album.subtitle,
+					overflow = TextOverflow.Ellipsis,
+					maxLines = 3
+				)
+
+				Spacer(Modifier.height(16.dp))
+			}
 		}
 	}
 
@@ -266,9 +269,9 @@ fun AlbumScreen(
 				val state = rememberLazyListState()
 
 				LazyColumn(
-					Modifier
-						.fillMaxSize()
-						.background(theme.postCard.listBackgroundColor),
+                    Modifier
+                        .fillMaxSize()
+                        .background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
 					state = state
 				) {
@@ -298,9 +301,9 @@ fun AlbumScreen(
 				val state = rememberLazyListState()
 
 				LazyColumn(
-					Modifier
-						.fillMaxSize()
-						.background(theme.postCard.listBackgroundColor),
+                    Modifier
+                        .fillMaxSize()
+                        .background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
 					state = state
 				) {
@@ -336,8 +339,8 @@ fun AlbumScreen(
 					state = state,
 					columns = GridCells.Fixed(colCount),
 					modifier = Modifier
-						.fillMaxSize()
-						.background(theme.postCard.listBackgroundColor),
+                        .fillMaxSize()
+                        .background(theme.postCard.listBackgroundColor),
 					contentPadding = contentPadding,
 					verticalArrangement = Arrangement.spacedBy(2.dp),
 					horizontalArrangement = Arrangement.spacedBy(2.dp),
@@ -354,14 +357,14 @@ fun AlbumScreen(
 
 						NetImage(
 							modifier = Modifier
-								.combinedClickable(
-									onClick = { itemClickHandler(it) },
-									onLongClick = { itemLongClickListener(it) }
-								)
-								.semantics {
-									role = Role.Image
-									contentDescription = description
-								},
+                                .combinedClickable(
+                                    onClick = { itemClickHandler(it) },
+                                    onLongClick = { itemLongClickListener(it) }
+                                )
+                                .semantics {
+                                    role = Role.Image
+                                    contentDescription = description
+                                },
 							image = image.run {
 								bigSquare ?: preview ?: original
 							},
@@ -399,12 +402,12 @@ fun AlbumScreen(
 		// Top bar
 		Row(
 			modifier = Modifier
-				.shadow(topBarShadow)
-				.background(theme.postCard.listBackgroundColor)
-				.padding(insets)
-				.padding(horizontal = 6.dp)
-				.height(topBarHeight)
-				.fillMaxWidth(),
+                .shadow(topBarShadow)
+                .background(theme.postCard.listBackgroundColor)
+                .padding(insets)
+                .padding(horizontal = 6.dp)
+                .height(topBarHeight)
+                .fillMaxWidth(),
 			verticalAlignment = Alignment.CenterVertically,
 		) {
 
@@ -415,7 +418,24 @@ fun AlbumScreen(
 				tint = theme.album.toolbarIconColor
 			)
 
-			Spacer(Modifier.weight(1f))
+			if (prefs.albumCompactTitle.value) {
+				Text(
+					modifier = Modifier
+						.weight(1f)
+						.focusRequester(accessibilityFocusRequester)
+						.focusable(true)
+						.semantics {
+							heading()
+						},
+					text = album.title ?: stringResource(R.string.image_gallery),
+					style = theme.album.titleCompact,
+					overflow = TextOverflow.Ellipsis,
+					maxLines = 1
+				)
+
+			} else {
+				Spacer(Modifier.weight(1f))
+			}
 
 			AlbumSettingsButton()
 		}
@@ -460,20 +480,6 @@ fun AlbumSettingsButton(
 					text = R.string.album_card_pref_buttons,
 					pref = prefs.albumCardShowButtons
 				)
-
-				ItemDivider()
-
-				ItemGroupCollapsible(text = R.string.album_more_options) {
-					ItemPrefBool(
-						text = R.string.album_grid_pref_rounded_corners,
-						pref = prefs.albumGridRoundedCorners
-					)
-
-					ItemPrefBool(
-						text = R.string.album_grid_pref_horizontal_padding,
-						pref = prefs.albumGridHorizontalPadding
-					)
-				}
 			}
 
 			AlbumViewMode.List -> {
@@ -518,6 +524,27 @@ fun AlbumSettingsButton(
 			}
 		}
 
+		ItemDivider()
+
+		ItemGroupCollapsible(text = R.string.album_more_options) {
+
+			ItemPrefBool(
+				text = R.string.album_pref_compact_title,
+				pref = prefs.albumCompactTitle
+			)
+
+			if (prefs.albumViewMode.value == AlbumViewMode.Cards) {
+				ItemPrefBool(
+					text = R.string.album_grid_pref_rounded_corners,
+					pref = prefs.albumGridRoundedCorners
+				)
+
+				ItemPrefBool(
+					text = R.string.album_grid_pref_horizontal_padding,
+					pref = prefs.albumGridHorizontalPadding
+				)
+			}
+		}
 
 		ItemDivider()
 

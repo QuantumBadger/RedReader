@@ -55,6 +55,7 @@ interface ComposeThemeAlbum {
 	val toolbarIconColor: Color
 	val title: TextStyle
 	val subtitle: TextStyle
+	val titleCompact: TextStyle
 }
 
 interface ComposeThemeDropdownMenu {
@@ -234,6 +235,11 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 			color = colorSubtext,
 			fontWeight = FontWeight.W400,
 			fontSize = 16.sp * prefs.appearanceFontScalePostSubtitles
+		)
+		override val titleCompact = baseTextStyle.copy(
+			color = colorText,
+			fontWeight = FontWeight.W600,
+			fontSize = 16.sp
 		)
 
 		override val toolbarIconColor = colorIcon

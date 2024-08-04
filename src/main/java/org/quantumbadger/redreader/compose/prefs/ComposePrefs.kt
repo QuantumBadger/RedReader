@@ -52,6 +52,7 @@ interface ComposePrefs {
 	val albumGridColumns: Preference<Int>
 	val albumGridRoundedCorners: Preference<Boolean>
 	val albumGridHorizontalPadding: Preference<Boolean>
+	val albumCompactTitle: Preference<Boolean>
 }
 
 object ComposePrefsSingleton {
@@ -262,6 +263,11 @@ private class ComposePrefsImpl(private val context: Context) : ComposePrefs {
 	override val albumGridHorizontalPadding: Preference<Boolean> = BoolPref(
 		"album_grid_horizontal_padding",
 		true
+	)
+
+	override val albumCompactTitle: Preference<Boolean> = BoolPref(
+		"album_compact_title",
+		false
 	)
 }
 

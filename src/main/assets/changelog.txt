@@ -2,6 +2,7 @@
 Improved gallery viewer with card, list, and grid modes
 Ability to block users in user profile (thanks to folkemat)
 Ability to upload an image when submitting a comment (thanks to folkemat)
+Added experimental accessibility actions for moving between top-level comments (thanks to codeofdusk)
 Dependency updates and reorganisation (thanks to Alexey Rochev)
 Migrating from ExoPlayer to Media3 (thanks to Alexey Rochev)
 Comments submitted by current user now have username highlighted (thanks to folkemat)

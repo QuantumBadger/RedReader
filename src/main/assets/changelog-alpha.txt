@@ -1,3 +1,6 @@
+/Alpha 355 (2024-08-04)
+Added experimental accessibility actions for moving between top-level comments (thanks to codeofdusk)
+
 /Alpha 354 (2024-07-06)
 Workaround for requestFocus exception in album view
 

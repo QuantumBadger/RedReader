@@ -18,6 +18,12 @@
 package org.quantumbadger.redreader.compose.ui
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -37,7 +43,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -218,44 +223,52 @@ fun AlbumScreen(
             Modifier
                 .padding(horizontal = 16.dp)
                 .fillMaxWidth()
+				.animateContentSize()
 		) {
 
 			// Space for the top bar
 			Spacer(Modifier.height(topBarHeight))
 
-			if (!prefs.albumCompactTitle.value) {
+			AnimatedVisibility(
+				modifier = Modifier.fillMaxWidth(),
+				visible = !prefs.albumCompactTitle.value,
+				enter = fadeIn() + slideInVertically { -it },
+				exit = fadeOut() + slideOutVertically { -it }
+			) {
 
-				Spacer(Modifier.height(10.dp))
+				Column {
+					Spacer(Modifier.height(10.dp))
 
-				Text(
-					modifier = Modifier
-                        .fillMaxWidth()
-                        .focusRequester(accessibilityFocusRequester)
-                        .focusable(true)
-                        .semantics {
-                            heading()
-                        },
-					text = album.title ?: stringResource(R.string.image_gallery),
-					style = theme.album.title,
-					overflow = TextOverflow.Ellipsis,
-					maxLines = 2
-				)
+					Text(
+						modifier = Modifier
+							.fillMaxWidth()
+							.focusRequester(accessibilityFocusRequester)
+							.focusable(true)
+							.semantics {
+								heading()
+							},
+						text = album.title ?: stringResource(R.string.image_gallery),
+						style = theme.album.title,
+						overflow = TextOverflow.Ellipsis,
+						maxLines = 2
+					)
 
-				Spacer(Modifier.height(6.dp))
+					Spacer(Modifier.height(6.dp))
 
-				Text(
-					modifier = Modifier.fillMaxWidth(),
-					text = album.description ?: pluralStringResource(
-						R.plurals.album_image_count,
-						album.images.size,
-						album.images.size
-					),
-					style = theme.album.subtitle,
-					overflow = TextOverflow.Ellipsis,
-					maxLines = 3
-				)
+					Text(
+						modifier = Modifier.fillMaxWidth(),
+						text = album.description ?: pluralStringResource(
+							R.plurals.album_image_count,
+							album.images.size,
+							album.images.size
+						),
+						style = theme.album.subtitle,
+						overflow = TextOverflow.Ellipsis,
+						maxLines = 3
+					)
 
-				Spacer(Modifier.height(16.dp))
+					Spacer(Modifier.height(16.dp))
+				}
 			}
 		}
 	}
@@ -419,26 +432,30 @@ fun AlbumScreen(
 				tint = theme.album.toolbarIconColor
 			)
 
-			if (prefs.albumCompactTitle.value) {
-
-				Spacer(Modifier.width(6.dp))
-
-				Text(
-					modifier = Modifier
-						.weight(1f)
-						.focusRequester(accessibilityFocusRequester)
-						.focusable(true)
-						.semantics {
-							heading()
-						},
-					text = album.title ?: stringResource(R.string.image_gallery),
-					style = theme.album.titleCompact,
-					overflow = TextOverflow.Ellipsis,
-					maxLines = 1
-				)
-
-			} else {
-				Spacer(Modifier.weight(1f))
+			Box(
+				modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 6.dp),
+			) {
+				androidx.compose.animation.AnimatedVisibility(
+					modifier = Modifier.fillMaxWidth(),
+					visible = prefs.albumCompactTitle.value,
+					enter = fadeIn() + slideInVertically { -it },
+					exit = fadeOut() + slideOutVertically { -it }
+				) {
+					Text(
+						modifier = Modifier
+                            .focusRequester(accessibilityFocusRequester)
+                            .focusable(true)
+                            .semantics {
+                                heading()
+                            },
+						text = album.title ?: stringResource(R.string.image_gallery),
+						style = theme.album.titleCompact,
+						overflow = TextOverflow.Ellipsis,
+						maxLines = 1
+					)
+				}
 			}
 
 			AlbumSettingsButton()

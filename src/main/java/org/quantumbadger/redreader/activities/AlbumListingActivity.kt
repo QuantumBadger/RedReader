@@ -49,7 +49,10 @@ class AlbumListingActivity : ComposeBaseActivity() {
 		}
 
 		setContentCompose {
-			AlbumScreen(albumUrl = url)
+			AlbumScreen(
+				onBackPressed = this::onBackPressed,
+				albumUrl = url
+			)
 		}
 	}
 

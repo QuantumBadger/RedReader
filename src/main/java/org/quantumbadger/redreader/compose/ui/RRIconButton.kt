@@ -24,6 +24,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -35,6 +36,7 @@ fun RRIconButton(
 	@DrawableRes icon: Int,
 	@StringRes contentDescription: Int,
 	modifier: Modifier = Modifier,
+	tint: Color? = null,
 ) {
 	val theme = LocalComposeTheme.current
 
@@ -46,7 +48,7 @@ fun RRIconButton(
 			modifier = Modifier.size(24.dp),
 			painter = painterResource(id = icon),
 			contentDescription = stringResource(id = contentDescription),
-			tint = theme.postCard.iconColor
+			tint = tint ?: theme.postCard.iconColor
 		)
 	}
 }

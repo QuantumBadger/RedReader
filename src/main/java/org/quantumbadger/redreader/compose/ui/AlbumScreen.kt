@@ -37,7 +37,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -89,12 +88,9 @@ import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
 import kotlin.math.min
 
-// TODO revert to web on failure (add "view in browser" resolution, onLinkClicked(forceNoImage = true))
-// TODO theme small progress spinner
-// TODO go through all todos on this branch
-// TODO check for unstable composables
 @Composable
 fun AlbumScreen(
+	onBackPressed: () -> Unit,
 	albumUrl: UriString
 ) {
 	val album by fetchAlbum(albumUrl)
@@ -113,7 +109,10 @@ fun AlbumScreen(
 		}
 
 		is NetRequestStatus.Success -> {
-			AlbumScreen(it.result)
+			AlbumScreen(
+				onBackPressed = onBackPressed,
+				album = it.result
+			)
 		}
 	}
 }
@@ -155,6 +154,7 @@ private fun DoOnce(input: AlbumInfo, action: () -> Unit) {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AlbumScreen(
+	onBackPressed: () -> Unit,
 	album: AlbumInfo
 ) {
 	val prefs = LocalComposePrefs.current
@@ -215,12 +215,14 @@ fun AlbumScreen(
 	val head = @Composable {
 		Column(
 			Modifier
-				.padding(horizontal = 14.dp)
+				.padding(horizontal = 16.dp, vertical = 4.dp)
 				.fillMaxWidth()
 		) {
 
 			// Space for the top bar
 			Spacer(Modifier.height(topBarHeight))
+
+			Spacer(Modifier.height(6.dp))
 
 			Text(
 				modifier = Modifier
@@ -400,13 +402,22 @@ fun AlbumScreen(
 				.shadow(topBarShadow)
 				.background(theme.postCard.listBackgroundColor)
 				.padding(insets)
+				.padding(horizontal = 6.dp)
 				.height(topBarHeight)
 				.fillMaxWidth(),
 			verticalAlignment = Alignment.CenterVertically,
-			horizontalArrangement = Arrangement.End
 		) {
+
+			RRIconButton(
+				onClick = { onBackPressed() },
+				icon = R.drawable.ic_action_back_dark,
+				contentDescription = R.string.action_back,
+				tint = theme.album.toolbarIconColor
+			)
+
+			Spacer(Modifier.weight(1f))
+
 			AlbumSettingsButton()
-			Spacer(Modifier.width(6.dp))
 		}
 	}
 }

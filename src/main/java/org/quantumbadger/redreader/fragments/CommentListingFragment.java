@@ -766,6 +766,6 @@ public class CommentListingFragment extends RRFragment
 						AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
 						null);
 			}
-		}, 500);
+		}, 800);
 	}
 }

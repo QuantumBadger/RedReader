@@ -1894,4 +1894,10 @@
 
 	<string name="error_invalid_account_title">Invalid account</string>
 	<string name="error_invalid_account_message">Selected account is not currently logged in</string>
+
+	<!-- 2024-08-04 -->
+	<string name="album_more_options">More settings</string>
+
+	<string name="album_grid_pref_rounded_corners">Rounded corners</string>
+	<string name="album_grid_pref_horizontal_padding">Horizontal padding</string>
 </resources>

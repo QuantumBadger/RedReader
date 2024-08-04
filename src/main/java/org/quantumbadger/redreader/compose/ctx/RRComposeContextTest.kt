@@ -42,6 +42,8 @@ fun RRComposeContextTest(content: @Composable () -> Unit) {
 		override val albumGridColumns = testPref(3)
 		override val albumListThumbnailSize = testPref(64)
 		override val albumListShowButtons = testPref(true)
+		override val albumGridRoundedCorners = testPref(false)
+		override val albumGridHorizontalPadding = testPref(false)
 	}
 
 	CompositionLocalProvider(

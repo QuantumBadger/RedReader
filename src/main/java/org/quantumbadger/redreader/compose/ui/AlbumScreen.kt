@@ -449,6 +449,20 @@ fun AlbumSettingsButton(
 					text = R.string.album_card_pref_buttons,
 					pref = prefs.albumCardShowButtons
 				)
+
+				ItemDivider()
+
+				ItemGroupCollapsible(text = R.string.album_more_options) {
+					ItemPrefBool(
+						text = R.string.album_grid_pref_rounded_corners,
+						pref = prefs.albumGridRoundedCorners
+					)
+
+					ItemPrefBool(
+						text = R.string.album_grid_pref_horizontal_padding,
+						pref = prefs.albumGridHorizontalPadding
+					)
+				}
 			}
 
 			AlbumViewMode.List -> {

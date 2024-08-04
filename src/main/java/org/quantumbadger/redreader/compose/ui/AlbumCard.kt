@@ -34,6 +34,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -78,12 +79,24 @@ fun AlbumCard(
 	val usableHeight = LocalConfiguration.current.screenHeightDp.dp - systemBarsHeight
 	val maxImageHeight = (usableHeight * 6) / 7
 
+	val horizontalPadding = if (prefs.albumGridHorizontalPadding.value) {
+		12.dp
+	} else {
+		0.dp
+	}
+
 	Box(
 		modifier = Modifier
 			.fillMaxWidth()
-			.padding(horizontal = 12.dp, vertical = 6.dp)
+			.padding(horizontal = horizontalPadding, vertical = 6.dp)
 	) {
 		val description = stringResource(R.string.album_image_default_text, index + 1)
+
+		val shape = if (prefs.albumGridRoundedCorners.value) {
+			RoundedCornerShape(6.dp)
+		} else {
+			RectangleShape
+		}
 
 		Box(
 			modifier = Modifier
@@ -92,8 +105,8 @@ fun AlbumCard(
 					role = Role.Button
 					contentDescription = description
 				}
-				.shadow(3.dp, RoundedCornerShape(6.dp))
-				.clip(RoundedCornerShape(6.dp))
+				.shadow(3.dp, shape)
+				.clip(shape)
 				.background(theme.postCard.backgroundColor)
 				.combinedClickable(
 					onClick = { onClick(index) },

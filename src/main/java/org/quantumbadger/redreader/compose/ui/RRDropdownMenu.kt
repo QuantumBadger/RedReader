@@ -122,6 +122,29 @@ class RRDropdownMenuScope(
 	private val menuState: RRDropdownMenuState
 ) {
 	@Composable
+	fun ItemGroupCollapsible(
+		@StringRes text: Int,
+		content: @Composable RRDropdownMenuScope.() -> Unit
+	) {
+		var expanded by remember { mutableStateOf(false) }
+
+		Item(
+			text = text,
+			icon = if (expanded) {
+				R.drawable.chevron_down
+			} else {
+				R.drawable.chevron_right_dark
+			},
+			onClick = { expanded = !expanded },
+			dismissOnClick = false
+		)
+
+		if (expanded) {
+			content()
+		}
+	}
+
+	@Composable
 	fun Item(
 		@StringRes text: Int,
 		@DrawableRes icon: Int? = null,
@@ -183,18 +206,18 @@ class RRDropdownMenuScope(
 		val theme = LocalComposeTheme.current
 
 		Column(
-			Modifier
-				.fillMaxWidth()
-				.padding(
-					top = 12.dp,
-					start = 18.dp,
-					end = 18.dp
-				)
-				.sizeIn(
-					minWidth = 112.dp,
-					maxWidth = 280.dp,
-					minHeight = 48.dp
-				)
+            Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 12.dp,
+                    start = 18.dp,
+                    end = 18.dp
+                )
+                .sizeIn(
+                    minWidth = 112.dp,
+                    maxWidth = 280.dp,
+                    minHeight = 48.dp
+                )
 		) {
 			Text(
 				text = stringResource(text),
@@ -295,10 +318,10 @@ private fun RRDropdownMenuItem(
 
 				RadioButton(
 					modifier = Modifier
-						.clearAndSetSemantics {
-							contentDescription = description
-						}
-						.focusable(false),
+                        .clearAndSetSemantics {
+                            contentDescription = description
+                        }
+                        .focusable(false),
 					selected = radioButtonWithValue,
 					onClick = onClick,
 				)
@@ -313,10 +336,10 @@ private fun RRDropdownMenuItem(
 
 				Checkbox(
 					modifier = Modifier
-						.clearAndSetSemantics {
-							contentDescription = description
-						}
-						.focusable(false),
+                        .clearAndSetSemantics {
+                            contentDescription = description
+                        }
+                        .focusable(false),
 					checked = checkboxWithValue,
 					onCheckedChange = { onClick() }
 				)
@@ -426,15 +449,15 @@ private fun BaseDropdownMenuContent(
 	}
 	Box(
 		modifier = Modifier
-			.graphicsLayer {
-				scaleX = scale
-				scaleY = scale
-				this.alpha = alpha
-				transformOrigin = transformOriginState.value
-			}
-			.shadow(10.dp, RoundedCornerShape(6.dp))
-			.clip(RoundedCornerShape(6.dp))
-			.background(theme.dropdownMenu.background),
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+                this.alpha = alpha
+                transformOrigin = transformOriginState.value
+            }
+            .shadow(3.dp, RoundedCornerShape(6.dp))
+            .clip(RoundedCornerShape(6.dp))
+            .background(theme.dropdownMenu.background),
 	) {
 		Column(
 			modifier = modifier

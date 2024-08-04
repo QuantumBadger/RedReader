@@ -37,6 +37,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -419,6 +420,9 @@ fun AlbumScreen(
 			)
 
 			if (prefs.albumCompactTitle.value) {
+
+				Spacer(Modifier.width(6.dp))
+
 				Text(
 					modifier = Modifier
 						.weight(1f)

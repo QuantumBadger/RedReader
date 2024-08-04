@@ -122,7 +122,7 @@ fun AlbumCard(
 						image = preview,
 						showVideoPlayOverlay = (image.mediaType == ImageInfo.MediaType.VIDEO
 								|| image.mediaType == ImageInfo.MediaType.GIF
-								|| image.isAnimated == true)
+								|| image.isAnimated == true),
 					)
 				}
 

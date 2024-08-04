@@ -3,6 +3,7 @@ Added accessibility actions for moving between top-level comments (thanks to cod
 Album viewer: preferences for card rounded corners and horizontal padding
 Album viewer: back button
 Album viewer: compact title option
+Album viewer: fix image card scaling issue
 
 /Alpha 354 (2024-07-06)
 Workaround for requestFocus exception in album view

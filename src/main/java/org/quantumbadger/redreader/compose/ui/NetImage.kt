@@ -51,11 +51,11 @@ fun NetImage(
 	image: ImageUrlInfo,
 	cropToAspect: Float? = null,
 	showVideoPlayOverlay: Boolean = false,
-	maxCanvasDimension: Int = 2048
+	maxCanvasDimension: Int = 2048,
 ) {
 	val theme = LocalComposeTheme.current
 
-	val imageAspectRatio = image.size?.takeIf { it.height > 0 }?.let {
+	val expectedImageAspect = image.size?.takeIf { it.height > 0 }?.let {
 		it.width.toFloat() / it.height.toFloat()
 	}
 
@@ -72,7 +72,7 @@ fun NetImage(
 		contentAlignment = Alignment.Center,
 	) {
 
-		if (imageAspectRatio != null
+		if (expectedImageAspect != null
 			&& data !is NetRequestStatus.Success
 			&& data !is NetRequestStatus.Failed
 		) {
@@ -80,7 +80,7 @@ fun NetImage(
 			Box(
                 Modifier
                     .fillMaxWidth()
-                    .aspectRatio(imageAspectRatio))
+                    .aspectRatio(expectedImageAspect))
 		}
 
 		when (val it = data) {
@@ -104,10 +104,20 @@ fun NetImage(
 			is NetRequestStatus.Success -> {
 				Image(
 					modifier = if (cropToAspect == null) {
-						Modifier.fillMaxWidth()
+						val bitmap = it.result.data
+
+						val imageAspect = if(bitmap.height > 0) {
+							bitmap.width.toDouble() / bitmap.height.toDouble()
+						} else {
+							0.0
+						}
+
+						Modifier
+							.fillMaxWidth()
+							.aspectRatio(imageAspect.toFloat(), matchHeightConstraintsFirst = true)
 					} else {
 						Modifier.fillMaxSize()
-				   },
+				   }.background(Color.Red),
 					bitmap = it.result.data,
 					contentDescription = null,
 					contentScale = if (cropToAspect == null) {

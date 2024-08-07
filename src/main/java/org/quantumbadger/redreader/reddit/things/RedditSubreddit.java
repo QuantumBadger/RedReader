@@ -252,7 +252,7 @@ public class RedditSubreddit implements
 				context.getString(R.string.sidebar_activity_title),
 				url));
 
-		context.startActivityForResult(intent, 1);
+		context.startActivity(intent);
 	}
 
 	@NonNull

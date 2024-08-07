@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,7 +33,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -74,6 +79,8 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 
 	private View mLoadingOverlay;
 
+	private ActivityResultLauncher<String> mSelectImageActivityLauncher;
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
@@ -108,21 +115,15 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 		layout.addView(mThumbnailView);
 		General.setAllMarginsDp(this, mThumbnailView, 20);
 
+		mSelectImageActivityLauncher = registerForActivityResult(
+				new ActivityResultContracts.GetContent(),
+				uri -> {
+					if (uri != null) {
+						onImageSelected(uri);
+					}
+				});
 		browseButton.setOnClickListener(v -> {
-			final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-			intent.setType("image/*");
-			startActivityForResultWithCallback(intent, (resultCode, data) -> {
-
-				if(data == null || data.getData() == null) {
-					return;
-				}
-
-				if(resultCode != RESULT_OK) {
-					return;
-				}
-
-				onImageSelected(data.getData());
-			});
+			mSelectImageActivityLauncher.launch("image/*");
 		});
 
 		mUploadButton.setOnClickListener(v -> {
@@ -336,7 +337,7 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 
 							final Intent resultIntent = new Intent();
 							resultIntent.setData(imageUri);
-							setResult(0, resultIntent);
+							setResult(RESULT_OK, resultIntent);
 							finish();
 						});
 					}
@@ -357,6 +358,22 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 	public void onBackPressed() {
 		if(General.onBackPressed()) {
 			super.onBackPressed();
+		}
+	}
+
+	public static class ResultContract extends ActivityResultContract<Void, Uri> {
+		@NonNull
+		@Override
+		public Intent createIntent(@NonNull final Context context, final Void unused) {
+			return new Intent(context, ImgurUploadActivity.class);
+		}
+
+		@Override
+		public Uri parseResult(final int resultCode, @Nullable final Intent intent) {
+			if (resultCode == RESULT_OK && intent != null) {
+				return intent.getData();
+			}
+			return null;
 		}
 	}
 }

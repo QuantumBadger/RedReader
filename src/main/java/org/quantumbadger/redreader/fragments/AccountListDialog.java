@@ -18,11 +18,11 @@
 package org.quantumbadger.redreader.fragments;
 
 import android.app.Dialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,6 +34,7 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.OAuthLoginActivity;
 import org.quantumbadger.redreader.adapters.AccountListAdapter;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
@@ -50,6 +51,8 @@ public class AccountListDialog extends AppCompatDialogFragment
 
 	private RecyclerView rv;
 
+	private ActivityResultLauncher<Void> mOAuthLoginActivityLauncher;
+
 	public static void show(final AppCompatActivity activity) {
 		new AccountListDialog().show(
 				activity.getSupportFragmentManager(),
@@ -59,14 +62,15 @@ public class AccountListDialog extends AppCompatDialogFragment
 	private AccountListDialog() {}
 
 	@Override
-	public void onActivityResult(
-			final int requestCode,
-			final int resultCode,
-			final Intent data) {
-		if(requestCode == 123 && requestCode == resultCode && data.hasExtra("url")) {
-			final Uri uri = Uri.parse(data.getStringExtra("url"));
-			RedditOAuth.completeLogin(mActivity, uri, RunnableOnce.DO_NOTHING);
-		}
+	public void onCreate(@Nullable final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mOAuthLoginActivityLauncher = registerForActivityResult(
+				new OAuthLoginActivity.ResultContract(),
+				uri -> {
+					if (uri != null) {
+						RedditOAuth.completeLogin(mActivity, uri, RunnableOnce.DO_NOTHING);
+					}
+				});
 	}
 
 	@NonNull
@@ -87,7 +91,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 		rv = new RecyclerView(mActivity);
 
 		rv.setLayoutManager(new LinearLayoutManager(mActivity));
-		rv.setAdapter(new AccountListAdapter(mActivity, this));
+		rv.setAdapter(new AccountListAdapter(mActivity, mOAuthLoginActivityLauncher));
 		rv.setHasFixedSize(true);
 
 		final int paddingPx = General.dpToPixels(mActivity, 16f);
@@ -104,7 +108,7 @@ public class AccountListDialog extends AppCompatDialogFragment
 	@Override
 	public void onRedditAccountChanged() {
 		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-			rv.setAdapter(new AccountListAdapter(mActivity, this));
+			rv.setAdapter(new AccountListAdapter(mActivity, mOAuthLoginActivityLauncher));
 
 			if(mActivity instanceof BaseActivity) {
 				AndroidCommon.promptForNotificationPermission((BaseActivity) mActivity, null);

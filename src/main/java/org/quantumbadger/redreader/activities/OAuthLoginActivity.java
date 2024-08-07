@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,13 +29,17 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import info.guardianproject.netcipher.webkit.WebkitProxy;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
-
-import info.guardianproject.netcipher.webkit.WebkitProxy;
 
 public class OAuthLoginActivity extends ViewsBaseActivity {
 
@@ -106,8 +111,8 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 						|| url.startsWith("redreader://rr_oauth_redir")) { // TODO constant
 
 					final Intent intent = new Intent();
-					intent.putExtra("url", url);
-					setResult(123, intent);
+					intent.setData(Uri.parse(url));
+					setResult(RESULT_OK, intent);
 					finish();
 
 				} else {
@@ -142,6 +147,22 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 		if(mWebView != null) {
 			mWebView.resumeTimers();
 			mWebView.onResume();
+		}
+	}
+
+	public static class ResultContract extends ActivityResultContract<Void, Uri> {
+		@NonNull
+		@Override
+		public Intent createIntent(@NonNull final Context context, final Void unused) {
+			return new Intent(context, OAuthLoginActivity.class);
+		}
+
+		@Override
+		public Uri parseResult(final int resultCode, @Nullable final Intent intent) {
+			if (resultCode == RESULT_OK && intent != null) {
+				return intent.getData();
+			}
+			return null;
 		}
 	}
 }

@@ -150,6 +150,7 @@
     <string name="mainmenu_inbox">Inbox</string>
     <string name="mainmenu_profile">My Profile</string>
     <string name="mainmenu_header_subreddits">Subreddits</string>
+	<string name="mainmenu_pinned">Pinned Subreddits</string>
 
     <!-- General Listing -->
 
@@ -1902,4 +1903,7 @@
 	<string name="album_grid_pref_horizontal_padding">Horizontal padding</string>
 
 	<string name="album_pref_compact_title">Compact title</string>
+
+    <string name="pref_behaviour_skiptopinned_title">Skip to pinned subreddits</string>
+    <string name="pref_behaviour_skiptopinned_key" translatable="false">pref_behaviour_skiptopinned</string>
 </resources>

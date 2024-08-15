@@ -837,6 +837,7 @@
 		<item>@string/mainmenu_custom_destination</item>
 		<item>@string/mainmenu_random</item>
 		<item>@string/mainmenu_random_nsfw</item>
+		<item>@string/mainmenu_pinned</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -848,6 +849,7 @@
 		<item>custom</item>
 		<item>random</item>
 		<item>random_nsfw</item>
+		<item>pinned</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -856,6 +858,7 @@
 		<item>all</item>
 		<item>subreddit_search</item>
 		<item>custom</item>
+		<item>pinned</item>
 	</string-array>
 
 	<!-- 2020-02-04 -->

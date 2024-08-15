@@ -30,6 +30,7 @@ import androidx.annotation.StringRes;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
+import org.quantumbadger.redreader.common.collections.CollectionStream;
 import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.io.WritableHashSet;
@@ -44,6 +45,7 @@ import org.quantumbadger.redreader.settings.types.AppearanceTheme;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -767,6 +769,12 @@ public final class PrefsUtility {
 	public static boolean pref_behaviour_skiptofrontpage() {
 		return getBoolean(
 				R.string.pref_behaviour_skiptofrontpage_key,
+				false);
+	}
+
+	public static boolean pref_behaviour_skiptopinned() {
+		return getBoolean(
+				R.string.pref_behaviour_skiptopinned_key,
 				false);
 	}
 
@@ -1591,8 +1599,27 @@ public final class PrefsUtility {
 	// pref_pinned_subreddits
 	///////////////////////////////
 
-	public static List<SubredditCanonicalId> pref_pinned_subreddits() {
-		return pref_subreddits_list(R.string.pref_pinned_subreddits_key);
+	public static List<SubredditCanonicalId> pref_pinned_subreddits(final boolean sort) {
+		final List<SubredditCanonicalId> list
+				= pref_subreddits_list(R.string.pref_pinned_subreddits_key);
+		if(sort) {
+			final PinnedSubredditSort pinnedSubredditsSort = pref_behaviour_pinned_subredditsort();
+			if(pinnedSubredditsSort == PinnedSubredditSort.NAME) {
+				Collections.sort(list);
+			}
+		}
+		return list;
+	}
+
+	public static String pref_pinned_subreddits_multireddit() {
+		final List<String> pinnedSubreddits = new CollectionStream<>(pref_pinned_subreddits(true))
+				.map(SubredditCanonicalId::getDisplayNameLowercase)
+				.collect(new ArrayList<>());
+		return StringUtils.join(pinnedSubreddits, "+");
+	}
+
+	public static boolean pref_pinned_subreddits_is_empty() {
+		return pref_subreddits_is_empty(R.string.pref_pinned_subreddits_key);
 	}
 
 	public static void pref_pinned_subreddits_add(
@@ -1625,7 +1652,7 @@ public final class PrefsUtility {
 
 	public static boolean pref_pinned_subreddits_check(final SubredditCanonicalId id) {
 
-		return pref_pinned_subreddits().contains(id);
+		return pref_pinned_subreddits(false).contains(id);
 	}
 
 	///////////////////////////////
@@ -1726,6 +1753,11 @@ public final class PrefsUtility {
 		}
 
 		return result;
+	}
+
+	public static boolean pref_subreddits_is_empty(final int prefId) {
+		final String value = getString(prefId, "");
+		return value.isEmpty();
 	}
 
 	public static boolean pref_accessibility_separate_body_text_lines() {

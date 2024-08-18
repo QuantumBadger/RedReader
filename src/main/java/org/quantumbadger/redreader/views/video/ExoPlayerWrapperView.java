@@ -33,7 +33,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.annotation.StringRes;
-
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
 import androidx.media3.common.util.UnstableApi;
@@ -44,7 +43,6 @@ import androidx.media3.ui.AspectRatioFrameLayout;
 import androidx.media3.ui.DefaultTimeBar;
 import androidx.media3.ui.PlayerView;
 import androidx.media3.ui.TimeBar;
-
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.AndroidCommon;
@@ -118,7 +116,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 
 			final LinearLayout controlBar = new LinearLayout(context);
 			mControlView.addView(controlBar);
-			controlBar.setBackgroundColor(Color.argb(127, 127, 127, 127));
+			controlBar.setBackgroundColor(Color.argb(220, 40, 40, 40));
 			controlBar.setOrientation(LinearLayout.VERTICAL);
 
 			{

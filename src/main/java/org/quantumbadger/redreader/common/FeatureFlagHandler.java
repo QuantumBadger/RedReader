@@ -55,7 +55,8 @@ public final class FeatureFlagHandler {
 		REPLY_IN_POST_ACTION_MENU_FEATURE("replyInPostActionMenuFeature"),
 		MAIN_MENU_FIND_SUBREDDIT_FEATURE("mainMenuFindSubreddit"),
 		OPEN_COMMENT_EXTERNALLY_FEATURE("openCommentExternallyFeature"),
-		POST_TITLE_TAP_ACTION_FEATURE("postTitleTapActionFeature");
+		POST_TITLE_TAP_ACTION_FEATURE("postTitleTapActionFeature"),
+		DEFAULT_PREF_VIDEO_PLAYBACK_CONTROLS("defaultPrefVideoPlaybackControls");
 
 		@NonNull private final String id;
 
@@ -285,6 +286,16 @@ public final class FeatureFlagHandler {
 							"comments"
 					).apply();
 				}
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.DEFAULT_PREF_VIDEO_PLAYBACK_CONTROLS)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				prefs.edit()
+						.putBoolean(
+								context.getString(R.string.pref_behaviour_video_playback_controls_key),
+								true)
+						.apply();
 			}
 		});
 	}

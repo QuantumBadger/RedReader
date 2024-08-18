@@ -41,7 +41,7 @@
 
 		<CheckBoxPreference android:title="@string/pref_behaviour_video_playback_controls_title"
 							android:key="@string/pref_behaviour_video_playback_controls_key"
-							android:defaultValue="false"/>
+							android:defaultValue="true"/>
 
 		<CheckBoxPreference android:title="@string/pref_behaviour_video_mute_default_title"
 							android:key="@string/pref_behaviour_video_mute_default_key"

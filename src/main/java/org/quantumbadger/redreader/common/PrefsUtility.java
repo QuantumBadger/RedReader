@@ -803,7 +803,7 @@ public final class PrefsUtility {
 	public static boolean pref_behaviour_video_playback_controls() {
 		return getBoolean(
 				R.string.pref_behaviour_video_playback_controls_key,
-				false);
+				true);
 	}
 
 	public static boolean pref_behaviour_video_mute_default() {

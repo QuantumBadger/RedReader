@@ -1,3 +1,6 @@
+/Alpha 356 (2024-08-18)
+Default preference change: video playback controls now enabled by default
+
 /Alpha 355 (2024-08-04)
 Added accessibility actions for moving between top-level comments (thanks to codeofdusk)
 Album viewer: preferences for card rounded corners and horizontal padding

@@ -1,5 +1,7 @@
 /Alpha 356 (2024-08-18)
-Default preference change: video playback controls now enabled by default
+Preference change: video playback controls now enabled by default (Settings > Images/Video > Enable video playback controls)
+Preference change: custom tabs now enabled by default (Settings > Behaviour > Use Android Custom Tabs)
+Disable Custom Tabs if Tor is enabled
 
 /Alpha 355 (2024-08-04)
 Added accessibility actions for moving between top-level comments (thanks to codeofdusk)

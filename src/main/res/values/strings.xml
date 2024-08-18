@@ -1056,7 +1056,7 @@
 	<!-- 2018-07-08 -->
 	<string name="pref_behaviour_usecustomtabs_key" translatable="false">pref_behaviour_usecustomtabs_key</string>
 	<string name="pref_behaviour_usecustomtabs_title">Use Android Custom Tabs</string>
-	<string name="pref_behaviour_usecustomtabs_summary">Use Android Custom Tabs when available</string>
+	<string name="pref_behaviour_usecustomtabs_summary">Use an installed browser with Custom Tabs integration, rather than the system WebView</string>
 
 	<!-- 2018-09-11 -->
 	<string name="pref_behaviour_hide_read_posts_key" translatable="false">pref_behaviour_hide_read_posts</string>

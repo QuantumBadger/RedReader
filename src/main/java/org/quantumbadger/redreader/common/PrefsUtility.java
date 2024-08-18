@@ -779,7 +779,7 @@ public final class PrefsUtility {
 	public static boolean pref_behaviour_usecustomtabs() {
 		return getBoolean(
 				R.string.pref_behaviour_usecustomtabs_key,
-				false);
+				true) && !network_tor();
 	}
 
 	public static void set_pref_behaviour_notifications(final boolean enabled) {

@@ -56,7 +56,8 @@ public final class FeatureFlagHandler {
 		MAIN_MENU_FIND_SUBREDDIT_FEATURE("mainMenuFindSubreddit"),
 		OPEN_COMMENT_EXTERNALLY_FEATURE("openCommentExternallyFeature"),
 		POST_TITLE_TAP_ACTION_FEATURE("postTitleTapActionFeature"),
-		DEFAULT_PREF_VIDEO_PLAYBACK_CONTROLS("defaultPrefVideoPlaybackControls");
+		DEFAULT_PREF_VIDEO_PLAYBACK_CONTROLS("defaultPrefVideoPlaybackControls"),
+		DEFAULT_PREF_CUSTOM_TABS("defaultPrefCustomTabs");
 
 		@NonNull private final String id;
 
@@ -294,6 +295,16 @@ public final class FeatureFlagHandler {
 				prefs.edit()
 						.putBoolean(
 								context.getString(R.string.pref_behaviour_video_playback_controls_key),
+								true)
+						.apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.DEFAULT_PREF_CUSTOM_TABS)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				prefs.edit()
+						.putBoolean(
+								context.getString(R.string.pref_behaviour_usecustomtabs_key),
 								true)
 						.apply();
 			}

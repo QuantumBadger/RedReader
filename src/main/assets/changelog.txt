@@ -2,13 +2,15 @@
 Improved gallery viewer with card, list, and grid modes
 Ability to block users in user profile (thanks to folkemat)
 Ability to upload an image when submitting a comment (thanks to folkemat)
-Default preference change: video playback controls now enabled by default
+Preference change: video playback controls now enabled by default (Settings > Images/Video > Enable video playback controls)
+Preference change: custom tabs now enabled by default (Settings > Behaviour > Use Android Custom Tabs)
 Added accessibility actions for moving between top-level comments (thanks to codeofdusk)
 Dependency updates and reorganisation (thanks to Alexey Rochev)
 Migrating from ExoPlayer to Media3 (thanks to Alexey Rochev)
 Comments submitted by current user now have username highlighted (thanks to folkemat)
 Add Submitted Comments as an optional main menu user item (thanks to folkemat)
 Improved network performance
+Disable Custom Tabs if Tor is enabled
 Fixed issue with gesture cancellation in image viewer (thanks to Alexey Rochev)
 Fixed crash with some Reddit links in share format
 Fixed issue where some GIFs wouldn't play

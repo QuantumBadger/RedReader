@@ -292,11 +292,10 @@ public final class FeatureFlagHandler {
 			if(getAndSetFeatureFlag(prefs, FeatureFlag.DEFAULT_PREF_VIDEO_PLAYBACK_CONTROLS)
 					== FeatureFlagStatus.UPGRADE_NEEDED) {
 
-				prefs.edit()
-						.putBoolean(
-								context.getString(R.string.pref_behaviour_video_playback_controls_key),
-								true)
-						.apply();
+				prefs.edit().putBoolean(
+						context.getString(R.string.pref_behaviour_video_playback_controls_key),
+						true)
+				.apply();
 			}
 
 			if(getAndSetFeatureFlag(prefs, FeatureFlag.DEFAULT_PREF_CUSTOM_TABS)

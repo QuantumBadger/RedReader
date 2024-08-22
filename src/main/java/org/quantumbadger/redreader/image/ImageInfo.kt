@@ -262,7 +262,7 @@ data class ImageInfo(
 
 			val originalSize = ImageSize.fromJson(obj)
 
-			val original = obj?.getString("mp4")?.let { urlMp4 ->
+			val original = obj?.getString("mp4")?.takeIf { it.isNotEmpty() }?.let { urlMp4 ->
 
 				hasSound = obj.getBoolean("has_sound")
 				mp4 = true
@@ -277,7 +277,7 @@ data class ImageInfo(
 				hasSound = false
 				mp4 = false
 
-				obj?.getString("link")?.let { urlLink ->
+				obj?.getString("link")?.takeIf { it.isNotEmpty() }?.let { urlLink ->
 					ImageUrlInfo(
 						url = UriString(urlLink),
 						size = originalSize,

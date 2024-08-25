@@ -144,6 +144,7 @@ public final class PrefsUtility {
 						R.string.pref_accessibility_say_comment_indent_level_key))
 				|| key.equals(context.getString(
 						R.string.pref_behaviour_collapse_sticky_comments_key))
+				|| key.equals(R.string.pref_behaviour_posts_filter_key)
 				|| key.equals(context.getString(
 						R.string.pref_accessibility_concise_mode_key))
 				|| key.equals(context.getString(
@@ -1221,6 +1222,12 @@ public final class PrefsUtility {
 		return getBoolean(
 				R.string.pref_behaviour_block_screenshots_key,
 				false);
+	}
+
+	public static String pref_behaviour_posts_filter() {
+		return getString(
+				R.string.pref_behaviour_posts_filter_key,
+				"");
 	}
 
 	///////////////////////////////

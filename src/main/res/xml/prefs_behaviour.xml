@@ -181,6 +181,13 @@
                         android:entryValues="@array/pref_behaviour_postcount_items_return"
                         android:defaultValue="ALL"/>
 
+		<EditTextPreference android:title="@string/pref_behaviour_posts_filter_title"
+							android:key="@string/pref_behaviour_posts_filter_key"
+							android:dialogTitle="@string/pref_behaviour_posts_filter_dialog_title"
+							android:inputType="text"
+							android:maxLength="2048"
+							android:defaultValue="@string/pref_behaviour_posts_filter_default_value"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_comments_header">

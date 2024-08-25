@@ -82,6 +82,13 @@
     <string name="pref_behaviour_nsfw_key" translatable="false">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
 
+	<string name="pref_behaviour_posts_filter_key" translatable="false">pref_behaviour_posts_filter</string>
+	<string name="pref_behaviour_posts_filter_header">Posts</string>
+
+	<string name="pref_behaviour_posts_filter_title">Post Filtering By Keyword</string>
+	<string name="pref_behaviour_posts_filter_dialog_title">Remove posts containing keywords (comma-separated list)</string>
+	<string name="pref_behaviour_posts_filter_default_value"></string>
+
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">Cache Pruning</string>

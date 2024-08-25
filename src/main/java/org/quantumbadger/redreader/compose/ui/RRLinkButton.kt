@@ -17,9 +17,7 @@
 
 package org.quantumbadger.redreader.compose.ui
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,8 +43,8 @@ import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.theme.ComposeThemeLinkButton
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.compose.theme.StyledText
+import org.quantumbadger.redreader.compose.theme.combinedClickableWithHaptics
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RRLinkButton(
 	title: String,
@@ -61,7 +59,7 @@ fun RRLinkButton(
 			.semantics(mergeDescendants = true) {}
 			.border(theme.borderThickness, theme.borderColor, theme.shape)
 			.clip(theme.shape)
-			.combinedClickable(
+			.combinedClickableWithHaptics(
 				role = Role.Button,
 				onClick = { launch(Dest.Link(link)) },
 				onLongClick = { launch(Dest.LinkLongClick(link)) }

@@ -3,6 +3,7 @@ Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)
 Remove red background/border behind transparent images in the gallery
 Gallery theme fixes for devices which forcibly modify app colors in dark mode
 Fix for swiping between images when "Automatically open first album image" is enabled
+Enable haptics for long-clicking in gallery viewer
 
 112/1.24
 Improved gallery viewer with card, list, and grid modes

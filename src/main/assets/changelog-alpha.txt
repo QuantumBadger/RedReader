@@ -3,6 +3,7 @@ Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)
 Remove red background/border behind transparent images in the gallery
 Gallery theme fixes for devices which forcibly modify app colors in dark mode
 Fix for swiping between images when "Automatically open first album image" is enabled
+Enable haptics for long-clicking in gallery viewer
 
 /Alpha 356 (2024-08-18)
 Preference change: video playback controls now enabled by default (Settings > Images/Video > Enable video playback controls)

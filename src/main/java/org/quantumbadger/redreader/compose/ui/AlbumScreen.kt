@@ -24,9 +24,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -89,6 +87,7 @@ import org.quantumbadger.redreader.compose.net.fetchAlbum
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.compose.theme.StyledText
+import org.quantumbadger.redreader.compose.theme.combinedClickableWithHaptics
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
@@ -157,7 +156,6 @@ private fun DoOnce(input: AlbumInfo, action: () -> Unit) {
 	}
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AlbumScreen(
 	onBackPressed: () -> Unit,
@@ -373,7 +371,7 @@ fun AlbumScreen(
 
 						NetImage(
 							modifier = Modifier
-                                .combinedClickable(
+                                .combinedClickableWithHaptics(
                                     onClick = { itemClickHandler(it) },
                                     onLongClick = { itemLongClickListener(it) }
                                 )

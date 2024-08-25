@@ -18,6 +18,8 @@
 package org.quantumbadger.redreader.compose.theme
 
 import android.app.Activity
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,7 +33,10 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -374,5 +379,34 @@ fun TextStyle.StyledText(
 		color = color,
 		overflow = overflow,
 		maxLines = maxLines
+	)
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun Modifier.combinedClickableWithHaptics(
+	enabled: Boolean = true,
+	onClickLabel: String? = null,
+	role: Role? = null,
+	onLongClickLabel: String? = null,
+	onLongClick: (() -> Unit)? = null,
+	onDoubleClick: (() -> Unit)? = null,
+	onClick: () -> Unit
+): Modifier {
+	val haptics = LocalHapticFeedback.current
+
+	return this.combinedClickable(
+		enabled = enabled,
+		onClickLabel = onClickLabel,
+		role = role,
+		onLongClickLabel = onLongClickLabel,
+		onLongClick = onLongClick?.let {
+			{
+				haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+				it()
+			}
+		},
+		onDoubleClick = onDoubleClick,
+		onClick = onClick
 	)
 }

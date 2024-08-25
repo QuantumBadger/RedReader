@@ -20,9 +20,7 @@ package org.quantumbadger.redreader.compose.ui
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -48,12 +46,12 @@ import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
 import org.quantumbadger.redreader.compose.theme.StyledText
+import org.quantumbadger.redreader.compose.theme.combinedClickableWithHaptics
 import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.image.ImageSize
 import org.quantumbadger.redreader.image.ImageUrlInfo
 import java.util.Locale
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AlbumListItem(
 	index: Int,
@@ -72,7 +70,7 @@ fun AlbumListItem(
 		modifier = Modifier
 			.fillMaxWidth()
 			.background(theme.postCard.backgroundColor)
-			.combinedClickable(
+			.combinedClickableWithHaptics(
 				onClick = { onClick(index) },
 				onLongClick = { onLongClick(index) }
 			),

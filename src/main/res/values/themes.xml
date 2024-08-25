@@ -16,9 +16,11 @@
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 	
     <style name="RR.Dark" parent="Theme.Material3.Dark.NoActionBar">
+
+		<item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
@@ -277,6 +279,8 @@
 
 	<style name="RR.Settings" parent="Theme.Material3.Dark.NoActionBar">
 
+		<item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
 		<item name="colorPrimary">#CCCCCC</item>
 		<item name="colorPrimaryDark">#555555</item>
 
@@ -291,6 +295,8 @@
     </style>
 
     <style name="RR.Light.DarkActionBar" parent="Theme.Material3.Light.NoActionBar">
+
+		<item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 

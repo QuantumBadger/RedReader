@@ -22,11 +22,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.ComposeView
 import org.quantumbadger.redreader.activities.BaseActivity
+import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.compose.ctx.RRComposeContext
 
 open class ComposeBaseActivity: BaseActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		enableEdgeToEdge()
+		PrefsUtility.applyTheme(this)
 		super.onCreate(savedInstanceState)
 	}
 

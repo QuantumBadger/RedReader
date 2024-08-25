@@ -1,5 +1,6 @@
 113/1.24.1
 Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)
+Remove red background/border behind transparent images in the gallery
 
 112/1.24
 Improved gallery viewer with card, list, and grid modes

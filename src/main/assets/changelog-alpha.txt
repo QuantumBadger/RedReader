@@ -1,5 +1,6 @@
 /Alpha 357 (2024-08-25)
 Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)
+Remove red background/border behind transparent images in the gallery
 
 /Alpha 356 (2024-08-18)
 Preference change: video playback controls now enabled by default (Settings > Images/Video > Enable video playback controls)

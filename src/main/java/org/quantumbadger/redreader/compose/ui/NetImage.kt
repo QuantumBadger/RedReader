@@ -80,7 +80,8 @@ fun NetImage(
 			Box(
                 Modifier
                     .fillMaxWidth()
-                    .aspectRatio(expectedImageAspect))
+                    .aspectRatio(expectedImageAspect)
+			)
 		}
 
 		when (val it = data) {
@@ -106,18 +107,18 @@ fun NetImage(
 					modifier = if (cropToAspect == null) {
 						val bitmap = it.result.data
 
-						val imageAspect = if(bitmap.height > 0) {
+						val imageAspect = if (bitmap.height > 0) {
 							bitmap.width.toDouble() / bitmap.height.toDouble()
 						} else {
 							0.0
 						}
 
-						Modifier
-							.fillMaxWidth()
-							.aspectRatio(imageAspect.toFloat(), matchHeightConstraintsFirst = true)
+                        Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(imageAspect.toFloat(), matchHeightConstraintsFirst = true)
 					} else {
 						Modifier.fillMaxSize()
-				   }.background(Color.Red),
+					},
 					bitmap = it.result.data,
 					contentDescription = null,
 					contentScale = if (cropToAspect == null) {

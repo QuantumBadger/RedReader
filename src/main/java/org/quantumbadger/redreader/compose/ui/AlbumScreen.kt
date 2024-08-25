@@ -189,7 +189,11 @@ fun AlbumScreen(
 	DoOnce(album) {
 		if (PrefsUtility.pref_album_skip_to_first()) {
 			album.images.firstOrNull()?.let {
-				launch(Dest.Link(it.original.url))
+				launch(Dest.Link(
+					url = it.original.url,
+					albumInfo = album,
+					albumImageIndex = 0
+				))
 			}
 		}
 	}

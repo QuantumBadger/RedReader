@@ -72,6 +72,7 @@ public class MainMenuFragment extends RRFragment implements
 	public static final int MENU_MENU_ACTION_RANDOM_NSFW = 14;
 	public static final int MENU_MENU_ACTION_SENT_MESSAGES = 15;
 	public static final int MENU_MENU_ACTION_FIND_SUBREDDIT = 16;
+	public static final int MENU_MENU_ACTION_PINNED = 17;
 
 	@IntDef({
 			MENU_MENU_ACTION_FRONTPAGE,
@@ -90,7 +91,8 @@ public class MainMenuFragment extends RRFragment implements
 			MENU_MENU_ACTION_RANDOM,
 			MENU_MENU_ACTION_RANDOM_NSFW,
 			MENU_MENU_ACTION_SENT_MESSAGES,
-			MENU_MENU_ACTION_FIND_SUBREDDIT})
+			MENU_MENU_ACTION_FIND_SUBREDDIT,
+			MENU_MENU_ACTION_PINNED})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface MainMenuAction {
 	}
@@ -213,7 +215,7 @@ public class MainMenuFragment extends RRFragment implements
 	}
 
 	public enum MainMenuShortcutItems {
-		FRONTPAGE, POPULAR, ALL, SUBREDDIT_SEARCH, CUSTOM, RANDOM, RANDOM_NSFW
+		FRONTPAGE, POPULAR, ALL, SUBREDDIT_SEARCH, CUSTOM, RANDOM, RANDOM_NSFW, PINNED
 	}
 
 	@Override

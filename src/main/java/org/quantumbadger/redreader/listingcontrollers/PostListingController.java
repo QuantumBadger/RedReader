@@ -158,8 +158,10 @@ public class PostListingController {
 
 	public final boolean isSubredditCombination() {
 		return url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
-				&& url.asSubredditPostListURL().type
-				== SubredditPostListURL.Type.SUBREDDIT_COMBINATION;
+				&& (url.asSubredditPostListURL().type
+				== SubredditPostListURL.Type.SUBREDDIT_COMBINATION
+				|| url.asSubredditPostListURL().type
+				== SubredditPostListURL.Type.PINNED);
 	}
 
 	public final boolean isRandomSubreddit() {
@@ -191,7 +193,9 @@ public class PostListingController {
 				|| url.asSubredditPostListURL().type
 				== SubredditPostListURL.Type.RANDOM
 				|| url.asSubredditPostListURL().type
-				== SubredditPostListURL.Type.SUBREDDIT_COMBINATION)) {
+				== SubredditPostListURL.Type.SUBREDDIT_COMBINATION
+				|| url.asSubredditPostListURL().type
+				== SubredditPostListURL.Type.PINNED)) {
 			try {
 				return new SubredditCanonicalId(url.asSubredditPostListURL().subreddit);
 			} catch(final InvalidSubredditNameException e) {

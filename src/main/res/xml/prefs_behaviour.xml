@@ -23,6 +23,10 @@
                         android:key="@string/pref_behaviour_skiptofrontpage_key"
                         android:defaultValue="false"/>
 
+    <CheckBoxPreference android:title="@string/pref_behaviour_skiptopinned_title"
+                        android:key="@string/pref_behaviour_skiptopinned_key"
+                        android:defaultValue="false"/>
+
     <CheckBoxPreference android:title="@string/pref_behaviour_useinternalbrowser_title"
                         android:key="@string/pref_behaviour_useinternalbrowser_key"
                         android:defaultValue="true"/>

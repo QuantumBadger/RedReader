@@ -29,7 +29,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -49,6 +48,7 @@ import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.compose.theme.StyledText
 import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.image.ImageSize
 import org.quantumbadger.redreader.image.ImageUrlInfo
@@ -134,14 +134,8 @@ fun AlbumCard(
 					Column(
 						modifier = Modifier.padding(14.dp)
 					) {
-						Text(
-							text = title,
-							style = theme.postCard.title,
-						)
-						Text(
-							text = caption,
-							style = theme.postCard.subtitle,
-						)
+						theme.postCard.title.StyledText(title)
+						theme.postCard.subtitle.StyledText(caption)
 					}
 				} else {
 					val text = title ?: caption
@@ -150,10 +144,7 @@ fun AlbumCard(
 						Column(
 							modifier = Modifier.padding(14.dp)
 						) {
-							Text(
-								text = text,
-								style = theme.postCard.caption,
-							)
+							theme.postCard.caption.StyledText(text)
 						}
 					}
 				}

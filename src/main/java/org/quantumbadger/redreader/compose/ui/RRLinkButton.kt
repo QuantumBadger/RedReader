@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +44,7 @@ import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.theme.ComposeThemeLinkButton
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.compose.theme.StyledText
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -58,15 +58,15 @@ fun RRLinkButton(
 	ConstraintLayout(
 		modifier = Modifier
 			.fillMaxWidth()
-            .semantics(mergeDescendants = true) {}
-            .border(theme.borderThickness, theme.borderColor, theme.shape)
-            .clip(theme.shape)
+			.semantics(mergeDescendants = true) {}
+			.border(theme.borderThickness, theme.borderColor, theme.shape)
+			.clip(theme.shape)
 			.combinedClickable(
 				role = Role.Button,
 				onClick = { launch(Dest.Link(link)) },
 				onLongClick = { launch(Dest.LinkLongClick(link)) }
 			)
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+			.padding(horizontal = 16.dp, vertical = 12.dp),
 	) {
 
 		val (linkIcon, textBox, arrowIcon) = createRefs()
@@ -90,15 +90,9 @@ fun RRLinkButton(
 			end.linkTo(arrowIcon.start, 12.dp)
 			width = Dimension.fillToConstraints
 		}) {
-			Text(
-				text = title,
-				style = theme.title
-			)
+			theme.title.StyledText(title)
 			Spacer(Modifier.height(1.dp))
-			Text(
-				text = link.value,
-				style = theme.subtitle
-			)
+			theme.subtitle.StyledText(link.value)
 		}
 		Icon(
 			modifier = Modifier

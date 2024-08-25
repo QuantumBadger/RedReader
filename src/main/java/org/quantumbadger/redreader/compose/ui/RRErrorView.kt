@@ -32,7 +32,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +57,7 @@ import org.quantumbadger.redreader.compose.ctx.GlobalNetworkRetry
 import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.compose.theme.StyledText
 
 @Composable
 fun RRErrorView(error: RRError) {
@@ -126,14 +126,11 @@ fun RRErrorView(error: RRError) {
 							}
 					) {
 
-						Text(
-							text = error.title ?: stringResource(R.string.error_title),
-							style = theme.title
-						)
+						theme.title.StyledText(error.title ?: stringResource(R.string.error_title))
 
 						error.message?.let {
 							Spacer(Modifier.height(3.dp))
-							Text(text = it, style = theme.message)
+							theme.message.StyledText(it)
 						}
 
 						Spacer(Modifier.height(14.dp))

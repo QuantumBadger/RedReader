@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.compose.theme
 import android.app.Activity
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -27,11 +28,13 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -353,4 +356,23 @@ object Colors {
 		val s9 = Color(0xFF4c1010)
 		val s10 = Color(0xFF260808)
 	}
+}
+
+@Composable
+fun TextStyle.StyledText(
+	text: String,
+	modifier: Modifier = Modifier,
+	overflow: TextOverflow = TextOverflow.Clip,
+	maxLines: Int = Int.MAX_VALUE
+) {
+	Text(
+		modifier = modifier,
+		text = text,
+		style = this,
+		fontSize = fontSize,
+		fontWeight = fontWeight,
+		color = color,
+		overflow = overflow,
+		maxLines = maxLines
+	)
 }

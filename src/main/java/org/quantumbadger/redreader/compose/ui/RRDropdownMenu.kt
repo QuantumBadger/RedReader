@@ -46,7 +46,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.MutableState
@@ -80,6 +79,7 @@ import androidx.compose.ui.window.PopupProperties
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.compose.prefs.Preference
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.compose.theme.StyledText
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -206,23 +206,20 @@ class RRDropdownMenuScope(
 		val theme = LocalComposeTheme.current
 
 		Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 12.dp,
-                    start = 18.dp,
-                    end = 18.dp
-                )
-                .sizeIn(
-                    minWidth = 112.dp,
-                    maxWidth = 280.dp,
-                    minHeight = 48.dp
-                )
+			Modifier
+				.fillMaxWidth()
+				.padding(
+					top = 12.dp,
+					start = 18.dp,
+					end = 18.dp
+				)
+				.sizeIn(
+					minWidth = 112.dp,
+					maxWidth = 280.dp,
+					minHeight = 48.dp
+				)
 		) {
-			Text(
-				text = stringResource(text),
-				style = theme.dropdownMenu.text
-			)
+			theme.dropdownMenu.text.StyledText(stringResource(text))
 
 			Slider(
 				modifier = Modifier
@@ -302,10 +299,7 @@ private fun RRDropdownMenuItem(
 					Spacer(Modifier.width(12.dp))
 				}
 
-				Text(
-					text = stringResource(text),
-					style = theme.dropdownMenu.text
-				)
+				theme.dropdownMenu.text.StyledText(stringResource(text))
 			}
 		},
 		trailingIcon = {

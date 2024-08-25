@@ -21,7 +21,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.theme.ComposeThemeButton
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.compose.theme.StyledText
 
 @Composable
 fun RRButton(
@@ -50,10 +50,7 @@ fun RRButton(
 			.padding(horizontal = 16.dp, vertical = 8.dp),
 		contentAlignment = Alignment.Center
 	) {
-		Text(
-			text = text,
-			style = theme.text
-		)
+		theme.text.StyledText(text)
 	}
 }
 

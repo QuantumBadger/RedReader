@@ -51,7 +51,6 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -89,6 +88,7 @@ import org.quantumbadger.redreader.compose.net.NetRequestStatus
 import org.quantumbadger.redreader.compose.net.fetchAlbum
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.compose.theme.StyledText
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.settings.types.AlbumViewMode
@@ -239,7 +239,7 @@ fun AlbumScreen(
 				Column {
 					Spacer(Modifier.height(10.dp))
 
-					Text(
+					theme.album.title.StyledText(
 						modifier = Modifier
 							.fillMaxWidth()
 							.focusRequester(accessibilityFocusRequester)
@@ -248,21 +248,19 @@ fun AlbumScreen(
 								heading()
 							},
 						text = album.title ?: stringResource(R.string.image_gallery),
-						style = theme.album.title,
 						overflow = TextOverflow.Ellipsis,
 						maxLines = 2
 					)
 
 					Spacer(Modifier.height(6.dp))
 
-					Text(
+					theme.album.subtitle.StyledText(
 						modifier = Modifier.fillMaxWidth(),
 						text = album.description ?: pluralStringResource(
 							R.plurals.album_image_count,
 							album.images.size,
 							album.images.size
 						),
-						style = theme.album.subtitle,
 						overflow = TextOverflow.Ellipsis,
 						maxLines = 3
 					)
@@ -443,7 +441,7 @@ fun AlbumScreen(
 					enter = fadeIn() + slideInVertically { -it },
 					exit = fadeOut() + slideOutVertically { -it }
 				) {
-					Text(
+					theme.album.titleCompact.StyledText(
 						modifier = Modifier
                             .focusRequester(accessibilityFocusRequester)
                             .focusable(true)
@@ -451,7 +449,6 @@ fun AlbumScreen(
                                 heading()
                             },
 						text = album.title ?: stringResource(R.string.image_gallery),
-						style = theme.album.titleCompact,
 						overflow = TextOverflow.Ellipsis,
 						maxLines = 1
 					)

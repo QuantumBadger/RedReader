@@ -30,7 +30,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -48,6 +47,7 @@ import org.quantumbadger.redreader.compose.ctx.LocalLauncher
 import org.quantumbadger.redreader.compose.ctx.RRComposeContextTest
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.theme.LocalComposeTheme
+import org.quantumbadger.redreader.compose.theme.StyledText
 import org.quantumbadger.redreader.image.ImageInfo
 import org.quantumbadger.redreader.image.ImageSize
 import org.quantumbadger.redreader.image.ImageUrlInfo
@@ -141,17 +141,11 @@ fun AlbumListItem(
 					width = Dimension.fillToConstraints
 				}
 		) {
-			Text(
-				text = title ?: stringResource(R.string.album_image_default_text, index + 1),
-				style = theme.postCard.title,
-			)
+			theme.postCard.title.StyledText(title ?: stringResource(R.string.album_image_default_text, index + 1))
 
 			if (caption != null) {
 				Spacer(Modifier.height(4.dp))
-				Text(
-					text = caption,
-					style = theme.postCard.subtitle,
-				)
+				theme.postCard.subtitle.StyledText(caption)
 			}
 
 			if (image.outboundUrl != null) {

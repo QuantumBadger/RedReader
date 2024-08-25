@@ -815,7 +815,7 @@ public class PostListingFragment extends RRFragment
 
 							final String keywordFilter = PrefsUtility.pref_behaviour_posts_filter();
 
-							String[] keywordFilterArray = keywordFilter.split(",");
+							final String[] keywordFilterArray = keywordFilter.split(",");
 
 							final ArrayList<RedditPostListItem> downloadedPosts
 									= new ArrayList<>(25);
@@ -843,10 +843,12 @@ public class PostListingFragment extends RRFragment
 										&& blockedSubreddits.contains(
 										new SubredditCanonicalId(post.getSubreddit().getDecoded()));
 
-								String postTitle = post.getTitle().toString().toLowerCase();
+								final String postTitle = post.getTitle()
+										.toString().toLowerCase(Locale.US);
 								if (!keywordFilter.isEmpty()) {
-									boolean keywordMatched = Arrays.stream(keywordFilterArray)
-											.anyMatch(keyword -> postTitle.contains(keyword.toLowerCase()));
+									final boolean keywordMatched = Arrays.stream(keywordFilterArray)
+											.anyMatch(keyword -> postTitle
+													.contains(keyword.toLowerCase(Locale.US)));
 									if (keywordMatched) {
 										continue; // Continue the outer loop
 									}

@@ -815,7 +815,8 @@ public class PostListingFragment extends RRFragment
 
 							final String keywordFilter = PrefsUtility.pref_behaviour_posts_filter();
 
-							final String[] keywordFilterArray = keywordFilter.split(",");
+							final String[] keywordFilterArray = keywordFilter.toLowerCase(Locale.US)
+									.split(",");
 
 							final ArrayList<RedditPostListItem> downloadedPosts
 									= new ArrayList<>(25);
@@ -843,16 +844,18 @@ public class PostListingFragment extends RRFragment
 										&& blockedSubreddits.contains(
 										new SubredditCanonicalId(post.getSubreddit().getDecoded()));
 
-								final String postTitle = post.getTitle()
-										.toString().toLowerCase(Locale.US);
 								if (!keywordFilter.isEmpty()) {
+									final String postTitle = post.getTitle().toString()
+											.toLowerCase(Locale.US);
+									final String[] titleWords = postTitle.split("\\W+");
 									final boolean keywordMatched = Arrays.stream(keywordFilterArray)
-											.anyMatch(keyword -> postTitle
-													.contains(keyword.toLowerCase(Locale.US)));
+											.anyMatch(keyword -> Arrays.asList(titleWords)
+											.contains(keyword.trim()));
 									if (keywordMatched) {
 										continue; // Continue the outer loop
 									}
 								}
+
 
 								if(!isPostBlocked
 										&& (!post.getOver_18() || isNsfwAllowed)

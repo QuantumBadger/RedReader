@@ -352,6 +352,13 @@ public class ImageViewActivity extends ViewsBaseActivity
 							outerFrame,
 							false));
 
+			if (PrefsUtility.pref_appearance_left_handed()) {
+				final FrameLayout.LayoutParams toolBarParams =
+						(FrameLayout.LayoutParams) mFloatingToolbar.getLayoutParams();
+				toolBarParams.gravity = Gravity.START | Gravity.BOTTOM;
+				mFloatingToolbar.setLayoutParams(toolBarParams);
+			}
+
 			outerFrame.addView(mFloatingToolbar);
 
 			mFloatingToolbar.setVisibility(View.GONE);

@@ -417,7 +417,7 @@ public class PostListingActivity extends RefreshableActivity
 			intent.putExtra("title", String.format(Locale.US, "%s: %s",
 					getString(R.string.sidebar_activity_title),
 					fragment.getSubreddit().url));
-			startActivityForResult(intent, 1);
+			startActivity(intent);
 		}
 	}
 

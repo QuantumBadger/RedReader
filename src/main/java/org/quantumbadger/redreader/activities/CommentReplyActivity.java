@@ -35,7 +35,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -70,6 +72,8 @@ public class CommentReplyActivity extends ViewsBaseActivity {
 	private RedditIdAndType parentIdAndType = null;
 
 	private ParentType mParentType;
+
+	private ActivityResultLauncher<Void> mImgurUploadActivityLauncher;
 
 	private boolean mDraftReset = false;
 	private static String lastText;
@@ -112,6 +116,9 @@ public class CommentReplyActivity extends ViewsBaseActivity {
 
 		final Button uploadPicture = layout.findViewById(R.id.comment_reply_picture);
 
+		mImgurUploadActivityLauncher = registerForActivityResult(
+				new ImgurUploadActivity.ResultContract(),
+				this::onUploadedPicture);
 		uploadPicture.setOnClickListener(v -> uploadPicture());
 
 		if(mParentType == ParentType.COMMENT_OR_POST) {
@@ -372,21 +379,18 @@ public class CommentReplyActivity extends ViewsBaseActivity {
 	}
 
 	private void uploadPicture() {
-		final Intent intent = new Intent(this, ImgurUploadActivity.class);
-		startActivityForResultWithCallback(intent, (resultCode, data) -> {
-			if (resultCode == 0 && data != null) {
-				final Uri uploadedImageUrl = data.getData();
-				if (uploadedImageUrl != null) {
-					// set the picture into textedit as a link: [Picture](PictureURL)
-					final String existingText = textEdit.getText().toString();
-					final String picturePretext = getString(R.string.comment_picture_pretext);
-					final String linkText =
-						"["+ picturePretext +"](" + uploadedImageUrl + ")";
-					final String combinedText = existingText + " " + linkText;
-					textEdit.setText(combinedText);
-				}
-			}
-		});
+		mImgurUploadActivityLauncher.launch(null);
 	}
 
+	private void onUploadedPicture(@Nullable final Uri uploadedImageUrl) {
+		if (uploadedImageUrl != null) {
+			// set the picture into textedit as a link: [Picture](PictureURL)
+			final String existingText = textEdit.getText().toString();
+			final String picturePretext = getString(R.string.comment_picture_pretext);
+			final String linkText =
+					"["+ picturePretext +"](" + uploadedImageUrl + ")";
+			final String combinedText = existingText + " " + linkText;
+			textEdit.setText(combinedText);
+		}
+	}
 }

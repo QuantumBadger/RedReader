@@ -26,6 +26,8 @@ import android.widget.EditText;
 import android.widget.ScrollView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.IntentCompat;
+import androidx.core.os.BundleCompat;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -64,15 +66,17 @@ public class CommentEditActivity extends ViewsBaseActivity {
 		textEdit = (EditText)getLayoutInflater().inflate(R.layout.comment_edit, null);
 
 		if(getIntent() != null && getIntent().hasExtra("commentIdAndType")) {
-			//noinspection deprecation
-			commentIdAndType = getIntent().getParcelableExtra("commentIdAndType");
+			commentIdAndType = IntentCompat.getParcelableExtra(getIntent(),
+					"commentIdAndType",
+					RedditIdAndType.class);
 			textEdit.setText(getIntent().getStringExtra("commentText"));
 
 		} else if(savedInstanceState != null && savedInstanceState.containsKey(
 				"commentIdAndType")) {
 			textEdit.setText(savedInstanceState.getString("commentText"));
-			//noinspection deprecation
-			commentIdAndType = savedInstanceState.getParcelable("commentIdAndType");
+			commentIdAndType = BundleCompat.getParcelable(savedInstanceState,
+					"commentIdAndType",
+					RedditIdAndType.class);
 		}
 
 		final ScrollView sv = new ScrollView(this);

@@ -24,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.core.content.IntentCompat;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
@@ -55,8 +57,8 @@ public class WebViewActivity extends ViewsBaseActivity
 
 		final Intent intent = getIntent();
 
-		final UriString url = intent.getParcelableExtra("url");
-		mPost = intent.getParcelableExtra("post");
+		final UriString url = IntentCompat.getParcelableExtra(intent, "url", UriString.class);
+		mPost = IntentCompat.getParcelableExtra(intent, "post", RedditPost.class);
 
 		if(url == null) {
 			BugReportActivity.handleGlobalError(this, "No URL");

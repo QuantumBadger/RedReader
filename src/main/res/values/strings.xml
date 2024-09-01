@@ -1902,4 +1902,9 @@
 	<string name="album_grid_pref_horizontal_padding">Horizontal padding</string>
 
 	<string name="album_pref_compact_title">Compact title</string>
+
+	<!-- 2024-09-01 -->
+	<string name="locked">LOCKED</string>
+	<string name="pref_appearance_post_subtitle_items_locked">Locked tag</string>
+	<string name="accessibility_subtitle_lockedpost">Locked post.</string>
 </resources>

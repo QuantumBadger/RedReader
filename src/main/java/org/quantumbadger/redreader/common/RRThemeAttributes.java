@@ -37,6 +37,8 @@ public class RRThemeAttributes {
 	public final int rrCommentBodyCol;
 	public final int rrMainTextCol;
 	public final int colorAccent;
+	public final int rrLockedpostBackCol;
+	public final int rrLockedpostTextCol;
 
 	private final EnumSet<PrefsUtility.AppearanceCommentHeaderItem> mCommentHeaderItems;
 
@@ -57,6 +59,8 @@ public class RRThemeAttributes {
 				R.attr.rrCommentHeaderCol,
 				R.attr.rrCommentBodyCol,
 				R.attr.rrMainTextCol,
+				R.attr.rrLockedpostBackCol,
+				R.attr.rrLockedpostTextCol,
 				com.google.android.material.R.attr.colorAccent
 		});
 
@@ -72,6 +76,8 @@ public class RRThemeAttributes {
 		rrCommentBodyCol = appearance.getColor(9, 255);
 		rrMainTextCol = appearance.getColor(10, 255);
 		colorAccent = appearance.getColor(11, 255);
+		rrLockedpostBackCol = appearance.getColor(12, 255);
+		rrLockedpostTextCol = appearance.getColor(13, 255);
 
 		appearance.recycle();
 

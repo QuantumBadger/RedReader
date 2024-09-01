@@ -82,12 +82,6 @@
     <string name="pref_behaviour_nsfw_key" translatable="false">pref_behaviour_nsfw</string>
     <string name="pref_behaviour_nsfw_title">Show NSFW content</string>
 
-	<string name="pref_behaviour_posts_filter_key" translatable="false">pref_behaviour_posts_filter</string>
-
-	<string name="pref_behaviour_posts_filter_title">Post Filtering By Keyword</string>
-	<string name="pref_behaviour_posts_filter_dialog_title">Remove posts containing keywords (comma-separated list)</string>
-	<string name="pref_behaviour_posts_filter_default_value"></string>
-
     <!-- Cache Prefs -->
 
     <string name="pref_cache_pruning">Cache Pruning</string>
@@ -1908,4 +1902,16 @@
 	<string name="album_grid_pref_horizontal_padding">Horizontal padding</string>
 
 	<string name="album_pref_compact_title">Compact title</string>
+
+	<!-- 2024-09-01 -->
+	<string name="prefs_category_filtering" translatable="false">Filtering</string>
+	<string name="prefs_category_filtering_key" translatable="false">prefs_category_filtering</string>
+	<string name="pref_filter_posts_header">Posts</string>
+	<string name="prefs_filter" translatable="false">@string/pref_filter_posts_header</string>
+
+	<string name="pref_filter_posts_key" translatable="false">pref_filter_posts</string>
+
+	<string name="pref_filter_posts_title">Filtering By Keyword</string>
+	<string name="pref_filter_posts_dialog_title">Remove posts containing keywords (comma-separated list)</string>
+	<string name="pref_filter_posts_default_value"></string>
 </resources>

@@ -32,6 +32,10 @@
 			android:title="@string/prefs_category_behaviour"/>
 
 	<Preference
+			android:key="@string/prefs_category_filtering_key"
+			android:title="@string/prefs_category_filtering"/>
+
+	<Preference
 			android:key="@string/prefs_category_images_video_key"
 			android:title="@string/prefs_category_images_video"/>
 

@@ -813,7 +813,7 @@ public class PostListingFragment extends RRFragment
 									&& mPostListingURL.asSubredditPostListURL().type
 									== SubredditPostListURL.Type.SUBREDDIT);
 
-							final String keywordFilter = PrefsUtility.pref_behaviour_posts_filter();
+							final String keywordFilter = PrefsUtility.pref_filter_posts();
 
 							final String[] keywordFilterArray = keywordFilter.toLowerCase(Locale.US)
 									.split(",");

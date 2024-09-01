@@ -178,7 +178,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				R.attr.rrFlairBackCol,
 				R.attr.rrFlairTextCol,
 				R.attr.rrGoldTextCol,
-				R.attr.rrGoldBackCol
+				R.attr.rrGoldBackCol,
+				R.attr.rrLockedpostTextCol,
+				R.attr.rrLockedpostBackCol
 		});
 
 		final int boldCol;
@@ -194,6 +196,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final int rrFlairTextCol = appearance.getColor(4, 255);
 		final int rrGoldTextCol = appearance.getColor(5, 255);
 		final int rrGoldBackCol = appearance.getColor(6, 255);
+		final int rrLockedpostTextCol = appearance.getColor(7, 255);
+		final int rrLockedpostBackCol = appearance.getColor(8, 255);
 
 		appearance.recycle();
 
@@ -249,6 +253,22 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						Color.WHITE,
 						Color.RED,
 						1f); // TODO color?
+				postListDescSb.append("  ", 0);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.LOCKED)) {
+			if(src.isLocked()) {
+				postListDescSb.append(
+						" "
+								+ context.getString(R.string.locked)
+								+ " ",
+						BetterSSB.BOLD
+								| BetterSSB.FOREGROUND_COLOR
+								| BetterSSB.BACKGROUND_COLOR,
+						rrLockedpostTextCol,
+						rrLockedpostBackCol,
+						1f);
 				postListDescSb.append("  ", 0);
 			}
 		}
@@ -649,6 +669,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 								conciseMode
 										? R.string.accessibility_subtitle_nsfw_withperiod_concise
 										: R.string.accessibility_subtitle_nsfw_withperiod))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.LOCKED)) {
+			if(src.isLocked()) {
+				a11yEmbellish
+						.append(context.getString(
+								R.string.accessibility_subtitle_lockedpost))
 						.append(separator);
 			}
 		}

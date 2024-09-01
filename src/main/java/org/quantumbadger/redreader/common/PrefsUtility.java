@@ -595,7 +595,8 @@ public final class PrefsUtility {
 		SPOILER,
 		NSFW,
 		UPVOTE_RATIO,
-		COMMENTS
+		COMMENTS,
+		LOCKED
 	}
 
 	public static EnumSet<AppearancePostSubtitleItem> appearance_post_subtitle_items() {

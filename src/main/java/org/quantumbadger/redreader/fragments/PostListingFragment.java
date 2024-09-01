@@ -100,6 +100,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.UUID;
@@ -812,6 +813,11 @@ public class PostListingFragment extends RRFragment
 									&& mPostListingURL.asSubredditPostListURL().type
 									== SubredditPostListURL.Type.SUBREDDIT);
 
+							final String keywordFilter = PrefsUtility.pref_filter_posts();
+
+							final String[] keywordFilterArray = keywordFilter.toLowerCase(Locale.US)
+									.split(",");
+
 							final ArrayList<RedditPostListItem> downloadedPosts
 									= new ArrayList<>(25);
 
@@ -837,6 +843,19 @@ public class PostListingFragment extends RRFragment
 								final boolean isPostBlocked = subredditFilteringEnabled
 										&& blockedSubreddits.contains(
 										new SubredditCanonicalId(post.getSubreddit().getDecoded()));
+
+								if (!keywordFilter.isEmpty()) {
+									final String postTitle = post.getTitle().toString()
+											.toLowerCase(Locale.US);
+									final String[] titleWords = postTitle.split("\\W+");
+									final boolean keywordMatched = Arrays.stream(keywordFilterArray)
+											.anyMatch(keyword -> Arrays.asList(titleWords)
+											.contains(keyword.trim()));
+									if (keywordMatched) {
+										continue; // Continue the outer loop
+									}
+								}
+
 
 								if(!isPostBlocked
 										&& (!post.getOver_18() || isNsfwAllowed)

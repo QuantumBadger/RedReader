@@ -180,8 +180,8 @@
                         android:entries="@array/pref_behaviour_postcount_items"
                         android:entryValues="@array/pref_behaviour_postcount_items_return"
                         android:defaultValue="ALL"/>
-
     </PreferenceCategory>
+
 
     <PreferenceCategory android:title="@string/pref_behaviour_comments_header">
 

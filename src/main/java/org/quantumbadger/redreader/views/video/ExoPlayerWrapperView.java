@@ -35,11 +35,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.annotation.StringRes;
+
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.ExoPlayer;
-import androidx.media3.exoplayer.SeekParameters;
 import androidx.media3.exoplayer.source.MediaSource;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.ui.AspectRatioFrameLayout;
@@ -181,13 +181,16 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			if (PrefsUtility.pref_behaviour_video_frame_step()) {
 				final AtomicReference<ImageButton> stepBackButton = new AtomicReference<>();
 				final AtomicReference<ImageButton> stepForwardButton = new AtomicReference<>();
+				final long frameRate = mVideoPlayer.getVideoFormat() != null
+						? 1000 / (long) mVideoPlayer.getVideoFormat().frameRate
+						: 33;
+
 				stepBackButton.set(createButton(
 						context,
 						mControlView,
 						R.drawable.icon_step_back,
 						R.string.video_step_back,
 						view -> {
-							long frameRate = mVideoPlayer.getVideoFormat() != null ?  30 : (long) mVideoPlayer.getVideoFormat().frameRate;
 							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - frameRate);
 							updateProgress();
 						}
@@ -199,7 +202,6 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						R.drawable.icon_step_forward,
 						R.string.video_step_forward,
 						view -> {
-							long frameRate = mVideoPlayer.getVideoFormat() != null ?  30 : (long) mVideoPlayer.getVideoFormat().frameRate;
 							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + frameRate);
 							updateProgress();
 						}

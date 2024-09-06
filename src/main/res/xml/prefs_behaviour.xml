@@ -200,6 +200,14 @@
 
     </PreferenceCategory>
 
+	<PreferenceCategory android:title="@string/pref_behaviour_inbox_header">
+
+		<CheckBoxPreference android:title="@string/pref_behaviour_inbox_tapping_is_reading_title"
+				android:key="@string/pref_behaviour_inbox_tapping_is_reading_key"
+				android:defaultValue="false"/>
+
+	</PreferenceCategory>
+
 	<PreferenceCategory android:title="@string/pref_behaviour_sharing_header">
 
 		<ListPreference android:title="@string/pref_behaviour_sharing_domain_title"

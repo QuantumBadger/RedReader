@@ -24,12 +24,22 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.BugReportActivity;
+import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.RRThemeAttributes;
+import org.quantumbadger.redreader.reddit.APIResponseHandler;
+import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
+import org.quantumbadger.redreader.reddit.prepared.RedditPreparedMessage;
+import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableInboxItem;
 
 public class RedditInboxItemView extends LinearLayout {
@@ -140,6 +150,43 @@ public class RedditInboxItemView extends LinearLayout {
 	public void handleInboxClick(final BaseActivity activity) {
 		if(currentItem != null) {
 			currentItem.handleInboxClick(activity);
+
+			//Mark clicked msg as read
+			if (PrefsUtility.pref_behaviour_inbox_tapping_is_reading()) {
+				final String messageID;
+				//Two different types of inbox messages
+				if (currentItem instanceof RedditRenderableComment){
+					final RedditRenderableComment comment = ((RedditRenderableComment) currentItem);
+					messageID = String.valueOf(comment.getIdAndType());
+				} else if (currentItem instanceof RedditPreparedMessage){
+					final RedditPreparedMessage message = ((RedditPreparedMessage) currentItem);
+					messageID = String.valueOf(message.idAndType);
+				} else {
+					return;
+				}
+				RedditAPI.markMessageAsRead(
+						CacheManager.getInstance(activity),
+						new APIResponseHandler.ActionResponseHandler(activity) {
+							@Override
+							protected void onSuccess() {
+								// Do nothing (result expected)
+							}
+
+							@Override
+							protected void onFailure(@NonNull final RRError error) {
+								General.showResultDialog(activity, error);
+							}
+
+							@Override
+							protected void onCallbackException(final Throwable t) {
+								BugReportActivity.handleGlobalError(activity, t);
+							}
+						},
+						RedditAccountManager.getInstance(activity).getDefaultAccount(),
+						messageID,
+						activity
+				);
+			}
 		}
 	}
 

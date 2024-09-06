@@ -487,6 +487,41 @@ public final class RedditAPI {
 				}));
 	}
 
+	public static void markMessageAsRead(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final RedditAccount user,
+			final String messageId,
+			final Context context) {
+
+		final LinkedList<PostField> postFields = new LinkedList<>();
+
+		postFields.add(new PostField("id", messageId));
+
+		cm.makeRequest(createPostRequestUnprocessedResponse(
+				Constants.Reddit.getUri("/api/read_message"),
+				user,
+				postFields,
+				context,
+				new CacheRequestCallbacks() {
+					@Override
+					public void onFailure(@NonNull final RRError error) {
+						responseHandler.notifyFailure(error);
+					}
+
+					@Override
+					public void onDataStreamComplete(
+							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
+							final TimestampUTC timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
+
+						responseHandler.notifySuccess();
+					}
+				}));
+	}
+
 	public static void editComment(
 			final CacheManager cm,
 			final APIResponseHandler.ActionResponseHandler responseHandler,

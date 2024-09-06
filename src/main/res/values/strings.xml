@@ -1902,4 +1902,9 @@
 	<string name="album_grid_pref_horizontal_padding">Horizontal padding</string>
 
 	<string name="album_pref_compact_title">Compact title</string>
+
+	<!-- 2024-09-06 -->
+	<string name="pref_behaviour_inbox_header">Inbox</string>
+	<string name="pref_behaviour_inbox_tapping_is_reading_key" translatable="false">pref_behaviour_inbox_tapping_is_reading</string>
+	<string name="pref_behaviour_inbox_tapping_is_reading_title">Tapping a message marks it as read</string>
 </resources>

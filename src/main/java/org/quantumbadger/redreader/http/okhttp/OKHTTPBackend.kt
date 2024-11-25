@@ -242,7 +242,7 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 					val status = response.code
 					val body = response.body
 
-					if (status == 200 || status == 202) {
+					if (status in 200..299) {
 
 						val bodyStream: InputStream?
 						val bodyLength: Long?

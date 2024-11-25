@@ -1902,4 +1902,10 @@
 	<string name="album_grid_pref_horizontal_padding">Horizontal padding</string>
 
 	<string name="album_pref_compact_title">Compact title</string>
+
+	<!-- 2024-11-24 -->
+	<string name="error_401_title">Unauthorized</string>
+	<string name="error_401_message">Reddit says that you are not logged in or have provided invalid credentials.</string>
+	<string name="error_400_title">Bad Request</string>
+	<string name="error_400_message">Reddit says that you have submitted something invalid.</string>
 </resources>

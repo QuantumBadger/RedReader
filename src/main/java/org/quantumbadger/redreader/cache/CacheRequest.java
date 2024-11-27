@@ -67,7 +67,11 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	public enum RequestMethod {
 		GET,
 		POST,
-		PUT
+		PUT;
+
+		public boolean isGetRequest() {
+			return this == GET;
+		}
 	}
 
 	public final UriString url;
@@ -113,126 +117,20 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		}
 	}
 
-	public CacheRequest(
-			@NonNull final UriString url,
-			@NonNull final RedditAccount user,
-			@Nullable final UUID requestSession,
-			@NonNull final Priority priority,
-			@NonNull final DownloadStrategy downloadStrategy,
-			final int fileType,
-			final DownloadQueueType queueType,
-			final RequestMethod requestMethod,
-			final boolean cache,
-			@NonNull final Context context,
-			@NonNull final CacheRequestCallbacks callbacks) {
+	private CacheRequest(final CacheRequest.Builder builder) {
 
-		this(
-				url,
-				user,
-				requestSession,
-				priority,
-				downloadStrategy,
-				fileType,
-				queueType,
-				requestMethod,
-				null,
-				cache,
-				context,
-				callbacks);
-	}
-
-	public CacheRequest(
-			@NonNull final UriString url,
-			@NonNull final RedditAccount user,
-			@Nullable final UUID requestSession,
-			@NonNull final Priority priority,
-			@NonNull final DownloadStrategy downloadStrategy,
-			final int fileType,
-			final DownloadQueueType queueType,
-			final RequestMethod requestMethod,
-			@NonNull final Context context,
-			@NonNull final CacheRequestCallbacks callbacks) {
-
-		this(
-				url,
-				user,
-				requestSession,
-				priority,
-				downloadStrategy,
-				fileType,
-				queueType,
-				requestMethod,
-				true,
-				context,
-				callbacks);
-	}
-
-	public CacheRequest(
-			@NonNull final UriString url,
-			@NonNull final RedditAccount user,
-			@Nullable final UUID requestSession,
-			@NonNull final Priority priority,
-			@NonNull final DownloadStrategy downloadStrategy,
-			final int fileType,
-			final DownloadQueueType queueType,
-			final RequestMethod requestMethod,
-			@Nullable final HTTPRequestBody requestBody,
-			@NonNull final Context context,
-			@NonNull final CacheRequestCallbacks callbacks) {
-
-		this(
-				url,
-				user,
-				requestSession,
-				priority,
-				downloadStrategy,
-				fileType,
-				queueType,
-				requestMethod,
-				requestBody,
-				false,
-				context,
-				callbacks);
-	}
-
-	// TODO remove this huge constructor, make mutable
-	private CacheRequest(
-			@NonNull final UriString url,
-			@NonNull final RedditAccount user,
-			@Nullable final UUID requestSession,
-			@NonNull final Priority priority,
-			@NonNull final DownloadStrategy downloadStrategy,
-			final int fileType,
-			final DownloadQueueType queueType,
-			final RequestMethod requestMethod,
-			@Nullable final HTTPRequestBody requestBody,
-			final boolean cache,
-			@NonNull final Context context,
-			@NonNull final CacheRequestCallbacks callbacks) {
-
-		this.context = context.getApplicationContext();
-		mCallbacks = callbacks;
-
-		if(user == null) {
-			throw new NullPointerException(
-					"User was null - set to empty string for anonymous");
-		}
-
-		if(!downloadStrategy.shouldDownloadWithoutCheckingCache() && requestBody != null) {
-			throw new IllegalArgumentException(
-					"Should not perform cache lookup for POST requests");
-		}
-
-		this.url = url;
-		this.user = user;
-		this.requestSession = requestSession;
-		this.priority = priority;
-		this.downloadStrategy = downloadStrategy;
-		this.fileType = fileType;
-		this.queueType = queueType;
-		this.requestMethod = requestMethod;
-		this.requestBody = Optional.ofNullable(requestBody);
-		this.cache = (requestBody == null) && cache;
+		this.context = builder.context.getApplicationContext();
+		this.mCallbacks = builder.callbacks;
+		this.url = builder.url;
+		this.user = builder.user;
+		this.requestSession = builder.requestSession;
+		this.priority = builder.priority;
+		this.downloadStrategy = builder.downloadStrategy;
+		this.fileType = builder.fileType;
+		this.queueType = builder.queueType;
+		this.requestMethod = builder.requestMethod;
+		this.requestBody = Optional.ofNullable(builder.requestBody);
+		this.cache = (builder.requestBody == null) && builder.cache;
 
 		if(url == null) {
 			notifyFailure(General.getGeneralErrorForFailure(
@@ -346,6 +244,120 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				Log.e("CacheRequest", "Exception thrown by onCallbackException", t2);
 				BugReportActivity.addGlobalError(new RRError(null, null, true, t1));
 				BugReportActivity.handleGlobalError(context, t2);
+			}
+		}
+	}
+
+	public static class Builder {
+		private UriString url;
+		private RedditAccount user;
+		@Nullable  private UUID requestSession;
+		private Priority priority;
+
+		private DownloadStrategy downloadStrategy;
+
+		private Integer fileType;
+
+		private DownloadQueueType queueType;
+		private RequestMethod requestMethod;
+		@Nullable private HTTPRequestBody requestBody;
+		private boolean cache;
+		private Context context;
+		private CacheRequestCallbacks callbacks;
+
+		public Builder setUrl(final UriString url) {
+			this.url = url;
+			return this;
+		}
+
+		public Builder setUser(final RedditAccount user) {
+			this.user = user;
+			return this;
+		}
+
+		public Builder setRequestSession(final UUID requestSession) {
+			this.requestSession = requestSession;
+			return this;
+		}
+
+		public Builder setPriority(final @NonNull Priority priority) {
+			this.priority = priority;
+			return this;
+		}
+
+		public Builder setDownloadStrategy(final @NonNull DownloadStrategy downloadStrategy) {
+			this.downloadStrategy = downloadStrategy;
+			return this;
+		}
+
+		public Builder setFileType(final int fileType) {
+			this.fileType = fileType;
+			return this;
+		}
+
+		public Builder setQueueType(final DownloadQueueType queueType) {
+			this.queueType = queueType;
+			return this;
+		}
+
+		public Builder setRequestMethod(final RequestMethod requestMethod) {
+			this.requestMethod = requestMethod;
+			return this;
+		}
+
+		public Builder setRequestBody(final HTTPRequestBody requestBody) {
+			this.requestBody = requestBody;
+			return this;
+		}
+
+		public Builder setCache(final boolean cache) {
+			this.cache = cache;
+			return this;
+		}
+
+		public Builder setContext(final Context context) {
+			this.context = context;
+			return this;
+		}
+
+		public Builder setCallbacks(final CacheRequestCallbacks callbacks) {
+			this.callbacks = callbacks;
+			return this;
+		}
+
+		public CacheRequest build() {
+			validate();
+			return new CacheRequest(this);
+		}
+
+		private void validate() {
+			if (user == null) {
+				throw new IllegalArgumentException("The user field must be set for CacheReqest.");
+			}
+			if (context == null) {
+				throw new IllegalArgumentException(
+						"The context field must be set for CacheReqest.");
+			}
+			if(priority == null) {
+				throw new IllegalArgumentException(
+						"The priority field must be set for CacheReqest.");
+			}
+			if(fileType == null) {
+				throw new IllegalArgumentException(
+						"The fileType field must be set for CacheReqest.");
+			}
+			if(downloadStrategy == null) {
+				throw new IllegalArgumentException(
+						"The downloadStrategy field must be set for CacheReqest.");
+			}
+			if(requestMethod == null) {
+				throw new IllegalArgumentException(
+						"The requestMethod field must be set for CacheReqest.");
+			}
+			if(!downloadStrategy.shouldDownloadWithoutCheckingCache()
+					&& !requestMethod.isGetRequest()) {
+				throw new IllegalArgumentException(
+						"Should not perform cache lookup for POST or PUT requests");
 			}
 		}
 	}

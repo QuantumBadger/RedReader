@@ -51,45 +51,46 @@ public final class RedgifsAPI {
 
 		final UriString apiUrl = new UriString("https://api.redgifs.com/v1/gfycats/" + imageId);
 
-		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				apiUrl,
-				RedditAccountManager.getAnon(),
-				null,
-				priority,
+		CacheManager.getInstance(context).makeRequest(new CacheRequest.Builder()
+				.setUrl(apiUrl)
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(priority)
 				// RedGifs links expire after an undocumented period of time
-				new DownloadStrategyIfTimestampOutsideBounds(
-						TimestampBound.notOlderThan(TimeDuration.minutes(10))),
-				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				CacheRequest.RequestMethod.GET,
-				context,
-				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
+				.setDownloadStrategy(new DownloadStrategyIfTimestampOutsideBounds(
+						TimestampBound.notOlderThan(TimeDuration.minutes(10))))
+				.setFileType(Constants.FileType.IMAGE_INFO)
+				.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(context)
+				.setCallbacks(
+					new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+						@Override
+						public void onJsonParsed(
+								@NonNull final JsonValue result,
+								final TimestampUTC timestamp,
+								@NonNull final UUID session,
+								final boolean fromCache) {
 
-						try {
-							final JsonObject outer = result.asObject().getObject("gfyItem");
-							listener.onSuccess(ImageInfo.parseGfycat(outer));
+							try {
+								final JsonObject outer = result.asObject().getObject("gfyItem");
+								listener.onSuccess(ImageInfo.parseGfycat(outer));
 
-						} catch(final Throwable t) {
-							listener.onFailure(General.getGeneralErrorForFailure(
-									context,
-									CacheRequest.RequestFailureType.PARSE,
-									t,
-									null,
-									apiUrl,
-									Optional.of(new FailedRequestBody(result))));
+							} catch(final Throwable t) {
+								listener.onFailure(General.getGeneralErrorForFailure(
+										context,
+										CacheRequest.RequestFailureType.PARSE,
+										t,
+										null,
+										apiUrl,
+										Optional.of(new FailedRequestBody(result))));
+							}
 						}
-					}
 
-					@Override
-					public void onFailure(@NonNull final RRError error) {
-						listener.onFailure(error);
-					}
-				})));
+						@Override
+						public void onFailure(@NonNull final RRError error) {
+							listener.onFailure(error);
+						}
+					}))
+				.build());
 	}
 }

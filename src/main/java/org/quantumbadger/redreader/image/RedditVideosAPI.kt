@@ -64,127 +64,126 @@ object RedditVideosAPI {
     ) {
         val apiUrl = UriString("https://v.redd.it/$imageId/DASHPlaylist.mpd")
 
-        CacheManager.getInstance(context).makeRequest(
-            CacheRequest(
-                apiUrl,
-                RedditAccountManager.getAnon(),
-                null,
-                priority,
-                DownloadStrategyIfNotCached.INSTANCE,
-                Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				CacheRequest.RequestMethod.GET,
-                context,
-                object : CacheRequestCallbacks {
-                    private val mNotifiedFailure = AtomicBoolean(false)
+        CacheManager.getInstance(context).makeRequest(CacheRequest.Builder()
+			.setUrl(apiUrl)
+			.setUser(RedditAccountManager.getAnon())
+			.setPriority(priority)
+			.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+			.setFileType(Constants.FileType.IMAGE_INFO)
+			.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+			.setRequestMethod(CacheRequest.RequestMethod.GET)
+			.setContext(context)
+			.setCallbacks(
+				object : CacheRequestCallbacks {
+					private val mNotifiedFailure = AtomicBoolean(false)
 
-                    override fun onDataStreamComplete(
-                        stream: GenericFactory<SeekableInputStream, IOException>,
-                        timestamp: TimestampUTC,
-                        session: UUID,
-                        fromCache: Boolean,
-                        mimetype: String?
-                    ) {
-                        val mpd = try {
-                            stream.create().use(::readWholeStreamAsUTF8)
-                        } catch (e: IOException) {
-                            Log.e(TAG, "Got exception", e)
+					override fun onDataStreamComplete(
+						stream: GenericFactory<SeekableInputStream, IOException>,
+						timestamp: TimestampUTC,
+						session: UUID,
+						fromCache: Boolean,
+						mimetype: String?
+					) {
+						val mpd = try {
+							stream.create().use(::readWholeStreamAsUTF8)
+						} catch (e: IOException) {
+							Log.e(TAG, "Got exception", e)
 
-                            if (!mNotifiedFailure.getAndSet(true)) {
-                                listener.onFailure(
-                                    getGeneralErrorForFailure(
-                                        context,
+							if (!mNotifiedFailure.getAndSet(true)) {
+								listener.onFailure(
+									getGeneralErrorForFailure(
+										context,
 										CacheRequest.RequestFailureType.STORAGE,
-                                        e,
-                                        null,
-                                        apiUrl,
-                                        FailedRequestBody.from(stream)
-                                    )
-                                )
-                            }
+										e,
+										null,
+										apiUrl,
+										FailedRequestBody.from(stream)
+									)
+								)
+							}
 
-                            return
-                        }
+							return
+						}
 
-                        try {
-                            var videoUrl: UriString? = null
-                            var audioUrl: UriString? = null
+						try {
+							var videoUrl: UriString? = null
+							var audioUrl: UriString? = null
 
-                            // Hacky workaround -- we should parse the MPD
-                            val possibleFiles = arrayOf(
-                                "DASH_AUDIO_128.mp4",
-                                "DASH_AUDIO_64.mp4",
-                                "DASH_AUDIO.mp4",
-                                "DASH_audio_128.mp4",
-                                "DASH_audio_64.mp4",
-                                "DASH_audio.mp4",
-                                "audio"
-                            )
+							// Hacky workaround -- we should parse the MPD
+							val possibleFiles = arrayOf(
+								"DASH_AUDIO_128.mp4",
+								"DASH_AUDIO_64.mp4",
+								"DASH_AUDIO.mp4",
+								"DASH_audio_128.mp4",
+								"DASH_audio_64.mp4",
+								"DASH_audio.mp4",
+								"audio"
+							)
 
-                            for (file in possibleFiles) {
-                                if (mpd.contains(file)) {
-                                    audioUrl = UriString("https://v.redd.it/$imageId/$file")
-                                    break
-                                }
-                            }
+							for (file in possibleFiles) {
+								if (mpd.contains(file)) {
+									audioUrl = UriString("https://v.redd.it/$imageId/$file")
+									break
+								}
+							}
 
-                            for (format in PREFERRED_VIDEO_FORMATS) {
-                                if (mpd.contains("$format.mp4")) {
-                                    videoUrl = UriString("https://v.redd.it/$imageId/$format.mp4")
-                                    break
-                                }
+							for (format in PREFERRED_VIDEO_FORMATS) {
+								if (mpd.contains("$format.mp4")) {
+									videoUrl = UriString("https://v.redd.it/$imageId/$format.mp4")
+									break
+								}
 
-                                if (mpd.contains(format)) {
-                                    videoUrl = UriString("https://v.redd.it/$imageId/$format")
-                                    break
-                                }
-                            }
+								if (mpd.contains(format)) {
+									videoUrl = UriString("https://v.redd.it/$imageId/$format")
+									break
+								}
+							}
 
-                            if (videoUrl == null) {
-                                // Fallback
-                                videoUrl = UriString("https://v.redd.it/$imageId/DASH_480.mp4")
-                            }
+							if (videoUrl == null) {
+								// Fallback
+								videoUrl = UriString("https://v.redd.it/$imageId/DASH_480.mp4")
+							}
 
-                            val result = if (audioUrl != null) {
-                                ImageInfo(
-                                    original = ImageUrlInfo(videoUrl),
-                                    urlAudioStream = audioUrl,
-                                    mediaType = ImageInfo.MediaType.VIDEO,
-                                    hasAudio = ImageInfo.HasAudio.HAS_AUDIO
-                                )
-                            } else {
-                                ImageInfo(
+							val result = if (audioUrl != null) {
+								ImageInfo(
 									original = ImageUrlInfo(videoUrl),
-                                    mediaType = ImageInfo.MediaType.VIDEO,
-                                    hasAudio = ImageInfo.HasAudio.NO_AUDIO
-                                )
-                            }
+									urlAudioStream = audioUrl,
+									mediaType = ImageInfo.MediaType.VIDEO,
+									hasAudio = ImageInfo.HasAudio.HAS_AUDIO
+								)
+							} else {
+								ImageInfo(
+									original = ImageUrlInfo(videoUrl),
+									mediaType = ImageInfo.MediaType.VIDEO,
+									hasAudio = ImageInfo.HasAudio.NO_AUDIO
+								)
+							}
 
-                            listener.onSuccess(result)
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Got exception", e)
+							listener.onSuccess(result)
+						} catch (e: Exception) {
+							Log.e(TAG, "Got exception", e)
 
-                            if (!mNotifiedFailure.getAndSet(true)) {
-                                listener.onFailure(
-                                    getGeneralErrorForFailure(
-                                        context,
+							if (!mNotifiedFailure.getAndSet(true)) {
+								listener.onFailure(
+									getGeneralErrorForFailure(
+										context,
 										CacheRequest.RequestFailureType.STORAGE,
-                                        e,
-                                        null,
-                                        apiUrl,
-                                        Optional.of(FailedRequestBody(mpd))
-                                    )
-                                )
-                            }
-                        }
-                    }
+										e,
+										null,
+										apiUrl,
+										Optional.of(FailedRequestBody(mpd))
+									)
+								)
+							}
+						}
+					}
 
-                    override fun onFailure(error: RRError) {
-                        if (!mNotifiedFailure.getAndSet(true)) {
-                            listener.onFailure(error)
-                        }
-                    }
-                })
-        )
+					override fun onFailure(error: RRError) {
+						if (!mNotifiedFailure.getAndSet(true)) {
+							listener.onFailure(error)
+						}
+					}
+				})
+			.build())
     }
 }

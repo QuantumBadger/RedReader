@@ -86,68 +86,69 @@ class RedditGalleryAPI {
             ).generateJsonUri()
 
             CacheManager.getInstance(context).makeRequest(
-                CacheRequest(
-					UriString.from(apiUrl),
-                    RedditAccountManager.getInstance(context).defaultAccount,
-                    null,
-                    priority,
-                    DownloadStrategyIfNotCached.INSTANCE,
-                    Constants.FileType.IMAGE_INFO,
-					CacheRequest.DownloadQueueType.REDDIT_API,
-					CacheRequest.RequestMethod.GET,
-                    context,
-					object : CacheRequestCallbacks {
+				CacheRequest.Builder()
+					.setUrl(UriString.from(apiUrl))
+					.setUser(RedditAccountManager.getInstance(context).defaultAccount)
+					.setPriority(priority)
+					.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+					.setFileType(Constants.FileType.IMAGE_INFO)
+					.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+					.setRequestMethod(CacheRequest.RequestMethod.GET)
+					.setContext(context)
+					.setCache(true)
+					.setCallbacks(
+						object : CacheRequestCallbacks {
 
-						override fun onDataStreamComplete(
-							streamFactory: GenericFactory<SeekableInputStream, IOException>,
-							timestamp: TimestampUTC?,
-							session: UUID,
-							fromCache: Boolean,
-							mimetype: String?
-						) {
-							try {
-								val thingResponse = JsonUtils.decodeRedditThingResponseFromStream(streamFactory.create())
+							override fun onDataStreamComplete(
+								streamFactory: GenericFactory<SeekableInputStream, IOException>,
+								timestamp: TimestampUTC?,
+								session: UUID,
+								fromCache: Boolean,
+								mimetype: String?
+							) {
+								try {
+									val thingResponse = JsonUtils.decodeRedditThingResponseFromStream(streamFactory.create())
 
-								val responseMultiple = (thingResponse as? RedditThingResponse.Multiple) ?:
+									val responseMultiple = (thingResponse as? RedditThingResponse.Multiple) ?:
 									throw RuntimeException("Expecting RedditThingResponse.Multiple")
 
-								val listing = (responseMultiple.things.firstOrNull() as? RedditThing.Listing)?.data ?:
+									val listing = (responseMultiple.things.firstOrNull() as? RedditThing.Listing)?.data ?:
 									throw RuntimeException("No listing in response")
 
-								val firstItem = listing.children.firstOrNull()?.ok()
+									val firstItem = listing.children.firstOrNull()?.ok()
 
-								val post = (firstItem as? RedditThing.Post)?.data ?:
+									val post = (firstItem as? RedditThing.Post)?.data ?:
 									throw RuntimeException("No post found in response")
 
-								val album = AlbumInfo.parseRedditGallery(post)
+									val album = AlbumInfo.parseRedditGallery(post)
 
-								if (album == null) {
-									if (post.removed_by_category != null) {
-										listener.onGalleryRemoved()
+									if (album == null) {
+										if (post.removed_by_category != null) {
+											listener.onGalleryRemoved()
+										} else {
+											listener.onGalleryDataNotPresent()
+										}
 									} else {
-										listener.onGalleryDataNotPresent()
+										listener.onSuccess(album)
 									}
-								} else {
-									listener.onSuccess(album)
+
+								} catch(t: Throwable) {
+									onFailure(getGeneralErrorForFailure(
+										context,
+										CacheRequest.RequestFailureType.PARSE,
+										t,
+										null,
+										albumUrl,
+										FailedRequestBody.from(streamFactory)));
 								}
-
-							} catch(t: Throwable) {
-								onFailure(getGeneralErrorForFailure(
-									context,
-									CacheRequest.RequestFailureType.PARSE,
-									t,
-									null,
-									albumUrl,
-									FailedRequestBody.from(streamFactory)));
 							}
-						}
 
-						override fun onFailure(error: RRError) {
-							listener.onFailure(error)
-						}
-					}
-                )
-            )
+							override fun onFailure(error: RRError) {
+								listener.onFailure(error)
+							}
+						})
+					.build()
+            );
         }
     }
 }

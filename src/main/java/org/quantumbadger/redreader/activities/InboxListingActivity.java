@@ -253,20 +253,17 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 			}
 		}
 
-		// TODO parameterise limit
-		request = new CacheRequest(
-				url,
-				user,
-				null,
-				new Priority(Constants.Priority.API_INBOX_LIST),
-				DownloadStrategyAlways.INSTANCE,
-				Constants.FileType.INBOX_LIST,
-				CacheRequest.DownloadQueueType.REDDIT_API,
-				CacheRequest.RequestMethod.GET,
-				false,
-				context,
-				new CacheRequestCallbacks() {
-
+		request = new CacheRequest.Builder()
+				.setUrl(url)
+				.setUser(user)
+				.setPriority(new Priority(Constants.Priority.API_INBOX_LIST))
+				.setDownloadStrategy(DownloadStrategyAlways.INSTANCE)
+				.setFileType(Constants.FileType.INBOX_LIST)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setCache(false)
+				.setContext(context)
+				.setCallbacks(new CacheRequestCallbacks() {
 					@Override
 					public void onDataStreamComplete(
 							@NonNull final GenericFactory<SeekableInputStream, IOException>
@@ -348,8 +345,8 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 									final RedditPreparedMessage message
 											= new RedditPreparedMessage(
-													InboxListingActivity.this,
-													((RedditThing.Message) thing).getData(),
+											InboxListingActivity.this,
+											((RedditThing.Message) thing).getData(),
 											inboxType);
 
 									itemHandler.sendMessage(General.handlerMessage(
@@ -364,20 +361,20 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 										final ArrayList<MaybeParseError<RedditThing>> replies
 												= ((RedditThing.Listing)((RedditFieldReplies.Some)
-														message.src.getReplies()).getValue())
-																.getData().getChildren();
+												message.src.getReplies()).getValue())
+												.getData().getChildren();
 
 										for(final MaybeParseError<RedditThing> childMsgValue
 												: replies) {
 
 											final RedditMessage childMsgRaw
 													= ((RedditThing.Message)childMsgValue.ok())
-															.getData();
+													.getData();
 
 											final RedditPreparedMessage childMsg
 													= new RedditPreparedMessage(
-															InboxListingActivity.this,
-															childMsgRaw,
+													InboxListingActivity.this,
+													childMsgRaw,
 													inboxType);
 
 											itemHandler.sendMessage(General.handlerMessage(
@@ -420,7 +417,8 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 						AndroidCommon.runOnUiThread(() -> notifications.addView(
 								new ErrorView(InboxListingActivity.this, error)));
 					}
-				});
+				})
+				.build();
 
 		cm.makeRequest(request);
 	}

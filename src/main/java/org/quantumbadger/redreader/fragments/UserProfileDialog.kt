@@ -429,17 +429,17 @@ object UserProfileDialog {
 		imageOutput: ImageView,
 		context: AppCompatActivity
 	) {
-		CacheManager.getInstance(context).makeRequest(CacheRequest(
-			url,
-			RedditAccountManager.getAnon(),
-			null,
-			Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
-			DownloadStrategyIfNotCached.INSTANCE,
-			Constants.FileType.INLINE_IMAGE_PREVIEW,
-			CacheRequest.DownloadQueueType.IMMEDIATE,
-			CacheRequest.RequestMethod.GET,
-			context,
-			object : CacheRequestCallbacks {
+		CacheManager.getInstance(context).makeRequest(CacheRequest.Builder()
+			.setUrl(url)
+			.setUser(RedditAccountManager.getAnon())
+			.setPriority(Priority(Constants.Priority.INLINE_IMAGE_PREVIEW))
+			.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+			.setFileType(Constants.FileType.INLINE_IMAGE_PREVIEW)
+			.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+			.setRequestMethod(CacheRequest.RequestMethod.GET)
+			.setContext(context)
+			.setCache(true)
+			.setCallbacks(object : CacheRequestCallbacks {
 				override fun onDataStreamComplete(
 					streamFactory: GenericFactory<SeekableInputStream, IOException>,
 					timestamp: TimestampUTC,
@@ -481,7 +481,8 @@ object UserProfileDialog {
 						"Failed to download user avatar: $error"
 					)
 				}
-			}
-		))
+			})
+			.build()
+		);
 	}
 }

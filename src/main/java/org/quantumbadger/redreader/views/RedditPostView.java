@@ -526,17 +526,17 @@ public final class RedditPostView extends FlingableItemView
 		mImagePreviewLoadingSpinner.setVisibility(VISIBLE);
 		setBottomMargin(true);
 
-		CacheManager.getInstance(mActivity).makeRequest(new CacheRequest(
-				preview.url,
-				RedditAccountManager.getAnon(),
-				null,
-				new Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
-				DownloadStrategyIfNotCached.INSTANCE,
-				Constants.FileType.INLINE_IMAGE_PREVIEW,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				CacheRequest.RequestMethod.GET,
-				mActivity,
-				new CacheRequestCallbacks() {
+		CacheManager.getInstance(mActivity).makeRequest(new CacheRequest.Builder()
+				.setUrl(preview.url)
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(new Priority(Constants.Priority.INLINE_IMAGE_PREVIEW))
+				.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+				.setFileType(Constants.FileType.INLINE_IMAGE_PREVIEW)
+				.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(mActivity)
+				.setCache(true)
+				.setCallbacks(new CacheRequestCallbacks() {
 					@Override
 					public void onDataStreamComplete(
 							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
@@ -624,8 +624,8 @@ public final class RedditPostView extends FlingableItemView
 							General.setLayoutMatchWidthWrapHeight(errorView);
 						});
 					}
-				}
-		));
+				})
+				.build());
 	}
 
 	private void showPrefPrompt() {

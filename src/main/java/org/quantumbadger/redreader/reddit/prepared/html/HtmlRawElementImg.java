@@ -78,17 +78,17 @@ public class HtmlRawElementImg extends HtmlRawElement{
 
 		ssb.append(mTitle);
 
-		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-				mSrc,
-				RedditAccountManager.getAnon(),
-				null,
-				new Priority(Constants.Priority.API_COMMENT_LIST),
-				DownloadStrategyIfNotCached.INSTANCE,
-				Constants.FileType.IMAGE,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				CacheRequest.RequestMethod.GET,
-				activity,
-				new CacheRequestCallbacks() {
+		CacheManager.getInstance(activity).makeRequest(new CacheRequest.Builder()
+				.setUrl(mSrc)
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(new Priority(Constants.Priority.API_COMMENT_LIST))
+				.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+				.setFileType(Constants.FileType.IMAGE)
+				.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(activity)
+				.setCache(true)
+				.setCallbacks(new CacheRequestCallbacks() {
 					Bitmap image = null;
 
 					@Override
@@ -129,8 +129,8 @@ public class HtmlRawElementImg extends HtmlRawElement{
 					@Override
 					public void onFailure(@NonNull final RRError error) {
 					}
-				}
-		));
+				})
+				.build());
 	}
 
 	@Override

@@ -51,47 +51,47 @@ public final class ImgurAPI {
 		final UriString apiUrl
 				= new UriString("https://api.imgur.com/2/album/" + albumId + ".json");
 
-		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				apiUrl,
-				RedditAccountManager.getAnon(),
-				null,
-				priority,
-				DownloadStrategyIfNotCached.INSTANCE,
-				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				CacheRequest.RequestMethod.GET,
-				context,
-				new CacheRequestJSONParser(
+		CacheManager.getInstance(context).makeRequest(new CacheRequest.Builder()
+				.setUrl(apiUrl)
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(priority)
+				.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+				.setFileType(Constants.FileType.IMAGE_INFO)
+				.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(context)
+				.setCache(true)
+				.setCallbacks(new CacheRequestJSONParser(
 						context,
-				new CacheRequestJSONParser.Listener() {
+						new CacheRequestJSONParser.Listener() {
+							@Override
+							public void onJsonParsed(
+								@NonNull final JsonValue result,
+								final TimestampUTC timestamp,
+								@NonNull final UUID session,
+								final boolean fromCache) {
 
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
+							try {
+								final JsonObject outer = result.asObject().getObject("album");
+								listener.onSuccess(AlbumInfo.parseImgur(albumUrl, outer));
 
-						try {
-							final JsonObject outer = result.asObject().getObject("album");
-							listener.onSuccess(AlbumInfo.parseImgur(albumUrl, outer));
-
-						} catch(final Throwable t) {
-							listener.onFailure(General.getGeneralErrorForFailure(
-									context,
-									CacheRequest.RequestFailureType.PARSE,
-									t,
-									null,
-									apiUrl,
-									Optional.of(new FailedRequestBody(result))));
+							} catch(final Throwable t) {
+								listener.onFailure(General.getGeneralErrorForFailure(
+										context,
+										CacheRequest.RequestFailureType.PARSE,
+										t,
+										null,
+										apiUrl,
+										Optional.of(new FailedRequestBody(result))));
+							}
 						}
-					}
 
-					@Override
-					public void onFailure(@NonNull final RRError error) {
-						listener.onFailure(error);
-					}
-				})));
+						@Override
+						public void onFailure(@NonNull final RRError error) {
+							listener.onFailure(error);
+						}
+					}))
+				.build());
 	}
 
 	public static void getImageInfo(
@@ -103,43 +103,45 @@ public final class ImgurAPI {
 		final UriString apiUrl
 				= new UriString("https://api.imgur.com/2/image/" + imageId + ".json");
 
-		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				apiUrl,
-				RedditAccountManager.getAnon(),
-				null,
-				priority,
-				DownloadStrategyIfNotCached.INSTANCE,
-				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				CacheRequest.RequestMethod.GET,
-				context,
-				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
+		CacheManager.getInstance(context).makeRequest(new CacheRequest.Builder()
+				.setUrl(apiUrl)
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(priority)
+				.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+				.setFileType(Constants.FileType.IMAGE_INFO)
+				.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(context)
+				.setCache(true)
+				.setCallbacks(
+						new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+							@Override
+							public void onJsonParsed(
+									@NonNull final JsonValue result,
+									final TimestampUTC timestamp,
+									@NonNull final UUID session,
+									final boolean fromCache) {
 
-						try {
-							final JsonObject outer = result.asObject().getObject("image");
-							listener.onSuccess(ImageInfo.parseImgur(outer));
+								try {
+									final JsonObject outer = result.asObject().getObject("image");
+									listener.onSuccess(ImageInfo.parseImgur(outer));
 
-						} catch(final Throwable t) {
-							listener.onFailure(General.getGeneralErrorForFailure(
-									context,
-									CacheRequest.RequestFailureType.PARSE,
-									t,
-									null,
-									apiUrl,
-									Optional.of(new FailedRequestBody(result))));
-						}
-					}
+								} catch(final Throwable t) {
+									listener.onFailure(General.getGeneralErrorForFailure(
+											context,
+											CacheRequest.RequestFailureType.PARSE,
+											t,
+											null,
+											apiUrl,
+											Optional.of(new FailedRequestBody(result))));
+								}
+							}
 
-					@Override
-					public void onFailure(@NonNull final RRError error) {
-						listener.onFailure(error);
-					}
-				})));
+							@Override
+							public void onFailure(@NonNull final RRError error) {
+								listener.onFailure(error);
+							}
+						}))
+				.build());
 	}
 }

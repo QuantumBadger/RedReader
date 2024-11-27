@@ -657,17 +657,18 @@ public class PostListingFragment extends RRFragment
 
 		final AppCompatActivity activity = getActivity();
 
-		return new CacheRequest(
-				url,
-				user,
-				requestSession,
-				new Priority(Constants.Priority.API_POST_LIST),
-				downloadStrategy,
-				Constants.FileType.POST_LIST,
-				CacheRequest.DownloadQueueType.REDDIT_API,
-				CacheRequest.RequestMethod.GET,
-				activity,
-				new CacheRequestCallbacks() {
+		return new CacheRequest.Builder()
+				.setUrl(url)
+				.setUser(user)
+				.setRequestSession(requestSession)
+				.setPriority(new Priority(Constants.Priority.API_POST_LIST))
+				.setDownloadStrategy(downloadStrategy)
+				.setFileType(Constants.FileType.POST_LIST)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(activity)
+				.setCache(true)
+				.setCallbacks(new CacheRequestCallbacks() {
 					@Override
 					public void onDataStreamComplete(
 							@NonNull final GenericFactory<SeekableInputStream, IOException>
@@ -825,7 +826,7 @@ public class PostListingFragment extends RRFragment
 
 								final RedditThing postThing
 										= ((MaybeParseError.Ok<RedditThing>)postThingValue)
-												.getValue();
+										.getValue();
 
 								if(!(postThing instanceof RedditThing.Post)) {
 									continue;
@@ -994,7 +995,8 @@ public class PostListingFragment extends RRFragment
 									error));
 						});
 					}
-				});
+				})
+				.build();
 	}
 
 	private void precacheComments(
@@ -1007,47 +1009,44 @@ public class PostListingFragment extends RRFragment
 
 		final UriString url = UriString.from(controller.getUri());
 
-		CacheManager.getInstance(activity)
-				.makeRequest(new CacheRequest(
-						url,
-						RedditAccountManager.getInstance(activity).getDefaultAccount(),
-						null,
-						new Priority(
-								Constants.Priority.COMMENT_PRECACHE,
-							positionInList),
-						new DownloadStrategyIfTimestampOutsideBounds(
-								TimestampBound.notOlderThan(TimeDuration.minutes(15))),
-						Constants.FileType.COMMENT_LIST,
-						CacheRequest.DownloadQueueType.REDDIT_API,
-						CacheRequest.RequestMethod.GET,
-						// Don't parse the JSON
-						activity,
-						new CacheRequestCallbacks() {
-							@Override
-							public void onFailure(@NonNull final RRError error) {
+		CacheManager.getInstance(activity).makeRequest(new CacheRequest.Builder()
+				.setUrl(url)
+				.setUser(RedditAccountManager.getInstance(activity).getDefaultAccount())
+				.setPriority(new Priority(Constants.Priority.COMMENT_PRECACHE, positionInList))
+				.setDownloadStrategy(new DownloadStrategyIfTimestampOutsideBounds(
+						TimestampBound.notOlderThan(TimeDuration.minutes(15))))
+				.setFileType(Constants.FileType.COMMENT_LIST)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(activity)
+				.setCache(true)
+				.setCallbacks(new CacheRequestCallbacks() {
+					@Override
+					public void onFailure(@NonNull final RRError error) {
 
-								if(General.isSensitiveDebugLoggingEnabled()) {
-									Log.e(
-											TAG,
-											"Failed to precache "
-													+ url
-													+ " ("
-													+ error
-													+ ")");
-								}
-							}
+						if(General.isSensitiveDebugLoggingEnabled()) {
+							Log.e(
+									TAG,
+									"Failed to precache "
+											+ url
+											+ " ("
+											+ error
+											+ ")");
+						}
+					}
 
-							@Override
-							public void onCacheFileWritten(
-									@NonNull final CacheManager.ReadableCacheFile cacheFile,
-									final TimestampUTC timestamp,
-									@NonNull final UUID session,
-									final boolean fromCache,
-									@Nullable final String mimetype) {
+					@Override
+					public void onCacheFileWritten(
+							@NonNull final CacheManager.ReadableCacheFile cacheFile,
+							final TimestampUTC timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
 
-								// Successfully precached
-							}
-						}));
+						// Successfully precached
+					}
+				})
+				.build());
 	}
 
 	private void precacheImage(
@@ -1125,19 +1124,17 @@ public class PostListingFragment extends RRFragment
 			final UriString url,
 			final int positionInList) {
 
-		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-				url,
-				RedditAccountManager.getAnon(),
-				null,
-				new Priority(
-						Constants.Priority.IMAGE_PRECACHE,
-						positionInList),
-				DownloadStrategyIfNotCached.INSTANCE,
-				Constants.FileType.IMAGE,
-				CacheRequest.DownloadQueueType.IMAGE_PRECACHE,
-				CacheRequest.RequestMethod.GET,
-				activity,
-				new CacheRequestCallbacks() {
+		CacheManager.getInstance(activity).makeRequest(new CacheRequest.Builder()
+				.setUrl(url)
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(new Priority(Constants.Priority.IMAGE_PRECACHE, positionInList))
+				.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+				.setFileType(Constants.FileType.IMAGE)
+				.setQueueType(CacheRequest.DownloadQueueType.IMAGE_PRECACHE)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(activity)
+				.setCache(true)
+				.setCallbacks(new CacheRequestCallbacks() {
 					@Override
 					public void onFailure(@NonNull final RRError error) {
 
@@ -1160,6 +1157,7 @@ public class PostListingFragment extends RRFragment
 
 						// Successfully precached
 					}
-				}));
+				})
+				.build());
 	}
 }

@@ -147,6 +147,7 @@ public final class Constants {
 						= "/subreddits/mine/moderator.json?limit=100";
 		public static final String PATH_SUBREDDITS_POPULAR = "/subreddits/popular.json";
 		public static final String PATH_MULTIREDDITS_MINE = "/api/multi/mine.json";
+		public static final String PATH_MULTIREDDIT = "/api/multi";
 		public static final String PATH_COMMENTS = "/comments/";
 		public static final String PATH_ME = "/api/v1/me";
 

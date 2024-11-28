@@ -495,6 +495,7 @@
 		<item>@string/pin_subreddit</item>
 		<item>@string/options_subscribe</item>
 		<item>@string/block_subreddit</item>
+		<item>@string/add_subreddit_to_multireddit</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -505,6 +506,7 @@
 		<item>pin</item>
 		<item>subscribe</item>
 		<item>block</item>
+		<item>add_to_multireddit</item>
 	</string-array>
 
 	<string-array name="pref_menus_subreddit_context_items_default">

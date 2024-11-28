@@ -25,6 +25,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -957,6 +960,45 @@ public final class RedditAPI {
 					}
 				}
 		));
+	}
+
+	public static void createMultireddit(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler handler,
+			final RedditAccount user,
+			final String multiredditName,
+			final List<String> subredditNames,
+			final Context context) {
+
+		final Uri.Builder builder = Constants.Reddit.getUriBuilder(
+						Constants.Reddit.PATH_MULTIREDDIT)
+				.appendPath("user")
+				.appendPath(user.username)
+				.appendPath("m")
+				.appendPath(multiredditName);
+
+		final JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put("display_name", multiredditName);
+			jsonObject.put("subreddits", subredditNamesJson(subredditNames));
+		} catch (final JSONException e) {
+			throw new RuntimeException(e);
+		}
+
+		cm.makeRequest(createPostRequest(
+				UriString.from(builder.build()),
+				user,
+				new ArrayList<>(Collections.singleton(
+						new PostField("model", jsonObject.toString()))),
+				context,
+				new GenericResponseHandler(handler)));
+	}
+
+	private static JSONArray subredditNamesJson(final List<String> subredditNames) {
+		final JSONArray jsonArray = new JSONArray();
+		subredditNames.stream().forEach(
+				sn -> jsonArray.put(new JSONObject(Collections.singletonMap("name", sn))));
+		return jsonArray;
 	}
 
 	@Nullable

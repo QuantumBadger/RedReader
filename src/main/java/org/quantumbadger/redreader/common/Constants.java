@@ -149,6 +149,8 @@ public final class Constants {
 		public static final String PATH_MULTIREDDITS_MINE = "/api/multi/mine.json";
 		public static final String PATH_COMMENTS = "/comments/";
 		public static final String PATH_ME = "/api/v1/me";
+		public static final String PATH_MULTIREDDIT = "/api/multi";
+
 
 		public static String getScheme() {
 			return SCHEME_HTTPS;

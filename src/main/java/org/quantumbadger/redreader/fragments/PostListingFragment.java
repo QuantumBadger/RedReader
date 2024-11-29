@@ -74,6 +74,7 @@ import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditPostListItem;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
+import org.quantumbadger.redreader.reddit.api.RedditAPISubredditCombinationAction;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
 import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
@@ -101,6 +102,7 @@ import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -292,7 +294,6 @@ public class PostListingFragment extends RRFragment
 
 					case FRONTPAGE:
 					case ALL:
-					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:
 					case POPULAR:
 						setHeader(
@@ -301,6 +302,12 @@ public class PostListingFragment extends RRFragment
 								null);
 						CacheManager.getInstance(context).makeRequest(mRequest);
 						break;
+
+					case SUBREDDIT_COMBINATION:
+						setSubredditCombinationHeader(
+							mPostListingURL.humanReadableName(getActivity(), true),
+							mPostListingURL.humanReadableUrl(),
+							subredditPostListURL.subredditNames());
 
 					case RANDOM:
 					case SUBREDDIT: {
@@ -490,6 +497,28 @@ public class PostListingFragment extends RRFragment
 				return true;
 			});
 		}
+	}
+
+	private void setSubredditCombinationHeader(
+			@NonNull final String title,
+			@NonNull final String subtitle,
+			@NonNull final List<String> subredditNames) {
+
+		final PostListingHeader postListingHeader = new PostListingHeader(
+				getActivity(),
+				title,
+				subtitle,
+				mPostListingURL,
+				null);
+
+		setHeader(postListingHeader);
+
+		postListingHeader.setOnLongClickListener(view -> {
+			RedditAPISubredditCombinationAction.showActionMenu(
+					getActivity(),
+					subredditNames);
+			return true;
+		});
 	}
 
 	private void setHeader(final View view) {

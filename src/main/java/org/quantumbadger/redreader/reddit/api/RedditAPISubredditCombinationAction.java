@@ -52,6 +52,13 @@ public class RedditAPISubredditCombinationAction {
 			final AppCompatActivity activity,
 			List<String> subredditNames) {
 
+		final EnumSet<SubredditCombinationAction> itemPref
+				= PrefsUtility.pref_menus_subreddit_combination_context_items();
+
+		if(itemPref.isEmpty()) {
+			return;
+		}
+
 		final RedditAccount user =
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
 

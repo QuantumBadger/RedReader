@@ -24,14 +24,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
+import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.fragments.CreateMultiredditDialog;
+
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 public class RedditAPISubredditCombinationAction {
 
 	public enum SubredditCombinationAction {
+		CREATE_MULTIREDDIT;
 	}
 
 	private static class RCVMenuItem {
@@ -50,7 +56,7 @@ public class RedditAPISubredditCombinationAction {
 
 	public static void showActionMenu(
 			final AppCompatActivity activity,
-			List<String> subredditNames) {
+			final List<String> subredditNames) {
 
 		final EnumSet<SubredditCombinationAction> itemPref
 				= PrefsUtility.pref_menus_subreddit_combination_context_items();
@@ -67,6 +73,13 @@ public class RedditAPISubredditCombinationAction {
 		}
 
 		final ArrayList<RCVMenuItem> menu = new ArrayList<>();
+
+		if(itemPref.contains(SubredditCombinationAction.CREATE_MULTIREDDIT)) {
+			menu.add(new RCVMenuItem(
+				activity,
+				R.string.create_multireddit,
+				SubredditCombinationAction.CREATE_MULTIREDDIT));
+		}
 
 		final String[] menuText = new String[menu.size()];
 
@@ -92,5 +105,14 @@ public class RedditAPISubredditCombinationAction {
 			final List<String> subredditNames,
 			final RedditAccount user,
 			final SubredditCombinationAction action) {
+
+		switch(action) {
+			case CREATE_MULTIREDDIT:
+				CreateMultiredditDialog.show(
+					activity,
+					subredditNames,
+					user
+				);
+		}
 	}
 }

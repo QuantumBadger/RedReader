@@ -1902,4 +1902,9 @@
 	<string name="album_grid_pref_horizontal_padding">Horizontal padding</string>
 
 	<string name="album_pref_compact_title">Compact title</string>
+
+	<!-- 2024-11-30 -->
+	<string name="pref_menus_multireddits_header">Multireddits</string>
+	<string name="pref_menus_multireddits_context_items_key">pref_menus_multireddit_context_items</string>
+	<string name="pref_menus_multireddits_context_items_title">Action menu items</string>
 </resources>

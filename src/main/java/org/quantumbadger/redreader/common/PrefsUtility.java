@@ -37,6 +37,7 @@ import org.quantumbadger.redreader.reddit.PostCommentSort;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.RedditAPICommentAction;
+import org.quantumbadger.redreader.reddit.api.RedditAPISubredditCombinationAction;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
@@ -1787,6 +1788,24 @@ public final class PrefsUtility {
 		}
 
 		return valueTrimmed;
+	}
+
+	public static EnumSet<RedditAPISubredditCombinationAction.SubredditCombinationAction>
+			pref_menus_subreddit_combination_context_items() {
+		final Set<String> strings = getStringSet(
+				R.string.pref_menus_subreddit_combinations_context_items_key,
+				R.array.pref_menus_subreddit_combinations_context_items_return);
+
+		final EnumSet<RedditAPISubredditCombinationAction.SubredditCombinationAction> result
+				= EnumSet.noneOf(
+						RedditAPISubredditCombinationAction.SubredditCombinationAction.class);
+
+		for(final String s : strings) {
+			result.add(RedditAPISubredditCombinationAction.SubredditCombinationAction.valueOf(
+					StringUtils.asciiUppercase(s)));
+		}
+
+		return result;
 	}
 
 	private static final String REDDIT_USER_AGREEMENT_PREF = "accepted_reddit_user_agreement";

@@ -31,6 +31,8 @@ import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class SubredditPostListURL extends PostListingURL {
@@ -451,5 +453,20 @@ public class SubredditPostListURL extends PostListingURL {
 
 	public SubredditPostListURL changeSubreddit(final String newSubreddit) {
 		return new SubredditPostListURL(type, newSubreddit, order, limit, before, after);
+	}
+
+	public List<String> subredditNames() {
+		if (subreddit == null) {
+			return new ArrayList<>();
+		}
+
+		switch (type) {
+			case SUBREDDIT:
+				return Collections.singletonList(subreddit);
+			case SUBREDDIT_COMBINATION:
+				return Arrays.asList(subreddit.split("\\+"));
+			default:
+				return Collections.emptyList();
+		}
 	}
 }

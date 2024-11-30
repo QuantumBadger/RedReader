@@ -308,9 +308,15 @@ object General {
 									if(status == 404) {
 										title = R.string.error_404_title
 										message = R.string.error_404_message
-									} else {
+									} else if (status == 403) {
 										title = R.string.error_403_title
 										message = R.string.error_403_message
+									} else if (status == 401) {
+										title = R.string.error_401_title
+										message = R.string.error_401_message
+									} else {
+										title = R.string.error_400_title
+										message = R.string.error_400_message
 									}
 								}
 							}

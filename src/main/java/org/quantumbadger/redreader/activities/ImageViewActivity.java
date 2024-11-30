@@ -889,6 +889,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.GET,
 				this,
 				new CacheRequestCallbacks() {
 
@@ -979,6 +980,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 					DownloadStrategyIfNotCached.INSTANCE,
 					Constants.FileType.IMAGE,
 					CacheRequest.DownloadQueueType.IMMEDIATE,
+					CacheRequest.RequestMethod.GET,
 					this,
 					new CacheRequestCallbacks() {
 						@Override

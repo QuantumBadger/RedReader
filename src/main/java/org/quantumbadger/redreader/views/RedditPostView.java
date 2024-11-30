@@ -534,6 +534,7 @@ public final class RedditPostView extends FlingableItemView
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.INLINE_IMAGE_PREVIEW,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.GET,
 				mActivity,
 				new CacheRequestCallbacks() {
 					@Override

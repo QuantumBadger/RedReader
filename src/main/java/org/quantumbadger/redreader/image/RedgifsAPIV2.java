@@ -95,6 +95,7 @@ public final class RedgifsAPIV2 {
 						TimestampBound.notOlderThan(TimeDuration.minutes(10))),
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DownloadQueueType.REDGIFS_API_V2,
+				CacheRequest.RequestMethod.POST,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -154,6 +155,7 @@ public final class RedgifsAPIV2 {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.POST,
 				new HTTPRequestBody.PostFields(
 						new PostField("grant_type", "client_credentials"),
 						new PostField(

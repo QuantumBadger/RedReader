@@ -1091,6 +1091,7 @@ public final class RedditAPI {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.POST,
 				new HTTPRequestBody.PostFields(postFields),
 				context,
 				callbacks);
@@ -1114,6 +1115,7 @@ public final class RedditAPI {
 				downloadStrategy,
 				fileType,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.GET,
 				null,
 				context,
 				new CacheRequestJSONParser(context, handler));

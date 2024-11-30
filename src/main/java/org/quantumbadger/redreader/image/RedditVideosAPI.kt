@@ -73,6 +73,7 @@ object RedditVideosAPI {
                 DownloadStrategyIfNotCached.INSTANCE,
                 Constants.FileType.IMAGE_INFO,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.GET,
                 context,
                 object : CacheRequestCallbacks {
                     private val mNotifiedFailure = AtomicBoolean(false)

@@ -487,6 +487,7 @@ public class FileUtils {
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.GET,
 				activity,
 				new CacheRequestCallbacks() {
 
@@ -604,6 +605,7 @@ public class FileUtils {
 								DownloadStrategyIfNotCached.INSTANCE,
 								Constants.FileType.IMAGE,
 								CacheRequest.DownloadQueueType.IMMEDIATE,
+								CacheRequest.RequestMethod.GET,
 								activity,
 								new CacheRequestCallbacks() {
 									@Override

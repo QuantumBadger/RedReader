@@ -74,6 +74,7 @@ import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditPostListItem;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
+import org.quantumbadger.redreader.reddit.api.RedditAPIMultiredditAction;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
 import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
@@ -275,11 +276,18 @@ public class PostListingFragment extends RRFragment
 				break;
 
 			case RedditURLParser.USER_POST_LISTING_URL:
-			case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
 				setHeader(
+					mPostListingURL.humanReadableName(getActivity(), true),
+					mPostListingURL.humanReadableUrl(),
+					null);
+				CacheManager.getInstance(context).makeRequest(mRequest);
+				break;
+
+			case RedditURLParser.MULTIREDDIT_POST_LISTING_URL:
+				setMultiredditHeader(
 						mPostListingURL.humanReadableName(getActivity(), true),
 						mPostListingURL.humanReadableUrl(),
-						null);
+						mPostListingURL.asMultiredditPostListURL().name);
 				CacheManager.getInstance(context).makeRequest(mRequest);
 				break;
 
@@ -462,6 +470,28 @@ public class PostListingFragment extends RRFragment
 			getActivity().invalidateOptionsMenu();
 		});
 
+	}
+
+	private void setMultiredditHeader(
+			@NonNull final String title,
+			@NonNull final String subtitle,
+			@NonNull final String multiredditName) {
+
+		final PostListingHeader postListingHeader = new PostListingHeader(
+				getActivity(),
+				title,
+				subtitle,
+				mPostListingURL,
+				null);
+
+		setHeader(postListingHeader);
+
+		postListingHeader.setOnLongClickListener(view -> {
+			RedditAPIMultiredditAction.showActionMenu(
+					getActivity(),
+					multiredditName);
+			return true;
+		});
 	}
 
 	private void setHeader(

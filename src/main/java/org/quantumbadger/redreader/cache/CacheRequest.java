@@ -64,6 +64,11 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		CACHE_DIR_DOES_NOT_EXIST
 	}
 
+	public enum RequestMethod {
+		GET,
+		POST
+	}
+
 	public final UriString url;
 	public final RedditAccount user;
 	public final UUID requestSession;
@@ -75,6 +80,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 	public final int fileType;
 
 	public final DownloadQueueType queueType;
+	public final RequestMethod requestMethod;
 	@NonNull public final Optional<HTTPRequestBody> requestBody;
 
 	public final boolean cache;
@@ -114,6 +120,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final DownloadQueueType queueType,
+			final RequestMethod requestMethod,
 			final boolean cache,
 			@NonNull final Context context,
 			@NonNull final CacheRequestCallbacks callbacks) {
@@ -126,6 +133,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				downloadStrategy,
 				fileType,
 				queueType,
+				requestMethod,
 				null,
 				cache,
 				context,
@@ -140,6 +148,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final DownloadQueueType queueType,
+			final RequestMethod requestMethod,
 			@NonNull final Context context,
 			@NonNull final CacheRequestCallbacks callbacks) {
 
@@ -151,6 +160,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				downloadStrategy,
 				fileType,
 				queueType,
+				requestMethod,
 				true,
 				context,
 				callbacks);
@@ -164,6 +174,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final DownloadQueueType queueType,
+			final RequestMethod requestMethod,
 			@Nullable final HTTPRequestBody requestBody,
 			@NonNull final Context context,
 			@NonNull final CacheRequestCallbacks callbacks) {
@@ -176,6 +187,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				downloadStrategy,
 				fileType,
 				queueType,
+				requestMethod,
 				requestBody,
 				false,
 				context,
@@ -191,6 +203,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			@NonNull final DownloadStrategy downloadStrategy,
 			final int fileType,
 			final DownloadQueueType queueType,
+			final RequestMethod requestMethod,
 			@Nullable final HTTPRequestBody requestBody,
 			final boolean cache,
 			@NonNull final Context context,
@@ -216,6 +229,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		this.downloadStrategy = downloadStrategy;
 		this.fileType = fileType;
 		this.queueType = queueType;
+		this.requestMethod = requestMethod;
 		this.requestBody = Optional.ofNullable(requestBody);
 		this.cache = (requestBody == null) && cache;
 

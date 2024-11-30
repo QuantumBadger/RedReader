@@ -61,6 +61,7 @@ public final class RedgifsAPI {
 						TimestampBound.notOlderThan(TimeDuration.minutes(10))),
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.GET,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override

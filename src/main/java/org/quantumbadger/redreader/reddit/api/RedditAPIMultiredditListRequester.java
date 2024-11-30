@@ -99,6 +99,7 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.MULTIREDDIT_LIST,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.GET,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override

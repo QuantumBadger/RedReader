@@ -315,6 +315,7 @@ private fun <T> fetchFile(
 			downloadStrategy,
 			fileType,
 			queueType,
+			CacheRequest.RequestMethod.GET,
 			cache,
 			context,
 			object : CacheRequestCallbacks {

@@ -1120,4 +1120,25 @@ public final class RedditAPI {
 				context,
 				new CacheRequestJSONParser(context, handler));
 	}
+
+	@NonNull
+	private static CacheRequest createDeleteRequest(
+			@NonNull final UriString url,
+			@NonNull final RedditAccount user,
+			@NonNull final Context context,
+			@NonNull final CacheRequestCallbacks handler) {
+
+		return new CacheRequest(
+				url,
+				user,
+				null,
+				new Priority(Constants.Priority.API_ACTION),
+				DownloadStrategyAlways.INSTANCE,
+				Constants.FileType.NOCACHE,
+				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.DELETE,
+				null,
+				context,
+				handler);
+	}
 }

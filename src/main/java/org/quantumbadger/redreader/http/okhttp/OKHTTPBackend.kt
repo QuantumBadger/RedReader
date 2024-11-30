@@ -179,6 +179,7 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 		when(details.requestMethod) {
 			CacheRequest.RequestMethod.GET -> reqBuilder.get()
 			CacheRequest.RequestMethod.POST -> reqBuilder.post(prepareRequestBody(requestBody))
+			CacheRequest.RequestMethod.DELETE -> reqBuilder.delete(prepareRequestBody(requestBody))
 		}
 
 		reqBuilder.url(details.url.value)

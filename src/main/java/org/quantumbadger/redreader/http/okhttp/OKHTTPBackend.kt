@@ -178,6 +178,7 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 
 		when(details.requestMethod) {
 			CacheRequest.RequestMethod.GET -> reqBuilder.get()
+			CacheRequest.RequestMethod.PUT -> reqBuilder.put(prepareRequestBody(requestBody));
 			CacheRequest.RequestMethod.POST -> reqBuilder.post(prepareRequestBody(requestBody))
 		}
 

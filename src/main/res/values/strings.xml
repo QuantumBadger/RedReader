@@ -1908,4 +1908,8 @@
 	<string name="error_401_message">Reddit says that you are not logged in or have provided invalid credentials.</string>
 	<string name="error_400_title">Bad Request</string>
 	<string name="error_400_message">Reddit says that you have submitted something invalid.</string>
+
+	<string name="pref_menus_multireddits_header">Multireddits</string>
+	<string name="pref_menus_multireddits_context_items_key">pref_menus_multireddit_context_items</string>
+	<string name="pref_menus_multireddits_context_items_title">Action menu items</string>
 </resources>

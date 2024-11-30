@@ -1120,4 +1120,26 @@ public final class RedditAPI {
 				context,
 				new CacheRequestJSONParser(context, handler));
 	}
+
+	@NonNull
+	private static CacheRequest createPutRequest(
+			@NonNull final UriString url,
+			@NonNull final RedditAccount user,
+			@NonNull final List<PostField> postFields,
+			@NonNull final Context context,
+			@NonNull final CacheRequestJSONParser.Listener handler) {
+
+		return new CacheRequest(
+			url,
+			user,
+			null,
+			new Priority(Constants.Priority.API_ACTION),
+			DownloadStrategyAlways.INSTANCE,
+			Constants.FileType.NOCACHE,
+			CacheRequest.DownloadQueueType.REDDIT_API,
+			CacheRequest.RequestMethod.PUT,
+			new HTTPRequestBody.PostFields(postFields),
+			context,
+			new CacheRequestJSONParser(context, handler));
+	}
 }

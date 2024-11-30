@@ -94,6 +94,7 @@ class RedditGalleryAPI {
                     DownloadStrategyIfNotCached.INSTANCE,
                     Constants.FileType.IMAGE_INFO,
 					CacheRequest.DownloadQueueType.REDDIT_API,
+					CacheRequest.RequestMethod.GET,
                     context,
 					object : CacheRequestCallbacks {
 

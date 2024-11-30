@@ -713,6 +713,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				DownloadStrategyIfNotCached.INSTANCE,
 				fileType,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.GET,
 				context,
 				new CacheRequestCallbacks() {
 

@@ -246,6 +246,7 @@ public class CommentListingRequest {
 				mDownloadStrategy,
 				Constants.FileType.COMMENT_LIST,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.GET,
 				mContext,
 				new CacheRequestCallbacks() {
 					@Override

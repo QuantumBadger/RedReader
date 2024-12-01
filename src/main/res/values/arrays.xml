@@ -1330,7 +1330,10 @@
 
 	<!-- 2024-11-28 -->
 	<string-array name="pref_menus_multireddits_context_items">
+		<item>@string/delete_multireddit</item>
 	</string-array>
 
-	<string-array name="pref_menus_multireddits_context_items_return" />
+	<string-array name="pref_menus_multireddits_context_items_return">
+		<item>delete_multireddit</item>
+	</string-array>
 </resources>

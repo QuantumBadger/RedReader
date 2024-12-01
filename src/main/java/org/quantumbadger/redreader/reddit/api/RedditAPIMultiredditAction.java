@@ -24,9 +24,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.fragments.RemoveSubredditFromMultiDialog;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -34,6 +36,7 @@ import java.util.EnumSet;
 public class RedditAPIMultiredditAction {
 
 	public enum MultiredditAction {
+		REMOVE_SUBREDDIT
 	}
 
 	private static class RCVMenuItem {
@@ -70,6 +73,13 @@ public class RedditAPIMultiredditAction {
 
 		final ArrayList<RCVMenuItem> menu = new ArrayList<>();
 
+		if(itemPref.contains(MultiredditAction.REMOVE_SUBREDDIT)) {
+			menu.add(new RCVMenuItem(
+				activity,
+				R.string.remove_from_multireddit,
+				MultiredditAction.REMOVE_SUBREDDIT));
+		}
+
 		final String[] menuText = new String[menu.size()];
 
 		for(int i = 0; i < menuText.length; i++) {
@@ -91,11 +101,13 @@ public class RedditAPIMultiredditAction {
 
 	private static void onActionMenuItemSelected(
 			final AppCompatActivity activity,
-			final String subredditNames,
+			final String multiredditName,
 			final RedditAccount user,
 			final MultiredditAction action) {
 
 		switch(action) {
+			case REMOVE_SUBREDDIT:
+				RemoveSubredditFromMultiDialog.show(activity, multiredditName, user);
 		}
 	}
 }

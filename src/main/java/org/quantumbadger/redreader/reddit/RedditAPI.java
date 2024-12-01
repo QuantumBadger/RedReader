@@ -959,6 +959,74 @@ public final class RedditAPI {
 		));
 	}
 
+	public static void requestMultiredditSubredditList(
+			@NonNull final CacheManager cm,
+			@NonNull final String multiredditName,
+			@NonNull final RedditAccount user,
+			@NonNull final Context context,
+			@NonNull final APIResponseHandler.ValueResponseHandler<List<String>> handler,
+			@NonNull final DownloadStrategy downloadStrategy) {
+
+		final UriString uriString = UriString.from(Constants.Reddit.getUriBuilder(
+				Constants.Reddit.PATH_MULTIREDDIT)
+				.appendPath("user")
+				.appendPath(user.username)
+				.appendPath("m")
+				.appendPath(multiredditName)
+				.build());
+
+		cm.makeRequest(createGetRequest(
+				uriString,
+				user,
+				new Priority(Constants.Priority.API_SUBREDDIT_LIST),
+				Constants.FileType.SUBREDDIT_LIST,
+				downloadStrategy,
+				context,
+				new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final TimestampUTC timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
+
+						try {
+							final Optional<JsonArray> subreddits
+									= result.getArrayAtPath("data", "subreddits");
+
+							final ArrayList<String> subredditNames = new ArrayList<>();
+
+							if (subreddits.isPresent()) {
+								for(final JsonValue value : subreddits.get()) {
+									final Optional<JsonValue> subredditName = value.getAtPath(
+											"name");
+									if (subredditName.isPresent()) {
+										subredditNames.add(subredditName.get().asString());
+									}
+								}
+							}
+
+							handler.notifySuccess(subredditNames);
+
+						} catch(final Exception e) {
+							onFailure(General.getGeneralErrorForFailure(
+									context,
+									CacheRequest.RequestFailureType.PARSE,
+									e,
+									null,
+									uriString,
+									Optional.of(new FailedRequestBody(result))));
+						}
+					}
+
+					@Override
+					public void onFailure(@NonNull final RRError error) {
+						handler.notifyFailure(error);
+					}
+				}
+		));
+	}
+
 	public static void removeSubredditFromMultireddit(
 			final CacheManager cm,
 			final APIResponseHandler.ActionResponseHandler handler,

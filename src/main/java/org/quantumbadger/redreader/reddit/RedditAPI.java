@@ -959,6 +959,47 @@ public final class RedditAPI {
 		));
 	}
 
+	public static void removeSubredditFromMultireddit(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler handler,
+			final RedditAccount user,
+			final String multiredditName,
+			final String subredditName,
+			final Context context) {
+
+		final Uri.Builder builder = Constants.Reddit.getUriBuilder(
+						Constants.Reddit.PATH_MULTIREDDIT)
+				.appendPath("user")
+				.appendPath(user.username)
+				.appendPath("m")
+				.appendPath(multiredditName)
+				.appendPath("r")
+				.appendPath(subredditName);
+
+		cm.makeRequest(createDeleteRequest(
+				UriString.from(builder.build()),
+				user,
+				context,
+				new CacheRequestCallbacks() {
+					@Override
+					public void onDataStreamAvailable(
+							@NonNull final GenericFactory<SeekableInputStream, IOException>
+									streamFactory,
+							final TimestampUTC timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
+						handler.notifySuccess();
+					}
+
+					@Override
+					public void onFailure(@NonNull final RRError error) {
+						handler.notifyFailure(error);
+					}
+				}));
+
+	}
+
 	@Nullable
 	private static APIResponseHandler.APIFailureType findFailureType(final JsonValue response) {
 

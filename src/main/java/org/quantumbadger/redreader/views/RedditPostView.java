@@ -346,7 +346,7 @@ public final class RedditPostView extends FlingableItemView
 
 	@UiThread
 	public void reset(@NonNull final RedditPreparedPost newPost) {
-		if (newPost != mPost) {
+		if(newPost != mPost) {
 			mThumbnailView.setImageBitmap(null);
 			mImagePreviewImageView.setImageBitmap(null);
 			mImagePreviewPlayOverlay.setVisibility(GONE);
@@ -358,7 +358,7 @@ public final class RedditPostView extends FlingableItemView
 			resetSwipeState();
 
 			title.setText(newPost.src.getTitle());
-			if (mCommentsButtonPref) {
+			if(mCommentsButtonPref) {
 				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
 	                }
 
@@ -366,7 +366,7 @@ public final class RedditPostView extends FlingableItemView
 			boolean showInlinePreview = alwaysPreviewMode || newPost.shouldShowInlinePreview();
 			boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
 
-			if (showInlinePreview) {
+			if(showInlinePreview) {
 				downloadInlinePreview(newPost, mUsageId);
 			} else {
 				mImagePreviewLoadingSpinner.setVisibility(GONE);
@@ -374,7 +374,7 @@ public final class RedditPostView extends FlingableItemView
 				setBottomMargin(false);
 			}
 
-			if (showThumbnail) {
+			if(showThumbnail) {
 				final Bitmap thumbnail = newPost.getThumbnail(this, mUsageId);
 				mThumbnailView.setImageBitmap(thumbnail);
 
@@ -394,7 +394,7 @@ public final class RedditPostView extends FlingableItemView
 			}
 		}
 
-		if (mPost != null) {
+		if(mPost != null) {
 			mPost.unbind(this);
 		}
 

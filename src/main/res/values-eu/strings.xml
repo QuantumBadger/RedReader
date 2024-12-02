@@ -550,6 +550,12 @@
     <string name="mainmenu_random_nsfw">Ausazko NSFW Subreddita</string>
     <string name="pref_appearance_bottom_toolbar_title">Erakutsi tresna-barra behean</string>
     <string name="pref_behaviour_video_mute_default_title">Mututu bideoak modu lehenetsian</string>
+
+    <!-- 2024-12-02 -->
+    <string name="pref_layout_category_title">Diseinua</string>
+    <string name="pref_always_preview_mode_title">Betiko Aurreikuspen Modua</string>
+    <string name="pref_always_preview_mode_summary">Mezuak beti irudiaren aurrebistarekin erakutsi, tamaina txikiko irudiak baino</string>
+
     <string name="prefs_category_images_video">Irudiak/Bideoa</string>
     <string name="notification_channel_name_reddit_messages">Sarrerako Reddit mezuak</string>
     <string name="post_text_copied_to_clipboard">Argitalpena testu propioa arbelera kopiatuta</string>

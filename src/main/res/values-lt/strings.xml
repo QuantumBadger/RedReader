@@ -519,6 +519,12 @@
     <string name="error_toast_no_share_app_installed">Nėra įdiegtos tinkamos programos, kuria būtų galima tai bendrinti.</string>
     <string name="pref_behaviour_sharing_share_dialog_title">Naudoti integruotą bendrinimo dialogo langą</string>
     <string name="notification_channel_name_reddit_messages">Įeinančios Reddit žinutės</string>
+
+    <!-- 2024-12-02 -->
+    <string name="pref_layout_category_title">Išdėstymas</string>
+    <string name="pref_always_preview_mode_title">Visada Peržiūros Režimas</string>
+    <string name="pref_always_preview_mode_summary">Visada rodyti įrašus su vaizdų peržiūromis vietoj miniatiūrų</string>
+
     <string name="prefs_category_images_video">Vaizdai/Vaizdo įrašai</string>
     <string name="pref_behaviour_video_mute_default_title">Nutildyti vaizdo įrašus pagal automatiškai</string>
     <string name="pref_appearance_bottom_toolbar_title">Rodyti įrankių juostą apačioje</string>

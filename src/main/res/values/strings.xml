@@ -1088,6 +1088,12 @@
 	<string name="pref_behaviour_video_mute_default_key" translatable="false">pref_behaviour_video_mute_default</string>
 	<string name="pref_behaviour_video_mute_default_title">Mute videos by default</string>
 
+        <!-- 2024-12-02 -->
+	<string name="pref_layout_category_title">Layout</string>
+	<string name="pref_always_preview_mode_key">pref_always_preview_mode</string>
+        <string name="pref_always_preview_mode_title">Always Preview Mode</string>
+        <string name="pref_always_preview_mode_summary">Always display posts with image previews instead of thumbnails</string>
+
 	<string name="prefs_category_images_video">Images/Video</string>
 
 	<string name="notification_channel_name_reddit_messages">Incoming Reddit Messages</string>

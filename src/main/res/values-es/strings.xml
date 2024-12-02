@@ -618,6 +618,12 @@
     <string name="button_next_comment_parent">Comentario padre siguiente</string>
     <string name="button_prev_comment_parent">Comentario padre anterior</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Mostrar botones de navegación sobre los comentarios</string>
+
+    <!-- 2024-12-02 -->
+    <string name="pref_layout_category_title">Diseño</string>
+    <string name="pref_always_preview_mode_title">Modo de vista previa siempre</string>
+    <string name="pref_always_preview_mode_summary">Mostrar siempre publicaciones con vistas previas de imágenes en lugar de miniaturas</string>
+
     <!--2017-05-08-->
     <string name="download_link_title">Descargar archivo</string>
     <string name="download_link_message">Esto es un enlace de descarga. ¿Deseas abrir esto en un navegador externo?</string>

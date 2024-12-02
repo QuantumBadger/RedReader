@@ -65,6 +65,10 @@ public final class PrefsUtility {
 
 	@NonNull private static final AtomicReference<Locale> mDefaultLocale = new AtomicReference<>();
 
+        public static boolean pref_always_preview_mode() {
+            return getBoolean(R.string.pref_always_preview_mode_key, false);
+        }
+
 	@Nullable
 	public static String getString(
 			final int id,

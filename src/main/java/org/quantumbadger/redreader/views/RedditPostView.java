@@ -344,71 +344,67 @@ public final class RedditPostView extends FlingableItemView
 		mThumbnailSizePrefPixels = (int)(dpScale * PrefsUtility.images_thumbnail_size_dp());
 	}
 
-	@UiThread
-	public void reset(@NonNull final RedditPreparedPost newPost) {
+        @UiThread
+        public void reset(@NonNull final RedditPreparedPost newPost) {
+            if (newPost != mPost) {
+                // Clear current content
+                mThumbnailView.setImageBitmap(null);
+                mImagePreviewImageView.setImageBitmap(null);
+                mImagePreviewPlayOverlay.setVisibility(GONE);
+                mPostErrors.removeAllViews();
+                mFooter.removeAllViews();
 
-		if(newPost != mPost) {
+                mUsageId++;
 
-			mThumbnailView.setImageBitmap(null);
-			mImagePreviewImageView.setImageBitmap(null);
-			mImagePreviewPlayOverlay.setVisibility(GONE);
-			mPostErrors.removeAllViews();
-			mFooter.removeAllViews();
+                resetSwipeState();
 
-			mUsageId++;
+                title.setText(newPost.src.getTitle());
+                if (mCommentsButtonPref) {
+                    mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
+                }
 
-			resetSwipeState();
+                boolean alwaysPreviewMode = PrefsUtility.pref_always_preview_mode();
+                boolean showInlinePreview = alwaysPreviewMode || newPost.shouldShowInlinePreview();
+                boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
 
-			title.setText(newPost.src.getTitle());
-			if(mCommentsButtonPref) {
-				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
-			}
+                if (showInlinePreview) {
+                    downloadInlinePreview(newPost, mUsageId);
+                } else {
+                    mImagePreviewLoadingSpinner.setVisibility(GONE);
+                    mImagePreviewOuter.setVisibility(GONE);
+                    setBottomMargin(false);
+                }
 
-			final boolean showInlinePreview = newPost.shouldShowInlinePreview();
+                if (showThumbnail) {
+                    final Bitmap thumbnail = newPost.getThumbnail(this, mUsageId);
+                    mThumbnailView.setImageBitmap(thumbnail);
 
-			final boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
+                    mThumbnailView.setVisibility(VISIBLE);
+                    mThumbnailView.setMinimumWidth(mThumbnailSizePrefPixels);
 
-			if(showInlinePreview) {
-				downloadInlinePreview(newPost, mUsageId);
+                    General.setLayoutWidthHeight(
+                            mThumbnailView,
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT);
 
-			} else {
-				mImagePreviewLoadingSpinner.setVisibility(GONE);
-				mImagePreviewOuter.setVisibility(GONE);
-				setBottomMargin(false);
-			}
+                    mInnerView.setMinimumHeight(mThumbnailSizePrefPixels);
+                } else {
+                    mThumbnailView.setMinimumWidth(0);
+                    mThumbnailView.setVisibility(GONE);
+                    mInnerView.setMinimumHeight(General.dpToPixels(mActivity, 64));
+                }
+            }
 
-			if(showThumbnail) {
+            if (mPost != null) {
+                mPost.unbind(this);
+            }
 
-				final Bitmap thumbnail = newPost.getThumbnail(this, mUsageId);
-				mThumbnailView.setImageBitmap(thumbnail);
+            newPost.bind(this);
 
-				mThumbnailView.setVisibility(VISIBLE);
-				mThumbnailView.setMinimumWidth(mThumbnailSizePrefPixels);
+            mPost = newPost;
 
-				General.setLayoutWidthHeight(
-						mThumbnailView,
-						ViewGroup.LayoutParams.WRAP_CONTENT,
-						ViewGroup.LayoutParams.MATCH_PARENT);
-
-				mInnerView.setMinimumHeight(mThumbnailSizePrefPixels);
-
-			} else {
-				mThumbnailView.setMinimumWidth(0);
-				mThumbnailView.setVisibility(GONE);
-				mInnerView.setMinimumHeight(General.dpToPixels(mActivity, 64));
-			}
-		}
-
-		if(mPost != null) {
-			mPost.unbind(this);
-		}
-
-		newPost.bind(this);
-
-		mPost = newPost;
-
-		updateAppearance();
-	}
+            updateAppearance();
+        }
 
 	public void updateAppearance() {
 

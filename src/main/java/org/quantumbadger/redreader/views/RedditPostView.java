@@ -344,66 +344,65 @@ public final class RedditPostView extends FlingableItemView
 		mThumbnailSizePrefPixels = (int)(dpScale * PrefsUtility.images_thumbnail_size_dp());
 	}
 
-        @UiThread
-        public void reset(@NonNull final RedditPreparedPost newPost) {
-            if (newPost != mPost) {
-                // Clear current content
-                mThumbnailView.setImageBitmap(null);
-                mImagePreviewImageView.setImageBitmap(null);
-                mImagePreviewPlayOverlay.setVisibility(GONE);
-                mPostErrors.removeAllViews();
-                mFooter.removeAllViews();
+	@UiThread
+	public void reset(@NonNull final RedditPreparedPost newPost) {
+		if (newPost != mPost) {
+			mThumbnailView.setImageBitmap(null);
+			mImagePreviewImageView.setImageBitmap(null);
+			mImagePreviewPlayOverlay.setVisibility(GONE);
+			mPostErrors.removeAllViews();
+			mFooter.removeAllViews();
 
-                mUsageId++;
+			mUsageId++;
 
-                resetSwipeState();
+			resetSwipeState();
 
-                title.setText(newPost.src.getTitle());
-                if (mCommentsButtonPref) {
-                    mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
-                }
+			title.setText(newPost.src.getTitle());
+			if (mCommentsButtonPref) {
+				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
+	                }
 
-                boolean alwaysPreviewMode = PrefsUtility.pref_always_preview_mode();
-                boolean showInlinePreview = alwaysPreviewMode || newPost.shouldShowInlinePreview();
-                boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
+			boolean alwaysPreviewMode = PrefsUtility.pref_always_preview_mode();
+			boolean showInlinePreview = alwaysPreviewMode || newPost.shouldShowInlinePreview();
+			boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
 
-                if (showInlinePreview) {
-                    downloadInlinePreview(newPost, mUsageId);
-                } else {
-                    mImagePreviewLoadingSpinner.setVisibility(GONE);
-                    mImagePreviewOuter.setVisibility(GONE);
-                    setBottomMargin(false);
-                }
+			if (showInlinePreview) {
+				downloadInlinePreview(newPost, mUsageId);
+			} else {
+				mImagePreviewLoadingSpinner.setVisibility(GONE);
+				mImagePreviewOuter.setVisibility(GONE);
+				setBottomMargin(false);
+			}
 
-                if (showThumbnail) {
-                    final Bitmap thumbnail = newPost.getThumbnail(this, mUsageId);
-                    mThumbnailView.setImageBitmap(thumbnail);
+			if (showThumbnail) {
+				final Bitmap thumbnail = newPost.getThumbnail(this, mUsageId);
+				mThumbnailView.setImageBitmap(thumbnail);
 
-                    mThumbnailView.setVisibility(VISIBLE);
-                    mThumbnailView.setMinimumWidth(mThumbnailSizePrefPixels);
+				mThumbnailView.setVisibility(VISIBLE);
+				mThumbnailView.setMinimumWidth(mThumbnailSizePrefPixels);
 
-                    General.setLayoutWidthHeight(
-                            mThumbnailView,
-                            ViewGroup.LayoutParams.WRAP_CONTENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT);
+				General.setLayoutWidthHeight(
+					mThumbnailView,
+					ViewGroup.LayoutParams.WRAP_CONTENT,
+					ViewGroup.LayoutParams.MATCH_PARENT);
 
-                    mInnerView.setMinimumHeight(mThumbnailSizePrefPixels);
-                } else {
-                    mThumbnailView.setMinimumWidth(0);
-                    mThumbnailView.setVisibility(GONE);
-                    mInnerView.setMinimumHeight(General.dpToPixels(mActivity, 64));
-                }
-            }
+				mInnerView.setMinimumHeight(mThumbnailSizePrefPixels);
+			} else {
+				mThumbnailView.setMinimumWidth(0);
+				mThumbnailView.setVisibility(GONE);
+				mInnerView.setMinimumHeight(General.dpToPixels(mActivity, 64));
+			}
+		}
 
-            if (mPost != null) {
-                mPost.unbind(this);
-            }
+		if (mPost != null) {
+			mPost.unbind(this);
+		}
 
-            newPost.bind(this);
+		newPost.bind(this);
 
-            mPost = newPost;
+		mPost = newPost;
 
-            updateAppearance();
+		updateAppearance();
         }
 
 	public void updateAppearance() {

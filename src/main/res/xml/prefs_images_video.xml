@@ -19,16 +19,16 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <PreferenceCategory
-            android:title="@string/pref_layout_category_title">
+	<PreferenceCategory
+		android:title="@string/pref_layout_category_title">
 
-            <CheckBoxPreference
-                android:key="pref_always_preview_mode"
-                android:title="@string/pref_always_preview_mode_title"
-                android:summary="@string/pref_always_preview_mode_summary"
-                android:defaultValue="false" />
+		<CheckBoxPreference
+			android:key="pref_always_preview_mode"
+			android:title="@string/pref_always_preview_mode_title"
+			android:summary="@string/pref_always_preview_mode_summary"
+			android:defaultValue="false" />
 
-        </PreferenceCategory>
+	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_header_inline_image_previews">
 

@@ -362,9 +362,9 @@ public final class RedditPostView extends FlingableItemView
 				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
 	                }
 
-			boolean alwaysPreviewMode = PrefsUtility.pref_always_preview_mode();
-			boolean showInlinePreview = alwaysPreviewMode || newPost.shouldShowInlinePreview();
-			boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
+			final boolean alwaysPreviewMode = PrefsUtility.pref_always_preview_mode();
+			final boolean showInlinePreview = alwaysPreviewMode || newPost.shouldShowInlinePreview();
+			final boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
 
 			if(showInlinePreview) {
 				downloadInlinePreview(newPost, mUsageId);

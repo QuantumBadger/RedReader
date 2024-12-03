@@ -360,10 +360,11 @@ public final class RedditPostView extends FlingableItemView
 			title.setText(newPost.src.getTitle());
 			if(mCommentsButtonPref) {
 				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
-	                }
+			}
 
 			final boolean alwaysPreviewMode = PrefsUtility.pref_always_preview_mode();
-			final boolean showInlinePreview = alwaysPreviewMode || newPost.shouldShowInlinePreview();
+			final boolean showInlinePreview = alwaysPreviewMode ||
+					newPost.shouldShowInlinePreview();
 			final boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
 
 			if(showInlinePreview) {
@@ -403,7 +404,7 @@ public final class RedditPostView extends FlingableItemView
 		mPost = newPost;
 
 		updateAppearance();
-        }
+	}
 
 	public void updateAppearance() {
 

@@ -558,6 +558,9 @@
     <!-- 2024-12-05 -->
     <string name="pref_layout_category_title">Asettelu</string>
     <string name="pref_layout_mode_title">Asettelu-tila</string>
+    <string name="pref_layout_mode_thumbnails">Pikkukuvat</string>
+    <string name="pref_layout_mode_alwayspreview">Esikatsele Aina</string>
+    <string name="pref_layout_mode_card">Kortti</string>
 
     <string name="prefs_category_images_video">Kuvat/Video</string>
     <string name="pref_behaviour_video_mute_default_title">Mykistä videot oletuksena</string>

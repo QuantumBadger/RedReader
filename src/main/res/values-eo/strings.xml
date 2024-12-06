@@ -629,6 +629,9 @@
     <!-- 2024-12-05 -->
     <string name="pref_layout_category_title">Aranĝo</string>
     <string name="pref_layout_mode_title">Aranĝa reĝimo</string>
+    <string name="pref_layout_mode_thumbnails">Bildetojn</string>
+    <string name="pref_layout_mode_alwayspreview">Ĉiam Antaŭrigardu</string>
+    <string name="pref_layout_mode_card">Karto</string>
 
     <!-- 2017-06-05 -->
     <string name="pref_menus_show_popular_main_menu_title">Montri /r/popular en ĉefmenuo</string>

@@ -209,7 +209,7 @@ public final class RedditPostView extends FlingableItemView
 		final float titleFontScale = PrefsUtility.appearance_fontscale_posts();
 		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles();
 
-		String layoutMode = PrefsUtility.getLayoutMode();
+		final String layoutMode = PrefsUtility.getLayoutMode();
 
 		int layout = R.layout.reddit_post;
 
@@ -217,7 +217,7 @@ public final class RedditPostView extends FlingableItemView
 			layout = R.layout.reddit_post_card;
 		}
 
-		View rootView = LayoutInflater.from(context).inflate(layout, this, true);
+		final View rootView = LayoutInflater.from(context).inflate(layout, this, true);
 
 		mOuterView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_layout_outer));
 		mInnerView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_layout_inner));
@@ -369,7 +369,7 @@ public final class RedditPostView extends FlingableItemView
 				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
 			}
 
-                        String layoutMode = PrefsUtility.getLayoutMode();
+                        final String layoutMode = PrefsUtility.getLayoutMode();
 
 			boolean alwaysPreviewMode = false;
 

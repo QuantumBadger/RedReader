@@ -68,6 +68,7 @@ public final class AnnouncementDownloader {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.POST_LIST,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.GET,
 				false,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {

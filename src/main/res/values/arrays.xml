@@ -1328,4 +1328,12 @@
 		<item>@string/pref_behaviour_post_tap_action_title_comments</item>
 	</string-array>
 
+	<!-- 2024-11-28 -->
+	<string-array name="pref_menus_multireddits_context_items">
+		<item>@string/delete_multireddit</item>
+	</string-array>
+
+	<string-array name="pref_menus_multireddits_context_items_return">
+		<item>delete_multireddit</item>
+	</string-array>
 </resources>

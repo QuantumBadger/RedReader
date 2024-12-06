@@ -51,6 +51,7 @@ import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.receivers.announcements.Announcement;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
+import org.quantumbadger.redreader.reddit.api.RedditAPIMultiredditAction;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
@@ -951,13 +952,18 @@ public class MainMenuListingManager {
 		final View.OnClickListener clickListener = view -> mListener.onSelected(
 				(PostListingURL)MultiredditPostListURL.getMultireddit(name));
 
+		final View.OnLongClickListener longClickListener = view -> {
+			RedditAPIMultiredditAction.showActionMenu(mActivity, name);
+			return true;
+		};
+
 		return new GroupedRecyclerViewItemListItemView(
 				null,
 				name,
 				ScreenreaderPronunciation.getPronunciation(mContext, name),
 				hideDivider,
 				clickListener,
-				null,
+				longClickListener,
 				Optional.empty(),
 				Optional.empty(),
 				Optional.empty());

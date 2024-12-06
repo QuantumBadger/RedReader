@@ -30,6 +30,7 @@ import okhttp3.internal.closeQuietly
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.account.RedditAccount
 import org.quantumbadger.redreader.account.RedditAccountManager
+import org.quantumbadger.redreader.cache.CacheRequest.RequestMethod
 import org.quantumbadger.redreader.cache.CacheRequest.RequestFailureType
 import org.quantumbadger.redreader.common.AndroidCommon
 import org.quantumbadger.redreader.common.CachedStringHash
@@ -292,6 +293,7 @@ object RedditOAuth {
 				context,
 				RequestDetails(
 					uri,
+					RequestMethod.POST,
 					HTTPRequestBody.PostFields(postFields)
 				)
 			)
@@ -384,7 +386,9 @@ object RedditOAuth {
 		val uri = Constants.Reddit.getUri(Constants.Reddit.PATH_ME)
 		return try {
 			val request = HTTPBackend.backend
-				.prepareRequest(context, RequestDetails(uri, null))
+				.prepareRequest(
+					context, RequestDetails(uri,  RequestMethod.GET, null)
+				)
 			request.addHeader("Authorization", "bearer " + accessToken!!.token)
 			val result = AtomicReference<FetchUserInfoResult>()
 			request.executeInThisThread(object : HTTPBackend.Listener {
@@ -573,6 +577,7 @@ object RedditOAuth {
 					context,
 					RequestDetails(
 						uri,
+						RequestMethod.POST,
 						HTTPRequestBody.PostFields(postFields)
 					)
 				)
@@ -684,6 +689,7 @@ object RedditOAuth {
 					context,
 					RequestDetails(
 						uri,
+						RequestMethod.POST,
 						HTTPRequestBody.PostFields(postFields)
 					)
 				)

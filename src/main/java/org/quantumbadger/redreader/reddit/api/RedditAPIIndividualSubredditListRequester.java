@@ -189,6 +189,7 @@ public class RedditAPIIndividualSubredditListRequester implements CacheDataSourc
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.SUBREDDIT_LIST,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.GET,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override

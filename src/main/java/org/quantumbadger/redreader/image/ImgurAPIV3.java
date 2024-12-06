@@ -61,6 +61,7 @@ public final class ImgurAPIV3 {
 				withAuth
 						? CacheRequest.DownloadQueueType.IMGUR_API
 						: CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.GET,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override
@@ -112,6 +113,7 @@ public final class ImgurAPIV3 {
 				withAuth
 						? CacheRequest.DownloadQueueType.IMGUR_API
 						: CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.GET,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override

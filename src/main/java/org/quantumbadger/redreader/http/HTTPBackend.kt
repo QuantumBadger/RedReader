@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.http
 
 import android.content.Context
+import org.quantumbadger.redreader.cache.CacheRequest.RequestMethod
 import org.quantumbadger.redreader.cache.CacheRequest.RequestFailureType
 import org.quantumbadger.redreader.common.Result
 import org.quantumbadger.redreader.common.UriString
@@ -26,9 +27,11 @@ import org.quantumbadger.redreader.http.okhttp.OKHTTPBackend
 import java.io.InputStream
 
 abstract class HTTPBackend {
+
     data class RequestDetails(
-        val url: UriString,
-        val requestBody: HTTPRequestBody?
+		val url: UriString,
+		val requestMethod: RequestMethod,
+		val requestBody: HTTPRequestBody?
     )
 
     interface Request {

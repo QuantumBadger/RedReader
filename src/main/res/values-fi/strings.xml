@@ -555,10 +555,9 @@
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Valitse sovellus jakamista varten</string>
     <string name="notification_channel_name_reddit_messages">Saapuvat Reddit-viestit</string>
 
-    <!-- 2024-12-02 -->
+    <!-- 2024-12-05 -->
     <string name="pref_layout_category_title">Asettelu</string>
-    <string name="pref_always_preview_mode_title">Aina esikatselutila</string>
-    <string name="pref_always_preview_mode_summary">Näytä aina viestit kuvan esikatseluilla pikkukuvien sijaan</string>
+    <string name="pref_layout_mode_title">Asettelu-tila</string>
 
     <string name="prefs_category_images_video">Kuvat/Video</string>
     <string name="pref_behaviour_video_mute_default_title">Mykistä videot oletuksena</string>

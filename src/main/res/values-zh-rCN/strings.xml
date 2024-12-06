@@ -553,10 +553,9 @@
     <string name="pref_appearance_bottom_toolbar_title">在底部显示工具栏</string>
     <string name="pref_behaviour_video_mute_default_title">默认将视频静音</string>
 
-    <!-- 2024-12-02 -->
+    <!-- 2024-12-05 -->
     <string name="pref_layout_category_title">布局</string>
-    <string name="pref_always_preview_mode_title">始终预览模式</string>
-    <string name="pref_always_preview_mode_summary">始终以图片预览显示帖子，而不是缩略图</string>
+    <string name="pref_layout_mode_title">布局模式</string>
 
     <string name="prefs_category_images_video">图片/视频</string>
     <string name="notification_channel_name_reddit_messages">传入的Reddit消息</string>

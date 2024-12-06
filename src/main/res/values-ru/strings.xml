@@ -586,10 +586,9 @@
     <string name="post_text_copied_to_clipboard">Текст сообщения скопирован в буфер обмена</string>
     <string name="notification_channel_name_reddit_messages">Входящие сообщения Reddit</string>
 
-    <!-- 2024-12-02 -->
+    <!-- 2024-12-05 -->
     <string name="pref_layout_category_title">Макет</string>
-    <string name="pref_always_preview_mode_title">Всегда Режим Предпросмотра</string>
-    <string name="pref_always_preview_mode_summary">Всегда отображать посты с предпросмотром изображений вместо миниатюр</string>
+    <string name="pref_layout_mode_title">Режим макета</string>
 
     <string name="prefs_category_images_video">Изображения/Видео</string>
     <string name="pref_behaviour_video_mute_default_title">Видео без звука по умолчанию</string>

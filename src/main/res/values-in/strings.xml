@@ -668,10 +668,9 @@
     <string name="pref_appearance_bottom_toolbar_title">Tampilkan bilah alat di bawah</string>
     <string name="pref_behaviour_video_mute_default_title">Matikan suara video secara bawaan</string>
 
-    <!-- 2024-12-02 -->
+    <!-- 2024-12-05 -->
     <string name="pref_layout_category_title">Tata Letak</string>
-    <string name="pref_always_preview_mode_title">Selalu Mode Pratinjau</string>
-    <string name="pref_always_preview_mode_summary">Selalu tampilkan postingan dengan pratinjau gambar alih-alih thumbnail</string>
+    <string name="pref_layout_mode_title">Mode Tata Letak</string>
 
     <string name="prefs_category_images_video">Gambar/Video</string>
     <string name="notification_channel_name_reddit_messages">Pesan Masuk Reddit</string>

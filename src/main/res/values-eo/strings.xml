@@ -626,10 +626,9 @@
     <!--2017-05-21-->
     <string name="pref_behaviour_self_post_tap_actions_title">Frapeto sur memafiŝo</string>
 
-    <!-- 2024-12-02 -->
+    <!-- 2024-12-05 -->
     <string name="pref_layout_category_title">Aranĝo</string>
-    <string name="pref_always_preview_mode_title">Ĉiam Antaŭrigarda Reĝimo</string>
-    <string name="pref_always_preview_mode_summary">Ĉiam montri afiŝojn kun bildaj antaŭrigardoj anstataŭ etbildoj</string>
+    <string name="pref_layout_mode_title">Aranĝa reĝimo</string>
 
     <!-- 2017-06-05 -->
     <string name="pref_menus_show_popular_main_menu_title">Montri /r/popular en ĉefmenuo</string>

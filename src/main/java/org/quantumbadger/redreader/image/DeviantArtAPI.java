@@ -66,6 +66,7 @@ public final class DeviantArtAPI {
 				DownloadStrategyIfNotCached.INSTANCE,
 				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
+				CacheRequest.RequestMethod.GET,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override

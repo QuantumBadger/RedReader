@@ -959,6 +959,115 @@ public final class RedditAPI {
 		));
 	}
 
+	public static void requestMultiredditSubredditList(
+			@NonNull final CacheManager cm,
+			@NonNull final String multiredditName,
+			@NonNull final RedditAccount user,
+			@NonNull final Context context,
+			@NonNull final APIResponseHandler.ValueResponseHandler<List<String>> handler,
+			@NonNull final DownloadStrategy downloadStrategy) {
+
+		final UriString uriString = UriString.from(Constants.Reddit.getUriBuilder(
+				Constants.Reddit.PATH_MULTIREDDIT)
+				.appendPath("user")
+				.appendPath(user.username)
+				.appendPath("m")
+				.appendPath(multiredditName)
+				.build());
+
+		cm.makeRequest(createGetRequest(
+				uriString,
+				user,
+				new Priority(Constants.Priority.API_SUBREDDIT_LIST),
+				Constants.FileType.SUBREDDIT_LIST,
+				downloadStrategy,
+				context,
+				new CacheRequestJSONParser.Listener() {
+					@Override
+					public void onJsonParsed(
+							@NonNull final JsonValue result,
+							final TimestampUTC timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache) {
+
+						try {
+							final Optional<JsonArray> subreddits
+									= result.getArrayAtPath("data", "subreddits");
+
+							final ArrayList<String> subredditNames = new ArrayList<>();
+
+							if (subreddits.isPresent()) {
+								for(final JsonValue value : subreddits.get()) {
+									final Optional<JsonValue> subredditName = value.getAtPath(
+											"name");
+									if (subredditName.isPresent()) {
+										subredditNames.add(subredditName.get().asString());
+									}
+								}
+							}
+
+							handler.notifySuccess(subredditNames);
+
+						} catch(final Exception e) {
+							onFailure(General.getGeneralErrorForFailure(
+									context,
+									CacheRequest.RequestFailureType.PARSE,
+									e,
+									null,
+									uriString,
+									Optional.of(new FailedRequestBody(result))));
+						}
+					}
+
+					@Override
+					public void onFailure(@NonNull final RRError error) {
+						handler.notifyFailure(error);
+					}
+				}
+		));
+	}
+
+	public static void removeSubredditFromMultireddit(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler handler,
+			final RedditAccount user,
+			final String multiredditName,
+			final String subredditName,
+			final Context context) {
+
+		final Uri.Builder builder = Constants.Reddit.getUriBuilder(
+						Constants.Reddit.PATH_MULTIREDDIT)
+				.appendPath("user")
+				.appendPath(user.username)
+				.appendPath("m")
+				.appendPath(multiredditName)
+				.appendPath("r")
+				.appendPath(subredditName);
+
+		cm.makeRequest(createDeleteRequest(
+				UriString.from(builder.build()),
+				user,
+				context,
+				new CacheRequestCallbacks() {
+					@Override
+					public void onDataStreamAvailable(
+							@NonNull final GenericFactory<SeekableInputStream, IOException>
+									streamFactory,
+							final TimestampUTC timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
+						handler.notifySuccess();
+					}
+
+					@Override
+					public void onFailure(@NonNull final RRError error) {
+						handler.notifyFailure(error);
+					}
+				}));
+
+	}
+
 	@Nullable
 	private static APIResponseHandler.APIFailureType findFailureType(final JsonValue response) {
 
@@ -1091,6 +1200,7 @@ public final class RedditAPI {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.POST,
 				new HTTPRequestBody.PostFields(postFields),
 				context,
 				callbacks);
@@ -1114,8 +1224,30 @@ public final class RedditAPI {
 				downloadStrategy,
 				fileType,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.GET,
 				null,
 				context,
 				new CacheRequestJSONParser(context, handler));
+	}
+
+	@NonNull
+	private static CacheRequest createDeleteRequest(
+			@NonNull final UriString url,
+			@NonNull final RedditAccount user,
+			@NonNull final Context context,
+			@NonNull final CacheRequestCallbacks handler) {
+
+		return new CacheRequest(
+				url,
+				user,
+				null,
+				new Priority(Constants.Priority.API_ACTION),
+				DownloadStrategyAlways.INSTANCE,
+				Constants.FileType.NOCACHE,
+				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.DELETE,
+				null,
+				context,
+				handler);
 	}
 }

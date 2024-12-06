@@ -285,6 +285,7 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.NOCACHE,
 				CacheRequest.DownloadQueueType.IMGUR_API,
+				CacheRequest.RequestMethod.POST,
 				new HTTPRequestBody.Multipart()
 						.addPart(new Part.FormDataBinary("image", mImageData)),
 				this,

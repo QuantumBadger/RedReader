@@ -116,6 +116,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.INBOX_LIST,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.GET,
 				false,
 				context,
 				new CacheRequestCallbacks() {

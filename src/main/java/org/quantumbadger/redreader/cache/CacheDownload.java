@@ -75,6 +75,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				initiator.context,
 				new HTTPBackend.RequestDetails(
 						mInitiator.url,
+						mInitiator.requestMethod,
 						mInitiator.requestBody.asNullable()));
 	}
 

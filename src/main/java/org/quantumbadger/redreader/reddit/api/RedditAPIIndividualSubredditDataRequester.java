@@ -84,6 +84,7 @@ public class RedditAPIIndividualSubredditDataRequester implements
 				DownloadStrategyAlways.INSTANCE,
 				Constants.FileType.SUBREDDIT_ABOUT,
 				CacheRequest.DownloadQueueType.REDDIT_API,
+				CacheRequest.RequestMethod.GET,
 				context,
 				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
 					@Override

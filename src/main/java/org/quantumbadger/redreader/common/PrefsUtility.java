@@ -59,15 +59,15 @@ public final class PrefsUtility {
 	private static SharedPrefsWrapper sharedPrefs;
 	private static Resources mRes;
 
+	public static String getLayoutMode() {
+		return sharedPrefs.getString("pref_layout_mode", "thumbnails");
+	}
+
 	private static String getPrefKey(@StringRes final int prefKey) {
 		return mRes.getString(prefKey);
 	}
 
 	@NonNull private static final AtomicReference<Locale> mDefaultLocale = new AtomicReference<>();
-
-	public static boolean pref_always_preview_mode() {
-		return getBoolean(R.string.pref_always_preview_mode_key, false);
-	}
 
 	@Nullable
 	public static String getString(

@@ -22,11 +22,13 @@
 	<PreferenceCategory
 		android:title="@string/pref_layout_category_title">
 
-		<CheckBoxPreference
-			android:key="pref_always_preview_mode"
-			android:title="@string/pref_always_preview_mode_title"
-			android:summary="@string/pref_always_preview_mode_summary"
-			android:defaultValue="false" />
+		<ListPreference
+			android:key="pref_layout_mode"
+			android:title="@string/pref_layout_mode_title"
+			android:entries="@array/pref_layout_mode_entries"
+			android:entryValues="@array/pref_layout_mode_values"
+			android:defaultValue="thumbnails"
+			android:summary="%s" />
 
 	</PreferenceCategory>
 

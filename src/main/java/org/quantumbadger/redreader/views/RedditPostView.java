@@ -209,8 +209,15 @@ public final class RedditPostView extends FlingableItemView
 		final float titleFontScale = PrefsUtility.appearance_fontscale_posts();
 		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles();
 
-		final View rootView =
-				LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
+		String layoutMode = PrefsUtility.getLayoutMode();
+
+		int layout = R.layout.reddit_post;
+
+		if (layoutMode.equals("card")) {
+			layout = R.layout.reddit_post_card;
+		}
+
+		View rootView = LayoutInflater.from(context).inflate(layout, this, true);
 
 		mOuterView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_layout_outer));
 		mInnerView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_layout_inner));
@@ -362,7 +369,22 @@ public final class RedditPostView extends FlingableItemView
 				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
 			}
 
-			final boolean alwaysPreviewMode = PrefsUtility.pref_always_preview_mode();
+                        String layoutMode = PrefsUtility.getLayoutMode();
+
+			boolean alwaysPreviewMode = false;
+
+                        switch(layoutMode) {
+                                case "always_preview":
+                                        alwaysPreviewMode = true;
+                                        break;
+                                case "card":
+                                        alwaysPreviewMode = true;
+                                        break;
+                                default:
+                                        alwaysPreviewMode = false;
+                                        break;
+                        }
+
 			final boolean showInlinePreview = alwaysPreviewMode ||
 					newPost.shouldShowInlinePreview();
 			final boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;

@@ -26,6 +26,13 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.TooltipCompat;
 
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.annotation.NonNull;
+import android.graphics.Bitmap;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -37,6 +44,8 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
+import org.quantumbadger.redreader.common.ImagePreviewUtils;
+import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
 public class RedditPostHeaderView extends LinearLayout {
 
@@ -45,24 +54,55 @@ public class RedditPostHeaderView extends LinearLayout {
 	@Nullable private final Runnable mChangeListenerAddTask;
 	@Nullable private final Runnable mChangeListenerRemoveTask;
 
+	@NonNull private final FrameLayout mImagePreviewHolder;
+	@NonNull private final ImageView mImagePreviewImageView;
+	@NonNull private final ConstraintLayout mImagePreviewPlayOverlay;
+	@NonNull private final LinearLayout mImagePreviewOuter;
+	@NonNull private final LoadingSpinnerView mImagePreviewLoadingSpinner;
+	@NonNull private final BaseActivity mActivity;
+	@NonNull private final LinearLayout mPostErrors;
+
+	static private int mUsageId = 0;
+
 	public RedditPostHeaderView(
 			final BaseActivity activity,
 			final RedditPreparedPost post) {
 
 		super(activity);
 
-		final float dpScale = activity.getResources().getDisplayMetrics().density;
+		mActivity = activity;
+
+		final String layoutMode = PrefsUtility.getLayoutMode();
+
+		boolean alwaysPreviewMode = false;
+
+		switch(layoutMode) {
+			case "always_preview":
+				alwaysPreviewMode = true;
+				break;
+			case "card":
+				alwaysPreviewMode = true;
+				break;
+			default:
+				alwaysPreviewMode = false;
+				break;
+		}
+
+		final boolean showInlinePreview = alwaysPreviewMode ||
+			post.shouldShowInlinePreview();
+
+		final float dpScale = mActivity.getResources().getDisplayMetrics().density;
 
 		setOrientation(LinearLayout.VERTICAL);
 
-		final LinearLayout greyHeader = new LinearLayout(activity);
+		final LinearLayout greyHeader = new LinearLayout(mActivity);
 
 		RedditPostActions.INSTANCE.setupAccessibilityActions(
 				new AccessibilityActionManager(
 						greyHeader,
-						activity.getResources()),
+						mActivity.getResources()),
 				post,
-				activity,
+				mActivity,
 				true);
 
 		greyHeader.setOrientation(LinearLayout.VERTICAL);
@@ -74,27 +114,46 @@ public class RedditPostHeaderView extends LinearLayout {
 
 		final float titleFontScale = PrefsUtility.appearance_fontscale_post_header_titles();
 
-		final TextView title = new TextView(activity);
+		final TextView title = new TextView(mActivity);
 		title.setTextSize(19.0f * titleFontScale);
 		title.setTypeface(Fonts.getRobotoLightOrAlternative());
 		title.setText(post.src.getTitle());
-		title.setContentDescription(post.buildAccessibilityTitle(activity, true));
+		title.setContentDescription(post.buildAccessibilityTitle(mActivity, true));
 		title.setTextColor(Color.WHITE);
 		greyHeader.addView(title);
+
+		final View previewView = inflate(mActivity, R.layout.post_header_preview, null);
+
+		mPostErrors = previewView.findViewById(R.id.reddit_post_errors);
+
+		mImagePreviewOuter = previewView.findViewById(R.id.reddit_post_image_preview_outer);
+		mImagePreviewHolder = previewView.findViewById(R.id.reddit_post_image_preview_holder);
+		mImagePreviewImageView = previewView.findViewById(R.id.reddit_post_image_preview_imageview);
+		mImagePreviewPlayOverlay = previewView.findViewById(
+				R.id.reddit_post_image_preview_play_overlay);
+
+		mImagePreviewLoadingSpinner = new LoadingSpinnerView(mActivity);
+		mImagePreviewHolder.addView(mImagePreviewLoadingSpinner);
+
+		greyHeader.addView(previewView, greyHeader.indexOfChild(title) + 1);
+
+		if(showInlinePreview) {
+			ImagePreviewUtils.downloadInlinePreview(activity, post, previewListener, mUsageId);
+		}
 
 		final float subtitleFontScale =
 				PrefsUtility.appearance_fontscale_post_header_subtitles();
 
-		subtitle = new TextView(activity);
+		subtitle = new TextView(mActivity);
 		subtitle.setTextSize(13.0f * subtitleFontScale);
-		subtitle.setText(post.buildSubtitle(activity, true));
-		subtitle.setContentDescription(post.buildAccessibilitySubtitle(activity, true));
+		subtitle.setText(post.buildSubtitle(mActivity, true));
+		subtitle.setContentDescription(post.buildAccessibilitySubtitle(mActivity, true));
 
 		subtitle.setTextColor(Color.rgb(200, 200, 200));
 		greyHeader.addView(subtitle);
 
 		{
-			final TypedArray appearance = activity.obtainStyledAttributes(new int[] {
+			final TypedArray appearance = mActivity.obtainStyledAttributes(new int[] {
 					R.attr.rrPostListHeaderBackgroundCol});
 
 			greyHeader.setBackgroundColor(appearance.getColor(0, General.COLOR_INVALID));
@@ -105,7 +164,7 @@ public class RedditPostHeaderView extends LinearLayout {
 		greyHeader.setOnClickListener(v -> {
 			if(!post.isSelf()) {
 				LinkHandler.onLinkClicked(
-						activity,
+						mActivity,
 						post.src.getUrl(),
 						false,
 						post.src.getSrc());
@@ -113,14 +172,14 @@ public class RedditPostHeaderView extends LinearLayout {
 		});
 
 		greyHeader.setOnLongClickListener(v -> {
-			RedditPostActions.INSTANCE.showActionMenu(activity, post);
+			RedditPostActions.INSTANCE.showActionMenu(mActivity, post);
 			return true;
 		});
 
 		addView(greyHeader);
 
 		final RedditAccount currentUser =
-				RedditAccountManager.getInstance(activity).getDefaultAccount();
+				RedditAccountManager.getInstance(mActivity).getDefaultAccount();
 
 		if(!currentUser.isAnonymous()) {
 
@@ -133,7 +192,7 @@ public class RedditPostHeaderView extends LinearLayout {
 			if(!PrefsUtility.pref_appearance_hide_headertoolbar_commentlist()) {
 
 				final LinearLayout buttons =
-						inflate(activity, R.layout.post_header_toolbar, this)
+						inflate(mActivity, R.layout.post_header_toolbar, this)
 								.findViewById(R.id.post_toolbar_layout);
 
 				for(int i = 0; i < buttons.getChildCount(); i++) {
@@ -157,32 +216,32 @@ public class RedditPostHeaderView extends LinearLayout {
 						buttons.findViewById(R.id.post_toolbar_botton_more);
 
 				buttonAddUpvote.setOnClickListener(v -> post.performAction(
-						activity,
+						mActivity,
 						RedditPostActions.Action.UPVOTE));
 				buttonRemoveUpvote.setOnClickListener(v -> post.performAction(
-						activity,
+						mActivity,
 						RedditPostActions.Action.UNVOTE));
 				buttonAddDownvote.setOnClickListener(v -> post.performAction(
-						activity,
+						mActivity,
 						RedditPostActions.Action.DOWNVOTE));
 				buttonRemoveDownvote.setOnClickListener(v -> post.performAction(
-						activity,
+						mActivity,
 						RedditPostActions.Action.UNVOTE));
 				buttonReply.setOnClickListener(v -> post.performAction(
-						activity,
+						mActivity,
 						RedditPostActions.Action.REPLY));
 				buttonShare.setOnClickListener(v -> post.performAction(
-						activity,
+						mActivity,
 						RedditPostActions.Action.SHARE));
 				buttonMore.setOnClickListener(v -> post.performAction(
-						activity,
+						mActivity,
 						RedditPostActions.Action.ACTION_MENU));
 
 				changeListener = thingIdAndType -> {
 
-					subtitle.setText(post.buildSubtitle(activity, true));
+					subtitle.setText(post.buildSubtitle(mActivity, true));
 					subtitle.setContentDescription(
-							post.buildAccessibilitySubtitle(activity, true));
+							post.buildAccessibilitySubtitle(mActivity, true));
 
 					final boolean isUpvoted = changeDataManager.isUpvoted(
 							post.src.getIdAndType());
@@ -212,9 +271,9 @@ public class RedditPostHeaderView extends LinearLayout {
 
 			} else {
 				changeListener = thingIdAndType -> {
-					subtitle.setText(post.buildSubtitle(activity, true));
+					subtitle.setText(post.buildSubtitle(mActivity, true));
 					subtitle.setContentDescription(
-							post.buildAccessibilitySubtitle(activity, true));
+							post.buildAccessibilitySubtitle(mActivity, true));
 				};
 			}
 
@@ -232,6 +291,62 @@ public class RedditPostHeaderView extends LinearLayout {
 			mChangeListenerRemoveTask = null;
 		}
 	}
+
+	private final ImagePreviewUtils.ImagePreviewListener previewListener =
+		new ImagePreviewUtils.ImagePreviewListener() {
+		@Override
+		public void setImageBitmap(final Bitmap bitmap) {
+			mImagePreviewImageView.setImageBitmap(bitmap);
+		}
+
+		@Override
+		public void setLoadingSpinnerVisible(final boolean visible) {
+			mImagePreviewLoadingSpinner.setVisibility(visible ? VISIBLE : GONE);
+		}
+
+		@Override
+		public void setOuterViewVisible(final boolean visible) {
+			mImagePreviewOuter.setVisibility(visible ? VISIBLE : GONE);
+		}
+
+		@Override
+		public void setPlayOverlayVisible(final boolean visible) {
+			mImagePreviewPlayOverlay.setVisibility(visible ? VISIBLE : GONE);
+		}
+
+		@Override
+		public void setPreviewDimensions(final String ratio) {
+			final ConstraintLayout.LayoutParams params =
+					(ConstraintLayout.LayoutParams)mImagePreviewHolder.getLayoutParams();
+			params.dimensionRatio = ratio;
+			mImagePreviewHolder.setLayoutParams(params);
+		}
+
+		@Override
+		public LinearLayout getFooterView() {
+			return null;
+		}
+
+		@Override
+		public BaseActivity getActivity() {
+			return mActivity;
+		}
+
+		@Override
+		public void addErrorView(final ErrorView errorView) {
+			mPostErrors.addView(errorView);
+		}
+
+		@Override
+		public void setErrorViewLayout(final View errorView) {
+			General.setLayoutMatchWidthWrapHeight(errorView);
+		}
+
+		@Override
+		public boolean isUsageIdValid(final int usageId) {
+			return usageId == mUsageId;
+		}
+	};
 
 	@Override
 	protected void onAttachedToWindow() {

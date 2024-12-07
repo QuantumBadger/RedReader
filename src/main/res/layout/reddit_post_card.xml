@@ -43,7 +43,6 @@
 		android:baselineAligned="false"
 		tools:ignore="UnusedAttribute">
 
-		<!-- Inner Horizontal Layout -->
 		<LinearLayout
 			android:id="@+id/reddit_post_layout_inner"
 			android:layout_width="match_parent"
@@ -55,7 +54,6 @@
 			android:nextFocusRight="@id/reddit_post_comments_button"
 			android:baselineAligned="false">
 
-			<!-- Thumbnail FrameLayout -->
 			<FrameLayout
 					android:layout_width="wrap_content"
 					android:layout_height="match_parent"
@@ -80,7 +78,6 @@
 
 			</FrameLayout>
 
-			<!-- Text Layout (Only Title) -->
 			<LinearLayout
 					android:id="@+id/reddit_post_textLayout"
 					android:layout_height="wrap_content"
@@ -102,22 +99,16 @@
 						android:paddingBottom="0dp"
 						android:textSize="14sp"/>
 
-				<!-- Removed Subtitle from here -->
-
 			</LinearLayout>
-
-			<!-- Removed Comments Button and Text from here -->
 
 		</LinearLayout>
 
-		<!-- Errors Layout -->
 		<LinearLayout
 				android:id="@+id/reddit_post_errors"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"/>
 
-		<!-- Image Preview -->
 		<LinearLayout
 				android:id="@+id/reddit_post_image_preview_outer"
 				android:layout_width="match_parent"
@@ -183,7 +174,6 @@
 
 		</LinearLayout>
 
-		<!-- New Horizontal Layout for Subtitle and Comments Button -->
 		<LinearLayout
 			android:id="@+id/reddit_post_subtitle_comments_layout"
 			android:layout_width="match_parent"
@@ -195,7 +185,6 @@
 			android:paddingBottom="5dp"
 			android:gravity="center_vertical">
 
-			<!-- Subtitle -->
 			<com.google.android.material.textview.MaterialTextView
 				android:id="@+id/reddit_post_subtitle"
 				android:layout_width="0dp"
@@ -206,7 +195,6 @@
 				android:textSize="11sp"
 				tools:ignore="SmallSp"/>
 
-			<!-- Comments Button -->
 			<LinearLayout
 				android:id="@+id/reddit_post_comments_button"
 				android:layout_width="wrap_content"

@@ -369,21 +369,21 @@ public final class RedditPostView extends FlingableItemView
 				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
 			}
 
-                        final String layoutMode = PrefsUtility.getLayoutMode();
+			final String layoutMode = PrefsUtility.getLayoutMode();
 
 			boolean alwaysPreviewMode = false;
 
-                        switch(layoutMode) {
-                                case "always_preview":
-                                        alwaysPreviewMode = true;
-                                        break;
-                                case "card":
-                                        alwaysPreviewMode = true;
-                                        break;
-                                default:
-                                        alwaysPreviewMode = false;
-                                        break;
-                        }
+			switch(layoutMode) {
+				case "always_preview":
+					alwaysPreviewMode = true;
+					break;
+				case "card":
+					alwaysPreviewMode = true;
+					break;
+				default:
+					alwaysPreviewMode = false;
+					break;
+			}
 
 			final boolean showInlinePreview = alwaysPreviewMode ||
 					newPost.shouldShowInlinePreview();

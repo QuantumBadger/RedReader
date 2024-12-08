@@ -131,7 +131,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	public boolean shouldShowInlinePreview() {
 		final String layoutMode = PrefsUtility.getLayoutMode();
 		final boolean alwaysPreviewMode = layoutMode.equals("always_preview")
-				 || layoutMode.equals("card");
+				|| layoutMode.equals("card");
 
 		return mShowInlinePreviews && (src.isPreviewEnabled()
 				|| "gfycat.com".equals(src.getDomain())

@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
+
 package org.quantumbadger.redreader.reddit.prepared
 
 import androidx.appcompat.app.AppCompatActivity
@@ -141,9 +142,25 @@ class RedditParsedPost(
 		@JvmField val height: Int
 	)
 
-    fun getPreview(minWidth: Int, minHeight: Int) = src.preview?.images?.get(0)?.run {
-		getPreviewInternal(this, minWidth, minHeight)
-	}
+
+    val isGallery = src.gallery_data?.items?.firstOrNull()?.ok()?.media_id != null
+
+    fun getPreview(minWidth: Int, minHeight: Int): ImagePreviewDetails? {
+        if (isGallery) {
+            val firstItem = src.gallery_data?.items?.firstOrNull()?.ok()?.media_id ?: return null
+            val metadata = src.media_metadata?.get(firstItem)?.ok() ?: return null
+
+            return ImagePreviewDetails(
+                UriString(metadata.s.u?.decoded ?: return null),
+                metadata.s.x.toInt(),
+                metadata.s.y.toInt()
+            )
+        }
+
+        return src.preview?.images?.get(0)?.run {
+            getPreviewInternal(this, minWidth, minHeight)
+        }
+    }
 
     fun getPreviewMP4(minWidth: Int, minHeight: Int)
 		= src.preview?.images?.get(0)?.variants?.mp4?.apply {

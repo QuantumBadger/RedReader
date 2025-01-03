@@ -91,56 +91,58 @@ public class RedditAPIMultiredditListRequester implements CacheDataSource<
 
 		final UriString uri = Constants.Reddit.getUri(Constants.Reddit.PATH_MULTIREDDITS_MINE);
 
-		final CacheRequest request = new CacheRequest(
-				uri,
-				user,
-				null,
-				new Priority(Constants.Priority.API_SUBREDDIT_LIST),
-				DownloadStrategyAlways.INSTANCE,
-				Constants.FileType.MULTIREDDIT_LIST,
-				CacheRequest.DownloadQueueType.REDDIT_API,
-				context,
-				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
+		final CacheRequest request = new CacheRequest.Builder()
+				.setUrl(uri)
+				.setUser(user)
+				.setPriority(new Priority(Constants.Priority.API_SUBREDDIT_LIST))
+				.setDownloadStrategy(DownloadStrategyAlways.INSTANCE)
+				.setFileType(Constants.FileType.MULTIREDDIT_LIST)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(context)
+				.setCallbacks(new CacheRequestJSONParser(
+						context, new CacheRequestJSONParser.Listener() {
+							@Override
+							public void onJsonParsed(
+									@NonNull final JsonValue result,
+									final TimestampUTC timestamp,
+									@NonNull final UUID session,
+									final boolean fromCache) {
 
-						try {
-							final HashSet<String> output = new HashSet<>();
+								try {
+									final HashSet<String> output = new HashSet<>();
 
-							final JsonArray multiredditList = result.asArray();
+									final JsonArray multiredditList = result.asArray();
 
-							for(final JsonValue multireddit : multiredditList) {
-								final String name = multireddit.asObject()
-										.getObject("data")
-										.getString("name");
-								output.add(name);
+									for(final JsonValue multireddit : multiredditList) {
+										final String name = multireddit.asObject()
+												.getObject("data")
+												.getString("name");
+										output.add(name);
+									}
+
+									handler.onRequestSuccess(new WritableHashSet(
+											output,
+											timestamp,
+											user.getCanonicalUsername()), timestamp);
+
+								} catch(final Exception e) {
+									handler.onRequestFailed(General.getGeneralErrorForFailure(
+											context,
+											CacheRequest.RequestFailureType.PARSE,
+											e,
+											null,
+											uri,
+											Optional.of(new FailedRequestBody(result))));
+								}
 							}
 
-							handler.onRequestSuccess(new WritableHashSet(
-									output,
-									timestamp,
-									user.getCanonicalUsername()), timestamp);
-
-						} catch(final Exception e) {
-							handler.onRequestFailed(General.getGeneralErrorForFailure(
-									context,
-									CacheRequest.RequestFailureType.PARSE,
-									e,
-									null,
-									uri,
-									Optional.of(new FailedRequestBody(result))));
-						}
-					}
-
-					@Override
-					public void onFailure(@NonNull final RRError error) {
-						handler.onRequestFailed(error);
-					}
-				}));
+							@Override
+							public void onFailure(@NonNull final RRError error) {
+								handler.onRequestFailed(error);
+							}
+						}))
+				.build();
 
 		CacheManager.getInstance(context).makeRequest(request);
 	}

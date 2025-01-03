@@ -108,17 +108,17 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 		final UriString url = Constants.Reddit.getUri("/message/unread.json?limit=2");
 
-		final CacheRequest request = new CacheRequest(
-				url,
-				user,
-				null,
-				new Priority(Constants.Priority.API_INBOX_LIST),
-				DownloadStrategyAlways.INSTANCE,
-				Constants.FileType.INBOX_LIST,
-				CacheRequest.DownloadQueueType.REDDIT_API,
-				false,
-				context,
-				new CacheRequestCallbacks() {
+		final CacheRequest request = new CacheRequest.Builder()
+				.setUrl(url)
+				.setUser(user)
+				.setPriority(new Priority(Constants.Priority.API_INBOX_LIST))
+				.setDownloadStrategy(DownloadStrategyAlways.INSTANCE)
+				.setFileType(Constants.FileType.INBOX_LIST)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setCache(false)
+				.setContext(context)
+				.setCallbacks(new CacheRequestCallbacks() {
 					@Override
 					public void onFailure(@NonNull final RRError error) {
 
@@ -215,7 +215,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 							if(oldMessageId == null || (!messageID.getValue().equals(oldMessageId)
 									&& oldMessageTimestamp
-											<= messageTimestamp.toUtcSecs())) {
+									<= messageTimestamp.toUtcSecs())) {
 
 								Log.e(TAG, "New messages detected. Showing notification.");
 
@@ -247,7 +247,8 @@ public class NewMessageChecker extends BroadcastReceiver {
 									FailedRequestBody.from(streamFactory)));
 						}
 					}
-				});
+				})
+				.build();
 
 		cm.makeRequest(request);
 	}

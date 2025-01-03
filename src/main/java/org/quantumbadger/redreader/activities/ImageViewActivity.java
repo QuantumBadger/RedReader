@@ -881,150 +881,156 @@ public class ImageViewActivity extends ViewsBaseActivity
 				= new AtomicReference<>();
 		final AtomicReference<String> videoMimetype = new AtomicReference<>();
 
-		CacheManager.getInstance(this).makeRequest(mImageOrVideoRequest = new CacheRequest(
-				uri,
-				RedditAccountManager.getAnon(),
-				null,
-				new Priority(Constants.Priority.IMAGE_VIEW),
-				DownloadStrategyIfNotCached.INSTANCE,
-				Constants.FileType.IMAGE,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				this,
-				new CacheRequestCallbacks() {
+		CacheManager.getInstance(this).makeRequest(
+				mImageOrVideoRequest = new CacheRequest.Builder()
+						.setUrl(uri)
+						.setUser(RedditAccountManager.getAnon())
+						.setPriority(new Priority(Constants.Priority.IMAGE_VIEW))
+						.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+						.setFileType(Constants.FileType.IMAGE)
+						.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+						.setRequestMethod(CacheRequest.RequestMethod.GET)
+						.setCache(false)
+						.setContext(this)
+						.setCallbacks(new CacheRequestCallbacks() {
+							private boolean mProgressTextSet = false;
 
-					private boolean mProgressTextSet = false;
+							@Override
+							public void onFailure(@NonNull final RRError error) {
 
-					@Override
-					public void onFailure(@NonNull final RRError error) {
+								synchronized(resultLock) {
 
-						synchronized(resultLock) {
+									if(!failed.getAndSet(true)) {
+										AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+											final LinearLayout layout
+													= new LinearLayout(
+															ImageViewActivity.this);
+											final ErrorView errorView = new ErrorView(
+													ImageViewActivity.this,
+													error);
+											layout.addView(errorView);
+											General.setLayoutMatchWidthWrapHeight(errorView);
+											setMainView(layout);
+										});
+									}
+								}
+							}
 
-							if(!failed.getAndSet(true)) {
-								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-									final LinearLayout layout
-											= new LinearLayout(ImageViewActivity.this);
-									final ErrorView errorView = new ErrorView(
-											ImageViewActivity.this,
-											error);
-									layout.addView(errorView);
-									General.setLayoutMatchWidthWrapHeight(errorView);
-									setMainView(layout);
+							@Override
+							public void onDownloadNecessary() {
+								AndroidCommon.runOnUiThread(() -> {
+									progressBar.setVisibility(View.VISIBLE);
+									progressBar.setIndeterminate(true);
+									manageAspectRatioIndicator(progressBar);
 								});
 							}
-						}
-					}
 
-					@Override
-					public void onDownloadNecessary() {
-						AndroidCommon.runOnUiThread(() -> {
-							progressBar.setVisibility(View.VISIBLE);
-							progressBar.setIndeterminate(true);
-							manageAspectRatioIndicator(progressBar);
-						});
-					}
+							@Override
+							public void onProgress(
+									final boolean authorizationInProgress,
+									final long bytesRead,
+									final long totalBytes) {
 
-					@Override
-					public void onProgress(
-							final boolean authorizationInProgress,
-							final long bytesRead,
-							final long totalBytes) {
+								AndroidCommon.runOnUiThread(() -> {
+									progressBar.setVisibility(View.VISIBLE);
+									progressBar.setIndeterminate(authorizationInProgress);
+									progressBar.setProgress(
+											((float)((1000 * bytesRead) / totalBytes)) / 1000);
+									manageAspectRatioIndicator(progressBar);
 
-						AndroidCommon.runOnUiThread(() -> {
-							progressBar.setVisibility(View.VISIBLE);
-							progressBar.setIndeterminate(authorizationInProgress);
-							progressBar.setProgress(
-									((float)((1000 * bytesRead) / totalBytes)) / 1000);
-							manageAspectRatioIndicator(progressBar);
-
-							if(!mProgressTextSet) {
-								mProgressText.setText(General.bytesToMegabytes(totalBytes));
-								mProgressTextSet = true;
+									if(!mProgressTextSet) {
+										mProgressText.setText(General.bytesToMegabytes(totalBytes));
+										mProgressTextSet = true;
+									}
+								});
 							}
-						});
-					}
 
-					@Override
-					public void onDataStreamAvailable(
-							@NonNull final GenericFactory<SeekableInputStream, IOException>
-									streamFactory,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache,
-							@Nullable final String mimetype) {
+							@Override
+							public void onDataStreamAvailable(
+									@NonNull final GenericFactory<SeekableInputStream, IOException>
+											streamFactory,
+									final TimestampUTC timestamp,
+									@NonNull final UUID session,
+									final boolean fromCache,
+									@Nullable final String mimetype) {
 
-						synchronized(resultLock) {
+								synchronized(resultLock) {
 
-							if(audio.get() != null || audioUri == null) {
-								onImageStreamReady(
-										!fromCache,
-										streamFactory,
-										audio.get(),
-										mimetype,
-										Uri.parse(uri.toString()));
+									if(audio.get() != null || audioUri == null) {
+										onImageStreamReady(
+												!fromCache,
+												streamFactory,
+												audio.get(),
+												mimetype,
+												Uri.parse(uri.toString()));
 
-							} else {
-								video.set(streamFactory);
-								videoMimetype.set(mimetype);
+									} else {
+										video.set(streamFactory);
+										videoMimetype.set(mimetype);
+									}
+								}
 							}
-						}
-					}
-				}));
+						})
+						.build());
 
 		if(audioUri != null) {
-			CacheManager.getInstance(this).makeRequest(mAudioRequest = new CacheRequest(
-					audioUri,
-					RedditAccountManager.getAnon(),
-					null,
-					new Priority(Constants.Priority.IMAGE_VIEW),
-					DownloadStrategyIfNotCached.INSTANCE,
-					Constants.FileType.IMAGE,
-					CacheRequest.DownloadQueueType.IMMEDIATE,
-					this,
-					new CacheRequestCallbacks() {
-						@Override
-						public void onFailure(@NonNull final RRError error) {
+			CacheManager.getInstance(this)
+					.makeRequest(mAudioRequest = new CacheRequest.Builder()
+							.setUrl(audioUri)
+							.setUser(RedditAccountManager.getAnon())
+							.setPriority(new Priority(Constants.Priority.IMAGE_VIEW))
+							.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+							.setFileType(Constants.FileType.IMAGE)
+							.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+							.setRequestMethod(CacheRequest.RequestMethod.GET)
+							.setCache(false)
+							.setContext(this)
+							.setCallbacks(new CacheRequestCallbacks() {
+								@Override
+								public void onFailure(@NonNull final RRError error) {
 
-							synchronized(resultLock) {
+									synchronized (resultLock) {
 
-								if(!failed.getAndSet(true)) {
+										if (!failed.getAndSet(true)) {
 
-									AndroidCommon.runOnUiThread(() -> {
-										final LinearLayout layout
-												= new LinearLayout(ImageViewActivity.this);
-										final ErrorView errorView = new ErrorView(
-												ImageViewActivity.this,
-												error);
-										layout.addView(errorView);
-										General.setLayoutMatchWidthWrapHeight(errorView);
-										setMainView(layout);
-									});
+											AndroidCommon.runOnUiThread(() -> {
+												final LinearLayout layout
+														= new LinearLayout(ImageViewActivity.this);
+												final ErrorView errorView = new ErrorView(
+														ImageViewActivity.this,
+														error);
+												layout.addView(errorView);
+												General.setLayoutMatchWidthWrapHeight(errorView);
+												setMainView(layout);
+											});
+										}
+									}
 								}
-							}
-						}
 
-						@Override
-						public void onDataStreamAvailable(
-								@NonNull final GenericFactory<
-										SeekableInputStream, IOException> streamFactory,
-								final TimestampUTC timestamp,
-								@NonNull final UUID session,
-								final boolean fromCache,
-								@Nullable final String mimetype) {
+								@Override
+								public void onDataStreamAvailable(
+										@NonNull final GenericFactory<
+												SeekableInputStream, IOException> streamFactory,
+										final TimestampUTC timestamp,
+										@NonNull final UUID session,
+										final boolean fromCache,
+										@Nullable final String mimetype) {
 
-							synchronized(resultLock) {
-								if(video.get() != null) {
-									onImageStreamReady(
-											!fromCache,
-											video.get(),
-											streamFactory,
-											videoMimetype.get(),
-											Uri.parse(uri.toString()));
-								} else {
-									audio.set(streamFactory);
+									synchronized (resultLock) {
+										if (video.get() != null) {
+											onImageStreamReady(
+													!fromCache,
+													video.get(),
+													streamFactory,
+													videoMimetype.get(),
+													Uri.parse(uri.toString()));
+										} else {
+											audio.set(streamFactory);
+										}
+									}
 								}
-							}
-						}
-					}));
+							})
+							.build());
 		}
 	}
 

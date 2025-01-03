@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONObject;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -65,6 +66,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -959,6 +961,35 @@ public final class RedditAPI {
 		));
 	}
 
+	public static void addSubredditToMultireddit(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler handler,
+			final RedditAccount user,
+			final String multiredditName,
+			final String subredditName,
+			final Context context) {
+
+		final Uri.Builder builder = Constants.Reddit.getUriBuilder(
+				Constants.Reddit.PATH_MULTIREDDIT)
+				.appendPath("user")
+				.appendPath(user.username)
+				.appendPath("m")
+				.appendPath(multiredditName)
+				.appendPath("r")
+				.appendPath(subredditName);
+
+		final Map<String, String> jsonData = new HashMap<>();
+		jsonData.put("name", subredditName);
+
+		cm.makeRequest(createPutRequest(
+				UriString.from(builder.build()),
+				user,
+				new ArrayList<>(Collections.singleton(
+					new PostField("model", new JSONObject(jsonData).toString()))),
+				context,
+				new GenericResponseHandler(handler)));
+	}
+
 	@Nullable
 	private static APIResponseHandler.APIFailureType findFailureType(final JsonValue response) {
 
@@ -1083,17 +1114,18 @@ public final class RedditAPI {
 			@NonNull final Context context,
 			@NonNull final CacheRequestCallbacks callbacks) {
 
-		return new CacheRequest(
-				url,
-				user,
-				null,
-				new Priority(Constants.Priority.API_ACTION),
-				DownloadStrategyAlways.INSTANCE,
-				Constants.FileType.NOCACHE,
-				CacheRequest.DownloadQueueType.REDDIT_API,
-				new HTTPRequestBody.PostFields(postFields),
-				context,
-				callbacks);
+		return new CacheRequest.Builder()
+				.setUrl(url)
+				.setUser(user)
+				.setPriority(new Priority(Constants.Priority.API_ACTION))
+				.setDownloadStrategy(DownloadStrategyAlways.INSTANCE)
+				.setFileType(Constants.FileType.NOCACHE)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.POST)
+				.setRequestBody(new HTTPRequestBody.PostFields(postFields))
+				.setContext(context)
+				.setCallbacks(callbacks)
+				.build();
 	}
 
 	@NonNull
@@ -1106,16 +1138,38 @@ public final class RedditAPI {
 			@NonNull final Context context,
 			@NonNull final CacheRequestJSONParser.Listener handler) {
 
-		return new CacheRequest(
-				url,
-				user,
-				null,
-				priority,
-				downloadStrategy,
-				fileType,
-				CacheRequest.DownloadQueueType.REDDIT_API,
-				null,
-				context,
-				new CacheRequestJSONParser(context, handler));
+		return new CacheRequest.Builder()
+				.setUrl(url)
+				.setUser(user)
+				.setPriority(priority)
+				.setDownloadStrategy(downloadStrategy)
+				.setFileType(fileType)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(context)
+				.setCallbacks(new CacheRequestJSONParser(context, handler))
+				.build();
+	}
+
+	@NonNull
+	private static CacheRequest createPutRequest(
+			@NonNull final UriString url,
+			@NonNull final RedditAccount user,
+			@NonNull final List<PostField> postFields,
+			@NonNull final Context context,
+			@NonNull final CacheRequestJSONParser.Listener handler) {
+
+		return new CacheRequest.Builder()
+				.setUrl(url)
+				.setUser(user)
+				.setPriority(new Priority(Constants.Priority.API_ACTION))
+				.setDownloadStrategy(DownloadStrategyAlways.INSTANCE)
+				.setFileType(Constants.FileType.NOCACHE)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.PUT)
+				.setRequestBody(new HTTPRequestBody.PostFields(postFields))
+				.setContext(context)
+				.setCallbacks(new CacheRequestJSONParser(context, handler))
+				.build();
 	}
 }

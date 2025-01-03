@@ -479,16 +479,16 @@ public class FileUtils {
 
 		final CacheManager cacheManager = CacheManager.getInstance(activity);
 
-		cacheManager.makeRequest(new CacheRequest(
-				info.urlAudioStream,
-				RedditAccountManager.getAnon(),
-				null,
-				new Priority(Constants.Priority.IMAGE_VIEW),
-				DownloadStrategyIfNotCached.INSTANCE,
-				Constants.FileType.IMAGE,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				activity,
-				new CacheRequestCallbacks() {
+		cacheManager.makeRequest(new CacheRequest.Builder()
+				.setUrl(info.urlAudioStream)
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(new Priority(Constants.Priority.IMAGE_VIEW))
+				.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+				.setFileType(Constants.FileType.NOCACHE)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(activity)
+				.setCallbacks(new CacheRequestCallbacks() {
 
 					@Override
 					public void onFailure(@NonNull final RRError error) {
@@ -574,7 +574,8 @@ public class FileUtils {
 											Optional.empty()));
 						}
 					}
-				}));
+				})
+				.build());
 	}
 
 	public static void downloadImageToSave(
@@ -596,16 +597,16 @@ public class FileUtils {
 					@Override
 					public void onSuccess(final ImageInfo info) {
 
-						CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-								info.original.url,
-								RedditAccountManager.getAnon(),
-								null,
-								new Priority(Constants.Priority.IMAGE_VIEW),
-								DownloadStrategyIfNotCached.INSTANCE,
-								Constants.FileType.IMAGE,
-								CacheRequest.DownloadQueueType.IMMEDIATE,
-								activity,
-								new CacheRequestCallbacks() {
+						CacheManager.getInstance(activity).makeRequest(new CacheRequest.Builder()
+								.setUrl(info.original.url)
+								.setUser(RedditAccountManager.getAnon())
+								.setPriority(new Priority(Constants.Priority.IMAGE_VIEW))
+								.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+								.setFileType(Constants.FileType.IMAGE)
+								.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+								.setRequestMethod(CacheRequest.RequestMethod.GET)
+								.setContext(activity)
+								.setCallbacks(new CacheRequestCallbacks() {
 									@Override
 									public void onDownloadNecessary() {
 										General.quickToast(
@@ -640,8 +641,8 @@ public class FileUtils {
 											callback.onSuccess(info, cacheFile, mimetype);
 										}
 									}
-								}));
-
+								})
+								.build());
 					}
 
 					@Override

@@ -277,80 +277,83 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 
 		final UriString apiUrl = new UriString("https://api.imgur.com/3/image");
 
-		CacheManager.getInstance(this).makeRequest(new CacheRequest(
-				apiUrl,
-				RedditAccountManager.getInstance(this).getDefaultAccount(),
-				null,
-				new Priority(Constants.Priority.API_ACTION),
-				DownloadStrategyAlways.INSTANCE,
-				Constants.FileType.NOCACHE,
-				CacheRequest.DownloadQueueType.IMGUR_API,
-				new HTTPRequestBody.Multipart()
-						.addPart(new Part.FormDataBinary("image", mImageData)),
-				this,
-				new CacheRequestJSONParser(this, new CacheRequestJSONParser.Listener() {
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
+		CacheManager.getInstance(this).makeRequest(new CacheRequest.Builder()
+				.setUrl(apiUrl)
+				.setUser(RedditAccountManager.getInstance(this).getDefaultAccount())
+				.setPriority(new Priority(Constants.Priority.API_ACTION))
+				.setDownloadStrategy(DownloadStrategyAlways.INSTANCE)
+				.setFileType(Constants.FileType.NOCACHE)
+				.setQueueType(CacheRequest.DownloadQueueType.IMGUR_API)
+				.setRequestMethod(CacheRequest.RequestMethod.POST)
+				.setRequestBody(new HTTPRequestBody.Multipart()
+						.addPart(new Part.FormDataBinary("image", mImageData)))
+				.setContext(this)
+				.setCallbacks(new CacheRequestJSONParser(
+						this, new CacheRequestJSONParser.Listener() {
+							@Override
+							public void onJsonParsed(
+									@NonNull final JsonValue result,
+									final TimestampUTC timestamp,
+									@NonNull final UUID session,
+									final boolean fromCache) {
 
-						final Uri imageUri;
+								final Uri imageUri;
 
-						try {
-							final JsonObject root = result.asObject();
+								try {
+									final JsonObject root = result.asObject();
 
-							if(root == null) {
-								throw new RuntimeException("Response root object is null");
+									if(root == null) {
+										throw new RuntimeException("Response root object is null");
+									}
+
+									final Boolean success = root.getBoolean("success");
+
+									if(!Boolean.TRUE.equals(success)) {
+										onFailure(General.getGeneralErrorForFailure(
+												ImgurUploadActivity.this,
+												CacheRequest.RequestFailureType.UPLOAD_FAIL_IMGUR,
+												null,
+												null,
+												null,
+												Optional.of(new FailedRequestBody(result))));
+										return;
+									}
+
+									final String id = root.getObject("data").getString("id");
+									imageUri = Uri.parse("https://imgur.com/" + id);
+
+								} catch(final Throwable t) {
+									onFailure(General.getGeneralErrorForFailure(
+											ImgurUploadActivity.this,
+											CacheRequest.RequestFailureType.PARSE_IMGUR,
+											t,
+											null,
+											apiUrl,
+											Optional.of(new FailedRequestBody(result))));
+									return;
+								}
+
+								AndroidCommon.runOnUiThread(() -> {
+
+									final Intent resultIntent = new Intent();
+									resultIntent.setData(imageUri);
+									setResult(0, resultIntent);
+									finish();
+								});
 							}
 
-							final Boolean success = root.getBoolean("success");
+							@Override
+							public void onFailure(@NonNull final RRError error) {
 
-							if(!Boolean.TRUE.equals(success)) {
-								onFailure(General.getGeneralErrorForFailure(
+								General.showResultDialog(
 										ImgurUploadActivity.this,
-										CacheRequest.RequestFailureType.UPLOAD_FAIL_IMGUR,
-										null,
-										null,
-										null,
-										Optional.of(new FailedRequestBody(result))));
-								return;
+										error);
+
+								AndroidCommon.runOnUiThread(
+										ImgurUploadActivity.this::hideLoadingOverlay);
 							}
-
-							final String id = root.getObject("data").getString("id");
-							imageUri = Uri.parse("https://imgur.com/" + id);
-
-						} catch(final Throwable t) {
-							onFailure(General.getGeneralErrorForFailure(
-									ImgurUploadActivity.this,
-									CacheRequest.RequestFailureType.PARSE_IMGUR,
-									t,
-									null,
-									apiUrl,
-									Optional.of(new FailedRequestBody(result))));
-							return;
-						}
-
-						AndroidCommon.runOnUiThread(() -> {
-
-							final Intent resultIntent = new Intent();
-							resultIntent.setData(imageUri);
-							setResult(0, resultIntent);
-							finish();
-						});
-					}
-
-					@Override
-					public void onFailure(@NonNull final RRError error) {
-
-						General.showResultDialog(
-								ImgurUploadActivity.this,
-								error);
-
-						AndroidCommon.runOnUiThread(ImgurUploadActivity.this::hideLoadingOverlay);
-					}
-				})));
+						}))
+				.build());
 	}
 
 	@Override

@@ -48,6 +48,7 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.ScreenreaderPronunciation;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
 import org.quantumbadger.redreader.common.UriString;
+import org.quantumbadger.redreader.fragments.AddToMultiredditDialog;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.receivers.announcements.Announcement;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
@@ -117,7 +118,8 @@ public class MainMenuListingManager {
 		UNPIN(R.string.unpin_subreddit),
 		SUBSCRIBE(R.string.options_subscribe),
 		UNSUBSCRIBE(R.string.options_unsubscribe),
-		EXTERNAL(R.string.action_external);
+		EXTERNAL(R.string.action_external),
+		ADD_TO_MULTIREDDIT(R.string.add_subreddit_to_multireddit);
 
 		public final int descriptionResId;
 
@@ -820,6 +822,13 @@ public class MainMenuListingManager {
 					}
 				}
 			}
+
+			if(itemPref.contains(SubredditAction.ADD_TO_MULTIREDDIT)) {
+				menu.add(new SubredditMenuItem(
+						activity,
+						R.string.add_subreddit_to_multireddit,
+						SubredditAction.ADD_TO_MULTIREDDIT));
+			}
 		}
 
 		final String[] menuText = new String[menu.size()];
@@ -940,6 +949,11 @@ public class MainMenuListingManager {
 							R.string.mainmenu_toast_not_subscribed,
 							Toast.LENGTH_SHORT).show();
 				}
+				break;
+
+			case ADD_TO_MULTIREDDIT:
+
+				AddToMultiredditDialog.show(activity, subredditCanonicalId);
 				break;
 		}
 	}

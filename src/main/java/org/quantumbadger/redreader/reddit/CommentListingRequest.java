@@ -238,16 +238,17 @@ public class CommentListingRequest {
 
 		final UriString url = UriString.from(mUrl.generateJsonUri());
 
-		return new CacheRequest(
-				url,
-				mUser,
-				mSession,
-				new Priority(Constants.Priority.API_COMMENT_LIST),
-				mDownloadStrategy,
-				Constants.FileType.COMMENT_LIST,
-				CacheRequest.DownloadQueueType.REDDIT_API,
-				mContext,
-				new CacheRequestCallbacks() {
+		return new CacheRequest.Builder()
+				.setUrl(url)
+				.setUser(mUser)
+				.setRequestSession(mSession)
+				.setPriority(new Priority(Constants.Priority.API_COMMENT_LIST))
+				.setDownloadStrategy(mDownloadStrategy)
+				.setFileType(Constants.FileType.COMMENT_LIST)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(mContext)
+				.setCallbacks(new CacheRequestCallbacks() {
 					@Override
 					public void onFailure(@NonNull final RRError error) {
 						AndroidCommon.runOnUiThread(()
@@ -273,7 +274,7 @@ public class CommentListingRequest {
 							try {
 								final RedditThingResponse thingResponse
 										= JsonUtils.INSTANCE.decodeRedditThingResponseFromStream(
-												streamFactory.create());
+										streamFactory.create());
 
 								onThingDownloaded(thingResponse, session, timestamp, fromCache);
 
@@ -288,7 +289,8 @@ public class CommentListingRequest {
 							}
 						}, "Comment parsing", 1_000_000).start();
 					}
-				});
+				})
+				.build();
 	}
 
 	private void buildCommentTree(

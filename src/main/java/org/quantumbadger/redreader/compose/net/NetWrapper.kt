@@ -307,74 +307,76 @@ private fun <T> fetchFile(
 
 		val thisRequest = ++currentRequest.intValue
 
-		val req = CacheRequest(
-			uri,
-			account,
-			null,
-			priority,
-			downloadStrategy,
-			fileType,
-			queueType,
-			cache,
-			context,
-			object : CacheRequestCallbacks {
+		val req = CacheRequest.Builder()
+			.setUrl(uri)
+			.setUser(account)
+			.setPriority(priority)
+			.setDownloadStrategy(downloadStrategy)
+			.setFileType(fileType)
+			.setQueueType(queueType)
+			.setRequestMethod(CacheRequest.RequestMethod.GET)
+			.setCache(cache)
+			.setContext(context)
+			.setCallbacks(
+				object : CacheRequestCallbacks {
 
-				var done = false
+					var done = false
 
-				val active
-					get() = !done && thisRequest == currentRequest.intValue
+					val active
+						get() = !done && thisRequest == currentRequest.intValue
 
-				override fun onFailure(error: RRError) {
-					AndroidCommon.runOnUiThread {
-						if (active) {
-							state.value =
-								NetRequestStatus.Failed(error.invokeIf(error.resolution == null) {
-									error.copy(resolution = RRError.Resolution.RETRY)
-								})
-							done = true
+					override fun onFailure(error: RRError) {
+						AndroidCommon.runOnUiThread {
+							if (active) {
+								state.value =
+									NetRequestStatus.Failed(error.invokeIf(error.resolution == null) {
+										error.copy(resolution = RRError.Resolution.RETRY)
+									})
+								done = true
+							}
 						}
 					}
-				}
 
-				override fun onDataStreamComplete(
-					streamFactory: GenericFactory<SeekableInputStream, IOException>,
-					timestamp: TimestampUTC?,
-					session: UUID,
-					fromCache: Boolean,
-					mimetype: String?
-				) {
-					val result = filter(
-						FileRequestMetadata(
-							streamFactory,
-							timestamp,
-							session,
-							fromCache,
-							mimetype
+					override fun onDataStreamComplete(
+						streamFactory: GenericFactory<SeekableInputStream, IOException>,
+						timestamp: TimestampUTC?,
+						session: UUID,
+						fromCache: Boolean,
+						mimetype: String?
+					) {
+						val result = filter(
+							FileRequestMetadata(
+								streamFactory,
+								timestamp,
+								session,
+								fromCache,
+								mimetype
+							)
 						)
-					)
 
-					AndroidCommon.runOnUiThread {
-						if (active) {
-							state.value = result
-							done = true
+						AndroidCommon.runOnUiThread {
+							if (active) {
+								state.value = result
+								done = true
+							}
 						}
 					}
-				}
 
-				override fun onProgress(
-					authorizationInProgress: Boolean,
-					bytesRead: Long,
-					totalBytes: Long
-				) {
-					AndroidCommon.runOnUiThread {
-						if (active && totalBytes > 0) {
-							state.value =
-								NetRequestStatus.Downloading(bytesRead.toFloat() / totalBytes.toFloat())
+					override fun onProgress(
+						authorizationInProgress: Boolean,
+						bytesRead: Long,
+						totalBytes: Long
+					) {
+						AndroidCommon.runOnUiThread {
+							if (active && totalBytes > 0) {
+								state.value =
+									NetRequestStatus.Downloading(
+										bytesRead.toFloat() / totalBytes.toFloat())
+							}
 						}
 					}
-				}
-			}
-		)
+				})
+			.build()
 
 		CacheManager.getInstance(context).makeRequest(req)
 

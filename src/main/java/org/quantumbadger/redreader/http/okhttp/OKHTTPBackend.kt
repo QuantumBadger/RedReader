@@ -28,7 +28,9 @@ import okhttp3.HttpUrl
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.internal.EMPTY_REQUEST
 import org.quantumbadger.redreader.cache.CacheRequest
 import org.quantumbadger.redreader.common.Constants
 import org.quantumbadger.redreader.common.General.getGeneralErrorForFailure
@@ -174,37 +176,10 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 
 		val requestBody = details.requestBody
 
-		if (requestBody != null) {
-			reqBuilder.post(
-				when (requestBody) {
-					is HTTPRequestBody.Multipart -> {
-						val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
-
-						requestBody.forEachPart { part: Part ->
-							when (part) {
-								is Part.FormData -> {
-									builder.addFormDataPart(part.name, part.value)
-								}
-
-								is Part.FormDataBinary -> {
-									builder.addFormDataPart(
-										name = part.name,
-										filename = null,
-										body = part.value.toRequestBody("application/octet-stream".toMediaType())
-									)
-								}
-							}
-						}
-
-						builder.build()
-					}
-
-					is HTTPRequestBody.PostFields -> requestBody.encodeFields()
-						.toRequestBody("application/x-www-form-urlencoded".toMediaType())
-				}
-			)
-		} else {
-			reqBuilder.get()
+		when(details.requestMethod) {
+			CacheRequest.RequestMethod.GET -> reqBuilder.get()
+			CacheRequest.RequestMethod.PUT -> reqBuilder.put(prepareRequestBody(requestBody));
+			CacheRequest.RequestMethod.POST -> reqBuilder.post(prepareRequestBody(requestBody))
 		}
 
 		reqBuilder.url(details.url.value)
@@ -242,7 +217,7 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 					val status = response.code
 					val body = response.body
 
-					if (status == 200 || status == 202) {
+					if (status in 200..299) {
 
 						val bodyStream: InputStream?
 						val bodyLength: Long?
@@ -310,6 +285,37 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 			override fun addHeader(name: String, value: String) {
 				reqBuilder.addHeader(name, value)
 			}
+		}
+	}
+
+	private fun prepareRequestBody(requestBody: HTTPRequestBody?): RequestBody {
+		return when (requestBody) {
+			is HTTPRequestBody.Multipart -> {
+				val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+				requestBody.forEachPart { part: Part ->
+					when (part) {
+						is Part.FormData -> {
+							builder.addFormDataPart(part.name, part.value)
+						}
+
+						is Part.FormDataBinary -> {
+							builder.addFormDataPart(
+								name = part.name,
+								filename = null,
+								body = part.value.toRequestBody("application/octet-stream".toMediaType())
+							)
+						}
+					}
+				}
+
+				builder.build()
+			}
+
+			is HTTPRequestBody.PostFields -> requestBody.encodeFields()
+				.toRequestBody("application/x-www-form-urlencoded".toMediaType())
+
+			null -> EMPTY_REQUEST
 		}
 	}
 

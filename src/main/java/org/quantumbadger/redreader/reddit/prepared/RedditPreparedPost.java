@@ -705,16 +705,16 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		final RedditAccount anon = RedditAccountManager.getAnon();
 
-		cm.makeRequest(new CacheRequest(
-				uri,
-				anon,
-				null,
-				new Priority(priority, listId),
-				DownloadStrategyIfNotCached.INSTANCE,
-				fileType,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				context,
-				new CacheRequestCallbacks() {
+		cm.makeRequest(new CacheRequest.Builder()
+				.setUrl(uri)
+				.setUser(anon)
+				.setPriority(new Priority(priority, listId))
+				.setDownloadStrategy(DownloadStrategyIfNotCached.INSTANCE)
+				.setFileType(fileType)
+				.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(context)
+				.setCallbacks(new CacheRequestCallbacks() {
 
 					@Override
 					public void onDataStreamComplete(
@@ -740,7 +740,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 									error.t);
 						}
 					}
-				}));
+				})
+				.build());
 	}
 
 	// These operations are ordered so as to avoid race conditions

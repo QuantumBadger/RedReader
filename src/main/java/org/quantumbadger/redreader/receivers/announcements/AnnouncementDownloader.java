@@ -60,36 +60,38 @@ public final class AnnouncementDownloader {
 			return;
 		}
 
-		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				Constants.Reddit.getUri("/r/rr_announcements/new.json?limit=1"),
-				RedditAccountManager.getAnon(),
-				null,
-				new Priority(Constants.Priority.DEV_ANNOUNCEMENTS),
-				DownloadStrategyAlways.INSTANCE,
-				Constants.FileType.POST_LIST,
-				CacheRequest.DownloadQueueType.REDDIT_API,
-				false,
-				context,
-				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
+		CacheManager.getInstance(context).makeRequest(new CacheRequest.Builder()
+				.setUrl(Constants.Reddit.getUri("/r/rr_announcements/new.json?limit=1"))
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(new Priority(Constants.Priority.DEV_ANNOUNCEMENTS))
+				.setDownloadStrategy(DownloadStrategyAlways.INSTANCE)
+				.setFileType(Constants.FileType.POST_LIST)
+				.setQueueType(CacheRequest.DownloadQueueType.REDDIT_API)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setCache(false)
+				.setContext(context)
+				.setCallbacks(new CacheRequestJSONParser(
+						context, new CacheRequestJSONParser.Listener() {
+							@Override
+							public void onJsonParsed(
+									@NonNull final JsonValue result,
+									final TimestampUTC timestamp,
+									@NonNull final UUID session,
+									final boolean fromCache) {
 
-						onJsonRetrieved(context, result);
-					}
+								onJsonRetrieved(context, result);
+							}
 
-					@Override
-					public void onFailure(@NonNull final RRError error) {
+							@Override
+							public void onFailure(@NonNull final RRError error) {
 
-						Log.e(
-								TAG,
-								"Error downloading announcements: " + error,
-								error.t);
-					}
-				})));
+								Log.e(
+										TAG,
+										"Error downloading announcements: " + error,
+										error.t);
+							}
+				}))
+				.build());
 	}
 
 	private static void onJsonRetrieved(

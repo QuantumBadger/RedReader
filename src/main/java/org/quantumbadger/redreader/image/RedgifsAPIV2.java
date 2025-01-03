@@ -85,48 +85,50 @@ public final class RedgifsAPIV2 {
 		final UriString apiUrl = new UriString("https://api.redgifs.com/v2/gifs/"
 				+ StringUtils.asciiLowercase(imageId));
 
-		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				apiUrl,
-				RedditAccountManager.getAnon(),
-				null,
-				priority,
+		CacheManager.getInstance(context).makeRequest(new CacheRequest.Builder()
+				.setUrl(apiUrl)
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(priority)
 				// RedGifs V2 links expire after an undocumented period of time
-				new DownloadStrategyIfTimestampOutsideBounds(
-						TimestampBound.notOlderThan(TimeDuration.minutes(10))),
-				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.REDGIFS_API_V2,
-				context,
-				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
+				.setDownloadStrategy(new DownloadStrategyIfTimestampOutsideBounds(
+						TimestampBound.notOlderThan(TimeDuration.minutes(10))))
+				.setFileType(Constants.FileType.IMAGE_INFO)
+				.setQueueType(CacheRequest.DownloadQueueType.REDGIFS_API_V2)
+				.setRequestMethod(CacheRequest.RequestMethod.GET)
+				.setContext(context)
+				.setCallbacks(
+					new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+						@Override
+						public void onJsonParsed(
+								@NonNull final JsonValue result,
+								final TimestampUTC timestamp,
+								@NonNull final UUID session,
+								final boolean fromCache) {
 
-						try {
-							listener.onSuccess(ImageInfo.parseRedgifsV2(result
-									.getObjectAtPath("gif")
-									.orThrow(() -> new RuntimeException("No element 'gif'"))));
+							try {
+								listener.onSuccess(ImageInfo.parseRedgifsV2(result
+										.getObjectAtPath("gif")
+										.orThrow(() -> new RuntimeException("No element 'gif'"))));
 
-							Log.i(TAG, "Got RedGifs v2 metadata");
+								Log.i(TAG, "Got RedGifs v2 metadata");
 
-						} catch(final Throwable t) {
-							listener.onFailure(General.getGeneralErrorForFailure(
-									context,
-									CacheRequest.RequestFailureType.PARSE,
-									t,
-									null,
-									apiUrl,
-									Optional.of(new FailedRequestBody(result))));
+							} catch(final Throwable t) {
+								listener.onFailure(General.getGeneralErrorForFailure(
+										context,
+										CacheRequest.RequestFailureType.PARSE,
+										t,
+										null,
+										apiUrl,
+										Optional.of(new FailedRequestBody(result))));
+							}
 						}
-					}
 
-					@Override
-					public void onFailure(@NonNull final RRError error) {
-						listener.onFailure(error);
-					}
-				})));
+						@Override
+						public void onFailure(@NonNull final RRError error) {
+							listener.onFailure(error);
+						}
+					}))
+				.build());
 
 	}
 
@@ -146,63 +148,62 @@ public final class RedgifsAPIV2 {
 
 		final UriString apiUrl = new UriString("https://api.redgifs.com/v2/oauth/client");
 
-		CacheManager.getInstance(context).makeRequest(new CacheRequest(
-				apiUrl,
-				RedditAccountManager.getAnon(),
-				null,
-				priority,
-				DownloadStrategyAlways.INSTANCE,
-				Constants.FileType.IMAGE_INFO,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				new HTTPRequestBody.PostFields(
+		CacheManager.getInstance(context).makeRequest(new CacheRequest.Builder()
+				.setUrl(apiUrl)
+				.setUser(RedditAccountManager.getAnon())
+				.setPriority(priority)
+				.setDownloadStrategy(DownloadStrategyAlways.INSTANCE)
+				.setFileType(Constants.FileType.IMAGE_INFO)
+				.setQueueType(CacheRequest.DownloadQueueType.IMMEDIATE)
+				.setRequestMethod(CacheRequest.RequestMethod.POST)
+				.setRequestBody(new HTTPRequestBody.PostFields(
 						new PostField("grant_type", "client_credentials"),
 						new PostField(
 								Constants.OA_CI,
 								"1828d09da4e-1011-a880-0005-d2ecbe8daab3"),
 						new PostField(
 								Constants.OA_CS,
-								"yCarP8TUpIr6J2W8YW+vgSRb8HuBd9koW/nkPtsQaP8=")
-				),
-				context,
-				new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
-					@Override
-					public void onJsonParsed(
-							@NonNull final JsonValue result,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache) {
+								"yCarP8TUpIr6J2W8YW+vgSRb8HuBd9koW/nkPtsQaP8=")))
+				.setContext(context)
+				.setCallbacks(
+					new CacheRequestJSONParser(context, new CacheRequestJSONParser.Listener() {
+						@Override
+						public void onJsonParsed(
+								@NonNull final JsonValue result,
+								final TimestampUTC timestamp,
+								@NonNull final UUID session,
+								final boolean fromCache) {
 
-						final Optional<String> accessToken
-								= result.getStringAtPath("access_token");
+							final Optional<String> accessToken
+									= result.getStringAtPath("access_token");
 
-						if(accessToken.isEmpty()) {
-							Log.i(TAG, "Failed to get RedGifs v2 token: result not present");
-							listener.onFailure(General.getGeneralErrorForFailure(
-									context,
-									CacheRequest.RequestFailureType.REQUEST,
-									null,
-									null,
-									apiUrl,
-									Optional.of(new FailedRequestBody(result))));
-							return;
+							if(accessToken.isEmpty()) {
+								Log.i(TAG, "Failed to get RedGifs v2 token: result not present");
+								listener.onFailure(General.getGeneralErrorForFailure(
+										context,
+										CacheRequest.RequestFailureType.REQUEST,
+										null,
+										null,
+										apiUrl,
+										Optional.of(new FailedRequestBody(result))));
+								return;
+							}
+
+							Log.i(TAG, "Got RedGifs v2 token");
+
+							TOKEN.set(AuthToken.expireIn10Mins(accessToken.get()));
+
+							requestMetadata(context, imageId, priority, listener);
 						}
 
-						Log.i(TAG, "Got RedGifs v2 token");
+						@Override
+						public void onFailure(@NonNull final RRError error) {
 
-						TOKEN.set(AuthToken.expireIn10Mins(accessToken.get()));
-
-						requestMetadata(context, imageId, priority, listener);
-					}
-
-					@Override
-					public void onFailure(@NonNull final RRError error) {
-
-						Log.i(TAG, "Failed to get RedGifs v2 token");
-						listener.onFailure(error);
-					}
-				})
-
-		));
+							Log.i(TAG, "Failed to get RedGifs v2 token");
+							listener.onFailure(error);
+						}
+					}))
+				.build());
 	}
 
 

@@ -162,11 +162,6 @@ public class PostListingController {
 				== SubredditPostListURL.Type.SUBREDDIT_COMBINATION;
 	}
 
-	public final boolean isRandomSubreddit() {
-		return url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
-				&& url.asSubredditPostListURL().type == SubredditPostListURL.Type.RANDOM;
-	}
-
 	public final boolean isMultireddit() {
 		return url.pathType() == RedditURLParser.MULTIREDDIT_POST_LISTING_URL;
 	}
@@ -188,8 +183,6 @@ public class PostListingController {
 		if(url.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
 				&& (url.asSubredditPostListURL().type
 				== SubredditPostListURL.Type.SUBREDDIT
-				|| url.asSubredditPostListURL().type
-				== SubredditPostListURL.Type.RANDOM
 				|| url.asSubredditPostListURL().type
 				== SubredditPostListURL.Type.SUBREDDIT_COMBINATION)) {
 			try {

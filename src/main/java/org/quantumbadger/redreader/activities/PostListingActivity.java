@@ -46,13 +46,11 @@ import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
-import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.Locale;

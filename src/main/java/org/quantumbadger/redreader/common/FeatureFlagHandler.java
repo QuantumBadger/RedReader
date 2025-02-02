@@ -475,11 +475,6 @@ public final class FeatureFlagHandler {
 					existingShortcutPreferences.add("popular");
 				}
 
-
-				if(PrefsUtility.pref_show_random_main_menu()) {
-					existingShortcutPreferences.add("random");
-				}
-
 				sharedPreferences.edit().putStringSet(
 						activity.getString(R.string.pref_menus_mainmenu_shortcutitems_key),
 						existingShortcutPreferences).apply();

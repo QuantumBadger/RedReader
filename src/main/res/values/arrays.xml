@@ -844,8 +844,6 @@
 		<item>all</item>
 		<item>subreddit_search</item>
 		<item>custom</item>
-		<item>random</item>
-		<item>random_nsfw</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->

@@ -631,7 +631,6 @@
     <string name="error_no_suitable_apps_available">Neniu taŭga disponebla aplikaĵo.</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Montri navigajn butonojn sur komentoj</string>
     <string name="disable_replies_to_infobox_failed">Ne povas malaktivigi respondojn al mesaĝujo</string>
-    <string name="pref_menus_show_random_main_menu_title">Montri /r/random en la ĉefmenuo</string>
     <string name="pref_cache_maxage_entry_title">Forviŝi kaŝmemorigitajn indikojn (legita, voĉdonita, ktp.) post</string>
     <string name="mainmenu_custom_destination_search">Serĉi</string>
     <string name="pref_behaviour_sharing_share_text_title">Ampleksi tekston kiam kunhavigi komenton</string>
@@ -655,7 +654,6 @@
     <string name="pref_menus_mainmenu_shortcutitems_title">Rapidligiloj</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Montri plurredditerojn</string>
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Montri abonatajn redditerojn</string>
-    <string name="mainmenu_random_nsfw">Hazarda maldeca redditero</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Montri indikilon de bildformato</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Montri formaton de ŝargata bildo/filmo dum ŝargi</string>
     <string name="pref_appearance_bottom_toolbar_title">Montri ilarstrion sube</string>

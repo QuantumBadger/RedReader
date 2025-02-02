@@ -213,7 +213,7 @@ public class MainMenuFragment extends RRFragment implements
 	}
 
 	public enum MainMenuShortcutItems {
-		FRONTPAGE, POPULAR, ALL, SUBREDDIT_SEARCH, CUSTOM, RANDOM_NSFW
+		FRONTPAGE, POPULAR, ALL, SUBREDDIT_SEARCH, CUSTOM
 	}
 
 	@Override

@@ -835,7 +835,6 @@
 		<item>@string/mainmenu_all</item>
 		<item>@string/find_location</item>
 		<item>@string/mainmenu_custom_destination</item>
-		<item>@string/mainmenu_random_nsfw</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->

@@ -524,7 +524,6 @@
     <string name="pref_appearance_bottom_toolbar_title">Rodyti įrankių juostą apačioje</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Rodyti laikmenos įkėlimo vaizdą, kai jis yra pasiekiamas</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Rodyti vaizdo formato indikatorių</string>
-    <string name="mainmenu_random_nsfw">Atsitiktinis NSFW subreddit\'as</string>
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Rodyti prenumeruojamus subreddit\'us</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Rodyti multireddit\'us</string>
     <string name="pref_menus_mainmenu_shortcutitems_title">Nuorodos</string>
@@ -542,7 +541,6 @@
     <string name="pref_behaviour_sharing_header">Bendrinimas</string>
     <string name="search_listing_header_query">Paieškos užklausa</string>
     <string name="mainmenu_custom_empty_search_query">Tuščia paieškos užklausa.</string>
-    <string name="pref_menus_show_random_main_menu_title">Rodyti /r/random pagrindiniame meniu</string>
     <string name="disable_replies_to_infobox_failed">Nepavyko išjungti atsakymų į aplanką Gauta</string>
     <string name="pref_behaviour_sharing_share_text_title">Įtraukti tekstą, kai bendrinant komentarą</string>
     <string name="error_no_suitable_apps_available">Tinkamų programėlių nėra.</string>

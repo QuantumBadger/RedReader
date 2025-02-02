@@ -734,8 +734,6 @@
 
 	<string name="disable_replies_to_infobox_failed">無法停止發送回覆至郵箱</string>
 
-	<string name="pref_menus_show_random_main_menu_title">在主選單顯示/r/random</string>
-
 	<string name="mainmenu_custom_empty_search_query">請輸入要搜尋的內容。</string>
 
 	<string name="search_listing_header_query">搜尋內容</string>

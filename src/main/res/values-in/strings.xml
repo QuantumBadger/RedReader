@@ -637,7 +637,6 @@
     <string name="pref_behaviour_video_playback_controls_title">Aktifkan kontrol pemutaran video</string>
     <string name="error_no_suitable_apps_available">Tidak tersedia apl yang cocok.</string>
     <string name="disable_replies_to_infobox_failed">Tidak bisa menonaktifkan balasan ke kotak masuk</string>
-    <string name="pref_menus_show_random_main_menu_title">Tampilkan /r/random di menu utama</string>
     <string name="pref_cache_maxage_entry_title">Hapus cache status (dibaca, diupvote, dll) setelah</string>
     <string name="mainmenu_custom_destination_search">Cari</string>
     <string name="pref_behaviour_sharing_share_text_title">Sertakan teks saat membagikan komentar</string>
@@ -661,7 +660,6 @@
     <string name="pref_menus_mainmenu_shortcutitems_title">Pintasan</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Tampilkan multireddit</string>
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Tampilkan langganan subreddit</string>
-    <string name="mainmenu_random_nsfw">Subreddit TAUSB Acak</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Tampilkan indikator rasio aspek</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Tampilkan indikator pemuatan media jika tersedia</string>
     <string name="pref_appearance_bottom_toolbar_title">Tampilkan bilah alat di bawah</string>

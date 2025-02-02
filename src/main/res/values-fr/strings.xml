@@ -614,7 +614,6 @@
     <string name="theme_name_night_lowcontrast">Nuit (bas contraste)</string>
     <string name="time_secs">secs</string>
     <string name="pref_behaviour_postcount_title">Restreindre le nombre de posts</string>
-    <string name="pref_menus_show_random_main_menu_title">Afficher /r/random dans le menu principal</string>
     <string name="share_comments_for">Commentaires pour %s</string>
     <string name="webview_https_already">L\'addresse actuelle est déjà en HTTPS.</string>
     <string name="pref_behaviour_pinned_subredditsort">Tri par défaut des sub. épinglés</string>
@@ -666,7 +665,6 @@
     <string name="pref_menus_mainmenu_shortcutitems_title">Raccourcis</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Afficher les multireddits</string>
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Afficher les subreddits auxquels vous êtes abonnés</string>
-    <string name="mainmenu_random_nsfw">Sous-reddit NSFW aléatoire</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Afficher l\'indicateur d\'aspect</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Afficher un visuel d\'un média en chargement si disponible</string>
     <string name="pref_appearance_bottom_toolbar_title">Afficher la barre d\'outils en bas</string>

@@ -522,7 +522,6 @@
     <string name="pref_behaviour_video_playback_controls_title">Skru på videoavspillingskontroller</string>
     <string name="error_no_suitable_apps_available">Ingen egnede programmer tilgjengelig.</string>
     <string name="disable_replies_to_infobox_failed">Klarte ikke å slå av svarfunksjon for innboks</string>
-    <string name="pref_menus_show_random_main_menu_title">Vis /r/random i hovedmenyen</string>
     <string name="pref_cache_maxage_entry_title">Slett hurtiglagrede flagg (lest, oppvotert, osv.) etter</string>
     <string name="mainmenu_custom_destination_search">Søk</string>
     <string name="pref_behaviour_sharing_share_text_title">Inkluder tekst ved deling av kommentar</string>
@@ -546,7 +545,6 @@
     <string name="pref_menus_mainmenu_shortcutitems_title">Hovedmenysnarveier</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Vis multireddit-er</string>
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Vis abonnerte underreddit-er</string>
-    <string name="mainmenu_random_nsfw">Tilfeldig NSFW-underreddit</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Vis indikator for sideforhold</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_summary" tools:ignore="Typos">Vis innlasting av media visuelt når tilgjengelig</string>
     <string name="pref_appearance_bottom_toolbar_title">Vis verktøyslinje på bunnen</string>

@@ -453,12 +453,6 @@ public final class PrefsUtility {
 				false);
 	}
 
-	public static boolean pref_show_random_main_menu() {
-		return getBoolean(
-				R.string.pref_menus_show_random_main_menu_key,
-				false);
-	}
-
 	public static boolean pref_show_multireddit_main_menu() {
 		return getBoolean(
 				R.string.pref_menus_show_multireddit_main_menu_key,

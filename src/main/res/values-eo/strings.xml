@@ -631,7 +631,6 @@
     <string name="error_no_suitable_apps_available">Neniu taŭga disponebla aplikaĵo.</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Montri navigajn butonojn sur komentoj</string>
     <string name="disable_replies_to_infobox_failed">Ne povas malaktivigi respondojn al mesaĝujo</string>
-    <string name="mainmenu_random">Hazarda redditero</string>
     <string name="pref_menus_show_random_main_menu_title">Montri /r/random en la ĉefmenuo</string>
     <string name="pref_cache_maxage_entry_title">Forviŝi kaŝmemorigitajn indikojn (legita, voĉdonita, ktp.) post</string>
     <string name="mainmenu_custom_destination_search">Serĉi</string>

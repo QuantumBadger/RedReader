@@ -637,7 +637,6 @@
     <string name="pref_behaviour_video_playback_controls_title">Aktifkan kontrol pemutaran video</string>
     <string name="error_no_suitable_apps_available">Tidak tersedia apl yang cocok.</string>
     <string name="disable_replies_to_infobox_failed">Tidak bisa menonaktifkan balasan ke kotak masuk</string>
-    <string name="mainmenu_random">Subreddit Acak</string>
     <string name="pref_menus_show_random_main_menu_title">Tampilkan /r/random di menu utama</string>
     <string name="pref_cache_maxage_entry_title">Hapus cache status (dibaca, diupvote, dll) setelah</string>
     <string name="mainmenu_custom_destination_search">Cari</string>

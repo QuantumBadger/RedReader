@@ -565,7 +565,6 @@
     <string name="pref_behaviour_video_playback_controls_title">أظهر عناصر تحكم تشغيل الفيديو</string>
     <string name="error_no_suitable_apps_available">لا تتوفر تطبيقات مناسبه.</string>
     <string name="disable_replies_to_infobox_failed">فشل في منع إرسال الردود إلى البريد الوارد</string>
-    <string name="mainmenu_random">منتدى فرعي عشوائي</string>
     <string name="pref_menus_show_random_main_menu_title">إظهار &lt;/r/random&gt; في القائمة الرئيسية</string>
     <string name="pref_cache_maxage_entry_title">مسح الأعلام (قُرِأَ ,تصويت ,إلخ.) بعد</string>
     <string name="mainmenu_custom_destination_search">بحث</string>

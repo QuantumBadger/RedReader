@@ -488,7 +488,6 @@
     <string name="pref_menus_show_popular_main_menu_title">在主菜单显示/r/popular</string>
     <string name="pref_behaviour_video_playback_controls_title">启用视频播放控制</string>
     <string name="error_no_suitable_apps_available">没有合适的应用。</string>
-    <string name="mainmenu_random">随机版块</string>
     <string name="pref_menus_show_random_main_menu_title">在主菜单显示/r/random</string>
     <string name="share_comments_for">%s的评论</string>
     <string name="share_comment_by_on_reddit">%s的Reddit评论</string>

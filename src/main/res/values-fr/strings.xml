@@ -578,7 +578,6 @@
     <string name="mainmenu_custom_destination_search">Rechercher</string>
     <string name="web_view_clear_cache">Vider le cache</string>
     <string name="user_comments">Commentaires</string>
-    <string name="mainmenu_random">Subreddit aléatoire</string>
     <string name="send_replies_to_inbox">Envoyer réponses dans ma boîte de réception</string>
     <string name="upload_to_imgur">Partager sur Imgur</string>
     <string name="webview_use_https">Utiliser HTTPS</string>

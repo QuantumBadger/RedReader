@@ -265,16 +265,6 @@ public class MainMenuListingManager {
 								false));
 			}
 
-			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM)) {
-				mAdapter.appendToGroup(
-						GROUP_MAIN_ITEMS,
-						makeItem(
-								R.string.mainmenu_random,
-								MainMenuFragment.MENU_MENU_ACTION_RANDOM,
-								null,
-								false));
-			}
-
 			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.RANDOM_NSFW)) {
 				mAdapter.appendToGroup(
 						GROUP_MAIN_ITEMS,

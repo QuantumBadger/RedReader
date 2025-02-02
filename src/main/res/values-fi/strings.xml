@@ -398,7 +398,6 @@
     <string name="search_listing_header_query">Hakupyyntö</string>
     <string name="mainmenu_custom_empty_search_query">Tyhjä hakupyyntö.</string>
     <string name="pref_menus_show_random_main_menu_title">Näytä /r/random päävalikossa</string>
-    <string name="mainmenu_random">Satunnainen subreddit</string>
     <string name="disable_replies_to_infobox_failed">Ei voitu poistaa käytöstä vastauksia postilaatikkoon</string>
     <string name="pref_behaviour_sharing_share_text_title">Sisällytä teksti, kun jaetaan kommentti</string>
     <string name="error_no_suitable_apps_available">Ei kelvollisia sovelluksia saatavilla.</string>

@@ -508,7 +508,6 @@
     <string name="error_403_title_nonreddit">Åtkomst nekad</string>
     <string name="action_subscribe_subreddit">Prenumerera på subreddit</string>
     <string name="action_unsubscribe_subreddit">Sluta prenumerera på subreddit</string>
-    <string name="mainmenu_random">Slumpmässigt vald subreddit</string>
     <string name="send_replies_to_inbox">Skicka svar till min inkorg</string>
     <string name="upload_to_imgur">Ladda upp till Imgur</string>
     <string name="submit_post_url_hint">URL</string>

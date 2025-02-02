@@ -187,24 +187,8 @@ public class PostListingActivity extends RefreshableActivity
 		final RedditSubredditSubscriptionManager subredditSubscriptionManager
 				= RedditSubredditSubscriptionManager.getSingleton(this, user);
 
-		if(fragment != null
-				&& controller.isRandomSubreddit()
-				&& fragment.getSubreddit() != null) {
-			SubredditPostListURL url = SubredditPostListURL.parse(controller.getUri());
-			if(url != null && url.type == SubredditPostListURL.Type.RANDOM) {
-				try {
-					final String newSubreddit
-							= RedditSubreddit.stripRPrefix(fragment.getSubreddit().url);
-					url = url.changeSubreddit(newSubreddit);
-					controller = new PostListingController(url, this);
-				} catch(final InvalidSubredditNameException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-
 		if(!user.isAnonymous()
-				&& (controller.isSubreddit() || controller.isRandomSubreddit())
+				&& controller.isSubreddit()
 				&& subredditSubscriptionManager.areSubscriptionsReady()
 				&& fragment != null
 				&& fragment.getSubreddit() != null) {
@@ -224,7 +208,7 @@ public class PostListingActivity extends RefreshableActivity
 		Boolean subredditPinState = null;
 		Boolean subredditBlockedState = null;
 
-		if((controller.isSubreddit() || controller.isRandomSubreddit())
+		if(controller.isSubreddit()
 				&& fragment != null
 				&& fragment.getSubreddit() != null) {
 

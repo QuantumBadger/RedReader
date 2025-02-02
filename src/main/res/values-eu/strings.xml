@@ -407,7 +407,6 @@
     <string name="pref_menus_show_popular_main_menu_title">Erakutsi /r/popular menu nagusian</string>
     <string name="pref_behaviour_video_playback_controls_title">Gaitu bideo erreprodukzio kontrolak</string>
     <string name="pref_behaviour_sharing_share_text_title">Gehitu testua iruzkina partekatzerakoan</string>
-    <string name="mainmenu_random">Ausazko subreddita</string>
     <string name="mainmenu_custom_empty_search_query">Bilaketa gaia hutsik.</string>
     <string name="search_listing_header_query">Bilaketa gaia</string>
     <string name="pref_behaviour_sharing_header">Partekatzea</string>

@@ -43,14 +43,6 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(Type.POPULAR, null, null, null, null, null);
 	}
 
-	public static SubredditPostListURL getRandom() {
-		return new SubredditPostListURL(Type.RANDOM, "random", null, null, null, null);
-	}
-
-	public static SubredditPostListURL getRandomNsfw() {
-		return new SubredditPostListURL(Type.RANDOM, "randnsfw", null, null, null, null);
-	}
-
 	public static SubredditPostListURL getAll() {
 		return new SubredditPostListURL(Type.ALL, null, null, null, null, null);
 	}
@@ -69,7 +61,7 @@ public class SubredditPostListURL extends PostListingURL {
 	}
 
 	public enum Type {
-		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION, POPULAR, RANDOM
+		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION, POPULAR
 	}
 
 	@NonNull public final Type type;
@@ -136,7 +128,6 @@ public class SubredditPostListURL extends PostListingURL {
 			case SUBREDDIT:
 			case SUBREDDIT_COMBINATION:
 			case ALL_SUBTRACTION:
-			case RANDOM:
 				builder.encodedPath("/r/");
 				builder.appendPath(subreddit);
 				break;
@@ -293,16 +284,6 @@ public class SubredditPostListURL extends PostListingURL {
 							before,
 							after);
 
-				} else if(subreddit.equals("random") || subreddit.equals("randnsfw")) {
-
-					return new SubredditPostListURL(
-							Type.RANDOM,
-							subreddit,
-							order,
-							limit,
-							before,
-							after);
-
 				} else if(subreddit.matches("all(\\-[\\w\\.]+)+")) {
 
 					if(pathSegments.length == 2) {
@@ -427,11 +408,6 @@ public class SubredditPostListURL extends PostListingURL {
 
 			case POPULAR:
 				return context.getString(R.string.mainmenu_popular);
-
-			case RANDOM:
-				return context.getString("randnsfw".equals(subreddit)
-						? R.string.mainmenu_random_nsfw
-						: R.string.mainmenu_random);
 
 			case SUBREDDIT:
 				try {

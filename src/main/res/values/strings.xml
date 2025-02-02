@@ -1007,7 +1007,7 @@
 	<string name="disable_replies_to_infobox_failed">Could not turn off replies to inbox</string>
 
 	<!-- 2017-12-03 -->
-	<string name="mainmenu_random">Random Subreddit</string>
+
 	<string name="pref_menus_show_random_main_menu_key" translatable="false">pref_menus_show_random_main_menu</string>
 	<string name="pref_menus_show_random_main_menu_title">Show /r/random in main menu</string>
 

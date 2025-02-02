@@ -530,7 +530,6 @@
     <string name="mainmenu_custom_destination_search">Поиск</string>
     <string name="pref_behaviour_sharing_share_text_title">Добавлять текст при распространении комментария</string>
     <string name="disable_replies_to_infobox_failed">Не удалось отключить отправку ответов во входящие</string>
-    <string name="mainmenu_random">Случайный сабреддит</string>
     <string name="pref_menus_show_random_main_menu_title">Отображать /r/random в главном меню</string>
     <string name="mainmenu_custom_empty_search_query">Пустой поисковый запрос.</string>
     <string name="search_listing_header_query">Поисковый запрос</string>

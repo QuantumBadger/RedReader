@@ -543,7 +543,6 @@
     <string name="search_listing_header_query">Paieškos užklausa</string>
     <string name="mainmenu_custom_empty_search_query">Tuščia paieškos užklausa.</string>
     <string name="pref_menus_show_random_main_menu_title">Rodyti /r/random pagrindiniame meniu</string>
-    <string name="mainmenu_random">Atsitiktinis subreddit\'as</string>
     <string name="disable_replies_to_infobox_failed">Nepavyko išjungti atsakymų į aplanką Gauta</string>
     <string name="pref_behaviour_sharing_share_text_title">Įtraukti tekstą, kai bendrinant komentarą</string>
     <string name="error_no_suitable_apps_available">Tinkamų programėlių nėra.</string>

@@ -631,7 +631,6 @@
     <string name="error_no_suitable_apps_available">Brak odpowiedniej aplikacji.</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Pokazuj przyciski nawigacyjne nad komentarzami</string>
     <string name="disable_replies_to_infobox_failed">Nie można wyłączyć odpowiedzi do skrzynki odbiorczej</string>
-    <string name="mainmenu_random">Losowy subreddit</string>
     <string name="pref_menus_show_random_main_menu_title">Pokaż /r/random w menu głównym</string>
     <string name="pref_cache_maxage_entry_title">Czyść buforowane flagi (przeczytano, zagłosowano, itp.) po</string>
     <string name="mainmenu_custom_destination_search">Wyszukaj</string>

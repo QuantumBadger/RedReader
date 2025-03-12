@@ -335,7 +335,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			}
 
 			@Override
-			public void onPlayWhenReadyChanged(boolean playWhenReady, int reason) {
+			public void onPlayWhenReadyChanged(final boolean playWhenReady, final int reason) {
 
 				if (mPlayButton == null) {
 					return;

@@ -1,3 +1,6 @@
+114/1.25
+Added video playback speed control (thanks to folkemat)
+
 113/1.24.1
 Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)
 Remove red background/border behind transparent images in the gallery

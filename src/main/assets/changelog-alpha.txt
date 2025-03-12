@@ -1,3 +1,6 @@
+/Alpha 358 (2025-03-12)
+Added video playback speed control (thanks to folkemat)
+
 /Alpha 357 (2024-08-25)
 Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)
 Remove red background/border behind transparent images in the gallery

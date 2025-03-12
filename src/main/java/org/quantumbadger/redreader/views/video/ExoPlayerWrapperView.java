@@ -22,13 +22,14 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Button;
 import android.widget.SeekBar;
+import android.widget.TextView;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,7 @@ import androidx.media3.ui.PlayerView;
 import androidx.media3.ui.TimeBar;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
@@ -68,6 +70,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 	@NonNull private final ExoPlayer mVideoPlayer;
 
 	@Nullable private final RelativeLayout mControlView;
+	@Nullable private final ImageButton mPlayButton;
 
 	@Nullable private final DefaultTimeBar mTimeBarView;
 	@Nullable private final TextView mTimeTextView;
@@ -165,34 +168,17 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						updateProgress();
 					}), buttons);
 
-			{
-				final AtomicReference<ImageButton> playButton = new AtomicReference<>();
+			mPlayButton = createButton(
+					context,
+					mControlView,
+					R.drawable.icon_pause,
+					R.string.video_pause,
+					view -> {
+						mVideoPlayer.setPlayWhenReady(!mVideoPlayer.getPlayWhenReady());
+						updateProgress();
+					});
 
-				playButton.set(createButton(
-						context,
-						mControlView,
-						R.drawable.icon_pause,
-						R.string.video_pause,
-						view -> {
-							mVideoPlayer.setPlayWhenReady(!mVideoPlayer.getPlayWhenReady());
-
-							if(mVideoPlayer.getPlayWhenReady()) {
-								playButton.get()
-										.setImageResource(R.drawable.icon_pause);
-								playButton.get().setContentDescription(
-										context.getString(R.string.video_pause));
-							} else {
-								playButton.get()
-										.setImageResource(R.drawable.icon_play);
-								playButton.get().setContentDescription(
-										context.getString(R.string.video_play));
-							}
-
-							updateProgress();
-						}));
-
-				addButton(playButton.get(), buttons);
-			}
+			addButton(mPlayButton, buttons);
 
 			addButton(createButton(
 					context,
@@ -305,7 +291,8 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				mSpeedTextView = new TextView(context);
 				timeAndSpeedLayout.addView(mSpeedTextView);
 				mSpeedTextView.setTextColor(Color.WHITE);
-				mSpeedTextView.setText(String.format(Locale.US, "(%.2fx)", mCurrentPlaybackSpeed));
+				// Initially empty
+				mSpeedTextView.setText("");
 
 				final int marginSidesPx = General.dpToPixels(context, 16);
 				final int marginBottomPx = General.dpToPixels(context, 8);
@@ -324,6 +311,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			mTimeBarView = null;
 			mTimeTextView = null;
 			mSpeedTextView = null;
+			mPlayButton = null;
 		}
 
 		videoPlayerView.setLayoutParams(new FrameLayout.LayoutParams(
@@ -344,6 +332,22 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					final int reason) {
 
 				updateProgress();
+			}
+
+			@Override
+			public void onPlayWhenReadyChanged(boolean playWhenReady, int reason) {
+
+				if (mPlayButton == null) {
+					return;
+				}
+
+				if(playWhenReady) {
+					mPlayButton.setImageResource(R.drawable.icon_pause);
+					mPlayButton.setContentDescription(context.getString(R.string.video_pause));
+				} else {
+					mPlayButton.setImageResource(R.drawable.icon_play);
+					mPlayButton.setContentDescription(context.getString(R.string.video_play));
+				}
 			}
 		});
 	}
@@ -542,6 +546,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			// Resume video playback when dialog is dismissed
 			mVideoPlayer.setPlayWhenReady(true);
 		});
+
 		builder.setNegativeButton(R.string.dialog_cancel, (dialog, which) -> {
 			// Resume video playback when dialog is dismissed
 			mVideoPlayer.setPlayWhenReady(true);

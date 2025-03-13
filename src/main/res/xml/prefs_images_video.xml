@@ -19,6 +19,19 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+	<PreferenceCategory
+		android:title="@string/pref_layout_category_title">
+
+		<ListPreference
+			android:key="pref_layout_mode"
+			android:title="@string/pref_layout_mode_title"
+			android:entries="@array/pref_layout_mode_entries"
+			android:entryValues="@array/pref_layout_mode_values"
+			android:defaultValue="thumbnails"
+			android:summary="%s" />
+
+	</PreferenceCategory>
+
 	<PreferenceCategory android:title="@string/pref_header_inline_image_previews">
 
 		<ListPreference android:title="@string/pref_images_inline_image_previews_title"

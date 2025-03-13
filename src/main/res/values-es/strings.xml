@@ -631,8 +631,6 @@
     <string name="error_no_suitable_apps_available">No se encontraron aplicaciones adecuadas.</string>
     <string name="pref_behaviour_sharing_share_text_title">Incluir texto al compartir comentario</string>
     <string name="disable_replies_to_infobox_failed">No se pudieron desactivar las respuestas a la bandeja de entrada</string>
-    <string name="mainmenu_random">Subreddit aleatorio</string>
-    <string name="pref_menus_show_random_main_menu_title">Mostrar /r/random en el menú principal</string>
     <string name="mainmenu_custom_empty_search_query">Búsqueda vacía.</string>
     <string name="search_listing_header_query">Búsqueda</string>
     <string name="pref_behaviour_sharing_header">Compartiendo</string>
@@ -651,7 +649,6 @@
     <string name="pref_behaviour_usecustomtabs_summary">Usar las pestañas personalizadas de Android cuando estén disponibles</string>
     <string name="pref_behaviour_hide_read_posts_title">Ocultar publicaciones leídas</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Mostrar multireddits</string>
-    <string name="mainmenu_random_nsfw">Subreddit NSFW aleatorio</string>
     <string name="error_toast_no_share_app_installed">No se ha instalado una aplicación adecuada para compartir esto.</string>
     <string name="error_already_submitted_title">Ya ha sido enviado</string>
     <string name="pref_menus_mainmenu_shortcutitems_title">Atajos</string>

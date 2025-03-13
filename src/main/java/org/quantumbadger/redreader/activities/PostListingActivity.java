@@ -46,13 +46,11 @@ import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
-import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL;
 import org.quantumbadger.redreader.reddit.url.PostListingURL;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.reddit.url.SearchPostListURL;
-import org.quantumbadger.redreader.reddit.url.SubredditPostListURL;
 import org.quantumbadger.redreader.views.RedditPostView;
 
 import java.util.Locale;
@@ -187,24 +185,8 @@ public class PostListingActivity extends RefreshableActivity
 		final RedditSubredditSubscriptionManager subredditSubscriptionManager
 				= RedditSubredditSubscriptionManager.getSingleton(this, user);
 
-		if(fragment != null
-				&& controller.isRandomSubreddit()
-				&& fragment.getSubreddit() != null) {
-			SubredditPostListURL url = SubredditPostListURL.parse(controller.getUri());
-			if(url != null && url.type == SubredditPostListURL.Type.RANDOM) {
-				try {
-					final String newSubreddit
-							= RedditSubreddit.stripRPrefix(fragment.getSubreddit().url);
-					url = url.changeSubreddit(newSubreddit);
-					controller = new PostListingController(url, this);
-				} catch(final InvalidSubredditNameException e) {
-					throw new RuntimeException(e);
-				}
-			}
-		}
-
 		if(!user.isAnonymous()
-				&& (controller.isSubreddit() || controller.isRandomSubreddit())
+				&& controller.isSubreddit()
 				&& subredditSubscriptionManager.areSubscriptionsReady()
 				&& fragment != null
 				&& fragment.getSubreddit() != null) {
@@ -224,7 +206,7 @@ public class PostListingActivity extends RefreshableActivity
 		Boolean subredditPinState = null;
 		Boolean subredditBlockedState = null;
 
-		if((controller.isSubreddit() || controller.isRandomSubreddit())
+		if(controller.isSubreddit()
 				&& fragment != null
 				&& fragment.getSubreddit() != null) {
 

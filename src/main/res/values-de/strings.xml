@@ -569,8 +569,6 @@
     <string name="pref_menus_show_popular_main_menu_title">/r/popular im Hauptmenü anzeigen</string>
     <string name="pref_behaviour_video_playback_controls_title">Videosteuerung aktivieren</string>
     <string name="error_no_suitable_apps_available">Keine passenden Apps verfügbar.</string>
-    <string name="mainmenu_random">Zufälliges Subreddit</string>
-    <string name="pref_menus_show_random_main_menu_title">/r/random im Hauptmenü anzeigen</string>
     <string name="mainmenu_custom_destination_search">Suche</string>
     <string name="mainmenu_custom_empty_search_query">Leere Suchanfrage.</string>
     <string name="search_listing_header_query">Suchanfrage</string>
@@ -595,7 +593,6 @@
     <string name="pref_behaviour_usecustomtabs_summary">Verwende benutzerdefinierte Tabs, wenn verfügbar</string>
     <string name="pref_menus_mainmenu_shortcutitems_title">Kurzbefehle</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Multireddits anzeigen</string>
-    <string name="mainmenu_random_nsfw">Zufälliger NSFW-Subreddit</string>
     <string name="prefs_category_images_video">Bilder/Video</string>
     <string name="notification_channel_name_reddit_messages">Eingehende Reddit-Nachrichten</string>
     <string name="post_text_copied_to_clipboard">Beitrag in die Zwischenablage kopiert</string>

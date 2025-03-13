@@ -508,7 +508,6 @@
     <string name="error_403_title_nonreddit">Åtkomst nekad</string>
     <string name="action_subscribe_subreddit">Prenumerera på subreddit</string>
     <string name="action_unsubscribe_subreddit">Sluta prenumerera på subreddit</string>
-    <string name="mainmenu_random">Slumpmässigt vald subreddit</string>
     <string name="send_replies_to_inbox">Skicka svar till min inkorg</string>
     <string name="upload_to_imgur">Ladda upp till Imgur</string>
     <string name="submit_post_url_hint">URL</string>
@@ -552,7 +551,6 @@
     <string name="error_upload_fail_imgur_message">Uppladdningen avvisades av Imgur av okänd anledning.</string>
     <string name="error_file_open_failed_title">Misslyckades att öppna fil</string>
     <string name="download_link_message">Detta är en nedladdningslänk. Vill du ladda detta i en extern webbläsare?</string>
-    <string name="pref_menus_show_random_main_menu_title">Visa /r/random i huvudmenyn</string>
     <string name="share_comments_for">Kommentarer för %s</string>
     <string name="error_file_too_big_title">Filen för stor</string>
     <string name="edit_comment_actionbar">Redigera kommentar</string>
@@ -626,7 +624,6 @@
     <string name="prefs_category_images_video">Bild/Video</string>
     <string name="pref_behaviour_video_mute_default_title">Tysta videos som standard</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Visa indikator för bildförhållande</string>
-    <string name="mainmenu_random_nsfw">Slumpmässig NSFW Subreddit</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Visa Multireddits</string>
     <string name="pref_menus_mainmenu_shortcutitems_title">Genvägar på startsidan</string>
     <string name="pref_behaviour_hide_read_posts_title">Göm lästa inlägg</string>

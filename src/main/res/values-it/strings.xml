@@ -489,8 +489,6 @@
     <string name="error_no_suitable_apps_available">Nessuna app adatta disponibile.</string>
     <string name="pref_behaviour_sharing_share_text_title">Includi il testo quando condividi il commento</string>
     <string name="disable_replies_to_infobox_failed">Impossibile disabilitare le risposte nella posta in arrivo</string>
-    <string name="mainmenu_random">Subreddit Random</string>
-    <string name="pref_menus_show_random_main_menu_title">Mostra /r/random nel menu principale</string>
     <string name="mainmenu_custom_empty_search_query">Query di ricerca vuota.</string>
     <string name="search_listing_header_query">Query di Ricerca</string>
     <string name="pref_behaviour_sharing_header">Condivisione</string>
@@ -547,7 +545,6 @@
     <string name="pref_menus_mainmenu_shortcutitems_title">Scorciatoie</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Mostra Multireddit</string>
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Mostra subreddit a cui sono iscritto</string>
-    <string name="mainmenu_random_nsfw">Subreddit NSFW casuale</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Mostra indicatore del rapporto d\'aspetto</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Mostra un indicatore di caricamento del contenuto, se disponibile</string>
     <string name="pref_appearance_bottom_toolbar_title">Mostra barra degli strumenti in basso</string>

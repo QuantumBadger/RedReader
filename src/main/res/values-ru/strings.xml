@@ -530,8 +530,6 @@
     <string name="mainmenu_custom_destination_search">Поиск</string>
     <string name="pref_behaviour_sharing_share_text_title">Добавлять текст при распространении комментария</string>
     <string name="disable_replies_to_infobox_failed">Не удалось отключить отправку ответов во входящие</string>
-    <string name="mainmenu_random">Случайный сабреддит</string>
-    <string name="pref_menus_show_random_main_menu_title">Отображать /r/random в главном меню</string>
     <string name="mainmenu_custom_empty_search_query">Пустой поисковый запрос.</string>
     <string name="search_listing_header_query">Поисковый запрос</string>
     <string name="pref_behaviour_sharing_header">Распространение</string>
@@ -590,7 +588,6 @@
     <string name="pref_appearance_bottom_toolbar_title">Показывать панель инструментов внизу</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Превью загружаемого контента, если оно есть</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Показывать соотношение сторон</string>
-    <string name="mainmenu_random_nsfw">Случайный NSFW сабреддит</string>
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Показать подписанные субреддиты</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Показывать мультиреддиты</string>
     <string name="pref_menus_mainmenu_shortcutitems_title">Ярлыки</string>

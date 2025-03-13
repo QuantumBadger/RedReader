@@ -631,8 +631,6 @@
     <string name="error_no_suitable_apps_available">Brak odpowiedniej aplikacji.</string>
     <string name="pref_appearance_comments_show_floating_toolbar_title">Pokazuj przyciski nawigacyjne nad komentarzami</string>
     <string name="disable_replies_to_infobox_failed">Nie można wyłączyć odpowiedzi do skrzynki odbiorczej</string>
-    <string name="mainmenu_random">Losowy subreddit</string>
-    <string name="pref_menus_show_random_main_menu_title">Pokaż /r/random w menu głównym</string>
     <string name="pref_cache_maxage_entry_title">Czyść buforowane flagi (przeczytano, zagłosowano, itp.) po</string>
     <string name="mainmenu_custom_destination_search">Wyszukaj</string>
     <string name="pref_behaviour_sharing_share_text_title">Umieść tekst podczas dzielenia się komentarzem</string>
@@ -651,7 +649,6 @@
     <string name="pref_behaviour_usecustomtabs_summary">Używaj Niestandardowych Kart Androida, jeśli są dostępne</string>
     <string name="pref_behaviour_hide_read_posts_title">Ukryj przeczytane posty</string>
     <string name="pref_menus_mainmenu_shortcutitems_title">Skróty</string>
-    <string name="mainmenu_random_nsfw">Losowy subreddit NSFW</string>
     <string name="prefs_category_images_video">Obrazy/Wideo</string>
     <string name="post_text_copied_to_clipboard">Post skopiowany do schowka</string>
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Wybierz aplikację do udostępnienia</string>

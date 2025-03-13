@@ -281,7 +281,6 @@
     <string name="mark_all_as_read_success">Mezu guztiak irakurriak bezala markatu dira.</string>
     <string name="error_title_login_unknown_reddit_error">Reddit errore ezezaguna: %s</string>
     <string name="screen_orientation_auto">Automatikoa</string>
-    <string name="pref_menus_show_random_main_menu_title">Erakutsi /r/random menu nagusian</string>
     <string name="search_subreddit_restrict">Mugatu bilaketa honetara</string>
     <string name="title_changelog">Zer berri</string>
     <string name="pref_behaviour_commentsort">Iruzkinak (lehenetsia)</string>
@@ -407,7 +406,6 @@
     <string name="pref_menus_show_popular_main_menu_title">Erakutsi /r/popular menu nagusian</string>
     <string name="pref_behaviour_video_playback_controls_title">Gaitu bideo erreprodukzio kontrolak</string>
     <string name="pref_behaviour_sharing_share_text_title">Gehitu testua iruzkina partekatzerakoan</string>
-    <string name="mainmenu_random">Ausazko subreddita</string>
     <string name="mainmenu_custom_empty_search_query">Bilaketa gaia hutsik.</string>
     <string name="search_listing_header_query">Bilaketa gaia</string>
     <string name="pref_behaviour_sharing_header">Partekatzea</string>
@@ -547,7 +545,6 @@
     <string name="pref_menus_mainmenu_shortcutitems_title">Lasterbideak</string>
     <string name="pref_menus_show_multireddit_main_menu_title">Erakutsi multiredditak</string>
     <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Erakutsi harpidetutako subredditak</string>
-    <string name="mainmenu_random_nsfw">Ausazko NSFW Subreddita</string>
     <string name="pref_appearance_bottom_toolbar_title">Erakutsi tresna-barra behean</string>
     <string name="pref_behaviour_video_mute_default_title">Mututu bideoak modu lehenetsian</string>
     <string name="prefs_category_images_video">Irudiak/Bideoa</string>

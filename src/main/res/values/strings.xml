@@ -1006,11 +1006,6 @@
 	<!-- 2017-11-01 -->
 	<string name="disable_replies_to_infobox_failed">Could not turn off replies to inbox</string>
 
-	<!-- 2017-12-03 -->
-	<string name="mainmenu_random">Random Subreddit</string>
-	<string name="pref_menus_show_random_main_menu_key" translatable="false">pref_menus_show_random_main_menu</string>
-	<string name="pref_menus_show_random_main_menu_title">Show /r/random in main menu</string>
-
 	<!-- 2018-01-16 -->
 	<string name="lang_fi" translatable="false">Suomi</string>
 	<string name="lang_my" translatable="false">မြန်မာဘာသာ</string>
@@ -1071,9 +1066,6 @@
 
 	<string name="pref_menus_show_subscribed_subreddits_main_menu_key" translatable="false">pref_menus_show_subscribed_main_menu</string>
 	<string name="pref_menus_show_subscribed_subreddits_main_menu_title">Show subscribed subreddits</string>
-
-	<!-- 2018-11-26 -->
-	<string name="mainmenu_random_nsfw">Random NSFW Subreddit</string>
 
 	<!-- 2019-01-26 -->
 	<string name="pref_appearance_show_aspect_ratio_indicator_key" translatable="false">pref_appearance_show_aspect_ratio_indicator_key</string>

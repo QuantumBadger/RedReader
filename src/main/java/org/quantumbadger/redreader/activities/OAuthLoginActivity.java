@@ -20,10 +20,12 @@ package org.quantumbadger.redreader.activities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -34,9 +36,15 @@ import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
+import java.util.Objects;
+
 import info.guardianproject.netcipher.webkit.WebkitProxy;
 
 public class OAuthLoginActivity extends ViewsBaseActivity {
+
+	private static final String OAUTH_HOST = "rr_oauth_redir";
+	private static final String REDREADER_SCHEME = "redreader";
+	private static final String HTTP_SCHEME = "http";
 
 	private WebView mWebView;
 
@@ -44,7 +52,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		final CookieManager cookieManager = CookieManager.getInstance();
-		cookieManager.removeAllCookie();
+		cookieManager.removeAllCookies(null);
 	}
 
 	@SuppressLint("SetJavaScriptEnabled")
@@ -57,7 +65,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 
 		mWebView = new WebView(this);
 
-		if(TorCommon.isTorEnabled()) {
+		if (TorCommon.isTorEnabled()) {
 			try {
 				final boolean result = WebkitProxy.setProxy(
 						RedReader.class.getCanonicalName(),
@@ -65,12 +73,12 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 						mWebView,
 						"127.0.0.1",
 						8118);
-				if(!result) {
+				if (!result) {
 					BugReportActivity.handleGlobalError(
 							this,
 							getResources().getString(R.string.error_tor_setting_failed));
 				}
-			} catch(final Exception e) {
+			} catch (final Exception e) {
 				BugReportActivity.handleGlobalError(this, e);
 			}
 		}
@@ -83,8 +91,9 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 		settings.setDomStorageEnabled(true);
-		settings.setSaveFormData(false);
-		settings.setSavePassword(false);
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+			settings.setSaveFormData(false);
+		}
 		settings.setDatabaseEnabled(false);
 		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		settings.setDisplayZoomControls(false);
@@ -100,18 +109,19 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 			@Override
 			public boolean shouldOverrideUrlLoading(
 					final WebView view,
-					final String url) {
+					final WebResourceRequest request) {
 
-				if(url.startsWith("http://rr_oauth_redir")
-						|| url.startsWith("redreader://rr_oauth_redir")) { // TODO constant
-
+				final Uri url = request.getUrl();
+				if (Objects.equals(url.getHost(), OAUTH_HOST) &&
+						(Objects.equals(url.getScheme(), REDREADER_SCHEME) ||
+								Objects.equals(url.getScheme(), HTTP_SCHEME))) {
 					final Intent intent = new Intent();
 					intent.putExtra("url", url);
 					setResult(123, intent);
 					finish();
 
 				} else {
-					setTitle(Uri.parse(url).getHost());
+					setTitle(url.getHost());
 					return false;
 				}
 
@@ -129,7 +139,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 
 		super.onPause();
 
-		if(mWebView != null) {
+		if (mWebView != null) {
 			mWebView.onPause();
 			mWebView.pauseTimers();
 		}
@@ -139,7 +149,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 	protected void onResume() {
 		super.onResume();
 
-		if(mWebView != null) {
+		if (mWebView != null) {
 			mWebView.resumeTimers();
 			mWebView.onResume();
 		}

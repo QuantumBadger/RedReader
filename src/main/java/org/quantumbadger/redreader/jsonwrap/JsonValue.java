@@ -89,7 +89,7 @@ public abstract class JsonValue {
 				throw new JsonParseException(
 						parser,
 						"Expecting an object, literal, or array, got: " + parser.currentToken(),
-						parser.getCurrentLocation());
+						parser.currentLocation());
 		}
 	}
 

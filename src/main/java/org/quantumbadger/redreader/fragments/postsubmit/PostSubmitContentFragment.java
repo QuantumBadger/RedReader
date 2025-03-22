@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.fragments.postsubmit;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -34,6 +33,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -48,7 +48,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
-import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.ImgurUploadActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -157,6 +156,20 @@ public class PostSubmitContentFragment extends Fragment {
 	private CheckBox mMarkAsSpoilerCheckbox;
 
 	private final HashMap<String, String> mFlairIds = new HashMap<>();
+
+	private ActivityResultLauncher<Void> mImgurUploadActivityLauncher;
+
+	@Override
+	public void onCreate(@Nullable final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		mImgurUploadActivityLauncher = registerForActivityResult(
+				new ImgurUploadActivity.ResultContract(),
+				uri -> {
+					if (uri != null) {
+						mTextEdit.setText(uri.toString());
+					}
+				});
+	}
 
 	@Override
 	public void onResume() {
@@ -329,24 +342,8 @@ public class PostSubmitContentFragment extends Fragment {
 		}
 
 		if(selected.equals(POST_TYPE_IMGUR)) {
-
 			mTypeSpinner.setSelection(0); // Link
-
-			final FragmentActivity activity = getActivity();
-
-			if(activity == null) {
-				return;
-			}
-
-			final Intent intent = new Intent(activity, ImgurUploadActivity.class);
-
-			((BaseActivity)activity).startActivityForResultWithCallback(
-					intent,
-					(resultCode, data) -> {
-				if(data != null && data.getData() != null) {
-					mTextEdit.setText(data.getData().toString());
-				}
-			});
+			mImgurUploadActivityLauncher.launch(null);
 		}
 	}
 

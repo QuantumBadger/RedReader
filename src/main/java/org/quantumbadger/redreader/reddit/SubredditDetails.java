@@ -93,6 +93,6 @@ public class SubredditDetails implements HasUniqueId {
 				context.getString(R.string.sidebar_activity_title),
 				url));
 
-		context.startActivityForResult(intent, 1);
+		context.startActivity(intent);
 	}
 }

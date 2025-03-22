@@ -529,9 +529,7 @@ public class PostListingFragment extends RRFragment
 		final LinearLayoutManager layoutManager
 				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-		final boolean markReadOnScroll = PrefsUtility.pref_mark_read_on_scroll();
-
-		if((layoutManager != null) && markReadOnScroll) {
+		if((layoutManager != null) && PrefsUtility.pref_mark_read_on_scroll();) {
 
 			final int firstVisibleItemPosition
 					= layoutManager.findFirstVisibleItemPosition();
@@ -539,7 +537,6 @@ public class PostListingFragment extends RRFragment
 			final int firstCompletelyVisibleItemPosition
 					= layoutManager.findFirstCompletelyVisibleItemPosition();
 
-			// Mark the first visible post read on scroll
 			if(firstVisibleItemPosition >= 1
 				&& firstCompletelyVisibleItemPosition != 0) {
 
@@ -551,6 +548,7 @@ public class PostListingFragment extends RRFragment
 				final RedditPreparedPost post
 						= (position == firstVisibleItemPosition) ? view.getPost() : null;
 
+				// Mark the first visible post read if it is unread
 				if ((post != null) && !post.isRead()) {
 					new Thread() {
 						@Override

@@ -526,6 +526,42 @@ public class PostListingFragment extends RRFragment
 
 		General.checkThisIsUIThread();
 
+		final LinearLayoutManager layoutManager 
+				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+
+		final boolean markReadOnScroll = PrefsUtility.pref_mark_read_on_scroll();
+
+		if((layoutManager != null) && markReadOnScroll) {
+
+			final int firstVisibleItemPosition
+					= layoutManager.findFirstVisibleItemPosition();
+
+			final int firstCompletelyVisibleItemPosition
+					= layoutManager.findFirstCompletelyVisibleItemPosition();
+
+			// Mark the first visible post read on scroll
+			if(firstVisibleItemPosition >= 1
+				&& firstCompletelyVisibleItemPosition != 0) {
+
+				final RedditPostView view = (RedditPostView) layoutManager.getChildAt(0);
+
+				final int position =
+						(view != null) ? layoutManager.getPosition(view) : RecyclerView.NO_POSITION;
+
+				final RedditPreparedPost post
+						= (position == firstVisibleItemPosition) ? view.getPost() : null;
+
+				if ((post != null) && !post.isRead()) {
+					new Thread() {
+						@Override
+						public void run() {
+							post.markAsRead(getActivity());
+						}
+					}.start();
+				}
+			}
+		}
+
 		if(mReadyToDownloadMore && mAfter != null && !mAfter.equals(mLastAfter)) {
 
 			final LinearLayoutManager layoutManager

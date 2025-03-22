@@ -510,7 +510,7 @@ public class PostListingFragment extends RRFragment
 		final LinearLayoutManager layoutManager
 				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-		if((layoutManager != null) && PrefsUtility.pref_mark_read_on_scroll();) {
+		if((layoutManager != null) && PrefsUtility.pref_mark_read_on_scroll()) {
 
 			final int firstVisibleItemPosition
 					= layoutManager.findFirstVisibleItemPosition();

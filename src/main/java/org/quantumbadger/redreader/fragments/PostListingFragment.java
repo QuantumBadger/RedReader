@@ -507,7 +507,7 @@ public class PostListingFragment extends RRFragment
 
 		General.checkThisIsUIThread();
 
-		final LinearLayoutManager layoutManager 
+		final LinearLayoutManager layoutManager
 				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
 		final boolean markReadOnScroll = PrefsUtility.pref_mark_read_on_scroll();

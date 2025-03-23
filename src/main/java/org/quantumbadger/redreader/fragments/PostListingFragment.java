@@ -512,7 +512,7 @@ public class PostListingFragment extends RRFragment
 			final LinearLayoutManager layoutManager
 					= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-			if (layoutManager != null) {
+			if(layoutManager != null) {
 
 				final int firstVisibleItemPosition
 						= layoutManager.findFirstVisibleItemPosition();
@@ -532,7 +532,7 @@ public class PostListingFragment extends RRFragment
 							= (position == firstVisibleItemPosition) ? view.getPost() : null;
 
 					// Mark the first visible post read if it is unread
-					if ((post != null) && !post.isRead()) {
+					if((post != null) && !post.isRead()) {
 						new Thread() {
 							@Override
 							public void run() {

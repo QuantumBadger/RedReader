@@ -507,42 +507,48 @@ public class PostListingFragment extends RRFragment
 
 		General.checkThisIsUIThread();
 
-		final LinearLayoutManager layoutManager
-				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+		if(PrefsUtility.pref_mark_read_on_scroll()) {
+			
+			final LinearLayoutManager layoutManager
+					= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-		if((layoutManager != null) && PrefsUtility.pref_mark_read_on_scroll()) {
+			if (layoutManager != null) {
 
-			final int firstVisibleItemPosition
-					= layoutManager.findFirstVisibleItemPosition();
+				final int firstVisibleItemPosition
+						= layoutManager.findFirstVisibleItemPosition();
 
-			final int firstCompletelyVisibleItemPosition
-					= layoutManager.findFirstCompletelyVisibleItemPosition();
+				final int firstCompletelyVisibleItemPosition
+						= layoutManager.findFirstCompletelyVisibleItemPosition();
 
-			if(firstVisibleItemPosition >= 1
-				&& firstCompletelyVisibleItemPosition != 0) {
+				if(firstVisibleItemPosition >= 1
+					&& firstCompletelyVisibleItemPosition != 0) {
 
-				final RedditPostView view = (RedditPostView) layoutManager.getChildAt(0);
+					final RedditPostView view = (RedditPostView) layoutManager.getChildAt(0);
 
-				final int position =
+					final int position =
 						(view != null) ? layoutManager.getPosition(view) : RecyclerView.NO_POSITION;
 
-				final RedditPreparedPost post
-						= (position == firstVisibleItemPosition) ? view.getPost() : null;
+					final RedditPreparedPost post
+							= (position == firstVisibleItemPosition) ? view.getPost() : null;
 
-				// Mark the first visible post read if it is unread
-				if ((post != null) && !post.isRead()) {
-					new Thread() {
-						@Override
-						public void run() {
-							post.markAsRead(getActivity());
-						}
-					}.start();
+					// Mark the first visible post read if it is unread
+					if ((post != null) && !post.isRead()) {
+						new Thread() {
+							@Override
+							public void run() {
+								post.markAsRead(getActivity());
+							}
+						}.start();
+					}
 				}
 			}
 		}
 
 		if(mReadyToDownloadMore && mAfter != null && !mAfter.equals(mLastAfter)) {
 
+			final LinearLayoutManager layoutManager
+					= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+			
 			if((layoutManager.getItemCount() - layoutManager.findLastVisibleItemPosition()
 					< 20
 					&& (mPostCountLimit <= 0 || mPostRefreshCount.get() > 0)

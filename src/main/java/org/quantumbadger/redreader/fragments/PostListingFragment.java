@@ -548,7 +548,7 @@ public class PostListingFragment extends RRFragment
 
 			final LinearLayoutManager layoutManager
 					= (LinearLayoutManager)mRecyclerView.getLayoutManager();
-			
+
 			if((layoutManager.getItemCount() - layoutManager.findLastVisibleItemPosition()
 					< 20
 					&& (mPostCountLimit <= 0 || mPostRefreshCount.get() > 0)

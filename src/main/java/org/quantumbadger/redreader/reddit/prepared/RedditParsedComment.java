@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.reddit.prepared;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.util.TypedValue;
 
 import androidx.annotation.NonNull;
@@ -35,11 +36,12 @@ import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RRError;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
-import org.quantumbadger.redreader.http.FailedRequestBody;
+import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
@@ -122,20 +124,20 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 					((MaybeParseError.Ok< RedditComment.FlairEmoteData >) flairEmoteData)
 							.getValue();
 
-			final String objectType = flairEmoteObject.getE();
+			@NonNull final String objectType = flairEmoteObject.getE();
 
-			if (objectType != null && objectType.equals("emoji")) {
+			if (objectType.equals("emoji")) {
 				final String placeholder = flairEmoteObject.getA();
 				final String url = flairEmoteObject.getU();
 
 				CacheManager.getInstance(activity).makeRequest(new CacheRequest(
-						General.uriFromString(url),
+						new UriString(url),
 						RedditAccountManager.getAnon(),
 						null,
 						new Priority(Constants.Priority.API_COMMENT_LIST),
 						DownloadStrategyIfNotCached.INSTANCE,
 						Constants.FileType.IMAGE,
-						CacheRequest.DOWNLOAD_QUEUE_IMMEDIATE,
+						CacheRequest.DownloadQueueType.IMMEDIATE,
 						activity,
 						new CacheRequestCallbacks() {
 							Bitmap image = null;
@@ -144,7 +146,7 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 							public void onDataStreamComplete(
 									@NonNull final GenericFactory<SeekableInputStream, IOException>
 											stream,
-									final long timestamp,
+									final TimestampUTC timestamp,
 									@NonNull final UUID session,
 									final boolean fromCache,
 									@Nullable final String mimetype) {
@@ -187,25 +189,24 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 											activity.getApplicationContext(),
 											image);
 
-									mFlair.replace(placeholder, span);
+									if (mFlair != null) {
+										mFlair.replace(placeholder, span);
+									}
 								} catch (final Throwable t) {
-									onFailure(
-											CacheRequest.REQUEST_FAILURE_CONNECTION,
-											t,
-											null,
+									onFailure(new RRError(
 											"Exception while downloading emote",
-											Optional.empty());
+											null,
+											true,
+											t));
 								}
 							}
 
 							@Override
-							public void onFailure(
-										final int type,
-										@Nullable final Throwable t,
-										@Nullable final Integer httpStatus,
-										@Nullable final String readableMessage,
-										@NonNull final Optional<FailedRequestBody> body) {
-
+							public void onFailure(@NonNull RRError error) {
+								Log.e(
+										"RedditParsedComment",
+										"Failed to download emote: " + error.message,
+										error.t);
 							}
 						}
 				));

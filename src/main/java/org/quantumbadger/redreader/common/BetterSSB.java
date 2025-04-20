@@ -192,7 +192,9 @@ public class BetterSSB extends Observable {
 		this.notifyObservers(this.sb);
 	}
 
-	public void replace(final CharSequence textToBeReplaced, final Object replacement) {
+	public void replace(
+			@NonNull final CharSequence textToBeReplaced,
+			@NonNull final Object replacement) {
 		final int textStartIndex = TextUtils.indexOf(this.sb, textToBeReplaced);
 
 		this.sb.setSpan(replacement,

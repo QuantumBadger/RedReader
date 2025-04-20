@@ -1381,7 +1381,7 @@ public final class PrefsUtility {
 
 		final Set<String> strings = getStringSet(
 				R.string.pref_menus_post_context_items_key,
-				R.array.pref_menus_post_context_items_return);
+				R.array.pref_menus_post_context_items_default);
 
 		final EnumSet<RedditPostActions.Action> result = EnumSet.noneOf(
 				RedditPostActions.Action.class);

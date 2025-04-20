@@ -213,7 +213,7 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 							}
 
 							@Override
-							public void onFailure(@NonNull RRError error) {
+							public void onFailure(@NonNull final RRError error) {
 								Log.e(
 										"RedditParsedComment",
 										"Failed to download emote: " + error.message,

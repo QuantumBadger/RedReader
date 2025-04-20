@@ -46,7 +46,6 @@ import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
-import java.net.URI;
 import java.util.Observer;
 
 public class RedditRenderableComment

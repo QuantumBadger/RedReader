@@ -2,6 +2,7 @@
 Added video playback speed control (thanks to folkemat)
 Added support for emotes in comment flairs (thanks to bharatknv)
 Added "Mark as Read/Unread" fling action, and optional context menu item (thanks to JoshAusHessen and codeofdusk)
+Added preference to prevent posts being marked as read when clicked (thanks to Daniel Ho)
 
 113/1.24.1
 Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)

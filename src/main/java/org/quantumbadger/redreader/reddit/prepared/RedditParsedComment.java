@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit.prepared;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.text.style.ImageSpan;
 import android.util.Log;
 import android.util.TypedValue;
@@ -115,6 +116,15 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 	private void getFlairEmotes(
 			final List<MaybeParseError<RedditComment.FlairEmoteData>> flairRichtext,
 			final AppCompatActivity activity) {
+
+		final int alignment;
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+			alignment = ImageSpan.ALIGN_CENTER;
+		} else {
+			alignment = ImageSpan.ALIGN_BASELINE;
+		}
+
 		for (final MaybeParseError<RedditComment.FlairEmoteData> flairEmoteData : flairRichtext) {
 			if (!(flairEmoteData instanceof MaybeParseError.Ok)) {
 				continue;
@@ -158,7 +168,7 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 									}
 
 									final int textSize = 11;
-									final float maxImageHeightMultiple = 2.0F;
+									final float maxImageHeightMultiple = 1.0F;
 
 									final float maxHeight = TypedValue.applyDimension(
 											TypedValue.COMPLEX_UNIT_SP,
@@ -187,7 +197,8 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 
 									final ImageSpan span = new ImageSpan(
 											activity.getApplicationContext(),
-											image);
+											image,
+											alignment);
 
 									if (mFlair != null) {
 										mFlair.replace(placeholder, span);

@@ -243,6 +243,22 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 			}
 		}
 
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.CROSSPOST)) {
+			if(src.isCrosspost() != null) {
+				postListDescSb.append(
+						" "
+								+ context.getString(R.string.crosspost)
+								+ " ",
+						BetterSSB.BOLD
+								| BetterSSB.FOREGROUND_COLOR
+								| BetterSSB.BACKGROUND_COLOR,
+						rrCrosspostTextCol,
+						rrCrosspostBackCol,
+						1f);
+				postListDescSb.append("  ", 0);
+			}
+		}
+
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.NSFW)) {
 			if(src.isNsfw()) {
 				postListDescSb.append(
@@ -399,21 +415,6 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.DOMAIN)) {
 			postListDescSb.append("(" + src.getDomain() + ")", 0);
-		}
-
-		//show crosspost at the end
-		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.CROSSPOST)) {
-			if(src.isCrosspost() != null) {
-				postListDescSb.append(" ", 0);
-				postListDescSb.append(
-						" "
-								+ context.getString(R.string.crosspost)
-								+ BetterSSB.NBSP,
-						BetterSSB.FOREGROUND_COLOR | BetterSSB.BACKGROUND_COLOR,
-						rrCrosspostTextCol,
-						rrCrosspostBackCol,
-						1f);
-			}
 		}
 
 		return postListDescSb.get();

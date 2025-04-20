@@ -790,7 +790,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	public void markAsRead(final Context context) {
-		markAsRead(context, true);
+		if (PrefsUtility.pref_behaviour_mark_posts_as_read()) {
+			markAsRead(context, true);
+		}
 	}
 
 	public void markAsRead(

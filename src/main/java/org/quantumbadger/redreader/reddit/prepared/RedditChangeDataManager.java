@@ -19,7 +19,9 @@ package org.quantumbadger.redreader.reddit.prepared;
 
 import android.content.Context;
 import android.util.Log;
+
 import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
@@ -376,7 +378,7 @@ public final class RedditChangeDataManager {
 					timestamp,
 					mIsUpvoted,
 					mIsDownvoted,
-					PrefsUtility.pref_behaviour_mark_posts_as_read() && read,
+					read,
 					mIsSaved,
 					mIsHidden);
 		}
@@ -563,8 +565,8 @@ public final class RedditChangeDataManager {
 	}
 
 	public void markRead(
-		final TimestampUTC timestamp, 
-		final RedditIdAndType thing, 
+		final TimestampUTC timestamp,
+		final RedditIdAndType thing,
 		final Boolean read) {
 
 		synchronized(mLock) {

@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.common;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+
 import org.quantumbadger.redreader.R;
 
 import java.util.EnumSet;
@@ -59,7 +60,7 @@ public class RRThemeAttributes {
 				R.attr.rrCommentHeaderCol,
 				R.attr.rrCommentBodyCol,
 				R.attr.rrMainTextCol,
-				com.google.android.material.R.attr.colorAccent
+				com.google.android.material.R.attr.colorAccent,
 				R.attr.rrCrosspostBackCol,
 				R.attr.rrCrosspostTextCol
 		});

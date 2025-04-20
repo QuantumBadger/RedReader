@@ -50,7 +50,6 @@ import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.PrefsUtility.PostFlingAction
 import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
-import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
@@ -390,7 +389,7 @@ object RedditPostActions {
 
 			Action.CROSSPOST_ORIGIN -> {
 				val crosspostOriginPost = PostCommentListingURL.forPostId(post.src.isCrosspost)
-				LinkHandler.onLinkClicked(activity, crosspostOriginPost.toString())
+				LinkHandler.onLinkClicked(activity, crosspostOriginPost.toUriString())
 			}
 
 			Action.EXTERNAL -> {

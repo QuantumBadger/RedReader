@@ -5,6 +5,7 @@ Show label on crossposts, and add "Go to Crosspost Origin" to post menu (thanks 
 Added "Mark as Read/Unread" fling action, and optional post menu item (thanks to JoshAusHessen and codeofdusk)
 Added preference to prevent posts being marked as read when clicked (thanks to Daniel Ho)
 Remove random subreddit feature which is no longer supported by Reddit (thanks to Mark Yu)
+Codebase improvements: fixed deprecations (thanks to Alexey Rochev)
 
 113/1.24.1
 Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)

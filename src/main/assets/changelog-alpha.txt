@@ -3,6 +3,7 @@ Added support for emotes in comment flairs (thanks to bharatknv)
 Added "Mark as Read/Unread" fling action, and optional context menu item (thanks to JoshAusHessen and codeofdusk)
 Show label on crossposts, and add "Go to Crosspost Origin" to post menu (thanks to folkemat)
 Added preference to prevent posts being marked as read when clicked (thanks to Daniel Ho)
+Remove random subreddit feature which is no longer supported by Reddit (thanks to Mark Yu)
 
 /Alpha 358 (2025-03-12)
 Added video playback speed control (thanks to folkemat)

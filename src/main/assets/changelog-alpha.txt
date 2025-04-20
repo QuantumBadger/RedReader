@@ -1,3 +1,6 @@
+/Alpha 360 (2025-04-21)
+Added video frame step controls (thanks to ecawthorne and japanesephundroid)
+
 /Alpha 359 (2025-04-20)
 Added support for emotes in comment flairs (thanks to bharatknv)
 Added "Mark as Read/Unread" fling action, and optional context menu item (thanks to JoshAusHessen and codeofdusk)

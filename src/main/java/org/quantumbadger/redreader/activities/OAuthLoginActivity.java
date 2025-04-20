@@ -35,8 +35,6 @@ import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import info.guardianproject.netcipher.webkit.WebkitProxy;
-
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.common.PrefsUtility;
@@ -44,6 +42,8 @@ import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
 import java.util.Objects;
+
+import info.guardianproject.netcipher.webkit.WebkitProxy;
 
 public class OAuthLoginActivity extends ViewsBaseActivity {
 
@@ -121,7 +121,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 						(Objects.equals(url.getScheme(), REDREADER_SCHEME) ||
 								Objects.equals(url.getScheme(), HTTP_SCHEME))) {
 					final Intent intent = new Intent();
-					intent.setData(Uri.parse(url));
+					intent.setData(url);
 					setResult(RESULT_OK, intent);
 					finish();
 

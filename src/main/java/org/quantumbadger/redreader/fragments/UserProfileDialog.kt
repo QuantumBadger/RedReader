@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.fragments
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
@@ -28,6 +27,7 @@ import android.widget.ScrollView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.net.toUri
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -55,6 +55,7 @@ import org.quantumbadger.redreader.common.time.TimestampUTC.Companion.now
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
 import org.quantumbadger.redreader.reddit.APIResponseHandler.UserResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
+import org.quantumbadger.redreader.reddit.api.RedditOAuth.completeLogin
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException
@@ -502,8 +503,10 @@ object UserProfileDialog {
 		) { resultCode: Int, data: Intent? ->
 			if (data != null) {
 				if (resultCode == 123 && data.hasExtra("url")) {
-					val uri = Uri.parse(data.getStringExtra("url"))
-					completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+					val uri = data.getStringExtra("url")?.toUri()
+					if (uri != null) {
+						completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+					}
 				}
 			}
 		}

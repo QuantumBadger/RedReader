@@ -1,5 +1,6 @@
 114/1.25
 Added video playback speed control (thanks to folkemat)
+Added support for emotes in comment flairs (thanks to bharatknv)
 Added "Mark as Read/Unread" fling action, and optional context menu item (thanks to JoshAusHessen and codeofdusk)
 
 113/1.24.1

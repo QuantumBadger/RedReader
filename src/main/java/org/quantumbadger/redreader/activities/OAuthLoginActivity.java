@@ -116,7 +116,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 						(Objects.equals(url.getScheme(), REDREADER_SCHEME) ||
 								Objects.equals(url.getScheme(), HTTP_SCHEME))) {
 					final Intent intent = new Intent();
-					intent.putExtra("url", url);
+					intent.putExtra("url", url.toString());
 					setResult(123, intent);
 					finish();
 

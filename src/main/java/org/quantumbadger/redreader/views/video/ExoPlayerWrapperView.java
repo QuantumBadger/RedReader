@@ -35,7 +35,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.OptIn;
 import androidx.annotation.StringRes;
-
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
 import androidx.media3.common.util.UnstableApi;
@@ -48,6 +47,7 @@ import androidx.media3.ui.PlayerView;
 import androidx.media3.ui.TimeBar;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
@@ -181,9 +181,9 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			if (PrefsUtility.pref_behaviour_video_frame_step()) {
 				final AtomicReference<ImageButton> stepBackButton = new AtomicReference<>();
 				final AtomicReference<ImageButton> stepForwardButton = new AtomicReference<>();
-				final long frameRate = mVideoPlayer.getVideoFormat() != null
-						? 1000 / (long) mVideoPlayer.getVideoFormat().frameRate
-						: 33;
+				final long frameDuration = (long)(1000f / (mVideoPlayer.getVideoFormat() != null
+						? mVideoPlayer.getVideoFormat().frameRate
+						: 30));
 
 				stepBackButton.set(createButton(
 						context,
@@ -191,7 +191,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						R.drawable.icon_step_back,
 						R.string.video_step_back,
 						view -> {
-							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - frameRate);
+							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - frameDuration);
 							updateProgress();
 						}
 				));
@@ -202,7 +202,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						R.drawable.icon_step_forward,
 						R.string.video_step_forward,
 						view -> {
-							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + frameRate);
+							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + frameDuration);
 							updateProgress();
 						}
 				));

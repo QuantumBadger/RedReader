@@ -19,14 +19,15 @@ package org.quantumbadger.redreader.fragments
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ScrollView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.net.toUri
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -55,7 +56,11 @@ import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandl
 import org.quantumbadger.redreader.reddit.APIResponseHandler.UserResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
 import org.quantumbadger.redreader.reddit.api.RedditOAuth.completeLogin
+import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager
+import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException
 import org.quantumbadger.redreader.reddit.things.RedditUser
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId
 import org.quantumbadger.redreader.reddit.url.UserPostListingURL
 import org.quantumbadger.redreader.views.LoadingSpinnerView
 import org.quantumbadger.redreader.views.liststatus.ErrorView
@@ -94,6 +99,9 @@ object UserProfileDialog {
 		val chipMoreInfo = dialog.findViewById<Chip>(R.id.user_profile_chip_more_info)!!
 		val chipBlock = dialog.findViewById<Chip>(R.id.user_profile_chip_block)!!
 		val chipUnblock = dialog.findViewById<Chip>(R.id.user_profile_chip_unblock)!!
+		val chipFollow = dialog.findViewById<Chip>(R.id.user_profile_chip_follow)!!
+		val chipFollowed = dialog.findViewById<Chip>(R.id.user_profile_chip_followed)!!
+		val chipUnfollow = dialog.findViewById<Chip>(R.id.user_profile_chip_unfollow)!!
 
 		val cm = CacheManager.getInstance(activity)
 		val accountManager = RedditAccountManager.getInstance(activity)
@@ -132,18 +140,26 @@ object UserProfileDialog {
 							accountManager.getDefaultAccount().canonicalUsername
 						)) {
 							chipYou.visibility = View.GONE
-						}else{
-							chipBlock.visibility = View.GONE //you should not block yourself
+						} else{
+							// You should not block yourself
+							chipBlock.visibility = View.GONE
+							chipFollow.visibility = View.GONE
 						}
 
 						if (user.is_suspended != true) {
 							chipSuspended.visibility = View.GONE
 						}
 
-						if (accountManager.getDefaultAccount().isAnonymous()) {
-							chipBlock.visibility = View.GONE
-							chipUnblock.visibility = View.GONE
-							chipBlocked.visibility = View.GONE
+						if (accountManager.getDefaultAccount().isAnonymous) {
+							listOf(
+								chipBlock,
+								chipUnblock,
+								chipBlocked,
+								chipFollow,
+								chipUnfollow,
+								chipFollowed
+							).forEach { it.visibility = View.GONE }
+
 						} else { //show block actions only if user is logged in
 							if (user.is_blocked != true) {
 								chipBlocked.visibility = View.GONE
@@ -151,6 +167,19 @@ object UserProfileDialog {
 							} else {
 								chipBlock.visibility = View.GONE
 								chipUnblock.visibility = View.VISIBLE
+							}
+
+							val userSubredditCanonicalIdA = SubredditCanonicalId("/user/$username")
+							val userSubredditCanonicalIdB = SubredditCanonicalId("u_$username")
+							val subMan = getSubMan(activity)
+							if (subMan.getSubscriptionState(userSubredditCanonicalIdA) == SubredditSubscriptionState.NOT_SUBSCRIBED &&
+								subMan.getSubscriptionState(userSubredditCanonicalIdB) == SubredditSubscriptionState.NOT_SUBSCRIBED) {
+								chipFollowed.visibility = View.GONE
+								chipFollow.visibility = View.VISIBLE
+								chipUnfollow.visibility = View.GONE
+							} else {
+								chipFollow.visibility = View.GONE
+								chipUnfollow.visibility = View.VISIBLE
 							}
 						}
 
@@ -258,6 +287,12 @@ object UserProfileDialog {
 							chipUnblock.isEnabled = false // grey out
 							unblockUser(activity, username, chipBlock, chipBlocked, chipUnblock)
 						}
+						chipFollow.setOnClickListener {
+							subscribeToUser(activity, username)
+						}
+						chipUnfollow.setOnClickListener {
+							unsubscribeToUser(activity, username)
+						}
 					}
 				}
 
@@ -280,6 +315,66 @@ object UserProfileDialog {
 			DownloadStrategyAlways.INSTANCE,
 			activity
 		)
+	}
+
+	private fun subscribeToUser(activity: AppCompatActivity, username: String) {
+		try {
+			val usernameToSubreddit = "u_$username"
+			val userSubredditCanonicalId = SubredditCanonicalId(usernameToSubreddit)
+
+			val subMan = getSubMan(activity)
+			if ((subMan.getSubscriptionState(userSubredditCanonicalId)
+							== SubredditSubscriptionState.NOT_SUBSCRIBED)
+			) {
+				subMan.subscribe(userSubredditCanonicalId, activity)
+				Toast.makeText(
+						activity,
+						R.string.userprofile_toast_follow_loading,
+						Toast.LENGTH_SHORT
+				).show()
+			} else {
+				Toast.makeText(
+						activity,
+						R.string.userprofile_toast_followed,
+						Toast.LENGTH_SHORT
+				).show()
+			}
+		} catch (e: InvalidSubredditNameException) {
+			throw RuntimeException(e)
+		}
+	}
+
+	private fun unsubscribeToUser(activity: AppCompatActivity, username: String) {
+		try {
+			val userSubredditCanonicalIdA = SubredditCanonicalId("/user/$username")
+			val userSubredditCanonicalIdB = SubredditCanonicalId("u_$username")
+
+			val subMan = getSubMan(activity)
+
+			fun unsubscribeIfSubscribed(canonicalId: SubredditCanonicalId): Boolean {
+				return if (subMan.getSubscriptionState(canonicalId) == SubredditSubscriptionState.SUBSCRIBED) {
+					subMan.unsubscribe(canonicalId, activity)
+					Toast.makeText(activity, R.string.userprofile_toast_unfollow_loading, Toast.LENGTH_SHORT).show()
+					true
+				} else {
+					false
+				}
+			}
+
+			if (!unsubscribeIfSubscribed(userSubredditCanonicalIdA) && !unsubscribeIfSubscribed(userSubredditCanonicalIdB)) {
+				Toast.makeText(activity, R.string.userprofile_toast_not_following, Toast.LENGTH_SHORT).show()
+			}
+		} catch (e: InvalidSubredditNameException) {
+			throw RuntimeException(e)
+		}
+	}
+
+	private fun getSubMan(activity: AppCompatActivity): RedditSubredditSubscriptionManager {
+		val subMan = RedditSubredditSubscriptionManager.getSingleton(
+				activity,
+				RedditAccountManager.getInstance(activity).defaultAccount
+		)
+		return subMan
 	}
 
 	private fun unblockUser(activity: AppCompatActivity, username: String, chipBlock: Chip, chipBlocked: Chip, chipUnblock: Chip) {
@@ -416,8 +511,10 @@ object UserProfileDialog {
 		) { resultCode: Int, data: Intent? ->
 			if (data != null) {
 				if (resultCode == 123 && data.hasExtra("url")) {
-					val uri = Uri.parse(data.getStringExtra("url"))
-					completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+					val uri = data.getStringExtra("url")?.toUri()
+					if (uri != null) {
+						completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+					}
 				}
 			}
 		}

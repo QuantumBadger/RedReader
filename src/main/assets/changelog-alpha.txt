@@ -1,5 +1,6 @@
 /Alpha 359 (2025-04-20)
 Added support for emotes in comment flairs (thanks to bharatknv)
+Ability to follow/unfollow users (thanks to folkemat)
 Added "Mark as Read/Unread" fling action, and optional context menu item (thanks to JoshAusHessen and codeofdusk)
 
 /Alpha 358 (2025-03-12)

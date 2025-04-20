@@ -179,13 +179,11 @@ public class ExoPlayerWrapperView extends FrameLayout {
 					});
 
 			if (PrefsUtility.pref_behaviour_video_frame_step()) {
-				final AtomicReference<ImageButton> stepBackButton = new AtomicReference<>();
-				final AtomicReference<ImageButton> stepForwardButton = new AtomicReference<>();
 				final long frameDuration = (long)(1000f / (mVideoPlayer.getVideoFormat() != null
 						? mVideoPlayer.getVideoFormat().frameRate
 						: 30));
 
-				stepBackButton.set(createButton(
+				final ImageButton stepBackButton = createButton(
 						context,
 						mControlView,
 						R.drawable.icon_step_back,
@@ -194,9 +192,9 @@ public class ExoPlayerWrapperView extends FrameLayout {
 							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - frameDuration);
 							updateProgress();
 						}
-				));
+				);
 
-				stepForwardButton.set(createButton(
+				final ImageButton stepForwardButton = createButton(
 						context,
 						mControlView,
 						R.drawable.icon_step_forward,
@@ -205,39 +203,39 @@ public class ExoPlayerWrapperView extends FrameLayout {
 							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + frameDuration);
 							updateProgress();
 						}
-				));
+				);
 
 				mVideoPlayer.addListener(new Player.Listener() {
 					@Override
 					public void onIsPlayingChanged(final boolean isPlaying) {
 						if (isPlaying) {
-							stepBackButton.get().setImageAlpha(0x3F);
-							stepBackButton.get().setContentDescription(
+							stepBackButton.setImageAlpha(0x3F);
+							stepBackButton.setContentDescription(
 									context.getString(R.string.video_step_back_disabled));
-							stepBackButton.get().setEnabled(false);
+							stepBackButton.setEnabled(false);
 
-							stepForwardButton.get().setImageAlpha(0x3F);
-							stepForwardButton.get().setContentDescription(
+							stepForwardButton.setImageAlpha(0x3F);
+							stepForwardButton.setContentDescription(
 									context.getString(R.string.video_step_forward_disabled));
-							stepForwardButton.get().setEnabled(false);
+							stepForwardButton.setEnabled(false);
 
 						} else {
-							stepBackButton.get().setImageAlpha(0xFF);
-							stepBackButton.get().setContentDescription(
+							stepBackButton.setImageAlpha(0xFF);
+							stepBackButton.setContentDescription(
 									context.getString(R.string.video_step_back));
-							stepBackButton.get().setEnabled(true);
+							stepBackButton.setEnabled(true);
 
-							stepForwardButton.get().setImageAlpha(0xFF);
-							stepForwardButton.get().setContentDescription(
+							stepForwardButton.setImageAlpha(0xFF);
+							stepForwardButton.setContentDescription(
 									context.getString(R.string.video_step_forward));
-							stepForwardButton.get().setEnabled(true);
+							stepForwardButton.setEnabled(true);
 						}
 					}
 				});
 
-				addButton(stepBackButton.get(), buttons);
+				addButton(stepBackButton, buttons);
 				addButton(mPlayButton, buttons);
-				addButton(stepForwardButton.get(), buttons);
+				addButton(stepForwardButton, buttons);
 
 			} else {
 				addButton(mPlayButton, buttons);

@@ -140,18 +140,26 @@ object UserProfileDialog {
 							accountManager.getDefaultAccount().canonicalUsername
 						)) {
 							chipYou.visibility = View.GONE
-						}else{
-							chipBlock.visibility = View.GONE //you should not block yourself
+						} else{
+							// You should not block yourself
+							chipBlock.visibility = View.GONE
+							chipFollow.visibility = View.GONE
 						}
 
 						if (user.is_suspended != true) {
 							chipSuspended.visibility = View.GONE
 						}
 
-						if (accountManager.getDefaultAccount().isAnonymous()) {
-							chipBlock.visibility = View.GONE
-							chipUnblock.visibility = View.GONE
-							chipBlocked.visibility = View.GONE
+						if (accountManager.getDefaultAccount().isAnonymous) {
+							listOf(
+								chipBlock,
+								chipUnblock,
+								chipBlocked,
+								chipFollow,
+								chipUnfollow,
+								chipFollowed
+							).forEach { it.visibility = View.GONE }
+
 						} else { //show block actions only if user is logged in
 							if (user.is_blocked != true) {
 								chipBlocked.visibility = View.GONE
@@ -159,6 +167,19 @@ object UserProfileDialog {
 							} else {
 								chipBlock.visibility = View.GONE
 								chipUnblock.visibility = View.VISIBLE
+							}
+
+							val userSubredditCanonicalIdA = SubredditCanonicalId("/user/$username")
+							val userSubredditCanonicalIdB = SubredditCanonicalId("u_$username")
+							val subMan = getSubMan(activity)
+							if (subMan.getSubscriptionState(userSubredditCanonicalIdA) == SubredditSubscriptionState.NOT_SUBSCRIBED &&
+								subMan.getSubscriptionState(userSubredditCanonicalIdB) == SubredditSubscriptionState.NOT_SUBSCRIBED) {
+								chipFollowed.visibility = View.GONE
+								chipFollow.visibility = View.VISIBLE
+								chipUnfollow.visibility = View.GONE
+							} else {
+								chipFollow.visibility = View.GONE
+								chipUnfollow.visibility = View.VISIBLE
 							}
 						}
 
@@ -176,19 +197,6 @@ object UserProfileDialog {
 
 						if (user.is_gold != true) {
 							chipGold.visibility = View.GONE
-						}
-
-						val userSubredditCanonicalIdA = SubredditCanonicalId("/user/$username")
-						val userSubredditCanonicalIdB = SubredditCanonicalId("u_$username")
-						val subMan = getSubMan(activity)
-						if (subMan.getSubscriptionState(userSubredditCanonicalIdA) == SubredditSubscriptionState.NOT_SUBSCRIBED &&
-								subMan.getSubscriptionState(userSubredditCanonicalIdB) == SubredditSubscriptionState.NOT_SUBSCRIBED) {
-							chipFollowed.visibility = View.GONE
-							chipFollow.visibility = View.VISIBLE
-							chipUnfollow.visibility = View.GONE
-						} else {
-							chipFollow.visibility = View.GONE
-							chipUnfollow.visibility = View.VISIBLE
 						}
 
 						if (PrefsUtility.appearance_user_show_avatars()) {

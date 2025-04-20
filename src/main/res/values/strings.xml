@@ -1909,6 +1909,6 @@
 	<string name="video_speed_term">Speed</string>
 
 	<!-- 2025-04-20 -->
-	<string name="action_mark_read">Mark as read</string>
-	<string name="action_mark_unread">Mark as unread</string>
+	<string name="action_mark_read">Mark as Read</string>
+	<string name="action_mark_unread">Mark as Unread</string>
 </resources>

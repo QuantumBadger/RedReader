@@ -58,7 +58,8 @@ public final class FeatureFlagHandler {
 		POST_TITLE_TAP_ACTION_FEATURE("postTitleTapActionFeature"),
 		DEFAULT_PREF_VIDEO_PLAYBACK_CONTROLS("defaultPrefVideoPlaybackControls"),
 		DEFAULT_PREF_CUSTOM_TABS("defaultPrefCustomTabs"),
-		CROSSPOST_ORIGIN_MENU_ITEM("crosspostOriginMenuItem");
+		CROSSPOST_ORIGIN_MENU_ITEM("crosspostOriginMenuItem"),
+		MAIN_MENU_RANDOM_REMOVED("mainMenuRandomRemoved");
 
 		@NonNull private final String id;
 
@@ -328,6 +329,25 @@ public final class FeatureFlagHandler {
 										R.string.pref_menus_post_context_items_key),
 								existingPostActionMenuItems)
 						.apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.MAIN_MENU_RANDOM_REMOVED)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, removing random from main menu.");
+
+				final Set<String> existingShortcutPreferences
+						= PrefsUtility.getStringSet(
+						R.string.pref_menus_mainmenu_shortcutitems_key,
+						R.array.pref_menus_mainmenu_shortcutitems_items_default
+				);
+
+				existingShortcutPreferences.remove("random");
+				existingShortcutPreferences.remove("random_nsfw");
+
+				prefs.edit().putStringSet(
+						context.getString(R.string.pref_menus_mainmenu_shortcutitems_key),
+						existingShortcutPreferences).apply();
 			}
 		});
 	}

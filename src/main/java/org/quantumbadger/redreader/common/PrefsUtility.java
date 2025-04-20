@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -1465,8 +1466,12 @@ public final class PrefsUtility {
 		final EnumSet<MainMenuFragment.MainMenuShortcutItems> result = EnumSet.noneOf(
 				MainMenuFragment.MainMenuShortcutItems.class);
 		for(final String s : strings) {
-			result.add(MainMenuFragment.MainMenuShortcutItems.valueOf(
-					StringUtils.asciiUppercase(s)));
+			try {
+				result.add(MainMenuFragment.MainMenuShortcutItems.valueOf(
+						StringUtils.asciiUppercase(s)));
+			} catch (final Exception e) {
+				Log.e("PrefsUtility", "Ignoring unknown constant " + s, e);
+			}
 		}
 
 		return result;

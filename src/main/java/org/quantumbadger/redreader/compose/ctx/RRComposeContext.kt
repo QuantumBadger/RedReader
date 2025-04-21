@@ -27,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
+import org.quantumbadger.redreader.account.RedditAccountChangeListener
 import org.quantumbadger.redreader.account.RedditAccountId
 import org.quantumbadger.redreader.account.RedditAccountManager
 import org.quantumbadger.redreader.activities.RedditTermsActivity
@@ -55,7 +56,7 @@ fun RRComposeContext(
 	DisposableEffect(Unit) {
 		val accountManager = RedditAccountManager.getInstance(activity)
 
-		val updateListener = {
+		val updateListener = RedditAccountChangeListener {
 			AndroidCommon.runOnUiThread {
 				currentAccountId = RedditAccountId(accountManager.defaultAccount.canonicalUsername)
 			}

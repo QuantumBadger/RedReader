@@ -31,6 +31,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -59,6 +61,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.UUID;
 
 public class FileUtils {
@@ -330,46 +333,43 @@ public class FileUtils {
 		}).start();
 	}
 
+	@SuppressWarnings("PMD.UseShortArrayInitializer")
 	private static void createSAFDocumentWithIntent(
 			@NonNull final BaseActivity activity,
 			@NonNull final String filename,
 			@Nullable final String mimetype,
 			@NonNull final FileDataSource source,
 			@NonNull final Runnable onSuccess) {
+		//noinspection unchecked
+		final ActivityResultLauncher<String>[] launcher = new ActivityResultLauncher[]{null};
+		launcher[0] = activity.registerForActivityResult(
+				new ActivityResultContracts.CreateDocument(mimetype != null ? mimetype : "*/*"),
+				uri -> {
+					launcher[0].unregister();
 
-		final Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT)
-				.setType(mimetype)
-				.putExtra(Intent.EXTRA_TITLE, filename)
-				.addCategory(Intent.CATEGORY_OPENABLE);
+					if(uri == null) {
+						return;
+					}
+
+					new Thread(() -> {
+						try (OutputStream outputStream = activity.getContentResolver()
+								.openOutputStream(uri)) {
+
+							source.writeTo(Objects.requireNonNull(outputStream));
+
+							onSuccess.run();
+
+						} catch (final IOException e) {
+							showUnexpectedStorageErrorDialog(
+									activity,
+									e,
+									UriString.from(uri));
+						}
+					}).start();
+				});
 
 		try {
-			activity.startActivityForResultWithCallback(
-					intent,
-					(resultCode, data) -> {
-
-						if (data == null || data.getData() == null) {
-							return;
-						}
-
-						new Thread(() -> {
-
-							try (OutputStream outputStream = activity.getContentResolver()
-									.openOutputStream(data.getData())) {
-
-								source.writeTo(outputStream);
-
-								onSuccess.run();
-
-							} catch (final IOException e) {
-								showUnexpectedStorageErrorDialog(
-										activity,
-										e,
-										new UriString(data.getData().toString()));
-							}
-
-						}).start();
-					});
-
+			launcher[0].launch(filename);
 		} catch (final ActivityNotFoundException e) {
 			DialogUtils.showDialog(
 					activity,

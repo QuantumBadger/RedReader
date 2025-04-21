@@ -629,9 +629,7 @@ public final class OptionsMenuUtility {
 							final Intent intent = new Intent(
 									activity,
 									SettingsActivity.class);
-							activity.startActivityForResult(
-									intent,
-									1);
+							activity.startActivity(intent);
 							return true;
 						});
 

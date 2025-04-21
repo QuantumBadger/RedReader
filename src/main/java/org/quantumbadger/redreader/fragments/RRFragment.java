@@ -60,12 +60,6 @@ public abstract class RRFragment {
 		mParent.startActivity(intent);
 	}
 
-	protected final void startActivityForResult(
-			final Intent intent,
-			final int requestCode) {
-		mParent.startActivityForResult(intent, requestCode);
-	}
-
 	public void onCreateOptionsMenu(final Menu menu) {
 	}
 

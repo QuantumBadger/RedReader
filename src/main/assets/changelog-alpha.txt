@@ -1,5 +1,6 @@
 /Alpha 360 (2025-04-21)
 Added video frame step controls (thanks to ecawthorne and japanesephundroid)
+Make floating toolbar buttons respond to left handed mode (thanks to ecawthorne)
 
 /Alpha 359 (2025-04-20)
 Added support for emotes in comment flairs (thanks to bharatknv)

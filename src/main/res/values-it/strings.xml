@@ -552,6 +552,14 @@
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Mostra un indicatore di caricamento del contenuto, se disponibile</string>
     <string name="pref_appearance_bottom_toolbar_title">Mostra barra degli strumenti in basso</string>
     <string name="pref_behaviour_video_mute_default_title">Muta i video in modo predefinito</string>
+
+    <!-- 2024-12-05 -->
+    <string name="pref_layout_category_title">Layout</string>
+    <string name="pref_layout_mode_title">Modalità layout</string>
+    <string name="pref_layout_mode_thumbnails">Miniature</string>
+    <string name="pref_layout_mode_alwayspreview">Anteprima Sempre</string>
+    <string name="pref_layout_mode_card">Carta</string>
+
     <string name="prefs_category_images_video">Immagini/Video</string>
     <string name="notification_channel_name_reddit_messages">Messaggi di Reddit in arrivo</string>
     <string name="post_text_copied_to_clipboard">Testo del post copiato negli appunti</string>

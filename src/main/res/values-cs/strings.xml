@@ -669,6 +669,14 @@
     <string name="pref_behaviour_hide_read_posts_title">Skrýt přečtené články</string>
     <!-- 2019-10-01 -->
     <string name="post_text_copied_to_clipboard">Self-text příspěvku zkopírován do schránky</string>
+
+    <!-- 2024-12-05 -->
+    <string name="pref_layout_category_title">Rozvržení</string>
+    <string name="pref_layout_mode_title">Režim rozvržení</string>
+    <string name="pref_layout_mode_thumbnails">Miniatury</string>
+    <string name="pref_layout_mode_alwayspreview">Vždy Náhled</string>
+    <string name="pref_layout_mode_card">Karta</string>
+
     <!-- Weblate 2020-01-25 -->
     <string name="pref_behaviour_notifications_title">Oznámení</string>
     <string name="pref_cache_maxage_entry_title">Smazat praporky v mezipaměti (přečteno, upvoted, atd.) po</string>

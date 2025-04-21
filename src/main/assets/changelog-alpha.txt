@@ -1,6 +1,7 @@
 /Alpha 360 (2025-04-21)
 Added video frame step controls (thanks to ecawthorne and japanesephundroid)
 Make floating toolbar buttons respond to left handed mode (thanks to ecawthorne)
+Added option to mark all messages read when leaving inbox (thanks to folkemat)
 
 /Alpha 359 (2025-04-20)
 Added support for emotes in comment flairs (thanks to bharatknv)

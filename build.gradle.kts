@@ -93,6 +93,10 @@ android {
 	}
 
 	buildTypes {
+		getByName("debug") {
+			applicationIdSuffix = ".debug"
+			versionNameSuffix = "-debug"
+		}
 		getByName("release") {
 			isMinifyEnabled = true
 			isShrinkResources = false
@@ -100,6 +104,11 @@ android {
 				getDefaultProguardFile("proguard-android-optimize.txt"),
 				"proguard-rules.pro"
 			)
+		}
+		create("ci") {
+			initWith(getByName("release"))
+			applicationIdSuffix = ".ci"
+			signingConfig = signingConfigs.getByName("debug")
 		}
 	}
 

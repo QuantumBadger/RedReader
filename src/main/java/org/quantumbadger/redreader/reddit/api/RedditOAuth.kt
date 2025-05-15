@@ -51,6 +51,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicReference
+import androidx.core.net.toUri
 
 object RedditOAuth {
 	private const val TAG = "RedditOAuth"
@@ -64,7 +65,7 @@ object RedditOAuth {
 	@JvmStatic
 	val promptUri: Uri
 		get() {
-			val uri = Uri.parse("https://www.reddit.com/api/v1/authorize.compact").buildUpon()
+			val uri = "https://www.reddit.com/api/v1/authorize.compact".toUri().buildUpon()
 			uri.appendQueryParameter("response_type", "code")
 			uri.appendQueryParameter("duration", "permanent")
 			uri.appendQueryParameter("state", "Texas")
@@ -143,7 +144,7 @@ object RedditOAuth {
 		exception: Throwable?,
 		httpStatus: Int?,
 		context: Context,
-		uri: UriString
+		uri: UriString,
 	): FetchRefreshTokenResult {
 		return if (httpStatus != null && httpStatus != 200) {
 			FetchRefreshTokenResult(
@@ -191,7 +192,7 @@ object RedditOAuth {
 		exception: Throwable?,
 		httpStatus: Int?,
 		context: Context,
-		uri: UriString
+		uri: UriString,
 	): FetchAccessTokenResult {
 		return if (httpStatus != null && httpStatus != 200) {
 			FetchAccessTokenResult(
@@ -237,7 +238,7 @@ object RedditOAuth {
 
 	private fun fetchRefreshTokenSynchronous(
 		context: Context,
-		redirectUri: Uri
+		redirectUri: Uri,
 	): FetchRefreshTokenResult {
 
 		checkAccess(context, null)?.apply {
@@ -308,7 +309,7 @@ object RedditOAuth {
 					failureType: RequestFailureType,
 					exception: Throwable?,
 					httpStatus: Int?,
-					body: FailedRequestBody?
+					body: FailedRequestBody?,
 				) {
 					result.set(
 						handleRefreshTokenError(
@@ -323,7 +324,7 @@ object RedditOAuth {
 				override fun onSuccess(
 					mimetype: String?,
 					bodyBytes: Long?,
-					body: InputStream?
+					body: InputStream?,
 				) {
 					try {
 						val jsonValue = JsonValue.parse(body)
@@ -379,7 +380,7 @@ object RedditOAuth {
 
 	private fun fetchUserInfoSynchronous(
 		context: Context,
-		accessToken: AccessToken?
+		accessToken: AccessToken?,
 	): FetchUserInfoResult {
 		val uri = Constants.Reddit.getUri(Constants.Reddit.PATH_ME)
 		return try {
@@ -392,7 +393,7 @@ object RedditOAuth {
 					failureType: RequestFailureType,
 					exception: Throwable?,
 					httpStatus: Int?,
-					body: FailedRequestBody?
+					body: FailedRequestBody?,
 				) {
 					if (httpStatus != null && httpStatus != 200) {
 						result.set(
@@ -432,7 +433,7 @@ object RedditOAuth {
 				override fun onSuccess(
 					mimetype: String?,
 					bodyBytes: Long?,
-					body: InputStream?
+					body: InputStream?,
 				) {
 					try {
 						val jsonValue = JsonValue.parse(body)
@@ -499,7 +500,7 @@ object RedditOAuth {
 	private fun loginAsynchronous(
 		context: Context,
 		redirectUri: Uri,
-		listener: LoginListener
+		listener: LoginListener,
 	) {
 		object : Thread() {
 			override fun run() {
@@ -556,7 +557,7 @@ object RedditOAuth {
 	@JvmStatic
 	fun fetchAccessTokenSynchronous(
 		context: Context,
-		user: RedditAccount
+		user: RedditAccount,
 	): FetchAccessTokenResult {
 
 		checkAccess(context, user)?.apply {
@@ -589,7 +590,7 @@ object RedditOAuth {
 					failureType: RequestFailureType,
 					exception: Throwable?,
 					httpStatus: Int?,
-					body: FailedRequestBody?
+					body: FailedRequestBody?,
 				) {
 					result.set(
 						handleAccessTokenError(
@@ -604,7 +605,7 @@ object RedditOAuth {
 				override fun onSuccess(
 					mimetype: String?,
 					bodyBytes: Long?,
-					body: InputStream?
+					body: InputStream?,
 				) {
 					try {
 						val jsonValue = JsonValue.parse(body)
@@ -657,7 +658,7 @@ object RedditOAuth {
 
 	@JvmStatic
 	fun fetchAnonymousAccessTokenSynchronous(
-		context: Context
+		context: Context,
 	): FetchAccessTokenResult {
 
 		checkAccess(context, RedditAccountManager.getAnon())?.apply {
@@ -700,7 +701,7 @@ object RedditOAuth {
 					failureType: RequestFailureType,
 					exception: Throwable?,
 					httpStatus: Int?,
-					body: FailedRequestBody?
+					body: FailedRequestBody?,
 				) {
 					result.set(
 						handleAccessTokenError(
@@ -715,7 +716,7 @@ object RedditOAuth {
 				override fun onSuccess(
 					mimetype: String?,
 					bodyBytes: Long?,
-					body: InputStream?
+					body: InputStream?,
 				) {
 					try {
 						val jsonValue = JsonValue.parse(body)
@@ -770,7 +771,7 @@ object RedditOAuth {
 	fun completeLogin(
 		activity: AppCompatActivity,
 		uri: Uri,
-		onDone: RunnableOnce
+		onDone: RunnableOnce,
 	) {
 		val progressDialog = ProgressDialog(activity)
 		progressDialog.setTitle(R.string.accounts_loggingin)
@@ -828,7 +829,7 @@ object RedditOAuth {
 
 				override fun onLoginFailure(
 					error: LoginError?,
-					details: RRError?
+					details: RRError?,
 				) {
 					AndroidCommon.UI_THREAD_HANDLER.post {
 						if (cancelled.get()) {
@@ -882,7 +883,7 @@ object RedditOAuth {
 
 		constructor(
 			status: FetchRefreshTokenResultStatus,
-			error: RRError?
+			error: RRError?,
 		) {
 			this.status = status
 			this.error = error
@@ -892,7 +893,7 @@ object RedditOAuth {
 
 		constructor(
 			refreshToken: RefreshToken?,
-			accessToken: AccessToken?
+			accessToken: AccessToken?,
 		) {
 			status = FetchRefreshTokenResultStatus.SUCCESS
 			error = null
@@ -908,7 +909,7 @@ object RedditOAuth {
 
 		constructor(
 			status: FetchUserInfoResultStatus,
-			error: RRError?
+			error: RRError?,
 		) {
 			this.status = status
 			this.error = error
@@ -969,7 +970,7 @@ object RedditOAuth {
 
 		constructor(
 			status: FetchAccessTokenResultStatus,
-			error: RRError?
+			error: RRError?,
 		) {
 			this.status = status
 			this.error = error

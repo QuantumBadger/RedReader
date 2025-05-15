@@ -68,6 +68,7 @@ import org.quantumbadger.redreader.reddit.url.RedditURLParser
 import java.util.Locale
 import java.util.regex.Pattern
 import kotlin.concurrent.thread
+import androidx.core.net.toUri
 
 object LinkHandler {
 	private val youtubeDotComPattern = Pattern.compile("^https?://[.\\w]*youtube\\.\\w+/.*")
@@ -88,7 +89,7 @@ object LinkHandler {
 		post: RedditPost? = null,
 		albumInfo: AlbumInfo? = null,
 		albumImageIndex: Int? = null,
-		fromExternalIntent: Boolean = false
+		fromExternalIntent: Boolean = false,
 	) {
 		if (url == null) {
 			quickToast(activity, R.string.link_does_not_exist)
@@ -96,7 +97,7 @@ object LinkHandler {
 		}
 
 		if (url.value.startsWith("rr://")) {
-			val rrUri = Uri.parse(url.value)
+			val rrUri = url.value.toUri()
 
 			if (rrUri.authority == "msg") {
 				AndroidCommon.runOnUiThread {
@@ -262,7 +263,7 @@ object LinkHandler {
 					+ youtuDotBeMatcher.group(1)
 					+ (youtuDotBeMatcher.group(2)?.takeUnless { it.isEmpty() }
 				?.let { "&${it.substring(1)}" } ?: ""))
-			if (openWebBrowser(activity, Uri.parse(youtuBeUrl), fromExternalIntent)) {
+			if (openWebBrowser(activity, youtuBeUrl.toUri(), fromExternalIntent)) {
 				return
 			}
 		}
@@ -279,7 +280,7 @@ object LinkHandler {
 	fun onLinkLongClicked(
 		activity: BaseActivity,
 		uri: UriString?,
-		forceNoImage: Boolean = false
+		forceNoImage: Boolean = false,
 	) {
 		if (uri == null) {
 			return
@@ -359,9 +360,9 @@ object LinkHandler {
 	}
 
 	fun onActionMenuItemSelected(
-        uri: UriString,
-        activity: BaseActivity,
-        action: LinkAction
+		uri: UriString,
+		activity: BaseActivity,
+		action: LinkAction,
 	) {
 		when (action) {
 			LinkAction.SHARE -> shareText(activity, null, getPreferredRedditUriString(uri).value)
@@ -383,7 +384,7 @@ object LinkHandler {
 
 			LinkAction.EXTERNAL -> try {
 				val intent = Intent(Intent.ACTION_VIEW)
-				intent.setData(Uri.parse(uri.value))
+				intent.setData(uri.value.toUri())
 				activity.startActivity(intent)
 			} catch (e: ActivityNotFoundException) {
 				quickToast(
@@ -401,7 +402,7 @@ object LinkHandler {
 	fun openWebBrowser(
 		activity: AppCompatActivity,
 		uri: Uri,
-		fromExternalIntent: Boolean
+		fromExternalIntent: Boolean,
 	): Boolean {
 		if (!fromExternalIntent) {
 			try {
@@ -467,7 +468,7 @@ object LinkHandler {
 	private fun openInternalBrowser(
 		activity: AppCompatActivity,
 		url: UriString?,
-		post: RedditPost?
+		post: RedditPost?,
 	) {
 		if (url != null) {
 			val intent = Intent()
@@ -482,7 +483,7 @@ object LinkHandler {
 	fun openCustomTab(
 		activity: AppCompatActivity,
 		uri: Uri,
-		post: RedditPost?
+		post: RedditPost?,
 	) {
 		try {
 			val intent = Intent()
@@ -650,7 +651,7 @@ object LinkHandler {
 		imgId: String,
 		priority: Priority,
 		returnUrlOnFailure: Boolean,
-		listener: GetImageInfoListener
+		listener: GetImageInfoListener,
 	) {
 		if (isSensitiveDebugLoggingEnabled) {
 			Log.i("getImgurImageInfo", "Image $imgId: trying API v3 with auth")
@@ -690,7 +691,7 @@ object LinkHandler {
 									priority,
 									object : ImageInfoRetryListener(listener) {
 										override fun onFailure(
-											error: RRError
+											error: RRError,
 										) {
 											Log.i(
 												"getImgurImageInfo",
@@ -720,7 +721,7 @@ object LinkHandler {
 		albumUrl: UriString?,
 		albumId: String,
 		priority: Priority,
-		listener: GetAlbumInfoListener
+		listener: GetAlbumInfoListener,
 	) {
 		if (isSensitiveDebugLoggingEnabled) {
 			Log.i("getImgurAlbumInfo", "Album $albumId: trying API v3 with auth")
@@ -763,7 +764,7 @@ object LinkHandler {
 									priority,
 									object : AlbumInfoRetryListener(listener) {
 										override fun onFailure(
-											error: RRError
+											error: RRError,
 										) {
 											Log.i(
 												"getImgurImageInfo",
@@ -783,7 +784,7 @@ object LinkHandler {
 		context: Context,
 		url: UriString,
 		priority: Priority,
-		listener: GetAlbumInfoListener
+		listener: GetAlbumInfoListener,
 	) {
 		run {
 			val matchImgur = imgurAlbumPattern.matcher(url.value)
@@ -827,7 +828,7 @@ object LinkHandler {
 		context: Context,
 		url: UriString?,
 		priority: Priority,
-		listener: GetImageInfoListener
+		listener: GetImageInfoListener,
 	) {
 		if (url == null) {
 			listener.onNotAnImage()
@@ -1218,7 +1219,7 @@ object LinkHandler {
 	fun shareText(
 		activity: AppCompatActivity,
 		subject: String?,
-		text: String?
+		text: String?,
 	) {
 		val mailer = Intent(Intent.ACTION_SEND)
 		mailer.setType("text/plain")
@@ -1257,7 +1258,7 @@ object LinkHandler {
 			uri = "http://$uri"
 		}
 
-		val parsedUri = Uri.parse(uri).normalizeScheme()
+		val parsedUri = uri.toUri().normalizeScheme()
 		val uriBuilder = parsedUri.buildUpon()
 
 		val authority = parsedUri.encodedAuthority

@@ -232,7 +232,7 @@ fun fetchImage(
 		priority = Priority(Constants.Priority.IMAGE_VIEW),
 		downloadStrategy = DownloadStrategyIfNotCached.INSTANCE,
 		fileType = Constants.FileType.IMAGE,
-		queueType = CacheRequest.DownloadQueueType.IMMEDIATE,
+		queueType = DownloadQueueType.IMMEDIATE,
 		cache = true,
 		filter = filter
 	)

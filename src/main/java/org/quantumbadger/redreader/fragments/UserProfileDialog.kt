@@ -63,6 +63,7 @@ import java.io.IOException
 import java.net.URISyntaxException
 import java.text.NumberFormat
 import java.util.*
+import androidx.core.net.toUri
 
 object UserProfileDialog {
 	@JvmStatic
@@ -416,8 +417,9 @@ object UserProfileDialog {
 		) { resultCode: Int, data: Intent? ->
 			if (data != null) {
 				if (resultCode == 123 && data.hasExtra("url")) {
-					val uri = Uri.parse(data.getStringExtra("url"))
-					completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+					data.getStringExtra("url")?.toUri()?.let { uri ->
+						completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
+					}
 				}
 			}
 		}
@@ -427,8 +429,8 @@ object UserProfileDialog {
 	private fun assignUserAvatar(
 		url: UriString,
 		imageOutput: ImageView,
-		context: AppCompatActivity
-	) {
+		context: AppCompatActivity,
+    ) {
 		CacheManager.getInstance(context).makeRequest(CacheRequest(
 			url,
 			RedditAccountManager.getAnon(),
@@ -444,7 +446,7 @@ object UserProfileDialog {
 					timestamp: TimestampUTC,
 					session: UUID,
 					fromCache: Boolean,
-					mimetype: String?
+					mimetype: String?,
 				) {
 					try {
 						streamFactory.create().use { `is` ->

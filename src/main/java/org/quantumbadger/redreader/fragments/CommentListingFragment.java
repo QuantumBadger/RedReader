@@ -28,7 +28,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
@@ -770,9 +769,11 @@ public class CommentListingFragment extends RRFragment
 				final View item = view.itemView;
 				item.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
 				item.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
-				item.performAccessibilityAction(
-						AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
-						null);
+
+				// TODO: Investigate why this doesn't work
+				// item.performAccessibilityAction(
+				// 		AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
+				// 		null);
 			}
 		}, 800);
 	}

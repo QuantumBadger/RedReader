@@ -108,16 +108,20 @@ object AndroidCommon {
 	fun getPackageInfo(context: Context): PackageInfo {
 
 		val name = context.packageName
-		val pInfo = context.packageManager.getPackageInfo(name, PackageManager.GET_SIGNATURES)
+		val pInfo = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+			context.packageManager.getPackageInfo(name, PackageManager.GET_SIGNATURES)
+		} else {
+			context.packageManager.getPackageInfo(name, PackageManager.PackageInfoFlags.of(0))
+		}
 
 		return PackageInfo(
 			packageName = name,
 			versionCode = pInfo.versionCode,
-			versionName = pInfo.versionName,
-			ids = pInfo.signatures.map {
+			versionName = pInfo.versionName ?: "",
+			ids = pInfo.signatures?.map {
 				CertificateFactory.getInstance("X509")
 					.generateCertificate(ByteArrayInputStream(it.toByteArray())).encoded
-			}
+			} ?: emptyList()
 		)
 	}
 

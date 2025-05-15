@@ -20,7 +20,7 @@ package org.quantumbadger.redreader.common.time
 import android.content.res.Resources
 import org.quantumbadger.redreader.R
 
-class TimeStringsImpl constructor(
+class TimeStringsImpl(
 		private val resources: Resources
 ) : TimeStrings {
 	override val year: String

@@ -26,6 +26,7 @@ import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.jsonwrap.JsonValue
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL
+import androidx.core.net.toUri
 
 // TODO add copyright messages to all Kotlin files
 
@@ -40,7 +41,7 @@ data class RedditComment(
 	val author: UrlEncodedString? = null,
 	val subreddit: UrlEncodedString? = null,
 	val author_flair_text: UrlEncodedString? = null,
-	val author_flair_richtext: List<MaybeParseError<FlairEmoteData>>?= null,
+	val author_flair_richtext: List<MaybeParseError<FlairEmoteData>>? = null,
 	val archived: Boolean = false,
 	val likes: Boolean? = null,
 	val score_hidden: Boolean = false,
@@ -72,9 +73,9 @@ data class RedditComment(
 
 	val stickied: Boolean = false,
 
-	val collapsed_reason_code: String? = null
+	val collapsed_reason_code: String? = null,
 
-) : Parcelable, RedditThingWithIdAndType {
+	) : Parcelable, RedditThingWithIdAndType {
 
 	// TODO do this in the HTML parser instead
 	fun copyWithNewBodyHtml(value: String) = copy(body_html = UrlEncodedString(value))
@@ -87,7 +88,7 @@ data class RedditComment(
 		val m: String,
 		val s: ImageMetadata,
 		val t: String,
-		val id: String
+		val id: String,
 	) : Parcelable
 
 	@Serializable
@@ -95,7 +96,7 @@ data class RedditComment(
 	data class ImageMetadata(
 		val x: String,
 		val y: String,
-		val u: String? = null
+		val u: String? = null,
 	) : Parcelable
 
 	@Serializable
@@ -103,7 +104,7 @@ data class RedditComment(
 	data class FlairEmoteData(
 		val e: String,
 		val a: String,
-		val u: String
+		val u: String,
 	) : Parcelable
 
 	override fun getIdAlone() = id
@@ -120,7 +121,7 @@ data class RedditComment(
 			if (result.startsWith("/")) {
 				result = "https://reddit.com$result"
 			}
-			PostCommentListingURL.parse(Uri.parse(result))
+			PostCommentListingURL.parse(result.toUri())
 
 		} ?: PostCommentListingURL(
 			null,

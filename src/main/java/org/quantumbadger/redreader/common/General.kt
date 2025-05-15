@@ -59,6 +59,7 @@ import javax.crypto.spec.SecretKeySpec
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.roundToLong
+import androidx.core.net.toUri
 
 object General {
     @JvmField
@@ -158,19 +159,19 @@ object General {
 
     @JvmStatic
 	fun quickToast(
-        context: Context?,
-        text: String?,
-        duration: Int
-    ) {
+		context: Context?,
+		text: String?,
+		duration: Int,
+	) {
         runOnUiThread { Toast.makeText(context, text, duration).show() }
     }
 
     @JvmStatic
 	fun quickToast(
-        context: Context,
-        textRes: Int,
-        duration: Int
-    ) {
+		context: Context,
+		textRes: Int,
+		duration: Int,
+	) {
         runOnUiThread {
             Toast.makeText(
                 context,
@@ -211,13 +212,13 @@ object General {
 
     @JvmStatic
 	fun getGeneralErrorForFailure(
-        context: Context,
-        type: RequestFailureType,
-        t: Throwable?,
-        status: Int?,
-        url: UriString?,
-        response: Optional<FailedRequestBody>
-    ): RRError {
+		context: Context,
+		type: RequestFailureType,
+		t: Throwable?,
+		status: Int?,
+		url: UriString?,
+		response: Optional<FailedRequestBody>,
+	): RRError {
         val title: Int
         val message: Int
         var reportable = true
@@ -273,7 +274,7 @@ object General {
 			RequestFailureType.REQUEST -> if (status != null) {
                 when (status) {
                     400, 401, 403, 404 -> {
-                        val uri = Uri.parse(url?.value)
+                        val uri = url?.value?.toUri()
                         var isImgurApiRequest = false
                         var isRedditRequest = false
                         if (uri != null && uri.host != null) {
@@ -390,11 +391,11 @@ object General {
 
     @JvmStatic
 	fun getGeneralErrorForFailure(
-        context: Context,
-        type: APIFailureType?,
-        debuggingContext: String?,
-        response: Optional<FailedRequestBody>
-    ): RRError {
+		context: Context,
+		type: APIFailureType?,
+		debuggingContext: String?,
+		response: Optional<FailedRequestBody>,
+	): RRError {
         val title: Int
         val message: Int
         when (type) {
@@ -457,9 +458,9 @@ object General {
 
     @JvmStatic
 	fun showResultDialog(
-        context: AppCompatActivity,
-        error: RRError
-    ) {
+		context: AppCompatActivity,
+		error: RRError,
+	) {
         runOnUiThread {
             try {
                 val alertBuilder = MaterialAlertDialogBuilder(
@@ -489,7 +490,7 @@ object General {
 
     @JvmStatic
 	fun filenameFromString(url: String): String {
-        val uri = Uri.parse(url)
+        val uri = url.toUri()
         var filename = uri.path?.replace(File.separator, "") ?: "file"
         val parts = filename.substring(1).split("\\.".toRegex(), limit = 2).toTypedArray()
         if (parts.size < 2) {
@@ -636,10 +637,10 @@ object General {
 
     @JvmStatic
 	fun setAllMarginsDp(
-        context: Context,
-        view: View,
-        marginDp: Int
-    ) {
+		context: Context,
+		view: View,
+		marginDp: Int,
+	) {
         val layoutParams = view.layoutParams as MarginLayoutParams
         val marginPx = dpToPixels(context, marginDp.toFloat())
         layoutParams.leftMargin = marginPx
@@ -669,10 +670,10 @@ object General {
 
     @JvmStatic
 	fun setLayoutWidthHeight(
-        view: View,
-        width: Int,
-        height: Int
-    ) {
+		view: View,
+		width: Int,
+		height: Int,
+	) {
         var layoutParams = view.layoutParams
         if (layoutParams == null) {
             layoutParams = ViewGroup.LayoutParams(width, height)
@@ -769,9 +770,9 @@ object General {
 
     @JvmStatic
 	fun startNewThread(
-        name: String,
-        runnable: Runnable
-    ) {
+		name: String,
+		runnable: Runnable,
+	) {
         Thread(runnable, name).start()
     }
 
@@ -794,9 +795,9 @@ object General {
 
     @JvmStatic
 	fun <E, R> mapIfNotNull(
-        value: E?,
-        op: UnaryOperator<E, R>
-    ): R? = value?.run(op::operate)
+		value: E?,
+		op: UnaryOperator<E, R>,
+	): R? = value?.run(op::operate)
 
     @JvmStatic
 	val isAlpha: Boolean
@@ -821,8 +822,8 @@ object General {
     @JvmStatic
 	@SafeVarargs
     fun <E> nullAlternative(
-        vararg values: E
-    ): E {
+		vararg values: E,
+	): E {
         for (value in values) {
             if (value != null) {
                 return value
@@ -833,8 +834,8 @@ object General {
 
     @JvmStatic
 	fun <E> ignoreIOException(
-        factory: GenericFactory<E, IOException?>
-    ): Optional<E> {
+		factory: GenericFactory<E, IOException?>,
+	): Optional<E> {
         return try {
             Optional.of(factory.create())
         } catch (e: IOException) {

@@ -26,6 +26,8 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.res.TypedArrayUtils.getResourceId
+import androidx.core.content.withStyledAttributes
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -43,15 +45,15 @@ import org.quantumbadger.redreader.viewholders.VH1Text
 class AccountListAdapter(private val context: AppCompatActivity, private val fragment: Fragment) :
 	HeaderRecyclerAdapter<RecyclerView.ViewHolder?>() {
 	private val accounts = RedditAccountManager.getInstance(context).accounts
-	private val rrIconAdd: Drawable?
-	private val rrIconUser: Drawable?
+	private var rrIconAdd: Drawable? = null
+	private var rrIconUser: Drawable? = null
 
 	init {
-		val attr = context.obtainStyledAttributes(intArrayOf(R.attr.rrIconAdd, R.attr.rrIconPerson))
-		rrIconAdd = AppCompatResources.getDrawable(context, attr.getResourceId(0, 0))
-		//noinspection ResourceType: bug in Lint
-		rrIconUser = AppCompatResources.getDrawable(context, attr.getResourceId(1, 0))
-		attr.recycle()
+		context.withStyledAttributes(null, intArrayOf(R.attr.rrIconAdd, R.attr.rrIconPerson)) {
+			rrIconAdd = AppCompatResources.getDrawable(context, getResourceId(0, 0))
+			//noinspection ResourceType: bug in Lint
+			rrIconUser = AppCompatResources.getDrawable(context, getResourceId(1, 0))
+		}
 	}
 
 	override fun onCreateHeaderItemViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
@@ -68,7 +70,7 @@ class AccountListAdapter(private val context: AppCompatActivity, private val fra
 
 	override fun onBindHeaderItemViewHolder(
 		holder: RecyclerView.ViewHolder?,
-		position: Int
+		position: Int,
 	) {
 		val vh = holder as VH1Text
 		vh.text.text = context.getString(R.string.accounts_add)
@@ -103,7 +105,7 @@ class AccountListAdapter(private val context: AppCompatActivity, private val fra
 
 	override fun onBindContentItemViewHolder(
 		holder: RecyclerView.ViewHolder?,
-		position: Int
+		position: Int,
 	) {
 		val accountManager = RedditAccountManager.getInstance(context)
 
@@ -190,6 +192,6 @@ class AccountListAdapter(private val context: AppCompatActivity, private val fra
 
 	private class AccountAction(
 		@StringRes val message: Int,
-		val action: () -> Unit
+		val action: () -> Unit,
 	)
 }

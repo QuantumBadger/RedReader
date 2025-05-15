@@ -37,13 +37,13 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Run assemble
-        run: ./gradlew assembleCi --parallel
+        run: ./gradlew :app:assembleCi --parallel
 
       - name: Upload artifact to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: RedReader-${{ github.run_number }}
-          path: build/outputs/apk/ci/RedReader-ci.apk
+          path: app/build/outputs/apk/ci/RedReader-ci.apk
 
   checks:
     runs-on: ubuntu-latest

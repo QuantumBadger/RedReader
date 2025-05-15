@@ -1,59 +1,74 @@
 name: CI
 
 on:
-    workflow_dispatch:
-    push:
-    pull_request:
-    schedule:
-        -   cron: '30 5 * * *'
+  workflow_dispatch:
+  push:
+    branches:
+    - master
+    paths-ignore:
+    - '.idea/**'
+    - '**/*.md'
+    - '.gitignore'
+  pull_request:
+    paths-ignore:
+    - '.idea/**'
+    - '**/*.md'
+    - '.gitignore'
+  schedule:
+    - cron: '30 5 * * *'
 
 jobs:
-    ci:
-        runs-on: ubuntu-latest
-        steps:
-            -   uses: actions/checkout@v4
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-            -   name: Set up Java 17
-                uses: actions/setup-java@v4
-                with:
-                    distribution: temurin
-                    java-version: 17
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
 
-            -   name: Validate Gradle wrapper
-                uses: gradle/actions/wrapper-validation@v3
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v4
 
-            -   name: Set up Gradle
-                uses: gradle/actions/setup-gradle@v3
-                with:
-                    cache-read-only: ${{ github.event_name == 'pull_request' }}
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
 
-            -   name: Install NDK
-                run: |
-                    SDKMANAGER="${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin/sdkmanager"
-                    NDK_VERSION="$(yq .versions.ndk gradle/libs.versions.toml)"
-                    echo "Installing NDK ${NDK_VERSION}"
-                    echo "y" | "$SDKMANAGER" "ndk;$NDK_VERSION" --sdk_root="${ANDROID_SDK_ROOT}"
+      - name: Run assemble debug
+        run: ./gradlew assembleDebug --parallel
+    
+      - name: Run assemble release
+        run: ./gradlew assembleRelease --parallel
 
-            -   name: Run release build
-                run: ./gradlew assembleRelease
+      - name: Upload artifact to GitHub
+        uses: actions/upload-artifact@v4
+        with:
+          name: RedReader-${{ github.run_number }}
+          path: build/outputs/apk/debug/RedReader-debug.apk
 
-            -   name: Run debug build
-                run: ./gradlew assembleDebug
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
 
-            -   name: Upload artifact to GitHub
-                uses: actions/upload-artifact@v4
-                with:
-                    name: RedReader-debug.apk
-                    path: build/outputs/apk/debug/RedReader-debug.apk
+    - name: Validate Gradle Wrapper
+      uses: gradle/actions/wrapper-validation@v4
+    
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v4
+    
+    - name: Run PMD
+      run: ./gradlew pmd
 
-            -   name: Run PMD
-                run: ./gradlew pmd
+    - name: Run checkstyle
+      if: ${{ !cancelled() }} # To continue even if previous step fails
+      run: ./gradlew checkstyle --stacktrace --info
 
-            -   name: Run checkstyle
-                run: ./gradlew checkstyle --stacktrace --info
+    - name: Android Lint
+      if: ${{ !cancelled() }}
+      run: ./gradlew lint
 
-            -   name: Android Lint
-                run: ./gradlew lint
-
-            -   name: Unit tests
-                run: ./gradlew test
+    - name: Unit tests
+      if: ${{ !cancelled() }}
+      run: ./gradlew test

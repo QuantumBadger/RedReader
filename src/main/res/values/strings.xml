@@ -400,6 +400,8 @@
     <string name="theme_name_ltblue">Light Blue</string>
     <string name="theme_name_orange">Orange</string>
     <string name="theme_name_gray">Gray</string>
+    <string name="theme_name_gruvbox_dark">Gruvbox Dark</string>
+    <string name="theme_name_gruvbox_light">Gruvbox Light</string>
 
     <string name="time_1hr">1 hour</string>
     <string name="time_6hr">6 hours</string>

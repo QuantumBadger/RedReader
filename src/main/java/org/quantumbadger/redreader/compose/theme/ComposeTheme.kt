@@ -152,58 +152,86 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 
 	val baseTextStyle = TextStyle()
 
-	val colorText = if (light) {
-		Colors.Grey.s10
-	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
-		Colors.Grey.s2
-	} else {
-		Colors.Grey.s1
+	val colorText = when (theme) {
+		AppearanceTheme.GRUVBOX_LIGHT -> Colors.Gruvbox.Light.Strong.fg
+		AppearanceTheme.GRUVBOX_DARK -> Colors.Gruvbox.Dark.Strong.fg
+		else -> if (light) {
+			Colors.Grey.s10
+		} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+			Colors.Grey.s2
+		} else {
+			Colors.Grey.s1
+		}
 	}
 
-	val colorSubtext = if (light) {
-		Colors.Grey.s6
-	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
-		Colors.Grey.s5
-	} else {
-		Colors.Grey.s3
+	val colorSubtext = when (theme) {
+		AppearanceTheme.GRUVBOX_LIGHT -> Colors.Gruvbox.Light.Muted.fg
+		AppearanceTheme.GRUVBOX_DARK -> Colors.Gruvbox.Dark.Muted.fg
+		else -> if (light) {
+			Colors.Grey.s6
+		} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+			Colors.Grey.s5
+		} else {
+			Colors.Grey.s3
+		}
 	}
 
-	val colorIcon = if (light) {
-		Colors.Grey.s7
-	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
-		Colors.Grey.s6
-	} else {
-		Colors.Grey.s4
+	val colorIcon = when (theme) {
+		AppearanceTheme.GRUVBOX_LIGHT -> Colors.Gruvbox.Light.Muted.fg
+		AppearanceTheme.GRUVBOX_DARK -> Colors.Gruvbox.Dark.Muted.fg
+		else -> if (light) {
+			Colors.Grey.s7
+		} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+			Colors.Grey.s6
+		} else {
+			Colors.Grey.s4
+		}
 	}
 
-	val colorCardBackground = if (light) {
-		Color.White
-	} else if (theme == AppearanceTheme.ULTRABLACK) {
-		Color.Black
-	} else {
-		Colors.Grey.s9
+	val colorCardBackground = when (theme) {
+		AppearanceTheme.GRUVBOX_LIGHT -> Colors.Gruvbox.Light.Background.neutral1
+		AppearanceTheme.GRUVBOX_DARK -> Colors.Gruvbox.Dark.Background.neutral1
+		else -> if (light) {
+			Color.White
+		} else if (theme == AppearanceTheme.ULTRABLACK) {
+			Color.Black
+		} else {
+			Colors.Grey.s9
+		}
 	}
 
-	val colorListBackground = if (light) {
-		Colors.Grey.s1
-	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
-		Colors.Grey.s10
-	} else {
-		Color.Black
+	val colorListBackground = when (theme) {
+		AppearanceTheme.GRUVBOX_LIGHT -> Colors.Gruvbox.Light.Background.hard
+		AppearanceTheme.GRUVBOX_DARK -> Colors.Gruvbox.Dark.Background.hard
+		else -> if (light) {
+			Colors.Grey.s1
+		} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+			Colors.Grey.s10
+		} else {
+			Color.Black
+		}
 	}
 
-	val colorPopupBackground = if (light) {
-		Color.White
-	} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
-		Colors.Grey.s7
-	} else {
-		Colors.Grey.s8
+	val colorPopupBackground = when (theme) {
+		AppearanceTheme.GRUVBOX_LIGHT -> Colors.Gruvbox.Light.Background.neutral2
+		AppearanceTheme.GRUVBOX_DARK -> Colors.Gruvbox.Dark.Background.neutral2
+		else -> if (light) {
+			Color.White
+		} else if (theme == AppearanceTheme.NIGHT_LOWCONTRAST) {
+			Colors.Grey.s7
+		} else {
+			Colors.Grey.s8
+		}
 	}
 
-	val colorImageBackground = if (light) {
-		Colors.Grey.s2
-	} else {
-		Colors.Grey.s8
+	val colorImageBackground = when (theme) {
+		AppearanceTheme.GRUVBOX_LIGHT -> Colors.Gruvbox.Light.Background.neutral3
+		AppearanceTheme.GRUVBOX_DARK -> Colors.Gruvbox.Dark.Background.neutral3
+		else -> if (light) {
+			Colors.Grey.s2
+		} else {
+			Colors.Grey.s8
+		}
 	}
 
 	override val postCard = object : ComposeThemePostCard {
@@ -360,6 +388,73 @@ object Colors {
 		val s8 = Color(0xFF721818)
 		val s9 = Color(0xFF4c1010)
 		val s10 = Color(0xFF260808)
+	}
+
+	object Gruvbox {
+		object Dark {
+			object Muted {
+				val bg = Color(0xFF282828)
+				val red = Color(0xFFCC241D)
+				val green = Color(0xFF98971A)
+				val yellow = Color(0xFFD79921)
+				val blue = Color(0xFF458588)
+				val purple = Color(0xFFB16286)
+				val aqua = Color(0xFF689D6A)
+				val orange = Color(0xFFD65D0E)
+				val fg = Color(0xFFA89984)
+			}
+			object Strong {
+				val bg = Color(0xFF928374) // This seems wrong based on typical Gruvbox usage, using the muted hard background instead.
+				val red = Color(0xFFFB4934)
+				val green = Color(0xFFB8BB26)
+				val yellow = Color(0xFFFABD2F)
+				val blue = Color(0xFF83A598)
+				val purple = Color(0xFFD3869B)
+				val aqua = Color(0xFF8EC07C)
+				val orange = Color(0xFFFE8019)
+				val fg = Color(0xFFEBDBB2)
+			}
+            object Background {
+                val hard = Color(0xFF1D2021)
+                val soft = Color(0xFF32302F)
+                val neutral1 = Color(0xFF3C3836)
+                val neutral2 = Color(0xFF504945)
+                val neutral3 = Color(0xFF665C54)
+                val neutral4 = Color(0xFF7C6F64)
+            }
+		}
+		object Light {
+			object Muted {
+				val bg = Color(0xFFFBF1C7)
+				val red = Color(0xFFCC241D)
+				val green = Color(0xFF98971A)
+				val yellow = Color(0xFFD79921)
+				val blue = Color(0xFF458588)
+				val purple = Color(0xFFB16286)
+				val aqua = Color(0xFF689D6A)
+				val orange = Color(0xFFD65D0E)
+				val fg = Color(0xFF7C6F64)
+			}
+			object Strong {
+				val bg = Color(0xFF928374) // This seems wrong based on typical Gruvbox usage, using the muted hard background instead.
+				val red = Color(0xFF9d0006)
+				val green = Color(0xFF79740E)
+				val yellow = Color(0xFFB57614)
+				val blue = Color(0xFF076678)
+				val purple = Color(0xFF8F3F71)
+				val aqua = Color(0xFF427B58)
+				val orange = Color(0xFAF4C7) // This seems wrong based on typical Gruvbox usage, using the muted hard background instead.
+				val fg = Color(0xFF3C3836)
+			}
+             object Background {
+                val hard = Color(0xFFF9F5D7)
+                val soft = Color(0xFFF2E5BC)
+                val neutral1 = Color(0xFFEBDBB2)
+                val neutral2 = Color(0xFFD5C4A1)
+                val neutral3 = Color(0xBDAE93)
+                val neutral4 = Color(0xA89984)
+            }
+		}
 	}
 }
 

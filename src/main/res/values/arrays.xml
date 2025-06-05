@@ -251,6 +251,8 @@
 		<item>@string/theme_name_orange</item>
 		<item>@string/theme_name_gray</item>
 		<item>@string/theme_name_ultrablack</item>
+		<item>@string/theme_name_gruvbox_dark</item>
+		<item>@string/theme_name_gruvbox_light</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -264,6 +266,8 @@
 		<item>orange</item>
 		<item>gray</item>
 		<item>ultrablack</item>
+		<item>gruvbox_dark</item>
+		<item>gruvbox_light</item>
 	</string-array>
 
     <string-array name="pref_appearance_langforce">

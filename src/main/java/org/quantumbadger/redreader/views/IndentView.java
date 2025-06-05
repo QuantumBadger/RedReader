@@ -100,20 +100,19 @@ class IndentView extends View {
 		final int height = getMeasuredHeight();
 
 		if(mPrefDrawLines) {
-			// Draw each line individually with its own color
-			for(int i = 0; i < mIndent; i++) {
-				final float x = (mPixelsPerIndent * (i + 1)) - mHalfALine;
-				// Set color based on indentation level, cycling through the color array
-				mPaint.setColor(mIndentColors[i % mIndentColors.length]);
-				// Draw each line individually
-				canvas.drawLine(x, 0, x, height, mPaint);
+			// Draw only the rightmost line with the appropriate color for this indentation level
+			if(mIndent > 0) {
+				final float rightLine = getWidth() - mHalfALine;
+				// Use color based on the current indentation level
+				mPaint.setColor(mIndentColors[(mIndent - 1) % mIndentColors.length]);
+				canvas.drawLine(rightLine, 0, rightLine, height, mPaint);
 			}
 
 		} else {
 			// Use the original theme color when colorful bars are disabled
 			mPaint.setColor(mOriginalIndentLineCol);
 			final float rightLine = getWidth() - mHalfALine;
-			canvas.drawLine(rightLine, 0, rightLine, getHeight(), mPaint);
+			canvas.drawLine(rightLine, 0, rightLine, height, mPaint);
 		}
 	}
 

@@ -57,7 +57,9 @@ public final class FeatureFlagHandler {
 		OPEN_COMMENT_EXTERNALLY_FEATURE("openCommentExternallyFeature"),
 		POST_TITLE_TAP_ACTION_FEATURE("postTitleTapActionFeature"),
 		DEFAULT_PREF_VIDEO_PLAYBACK_CONTROLS("defaultPrefVideoPlaybackControls"),
-		DEFAULT_PREF_CUSTOM_TABS("defaultPrefCustomTabs");
+		DEFAULT_PREF_CUSTOM_TABS("defaultPrefCustomTabs"),
+		CROSSPOST_ORIGIN_MENU_ITEM("crosspostOriginMenuItem"),
+		MAIN_MENU_RANDOM_REMOVED("mainMenuRandomRemoved");
 
 		@NonNull private final String id;
 
@@ -307,6 +309,46 @@ public final class FeatureFlagHandler {
 								true)
 						.apply();
 			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.CROSSPOST_ORIGIN_MENU_ITEM)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, add crosspost origin button to post action menu.");
+
+				final Set<String> existingPostActionMenuItems = getStringSet(
+						R.string.pref_menus_post_context_items_key,
+						R.array.pref_menus_post_context_items_default,
+						context,
+						prefs);
+
+				existingPostActionMenuItems.add("crosspost_origin");
+
+				prefs.edit()
+						.putStringSet(
+								context.getString(
+										R.string.pref_menus_post_context_items_key),
+								existingPostActionMenuItems)
+						.apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.MAIN_MENU_RANDOM_REMOVED)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, removing random from main menu.");
+
+				final Set<String> existingShortcutPreferences
+						= PrefsUtility.getStringSet(
+						R.string.pref_menus_mainmenu_shortcutitems_key,
+						R.array.pref_menus_mainmenu_shortcutitems_items_default
+				);
+
+				existingShortcutPreferences.remove("random");
+				existingShortcutPreferences.remove("random_nsfw");
+
+				prefs.edit().putStringSet(
+						context.getString(R.string.pref_menus_mainmenu_shortcutitems_key),
+						existingShortcutPreferences).apply();
+			}
 		});
 	}
 
@@ -451,11 +493,6 @@ public final class FeatureFlagHandler {
 
 				if(PrefsUtility.pref_show_popular_main_menu()) {
 					existingShortcutPreferences.add("popular");
-				}
-
-
-				if(PrefsUtility.pref_show_random_main_menu()) {
-					existingShortcutPreferences.add("random");
 				}
 
 				sharedPreferences.edit().putStringSet(

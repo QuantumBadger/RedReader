@@ -38,6 +38,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.os.BundleCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -108,8 +109,10 @@ public class PostSubmitContentFragment extends Fragment {
 		@NonNull
 		public static Args fromBundle(@NonNull final Bundle bundle) {
 			return new Args(
-					bundle.getString(KEY_USER),
-					bundle.getParcelable(KEY_SUBREDDIT),
+					Objects.requireNonNull(bundle.getString(KEY_USER)),
+					Objects.requireNonNull(BundleCompat.getParcelable(bundle,
+							KEY_SUBREDDIT,
+							SubredditCanonicalId.class)),
 					bundle.getString(KEY_URL));
 		}
 	}

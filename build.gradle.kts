@@ -34,6 +34,7 @@ dependencies {
 	implementation(libs.androidx.preference)
 	implementation(libs.androidx.recyclerview)
 	implementation(libs.androidx.swiperefreshlayout)
+	implementation(libs.androidx.window)
 
 	implementation(libs.google.flexbox)
 	implementation(libs.google.material)
@@ -182,4 +183,8 @@ tasks.register("Checkstyle", Checkstyle::class) {
 	classpath = files()
 	maxWarnings = 0
 	configFile = rootProject.file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+}
+
+tasks.withType<JavaCompile> {
+	options.compilerArgs.addAll(listOf("-Xlint:deprecation", "-Xlint:unchecked"))
 }

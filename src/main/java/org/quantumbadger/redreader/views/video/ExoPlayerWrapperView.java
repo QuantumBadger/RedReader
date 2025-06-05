@@ -146,7 +146,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 			addButton(createButton(
 					context,
 					mControlView,
-					R.drawable.icon_previous,
+					R.drawable.icon_restart,
 					R.string.video_restart,
 					view -> {
 						mVideoPlayer.seekTo(0);
@@ -178,7 +178,68 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						updateProgress();
 					});
 
-			addButton(mPlayButton, buttons);
+			if (PrefsUtility.pref_behaviour_video_frame_step()) {
+				final long frameDuration = (long)(1000f / (mVideoPlayer.getVideoFormat() != null
+						? mVideoPlayer.getVideoFormat().frameRate
+						: 30));
+
+				final ImageButton stepBackButton = createButton(
+						context,
+						mControlView,
+						R.drawable.icon_step_back,
+						R.string.video_step_back,
+						view -> {
+							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() - frameDuration);
+							updateProgress();
+						}
+				);
+
+				final ImageButton stepForwardButton = createButton(
+						context,
+						mControlView,
+						R.drawable.icon_step_forward,
+						R.string.video_step_forward,
+						view -> {
+							mVideoPlayer.seekTo(mVideoPlayer.getCurrentPosition() + frameDuration);
+							updateProgress();
+						}
+				);
+
+				mVideoPlayer.addListener(new Player.Listener() {
+					@Override
+					public void onIsPlayingChanged(final boolean isPlaying) {
+						if (isPlaying) {
+							stepBackButton.setImageAlpha(0x3F);
+							stepBackButton.setContentDescription(
+									context.getString(R.string.video_step_back_disabled));
+							stepBackButton.setEnabled(false);
+
+							stepForwardButton.setImageAlpha(0x3F);
+							stepForwardButton.setContentDescription(
+									context.getString(R.string.video_step_forward_disabled));
+							stepForwardButton.setEnabled(false);
+
+						} else {
+							stepBackButton.setImageAlpha(0xFF);
+							stepBackButton.setContentDescription(
+									context.getString(R.string.video_step_back));
+							stepBackButton.setEnabled(true);
+
+							stepForwardButton.setImageAlpha(0xFF);
+							stepForwardButton.setContentDescription(
+									context.getString(R.string.video_step_forward));
+							stepForwardButton.setEnabled(true);
+						}
+					}
+				});
+
+				addButton(stepBackButton, buttons);
+				addButton(mPlayButton, buttons);
+				addButton(stepForwardButton, buttons);
+
+			} else {
+				addButton(mPlayButton, buttons);
+			}
 
 			addButton(createButton(
 					context,

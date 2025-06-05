@@ -18,17 +18,16 @@
 package org.quantumbadger.redreader.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
+import android.graphics.Rect;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.WindowManager;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.window.layout.WindowMetricsCalculator;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -489,14 +488,14 @@ public final class OptionsMenuUtility {
 			final boolean backButtonShown) {
 
 		//Figure out how many buttons can fit
-		final Point windowSize = new Point();
-		((WindowManager)activity.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay()
-				.getSize(windowSize);
+
+		final Rect windowBounds = WindowMetricsCalculator.getOrCreate()
+				.computeCurrentWindowMetrics(activity).getBounds();
 
 		final int buttonSize = General.dpToPixels(activity, 48);
 		final int backButtonSize = General.dpToPixels(activity, 52);
 
-		int buttonSlotsRemaining = (windowSize.x - (backButtonShown
+		int buttonSlotsRemaining = (windowBounds.width() - (backButtonShown
 				? backButtonSize
 				: 0)) / buttonSize;
 

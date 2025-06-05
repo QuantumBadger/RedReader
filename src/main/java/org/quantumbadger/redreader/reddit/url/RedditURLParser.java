@@ -281,15 +281,18 @@ public class RedditURLParser {
 			return builder.toString();
 		}
 
+		@NonNull
 		public UriString browserUrl() {
 			return new UriString(Constants.Reddit.SCHEME_HTTPS + "://" + humanReadableUrl());
 		}
 
 		@Override
+		@NonNull
 		public String toString() {
 			return generateJsonUri().toString();
 		}
 
+		@NonNull
 		public UriString toUriString() {
 			return new UriString(toString());
 		}

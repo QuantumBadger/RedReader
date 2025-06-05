@@ -302,7 +302,6 @@ public class PostListingFragment extends RRFragment
 						CacheManager.getInstance(context).makeRequest(mRequest);
 						break;
 
-					case RANDOM:
 					case SUBREDDIT: {
 
 						// Request the subreddit data
@@ -419,24 +418,6 @@ public class PostListingFragment extends RRFragment
 	}
 
 	private void onSubredditReceived() {
-
-		if(mPostListingURL.pathType() == RedditURLParser.SUBREDDIT_POST_LISTING_URL
-				&& mPostListingURL.asSubredditPostListURL().type
-				== SubredditPostListURL.Type.RANDOM) {
-			try {
-				mPostListingURL = mPostListingURL.asSubredditPostListURL()
-						.changeSubreddit(RedditSubreddit.stripRPrefix(mSubreddit.url));
-				mRequest = createPostListingRequest(
-						UriString.from(mPostListingURL.generateJsonUri()),
-						RedditAccountManager.getInstance(getContext())
-								.getDefaultAccount(),
-						mSession,
-						mRequest.downloadStrategy,
-						true);
-			} catch(final InvalidSubredditNameException e) {
-				throw new RuntimeException(e);
-			}
-		}
 		final String subtitle;
 
 		if(mPostListingURL.getOrder() == null

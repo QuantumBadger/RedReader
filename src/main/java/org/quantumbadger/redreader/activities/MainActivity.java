@@ -266,14 +266,6 @@ public class MainActivity extends RefreshableActivity
 				onSelected(SubredditPostListURL.getPopular());
 				break;
 
-			case MainMenuFragment.MENU_MENU_ACTION_RANDOM:
-				onSelected(SubredditPostListURL.getRandom());
-				break;
-
-			case MainMenuFragment.MENU_MENU_ACTION_RANDOM_NSFW:
-				onSelected(SubredditPostListURL.getRandomNsfw());
-				break;
-
 			case MainMenuFragment.MENU_MENU_ACTION_ALL:
 				onSelected(SubredditPostListURL.getAll());
 				break;
@@ -779,8 +771,7 @@ public class MainActivity extends RefreshableActivity
 
 		if(postsVisible
 				&& !user.isAnonymous()
-				&& (postListingController.isSubreddit()
-				|| postListingController.isRandomSubreddit())
+				&& postListingController.isSubreddit()
 				&& subredditSubscriptionManager.areSubscriptionsReady()
 				&& postListingFragment != null
 				&& postListingFragment.getSubreddit() != null) {
@@ -794,8 +785,7 @@ public class MainActivity extends RefreshableActivity
 		}
 
 		if(postsVisible
-				&& (postListingController.isSubreddit()
-				|| postListingController.isRandomSubreddit())
+				&& postListingController.isSubreddit()
 				&& postListingFragment != null
 				&& postListingFragment.getSubreddit() != null) {
 

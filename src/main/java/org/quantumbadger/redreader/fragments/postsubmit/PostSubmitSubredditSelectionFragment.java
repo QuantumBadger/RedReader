@@ -27,6 +27,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.os.BundleCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -74,7 +75,9 @@ public class PostSubmitSubredditSelectionFragment extends Fragment {
 
 		@NonNull
 		public static Args fromBundle(@NonNull final Bundle bundle) {
-			return new Args(bundle.getParcelable(KEY_SUBREDDIT));
+			return new Args(BundleCompat.getParcelable(bundle,
+					KEY_SUBREDDIT,
+					SubredditCanonicalId.class));
 		}
 	}
 

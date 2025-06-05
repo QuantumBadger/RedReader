@@ -1,8 +1,13 @@
 114/1.25
 Added video playback speed control (thanks to folkemat)
+Added video frame step controls (thanks to ecawthorne and japanesephundroid)
 Added support for emotes in comment flairs (thanks to bharatknv)
-Added "Mark as Read/Unread" fling action, and optional context menu item (thanks to JoshAusHessen and codeofdusk)
+Show label on crossposts, and add "Go to Crosspost Origin" to post menu (thanks to folkemat)
+Added "Mark as Read/Unread" fling action, and optional post menu item (thanks to JoshAusHessen and codeofdusk)
 Added preference to prevent posts being marked as read when clicked (thanks to Daniel Ho)
+Remove random subreddit feature which is no longer supported by Reddit (thanks to Mark Yu)
+Make floating toolbar buttons respond to left handed mode (thanks to ecawthorne)
+Codebase improvements: fixed deprecations (thanks to Alexey Rochev)
 
 113/1.24.1
 Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)

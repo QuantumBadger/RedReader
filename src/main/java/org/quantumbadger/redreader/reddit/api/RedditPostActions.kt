@@ -60,12 +60,14 @@ import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId
+import org.quantumbadger.redreader.reddit.url.PostCommentListingURL
 import org.quantumbadger.redreader.reddit.url.SubredditPostListURL
 import org.quantumbadger.redreader.reddit.url.UserProfileURL
 import org.quantumbadger.redreader.views.AccessibilityActionManager
 import org.quantumbadger.redreader.views.RedditPostView.PostSelectionListener
 import org.quantumbadger.redreader.views.bezelmenu.SideToolbarOverlay
 import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar
+
 
 object RedditPostActions {
 
@@ -105,7 +107,9 @@ object RedditPostActions {
 		PIN(R.string.action_pin_subreddit),
 		UNPIN(R.string.action_unpin_subreddit),
 		SUBSCRIBE(R.string.action_subscribe_subreddit),
-		UNSUBSCRIBE(R.string.action_unsubscribe_subreddit)
+		UNSUBSCRIBE(R.string.action_unsubscribe_subreddit),
+		CROSSPOST_ORIGIN(R.string.action_crosspost_origin)
+
 	}
 
 	data class ActionDescriptionPair(
@@ -382,6 +386,11 @@ object RedditPostActions {
 				) { _, _ -> action(post, activity, RedditAPI.ACTION_REPORT) }
 				.setNegativeButton(R.string.dialog_cancel, null)
 				.show()
+
+			Action.CROSSPOST_ORIGIN -> {
+				val crosspostOriginPost = PostCommentListingURL.forPostId(post.src.isCrosspost)
+				LinkHandler.onLinkClicked(activity, crosspostOriginPost.toUriString())
+			}
 
 			Action.EXTERNAL -> {
 				try {
@@ -706,6 +715,18 @@ object RedditPostActions {
 					Action.COMMENTS
 				)
 			)
+		}
+		if (post.src.isCrosspost != null) {
+			if (itemPref.contains(Action.CROSSPOST_ORIGIN)) {
+				menu.add(
+						RPVMenuItem(
+								String.format(
+										activity.getText(R.string.action_crosspost_origin).toString(),
+								),
+								Action.CROSSPOST_ORIGIN
+						)
+				)
+			}
 		}
 		if (!RedditAccountManager.getInstance(activity).defaultAccount.isAnonymous) {
 			if (itemPref.contains(Action.SAVE)) {

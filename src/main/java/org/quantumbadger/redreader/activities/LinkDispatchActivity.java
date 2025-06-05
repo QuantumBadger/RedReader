@@ -42,7 +42,7 @@ public class LinkDispatchActivity extends AppCompatActivity {
 
 		final View backgroundView = new View(this);
 
-		backgroundView.setBackgroundDrawable(new GradientDrawable(
+		backgroundView.setBackground(new GradientDrawable(
 				GradientDrawable.Orientation.LEFT_RIGHT,
 				new int[] {0xffd32f2f, 0xffb52626}));
 

@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
+import org.quantumbadger.redreader.common.RRThemeAttributes;
 
 /**
  * Draws the left margin for comments based on the RedditPreparedComment#indentation number
@@ -41,7 +42,8 @@ class IndentView extends View {
 
 	private final boolean mPrefDrawLines;
 
-	private float[] mLineBuffer;
+	private final int[] mIndentColors; // Array to hold indentation colors
+	private final int mOriginalIndentLineCol; // Original single line color
 
 	public IndentView(final Context context) {
 		this(context, null);
@@ -63,7 +65,6 @@ class IndentView extends View {
 		mHalfALine = mPixelsPerLine / 2;
 
 		final int rrIndentBackgroundCol;
-		final int rrIndentLineCol;
 
 		{
 			final TypedArray attr = context.obtainStyledAttributes(new int[] {
@@ -72,13 +73,20 @@ class IndentView extends View {
 			});
 
 			rrIndentBackgroundCol = attr.getColor(0, General.COLOR_INVALID);
-			rrIndentLineCol = attr.getColor(1, General.COLOR_INVALID);
-
+			mOriginalIndentLineCol = attr.getColor(1, General.COLOR_INVALID);
 			attr.recycle();
 		}
 
+		// Load indentation colors from RRThemeAttributes
+		final RRThemeAttributes themeAttributes = new RRThemeAttributes(context);
+		mIndentColors = new int[5];
+		mIndentColors[0] = themeAttributes.rrIndentLineCol1;
+		mIndentColors[1] = themeAttributes.rrIndentLineCol2;
+		mIndentColors[2] = themeAttributes.rrIndentLineCol3;
+		mIndentColors[3] = themeAttributes.rrIndentLineCol4;
+		mIndentColors[4] = themeAttributes.rrIndentLineCol5;
+
 		this.setBackgroundColor(rrIndentBackgroundCol);
-		mPaint.setColor(rrIndentLineCol);
 		mPaint.setStrokeWidth(mPixelsPerLine);
 
 		mPrefDrawLines = PrefsUtility.pref_appearance_indentlines();
@@ -92,20 +100,18 @@ class IndentView extends View {
 		final int height = getMeasuredHeight();
 
 		if(mPrefDrawLines) {
-			// i keeps track of indentation, and
-			// l is to populate the float[] with line co-ordinates
-			int l = 0;
-			int i = 0;
-			while(i < mIndent) {
-				final float x = (mPixelsPerIndent * ++i) - mHalfALine;
-				mLineBuffer[l++] = x;      // start-x
-				mLineBuffer[l++] = 0;      // start-y
-				mLineBuffer[l++] = x;      // stop-x
-				mLineBuffer[l++] = height; // stop-y
+			// Draw each line individually with its own color
+			for(int i = 0; i < mIndent; i++) {
+				final float x = (mPixelsPerIndent * (i + 1)) - mHalfALine;
+				// Set color based on indentation level, cycling through the color array
+				mPaint.setColor(mIndentColors[i % mIndentColors.length]);
+				// Draw each line individually
+				canvas.drawLine(x, 0, x, height, mPaint);
 			}
-			canvas.drawLines(mLineBuffer, mPaint);
 
 		} else {
+			// Use the original theme color when colorful bars are disabled
+			mPaint.setColor(mOriginalIndentLineCol);
 			final float rightLine = getWidth() - mHalfALine;
 			canvas.drawLine(rightLine, 0, rightLine, getHeight(), mPaint);
 		}
@@ -119,10 +125,6 @@ class IndentView extends View {
 	public void setIndentation(final int indent) {
 		getLayoutParams().width = (mPixelsPerIndent * indent);
 		mIndent = indent;
-
-		if(mPrefDrawLines) {
-			mLineBuffer = new float[mIndent * 4];
-		}
 
 		invalidate();
 		requestLayout();

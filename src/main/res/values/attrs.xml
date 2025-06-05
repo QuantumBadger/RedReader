@@ -32,8 +32,8 @@
 	<attr name="rrIndentBackgroundCol" format="color" />
 	<attr name="rrIndentLineCol" format="color" />
 
-    <attr name="rrLoadingRingForegroundCol" />
-    <attr name="rrLoadingRingBackgroundCol" />
+    <attr name="rrLoadingRingForegroundCol" format="color" />
+    <attr name="rrLoadingRingBackgroundCol" format="color" />
 
     <attr name="rrListItemBackgroundCol" format="color" />
     <attr name="rrListItemBackgroundHighlightCol" format="color" />

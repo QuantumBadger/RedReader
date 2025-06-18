@@ -18,10 +18,8 @@
 package org.quantumbadger.redreader.adapters;
 
 import android.content.Context;
-import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.RedditPostListItem;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 

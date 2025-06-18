@@ -854,7 +854,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 						final String input = editText.getText().toString().trim();
 						final int minComments = Integer.parseInt(input);
 
-						if (minComments >= 0 && minComments <= 100000) {
+						if (minComments >= 0 && minComments <= 100_000) {
 							// Save the minimum comments value
 							PrefsUtility.pref_behaviour_min_comments(minComments);
 

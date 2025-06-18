@@ -962,14 +962,15 @@ public class PostListingFragment extends RRFragment
 
 								// Show toast if posts were filtered due to few comments
 								if(firstDownload && filteredCommentCount.get() > 0) {
-									final String message = getContext().getResources()
-									                                   .getQuantityString(
+									final String message =
+										getContext().getResources().getQuantityString(
 											R.plurals.posts_filtered_few_comments,
 											filteredCommentCount.get(),
 											filteredCommentCount.get(),
 											minComments);
-									Toast.makeText(getContext(), message, Toast.LENGTH_SHORT)
-									     .show();
+									Toast
+										.makeText(getContext(), message, Toast.LENGTH_SHORT)
+										.show();
 								}
 
 								onPostsAdded();

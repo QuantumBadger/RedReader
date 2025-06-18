@@ -1190,7 +1190,8 @@ public final class PrefsUtility {
 
 	public static void pref_behaviour_min_comments(final int value) {
 		sharedPrefs.edit()
-				.putString(getPrefKey(R.string.pref_behaviour_min_comments_key), String.valueOf(value))
+				.putString(getPrefKey(R.string.pref_behaviour_min_comments_key),
+	                       String.valueOf(value))
 				.apply();
 	}
 

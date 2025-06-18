@@ -866,7 +866,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 						} else {
 							General.quickToast(context, R.string.error_invalid_number_range);
 						}
-					} catch (NumberFormatException e) {
+					} catch (final NumberFormatException e) {
 						General.quickToast(context, R.string.error_invalid_number);
 					}
 				})

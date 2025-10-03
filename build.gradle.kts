@@ -25,6 +25,7 @@ dependencies {
 	implementation(libs.kotlinx.serialization.json)
 	implementation(libs.kotlinx.serialization.json.okio)
 	implementation(libs.kotlin.reflect)
+	implementation(libs.media3.exoplayer.hls)
 
 	implementation(libs.androidx.annotation)
 	implementation(libs.androidx.appcompat)
@@ -35,6 +36,7 @@ dependencies {
 	implementation(libs.androidx.recyclerview)
 	implementation(libs.androidx.swiperefreshlayout)
 	implementation(libs.androidx.window)
+
 
 	implementation(libs.google.flexbox)
 	implementation(libs.google.material)
@@ -48,6 +50,9 @@ dependencies {
 	implementation(libs.netcipher.webkit)
 	implementation(libs.media3.exoplayer)
 	implementation(libs.media3.ui)
+	implementation(libs.androidx.browser)
+	implementation(libs.media3.datasource)
+	implementation(libs.media3.database)
 	implementation(libs.zstd) {
 		artifact {
 			type = "aar"

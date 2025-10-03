@@ -19,4 +19,5 @@ tasks.withType(KotlinJvmCompile::class) {
 
 dependencies {
 	implementation(project(":redreader-common"))
+
 }

@@ -43,10 +43,12 @@ androidx-test-junit = "1.1.5"
 compose-bom = "2024.06.00"
 androidx-compose-constraintlayout = "1.0.1"
 androidx-browser = "1.7.0"
+androidx-webkit = "1.9.0"
 
 [libraries]
 media3-datasource = { module = "androidx.media3:media3-datasource", version.ref = "media3" }
 media3-database  = { module = "androidx.media3:media3-database",  version.ref = "media3" }
+androidx-webkit = { module = "androidx.webkit:webkit", version.ref = "androidx-webkit" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidx-annotation" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }

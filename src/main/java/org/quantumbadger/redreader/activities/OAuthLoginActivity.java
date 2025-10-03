@@ -73,6 +73,27 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 
 		mWebView = new WebView(this);
 
+		// Tor proxy
+		if (TorCommon.isTorEnabled()) {
+			try {
+				final boolean ok = WebkitProxy.setProxy(
+						RedReader.class.getCanonicalName(),
+						getApplicationContext(),
+						mWebView,
+						"127.0.0.1",
+						8118
+				);
+				if (!ok) {
+					BugReportActivity.handleGlobalError(
+							this,
+							getResources().getString(R.string.error_tor_setting_failed)
+					);
+				}
+			} catch (Throwable t) {
+				BugReportActivity.handleGlobalError(this, t);
+			}
+		}
+
 		// 1) Cookies & storage must be fully enabled
 		CookieManager cookieMgr = CookieManager.getInstance();
 		cookieMgr.setAcceptCookie(true);

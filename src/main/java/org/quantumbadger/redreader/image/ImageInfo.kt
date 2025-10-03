@@ -86,6 +86,7 @@ data class ImageInfo(
 
 	@JvmField val mediaType: MediaType? = null,
 	@JvmField val hasAudio: HasAudio,
+	@JvmField val redgifsId: String? = null,
 ) : Parcelable {
 
 	enum class MediaType {
@@ -338,34 +339,47 @@ data class ImageInfo(
 
 		@JvmStatic
 		fun parseRedgifsV2(obj: JsonObject): ImageInfo {
+			val urls = obj.getObject("urls") ?: throw RuntimeException("urls missing from response")
+			val hls = urls.getString("hls")
+			val hd  = urls.getString("hd")
+			val sd  = urls.getString("sd")
 
-			val original = obj.getStringAtPath("urls", "hd")
-				.orElse(obj.getStringAtPath("urls", "sd"))
-				.asNullable()?.let {
-					ImageUrlInfo(
-						url = UriString(it),
-						size = ImageSize.fromJson(obj)
-					)
+			val (chosenUrl, chosenType) =
+				if (hls != null) {
+					hls to "application/x-mpegURL"
+				} else if (hd != null) {
+					hd to "video/mp4"
+				} else if (sd != null) {
+					sd to "video/mp4"
+				} else {
+					throw RuntimeException("No playable url (hls/hd/sd) present")
 				}
 
-			val hasAudio = obj.getBoolean("hasAudio")
+			val original = ImageUrlInfo(url = UriString(chosenUrl), size = ImageSize.fromJson(obj))
+
+			// Prefer API flag, but if we're using HLS, treat as having audio so the UI shows the button
+			val apiHasAudio = obj.getBoolean("hasAudio")
+			val hasAudioEnum =
+				if (hls != null) ImageInfo.HasAudio.MAYBE_AUDIO
+				else ImageInfo.HasAudio.fromBoolean(apiHasAudio)
 
 			val preview = obj.getStringAtPath("urls", "poster").orElseNull()?.let { url ->
 				ImageUrlInfo(url = UriString(url))
 			}
 
-			if (original == null) {
-				throw RuntimeException("original field missing from response")
-			}
+			// NEW: Read the RedGifs ID from the object (present in API response)
+			val redgifsId = obj.getString("id")
 
 			return ImageInfo(
 				original = original,
 				preview = preview,
-				type = "video/mp4",
+				type = chosenType,
 				isAnimated = true,
-				mediaType = MediaType.VIDEO,
-				hasAudio = HasAudio.fromBoolean(hasAudio),
+				mediaType = ImageInfo.MediaType.VIDEO,
+				hasAudio = hasAudioEnum,
+				redgifsId = redgifsId // <-- set it
 			)
 		}
+
 	}
 }

@@ -29,6 +29,13 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
+import java.util.Map;
+import java.util.HashMap;
+import android.os.Message;
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
 
 import androidx.browser.customtabs.CustomTabsIntent;
 
@@ -58,34 +65,100 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 		cookieManager.removeAllCookies(null);
 	}
 
-	@SuppressLint("SetJavaScriptEnabled")
+	@SuppressLint({"SetJavaScriptEnabled"})
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		PrefsUtility.applyTheme(this);
 		super.onCreate(savedInstanceState);
 
-		// Build the OAuth authorize URL
-		final android.net.Uri authUri =
-				org.quantumbadger.redreader.reddit.api.RedditOAuth.getPromptUri();
+		mWebView = new WebView(this);
 
-		try {
-			// Try Chrome Custom Tabs first (needs androidx.browser dependency)
-			androidx.browser.customtabs.CustomTabsIntent.Builder builder =
-					new androidx.browser.customtabs.CustomTabsIntent.Builder();
-			androidx.browser.customtabs.CustomTabsIntent cti = builder.build();
-			cti.launchUrl(this, authUri);
-		} catch (Throwable ignored) {
-			// Fallback: plain external browser
-			final Intent i = new Intent(Intent.ACTION_VIEW, authUri);
-			// Ensure we don’t accidentally route back to ourselves
-			i.addCategory(Intent.CATEGORY_BROWSABLE);
-			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(i);
+		// 1) Cookies & storage must be fully enabled
+		CookieManager cookieMgr = CookieManager.getInstance();
+		cookieMgr.setAcceptCookie(true);
+		// third-party cookies are required for many IdP flows
+		CookieManager.getInstance().setAcceptThirdPartyCookies(mWebView, true);
+
+		final WebSettings settings = mWebView.getSettings();
+		settings.setJavaScriptEnabled(true);
+		settings.setDomStorageEnabled(true);
+		settings.setDatabaseEnabled(true);
+		settings.setSupportMultipleWindows(true); // for popups/2FA
+		settings.setJavaScriptCanOpenWindowsAutomatically(true);
+		settings.setLoadWithOverviewMode(true);
+		settings.setUseWideViewPort(true);
+		settings.setDisplayZoomControls(false);
+
+		// Optional but helps with recaptcha/challenges
+		if (WebViewFeature.isFeatureSupported(WebViewFeature.SAFE_BROWSING_ENABLE)) {
+			try {
+				WebSettingsCompat.setSafeBrowsingEnabled(settings, true);
+			} catch (Throwable ignored) { /* no-op */ }
+		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			settings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
 		}
 
+		// 2) Use a mobile Chrome UA (many sites special-case WebView UA)
+		settings.setUserAgentString(
+				"Mozilla/5.0 (Linux; Android " + Build.VERSION.RELEASE + ") "
+						+ "AppleWebKit/537.36 (KHTML, like Gecko) "
+						+ "Chrome/124.0.0.0 Mobile Safari/537.36"
+		);
 
-		finish();
+		// Remove/neutralize the X-Requested-With header (WebView adds it by default);
+
+		final Map<String,String> firstLoadHeaders = new HashMap<>();
+		firstLoadHeaders.put("X-Requested-With", ""); // override to empty
+
+		mWebView.setWebChromeClient(new WebChromeClient() {
+			@Override public boolean onCreateWindow(WebView view, boolean isDialog,
+													boolean isUserGesture, Message resultMsg) {
+				// open popup targets inside the same webview
+				WebView.HitTestResult result = view.getHitTestResult();
+				WebView newWebView = new WebView(view.getContext());
+				newWebView.setWebViewClient(new WebViewClient());
+				((WebView.WebViewTransport) resultMsg.obj).setWebView(newWebView);
+				resultMsg.sendToTarget();
+				return true;
+			}
+			@Override public boolean onConsoleMessage(ConsoleMessage consoleMessage) { return true; }
+		});
+
+		mWebView.setWebViewClient(new WebViewClient() {
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest req) {
+				Uri url = req.getUrl();
+
+				// intercept the oauth redirect back to the app
+				if (Objects.equals(url.getScheme(), "redreader")) {
+					Intent intent = new Intent();
+					intent.putExtra("url", url.toString());
+					setResult(123, intent);
+					finish();
+					return true;
+				}
+
+				// keep everything else inside, but scrub X-Requested-With on every nav
+				Map<String,String> headers = new HashMap<>();
+				headers.put("X-Requested-With", "");
+				view.loadUrl(url.toString(), headers);
+				return true; // we handled it
+			}
+
+			@Override
+			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+				// be strict; do not proceed on SSL errors
+				handler.cancel();
+			}
+		});
+
+		setBaseActivityListing(mWebView);
+
+		// load the Reddit authorize URL with headers that neutralize X-Requested-With
+		mWebView.loadUrl(RedditOAuth.getPromptUri().toString(), firstLoadHeaders);
 	}
+
 
 
 	@Override

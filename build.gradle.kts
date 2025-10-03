@@ -53,6 +53,7 @@ dependencies {
 	implementation(libs.androidx.browser)
 	implementation(libs.media3.datasource)
 	implementation(libs.media3.database)
+	implementation(libs.androidx.webkit)
 	implementation(libs.zstd) {
 		artifact {
 			type = "aar"

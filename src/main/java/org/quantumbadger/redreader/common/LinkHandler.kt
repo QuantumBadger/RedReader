@@ -79,6 +79,8 @@ object LinkHandler {
 
 	private val googlePlayPattern = Pattern.compile("^https?://[.\\w]*play\\.google\\.\\w+/.*")
 
+
+
 	@JvmStatic
 	@JvmOverloads
 	fun onLinkClicked(
@@ -567,15 +569,24 @@ object LinkHandler {
 		}
 
 		run {
-			val matchRedgifs = redgifsPattern.matcher(url.value)
-			if (matchRedgifs.find()) {
-				matchRedgifs.group(1)?.let { imgId ->
-					if (imgId.length > 5) {
-						return true
-					}
+			// 1) Normalize to v3 (workaround that helps audio on newer uploads)
+			val normalized = url.value.replace(
+				Regex("^https?://(?:www\\.)?redgifs\\.com/", RegexOption.IGNORE_CASE),
+				"https://v3.redgifs.com/"
+			)
+
+			// 2) Match the v3 (or www) watch URL and capture the ID/slug
+			val m = redgifsPattern.matcher(normalized)
+			if (m.find()) {
+				val imgId = m.group(1)
+				if (!imgId.isNullOrEmpty() && imgId.length > 5) {
+					// you can pass `normalized` onward if you keep the URL around,
+					// and use `imgId` for the API call.
+					return true
 				}
 			}
 		}
+
 
 		run {
 			val matchStreamable = streamablePattern.matcher(url.value)
@@ -859,52 +870,74 @@ object LinkHandler {
 		}
 
 		run {
-			val matchRedgifs = redgifsPattern.matcher(url.value)
-			if (matchRedgifs.find()) {
-				matchRedgifs.group(1)?.let { imgId ->
-					if (imgId.length > 5) {
-						RedgifsAPIV2.getImageInfo(
-							context,
-							imgId,
-							priority,
-							object : ImageInfoRetryListener(listener) {
-								override fun onFailure(error: RRError) {
-									Log.e(
-										"getImageInfo",
-										"RedGifs V2 failed, trying V1 ($error)",
-										error.t
-									)
+			// Normalize to v3 domain (helps with audio on newer uploads)
+			val normalized = url.value.replace(
+				Regex("^https?://(?:www\\.)?redgifs\\.com/", RegexOption.IGNORE_CASE),
+				"https://v3.redgifs.com/"
+			)
 
-									RedgifsAPI.getImageInfo(
-										context,
-										imgId,
-										priority,
-										object : ImageInfoRetryListener(listener) {
-											override fun onFailure(error: RRError) {
-												// Retry V2 so that the final error which is logged
-												// relates to the V2 API
+			val m = redgifsPattern.matcher(normalized)
+			if (m.find()) {
+				val imgId = m.group(1)
+				if (!imgId.isNullOrEmpty() && imgId.length > 5) {
+					// --- NEW: Use RedGifs API (v3, fallback v2) to fetch HLS with audio ---
+					thread {
+						try {
+							val api = org.quantumbadger.redreader.http.redgifs.RedgifsApi()
+							val gifJson = api.getGifById(imgId) // JSONObject { gif: {...} } or { gfyItem: {...} }
 
-												Log.e(
-													"getImageInfo",
-													"RedGifs V1 also failed, retrying V2: $error",
-													error.t
-												)
+							val urls = gifJson.getJSONObject("urls")
+							val hls = urls.optString("hls", null)
+							val hd  = urls.optString("hd",  null)
+							val sd  = urls.optString("sd",  null)
+							val poster = urls.optString("poster", null)
 
-												RedgifsAPIV2.getImageInfo(
-													context,
-													imgId,
-													priority,
-													listener
-												)
-											}
-										})
-								}
-							})
-						return
+							val (chosenUrl, mime) = when {
+								!hls.isNullOrEmpty() -> hls to "application/x-mpegURL"
+								!hd.isNullOrEmpty()  -> hd  to "video/mp4"
+								!sd.isNullOrEmpty()  -> sd  to "video/mp4"
+								else -> throw RuntimeException("RedGifs: no playable url (hls/hd/sd)")
+							}
+
+							val apiHasAudio = gifJson.optBoolean("hasAudio", false)
+							val hasAudio = if (!hls.isNullOrEmpty())
+								ImageInfo.HasAudio.MAYBE_AUDIO
+							else
+								ImageInfo.HasAudio.fromBoolean(apiHasAudio)
+
+							val previewInfo = poster?.takeIf { it.isNotEmpty() }?.let {
+								ImageUrlInfo(UriString(it))
+							}
+
+							val info = ImageInfo(
+								original = ImageUrlInfo(UriString(chosenUrl)),
+								preview = previewInfo,
+								type = mime,
+								isAnimated = true,
+								mediaType = ImageInfo.MediaType.VIDEO,
+								hasAudio = hasAudio,
+								// If you added redgifsId to ImageInfo (recommended), set it:
+								redgifsId = gifJson.optString("id", imgId)
+							)
+
+							listener.onSuccess(info)
+						} catch (t: Throwable) {
+							val err = getGeneralErrorForFailure(
+								context,
+								CacheRequest.RequestFailureType.MALFORMED_URL,
+								null,   // Int? (httpStatusCode)
+								null,   // Throwable?
+								url,
+								Optional.empty()
+							)
+							listener.onFailure(err)
+						}
 					}
+					return
 				}
 			}
 		}
+
 
 		run {
 			val matchStreamable = streamablePattern.matcher(url.value)

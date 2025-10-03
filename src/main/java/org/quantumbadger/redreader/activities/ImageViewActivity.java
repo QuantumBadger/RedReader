@@ -51,6 +51,14 @@ import androidx.media3.common.util.UnstableApi;
 import androidx.media3.exoplayer.source.MediaSource;
 import androidx.media3.exoplayer.source.MergingMediaSource;
 import androidx.media3.exoplayer.source.ProgressiveMediaSource;
+import androidx.media3.datasource.DefaultHttpDataSource;
+import androidx.media3.exoplayer.hls.HlsMediaSource;
+import androidx.media3.datasource.DefaultHttpDataSource;
+import androidx.media3.datasource.cache.CacheDataSource;
+import androidx.media3.datasource.cache.SimpleCache;
+import androidx.browser.customtabs.CustomTabsIntent;
+import java.util.Map;
+import java.util.HashMap;
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
@@ -856,6 +864,19 @@ public class ImageViewActivity extends ViewsBaseActivity
 		}
 
 		Log.i(TAG, "Proceeding with download");
+
+		final String mime = mImageInfo.type != null ? mImageInfo.type : "";
+		final String urlString = uri.toString();
+		final boolean isHls = mime.equalsIgnoreCase("application/x-mpegURL")
+				|| mime.equalsIgnoreCase("application/vnd.apple.mpegurl")
+				|| urlString.endsWith(".m3u8");
+
+// If HLS, play directly via ExoPlayer (no CacheRequest/progressive stream)
+		if (isHls) {
+			playHlsDirect(Uri.parse(urlString));
+			return;
+		}
+
 		makeCacheRequest(progressBar, uri, audioUri);
 	}
 
@@ -1088,6 +1109,99 @@ public class ImageViewActivity extends ViewsBaseActivity
 		finish();
 	}
 
+	private void openRedgifsEmbedWithSound() {
+		if (mImageInfo == null || mImageInfo.redgifsId == null || mImageInfo.redgifsId.isEmpty()) {
+			Log.w(TAG, "No RedGifs ID available for embed fallback");
+			return;
+		}
+
+		final String embedUrl = "https://v3.redgifs.com/ifr/"
+				+ mImageInfo.redgifsId
+				+ "?autoplay=1&muted=0&sound=true";
+
+		try {
+			// Use a Custom Tab if you have androidx.browser, else fall back to external VIEW Intent
+			androidx.browser.customtabs.CustomTabsIntent.Builder b = new androidx.browser.customtabs.CustomTabsIntent.Builder();
+			androidx.browser.customtabs.CustomTabsIntent ct = b.build();
+			ct.launchUrl(this, android.net.Uri.parse(embedUrl));
+		} catch (Throwable t) {
+			startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(embedUrl)));
+		}
+	}
+
+	private void playHlsDirect(@NonNull final Uri hlsUri) {
+		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+			if (mIsDestroyed) return;
+
+			Log.i(TAG, "Playing HLS via ExoPlayer: " + hlsUri);
+
+			// Headers + UA required by RedGifs
+			final java.util.Map<String, String> headers = new java.util.HashMap<>();
+			headers.put("Referer", "https://v3.redgifs.com/");
+			headers.put("Origin",  "https://v3.redgifs.com");
+
+			final String userAgent =
+					"Mozilla/5.0 (Android) AppleWebKit/537.36 (KHTML, like Gecko) " +
+							"Chrome/124.0.0.0 Mobile Safari/537.36";
+
+			// Upstream HTTP (keeps your headers)
+			final DefaultHttpDataSource.Factory httpFactory =
+					new DefaultHttpDataSource.Factory()
+							.setUserAgent(userAgent)
+							.setDefaultRequestProperties(headers)
+							.setAllowCrossProtocolRedirects(true);
+
+			//  Wrap upstream with cache
+			final androidx.media3.datasource.cache.SimpleCache simpleCache =
+					org.quantumbadger.redreader.media.ExoCache.INSTANCE.get(getApplicationContext());
+
+			final androidx.media3.datasource.cache.CacheDataSource.Factory cacheFactory =
+					new androidx.media3.datasource.cache.CacheDataSource.Factory()
+							.setCache(simpleCache)
+							.setUpstreamDataSourceFactory(httpFactory)
+							.setFlags(androidx.media3.datasource.cache.CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR);
+
+			// Build HLS media source USING THE CACHE
+			final HlsMediaSource mediaSource =
+					new HlsMediaSource.Factory(cacheFactory)
+							.createMediaSource(MediaItem.fromUri(hlsUri));
+
+			mVideoPlayerWrapper = new ExoPlayerWrapperView(
+					this,
+					mediaSource,
+					this::revertToWeb,
+					0
+			);
+
+			setMainView(mVideoPlayerWrapper);
+
+			final boolean muteByDefault = PrefsUtility.pref_behaviour_video_mute_default();
+			mVideoPlayerWrapper.setMuted(muteByDefault);
+
+			if (mImageInfo != null && mImageInfo.hasAudio != ImageInfo.HasAudio.NO_AUDIO) {
+				final int iconMuted = R.drawable.ic_volume_off_white_24dp;
+				final int iconUnmuted = R.drawable.ic_volume_up_white_24dp;
+				final java.util.concurrent.atomic.AtomicReference<ImageButton> btnRef =
+						new java.util.concurrent.atomic.AtomicReference<>();
+
+				btnRef.set(addFloatingToolbarButton(
+						muteByDefault ? iconMuted : iconUnmuted,
+						muteByDefault ? R.string.video_unmute : R.string.video_mute,
+						v -> {
+							final ImageButton b = btnRef.get();
+							final boolean muting = !mVideoPlayerWrapper.isMuted();
+							mVideoPlayerWrapper.setMuted(muting);
+							b.setImageResource(muting ? iconMuted : iconUnmuted);
+							b.setContentDescription(getResources().getString(
+									muting ? R.string.video_unmute : R.string.video_mute));
+						}
+				));
+			}
+		});
+	}
+
+
+
 	@OptIn(markerClass = UnstableApi.class)
 	@UiThread
 	private void playWithExoplayer(
@@ -1117,6 +1231,8 @@ public class ImageViewActivity extends ViewsBaseActivity
 
 			if(audioStream == null) {
 				mediaSource = videoMediaSource;
+
+
 
 			} else {
 
@@ -1194,6 +1310,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 			revertToWeb();
 		}
 	}
+
 
 	private void playGIFWithMovie(
 			@NonNull final GenericFactory<SeekableInputStream, IOException> streamFactory) {

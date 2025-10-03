@@ -27,7 +27,7 @@ Downloading
 
 The Google Play APKs are also available here:
 
-[https://github.com/QuantumBadger/RedReaderX/releases](https://github.com/bluebeamdev/RedReaderX/releases)
+https://github.com/bluebeamdev/RedReaderX/releases
 
 
 Translating

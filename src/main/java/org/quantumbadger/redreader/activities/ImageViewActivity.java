@@ -55,10 +55,11 @@ import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.hls.HlsMediaSource;
 import androidx.media3.datasource.cache.CacheDataSource;
 import androidx.media3.datasource.cache.SimpleCache;
-import androidx.browser.customtabs.CustomTabsIntent;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
+
 
 import com.github.lzyzsd.circleprogress.DonutProgress;
 
@@ -1200,25 +1201,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 		finish();
 	}
 
-	private void openRedgifsEmbedWithSound() {
-		if (mImageInfo == null || mImageInfo.redgifsId == null || mImageInfo.redgifsId.isEmpty()) {
-			Log.w(TAG, "No RedGifs ID available for embed fallback");
-			return;
-		}
 
-		final String embedUrl = "https://v3.redgifs.com/ifr/"
-				+ mImageInfo.redgifsId
-				+ "?autoplay=1&muted=0&sound=true";
-
-		try {
-			// Use a Custom Tab if you have androidx.browser, else fall back to external VIEW Intent
-			androidx.browser.customtabs.CustomTabsIntent.Builder b = new androidx.browser.customtabs.CustomTabsIntent.Builder();
-			androidx.browser.customtabs.CustomTabsIntent ct = b.build();
-			ct.launchUrl(this, android.net.Uri.parse(embedUrl));
-		} catch (Throwable t) {
-			startActivity(new android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(embedUrl)));
-		}
-	}
 
 	private void playHlsDirect(@NonNull final Uri hlsUri) {
 		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
@@ -1227,7 +1210,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 			Log.i(TAG, "Playing HLS via ExoPlayer: " + hlsUri);
 
 			// Headers + UA required by RedGifs
-			final java.util.Map<String, String> headers = new java.util.HashMap<>();
+			final Map<String, String> headers = new HashMap<>();
 			headers.put("Referer", "https://v3.redgifs.com/");
 			headers.put("Origin",  "https://v3.redgifs.com");
 
@@ -1242,15 +1225,15 @@ public class ImageViewActivity extends ViewsBaseActivity
 							.setDefaultRequestProperties(headers)
 							.setAllowCrossProtocolRedirects(true);
 
-			//  Wrap upstream with cache
-			final androidx.media3.datasource.cache.SimpleCache simpleCache =
+			// Wrap upstream with cache
+			final SimpleCache simpleCache =
 					org.quantumbadger.redreader.media.ExoCache.INSTANCE.get(getApplicationContext());
 
-			final androidx.media3.datasource.cache.CacheDataSource.Factory cacheFactory =
-					new androidx.media3.datasource.cache.CacheDataSource.Factory()
+			final CacheDataSource.Factory cacheFactory =
+					new CacheDataSource.Factory()
 							.setCache(simpleCache)
 							.setUpstreamDataSourceFactory(httpFactory)
-							.setFlags(androidx.media3.datasource.cache.CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR);
+							.setFlags(CacheDataSource.FLAG_IGNORE_CACHE_ON_ERROR);
 
 			// Build HLS media source USING THE CACHE
 			final HlsMediaSource mediaSource =
@@ -1272,14 +1255,13 @@ public class ImageViewActivity extends ViewsBaseActivity
 			if (mImageInfo != null && mImageInfo.hasAudio != ImageInfo.HasAudio.NO_AUDIO) {
 				final int iconMuted = R.drawable.ic_volume_off_white_24dp;
 				final int iconUnmuted = R.drawable.ic_volume_up_white_24dp;
-				final java.util.concurrent.atomic.AtomicReference<ImageButton> btnRef =
-						new java.util.concurrent.atomic.AtomicReference<>();
+				final AtomicReference<ImageButton> btnRef = new AtomicReference<>();
 
 				btnRef.set(addFloatingToolbarButton(
 						muteByDefault ? iconMuted : iconUnmuted,
 						muteByDefault ? R.string.video_unmute : R.string.video_mute,
 						v -> {
-							final ImageButton b = btnRef.get();
+							final ImageButton b = btnRef.get(); // ← declare final to satisfy lint
 							final boolean muting = !mVideoPlayerWrapper.isMuted();
 							mVideoPlayerWrapper.setMuted(muting);
 							b.setImageResource(muting ? iconMuted : iconUnmuted);
@@ -1290,6 +1272,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 			}
 		});
 	}
+
 
 
 

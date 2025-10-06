@@ -53,10 +53,10 @@ import androidx.media3.exoplayer.source.MergingMediaSource;
 import androidx.media3.exoplayer.source.ProgressiveMediaSource;
 import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.exoplayer.hls.HlsMediaSource;
-import androidx.media3.datasource.DefaultHttpDataSource;
 import androidx.media3.datasource.cache.CacheDataSource;
 import androidx.media3.datasource.cache.SimpleCache;
 import androidx.browser.customtabs.CustomTabsIntent;
+
 import java.util.Map;
 import java.util.HashMap;
 
@@ -196,7 +196,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 					this,
 					Objects.requireNonNull(IntentCompat.getParcelableExtra(
 							intent, "albumUrl",
-								UriString.class)),
+							UriString.class)),
 					new Priority(Constants.Priority.IMAGE_VIEW),
 					new GetAlbumInfoListener() {
 
@@ -871,7 +871,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 				|| mime.equalsIgnoreCase("application/vnd.apple.mpegurl")
 				|| urlString.endsWith(".m3u8");
 
-// If HLS, play directly via ExoPlayer (no CacheRequest/progressive stream)
+		// If HLS, play directly via ExoPlayer (no CacheRequest/progressive stream)
 		if (isHls) {
 			playHlsDirect(Uri.parse(urlString));
 			return;
@@ -928,9 +928,9 @@ public class ImageViewActivity extends ViewsBaseActivity
 					@Override
 					public void onFailure(@NonNull final RRError error) {
 
-						synchronized(resultLock) {
+						synchronized (resultLock) {
 
-							if(!failed.getAndSet(true)) {
+							if (!failed.getAndSet(true)) {
 								AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 									final LinearLayout layout
 											= new LinearLayout(ImageViewActivity.this);
@@ -964,10 +964,10 @@ public class ImageViewActivity extends ViewsBaseActivity
 							progressBar.setVisibility(View.VISIBLE);
 							progressBar.setIndeterminate(authorizationInProgress);
 							progressBar.setProgress(
-									((float)((1000 * bytesRead) / totalBytes)) / 1000);
+									((float) ((1000 * bytesRead) / totalBytes)) / 1000);
 							manageAspectRatioIndicator(progressBar);
 
-							if(!mProgressTextSet) {
+							if (!mProgressTextSet) {
 								mProgressText.setText(General.bytesToMegabytes(totalBytes));
 								mProgressTextSet = true;
 							}
@@ -983,9 +983,9 @@ public class ImageViewActivity extends ViewsBaseActivity
 							final boolean fromCache,
 							@Nullable final String mimetype) {
 
-						synchronized(resultLock) {
+						synchronized (resultLock) {
 
-							if(audio.get() != null || audioUri == null) {
+							if (audio.get() != null || audioUri == null) {
 								onImageStreamReady(
 										!fromCache,
 										streamFactory,
@@ -1001,7 +1001,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 					}
 				}));
 
-		if(audioUri != null) {
+		if (audioUri != null) {
 			CacheManager.getInstance(this).makeRequest(mAudioRequest = new CacheRequest(
 					audioUri,
 					RedditAccountManager.getAnon(),
@@ -1012,14 +1012,16 @@ public class ImageViewActivity extends ViewsBaseActivity
 					CacheRequest.DownloadQueueType.IMMEDIATE,
 					this,
 					new CacheRequestCallbacks() {
+
+						private boolean mProgressTextSet = false;
+
 						@Override
 						public void onFailure(@NonNull final RRError error) {
 
-							synchronized(resultLock) {
+							synchronized (resultLock) {
 
-								if(!failed.getAndSet(true)) {
-
-									AndroidCommon.runOnUiThread(() -> {
+								if (!failed.getAndSet(true)) {
+									AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 										final LinearLayout layout
 												= new LinearLayout(ImageViewActivity.this);
 										final ErrorView errorView = new ErrorView(
@@ -1034,28 +1036,117 @@ public class ImageViewActivity extends ViewsBaseActivity
 						}
 
 						@Override
+						public void onDownloadNecessary() {
+							AndroidCommon.runOnUiThread(() -> {
+								progressBar.setVisibility(View.VISIBLE);
+								progressBar.setIndeterminate(true);
+								manageAspectRatioIndicator(progressBar);
+							});
+						}
+
+						@Override
+						public void onProgress(
+								final boolean authorizationInProgress,
+								final long bytesRead,
+								final long totalBytes) {
+
+							AndroidCommon.runOnUiThread(() -> {
+								progressBar.setVisibility(View.VISIBLE);
+								progressBar.setIndeterminate(authorizationInProgress);
+								progressBar.setProgress(
+										((float) ((1000 * bytesRead) / totalBytes)) / 1000);
+								manageAspectRatioIndicator(progressBar);
+
+								if (!mProgressTextSet) {
+									mProgressText.setText(General.bytesToMegabytes(totalBytes));
+									mProgressTextSet = true;
+								}
+							});
+						}
+
+						@Override
 						public void onDataStreamAvailable(
-								@NonNull final GenericFactory<
-										SeekableInputStream, IOException> streamFactory,
+								@NonNull final GenericFactory<SeekableInputStream, IOException>
+										streamFactory,
 								final TimestampUTC timestamp,
 								@NonNull final UUID session,
 								final boolean fromCache,
 								@Nullable final String mimetype) {
 
-							synchronized(resultLock) {
-								if(video.get() != null) {
+							synchronized (resultLock) {
+
+								if (audio.get() != null || audioUri == null) {
 									onImageStreamReady(
 											!fromCache,
-											video.get(),
 											streamFactory,
-											videoMimetype.get(),
+											audio.get(),
+											mimetype,
 											Uri.parse(uri.toString()));
+
 								} else {
-									audio.set(streamFactory);
+									video.set(streamFactory);
+									videoMimetype.set(mimetype);
 								}
 							}
 						}
 					}));
+
+			if (audioUri != null) {
+				CacheManager.getInstance(this).makeRequest(mAudioRequest = new CacheRequest(
+						audioUri,
+						RedditAccountManager.getAnon(),
+						null,
+						new Priority(Constants.Priority.IMAGE_VIEW),
+						DownloadStrategyIfNotCached.INSTANCE,
+						Constants.FileType.IMAGE,
+						CacheRequest.DownloadQueueType.IMMEDIATE,
+						this,
+						new CacheRequestCallbacks() {
+							@Override
+							public void onFailure(@NonNull final RRError error) {
+
+								synchronized (resultLock) {
+
+									if (!failed.getAndSet(true)) {
+
+										AndroidCommon.runOnUiThread(() -> {
+											final LinearLayout layout
+													= new LinearLayout(ImageViewActivity.this);
+											final ErrorView errorView = new ErrorView(
+													ImageViewActivity.this,
+													error);
+											layout.addView(errorView);
+											General.setLayoutMatchWidthWrapHeight(errorView);
+											setMainView(layout);
+										});
+									}
+								}
+							}
+
+							@Override
+							public void onDataStreamAvailable(
+									@NonNull final GenericFactory<
+											SeekableInputStream, IOException> streamFactory,
+									final TimestampUTC timestamp,
+									@NonNull final UUID session,
+									final boolean fromCache,
+									@Nullable final String mimetype) {
+
+								synchronized (resultLock) {
+									if (video.get() != null) {
+										onImageStreamReady(
+												!fromCache,
+												video.get(),
+												streamFactory,
+												videoMimetype.get(),
+												Uri.parse(uri.toString()));
+									} else {
+										audio.set(streamFactory);
+									}
+								}
+							}
+						}));
+			}
 		}
 	}
 
@@ -1226,8 +1317,8 @@ public class ImageViewActivity extends ViewsBaseActivity
 
 			final MediaSource videoMediaSource
 					= new ProgressiveMediaSource.Factory(videoDataSourceFactory)
-							.createMediaSource(MediaItem.fromUri(
-									ExoPlayerSeekableInputStreamDataSource.URI));
+					.createMediaSource(MediaItem.fromUri(
+							ExoPlayerSeekableInputStreamDataSource.URI));
 
 			if(audioStream == null) {
 				mediaSource = videoMediaSource;
@@ -1469,5 +1560,3 @@ public class ImageViewActivity extends ViewsBaseActivity
 		});
 	}
 }
-
-

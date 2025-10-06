@@ -1205,6 +1205,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 	private void playHlsDirect(@NonNull final Uri hlsUri) {
 		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 			if (mIsDestroyed) { return; }
+			
 
 			Log.i(TAG, "Playing HLS via ExoPlayer: " + hlsUri);
 

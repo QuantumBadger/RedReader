@@ -131,7 +131,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 		mWebView.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public boolean onCreateWindow(final WebView view, final boolean isDialog,
-										  final boolean isUserGesture, final Message resultMsg) {
+				final boolean isUserGesture, final Message resultMsg) {
 				// open popup targets inside the same webview
 				final WebView newWebView = new WebView(view.getContext());
 				newWebView.setWebViewClient(new WebViewClient());
@@ -148,7 +148,8 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 
 		mWebView.setWebViewClient(new WebViewClient() {
 			@Override
-			public boolean shouldOverrideUrlLoading(final WebView view, final WebResourceRequest req) {
+			public boolean shouldOverrideUrlLoading(final WebView view, final WebResourceRequest
+					req) {
 				final Uri url = req.getUrl();
 
 				// intercept the oauth redirect back to the app
@@ -168,7 +169,8 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 			}
 
 			@Override
-			public void onReceivedSslError(final WebView view, final SslErrorHandler handler, final SslError error) {
+			public void onReceivedSslError(final WebView view, final SslErrorHandler handler, final
+			SslError error) {
 				// be strict; do not proceed on SSL errors
 				handler.cancel();
 			}

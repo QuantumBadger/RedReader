@@ -1204,7 +1204,7 @@ public class ImageViewActivity extends ViewsBaseActivity
 
 	private void playHlsDirect(@NonNull final Uri hlsUri) {
 		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
-			if (mIsDestroyed) return;
+			if (mIsDestroyed) { return; }
 
 			Log.i(TAG, "Playing HLS via ExoPlayer: " + hlsUri);
 
@@ -1226,7 +1226,8 @@ public class ImageViewActivity extends ViewsBaseActivity
 
 			// Wrap upstream with cache
 			final SimpleCache simpleCache =
-					org.quantumbadger.redreader.media.ExoCache.INSTANCE.get(getApplicationContext());
+					org.quantumbadger.redreader.media.ExoCache.INSTANCE.get(getApplicationContext()
+					);
 
 			final CacheDataSource.Factory cacheFactory =
 					new CacheDataSource.Factory()

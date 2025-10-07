@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
+import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
@@ -30,64 +32,75 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import org.jetbrains.annotations.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 import info.guardianproject.netcipher.webkit.WebkitProxy;
 
 public class OAuthLoginActivity extends ViewsBaseActivity {
 
+	private static final String TAG = "OAuthLoginActivity";
+
 	private static final String OAUTH_HOST = "rr_oauth_redir";
 	private static final String REDREADER_SCHEME = "redreader";
 	private static final String HTTP_SCHEME = "http";
 
-	private WebView mWebView;
+	private final ArrayList<WebView> webViewStack = new ArrayList<>();
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+
+		clearBaseActivityListing();
+
+		for (final WebView w : webViewStack) {
+			w.destroy();
+		}
+
 		final CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.removeAllCookies(null);
 	}
 
 	@SuppressLint("SetJavaScriptEnabled")
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
+	private @Nullable WebView createWebView() {
+		final WebView view = new WebView(this);
 
-		PrefsUtility.applyTheme(this);
-
-		super.onCreate(savedInstanceState);
-
-		mWebView = new WebView(this);
+		final CookieManager cookieManager = CookieManager.getInstance();
+		cookieManager.removeAllCookies(null);
+		cookieManager.setAcceptCookie(true);
+		CookieManager.getInstance().setAcceptThirdPartyCookies(view, true);
 
 		if (TorCommon.isTorEnabled()) {
 			try {
 				final boolean result = WebkitProxy.setProxy(
 						RedReader.class.getCanonicalName(),
 						getApplicationContext(),
-						mWebView,
+						view,
 						"127.0.0.1",
 						8118);
 				if (!result) {
 					BugReportActivity.handleGlobalError(
 							this,
 							getResources().getString(R.string.error_tor_setting_failed));
+					return null;
 				}
 			} catch (final Exception e) {
 				BugReportActivity.handleGlobalError(this, e);
+				return null;
 			}
 		}
 
-		final WebSettings settings = mWebView.getSettings();
+		final WebSettings settings = view.getSettings();
 
 		settings.setBuiltInZoomControls(false);
 		settings.setJavaScriptEnabled(true);
-		settings.setJavaScriptCanOpenWindowsAutomatically(false);
 		settings.setUseWideViewPort(true);
 		settings.setLoadWithOverviewMode(true);
 		settings.setDomStorageEnabled(true);
@@ -98,14 +111,45 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		settings.setDisplayZoomControls(false);
 
-		mWebView.setWebChromeClient(new WebChromeClient() {
+		// Suggested by Reddit to work around ReCAPTCHA issues
+		settings.setSupportMultipleWindows(true);
+		settings.setJavaScriptCanOpenWindowsAutomatically(true);
+
+		view.setWebChromeClient(new WebChromeClient() {
 			@Override
 			public boolean onConsoleMessage(final ConsoleMessage consoleMessage) {
 				return true;
 			}
+
+			@Override
+			public boolean onCreateWindow(
+					final WebView view,
+					final boolean isDialog,
+					final boolean isUserGesture,
+					final Message resultMsg) {
+
+				// https://stackoverflow.com/a/11280814
+				Log.i(TAG, "New window created");
+				final WebView newWebView = createWebView();
+				webViewStack.add(newWebView);
+				setBaseActivityListing(newWebView);
+				final WebView.WebViewTransport transport = (WebView.WebViewTransport) resultMsg.obj;
+				transport.setWebView(newWebView);
+				resultMsg.sendToTarget();
+				return true;
+			}
+
+			@Override
+			public void onCloseWindow(WebView window) {
+				if (webViewStack.size() > 1) {
+					final WebView removed = webViewStack.remove(webViewStack.size() - 1);
+					removed.destroy();
+					setBaseActivityListing(webViewStack.get(webViewStack.size() - 1));
+				}
+			}
 		});
 
-		mWebView.setWebViewClient(new WebViewClient() {
+		view.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(
 					final WebView view,
@@ -129,9 +173,24 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 			}
 		});
 
-		setBaseActivityListing(mWebView);
+		return view;
+	}
 
-		mWebView.loadUrl(RedditOAuth.getPromptUri().toString());
+	@SuppressLint("SetJavaScriptEnabled")
+	@Override
+	public void onCreate(final Bundle savedInstanceState) {
+
+		PrefsUtility.applyTheme(this);
+
+		super.onCreate(savedInstanceState);
+
+		final WebView webView = createWebView();
+
+		if (webView != null) {
+			webViewStack.add(webView);
+			setBaseActivityListing(webView);
+			webView.loadUrl(RedditOAuth.getPromptUri().toString());
+		}
 	}
 
 	@Override
@@ -139,9 +198,9 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 
 		super.onPause();
 
-		if (mWebView != null) {
-			mWebView.onPause();
-			mWebView.pauseTimers();
+		for (final WebView w : webViewStack) {
+			w.onPause();
+			w.pauseTimers();
 		}
 	}
 
@@ -149,9 +208,9 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 	protected void onResume() {
 		super.onResume();
 
-		if (mWebView != null) {
-			mWebView.resumeTimers();
-			mWebView.onResume();
+		for (final WebView w : webViewStack) {
+			w.resumeTimers();
+			w.onResume();
 		}
 	}
 }

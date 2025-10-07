@@ -243,6 +243,10 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 		mContentListing.addView(view);
 	}
 
+	public void clearBaseActivityListing() {
+		mContentListing.removeAllViews();
+	}
+
 	public void setBaseActivityListing(final int layoutRes) {
 		mContentListing.removeAllViews();
 		getLayoutInflater().inflate(layoutRes, mContentListing, true);

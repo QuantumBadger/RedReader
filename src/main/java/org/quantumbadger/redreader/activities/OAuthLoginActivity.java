@@ -140,7 +140,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 			}
 
 			@Override
-			public void onCloseWindow(WebView window) {
+			public void onCloseWindow(final WebView window) {
 				if (webViewStack.size() > 1) {
 					final WebView removed = webViewStack.remove(webViewStack.size() - 1);
 					removed.destroy();

@@ -1,3 +1,6 @@
+/Alpha 361 (2025-10-07)
+Trying workaround suggested by Reddit for login issue (allowing multiple windows) which unfortunately doesn't work for me!
+
 /Alpha 360 (2025-04-21)
 Added video frame step controls (thanks to ecawthorne and japanesephundroid)
 Make floating toolbar buttons respond to left handed mode (thanks to ecawthorne)

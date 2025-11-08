@@ -76,7 +76,7 @@
         <activity android:name=".activities.LinkDispatchActivity"
 				  android:exported="true">
 
-            <intent-filter>
+            <intent-filter android:autoVerify="false">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -87,7 +87,7 @@
 				<data android:host="reddit.app.link" />
             </intent-filter>
 
-			<intent-filter>
+			<intent-filter android:autoVerify="false">
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />
@@ -104,7 +104,7 @@
 				<data android:pathPrefix="/gallery/" />
 			</intent-filter>
 
-			<intent-filter>
+			<intent-filter android:autoVerify="false">
 				<action android:name="android.intent.action.VIEW" />
 				<category android:name="android.intent.category.DEFAULT" />
 				<category android:name="android.intent.category.BROWSABLE" />

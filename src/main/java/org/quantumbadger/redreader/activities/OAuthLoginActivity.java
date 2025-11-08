@@ -176,9 +176,16 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 			}
 
 			@Override
-			public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+			public void onReceivedHttpError(
+					final WebView view,
+					final WebResourceRequest request,
+					final WebResourceResponse errorResponse) {
+
 				// onReceivedHttpError: https://www.reddit.com/svc/shreddit/account/login, error = 401
-				Log.e(TAG, "onReceivedHttpError: " + request.getUrl() + ", error = " + errorResponse.getStatusCode());
+				Log.e(TAG, "onReceivedHttpError: "
+						+ request.getUrl()
+						+ ", error = "
+						+ errorResponse.getStatusCode());
 
 				if (request.getUrl().toString().equals("https://www.reddit.com/svc/shreddit/account/login")
 						&& errorResponse.getStatusCode() == 401) {

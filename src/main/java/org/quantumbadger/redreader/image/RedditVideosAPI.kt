@@ -39,56 +39,56 @@ import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 
 object RedditVideosAPI {
-    private const val TAG = "RedditVideosAPI"
+	private const val TAG = "RedditVideosAPI"
 
-    fun getImageInfo(
-        context: Context,
-        imageId: String,
-        priority: Priority,
-        listener: GetImageInfoListener
-    ) {
-        val apiUrl = UriString("https://v.redd.it/$imageId/DASHPlaylist.mpd")
+	fun getImageInfo(
+		context: Context,
+		imageId: String,
+		priority: Priority,
+		listener: GetImageInfoListener
+	) {
+		val apiUrl = UriString("https://v.redd.it/$imageId/DASHPlaylist.mpd")
 
-        CacheManager.getInstance(context).makeRequest(
-            CacheRequest(
-                apiUrl,
-                RedditAccountManager.getAnon(),
-                null,
-                priority,
-                DownloadStrategyIfNotCached.INSTANCE,
-                Constants.FileType.IMAGE_INFO,
+		CacheManager.getInstance(context).makeRequest(
+			CacheRequest(
+				apiUrl,
+				RedditAccountManager.getAnon(),
+				null,
+				priority,
+				DownloadStrategyIfNotCached.INSTANCE,
+				Constants.FileType.IMAGE_INFO,
 				CacheRequest.DownloadQueueType.IMMEDIATE,
-                context,
-                object : CacheRequestCallbacks {
-                    private val mNotifiedFailure = AtomicBoolean(false)
+				context,
+				object : CacheRequestCallbacks {
+					private val mNotifiedFailure = AtomicBoolean(false)
 
-                    override fun onDataStreamComplete(
-                        stream: GenericFactory<SeekableInputStream, IOException>,
-                        timestamp: TimestampUTC,
-                        session: UUID,
-                        fromCache: Boolean,
-                        mimetype: String?
-                    ) {
-                        val mpd = try {
-                            stream.create().use(::readWholeStreamAsUTF8)
-                        } catch (e: IOException) {
-                            Log.e(TAG, "Got exception", e)
+					override fun onDataStreamComplete(
+						stream: GenericFactory<SeekableInputStream, IOException>,
+						timestamp: TimestampUTC,
+						session: UUID,
+						fromCache: Boolean,
+						mimetype: String?
+					) {
+						val mpd = try {
+							stream.create().use(::readWholeStreamAsUTF8)
+						} catch (e: IOException) {
+							Log.e(TAG, "Got exception", e)
 
-                            if (!mNotifiedFailure.getAndSet(true)) {
-                                listener.onFailure(
-                                    getGeneralErrorForFailure(
-                                        context,
+							if (!mNotifiedFailure.getAndSet(true)) {
+								listener.onFailure(
+									getGeneralErrorForFailure(
+										context,
 										CacheRequest.RequestFailureType.STORAGE,
-                                        e,
-                                        null,
-                                        apiUrl,
-                                        FailedRequestBody.from(stream)
-                                    )
-                                )
-                            }
+										e,
+										null,
+										apiUrl,
+										FailedRequestBody.from(stream)
+									)
+								)
+							}
 
-                            return
-                        }
+							return
+						}
 
 						try {
 
@@ -110,9 +110,10 @@ object RedditVideosAPI {
 								return
 							}
 
-							fun fileUrl(filename: String) = UriString("https://v.redd.it/$imageId/$filename")
+							fun fileUrl(filename: String) =
+								UriString("https://v.redd.it/$imageId/$filename")
 
-                            val result = ImageInfo(
+							val result = ImageInfo(
 								original = ImageUrlInfo(
 									url = fileUrl(mpdParseResult.video.filename),
 									size = mpdParseResult.video.let {
@@ -132,31 +133,31 @@ object RedditVideosAPI {
 								}
 							)
 
-                            listener.onSuccess(result)
-                        } catch (e: Exception) {
-                            Log.e(TAG, "Got exception", e)
+							listener.onSuccess(result)
+						} catch (e: Exception) {
+							Log.e(TAG, "Got exception", e)
 
-                            if (!mNotifiedFailure.getAndSet(true)) {
-                                listener.onFailure(
-                                    getGeneralErrorForFailure(
-                                        context,
+							if (!mNotifiedFailure.getAndSet(true)) {
+								listener.onFailure(
+									getGeneralErrorForFailure(
+										context,
 										CacheRequest.RequestFailureType.PARSE,
-                                        e,
-                                        null,
-                                        apiUrl,
-                                        Optional.of(FailedRequestBody(mpd))
-                                    )
-                                )
-                            }
-                        }
-                    }
+										e,
+										null,
+										apiUrl,
+										Optional.of(FailedRequestBody(mpd))
+									)
+								)
+							}
+						}
+					}
 
-                    override fun onFailure(error: RRError) {
-                        if (!mNotifiedFailure.getAndSet(true)) {
-                            listener.onFailure(error)
-                        }
-                    }
-                })
-        )
-    }
+					override fun onFailure(error: RRError) {
+						if (!mNotifiedFailure.getAndSet(true)) {
+							listener.onFailure(error)
+						}
+					}
+				})
+		)
+	}
 }

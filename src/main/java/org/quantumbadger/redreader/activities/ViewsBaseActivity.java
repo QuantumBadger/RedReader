@@ -211,8 +211,8 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 				final int colour;
 				{
 					final TypedArray appearance = obtainStyledAttributes(new int[]{
-							com.google.android.material.R.attr.colorPrimary,
-							com.google.android.material.R.attr.colorPrimaryDark});
+							androidx.appcompat.R.attr.colorPrimary,
+							androidx.appcompat.R.attr.colorPrimaryDark});
 
 					if (navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
 						colour = appearance.getColor(0, General.COLOR_INVALID);

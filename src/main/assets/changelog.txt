@@ -10,6 +10,8 @@ Added preference to prevent posts being marked as read when clicked (thanks to D
 Remove random subreddit feature which is no longer supported by Reddit (thanks to Mark Yu)
 Make floating toolbar buttons respond to left handed mode (thanks to ecawthorne)
 Codebase improvements: fixed deprecations (thanks to Alexey Rochev)
+Dependency updates
+Support for 16kB page size devices
 
 113/1.24.1
 Fix "Malformed URL" error for Imgur images (thanks to Alexey Rochev)

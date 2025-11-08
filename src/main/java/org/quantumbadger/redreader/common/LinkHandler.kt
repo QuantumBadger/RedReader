@@ -498,7 +498,7 @@ object LinkHandler {
 
 			val typedValue = TypedValue()
 			activity.theme.resolveAttribute(
-				com.google.android.material.R.attr.colorPrimary,
+				androidx.appcompat.R.attr.colorPrimary,
 				typedValue,
 				true
 			)

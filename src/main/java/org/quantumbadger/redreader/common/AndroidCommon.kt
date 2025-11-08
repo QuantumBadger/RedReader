@@ -113,8 +113,8 @@ object AndroidCommon {
 		return PackageInfo(
 			packageName = name,
 			versionCode = pInfo.versionCode,
-			versionName = pInfo.versionName,
-			ids = pInfo.signatures.map {
+			versionName = pInfo.versionName!!,
+			ids = pInfo.signatures!!.map {
 				CertificateFactory.getInstance("X509")
 					.generateCertificate(ByteArrayInputStream(it.toByteArray())).encoded
 			}

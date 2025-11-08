@@ -1,6 +1,8 @@
 /Alpha 361 (2025-11-08)
 Fix for Reddit video permission denied issue
 Additional login workarounds
+Dependency updates
+Support for 16kB page size devices
 
 /Alpha 360 (2025-10-07)
 Trying workaround suggested by Reddit for login issue (allowing multiple windows) which unfortunately doesn't work for me!

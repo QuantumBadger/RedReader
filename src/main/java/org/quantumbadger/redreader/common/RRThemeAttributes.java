@@ -60,7 +60,7 @@ public class RRThemeAttributes {
 				R.attr.rrCommentHeaderCol,
 				R.attr.rrCommentBodyCol,
 				R.attr.rrMainTextCol,
-				com.google.android.material.R.attr.colorAccent,
+				androidx.appcompat.R.attr.colorAccent,
 				R.attr.rrCrosspostBackCol,
 				R.attr.rrCrosspostTextCol
 		});

@@ -3,8 +3,10 @@ package org.quantumbadger.redreader.common.time
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.periodUntil
-import java.util.*
+import java.util.Locale
+import kotlin.time.ExperimentalTime
 
+@OptIn(ExperimentalTime::class)
 data class TimePeriod(
 	val start: TimestampUTC,
 	val end: TimestampUTC

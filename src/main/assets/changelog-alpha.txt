@@ -1,3 +1,6 @@
+/Alpha 362 (2025-11-08)
+Fix for status bar overlapping window on API 35+ devices
+
 /Alpha 361 (2025-11-08)
 Fix for Reddit video permission denied issue
 Additional login workarounds

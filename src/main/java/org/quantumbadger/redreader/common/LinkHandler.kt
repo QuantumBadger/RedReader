@@ -59,8 +59,6 @@ import org.quantumbadger.redreader.image.ImgurAPI
 import org.quantumbadger.redreader.image.ImgurAPIV3
 import org.quantumbadger.redreader.image.RedditGalleryAPI.Companion.getAlbumInfo
 import org.quantumbadger.redreader.image.RedditVideosAPI
-import org.quantumbadger.redreader.image.RedgifsAPI
-import org.quantumbadger.redreader.image.RedgifsAPIV2
 import org.quantumbadger.redreader.image.StreamableAPI
 import org.quantumbadger.redreader.reddit.kthings.RedditPost
 import org.quantumbadger.redreader.reddit.url.OpaqueSharedURL
@@ -527,8 +525,6 @@ object LinkHandler {
 	private val qkmePattern2: Pattern = Pattern.compile(".*[^A-Za-z]quickmeme\\.com/meme/(\\w+).*")
 	private val lvmePattern: Pattern = Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*")
 	private val gfycatPattern: Pattern = Pattern.compile(".*[^A-Za-z]gfycat\\.com/(?:gifs/detail/)?(\\w+).*")
-	private val redgifsPattern: Pattern =
-		Pattern.compile(".*[^A-Za-z]redgifs\\.com/watch/(?:gifs/detail/)?(\\w+).*")
 	private val streamablePattern: Pattern = Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*")
 	private val reddituploadsPattern: Pattern =
 		Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*")
@@ -560,17 +556,6 @@ object LinkHandler {
 			val matchGfycat = gfycatPattern.matcher(url.value)
 			if (matchGfycat.find()) {
 				matchGfycat.group(1)?.let { imgId ->
-					if (imgId.length > 5) {
-						return true
-					}
-				}
-			}
-		}
-
-		run {
-			val matchRedgifs = redgifsPattern.matcher(url.value)
-			if (matchRedgifs.find()) {
-				matchRedgifs.group(1)?.let { imgId ->
 					if (imgId.length > 5) {
 						return true
 					}
@@ -853,54 +838,6 @@ object LinkHandler {
 				matchGfycat.group(1)?.let { imgId ->
 					if (imgId.length > 5) {
 						GfycatAPI.getImageInfo(context, imgId, priority, listener)
-						return
-					}
-				}
-			}
-		}
-
-		run {
-			val matchRedgifs = redgifsPattern.matcher(url.value)
-			if (matchRedgifs.find()) {
-				matchRedgifs.group(1)?.let { imgId ->
-					if (imgId.length > 5) {
-						RedgifsAPIV2.getImageInfo(
-							context,
-							imgId,
-							priority,
-							object : ImageInfoRetryListener(listener) {
-								override fun onFailure(error: RRError) {
-									Log.e(
-										"getImageInfo",
-										"RedGifs V2 failed, trying V1 ($error)",
-										error.t
-									)
-
-									RedgifsAPI.getImageInfo(
-										context,
-										imgId,
-										priority,
-										object : ImageInfoRetryListener(listener) {
-											override fun onFailure(error: RRError) {
-												// Retry V2 so that the final error which is logged
-												// relates to the V2 API
-
-												Log.e(
-													"getImageInfo",
-													"RedGifs V1 also failed, retrying V2: $error",
-													error.t
-												)
-
-												RedgifsAPIV2.getImageInfo(
-													context,
-													imgId,
-													priority,
-													listener
-												)
-											}
-										})
-								}
-							})
 						return
 					}
 				}

@@ -46,7 +46,6 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		IMGUR_API,
 		IMMEDIATE,
 		IMAGE_PRECACHE,
-		REDGIFS_API_V2
 	}
 
 	public enum RequestFailureType {

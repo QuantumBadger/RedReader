@@ -335,37 +335,5 @@ data class ImageInfo(
 				hasAudio = HasAudio.NO_AUDIO,
 			)
 		}
-
-		@JvmStatic
-		fun parseRedgifsV2(obj: JsonObject): ImageInfo {
-
-			val original = obj.getStringAtPath("urls", "hd")
-				.orElse(obj.getStringAtPath("urls", "sd"))
-				.asNullable()?.let {
-					ImageUrlInfo(
-						url = UriString(it),
-						size = ImageSize.fromJson(obj)
-					)
-				}
-
-			val hasAudio = obj.getBoolean("hasAudio")
-
-			val preview = obj.getStringAtPath("urls", "poster").orElseNull()?.let { url ->
-				ImageUrlInfo(url = UriString(url))
-			}
-
-			if (original == null) {
-				throw RuntimeException("original field missing from response")
-			}
-
-			return ImageInfo(
-				original = original,
-				preview = preview,
-				type = "video/mp4",
-				isAnimated = true,
-				mediaType = MediaType.VIDEO,
-				hasAudio = HasAudio.fromBoolean(hasAudio),
-			)
-		}
 	}
 }

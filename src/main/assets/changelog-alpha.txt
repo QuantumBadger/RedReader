@@ -3,6 +3,7 @@ Fix for Reddit video permission denied issue
 Additional login workarounds
 Dependency updates
 Support for 16kB page size devices
+Detect and collapse more sticky posts by bots
 
 /Alpha 360 (2025-10-07)
 Trying workaround suggested by Reddit for login issue (allowing multiple windows) which unfortunately doesn't work for me!

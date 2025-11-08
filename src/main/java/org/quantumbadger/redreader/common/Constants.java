@@ -128,6 +128,15 @@ public final class Constants {
 			BOT_USERNAMES_LOWERCASE.add("visualmod");
 			BOT_USERNAMES_LOWERCASE.add("a-mirror-bot");
 			BOT_USERNAMES_LOWERCASE.add("unexbot");
+			BOT_USERNAMES_LOWERCASE.add("rfauxmoi");
+			BOT_USERNAMES_LOWERCASE.add("ukbot-nicolabot");
+			BOT_USERNAMES_LOWERCASE.add("qualityvote2");
+			BOT_USERNAMES_LOWERCASE.add("trendingtattler");
+			BOT_USERNAMES_LOWERCASE.add("cannabun");
+			BOT_USERNAMES_LOWERCASE.add("pcmrbot");
+			BOT_USERNAMES_LOWERCASE.add("spotlight-app");
+			BOT_USERNAMES_LOWERCASE.add("flairassistant");
+			BOT_USERNAMES_LOWERCASE.add("sponge-tron");
 		}
 
 		public static final String SCHEME_HTTPS = "https";

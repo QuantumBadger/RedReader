@@ -28,6 +28,7 @@ import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -35,6 +36,8 @@ import android.webkit.WebViewClient;
 import org.jetbrains.annotations.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.RedReader;
+import org.quantumbadger.redreader.common.DialogUtils;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
@@ -170,6 +173,34 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 				}
 
 				return true;
+			}
+
+			@Override
+			public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+				// onReceivedHttpError: https://www.reddit.com/svc/shreddit/account/login, error = 401
+				Log.e(TAG, "onReceivedHttpError: " + request.getUrl() + ", error = " + errorResponse.getStatusCode());
+
+				if (request.getUrl().toString().equals("https://www.reddit.com/svc/shreddit/account/login")
+						&& errorResponse.getStatusCode() == 401) {
+					DialogUtils.showDialogPositiveNegative(
+							OAuthLoginActivity.this,
+							getString(R.string.login_reddit_error_title),
+							getString(R.string.login_reddit_error_message),
+							R.string.dialog_continue,
+							R.string.dialog_cancel,
+							() -> {
+								LinkHandler.openWebBrowser(
+										OAuthLoginActivity.this,
+										RedditOAuth.getPromptUri(),
+										false
+								);
+								finish();
+							},
+							() -> {
+								finish();
+							}
+					);
+				}
 			}
 		});
 

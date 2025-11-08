@@ -1,4 +1,5 @@
 114/1.25
+Fix for Reddit video permission denied issue
 Workarounds for Reddit login issue
 Added video playback speed control (thanks to folkemat)
 Added video frame step controls (thanks to ecawthorne and japanesephundroid)

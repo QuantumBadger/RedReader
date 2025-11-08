@@ -1,0 +1,30 @@
+<MPD xmlns="urn:mpeg:dash:schema:mpd:2011" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" mediaPresentationDuration="PT4.099999999S" minBufferTime="PT4S" profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" type="static" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd">
+  <Period duration="PT4.099999999S" id="0">
+    <AdaptationSet contentType="video" id="0" maxFrameRate="15360/512" maxHeight="480" maxWidth="496" par="20:19" sar="1:1" segmentAlignment="true" startWithSAP="1" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
+      <Representation bandwidth="41602" codecs="avc1.4d401e" frameRate="15360/512" height="220" id="0" mimeType="video/mp4" width="228">
+        <BaseURL>CMAF_220.mp4</BaseURL>
+        <SegmentBase indexRange="871-926" timescale="15360">
+          <Initialization range="0-870" />
+        </SegmentBase>
+      </Representation>
+      <Representation bandwidth="64460" codecs="avc1.4d401e" frameRate="15360/512" height="270" id="1" mimeType="video/mp4" width="278">
+        <BaseURL>CMAF_270.mp4</BaseURL>
+        <SegmentBase indexRange="870-925" timescale="15360">
+          <Initialization range="0-869" />
+        </SegmentBase>
+      </Representation>
+      <Representation bandwidth="111828" codecs="avc1.4d401e" frameRate="15360/512" height="360" id="2" mimeType="video/mp4" width="372">
+        <BaseURL>CMAF_360.mp4</BaseURL>
+        <SegmentBase indexRange="871-926" timescale="15360">
+          <Initialization range="0-870" />
+        </SegmentBase>
+      </Representation>
+      <Representation bandwidth="176078" codecs="avc1.4d401f" frameRate="15360/512" height="480" id="3" mimeType="video/mp4" width="496">
+        <BaseURL>CMAF_480.mp4</BaseURL>
+        <SegmentBase indexRange="870-925" timescale="15360">
+          <Initialization range="0-869" />
+        </SegmentBase>
+      </Representation>
+    </AdaptationSet>
+  </Period>
+</MPD>

@@ -1,0 +1,30 @@
+<MPD xmlns="urn:mpeg:dash:schema:mpd:2011" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" mediaPresentationDuration="PT13.399999618S" minBufferTime="PT4S" profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" type="static" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd">
+  <Period duration="PT13.399999618S" id="0">
+    <AdaptationSet contentType="video" id="0" maxFrameRate="15360/512" maxHeight="716" maxWidth="480" par="2:3" sar="1:1" segmentAlignment="true" startWithSAP="1" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
+      <Representation bandwidth="202349" codecs="avc1.4d401e" frameRate="15360/512" height="328" id="1" mimeType="video/mp4" width="220">
+        <BaseURL>DASH_220.mp4</BaseURL>
+        <SegmentBase indexRange="883-950" timescale="15360">
+          <Initialization range="0-882" />
+        </SegmentBase>
+      </Representation>
+      <Representation bandwidth="422544" codecs="avc1.4d401e" frameRate="15360/512" height="404" id="2" mimeType="video/mp4" width="270">
+        <BaseURL>DASH_270.mp4</BaseURL>
+        <SegmentBase indexRange="883-962" timescale="15360">
+          <Initialization range="0-882" />
+        </SegmentBase>
+      </Representation>
+      <Representation bandwidth="797856" codecs="avc1.4d401e" frameRate="15360/512" height="538" id="3" mimeType="video/mp4" width="360">
+        <BaseURL>DASH_360.mp4</BaseURL>
+        <SegmentBase indexRange="863-942" timescale="15360">
+          <Initialization range="0-862" />
+        </SegmentBase>
+      </Representation>
+      <Representation bandwidth="1219518" codecs="avc1.4d401f" frameRate="15360/512" height="716" id="4" mimeType="video/mp4" width="480">
+        <BaseURL>DASH_480.mp4</BaseURL>
+        <SegmentBase indexRange="883-962" timescale="15360">
+          <Initialization range="0-882" />
+        </SegmentBase>
+      </Representation>
+    </AdaptationSet>
+  </Period>
+</MPD>

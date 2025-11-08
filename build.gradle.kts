@@ -63,6 +63,7 @@ dependencies {
 	implementation(libs.androidx.compose.constraintlayout)
 
 	testImplementation(libs.junit)
+	testImplementation(libs.robolectric)
 
 	androidTestImplementation(libs.androidx.test.core)
 	androidTestImplementation(libs.androidx.test.espresso.core)

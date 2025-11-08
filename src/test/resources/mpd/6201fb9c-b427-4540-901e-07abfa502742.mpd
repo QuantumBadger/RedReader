@@ -1,0 +1,41 @@
+<MPD xmlns="urn:mpeg:dash:schema:mpd:2011" mediaPresentationDuration="PT29S" minBufferTime="PT4S" profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" type="static">
+  <Period duration="PT29S" id="0">
+    <AdaptationSet contentType="video" id="0" maxHeight="1280" maxWidth="720" par="9:16" sar="1:1" segmentAlignment="true" startWithSAP="1">
+      <SupplementalProperty schemeIdUri="urn:mpeg:mpegB:cicp:TransferCharacteristics" value="1" />
+      <Representation bandwidth="207864" codecs="avc1.4d401e" frameRate="15360/512" height="392" id="0" mimeType="video/mp4" width="220">
+        <BaseURL>CMAF_220.mp4</BaseURL>
+        <SegmentBase indexRange="894-1021" timescale="15360">
+          <Initialization range="0-893" />
+        </SegmentBase>
+      </Representation>
+      <Representation bandwidth="378774" codecs="avc1.4d401e" frameRate="15360/512" height="480" id="1" mimeType="video/mp4" width="270">
+        <BaseURL>CMAF_270.mp4</BaseURL>
+        <SegmentBase indexRange="893-1020" timescale="15360">
+          <Initialization range="0-892" />
+        </SegmentBase>
+      </Representation>
+      <Representation bandwidth="686066" codecs="avc1.4d401e" frameRate="15360/512" height="640" id="2" mimeType="video/mp4" width="360">
+        <BaseURL>CMAF_360.mp4</BaseURL>
+        <SegmentBase indexRange="894-1021" timescale="15360">
+          <Initialization range="0-893" />
+        </SegmentBase>
+      </Representation>
+      </AdaptationSet>
+    <AdaptationSet contentType="audio" id="1" segmentAlignment="true" startWithSAP="1">
+      <Representation audioSamplingRate="48000" bandwidth="66490" codecs="mp4a.40.2" id="5" mimeType="audio/mp4">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2" />
+        <BaseURL>CMAF_AUDIO_64.mp4</BaseURL>
+        <SegmentBase indexRange="833-960" timescale="48000">
+          <Initialization range="0-832" />
+        </SegmentBase>
+      </Representation>
+      <Representation audioSamplingRate="48000" bandwidth="130194" codecs="mp4a.40.2" id="6" mimeType="audio/mp4">
+        <AudioChannelConfiguration schemeIdUri="urn:mpeg:dash:23003:3:audio_channel_configuration:2011" value="2" />
+        <BaseURL>CMAF_AUDIO_128.mp4</BaseURL>
+        <SegmentBase indexRange="833-960" timescale="48000">
+          <Initialization range="0-832" />
+        </SegmentBase>
+      </Representation>
+    </AdaptationSet>
+    </Period>
+</MPD>

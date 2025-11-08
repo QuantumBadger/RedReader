@@ -25,6 +25,7 @@ import android.util.Base64
 import android.util.Log
 import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import okhttp3.internal.closeQuietly
 import org.quantumbadger.redreader.R
@@ -64,7 +65,7 @@ object RedditOAuth {
 	@JvmStatic
 	val promptUri: Uri
 		get() {
-			val uri = Uri.parse("https://www.reddit.com/api/v1/authorize.compact").buildUpon()
+			val uri = "https://www.reddit.com/api/v1/authorize.compact".toUri().buildUpon()
 			uri.appendQueryParameter("response_type", "code")
 			uri.appendQueryParameter("duration", "permanent")
 			uri.appendQueryParameter("state", "Texas")

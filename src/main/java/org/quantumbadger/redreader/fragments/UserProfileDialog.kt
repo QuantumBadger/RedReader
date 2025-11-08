@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.fragments
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
@@ -27,6 +26,7 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.net.toUri
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -42,10 +42,20 @@ import org.quantumbadger.redreader.cache.CacheRequest
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached
-import org.quantumbadger.redreader.common.*
+import org.quantumbadger.redreader.common.AndroidCommon
 import org.quantumbadger.redreader.common.AndroidCommon.runOnUiThread
+import org.quantumbadger.redreader.common.Constants
+import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.General.getGeneralErrorForFailure
+import org.quantumbadger.redreader.common.GenericFactory
+import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.Optional
+import org.quantumbadger.redreader.common.PrefsUtility
+import org.quantumbadger.redreader.common.Priority
+import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.common.RunnableOnce
+import org.quantumbadger.redreader.common.StringUtils
+import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream
 import org.quantumbadger.redreader.common.time.TimeFormatHelper.format
 import org.quantumbadger.redreader.common.time.TimestampUTC
@@ -62,7 +72,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView
 import java.io.IOException
 import java.net.URISyntaxException
 import java.text.NumberFormat
-import java.util.*
+import java.util.UUID
 
 object UserProfileDialog {
 	@JvmStatic
@@ -416,7 +426,7 @@ object UserProfileDialog {
 		) { resultCode: Int, data: Intent? ->
 			if (data != null) {
 				if (resultCode == 123 && data.hasExtra("url")) {
-					val uri = Uri.parse(data.getStringExtra("url"))
+					val uri = data.getStringExtra("url")!!.toUri()
 					completeLogin(activity, uri, RunnableOnce.DO_NOTHING)
 				}
 			}

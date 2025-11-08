@@ -17,13 +17,12 @@
 
 package org.quantumbadger.redreader.reddit.kthings
 
-import android.net.Uri
 import android.os.Parcelable
+import androidx.core.net.toUri
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.UriString
-import org.quantumbadger.redreader.jsonwrap.JsonValue
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType
 import org.quantumbadger.redreader.reddit.url.PostCommentListingURL
 
@@ -120,7 +119,7 @@ data class RedditComment(
 			if (result.startsWith("/")) {
 				result = "https://reddit.com$result"
 			}
-			PostCommentListingURL.parse(Uri.parse(result))
+			PostCommentListingURL.parse(result.toUri())
 
 		} ?: PostCommentListingURL(
 			null,

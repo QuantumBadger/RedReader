@@ -762,6 +762,7 @@ public class CommentListingFragment extends RRFragment
 		}
 	}
 
+	@SuppressLint("AccessibilityFocus")
 	private void setFocusDelayed(final int pos) {
 		AndroidCommon.UI_THREAD_HANDLER.postDelayed(() -> {
 			final RecyclerView.ViewHolder view

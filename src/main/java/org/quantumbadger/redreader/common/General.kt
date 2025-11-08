@@ -38,6 +38,7 @@ import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager.BadTokenException
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.quantumbadger.redreader.BuildConfig
 import org.quantumbadger.redreader.R
@@ -48,10 +49,19 @@ import org.quantumbadger.redreader.fragments.AccountListDialog
 import org.quantumbadger.redreader.fragments.ErrorPropertiesDialog
 import org.quantumbadger.redreader.http.FailedRequestBody
 import org.quantumbadger.redreader.reddit.APIResponseHandler.APIFailureType
-import java.io.*
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.Closeable
+import java.io.DataInputStream
+import java.io.File
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import java.nio.charset.Charset
 import java.security.MessageDigest
-import java.util.*
+import java.util.Collections
+import java.util.Locale
+import java.util.Objects
 import java.util.concurrent.atomic.AtomicReference
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -273,7 +283,7 @@ object General {
 			RequestFailureType.REQUEST -> if (status != null) {
                 when (status) {
                     400, 401, 403, 404 -> {
-                        val uri = Uri.parse(url?.value)
+                        val uri = url?.value?.toUri()
                         var isImgurApiRequest = false
                         var isRedditRequest = false
                         if (uri != null && uri.host != null) {
@@ -489,7 +499,7 @@ object General {
 
     @JvmStatic
 	fun filenameFromString(url: String): String {
-        val uri = Uri.parse(url)
+        val uri = url.toUri()
         var filename = uri.path?.replace(File.separator, "") ?: "file"
         val parts = filename.substring(1).split("\\.".toRegex(), limit = 2).toTypedArray()
         if (parts.size < 2) {

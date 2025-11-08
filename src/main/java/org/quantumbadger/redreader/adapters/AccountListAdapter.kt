@@ -16,6 +16,7 @@
  ******************************************************************************/
 package org.quantumbadger.redreader.adapters
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
@@ -47,6 +48,7 @@ class AccountListAdapter(private val context: AppCompatActivity, private val fra
 	private val rrIconUser: Drawable?
 
 	init {
+		@SuppressLint("UseKtx")
 		val attr = context.obtainStyledAttributes(intArrayOf(R.attr.rrIconAdd, R.attr.rrIconPerson))
 		rrIconAdd = AppCompatResources.getDrawable(context, attr.getResourceId(0, 0))
 		//noinspection ResourceType: bug in Lint

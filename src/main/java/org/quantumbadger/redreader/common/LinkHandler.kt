@@ -28,6 +28,7 @@ import android.os.Parcelable
 import android.util.Log
 import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.activities.AlbumListingActivity
@@ -96,7 +97,7 @@ object LinkHandler {
 		}
 
 		if (url.value.startsWith("rr://")) {
-			val rrUri = Uri.parse(url.value)
+			val rrUri = url.value.toUri()
 
 			if (rrUri.authority == "msg") {
 				AndroidCommon.runOnUiThread {
@@ -262,7 +263,7 @@ object LinkHandler {
 					+ youtuDotBeMatcher.group(1)
 					+ (youtuDotBeMatcher.group(2)?.takeUnless { it.isEmpty() }
 				?.let { "&${it.substring(1)}" } ?: ""))
-			if (openWebBrowser(activity, Uri.parse(youtuBeUrl), fromExternalIntent)) {
+			if (openWebBrowser(activity, youtuBeUrl.toUri(), fromExternalIntent)) {
 				return
 			}
 		}
@@ -383,7 +384,7 @@ object LinkHandler {
 
 			LinkAction.EXTERNAL -> try {
 				val intent = Intent(Intent.ACTION_VIEW)
-				intent.setData(Uri.parse(uri.value))
+				intent.setData(uri.value.toUri())
 				activity.startActivity(intent)
 			} catch (e: ActivityNotFoundException) {
 				quickToast(
@@ -1257,7 +1258,7 @@ object LinkHandler {
 			uri = "http://$uri"
 		}
 
-		val parsedUri = Uri.parse(uri).normalizeScheme()
+		val parsedUri = uri.toUri().normalizeScheme()
 		val uriBuilder = parsedUri.buildUpon()
 
 		val authority = parsedUri.encodedAuthority

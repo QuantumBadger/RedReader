@@ -1,11 +1,12 @@
-/Alpha 361 (2025-10-07)
+/Alpha 361 (2025-11-08)
+Additional login workarounds
+
+/Alpha 360 (2025-10-07)
 Trying workaround suggested by Reddit for login issue (allowing multiple windows) which unfortunately doesn't work for me!
 
-/Alpha 360 (2025-04-21)
+/Alpha 359 (2025-04-21)
 Added video frame step controls (thanks to ecawthorne and japanesephundroid)
 Make floating toolbar buttons respond to left handed mode (thanks to ecawthorne)
-
-/Alpha 359 (2025-04-20)
 Added support for emotes in comment flairs (thanks to bharatknv)
 Added "Mark as Read/Unread" fling action, and optional context menu item (thanks to JoshAusHessen and codeofdusk)
 Show label on crossposts, and add "Go to Crosspost Origin" to post menu (thanks to folkemat)

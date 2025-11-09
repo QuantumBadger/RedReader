@@ -349,7 +349,8 @@ public class WebViewFragment extends Fragment
 							LinkHandler.openCustomTab(
 									mActivity,
 									url,
-									null);
+									null,
+									true);
 						} else {
 							webView.loadUrl(url.toString());
 							currentUrl = UriString.from(url);

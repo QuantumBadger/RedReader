@@ -147,7 +147,7 @@ object LinkHandler {
 
 				AlbumViewMode.INTERNAL_BROWSER -> {
 					if (PrefsUtility.pref_behaviour_usecustomtabs()) {
-						openCustomTab(activity, normalUrl, post)
+						openCustomTab(activity, normalUrl, post, true)
 					} else {
 						openInternalBrowser(activity, normalUrlString, post)
 					}
@@ -269,7 +269,7 @@ object LinkHandler {
 		}
 
 		if (PrefsUtility.pref_behaviour_usecustomtabs()) {
-			openCustomTab(activity, normalUrl, post)
+			openCustomTab(activity, normalUrl, post, true)
 		} else {
 			openInternalBrowser(activity, normalUrlString, post)
 		}
@@ -483,7 +483,8 @@ object LinkHandler {
 	fun openCustomTab(
 		activity: AppCompatActivity,
 		uri: Uri,
-		post: RedditPost?
+		post: RedditPost?,
+		showShare: Boolean
 	) {
 		try {
 			val intent = Intent()
@@ -495,7 +496,13 @@ object LinkHandler {
 			bundle.putBinder("android.support.customtabs.extra.SESSION", null)
 			intent.putExtras(bundle)
 
-			intent.putExtra("android.support.customtabs.extra.SHARE_MENU_ITEM", true)
+			intent.putExtra("androidx.browser.customtabs.extra.SHARE_STATE", if (showShare) 1 else 2)
+			intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true)
+			intent.putExtra("org.chromium.chrome.browser.customtabs.EXTRA_DISABLE_STAR_BUTTON", true)
+			intent.putExtra("android.support.customtabs.extra.SEND_TO_EXTERNAL_HANDLER", false)
+			intent.putExtra("androidx.browser.customtabs.extra.OPEN_IN_BROWSER_STATE", if (showShare) 1 else 2)
+			intent.putExtra("androidx.browser.customtabs.extra.ENABLE_EPHEMERAL_BROWSING", true)
+
 
 			val typedValue = TypedValue()
 			activity.theme.resolveAttribute(
@@ -509,9 +516,8 @@ object LinkHandler {
 				typedValue.data
 			)
 
-			intent.putExtra("android.support.customtabs.extra.ENABLE_URLBAR_HIDING", true)
-
 			activity.startActivity(intent)
+
 		} catch (e: ActivityNotFoundException) {
 			// No suitable web browser installed. Use internal browser.
 			openInternalBrowser(activity, UriString(uri.toString()), post)

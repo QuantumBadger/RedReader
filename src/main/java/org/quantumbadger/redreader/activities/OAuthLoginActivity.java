@@ -188,7 +188,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 						+ errorResponse.getStatusCode());
 
 				if (request.getUrl().toString().equals("https://www.reddit.com/svc/shreddit/account/login")
-						&& errorResponse.getStatusCode() == 401) {
+						&& errorResponse.getStatusCode() / 100 == 4) {
 					DialogUtils.showDialogPositiveNegative(
 							OAuthLoginActivity.this,
 							getString(R.string.login_reddit_error_title),
@@ -196,9 +196,10 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 							R.string.dialog_continue,
 							R.string.dialog_cancel,
 							() -> {
-								LinkHandler.openWebBrowser(
+								LinkHandler.openCustomTab(
 										OAuthLoginActivity.this,
 										RedditOAuth.getPromptUri(),
+										null,
 										false
 								);
 								finish();

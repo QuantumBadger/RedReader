@@ -11,7 +11,6 @@ Remove random subreddit feature which is no longer supported by Reddit (thanks t
 Make floating toolbar buttons respond to left handed mode (thanks to ecawthorne)
 Codebase improvements: fixed deprecations (thanks to Alexey Rochev)
 Detect and collapse more sticky posts by bots
-Removed RedGIFs support as they shut down their API
 Dependency updates
 Support for 16kB page size devices
 

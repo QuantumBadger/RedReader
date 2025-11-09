@@ -540,6 +540,20 @@ object LinkHandler {
 	private val giphyPattern: Pattern = Pattern.compile(".*[^A-Za-z]giphy\\.com/gifs/(\\w+).*")
 
 	@JvmStatic
+	fun isRedGifsImage(url: UriString): Boolean {
+		val matchRedgifs = redgifsPattern.matcher(url.value)
+		if (matchRedgifs.find()) {
+			matchRedgifs.group(1)?.let { imgId ->
+				if (imgId.length > 5) {
+					return true
+				}
+			}
+		}
+
+		return false
+	}
+
+	@JvmStatic
 	fun isProbablyAnImage(url: UriString?): Boolean {
 		if (url == null) {
 			return false
@@ -567,15 +581,8 @@ object LinkHandler {
 			}
 		}
 
-		run {
-			val matchRedgifs = redgifsPattern.matcher(url.value)
-			if (matchRedgifs.find()) {
-				matchRedgifs.group(1)?.let { imgId ->
-					if (imgId.length > 5) {
-						return true
-					}
-				}
-			}
+		if (isRedGifsImage(url)) {
+			return true
 		}
 
 		run {

@@ -261,6 +261,12 @@ public class ImageViewActivity extends ViewsBaseActivity
 		mLayout = new FrameLayout(this);
 		mLayout.addView(progressLayout);
 
+		// No audio in the RedGIFs API
+		if (LinkHandler.isRedGifsImage(mUrl)) {
+			revertToWeb();
+			return;
+		}
+
 		LinkHandler.getImageInfo(
 				this,
 				mUrl,

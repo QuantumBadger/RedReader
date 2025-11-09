@@ -1,3 +1,6 @@
+/Alpha 363 (2025-11-09)
+Open RedGIFs in browser due to API shutdown, but still allow save media (without audio)
+
 /Alpha 362 (2025-11-08)
 Fix for status bar overlapping window on API 35+ devices
 Fix for playback speed icon size

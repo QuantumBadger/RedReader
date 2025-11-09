@@ -1,6 +1,7 @@
 114/1.25
 Fix for Reddit video permission denied issue
 Workarounds for Reddit login issue
+Open RedGIFs in browser due to API shutdown
 Added video playback speed control (thanks to folkemat)
 Added video frame step controls (thanks to ecawthorne and japanesephundroid)
 Added support for emotes in comment flairs (thanks to bharatknv)

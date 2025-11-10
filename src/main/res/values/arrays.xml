@@ -1319,6 +1319,19 @@
 		<item>np_reddit</item>
 	</string-array>
 
+	<!-- 2024-12-05 -->
+	<string-array name="pref_layout_mode_entries">
+		<item>@string/pref_layout_mode_thumbnails</item>
+		<item>@string/pref_layout_mode_alwayspreview</item>
+		<item>@string/pref_layout_mode_card</item>
+	</string-array>
+
+	<string-array name="pref_layout_mode_values">
+		<item>thumbnails</item>
+		<item>always_preview</item>
+		<item>card</item>
+	</string-array>
+
 	<!-- 2023-12-19 -->
 
 	<!-- Constants. Do not change. -->

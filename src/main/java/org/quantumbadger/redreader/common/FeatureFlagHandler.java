@@ -59,7 +59,8 @@ public final class FeatureFlagHandler {
 		DEFAULT_PREF_VIDEO_PLAYBACK_CONTROLS("defaultPrefVideoPlaybackControls"),
 		DEFAULT_PREF_CUSTOM_TABS("defaultPrefCustomTabs"),
 		CROSSPOST_ORIGIN_MENU_ITEM("crosspostOriginMenuItem"),
-		MAIN_MENU_RANDOM_REMOVED("mainMenuRandomRemoved");
+		MAIN_MENU_RANDOM_REMOVED("mainMenuRandomRemoved"),
+		DEFAULT_PREF_VIDEO_LOOP("defaultPrefVideoLoop");
 
 		@NonNull private final String id;
 
@@ -348,6 +349,15 @@ public final class FeatureFlagHandler {
 				prefs.edit().putStringSet(
 						context.getString(R.string.pref_menus_mainmenu_shortcutitems_key),
 						existingShortcutPreferences).apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.DEFAULT_PREF_VIDEO_LOOP)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				prefs.edit().putBoolean(
+								context.getString(R.string.pref_behaviour_video_loop_key),
+								true)
+						.apply();
 			}
 		});
 	}

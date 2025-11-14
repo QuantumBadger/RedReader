@@ -107,7 +107,11 @@ public class ExoPlayerWrapperView extends FrameLayout {
 		mVideoPlayer.setMediaSource(mediaSource);
 		mVideoPlayer.prepare();
 
-		mVideoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+		if(PrefsUtility.pref_behaviour_video_loop()) {
+			mVideoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+		} else {
+			mVideoPlayer.setRepeatMode(Player.REPEAT_MODE_OFF);
+		}
 
 		mVideoPlayer.setPlayWhenReady(true);
 

@@ -114,6 +114,7 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_fling_post_right_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_nsfw_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_postcount_key))
+				|| key.equals(context.getString(R.string.pref_behaviour_mark_read_on_scroll_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_comment_min_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key))
 				|| key.equals(context.getString(
@@ -1781,6 +1782,12 @@ public final class PrefsUtility {
 	public static boolean pref_behaviour_keep_screen_awake() {
 		return getBoolean(
 				R.string.pref_behaviour_keep_screen_awake_key,
+				false);
+	}
+
+	public static boolean pref_mark_read_on_scroll() {
+		return getBoolean(
+				R.string.pref_behaviour_mark_read_on_scroll_key,
 				false);
 	}
 

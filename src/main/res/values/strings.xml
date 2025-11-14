@@ -1921,4 +1921,8 @@
 	<!-- 2025-11-08 -->
 	<string name="login_reddit_error_title">Reddit login issue</string>
 	<string name="login_reddit_error_message">There was a problem logging into Reddit. Try again in an different browser?</string>
+
+	<!-- 2025-11-13 -->
+	<string name="pref_behaviour_mark_read_on_scroll_key" translatable="false">pref_behaviour_mark_read_on_scroll</string>
+	<string name="pref_behaviour_mark_read_on_scroll_title">Mark posts as read on scroll</string>
 </resources>

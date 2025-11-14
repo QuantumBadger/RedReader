@@ -667,4 +667,8 @@ public final class RedditPostView extends FlingableItemView
 					.apply();
 		});
 	}
+
+	@Nullable public RedditPreparedPost getPost() {
+		return mPost;
+	}
 }

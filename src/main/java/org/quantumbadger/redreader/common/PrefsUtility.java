@@ -813,6 +813,12 @@ public final class PrefsUtility {
 				true);
 	}
 
+	public static boolean pref_behaviour_video_autoplay() {
+		return getBoolean(
+				R.string.pref_behaviour_video_autoplay_key,
+				true);
+	}
+
 	public static boolean pref_behaviour_video_zoom_default() {
 		return getBoolean(R.string.pref_behaviour_video_zoom_default_key,
 				false);

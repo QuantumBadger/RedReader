@@ -1921,4 +1921,9 @@
 	<!-- 2025-11-08 -->
 	<string name="login_reddit_error_title">Reddit login issue</string>
 	<string name="login_reddit_error_message">There was a problem logging into Reddit. Try again in an different browser?</string>
+
+	<!-- 2024-11-15 -->
+	<string name="pref_behaviour_video_autoplay_key" translatable="false">pref_behaviour_video_autoplay</string>
+	<string name="pref_behaviour_video_autoplay_title">Autoplay videos</string>
+	<string name="pref_behaviour_video_autoplay_summary">If video playback controls are not enabled, this preference is ignored and videos will always autoplay</string>
 </resources>

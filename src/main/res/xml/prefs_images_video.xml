@@ -52,6 +52,7 @@
 							android:defaultValue="true"/>
 
 		<CheckBoxPreference android:title="@string/pref_behaviour_video_autoplay_title"
+							android:dependency="@string/pref_behaviour_video_playback_controls_key"
 							android:key="@string/pref_behaviour_video_autoplay_key"
 							android:summary="@string/pref_behaviour_video_autoplay_summary"
 							android:defaultValue="true"/>

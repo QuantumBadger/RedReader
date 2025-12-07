@@ -236,10 +236,12 @@ public class PostSubmitContentFragment extends Fragment {
 		mTitleEdit = Objects.requireNonNull(root.findViewById(R.id.post_submit_title));
 
 		mTextEditBodyText = Objects.requireNonNull(root.findViewById(R.id.post_submit_body_text));
-		mTextEditLayoutBodyText = Objects.requireNonNull(root.findViewById(R.id.post_submit_body_text_layout));
+		mTextEditLayoutBodyText = Objects.requireNonNull(
+				root.findViewById(R.id.post_submit_body_text_layout));
 
 		mTextEditBodyUrl = Objects.requireNonNull(root.findViewById(R.id.post_submit_body_url));
-		mTextEditLayoutBodyUrl = Objects.requireNonNull(root.findViewById(R.id.post_submit_body_url_layout));
+		mTextEditLayoutBodyUrl = Objects.requireNonNull(
+				root.findViewById(R.id.post_submit_body_url_layout));
 
 		mSendRepliesToInboxCheckbox = Objects.requireNonNull(
 				root.findViewById(R.id.post_submit_send_replies_to_inbox));

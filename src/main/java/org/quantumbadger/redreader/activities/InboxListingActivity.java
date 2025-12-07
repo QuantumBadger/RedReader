@@ -95,7 +95,6 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 	private static final String PREF_ONLY_UNREAD = "inbox_only_show_unread";
 
-	private ScrollbarRecyclerViewManager recyclerViewManager;
 	private GroupedRecyclerViewAdapter adapter;
 
 	private LoadingView loadingView;
@@ -220,7 +219,7 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 		notifications.setOrientation(LinearLayout.VERTICAL);
 		notifications.addView(loadingView);
 
-		recyclerViewManager
+		final ScrollbarRecyclerViewManager recyclerViewManager
 				= new ScrollbarRecyclerViewManager(this, null, false);
 
 		adapter = new GroupedRecyclerViewAdapter(1);

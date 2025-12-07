@@ -1,4 +1,5 @@
 /Alpha 364 (2025-12-07)
+Ability to refresh inbox
 Show "No messages yet" when inbox is empty
 
 /Alpha 363 (2025-11-09)

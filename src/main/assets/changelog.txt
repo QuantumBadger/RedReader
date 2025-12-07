@@ -1,4 +1,5 @@
 115/1.25.1
+Ability to refresh inbox
 Show "No messages yet" when inbox is empty
 
 114/1.25

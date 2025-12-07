@@ -1,3 +1,6 @@
+115/1.25.1
+Show "No messages yet" when inbox is empty
+
 114/1.25
 Fix for Reddit video permission denied issue
 Workarounds for Reddit login issue

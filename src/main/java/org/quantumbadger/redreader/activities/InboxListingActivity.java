@@ -22,8 +22,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -89,6 +92,7 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 	private static final String PREF_ONLY_UNREAD = "inbox_only_show_unread";
 
+	private ScrollbarRecyclerViewManager recyclerViewManager;
 	private GroupedRecyclerViewAdapter adapter;
 
 	private LoadingView loadingView;
@@ -213,7 +217,7 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 		notifications.setOrientation(LinearLayout.VERTICAL);
 		notifications.addView(loadingView);
 
-		final ScrollbarRecyclerViewManager recyclerViewManager
+		recyclerViewManager
 				= new ScrollbarRecyclerViewManager(this, null, false);
 
 		adapter = new GroupedRecyclerViewAdapter(1);
@@ -312,6 +316,24 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 							int listPosition = 0;
 
+							if (listing.getChildren().isEmpty()) {
+
+								AndroidCommon.runOnUiThread(() -> {
+									Log.e("RRDEBUG", "listing.getChildren() empty");
+
+									final View emptyView =
+											LayoutInflater.from(context).inflate(
+													R.layout.no_items_yet,
+													notifications,
+													true);
+
+									((TextView)emptyView.findViewById(R.id.empty_view_text))
+											.setText(R.string.no_messages_yet);
+
+									General.setLayoutMatchWidthWrapHeight(emptyView);
+								});
+							}
+
 							for(final MaybeParseError<RedditThing> maybeThing
 									: listing.getChildren()) {
 
@@ -409,6 +431,8 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 					@Override
 					public void onFailure(@NonNull final RRError error) {
+
+						Log.e("RRDEBUG", "Got error in inbox: " + error.toString(), error.t);
 
 						request = null;
 

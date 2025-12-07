@@ -83,6 +83,8 @@ import java.util.UUID;
 
 public final class InboxListingActivity extends ViewsBaseActivity {
 
+	private static final String TAG = "InboxListingActivity";
+
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
 
@@ -319,8 +321,6 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 							if (listing.getChildren().isEmpty()) {
 
 								AndroidCommon.runOnUiThread(() -> {
-									Log.e("RRDEBUG", "listing.getChildren() empty");
-
 									final View emptyView =
 											LayoutInflater.from(context).inflate(
 													R.layout.no_items_yet,
@@ -432,7 +432,7 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 					@Override
 					public void onFailure(@NonNull final RRError error) {
 
-						Log.e("RRDEBUG", "Got error in inbox: " + error.toString(), error.t);
+						Log.e(TAG, "Inbox fetch error: " + error, error.t);
 
 						request = null;
 

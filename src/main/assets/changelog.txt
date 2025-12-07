@@ -1,4 +1,5 @@
 115/1.25.1
+Fix issue with autocomplete and capitalization when submitting posts
 Ability to refresh inbox
 Show "No messages yet" when inbox is empty
 

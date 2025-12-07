@@ -1,4 +1,5 @@
 /Alpha 364 (2025-12-07)
+Fix issue with autocomplete and capitalization when submitting posts
 Ability to refresh inbox
 Show "No messages yet" when inbox is empty
 

@@ -32,8 +32,8 @@
 	<attr name="rrIndentBackgroundCol" format="color" />
 	<attr name="rrIndentLineCol" format="color" />
 
-    <attr name="rrLoadingRingForegroundCol" />
-    <attr name="rrLoadingRingBackgroundCol" />
+    <attr name="rrLoadingRingForegroundCol" format="color" />
+    <attr name="rrLoadingRingBackgroundCol" format="color" />
 
     <attr name="rrListItemBackgroundCol" format="color" />
     <attr name="rrListItemBackgroundHighlightCol" format="color" />
@@ -115,5 +115,12 @@
 	<attr name="rrIconChevronRight" format="reference" />
 	<attr name="rrIconMagnify" format="reference" />
 	<attr name="rrIconAccountSearch" format="reference" />
+
+    <!-- Comment indentation line colors -->
+    <attr name="rrIndentLineCol1" format="color"/>
+    <attr name="rrIndentLineCol2" format="color"/>
+    <attr name="rrIndentLineCol3" format="color"/>
+    <attr name="rrIndentLineCol4" format="color"/>
+    <attr name="rrIndentLineCol5" format="color"/>
 
 </resources>

@@ -1080,6 +1080,16 @@
 	<string name="pref_behaviour_video_mute_default_key" translatable="false">pref_behaviour_video_mute_default</string>
 	<string name="pref_behaviour_video_mute_default_title">Mute videos by default</string>
 
+	<!-- 2024-12-05 -->
+	<string name="pref_layout_mode_key">pref_layout_mode</string>
+	<string name="pref_layout_category_title">Layout</string>
+	<string name="pref_layout_mode_title">Layout Mode</string>
+	<string name="pref_layout_mode_thumbnails">Thumbnails</string>
+	<string name="pref_layout_mode_alwayspreview">Always Preview</string>
+	<string name="pref_layout_mode_card">Card</string>
+
+	<string name="post_image">Post Image</string>
+
 	<string name="prefs_category_images_video">Images/Video</string>
 
 	<string name="notification_channel_name_reddit_messages">Incoming Reddit Messages</string>

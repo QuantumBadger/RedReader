@@ -60,6 +60,10 @@ public final class PrefsUtility {
 	private static SharedPrefsWrapper sharedPrefs;
 	private static Resources mRes;
 
+	public static String getLayoutMode() {
+		return sharedPrefs.getString("pref_layout_mode", "thumbnails");
+	}
+
 	private static String getPrefKey(@StringRes final int prefKey) {
 		return mRes.getString(prefKey);
 	}

@@ -22,8 +22,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -80,8 +83,11 @@ import java.util.UUID;
 
 public final class InboxListingActivity extends ViewsBaseActivity {
 
+	private static final String TAG = "InboxListingActivity";
+
 	private static final int OPTIONS_MENU_MARK_ALL_AS_READ = 0;
 	private static final int OPTIONS_MENU_SHOW_UNREAD_ONLY = 1;
+	private static final int OPTIONS_MENU_REFRESH = 2;
 
 	public enum InboxType {
 		INBOX, SENT, MODMAIL
@@ -312,6 +318,22 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 							int listPosition = 0;
 
+							if (listing.getChildren().isEmpty()) {
+
+								AndroidCommon.runOnUiThread(() -> {
+									final View emptyView =
+											LayoutInflater.from(context).inflate(
+													R.layout.no_items_yet,
+													notifications,
+													true);
+
+									((TextView)emptyView.findViewById(R.id.empty_view_text))
+											.setText(R.string.no_messages_yet);
+
+									General.setLayoutMatchWidthWrapHeight(emptyView);
+								});
+							}
+
 							for(final MaybeParseError<RedditThing> maybeThing
 									: listing.getChildren()) {
 
@@ -410,6 +432,8 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 					@Override
 					public void onFailure(@NonNull final RRError error) {
 
+						Log.e(TAG, "Inbox fetch error: " + error, error.t);
+
 						request = null;
 
 						if(loadingView != null) {
@@ -437,12 +461,19 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 			return false;
 		}
 
-		menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 0, R.string.mark_all_as_read);
-		menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 1, R.string.inbox_unread_only);
-		menu.getItem(1).setCheckable(true);
-		if(mOnlyShowUnread) {
-			menu.getItem(1).setChecked(true);
+		final MenuItem refresh = menu.add(0, OPTIONS_MENU_REFRESH, 0, R.string.options_refresh);
+		refresh.setIcon(R.drawable.ic_refresh_dark);
+		refresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+		if (inboxType != InboxType.SENT) {
+			menu.add(0, OPTIONS_MENU_MARK_ALL_AS_READ, 1, R.string.mark_all_as_read);
+			menu.add(0, OPTIONS_MENU_SHOW_UNREAD_ONLY, 2, R.string.inbox_unread_only);
+			menu.getItem(2).setCheckable(true);
+			if (mOnlyShowUnread) {
+				menu.getItem(2).setChecked(true);
+			}
 		}
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -493,6 +524,11 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 						.putBoolean(PREF_ONLY_UNREAD, enabled)
 						.apply();
 
+				General.recreateActivityNoAnimation(this);
+				return true;
+			}
+
+			case OPTIONS_MENU_REFRESH: {
 				General.recreateActivityNoAnimation(this);
 				return true;
 			}

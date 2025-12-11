@@ -21,7 +21,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -134,7 +133,8 @@ public class PostSubmitContentFragment extends Fragment {
 
 	private static String lastType;
 	private static String lastTitle;
-	private static String lastText;
+	private static String lastBodyText;
+	private static String lastBodyUrl;
 	private static boolean lastNsfw;
 	private static boolean lastSpoiler;
 	private static boolean lastInbox;
@@ -153,8 +153,13 @@ public class PostSubmitContentFragment extends Fragment {
 	private MaterialAutoCompleteTextView mFlairSpinner;
 	private TextInputLayout mFlairSpinnerLayout;
 	private TextInputEditText mTitleEdit;
-	private TextInputEditText mTextEdit;
-	private TextInputLayout mTextEditLayout;
+
+	private TextInputEditText mTextEditBodyText;
+	private TextInputLayout mTextEditLayoutBodyText;
+
+	private TextInputEditText mTextEditBodyUrl;
+	private TextInputLayout mTextEditLayoutBodyUrl;
+
 	private CheckBox mSendRepliesToInboxCheckbox;
 	private CheckBox mMarkAsNsfwCheckbox;
 	private CheckBox mMarkAsSpoilerCheckbox;
@@ -178,10 +183,11 @@ public class PostSubmitContentFragment extends Fragment {
 		mActive = false;
 
 		// Store information for draft
-		if(mTitleEdit != null && mTextEdit != null && !mDraftReset) {
+		if(mTitleEdit != null && !mDraftReset) {
 			lastType = mTypeSpinner.getText().toString();
 			lastTitle = mTitleEdit.getText().toString();
-			lastText = mTextEdit.getText().toString();
+			lastBodyText = mTextEditBodyText.getText().toString();
+			lastBodyUrl = mTextEditBodyUrl.getText().toString();
 			lastInbox = mSendRepliesToInboxCheckbox.isChecked();
 			lastNsfw = mMarkAsNsfwCheckbox.isChecked();
 			lastSpoiler = mMarkAsSpoilerCheckbox.isChecked();
@@ -228,8 +234,14 @@ public class PostSubmitContentFragment extends Fragment {
 		mFlairSpinnerLayout = Objects.requireNonNull(
 				root.findViewById(R.id.post_submit_flair_layout));
 		mTitleEdit = Objects.requireNonNull(root.findViewById(R.id.post_submit_title));
-		mTextEdit = Objects.requireNonNull(root.findViewById(R.id.post_submit_body));
-		mTextEditLayout = Objects.requireNonNull(root.findViewById(R.id.post_submit_body_layout));
+
+		mTextEditBodyText = Objects.requireNonNull(root.findViewById(R.id.post_submit_body_text));
+		mTextEditLayoutBodyText = Objects.requireNonNull(
+				root.findViewById(R.id.post_submit_body_text_layout));
+
+		mTextEditBodyUrl = Objects.requireNonNull(root.findViewById(R.id.post_submit_body_url));
+		mTextEditLayoutBodyUrl = Objects.requireNonNull(
+				root.findViewById(R.id.post_submit_body_url_layout));
 
 		mSendRepliesToInboxCheckbox = Objects.requireNonNull(
 				root.findViewById(R.id.post_submit_send_replies_to_inbox));
@@ -253,14 +265,15 @@ public class PostSubmitContentFragment extends Fragment {
 		AndroidCommon.setAutoCompleteTextViewItemsNoFilter(mTypeSpinner, POST_TYPES);
 
 		if(args.url != null) {
-			mTextEdit.setText(args.url);
+			mTextEditBodyUrl.setText(args.url);
 		}
 
 		// Fetch information from draft if a draft exists
-		if(args.url == null && (lastTitle != null || lastText != null)) {
+		if(args.url == null && lastTitle != null) {
 			mTypeSpinner.setText(lastType);
 			mTitleEdit.setText(lastTitle);
-			mTextEdit.setText(lastText);
+			mTextEditBodyText.setText(lastBodyText);
+			mTextEditBodyUrl.setText(lastBodyUrl);
 			mSendRepliesToInboxCheckbox.setChecked(lastInbox);
 			mMarkAsSpoilerCheckbox.setChecked(lastSpoiler);
 			mMarkAsNsfwCheckbox.setChecked(lastNsfw);
@@ -317,18 +330,13 @@ public class PostSubmitContentFragment extends Fragment {
 		final Object selected = mTypeSpinner.getText().toString();
 
 		if(selected.equals(POST_TYPE_LINK) || selected.equals(POST_TYPE_IMGUR)) {
-			mTextEditLayout.setHint(getString(R.string.submit_post_url_hint));
-			mTextEdit.setInputType(InputType.TYPE_CLASS_TEXT
-					| InputType.TYPE_TEXT_VARIATION_URI);
-			mTextEdit.setSingleLine(true);
+			mTextEditLayoutBodyText.setVisibility(View.GONE);
+			mTextEditLayoutBodyUrl.setVisibility(View.VISIBLE);
 		} else if(selected.equals(POST_TYPE_SELF)) {
-			mTextEditLayout.setHint(getString(R.string.submit_post_self_text_hint));
-			mTextEdit.setInputType(InputType.TYPE_CLASS_TEXT
-					| InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE
-					| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-			mTextEdit.setSingleLine(false);
+			mTextEditLayoutBodyText.setVisibility(View.VISIBLE);
+			mTextEditLayoutBodyUrl.setVisibility(View.GONE);
 		} else {
-			throw new RuntimeException("Unknown selection " + selected.toString());
+			throw new RuntimeException("Unknown selection " + selected);
 		}
 
 		if(selected.equals(POST_TYPE_IMGUR)) {
@@ -347,7 +355,7 @@ public class PostSubmitContentFragment extends Fragment {
 					intent,
 					(resultCode, data) -> {
 				if(data != null && data.getData() != null) {
-					mTextEdit.setText(data.getData().toString());
+					mTextEditBodyUrl.setText(data.getData().toString());
 				}
 			});
 		}
@@ -440,11 +448,16 @@ public class PostSubmitContentFragment extends Fragment {
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 
+		final boolean isSelfPost = mTypeSpinner.getText().toString().equals(POST_TYPE_SELF);
+
+		final String bodyText = isSelfPost
+				? mTextEditBodyText.getText().toString()
+				: mTextEditBodyUrl.getText().toString();
+
 		if(item.getTitle().equals(getString(R.string.comment_reply_send))) {
 
 			String subreddit = mSelectedSubreddit.getDisplayNameLowercase();
 			final String postTitle = mTitleEdit.getText().toString();
-			final String text = mTextEdit.getText().toString();
 
 			if(postTitle.isEmpty()) {
 
@@ -452,13 +465,10 @@ public class PostSubmitContentFragment extends Fragment {
 						.show();
 				mTitleEdit.requestFocus();
 
-			} else if(text.isEmpty()
-					&& getString(R.string.submit_post_url_hint).equals(
-							mTextEdit.getHint().toString())) {
-
+			} else if(bodyText.isEmpty() && !isSelfPost) {
 				Toast.makeText(mContext, R.string.submit_post_url_empty, Toast.LENGTH_SHORT)
 						.show();
-				mTextEdit.requestFocus();
+				mTextEditBodyUrl.requestFocus();
 
 			} else {
 
@@ -558,8 +568,6 @@ public class PostSubmitContentFragment extends Fragment {
 					}
 				};
 
-				final boolean isSelfPost = mTypeSpinner.getText().toString().equals(POST_TYPE_SELF);
-
 				while(subreddit.startsWith("/")) {
 					subreddit = subreddit.substring(1);
 				}
@@ -583,7 +591,7 @@ public class PostSubmitContentFragment extends Fragment {
 						isSelfPost,
 						subreddit,
 						postTitle,
-						text,
+						bodyText,
 						sendRepliesToInbox,
 						markAsNsfw,
 						markAsSpoiler,
@@ -595,7 +603,7 @@ public class PostSubmitContentFragment extends Fragment {
 			return true;
 
 		} else if(item.getTitle().equals(getString(R.string.comment_reply_preview))) {
-			MarkdownPreviewDialog.newInstance(mTextEdit.getText().toString())
+			MarkdownPreviewDialog.newInstance(bodyText)
 					.show(getParentFragmentManager(), null);
 			return true;
 
@@ -608,7 +616,8 @@ public class PostSubmitContentFragment extends Fragment {
 		mDraftReset = true;
 		lastType = null;
 		lastTitle = null;
-		lastText = null;
+		lastBodyText = null;
+		lastBodyUrl = null;
 		lastInbox = true;
 		lastNsfw = false;
 		lastSpoiler = false;

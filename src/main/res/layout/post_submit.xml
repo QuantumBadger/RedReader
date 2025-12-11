@@ -85,20 +85,40 @@
 			</com.google.android.material.textfield.TextInputLayout>
 
 			<com.google.android.material.textfield.TextInputLayout
-					android:id="@+id/post_submit_body_layout"
+					android:id="@+id/post_submit_body_text_layout"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_margin="10dp"
+					android:hint="@string/submit_post_self_text_hint"
 					style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
 				<com.google.android.material.textfield.TextInputEditText
-						android:id="@+id/post_submit_body"
+						android:id="@+id/post_submit_body_text"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:importantForAutofill="no"
 						android:scrollHorizontally="false"
 						android:scrollbars="none"
-						android:inputType="textCapSentences|textMultiLine"/>
+						android:inputType="textLongMessage|textCapSentences|textAutoComplete|textMultiLine"/>
+
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/post_submit_body_url_layout"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="10dp"
+					android:hint="@string/submit_post_url_hint"
+					style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+				<com.google.android.material.textfield.TextInputEditText
+						android:id="@+id/post_submit_body_url"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:importantForAutofill="no"
+						android:scrollHorizontally="false"
+						android:scrollbars="none"
+						android:inputType="textUri"/>
 
 			</com.google.android.material.textfield.TextInputLayout>
 

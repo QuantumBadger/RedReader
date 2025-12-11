@@ -1924,4 +1924,8 @@
 
 	<!-- 2025-12-07 -->
 	<string name="no_messages_yet">No messages yet.</string>
+
+	<!-- 2025-12-10 -->
+	<string name="pref_behaviour_mark_read_on_scroll_key" translatable="false">pref_behaviour_mark_read_on_scroll</string>
+	<string name="pref_behaviour_mark_read_on_scroll_title">Mark posts as read on scroll</string>
 </resources>

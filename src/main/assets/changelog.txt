@@ -1,4 +1,7 @@
-115/1.25.1
+117/1.25.2
+Workaround for text field issue on Reddit's login page (caused by their cookie banner)
+
+116/1.25.1
 Fix issue with autocomplete and capitalization when submitting posts
 Ability to refresh inbox
 Show "No messages yet" when inbox is empty

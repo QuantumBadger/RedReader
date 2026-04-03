@@ -154,6 +154,20 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 
 		view.setWebViewClient(new WebViewClient() {
 			@Override
+			public void onPageFinished(final WebView view, final String url) {
+				// Reddit shows a "cookie preferences" dialog that can
+				// appear behind the login form but still steal focus from
+				// input fields, preventing typing. Remove it from the DOM.
+				view.evaluateJavascript(
+						"(function() {"
+								+ "var el = document.getElementById("
+								+ "'data-protection-consent-wrapper');"
+								+ "if(el) el.remove();"
+								+ "})()",
+						null);
+			}
+
+			@Override
 			public boolean shouldOverrideUrlLoading(
 					final WebView view,
 					final WebResourceRequest request) {

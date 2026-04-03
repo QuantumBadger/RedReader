@@ -1,3 +1,6 @@
+/Alpha 365 (2026-04-02)
+Workaround for text field issue on Reddit's login page (caused by their cookie banner)
+
 /Alpha 364 (2025-12-07)
 Fix issue with autocomplete and capitalization when submitting posts
 Ability to refresh inbox

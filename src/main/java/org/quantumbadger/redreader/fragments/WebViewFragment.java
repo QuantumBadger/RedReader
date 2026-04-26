@@ -523,8 +523,11 @@ public class WebViewFragment extends Fragment
 		outer.removeAllViews();
 		webView.destroy();
 
+		// CookieSyncManager was removed in favour of CookieManager flush()
+		// for API 21 plus, see https://developer.android.com/reference/android/webkit/CookieManager#flush()
 		final CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.removeAllCookies(null);
+		cookieManager.flush();
 
 		super.onDestroyView();
 	}

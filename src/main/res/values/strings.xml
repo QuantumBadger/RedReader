@@ -1057,6 +1057,22 @@
 	<string name="pref_behaviour_hide_read_posts_key" translatable="false">pref_behaviour_hide_read_posts</string>
 	<string name="pref_behaviour_hide_read_posts_title">Hide read posts</string>
 
+	<string name="pref_behaviour_hide_few_comments_key" translatable="false">pref_behaviour_hide_few_comments</string>
+	<string name="pref_behaviour_hide_few_comments_title">Hide posts with few comments</string>
+	<string name="pref_behaviour_min_comments_key" translatable="false">pref_behaviour_min_comments</string>
+	<string name="pref_behaviour_min_comments_title">Minimum comments</string>
+	<string name="pref_behaviour_min_comments_dialog_title">Minimum number of comments to show post</string>
+
+	<plurals name="posts_filtered_few_comments">
+		<item quantity="one">%1$d post filtered (fewer than %2$d comments)</item>
+		<item quantity="other">%1$d posts filtered (fewer than %2$d comments)</item>
+	</plurals>
+
+	<plurals name="pref_behaviour_hide_few_comments_summary">
+		<item quantity="one">Minimum %1$d comment</item>
+		<item quantity="other">Minimum %1$d comments</item>
+	</plurals>
+
 	<!-- 2018-10-06 -->
 	<string name="pref_menus_mainmenu_shortcutitems_title">Shortcuts</string>
 	<string name="pref_menus_mainmenu_shortcutitems_key" translatable="false">pref_menus_mainmenu_shortcutitems_key</string>
@@ -1507,7 +1523,7 @@
 
 	<string name="restore_preferences_error_version_warning_title">Warning</string>
 	<string name="restore_preferences_error_version_warning_message">The selected file was created by a newer version of RedReader. Restoring the preferences from this file may lead to crashes and instability.</string>
-	
+
 	<string name="button_continue_anyway">Continue anyway</string>
 	<string name="button_cancel">Cancel</string>
 	<string name="button_restore_preferences">Restore</string>
@@ -1879,7 +1895,7 @@
 	<string name="album_pref_all_settings">All settings</string>
 
 	<string name="album_link_button">Link</string>
-	
+
 	<string name="radio_button_selected">Selected</string>
 	<string name="radio_button_not_selected">Not selected</string>
 
@@ -1890,6 +1906,9 @@
 
 	<string name="error_invalid_account_title">Invalid account</string>
 	<string name="error_invalid_account_message">Selected account is not currently logged in</string>
+
+	<string name="error_invalid_number">Invalid number</string>
+	<string name="error_invalid_number_range">Number must be between 0 and 100000</string>
 
 	<!-- 2024-08-04 -->
 	<string name="album_more_options">More settings</string>

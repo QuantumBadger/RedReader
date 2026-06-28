@@ -261,6 +261,31 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 			}
 		}
 
+		{
+			final CheckBoxPreference hideFewCommentsPref =
+					findPreference(getString(R.string.pref_behaviour_hide_few_comments_key));
+
+			if (hideFewCommentsPref != null) {
+				// Update summary to show current minimum when enabled
+				updateHideFewCommentsSummary(hideFewCommentsPref);
+
+				hideFewCommentsPref.setOnPreferenceChangeListener((preference, newValue) -> {
+					final boolean isChecked = (Boolean) newValue;
+
+					if (isChecked) {
+						// Show dialog to ask for minimum comment count
+						showMinCommentsDialog(hideFewCommentsPref);
+						return false; // Don't change the preference yet
+					} else {
+						// Clear the summary when unchecked
+						hideFewCommentsPref.setSummary(null);
+						return true;
+					}
+				});
+			}
+		}
+
+
 
 		final Preference testNotificationPref =
 				findPreference(getString(R.string.pref_developer_test_notification_key));
@@ -795,5 +820,57 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 			}
 		}.start();
 
+	}
+
+	private void updateHideFewCommentsSummary(final CheckBoxPreference preference) {
+		if (preference.isChecked()) {
+			final Context context = getActivity();
+			final int minComments = PrefsUtility.pref_behaviour_min_comments();
+			final String summary = context.getResources().getQuantityString(
+					R.plurals.pref_behaviour_hide_few_comments_summary,
+					minComments,
+					minComments);
+			preference.setSummary(summary);
+		} else {
+			preference.setSummary(null);
+		}
+	}
+
+	private void showMinCommentsDialog(final CheckBoxPreference preference) {
+		final Context context = getActivity();
+		final int currentValue = PrefsUtility.pref_behaviour_min_comments();
+
+		// Create an EditText for number input
+		final android.widget.EditText editText = new android.widget.EditText(context);
+		editText.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+		editText.setText(String.valueOf(currentValue));
+		editText.setSelection(editText.getText().length());
+
+		new MaterialAlertDialogBuilder(context)
+				.setTitle(R.string.pref_behaviour_min_comments_dialog_title)
+				.setView(editText)
+				.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+					try {
+						final String input = editText.getText().toString().trim();
+						final int minComments = Integer.parseInt(input);
+
+						if (minComments >= 0 && minComments <= 100_000) {
+							// Save the minimum comments value
+							PrefsUtility.pref_behaviour_min_comments(minComments);
+
+							// Enable the checkbox
+							preference.setChecked(true);
+
+							// Update the summary
+							updateHideFewCommentsSummary(preference);
+						} else {
+							General.quickToast(context, R.string.error_invalid_number_range);
+						}
+					} catch (final NumberFormatException e) {
+						General.quickToast(context, R.string.error_invalid_number);
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
 	}
 }

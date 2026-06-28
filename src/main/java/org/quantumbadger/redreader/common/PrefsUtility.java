@@ -115,6 +115,8 @@ public final class PrefsUtility {
 				|| key.equals(context.getString(R.string.pref_behaviour_nsfw_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_postcount_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_comment_min_key))
+				|| key.equals(context.getString(R.string.pref_behaviour_hide_few_comments_key))
+				|| key.equals(context.getString(R.string.pref_behaviour_min_comments_key))
 				|| key.equals(context.getString(R.string.pref_behaviour_pinned_subredditsort_key))
 				|| key.equals(context.getString(
 						R.string.pref_behaviour_blocked_subredditsort_key))
@@ -806,7 +808,6 @@ public final class PrefsUtility {
 		return getBoolean(R.string.pref_behaviour_video_frame_step_key,
 				false);
 	}
-
 	public static boolean pref_behaviour_video_mute_default() {
 		return getBoolean(
 				R.string.pref_behaviour_video_mute_default_key,
@@ -1169,6 +1170,30 @@ public final class PrefsUtility {
 		return getBoolean(
 				R.string.pref_behaviour_mark_posts_as_read_key,
 				true);
+	}
+
+	public static boolean pref_behaviour_hide_few_comments() {
+		return getBoolean(
+				R.string.pref_behaviour_hide_few_comments_key,
+				false);
+	}
+
+	public static int pref_behaviour_min_comments() {
+		try {
+			return Integer.parseInt(getString(
+					R.string.pref_behaviour_min_comments_key,
+					"10"));
+		} catch(final Throwable e) {
+			return 10;
+		}
+	}
+
+	public static void pref_behaviour_min_comments(final int value) {
+		sharedPrefs.edit()
+				.putString(
+					getPrefKey(R.string.pref_behaviour_min_comments_key),
+					String.valueOf(value))
+				.apply();
 	}
 
 	public enum SharingDomain {

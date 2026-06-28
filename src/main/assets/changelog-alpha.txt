@@ -1,3 +1,6 @@
+/Alpha 366 (2026-06-28)
+Fix occasional setSpan crash when viewing comments with emote flairs
+
 /Alpha 365 (2026-04-02)
 Workaround for text field issue on Reddit's login page (caused by their cookie banner)
 

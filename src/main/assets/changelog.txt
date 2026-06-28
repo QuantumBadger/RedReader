@@ -1,3 +1,6 @@
+118/1.26
+Fix occasional setSpan crash when viewing comments with emote flairs
+
 117/1.25.2
 Workaround for text field issue on Reddit's login page (caused by their cookie banner)
 

@@ -22,6 +22,7 @@ import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -64,6 +65,7 @@ import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -119,6 +121,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				R.string.pref_behaviour_fling_comment_left_key,
 				R.string.pref_behaviour_fling_comment_right_key,
 				R.string.pref_appearance_theme_key,
+				R.string.pref_appearance_theme_light_key,
+				R.string.pref_appearance_theme_dark_key,
 				R.string.pref_appearance_navbar_color_key,
 				R.string.pref_cache_maxage_listing_key,
 				R.string.pref_cache_maxage_thumb_key,
@@ -233,6 +237,50 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				}
 				return true;
 			});
+		}
+
+		{
+			final CheckBoxPreference useSystemThemePref =
+					findPreference(getString(R.string.pref_appearance_theme_use_system_key));
+			final ListPreference themePref =
+					findPreference(getString(R.string.pref_appearance_theme_key));
+			final ListPreference themeLightPref =
+					findPreference(getString(R.string.pref_appearance_theme_light_key));
+			final ListPreference themeDarkPref =
+					findPreference(getString(R.string.pref_appearance_theme_dark_key));
+
+			if(useSystemThemePref != null && themePref != null
+					&& themeLightPref != null && themeDarkPref != null) {
+
+				final boolean useSystem = useSystemThemePref.isChecked();
+				themePref.setVisible(!useSystem);
+				themeLightPref.setVisible(useSystem);
+				themeDarkPref.setVisible(useSystem);
+
+				useSystemThemePref.setOnPreferenceChangeListener((preference, newValue) -> {
+					final boolean nowUseSystem = Boolean.TRUE.equals(newValue);
+					themePref.setVisible(!nowUseSystem);
+					themeLightPref.setVisible(nowUseSystem);
+					themeDarkPref.setVisible(nowUseSystem);
+
+					// Carry the currently-active theme across the toggle so it
+					// isn't replaced by a stale value the user never chose.
+					if(nowUseSystem) {
+						// Turning on: route the single theme into its natural
+						// light or dark slot (themes are inherently one or the
+						// other). The active theme then still shows if it matches
+						// the current system mode; otherwise the mode-appropriate
+						// theme is shown, which is the point of following system.
+						carryThemeToSystemSlot(themePref, themeLightPref, themeDarkPref);
+					} else {
+						// Turning off: adopt whichever of light/dark is currently
+						// active for the system mode, so the single theme matches
+						// what is already on screen.
+						carryActiveThemeToSingle(themePref, themeLightPref, themeDarkPref);
+					}
+					return true;
+				});
+			}
 		}
 
 		{
@@ -577,6 +625,64 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				});
 			}
 
+		}
+	}
+
+	// When Follow system theme is turned on, move the single theme selection
+	// into its natural light or dark slot so the active theme carries over.
+	private void carryThemeToSystemSlot(
+			final ListPreference themePref,
+			final ListPreference themeLightPref,
+			final ListPreference themeDarkPref) {
+
+		final String value = themePref.getValue();
+		if(value == null) {
+			return;
+		}
+
+		if(isDarkThemeValue(value)) {
+			themeDarkPref.setValue(value);
+			updateListPreferenceSummary(themeDarkPref);
+		} else {
+			themeLightPref.setValue(value);
+			updateListPreferenceSummary(themeLightPref);
+		}
+	}
+
+	// When Follow system theme is turned off, adopt whichever of the light/dark
+	// selections is currently active for the system's mode, so the single theme
+	// matches what is already displayed.
+	private void carryActiveThemeToSingle(
+			final ListPreference themePref,
+			final ListPreference themeLightPref,
+			final ListPreference themeDarkPref) {
+
+		final int uiMode = getResources().getConfiguration().uiMode
+				& Configuration.UI_MODE_NIGHT_MASK;
+
+		final String value = uiMode == Configuration.UI_MODE_NIGHT_YES
+				? themeDarkPref.getValue()
+				: themeLightPref.getValue();
+
+		if(value != null) {
+			themePref.setValue(value);
+			updateListPreferenceSummary(themePref);
+		}
+	}
+
+	private boolean isDarkThemeValue(final String value) {
+		return Arrays.asList(getResources().getStringArray(
+				R.array.pref_appearance_theme_dark_return)).contains(value);
+	}
+
+	// setValue() persists and re-applies the theme, but the row summary is set
+	// manually elsewhere (and only via the change listener, which programmatic
+	// setValue does not trigger), so refresh it here to keep the displayed
+	// selection in sync without a settings reload.
+	private void updateListPreferenceSummary(final ListPreference pref) {
+		final int index = pref.findIndexOfValue(pref.getValue());
+		if(index >= 0) {
+			pref.setSummary(pref.getEntries()[index]);
 		}
 	}
 

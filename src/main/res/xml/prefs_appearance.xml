@@ -31,11 +31,27 @@
 
     <PreferenceCategory android:title="@string/pref_appearance_theme_header">
 
+        <CheckBoxPreference android:title="@string/pref_appearance_theme_use_system_title"
+                            android:key="@string/pref_appearance_theme_use_system_key"
+                            android:defaultValue="false"/>
+
         <ListPreference android:title="@string/pref_appearance_theme_title"
                         android:key="@string/pref_appearance_theme_key"
                         android:entries="@array/pref_appearance_theme"
                         android:entryValues="@array/pref_appearance_theme_return"
                         android:defaultValue="red"/>
+
+        <ListPreference android:title="@string/pref_appearance_theme_light_title"
+                        android:key="@string/pref_appearance_theme_light_key"
+                        android:entries="@array/pref_appearance_theme_light"
+                        android:entryValues="@array/pref_appearance_theme_light_return"
+                        android:defaultValue="red"/>
+
+        <ListPreference android:title="@string/pref_appearance_theme_dark_title"
+                        android:key="@string/pref_appearance_theme_dark_key"
+                        android:entries="@array/pref_appearance_theme_dark"
+                        android:entryValues="@array/pref_appearance_theme_dark_return"
+                        android:defaultValue="night"/>
 
 		<ListPreference android:title="@string/pref_appearance_navbar_color_title"
 						android:key="@string/pref_appearance_navbar_color_key"

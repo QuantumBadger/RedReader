@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -670,11 +671,50 @@ public final class OptionsMenuUtility {
 							final AppearanceTheme currentTheme
 									= PrefsUtility.appearance_theme();
 
-							final String[] themeNames = activity.getResources()
-									.getStringArray(R.array.pref_appearance_theme);
+							// When following the system theme, the single theme
+							// key is ignored - the active theme is the light or
+							// dark selection for the current mode. Offer only the
+							// themes for that mode and write to its key, so every
+							// choice changes the theme currently on screen instead
+							// of silently doing nothing.
+							final String[] themeNames;
+							final String[] themeValues;
+							final String themeKey;
+							final int titleRes;
 
-							final String[] themeValues = activity.getResources()
-									.getStringArray(R.array.pref_appearance_theme_return);
+							if(PrefsUtility.appearance_theme_use_system()) {
+
+								final int uiMode = activity.getResources()
+										.getConfiguration().uiMode
+										& Configuration.UI_MODE_NIGHT_MASK;
+
+								if(uiMode == Configuration.UI_MODE_NIGHT_YES) {
+									themeNames = activity.getResources().getStringArray(
+											R.array.pref_appearance_theme_dark);
+									themeValues = activity.getResources().getStringArray(
+											R.array.pref_appearance_theme_dark_return);
+									themeKey = activity.getString(
+											R.string.pref_appearance_theme_dark_key);
+									titleRes = R.string.pref_appearance_theme_dark_title;
+								} else {
+									themeNames = activity.getResources().getStringArray(
+											R.array.pref_appearance_theme_light);
+									themeValues = activity.getResources().getStringArray(
+											R.array.pref_appearance_theme_light_return);
+									themeKey = activity.getString(
+											R.string.pref_appearance_theme_light_key);
+									titleRes = R.string.pref_appearance_theme_light_title;
+								}
+
+							} else {
+								themeNames = activity.getResources().getStringArray(
+										R.array.pref_appearance_theme);
+								themeValues = activity.getResources().getStringArray(
+										R.array.pref_appearance_theme_return);
+								themeKey = activity.getString(
+										R.string.pref_appearance_theme_key);
+								titleRes = R.string.pref_appearance_theme_title;
+							}
 
 							int selectedPos = -1;
 							for(int i = 0; i < themeValues.length; i++) {
@@ -688,17 +728,14 @@ public final class OptionsMenuUtility {
 
 							final MaterialAlertDialogBuilder dialog
 									= new MaterialAlertDialogBuilder(activity);
-							dialog.setTitle(R.string.pref_appearance_theme_title);
+							dialog.setTitle(titleRes);
 
 							dialog.setSingleChoiceItems(
 									themeNames,
 									selectedPos,
 									(dialog1, item1) -> {
 										prefs.edit()
-												.putString(
-														activity.getString(
-														R.string.pref_appearance_theme_key),
-														themeValues[item1])
+												.putString(themeKey, themeValues[item1])
 												.apply();
 										dialog1.dismiss();
 									});

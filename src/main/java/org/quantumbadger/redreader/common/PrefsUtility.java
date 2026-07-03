@@ -156,6 +156,9 @@ public final class PrefsUtility {
 	public static boolean isRestartRequired(final Context context, final String key) {
 		return context.getString(R.string.pref_appearance_twopane_key).equals(key)
 				|| context.getString(R.string.pref_appearance_theme_key).equals(key)
+				|| context.getString(R.string.pref_appearance_theme_use_system_key).equals(key)
+				|| context.getString(R.string.pref_appearance_theme_light_key).equals(key)
+				|| context.getString(R.string.pref_appearance_theme_dark_key).equals(key)
 				|| context.getString(R.string.pref_appearance_navbar_color_key).equals(key)
 				|| context.getString(R.string.pref_appearance_langforce_key).equals(key)
 				|| context.getString(R.string.pref_behaviour_bezel_toolbar_swipezone_key)
@@ -206,15 +209,42 @@ public final class PrefsUtility {
 	}
 
 	public static boolean isNightMode() {
-
-		final AppearanceTheme theme = appearance_theme();
-
+		final AppearanceTheme theme = appearance_theme(mRes);
 		return theme == AppearanceTheme.NIGHT
 				|| theme == AppearanceTheme.NIGHT_LOWCONTRAST
 				|| theme == AppearanceTheme.ULTRABLACK;
 	}
 
+	public static boolean appearance_theme_use_system() {
+		return getBoolean(R.string.pref_appearance_theme_use_system_key, false);
+	}
+
+	public static AppearanceTheme appearance_theme_light() {
+		return AppearanceTheme.valueOf(StringUtils.asciiUppercase(getString(
+				R.string.pref_appearance_theme_light_key,
+				"red")));
+	}
+
+	public static AppearanceTheme appearance_theme_dark() {
+		return AppearanceTheme.valueOf(StringUtils.asciiUppercase(getString(
+				R.string.pref_appearance_theme_dark_key,
+				"night")));
+	}
+
 	public static AppearanceTheme appearance_theme() {
+		return appearance_theme(mRes);
+	}
+
+	public static AppearanceTheme appearance_theme(@Nullable final Resources resources) {
+		if(resources != null && appearance_theme_use_system()) {
+			final int uiMode = resources.getConfiguration().uiMode
+					& android.content.res.Configuration.UI_MODE_NIGHT_MASK;
+			if(uiMode == android.content.res.Configuration.UI_MODE_NIGHT_YES) {
+				return appearance_theme_dark();
+			} else {
+				return appearance_theme_light();
+			}
+		}
 		return AppearanceTheme.valueOf(StringUtils.asciiUppercase(getString(
 				R.string.pref_appearance_theme_key,
 				"red")));
@@ -232,7 +262,7 @@ public final class PrefsUtility {
 
 	public static void applyTheme(@NonNull final Activity activity) {
 
-		final AppearanceTheme theme = appearance_theme();
+		final AppearanceTheme theme = appearance_theme(activity.getResources());
 
 		switch(theme) {
 			case RED:

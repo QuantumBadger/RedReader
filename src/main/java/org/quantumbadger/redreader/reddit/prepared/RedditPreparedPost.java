@@ -72,6 +72,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	public final boolean canModerate;
 	public final boolean hasThumbnail;
 	public final boolean mIsProbablyAnImage;
+	public final boolean isGallery;
 
 	private final boolean mShowInlinePreviews;
 
@@ -109,6 +110,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		isArchived = post.isArchived();
 		isLocked = post.isLocked();
 		canModerate = post.getCanModerate();
+		isGallery = post.isGallery();
 
 		mIsProbablyAnImage = LinkHandler.isProbablyAnImage(post.getUrl());
 
@@ -127,16 +129,25 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	}
 
 	public boolean shouldShowInlinePreview() {
+		final String layoutMode = PrefsUtility.getLayoutMode();
+		final boolean alwaysPreviewMode = layoutMode.equals("always_preview")
+				|| layoutMode.equals("card");
+
 		return mShowInlinePreviews && (src.isPreviewEnabled()
 				|| "gfycat.com".equals(src.getDomain())
 				|| "i.imgur.com".equals(src.getDomain())
 				|| "streamable.com".equals(src.getDomain())
 				|| "i.redd.it".equals(src.getDomain())
-				|| "v.redd.it".equals(src.getDomain()));
+				|| "v.redd.it".equals(src.getDomain())
+				|| (isGallery && alwaysPreviewMode));
 	}
 
 	public boolean isVideoPreview() {
 		return src.isVideoPreview();
+	}
+
+	public boolean isGalleryPreview() {
+		return isGallery;
 	}
 
 	public void performAction(final BaseActivity activity, final RedditPostActions.Action action) {

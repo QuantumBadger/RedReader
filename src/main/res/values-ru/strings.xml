@@ -585,6 +585,14 @@
     <string name="action_copy_selftext">Копировать собственный текст</string>
     <string name="post_text_copied_to_clipboard">Текст сообщения скопирован в буфер обмена</string>
     <string name="notification_channel_name_reddit_messages">Входящие сообщения Reddit</string>
+
+    <!-- 2024-12-05 -->
+    <string name="pref_layout_category_title">Макет</string>
+    <string name="pref_layout_mode_title">Режим макета</string>
+    <string name="pref_layout_mode_thumbnails">Миниатюры</string>
+    <string name="pref_layout_mode_alwayspreview">Всегда Превью</string>
+    <string name="pref_layout_mode_card">Карточка</string>
+
     <string name="prefs_category_images_video">Изображения/Видео</string>
     <string name="pref_behaviour_video_mute_default_title">Видео без звука по умолчанию</string>
     <string name="pref_appearance_bottom_toolbar_title">Показывать панель инструментов внизу</string>

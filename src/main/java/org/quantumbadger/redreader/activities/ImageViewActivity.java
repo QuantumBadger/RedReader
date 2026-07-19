@@ -96,6 +96,7 @@ import org.quantumbadger.redreader.views.liststatus.ErrorView;
 import org.quantumbadger.redreader.views.video.ExoPlayerSeekableInputStreamDataSource;
 import org.quantumbadger.redreader.views.video.ExoPlayerSeekableInputStreamDataSourceFactory;
 import org.quantumbadger.redreader.views.video.ExoPlayerWrapperView;
+import org.quantumbadger.redreader.views.video.VideoGestureHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -1149,8 +1150,8 @@ public class ImageViewActivity extends ViewsBaseActivity
 			General.setLayoutMatchParent(layout);
 			General.setLayoutMatchParent(mVideoPlayerWrapper);
 
-			final BasicGestureHandler gestureHandler
-					= new BasicGestureHandler(this);
+			final VideoGestureHandler gestureHandler
+					= new VideoGestureHandler(this, mVideoPlayerWrapper);
 
 			//noinspection ClickableViewAccessibility
 			mVideoPlayerWrapper.setOnTouchListener(gestureHandler);

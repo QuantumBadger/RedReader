@@ -78,6 +78,14 @@ public class ExoPlayerWrapperView extends FrameLayout {
 	@Nullable private final TextView mSpeedTextView;
 	private float mCurrentPlaybackSpeed = 1.0f;
 
+	@NonNull private final PlayerView mVideoPlayerView;
+
+	private static final float MAX_ZOOM_SCALE = 8.0f;
+
+	private float mZoomScale = 1.0f;
+	private float mZoomTranslationX;
+	private float mZoomTranslationY;
+
 	private boolean mReleased;
 
 	public ExoPlayerWrapperView(
@@ -95,7 +103,14 @@ public class ExoPlayerWrapperView extends FrameLayout {
 				.setTrackSelector(trackSelector)
 				.build();
 
-		final PlayerView videoPlayerView = new PlayerView(context);
+		final PlayerView videoPlayerView = (PlayerView)LayoutInflater.from(context).inflate(
+				R.layout.video_player_view,
+				this,
+				false);
+		mVideoPlayerView = videoPlayerView;
+
+		videoPlayerView.setPivotX(0);
+		videoPlayerView.setPivotY(0);
 
 		addView(videoPlayerView);
 
@@ -260,6 +275,7 @@ public class ExoPlayerWrapperView extends FrameLayout {
 						R.drawable.ic_zoom_in_dark,
 						R.string.video_zoom_in,
 						v -> {
+							resetZoom();
 							if (videoPlayerView.getResizeMode()
 									== AspectRatioFrameLayout.RESIZE_MODE_FIT) {
 								videoPlayerView.setResizeMode(
@@ -424,6 +440,57 @@ public class ExoPlayerWrapperView extends FrameLayout {
 		} else {
 			mControlView.setVisibility(GONE);
 		}
+	}
+
+	public boolean isZoomedIn() {
+		return mZoomScale > 1.001f;
+	}
+
+	public void scaleBy(final float factor, final float focalX, final float focalY) {
+
+		final float newScale = Math.max(
+				1.0f,
+				Math.min(MAX_ZOOM_SCALE, mZoomScale * factor));
+
+		final float appliedFactor = newScale / mZoomScale;
+
+		// Adjust the translation so that the content under the focal point
+		// stays under the focal point as the scale changes
+		mZoomTranslationX = focalX - (focalX - mZoomTranslationX) * appliedFactor;
+		mZoomTranslationY = focalY - (focalY - mZoomTranslationY) * appliedFactor;
+
+		mZoomScale = newScale;
+
+		applyZoomTransform();
+	}
+
+	public void panBy(final float dx, final float dy) {
+		mZoomTranslationX += dx;
+		mZoomTranslationY += dy;
+		applyZoomTransform();
+	}
+
+	public void resetZoom() {
+		mZoomScale = 1.0f;
+		mZoomTranslationX = 0;
+		mZoomTranslationY = 0;
+		applyZoomTransform();
+	}
+
+	private void applyZoomTransform() {
+
+		// Clamp the translation so that the scaled view always covers the
+		// viewport (the scale pivot is the top left corner)
+		final float minTranslationX = getWidth() * (1.0f - mZoomScale);
+		final float minTranslationY = getHeight() * (1.0f - mZoomScale);
+
+		mZoomTranslationX = Math.max(minTranslationX, Math.min(0, mZoomTranslationX));
+		mZoomTranslationY = Math.max(minTranslationY, Math.min(0, mZoomTranslationY));
+
+		mVideoPlayerView.setScaleX(mZoomScale);
+		mVideoPlayerView.setScaleY(mZoomScale);
+		mVideoPlayerView.setTranslationX(mZoomTranslationX);
+		mVideoPlayerView.setTranslationY(mZoomTranslationY);
 	}
 
 	public void release() {

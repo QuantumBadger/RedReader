@@ -44,13 +44,16 @@ public class SettingsActivity extends ViewsBaseActivity {
 	}
 
 	@Override
+	protected int baseActivityNavigationBarColour() {
+		return Color.rgb(0x55, 0x55, 0x55);
+	}
+
+	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applySettingsTheme(this);
 
 		super.onCreate(savedInstanceState);
-
-		getWindow().setNavigationBarColor(Color.rgb(0x55, 0x55, 0x55));
 
 		setBaseActivityListing(R.layout.single_fragment_layout);
 

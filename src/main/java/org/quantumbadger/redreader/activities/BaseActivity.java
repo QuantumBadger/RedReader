@@ -20,13 +20,18 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
@@ -75,11 +80,13 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		mSharedPreferences = General.getSharedPrefs(this);
 
+		if (baseActivityConfiguresEdgeToEdge()) {
+			applyEdgeToEdge();
+		}
+
 		if (PrefsUtility.pref_appearance_android_status()
 				== PrefsUtility.AppearanceStatusBarMode.ALWAYS_HIDE) {
-			getWindow().setFlags(
-					WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			hideStatusBar();
 		}
 
 		if (PrefsUtility.behaviour_block_screenshots()) {
@@ -95,6 +102,63 @@ public abstract class BaseActivity extends AppCompatActivity
 		closeIfNecessary();
 
 		GlobalExceptionHandler.handleLastCrash(this);
+	}
+
+	/**
+	 * Whether this class should configure the window for edge-to-edge display.
+	 * Subclasses which call enableEdgeToEdge() themselves should return false.
+	 */
+	protected boolean baseActivityConfiguresEdgeToEdge() {
+		return true;
+	}
+
+	/**
+	 * Lays the window out edge-to-edge on all API levels, with transparent
+	 * system bars and light bar icons (matching the app's pre-edge-to-edge
+	 * appearance). Bar backgrounds are drawn by the app -- see
+	 * ViewsBaseActivity.
+	 */
+	private void applyEdgeToEdge() {
+
+		final Window window = getWindow();
+
+		WindowCompat.setDecorFitsSystemWindows(window, false);
+
+		if (Build.VERSION.SDK_INT < 35) {
+			// Deprecated and a no-op from SDK 35 onwards: bars are always
+			// transparent once edge-to-edge is enforced
+			window.setStatusBarColor(Color.TRANSPARENT);
+			window.setNavigationBarColor(Color.TRANSPARENT);
+		}
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+			// The app draws its own bar backgrounds, so the system shouldn't
+			// add a contrast scrim of its own (e.g. for 3-button navigation)
+			window.setStatusBarContrastEnforced(false);
+			window.setNavigationBarContrastEnforced(false);
+		}
+
+		final WindowInsetsControllerCompat controller
+				= WindowCompat.getInsetsController(window, window.getDecorView());
+
+		controller.setAppearanceLightStatusBars(false);
+		controller.setAppearanceLightNavigationBars(false);
+	}
+
+	protected final void hideStatusBar() {
+
+		final WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(
+				getWindow(),
+				getWindow().getDecorView());
+
+		controller.setSystemBarsBehavior(
+				WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+		controller.hide(WindowInsetsCompat.Type.statusBars());
+	}
+
+	protected final void showStatusBar() {
+		WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView())
+				.show(WindowInsetsCompat.Type.statusBars());
 	}
 
 	@Override

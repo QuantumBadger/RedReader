@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -29,6 +30,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.ColorUtils;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
@@ -162,7 +168,7 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 			mContentListing = outerView.findViewById(R.id.rr_actionbar_content_listing);
 			mContentOverlay = outerView.findViewById(R.id.rr_actionbar_content_overlay);
 
-			super.setContentView(outerView);
+			super.setContentView(wrapWithSystemBarScrims(outerView));
 			setSupportActionBar(toolbar);
 
 			final ActionBar supportActionBar = getSupportActionBarOrThrow();
@@ -198,34 +204,6 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 					baseActivityIsActionBarBackEnabled(),
 					v -> onBackPressed());
 
-			final PrefsUtility.AppearanceNavbarColour navbarColour
-					= PrefsUtility.appearance_navbar_colour();
-
-			if (navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
-				getWindow().setNavigationBarColor(Color.BLACK);
-
-			} else if (navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
-				getWindow().setNavigationBarColor(Color.WHITE);
-
-			} else {
-				final int colour;
-				{
-					final TypedArray appearance = obtainStyledAttributes(new int[]{
-							androidx.appcompat.R.attr.colorPrimary,
-							androidx.appcompat.R.attr.colorPrimaryDark});
-
-					if (navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
-						colour = appearance.getColor(0, General.COLOR_INVALID);
-					} else {
-						colour = appearance.getColor(1, General.COLOR_INVALID);
-					}
-
-					appearance.recycle();
-				}
-
-				getWindow().setNavigationBarColor(colour);
-			}
-
 		} else {
 			mContentListing = new FrameLayout(this);
 			mContentOverlay = new FrameLayout(this);
@@ -234,8 +212,145 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 			outer.addView(mContentListing);
 			outer.addView(mContentOverlay);
 
-			super.setContentView(outer);
+			super.setContentView(wrapWithSystemBarScrims(outer));
 		}
+	}
+
+	/**
+	 * The colour drawn behind the navigation bar, replicating the old
+	 * window-level navigation bar colour.
+	 */
+	protected int baseActivityNavigationBarColour() {
+
+		final PrefsUtility.AppearanceNavbarColour navbarColour
+				= PrefsUtility.appearance_navbar_colour();
+
+		if (navbarColour == PrefsUtility.AppearanceNavbarColour.BLACK) {
+			return Color.BLACK;
+
+		} else if (navbarColour == PrefsUtility.AppearanceNavbarColour.WHITE) {
+			return Color.WHITE;
+		}
+
+		final int colour;
+		{
+			final TypedArray appearance = obtainStyledAttributes(new int[]{
+					androidx.appcompat.R.attr.colorPrimary,
+					androidx.appcompat.R.attr.colorPrimaryDark});
+
+			if (navbarColour == PrefsUtility.AppearanceNavbarColour.PRIMARY) {
+				colour = appearance.getColor(0, General.COLOR_INVALID);
+			} else {
+				colour = appearance.getColor(1, General.COLOR_INVALID);
+			}
+
+			appearance.recycle();
+		}
+
+		return colour;
+	}
+
+	private View makeScrim(final int gravity) {
+		final View scrim = new View(this);
+		scrim.setLayoutParams(new FrameLayout.LayoutParams(0, 0, gravity));
+		return scrim;
+	}
+
+	private static void setScrimBounds(
+			@NonNull final View scrim,
+			final int width,
+			final int height) {
+
+		final FrameLayout.LayoutParams params
+				= (FrameLayout.LayoutParams)scrim.getLayoutParams();
+		params.width = width;
+		params.height = height;
+		scrim.setLayoutParams(params);
+	}
+
+	/**
+	 * The window is laid out edge-to-edge, so the activity content is inset by
+	 * the window insets here, and the system bar areas are painted to match
+	 * the app's pre-edge-to-edge appearance: the status bar in the theme's
+	 * colorPrimaryDark, and the navigation bar in the colour from
+	 * baseActivityNavigationBarColour().
+	 */
+	@NonNull
+	private View wrapWithSystemBarScrims(@NonNull final View content) {
+
+		final int statusBarColour;
+		{
+			final TypedArray appearance = obtainStyledAttributes(new int[]{
+					androidx.appcompat.R.attr.colorPrimaryDark});
+			statusBarColour = appearance.getColor(0, General.COLOR_INVALID);
+			appearance.recycle();
+		}
+
+		final int navBarColour = baseActivityNavigationBarColour();
+
+		WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView())
+				.setAppearanceLightNavigationBars(
+						ColorUtils.calculateLuminance(navBarColour) > 0.5);
+
+		final FrameLayout root = new FrameLayout(this);
+
+		final View scrimLeft = makeScrim(Gravity.LEFT);
+		final View scrimRight = makeScrim(Gravity.RIGHT);
+		final View scrimTop = makeScrim(Gravity.TOP);
+		final View scrimBottom = makeScrim(Gravity.BOTTOM);
+
+		root.addView(content);
+
+		// Side scrims first, so that the status/nav bar colours win in the
+		// corners, as if the horizontal bars spanned the full screen width
+		root.addView(scrimLeft);
+		root.addView(scrimRight);
+		root.addView(scrimTop);
+		root.addView(scrimBottom);
+
+		ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+
+			final Insets bars = insets.getInsets(
+					WindowInsetsCompat.Type.systemBars()
+							| WindowInsetsCompat.Type.displayCutout());
+
+			final Insets navBars
+					= insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+
+			final int imeBottom
+					= insets.getInsets(WindowInsetsCompat.Type.ime()).bottom;
+
+			final FrameLayout.LayoutParams contentParams
+					= (FrameLayout.LayoutParams)content.getLayoutParams();
+			contentParams.setMargins(
+					bars.left,
+					bars.top,
+					bars.right,
+					Math.max(bars.bottom, imeBottom));
+			content.setLayoutParams(contentParams);
+
+			// Areas which are pure display cutout (no bar drawn over them)
+			// are painted black, matching the old letterboxing behaviour
+			scrimTop.setBackgroundColor(
+					insets.isVisible(WindowInsetsCompat.Type.statusBars())
+							? statusBarColour
+							: Color.BLACK);
+			scrimBottom.setBackgroundColor(
+					navBars.bottom > 0 ? navBarColour : Color.BLACK);
+			scrimLeft.setBackgroundColor(
+					navBars.left > 0 ? navBarColour : Color.BLACK);
+			scrimRight.setBackgroundColor(
+					navBars.right > 0 ? navBarColour : Color.BLACK);
+
+			setScrimBounds(scrimTop, FrameLayout.LayoutParams.MATCH_PARENT, bars.top);
+			setScrimBounds(scrimBottom, FrameLayout.LayoutParams.MATCH_PARENT, bars.bottom);
+			setScrimBounds(scrimLeft, bars.left, FrameLayout.LayoutParams.MATCH_PARENT);
+			setScrimBounds(scrimRight, bars.right, FrameLayout.LayoutParams.MATCH_PARENT);
+
+			return WindowInsetsCompat.CONSUMED;
+		});
+
+		return root;
 	}
 
 	public void setBaseActivityListing(@NonNull final View view) {

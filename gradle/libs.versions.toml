@@ -4,9 +4,9 @@ kotlin = "2.2.21"
 java = "11"
 
 robolectric = "4.16"
-sdk-compile = "35"
+sdk-compile = "36"
 sdk-min = "21"
-sdk-target = "35"
+sdk-target = "36"
 ndk = "27.3.13750724"
 
 androidx-annotation = "1.8.0"

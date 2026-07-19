@@ -155,14 +155,42 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 		view.setWebViewClient(new WebViewClient() {
 			@Override
 			public void onPageFinished(final WebView view, final String url) {
-				// Reddit shows a "cookie preferences" dialog that can
-				// appear behind the login form but still steal focus from
-				// input fields, preventing typing. Remove it from the DOM.
+				// Reddit shows a modal cookie consent dialog which can appear
+				// behind the login form while still blocking all input to it.
+				// Dismiss it by pressing its "Reject Optional Cookies" button
+				// as soon as it appears. The button is located using its slot
+				// name, which is locale-independent. The consent UI is loaded
+				// asynchronously after the page itself, hence the polling. As
+				// a fallback, if the button can't be found after 5 seconds but
+				// the consent sheet is open, hide the sheet directly.
 				view.evaluateJavascript(
 						"(function() {"
-								+ "var el = document.getElementById("
-								+ "'data-protection-consent-wrapper');"
-								+ "if(el) el.remove();"
+								+ "if(window.rrCookieWorkaround) return;"
+								+ "window.rrCookieWorkaround = true;"
+								+ "var attempts = 0;"
+								+ "var clicked = false;"
+								+ "var timer = setInterval(function() {"
+									+ "attempts++;"
+									+ "var button = document.querySelector("
+											+ "'#data-protection-consent-dialog "
+											+ "button[slot=secondary-button]');"
+									+ "if(button) {"
+										+ "button.click();"
+										+ "clicked = true;"
+									+ "} else {"
+										+ "var sheet = document.getElementById("
+												+ "'data-protection-consent-sheet');"
+										+ "if(clicked && (!sheet || !sheet.open)) {"
+											+ "clearInterval(timer);"
+											+ "return;"
+										+ "}"
+										+ "if(attempts > 20 && sheet && sheet.open"
+												+ " && typeof sheet.hide === 'function') {"
+											+ "sheet.hide();"
+										+ "}"
+									+ "}"
+									+ "if(attempts > 120) clearInterval(timer);"
+								+ "}, 250);"
 								+ "})()",
 						null);
 			}

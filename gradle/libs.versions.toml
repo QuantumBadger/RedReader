@@ -1,5 +1,5 @@
 [versions]
-agp = "8.13.0"
+agp = "9.3.0"
 kotlin = "2.2.21"
 java = "11"
 
@@ -88,7 +88,6 @@ androidx-compose-constraintlayout = { module = "androidx.constraintlayout:constr
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }

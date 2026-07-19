@@ -25,4 +25,7 @@
 	<!-- We don't use app bundles -->
 	<issue id="AppBundleLocaleChanges" severity="ignore" />
 
+	<!-- Resource shrinking is deliberately disabled -->
+	<issue id="NotShrinkingResources" severity="ignore" />
+
 </lint>

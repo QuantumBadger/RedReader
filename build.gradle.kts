@@ -2,7 +2,6 @@
 
 plugins {
 	alias(libs.plugins.android.application)
-	alias(libs.plugins.kotlin.android)
 	alias(libs.plugins.kotlin.serialization)
 	alias(libs.plugins.kotlin.parcelize)
 	alias(libs.plugins.compose.compiler)
@@ -133,29 +132,19 @@ android {
 		animationsDisabled = true
 	}
 
-	kotlinOptions {
-		jvmTarget = libs.versions.java.get()
-
-		val buildDir = project.layout.buildDirectory.get().asFile.absolutePath
-
-		if (project.findProperty("composeCompilerReports") == "true") {
-			freeCompilerArgs += listOf(
-				"-P",
-				"plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=$buildDir/compose_compiler"
-			)
-		}
-
-		if (project.findProperty("composeCompilerMetrics") == "true") {
-			freeCompilerArgs += listOf(
-				"-P",
-				"plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=$buildDir/compose_compiler"
-			)
-		}
-	}
-
 	buildFeatures {
 		buildConfig = true
 		compose = true
+	}
+}
+
+composeCompiler {
+	if (project.findProperty("composeCompilerReports") == "true") {
+		reportsDestination = layout.buildDirectory.dir("compose_compiler")
+	}
+
+	if (project.findProperty("composeCompilerMetrics") == "true") {
+		metricsDestination = layout.buildDirectory.dir("compose_compiler")
 	}
 }
 

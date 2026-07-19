@@ -130,6 +130,9 @@ android {
 
 	testOptions {
 		animationsDisabled = true
+		unitTests {
+			isIncludeAndroidResources = true
+		}
 	}
 
 	buildFeatures {

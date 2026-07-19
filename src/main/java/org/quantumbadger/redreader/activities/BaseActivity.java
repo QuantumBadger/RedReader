@@ -122,14 +122,29 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		final Window window = getWindow();
 
+		// The first getDecorView() call runs PhoneWindow.generateLayout(),
+		// which reads the enforce*Contrast attributes back out of the theme.
+		// The decor must therefore exist before the contrast flags below are
+		// set, or they'd be silently reverted (leaving the system to draw a
+		// theme-tinted scrim over the 3-button navigation bar).
+		final WindowInsetsControllerCompat controller
+				= WindowCompat.getInsetsController(window, window.getDecorView());
+
 		WindowCompat.setDecorFitsSystemWindows(window, false);
 
 		if (Build.VERSION.SDK_INT < 35) {
-			// Deprecated and a no-op from SDK 35 onwards: bars are always
-			// transparent once edge-to-edge is enforced
+			// Deprecated and a no-op from SDK 35 onwards: the status bar is
+			// always transparent once edge-to-edge is enforced
 			window.setStatusBarColor(Color.TRANSPARENT);
-			window.setNavigationBarColor(Color.TRANSPARENT);
 		}
+
+		// Deliberately called on every API level, even though it's deprecated
+		// and draws nothing from SDK 35 onwards: it marks the nav bar colour
+		// as app-specified, which stops DecorView deriving the nav button
+		// appearance from the window background's luminance
+		// (APPEARANCE_FORCE_LIGHT_NAVIGATION_BARS) and overriding the
+		// appearance requested via the insets controller
+		window.setNavigationBarColor(Color.TRANSPARENT);
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 			// The app draws its own bar backgrounds, so the system shouldn't
@@ -137,9 +152,6 @@ public abstract class BaseActivity extends AppCompatActivity
 			window.setStatusBarContrastEnforced(false);
 			window.setNavigationBarContrastEnforced(false);
 		}
-
-		final WindowInsetsControllerCompat controller
-				= WindowCompat.getInsetsController(window, window.getDecorView());
 
 		controller.setAppearanceLightStatusBars(false);
 		controller.setAppearanceLightNavigationBars(false);

@@ -288,6 +288,13 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 
 		final int navBarColour = baseActivityNavigationBarColour();
 
+		// Report the effective nav bar colour to the system, even though the
+		// visible pixels come from the scrim view below. From SDK 35 this
+		// deprecated call draws nothing, but an opaque colour here keeps
+		// SystemUI out of "transparent bar" mode, in which it ignores
+		// the light/dark icon appearance requested below.
+		getWindow().setNavigationBarColor(navBarColour);
+
 		WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView())
 				.setAppearanceLightNavigationBars(
 						ColorUtils.calculateLuminance(navBarColour) > 0.5);

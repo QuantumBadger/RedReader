@@ -1,5 +1,6 @@
 /Alpha 367 (2026-07-19)
 Added pinch-to-zoom in video player
+Ability to specify reason when reporting
 RedGIFs links now open in the compact embedded player, instead of the full site
 
 /Alpha 366 (2026-07-19)

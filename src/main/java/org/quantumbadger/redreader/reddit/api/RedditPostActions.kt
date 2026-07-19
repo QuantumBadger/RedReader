@@ -52,6 +52,7 @@ import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog
+import org.quantumbadger.redreader.fragments.ReportDialog
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
 import org.quantumbadger.redreader.reddit.RedditAPI.RedditAction
@@ -378,14 +379,18 @@ object RedditPostActions {
 				.setNegativeButton(R.string.dialog_cancel, null)
 				.show()
 
-			Action.REPORT -> MaterialAlertDialogBuilder(activity)
-				.setTitle(R.string.action_report)
-				.setMessage(R.string.action_report_sure)
-				.setPositiveButton(
-					R.string.action_report
-				) { _, _ -> action(post, activity, RedditAPI.ACTION_REPORT) }
-				.setNegativeButton(R.string.dialog_cancel, null)
-				.show()
+			Action.REPORT -> {
+				if (RedditAccountManager.getInstance(activity).defaultAccount.isAnonymous) {
+					General.showMustBeLoggedInDialog(activity)
+				} else {
+					ReportDialog.show(
+						activity,
+						post.src.idAndType,
+						post.src.subreddit,
+						false
+					)
+				}
+			}
 
 			Action.CROSSPOST_ORIGIN -> {
 				val crosspostOriginPost = PostCommentListingURL.forPostId(post.src.isCrosspost)
@@ -1095,7 +1100,6 @@ object RedditPostActions {
 			RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src.idAndType, false)
 			RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src.idAndType, true)
 			RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src.idAndType, false)
-			RedditAPI.ACTION_REPORT -> {}
 			RedditAPI.ACTION_DELETE -> {}
 			else -> throw java.lang.RuntimeException("Unknown post action $action")
 		}
@@ -1127,7 +1131,6 @@ object RedditPostActions {
 						RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src.idAndType, false)
 						RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src.idAndType, true)
 						RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src.idAndType, false)
-						RedditAPI.ACTION_REPORT -> {}
 						RedditAPI.ACTION_DELETE -> General.quickToast(
 							activity,
 							R.string.delete_success
@@ -1153,7 +1156,6 @@ object RedditPostActions {
 						RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src.idAndType, true)
 						RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src.idAndType, false)
 						RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src.idAndType, true)
-						RedditAPI.ACTION_REPORT -> {}
 						RedditAPI.ACTION_DELETE -> {}
 						else -> throw java.lang.RuntimeException("Unknown post action $action")
 					}

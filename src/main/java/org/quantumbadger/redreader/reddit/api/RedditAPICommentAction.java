@@ -45,6 +45,7 @@ import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.CommentPropertiesDialog;
+import org.quantumbadger.redreader.fragments.ReportDialog;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
@@ -336,18 +337,20 @@ public class RedditAPICommentAction {
 
 			case REPORT:
 
-				new MaterialAlertDialogBuilder(activity)
-						.setTitle(R.string.action_report)
-						.setMessage(R.string.action_report_sure)
-						.setPositiveButton(
-								R.string.action_report,
-								(dialog, which) -> action(
-										activity,
-										comment,
-										RedditAPI.ACTION_REPORT,
-										changeDataManager))
-						.setNegativeButton(R.string.dialog_cancel, null)
-						.show();
+				if(RedditAccountManager.getInstance(activity)
+						.getDefaultAccount().isAnonymous()) {
+					General.showMustBeLoggedInDialog(activity);
+
+				} else if(comment.getSubreddit() != null) {
+					ReportDialog.show(
+							activity,
+							comment.getIdAndType(),
+							comment.getSubreddit().getDecoded(),
+							true);
+
+				} else {
+					General.quickToast(activity, R.string.error_unknown_title);
+				}
 
 				break;
 
@@ -596,7 +599,6 @@ public class RedditAPICommentAction {
 				break;
 
 			case RedditAPI.ACTION_DELETE:
-			case RedditAPI.ACTION_REPORT:
 				// No need to update the change data manager
 				break;
 
@@ -669,7 +671,6 @@ public class RedditAPICommentAction {
 								break;
 
 							case RedditAPI.ACTION_DELETE:
-							case RedditAPI.ACTION_REPORT:
 								// No need to update the change data manager
 								break;
 

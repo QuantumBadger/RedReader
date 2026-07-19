@@ -71,6 +71,14 @@ interface ComposeThemeDropdownMenu {
 	val background: Color
 }
 
+interface ComposeThemeReportFlow {
+	val title: TextStyle
+	val item: TextStyle
+	val body: TextStyle
+	val background: Color
+	val iconColor: Color
+}
+
 interface ComposeThemeError {
 	val title: TextStyle
 	val message: TextStyle
@@ -105,6 +113,7 @@ interface ComposeTheme {
 	val album: ComposeThemeAlbum
 	val error: ComposeThemeError
 	val linkButton: ComposeThemeLinkButton
+	val reportFlow: ComposeThemeReportFlow
 }
 
 @Composable
@@ -119,9 +128,12 @@ fun RRComposeContextTheme(
 	val view = LocalView.current
 	if (!view.isInEditMode) {
 		SideEffect {
-			val window = (view.context as Activity).window
-			WindowCompat.getInsetsController(window, view).apply {
-				isAppearanceLightStatusBars = themePref.lightness == ThemeLightness.Light
+			// When hosted inside a dialog, the view's context may not be an
+			// Activity, and the status bar is left alone
+			(view.context as? Activity)?.window?.let { window ->
+				WindowCompat.getInsetsController(window, view).apply {
+					isAppearanceLightStatusBars = themePref.lightness == ThemeLightness.Light
+				}
 			}
 		}
 	}
@@ -260,6 +272,29 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 			fontSize = 16.sp * prefs.appearanceFontScaleGlobal // TODO different setting
 		)
 		override val background = colorPopupBackground
+	}
+
+	override val reportFlow = object : ComposeThemeReportFlow {
+		override val title = baseTextStyle.copy(
+			color = colorText,
+			fontWeight = FontWeight.W600,
+			fontSize = 18.sp * prefs.appearanceFontScaleGlobal
+		)
+
+		override val item = baseTextStyle.copy(
+			color = colorText,
+			fontWeight = FontWeight.W500,
+			fontSize = 15.sp * prefs.appearanceFontScaleGlobal
+		)
+
+		override val body = baseTextStyle.copy(
+			color = colorSubtext,
+			fontWeight = FontWeight.W400,
+			fontSize = 14.sp * prefs.appearanceFontScaleGlobal
+		)
+
+		override val background = colorPopupBackground
+		override val iconColor = colorIcon
 	}
 
 	override val error = object : ComposeThemeError {

@@ -81,7 +81,6 @@ public final class RedditAPI {
 	public static final int ACTION_HIDE = 4;
 	public static final int ACTION_UNSAVE = 5;
 	public static final int ACTION_UNHIDE = 6;
-	public static final int ACTION_REPORT = 7;
 	public static final int ACTION_DELETE = 8;
 
 	public static final int SUBSCRIPTION_ACTION_SUBSCRIBE = 0;
@@ -95,7 +94,6 @@ public final class RedditAPI {
 			ACTION_HIDE,
 			ACTION_UNSAVE,
 			ACTION_UNHIDE,
-			ACTION_REPORT,
 			ACTION_DELETE})
 	@Retention(RetentionPolicy.SOURCE)
 	public @interface RedditAction {
@@ -552,14 +550,43 @@ public final class RedditAPI {
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_UNSAVE);
 			case ACTION_UNHIDE:
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_UNHIDE);
-			case ACTION_REPORT:
-				return Constants.Reddit.getUri(Constants.Reddit.PATH_REPORT);
 			case ACTION_DELETE:
 				return Constants.Reddit.getUri(Constants.Reddit.PATH_DELETE);
 
 			default:
 				throw new RuntimeException("Unknown post/comment action");
 		}
+	}
+
+	/**
+	 * Reports a post or comment. The reason fields should be constructed using
+	 * ReportReason.toPostFields().
+	 */
+	public static void report(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final RedditAccount user,
+			final RedditIdAndType idAndType,
+			@Nullable final String subredditName,
+			@NonNull final List<PostField> reasonFields,
+			final Context context) {
+
+		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("api_type", "json"));
+		postFields.add(new PostField("thing_id", idAndType.getValue()));
+
+		if(subredditName != null) {
+			postFields.add(new PostField("sr_name", subredditName));
+		}
+
+		postFields.addAll(reasonFields);
+
+		cm.makeRequest(createPostRequest(
+				Constants.Reddit.getUri(Constants.Reddit.PATH_REPORT),
+				user,
+				postFields,
+				context,
+				new GenericResponseHandler(responseHandler)));
 	}
 
 	public static void subscriptionAction(

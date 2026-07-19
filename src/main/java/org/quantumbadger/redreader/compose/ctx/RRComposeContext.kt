@@ -30,13 +30,13 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import org.quantumbadger.redreader.account.RedditAccountChangeListener
 import org.quantumbadger.redreader.account.RedditAccountId
 import org.quantumbadger.redreader.account.RedditAccountManager
+import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.activities.RedditTermsActivity
 import org.quantumbadger.redreader.common.AndroidCommon
 import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.LinkHandler
 import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
-import org.quantumbadger.redreader.compose.activity.ComposeBaseActivity
 import org.quantumbadger.redreader.compose.prefs.ComposePrefsSingleton
 import org.quantumbadger.redreader.compose.prefs.LocalComposePrefs
 import org.quantumbadger.redreader.compose.prefs.Preference
@@ -48,14 +48,16 @@ import org.quantumbadger.redreader.settings.SettingsActivity
 
 @Composable
 fun RRComposeContext(
-	activity: ComposeBaseActivity,
+	activity: BaseActivity,
 	content: @Composable () -> Unit
 ) {
-	var currentAccountId by remember { mutableStateOf(RedditAccountId.ANON) }
+	val accountManager = remember { RedditAccountManager.getInstance(activity) }
+
+	var currentAccountId by remember {
+		mutableStateOf(RedditAccountId(accountManager.defaultAccount.canonicalUsername))
+	}
 
 	DisposableEffect(Unit) {
-		val accountManager = RedditAccountManager.getInstance(activity)
-
 		val updateListener = RedditAccountChangeListener {
 			AndroidCommon.runOnUiThread {
 				currentAccountId = RedditAccountId(accountManager.defaultAccount.canonicalUsername)

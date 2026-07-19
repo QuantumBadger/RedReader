@@ -12,6 +12,12 @@
 	<issue id="OldTargetApi" severity="ignore" />
 	<issue id="AndroidGradlePluginVersion" severity="ignore" />
 
+	<!-- The app uses legacy back handling throughout, and does not opt in to
+	     predictive back (enableOnBackInvokedCallback is unset), so
+	     onBackPressed() is still called at runtime. Remove this when
+	     migrating to OnBackPressedDispatcher. -->
+	<issue id="GestureBackNavigation" severity="ignore" />
+
 	<!-- Too many false positives -->
 	<issue id="UnusedResources" severity="ignore" />
 

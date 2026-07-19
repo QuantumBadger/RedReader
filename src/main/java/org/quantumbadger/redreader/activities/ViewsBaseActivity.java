@@ -17,6 +17,7 @@
 
 package org.quantumbadger.redreader.activities;
 
+import android.annotation.SuppressLint;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -275,6 +276,9 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 	 * colorPrimaryDark, and the navigation bar in the colour from
 	 * baseActivityNavigationBarColour().
 	 */
+	// Window insets are physical coordinates, so the left/right scrims must
+	// stay on their physical edges regardless of layout direction
+	@SuppressLint("RtlHardcoded")
 	@NonNull
 	private View wrapWithSystemBarScrims(@NonNull final View content) {
 

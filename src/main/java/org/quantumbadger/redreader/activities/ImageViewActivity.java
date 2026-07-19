@@ -261,7 +261,8 @@ public class ImageViewActivity extends ViewsBaseActivity
 		mLayout = new FrameLayout(this);
 		mLayout.addView(progressLayout);
 
-		// No audio in the RedGIFs API
+		// The RedGIFs API no longer provides audio, so show the embedded web
+		// player instead (LinkHandler substitutes the embed URL for the link)
 		if (LinkHandler.isRedGifsImage(mUrl)) {
 			revertToWeb();
 			return;

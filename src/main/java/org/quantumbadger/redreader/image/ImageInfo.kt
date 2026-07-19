@@ -76,6 +76,9 @@ data class ImageInfo(
 
 	@JvmField val urlAudioStream: UriString? = null,
 
+	// A page containing a compact HTML player, suitable for showing in a WebView
+	@JvmField val urlEmbeddedPlayer: UriString? = null,
+
 	@JvmField val title: String? = null,
 	@JvmField val caption: String? = null,
 
@@ -358,9 +361,14 @@ data class ImageInfo(
 				throw RuntimeException("original field missing from response")
 			}
 
+			val embeddedPlayer = obj.getStringAtPath("urls", "html").orElseNull()?.let { url ->
+				UriString(url)
+			}
+
 			return ImageInfo(
 				original = original,
 				preview = preview,
+				urlEmbeddedPlayer = embeddedPlayer,
 				type = "video/mp4",
 				isAnimated = true,
 				mediaType = MediaType.VIDEO,

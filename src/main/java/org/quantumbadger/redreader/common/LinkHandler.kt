@@ -268,10 +268,13 @@ object LinkHandler {
 			}
 		}
 
+		// For RedGifs, use the compact embedded player rather than the full site
+		val browserUrl = getRedGifsEmbedUrl(normalUrlString) ?: normalUrlString
+
 		if (PrefsUtility.pref_behaviour_usecustomtabs()) {
-			openCustomTab(activity, normalUrl, post, true)
+			openCustomTab(activity, browserUrl.toUri(), post, true)
 		} else {
-			openInternalBrowser(activity, normalUrlString, post)
+			openInternalBrowser(activity, browserUrl, post)
 		}
 	}
 
@@ -534,7 +537,7 @@ object LinkHandler {
 	private val lvmePattern: Pattern = Pattern.compile(".*[^A-Za-z]livememe\\.com/(\\w+).*")
 	private val gfycatPattern: Pattern = Pattern.compile(".*[^A-Za-z]gfycat\\.com/(?:gifs/detail/)?(\\w+).*")
 	private val redgifsPattern: Pattern =
-		Pattern.compile(".*[^A-Za-z]redgifs\\.com/watch/(?:gifs/detail/)?(\\w+).*")
+		Pattern.compile(".*[^A-Za-z]redgifs\\.com/(?:watch|ifr)/(?:gifs/detail/)?(\\w+).*")
 	private val streamablePattern: Pattern = Pattern.compile(".*[^A-Za-z]streamable\\.com/(\\w+).*")
 	private val reddituploadsPattern: Pattern =
 		Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*")
@@ -546,17 +549,29 @@ object LinkHandler {
 	private val giphyPattern: Pattern = Pattern.compile(".*[^A-Za-z]giphy\\.com/gifs/(\\w+).*")
 
 	@JvmStatic
-	fun isRedGifsImage(url: UriString): Boolean {
+	fun getRedGifsId(url: UriString): String? {
 		val matchRedgifs = redgifsPattern.matcher(url.value)
 		if (matchRedgifs.find()) {
 			matchRedgifs.group(1)?.let { imgId ->
 				if (imgId.length > 5) {
-					return true
+					return imgId
 				}
 			}
 		}
 
-		return false
+		return null
+	}
+
+	@JvmStatic
+	fun isRedGifsImage(url: UriString): Boolean = getRedGifsId(url) != null
+
+	// The compact embedded player, intended for use inside a WebView -- unlike
+	// the full site, this doesn't show a cookie banner or other page furniture.
+	// The RedGifs API returns this link in the "urls.html" field, but its format
+	// is documented as permanent, so it can also be built from the gif id alone.
+	@JvmStatic
+	fun getRedGifsEmbedUrl(url: UriString): UriString? = getRedGifsId(url)?.let { imgId ->
+		UriString("https://www.redgifs.com/ifr/" + StringUtils.asciiLowercase(imgId))
 	}
 
 	@JvmStatic
@@ -873,50 +888,30 @@ object LinkHandler {
 		}
 
 		run {
-			val matchRedgifs = redgifsPattern.matcher(url.value)
-			if (matchRedgifs.find()) {
-				matchRedgifs.group(1)?.let { imgId ->
-					if (imgId.length > 5) {
-						RedgifsAPIV2.getImageInfo(
-							context,
-							imgId,
-							priority,
-							object : ImageInfoRetryListener(listener) {
-								override fun onFailure(error: RRError) {
-									Log.e(
-										"getImageInfo",
-										"RedGifs V2 failed, trying V1 ($error)",
-										error.t
-									)
+			getRedGifsId(url)?.let { imgId ->
+				// The V2 API rejects the app's credentials, so use the V1 API,
+				// which needs no auth. Fall back to V2 in case V1 is retired.
+				RedgifsAPI.getImageInfo(
+					context,
+					imgId,
+					priority,
+					object : ImageInfoRetryListener(listener) {
+						override fun onFailure(error: RRError) {
+							Log.e(
+								"getImageInfo",
+								"RedGifs V1 failed, trying V2 ($error)",
+								error.t
+							)
 
-									RedgifsAPI.getImageInfo(
-										context,
-										imgId,
-										priority,
-										object : ImageInfoRetryListener(listener) {
-											override fun onFailure(error: RRError) {
-												// Retry V2 so that the final error which is logged
-												// relates to the V2 API
-
-												Log.e(
-													"getImageInfo",
-													"RedGifs V1 also failed, retrying V2: $error",
-													error.t
-												)
-
-												RedgifsAPIV2.getImageInfo(
-													context,
-													imgId,
-													priority,
-													listener
-												)
-											}
-										})
-								}
-							})
-						return
-					}
-				}
+							RedgifsAPIV2.getImageInfo(
+								context,
+								imgId,
+								priority,
+								listener
+							)
+						}
+					})
+				return
 			}
 		}
 

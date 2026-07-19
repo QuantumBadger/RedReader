@@ -1,3 +1,6 @@
+/Alpha 367 (2026-07-19)
+RedGIFs links now open in the compact embedded player, instead of the full site
+
 /Alpha 366 (2026-07-19)
 New workaround for text field issue on Reddit's login page (caused by their cookie banner)
 Fix occasional setSpan crash when viewing comments with emote flairs

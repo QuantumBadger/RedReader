@@ -262,6 +262,10 @@ public class WebViewFragment extends Fragment
 		settings.setDomStorageEnabled(true);
 		settings.setDisplayZoomControls(false);
 
+		// Allow the RedGifs embedded player to start playback without a tap
+		settings.setMediaPlaybackRequiresUserGesture(
+				mUrl == null || !LinkHandler.isRedGifsImage(mUrl));
+
 		// TODO handle long clicks
 
 		webView.setWebChromeClient(chromeClient);
@@ -525,6 +529,7 @@ public class WebViewFragment extends Fragment
 
 		final CookieManager cookieManager = CookieManager.getInstance();
 		cookieManager.removeAllCookies(null);
+		cookieManager.flush();
 
 		super.onDestroyView();
 	}

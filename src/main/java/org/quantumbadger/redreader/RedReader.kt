@@ -15,25 +15,25 @@
  * along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package org.quantumbadger.redreader
+package org.stffnn.reddreader
 
 import android.app.Application
 import android.content.Context
 import android.os.Process
 import android.util.Log
-import org.quantumbadger.redreader.cache.CacheManager
-import org.quantumbadger.redreader.common.Alarms
-import org.quantumbadger.redreader.common.AndroidCommon
-import org.quantumbadger.redreader.common.Fonts
-import org.quantumbadger.redreader.common.GlobalConfig
-import org.quantumbadger.redreader.common.GlobalExceptionHandler
-import org.quantumbadger.redreader.common.PrefsUtility
-import org.quantumbadger.redreader.compose.prefs.ComposePrefsSingleton
-import org.quantumbadger.redreader.io.RedditChangeDataIO
-import org.quantumbadger.redreader.receivers.NewMessageChecker
-import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader
-import org.quantumbadger.redreader.reddit.api.RedditOAuth
-import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager
+import org.stffnn.reddreader.cache.CacheManager
+import org.stffnn.reddreader.common.Alarms
+import org.stffnn.reddreader.common.AndroidCommon
+import org.stffnn.reddreader.common.Fonts
+import org.stffnn.reddreader.common.GlobalConfig
+import org.stffnn.reddreader.common.GlobalExceptionHandler
+import org.stffnn.reddreader.common.PrefsUtility
+import org.stffnn.reddreader.compose.prefs.ComposePrefsSingleton
+import org.stffnn.reddreader.io.RedditChangeDataIO
+import org.stffnn.reddreader.receivers.NewMessageChecker
+import org.stffnn.reddreader.receivers.announcements.AnnouncementDownloader
+import org.stffnn.reddreader.reddit.api.RedditOAuth
+import org.stffnn.reddreader.reddit.prepared.RedditChangeDataManager
 
 class RedReader : Application() {
 

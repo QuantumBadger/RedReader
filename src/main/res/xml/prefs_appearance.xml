@@ -76,6 +76,12 @@
 
 	<PreferenceCategory android:title="@string/pref_appearance_posts_header">
 
+		<ListPreference android:title="@string/pref_appearance_post_layout_title"
+						android:key="@string/pref_appearance_post_layout_key"
+						android:entries="@array/pref_appearance_post_layout"
+						android:entryValues="@array/pref_appearance_post_layout_return"
+						android:defaultValue="list"/>
+
 		<MultiSelectListPreference
 			android:dialogTitle="@string/pref_appearance_post_subtitle_items_title"
 			android:key="@string/pref_appearance_post_subtitle_items_key"

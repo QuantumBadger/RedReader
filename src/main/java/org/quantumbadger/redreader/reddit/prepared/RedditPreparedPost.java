@@ -135,6 +135,14 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				|| "v.redd.it".equals(src.getDomain()));
 	}
 
+	// In grid ("column") mode the card image is the post's high-res preview,
+	// shown at full card width with its real aspect ratio (like other Reddit
+	// clients, e.g. Boost), rather than the tiny thumbnail. Gated on the same
+	// setting as inline previews, so NSFW/spoiler and download prefs apply.
+	public boolean shouldShowGridImage() {
+		return mShowInlinePreviews && src.getPreview(300, 0) != null;
+	}
+
 	public boolean isVideoPreview() {
 		return src.isVideoPreview();
 	}
@@ -768,6 +776,10 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 											+ error,
 									error.t);
 						}
+
+						if(thumbnailCallback != null) {
+							thumbnailCallback.thumbnailDownloadFailed(usageId);
+						}
 					}
 				}));
 	}
@@ -813,9 +825,11 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		}
 	}
 
-	// TODO handle download failure - show red "X" or something
+	// The view is notified on success (betterThumbnailAvailable) and on failure
+	// (thumbnailDownloadFailed); it decides how to render either outcome.
 	public interface ThumbnailLoadedCallback {
 		void betterThumbnailAvailable(Bitmap thumbnail, int usageId);
+		default void thumbnailDownloadFailed(int usageId) {}
 	}
 
 	public void markAsRead(final Context context) {

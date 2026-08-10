@@ -25,6 +25,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import org.quantumbadger.redreader.R;
 
@@ -35,6 +36,7 @@ public class ScrollbarRecyclerViewManager {
 	private final RecyclerView mRecyclerView;
 	private final FrameLayout mScrollbarFrame;
 	private final View mScrollbar;
+	private RecyclerView.LayoutManager mLayoutManager;
 
 	private boolean mScrollUnnecessary = false;
 
@@ -54,19 +56,20 @@ public class ScrollbarRecyclerViewManager {
 		mSwipeRefreshLayout.setEnabled(false);
 
 		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-		mRecyclerView.setLayoutManager(linearLayoutManager);
-		mRecyclerView.setHasFixedSize(true);
 		linearLayoutManager.setSmoothScrollbarEnabled(false);
+
+		mLayoutManager = linearLayoutManager;
+		mRecyclerView.setLayoutManager(mLayoutManager);
+		mRecyclerView.setHasFixedSize(true);
 
 		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
 			private void updateScroll() {
 
-				final int firstVisible
-						= linearLayoutManager.findFirstVisibleItemPosition();
-				final int lastVisible = linearLayoutManager.findLastVisibleItemPosition();
+				final int firstVisible = findFirstVisibleItemPosition();
+				final int lastVisible = findLastVisibleItemPosition();
 				final int itemsVisible = lastVisible - firstVisible + 1;
-				final int totalCount = linearLayoutManager.getItemCount();
+				final int totalCount = mLayoutManager.getItemCount();
 
 				final boolean scrollUnnecessary = (itemsVisible == totalCount);
 
@@ -116,6 +119,44 @@ public class ScrollbarRecyclerViewManager {
 				updateScroll();
 			}
 		});
+	}
+
+	// Replaces the layout manager used by the RecyclerView. The internal scrollbar
+	// logic reads positions from this layout manager, so it must be kept in sync.
+	// Grid layouts (GridLayoutManager, StaggeredGridLayoutManager) work too.
+	public void setLayoutManager(@NonNull final RecyclerView.LayoutManager layoutManager) {
+		mLayoutManager = layoutManager;
+		mRecyclerView.setLayoutManager(layoutManager);
+	}
+
+	// findFirstVisibleItemPosition()/findLastVisibleItemPosition() are only
+	// available on LinearLayoutManager; StaggeredGridLayoutManager instead
+	// provides findFirstVisibleItemPositions()/findLastVisibleItemPositions(),
+	// which return one position per column.
+	private int findFirstVisibleItemPosition() {
+		if(mLayoutManager instanceof StaggeredGridLayoutManager) {
+			final int[] positions
+					= ((StaggeredGridLayoutManager)mLayoutManager)
+							.findFirstVisibleItemPositions(null);
+			if(positions == null || positions.length == 0) {
+				return RecyclerView.NO_POSITION;
+			}
+			return positions[0];
+		}
+		return ((LinearLayoutManager)mLayoutManager).findFirstVisibleItemPosition();
+	}
+
+	private int findLastVisibleItemPosition() {
+		if(mLayoutManager instanceof StaggeredGridLayoutManager) {
+			final int[] positions
+					= ((StaggeredGridLayoutManager)mLayoutManager)
+							.findLastVisibleItemPositions(null);
+			if(positions == null || positions.length == 0) {
+				return RecyclerView.NO_POSITION;
+			}
+			return positions[0];
+		}
+		return ((LinearLayoutManager)mLayoutManager).findLastVisibleItemPosition();
 	}
 
 	public void enablePullToRefresh(@NonNull final SwipeRefreshLayout.OnRefreshListener listener) {

@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.adapters;
 import android.content.Context;
 import android.view.View;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.views.LoadingSpinnerView;
 import org.quantumbadger.redreader.views.RedditPostHeaderView;
@@ -30,7 +31,7 @@ import java.util.Collection;
 public abstract class RedditListingManager {
 
 	private final GroupedRecyclerViewAdapter mAdapter = new GroupedRecyclerViewAdapter(7);
-	private LinearLayoutManager mLayoutManager;
+	private RecyclerView.LayoutManager mLayoutManager;
 
 	private static final int GROUP_HEADER = 0;
 	private static final int GROUP_NOTIFICATIONS = 1;
@@ -53,15 +54,24 @@ public abstract class RedditListingManager {
 		mAdapter.appendToGroup(GROUP_LOADING, mLoadingItem);
 	}
 
-	public void setLayoutManager(final LinearLayoutManager layoutManager) {
+	public void setLayoutManager(final RecyclerView.LayoutManager layoutManager) {
 		General.checkThisIsUIThread();
 		mLayoutManager = layoutManager;
+
+		// In grid mode the adapter marks chrome items (headers, load-more button,
+		// loading spinner, footer errors) as spanning the full width; in list mode
+		// this is a no-op because those layout params are never used.
+		mAdapter.setFullSpanChecker(this::isGridFullSpanItem);
 	}
 
 	// Workaround for RecyclerView scrolling behaviour
 	private void doWorkaround() {
 		if(!mWorkaroundDone && mLayoutManager != null) {
-			mLayoutManager.scrollToPositionWithOffset(0, 0);
+			if(mLayoutManager instanceof LinearLayoutManager) {
+				((LinearLayoutManager)mLayoutManager).scrollToPositionWithOffset(0, 0);
+			} else {
+				mLayoutManager.scrollToPosition(0);
+			}
 			mWorkaroundDone = true;
 		}
 	}
@@ -148,5 +158,23 @@ public abstract class RedditListingManager {
 
 	public GroupedRecyclerViewAdapter.Item getItemAtPosition(final int position) {
 		return mAdapter.getItemAtPosition(position);
+	}
+
+	// Used for grid layouts: only items in GROUP_ITEMS (i.e. the posts themselves)
+	// occupy a single grid cell; headers, notifications, the load-more button,
+	// the loading spinner and footer errors span the full width.
+	public boolean isGridPostItem(final int position) {
+		return mAdapter.getGroupIdAtPosition(position) == GROUP_ITEMS;
+	}
+
+	public boolean isGridFullSpanItem(final int position) {
+
+		// Defensive: the layout manager can query positions that are temporarily
+		// out of range while the list is being updated
+		if(position >= mAdapter.getItemCount()) {
+			return true;
+		}
+
+		return !isGridPostItem(position);
 	}
 }

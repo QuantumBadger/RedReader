@@ -35,17 +35,20 @@ public class RedditPostListItem
 
 	private final RedditPreparedPost mPost;
 	private final boolean mLeftHandedMode;
+	private final boolean mGridMode;
 
 	public RedditPostListItem(
 			final RedditPreparedPost post,
 			final PostListingFragment fragment,
 			final BaseActivity activity,
-			final boolean leftHandedMode) {
+			final boolean leftHandedMode,
+			final boolean gridMode) {
 
 		mFragment = fragment;
 		mActivity = activity;
 		mPost = post;
 		mLeftHandedMode = leftHandedMode;
+		mGridMode = gridMode;
 	}
 
 	@Override
@@ -60,7 +63,8 @@ public class RedditPostListItem
 				mActivity,
 				mFragment,
 				mActivity,
-				mLeftHandedMode);
+				mLeftHandedMode,
+				mGridMode);
 
 		return new RecyclerView.ViewHolder(view) {
 		};

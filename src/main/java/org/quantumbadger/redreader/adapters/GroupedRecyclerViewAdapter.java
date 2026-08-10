@@ -17,9 +17,11 @@
 
 package org.quantumbadger.redreader.adapters;
 
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,6 +32,12 @@ import java.util.concurrent.atomic.AtomicLong;
 public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 	private static final AtomicLong ITEM_UNIQUE_ID_GENERATOR = new AtomicLong(100_000);
+
+	// Used by staggered (masonry) grid layouts to decide which items should span
+	// the full width instead of occupying a single column.
+	public interface FullSpanChecker {
+		boolean isFullSpan(final int position);
+	}
 
 	public static abstract class Item<VH extends RecyclerView.ViewHolder> {
 
@@ -54,6 +62,7 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 	private final ArrayList<Item<?>>[] mItems;
 	private final HashMap<Class<?>, Integer> mItemViewTypeMap = new HashMap<>();
 	private final HashMap<Integer, Item<?>> mViewTypeItemMap = new HashMap<>();
+	private FullSpanChecker mFullSpanChecker;
 
 	public GroupedRecyclerViewAdapter(final int groups) {
 		//noinspection unchecked
@@ -64,6 +73,10 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 		}
 
 		setHasStableIds(true);
+	}
+
+	public void setFullSpanChecker(final FullSpanChecker fullSpanChecker) {
+		mFullSpanChecker = fullSpanChecker;
 	}
 
 	private int getItemPositionInternal(final int groupId, final Item<?> item) {
@@ -168,6 +181,43 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 			@NonNull final RecyclerView.ViewHolder viewHolder,
 			final int position) {
 		getItemInternal(position).onBindViewHolderInner(viewHolder);
+
+		if(mFullSpanChecker != null) {
+			applyFullSpan(viewHolder.itemView, position);
+		}
+	}
+
+	@Override
+	public void onViewAttachedToWindow(
+			@NonNull final RecyclerView.ViewHolder viewHolder) {
+		super.onViewAttachedToWindow(viewHolder);
+
+		if(mFullSpanChecker == null) {
+			return;
+		}
+
+		final int position = viewHolder.getLayoutPosition();
+
+		if(position != RecyclerView.NO_POSITION) {
+			applyFullSpan(viewHolder.itemView, position);
+		}
+	}
+
+	// In staggered (masonry) grid layouts items are confined to a single column;
+	// chrome items (headers, loading spinners, load-more buttons, errors) must
+	// span the full width so the masonry flow isn't broken. In list mode (or any
+	// other layout manager) this is a no-op, because the layout params never are
+	// StaggeredGridLayoutManager.LayoutParams.
+	private void applyFullSpan(
+			@NonNull final View itemView,
+			final int position) {
+
+		final ViewGroup.LayoutParams layoutParams = itemView.getLayoutParams();
+
+		if(layoutParams instanceof StaggeredGridLayoutManager.LayoutParams) {
+			((StaggeredGridLayoutManager.LayoutParams)layoutParams)
+					.setFullSpan(mFullSpanChecker.isFullSpan(position));
+		}
 	}
 
 	@Override
@@ -221,6 +271,34 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
 	public Item<?> getItemAtPosition(final int position) {
 		return getItemInternal(position);
+	}
+
+	public int getGroupIdAtPosition(final int position) {
+
+		int currentPosition = 0;
+
+		for(int groupId = 0; groupId < mItems.length; groupId++) {
+
+			for(int positionInGroup = 0;
+				positionInGroup < mItems[groupId].size();
+				positionInGroup++) {
+
+				final Item<?> item = mItems[groupId].get(positionInGroup);
+
+				if(!item.mCurrentlyHidden) {
+
+					if(currentPosition == position) {
+						return groupId;
+					}
+
+					currentPosition++;
+				}
+			}
+		}
+
+		throw new RuntimeException("Item position "
+				+ position
+				+ " is too high");
 	}
 
 	public void appendToGroup(final int group, final Item<?> item) {

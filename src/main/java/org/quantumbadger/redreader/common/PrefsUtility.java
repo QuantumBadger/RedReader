@@ -683,6 +683,27 @@ public final class PrefsUtility {
 		COMMENTS
 	}
 
+	public enum AppearancePostLayout {
+		LIST(1), GRID_2(2), GRID_3(3), GRID_4(4);
+
+		public final int columnCount;
+
+		AppearancePostLayout(final int columnCount) {
+			this.columnCount = columnCount;
+		}
+	}
+
+	public static AppearancePostLayout appearance_post_layout() {
+
+		try {
+			return AppearancePostLayout.valueOf(StringUtils.asciiUppercase(getString(
+					R.string.pref_appearance_post_layout_key,
+					"list")));
+		} catch(final IllegalArgumentException e) {
+			return AppearancePostLayout.LIST;
+		}
+	}
+
 	public static EnumSet<AppearancePostSubtitleItem> appearance_post_subtitle_items() {
 
 		final Set<String> strings = getStringSet(

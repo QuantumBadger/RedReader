@@ -33,6 +33,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.quantumbadger.redreader.R;
@@ -123,6 +124,8 @@ public class PostListingFragment extends RRFragment
 	private final PostListingManager mPostListingManager;
 	private final RecyclerView mRecyclerView;
 
+	private final PrefsUtility.AppearancePostLayout mPostLayout;
+
 	private final View mOuter;
 
 	private RedditIdAndType mAfter = null;
@@ -150,6 +153,7 @@ public class PostListingFragment extends RRFragment
 		super(parent, savedInstanceState);
 
 		mPostListingManager = new PostListingManager(parent);
+		mPostLayout = PrefsUtility.appearance_post_layout();
 
 		if(savedInstanceState != null) {
 			mPreviousFirstVisibleItemPosition = savedInstanceState.getInt(
@@ -220,7 +224,27 @@ public class PostListingFragment extends RRFragment
 		}
 
 		mRecyclerView = recyclerViewManager.getRecyclerView();
-		mPostListingManager.setLayoutManager((LinearLayoutManager)mRecyclerView.getLayoutManager());
+
+		if(mPostLayout == PrefsUtility.AppearancePostLayout.LIST) {
+			mPostListingManager.setLayoutManager(
+					(LinearLayoutManager)mRecyclerView.getLayoutManager());
+
+		} else {
+			final StaggeredGridLayoutManager gridLayoutManager
+					= new StaggeredGridLayoutManager(
+							mPostLayout.columnCount,
+							StaggeredGridLayoutManager.VERTICAL);
+
+			// Unlike GridLayoutManager (where every card in a row is forced to the
+			// height of the tallest card, leaving gaps under the shorter ones),
+			// each column fills independently here, so there are no vertical gaps.
+			// Full-width chrome items (headers, load-more, spinner, errors) are
+			// handled by the adapter via StaggeredGridLayoutManager.LayoutParams
+			// setFullSpan().
+
+			recyclerViewManager.setLayoutManager(gridLayoutManager);
+			mPostListingManager.setLayoutManager(gridLayoutManager);
+		}
 
 		mRecyclerView.setAdapter(mPostListingManager.getAdapter());
 
@@ -396,13 +420,47 @@ public class PostListingFragment extends RRFragment
 
 		final Bundle bundle = new Bundle();
 
-		final LinearLayoutManager layoutManager
-				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 		bundle.putInt(
 				SAVEDSTATE_FIRST_VISIBLE_POS,
-				layoutManager.findFirstVisibleItemPosition());
+				findFirstVisibleItemPosition(mRecyclerView.getLayoutManager()));
 
 		return bundle;
+	}
+
+	// findFirstVisibleItemPosition()/findLastVisibleItemPosition() are only
+	// available on LinearLayoutManager; StaggeredGridLayoutManager instead
+	// provides findFirstVisibleItemPositions()/findLastVisibleItemPositions(),
+	// which return one position per column.
+	private int findFirstVisibleItemPosition(
+			final RecyclerView.LayoutManager layoutManager) {
+
+		if(layoutManager instanceof StaggeredGridLayoutManager) {
+			final int[] positions
+					= ((StaggeredGridLayoutManager)layoutManager)
+							.findFirstVisibleItemPositions(null);
+			if(positions == null || positions.length == 0) {
+				return RecyclerView.NO_POSITION;
+			}
+			return positions[0];
+		}
+
+		return ((LinearLayoutManager)layoutManager).findFirstVisibleItemPosition();
+	}
+
+	private int findLastVisibleItemPosition(
+			final RecyclerView.LayoutManager layoutManager) {
+
+		if(layoutManager instanceof StaggeredGridLayoutManager) {
+			final int[] positions
+					= ((StaggeredGridLayoutManager)layoutManager)
+							.findLastVisibleItemPositions(null);
+			if(positions == null || positions.length == 0) {
+				return RecyclerView.NO_POSITION;
+			}
+			return positions[0];
+		}
+
+		return ((LinearLayoutManager)layoutManager).findLastVisibleItemPosition();
 	}
 
 	public void cancel() {
@@ -509,10 +567,10 @@ public class PostListingFragment extends RRFragment
 
 		if(mReadyToDownloadMore && mAfter != null && !mAfter.equals(mLastAfter)) {
 
-			final LinearLayoutManager layoutManager
-					= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+			final RecyclerView.LayoutManager layoutManager
+					= mRecyclerView.getLayoutManager();
 
-			if((layoutManager.getItemCount() - layoutManager.findLastVisibleItemPosition()
+			if((layoutManager.getItemCount() - findLastVisibleItemPosition(layoutManager)
 					< 20
 					&& (mPostCountLimit <= 0 || mPostRefreshCount.get() > 0)
 					|| (mPreviousFirstVisibleItemPosition != null
@@ -614,13 +672,19 @@ public class PostListingFragment extends RRFragment
 			return;
 		}
 
-		final LinearLayoutManager layoutManager
-				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+		final RecyclerView.LayoutManager layoutManager
+				= mRecyclerView.getLayoutManager();
 
 		if(layoutManager.getItemCount() > mPreviousFirstVisibleItemPosition) {
-			layoutManager.scrollToPositionWithOffset(
-					mPreviousFirstVisibleItemPosition,
-					0);
+
+			if(layoutManager instanceof LinearLayoutManager) {
+				((LinearLayoutManager)layoutManager).scrollToPositionWithOffset(
+						mPreviousFirstVisibleItemPosition,
+						0);
+			} else {
+				layoutManager.scrollToPosition(mPreviousFirstVisibleItemPosition);
+			}
+
 			mPreviousFirstVisibleItemPosition = null;
 
 		} else {
@@ -898,7 +962,9 @@ public class PostListingFragment extends RRFragment
 											preparedPost,
 											PostListingFragment.this,
 											activity,
-											leftHandedMode));
+											leftHandedMode,
+											mPostLayout
+													!= PrefsUtility.AppearancePostLayout.LIST));
 
 									mPostCount++;
 									mPostRefreshCount.decrementAndGet();

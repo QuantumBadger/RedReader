@@ -27,6 +27,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,6 +81,8 @@ public final class RedditPostView extends FlingableItemView
 
 	private static final String PROMPT_PREF_KEY = "inline_image_prompt_accepted";
 
+	private static final int GRID_THUMBNAIL_HEIGHT_DP = 110;
+
 	private static final AtomicInteger sInlinePreviewsShownThisSession = new AtomicInteger(0);
 
 	private final AccessibilityActionManager mAccessibilityActionManager;
@@ -103,6 +106,11 @@ public final class RedditPostView extends FlingableItemView
 	@NonNull private final LoadingSpinnerView mImagePreviewLoadingSpinner;
 	@NonNull private final LinearLayout mFooter;
 
+	private ConstraintLayout mGridImageArea;
+	private FrameLayout mGridImageHolder;
+	private ConstraintLayout mGridPlayOverlay;
+	private LoadingSpinnerView mGridLoadingSpinner;
+
 	private int mUsageId = 0;
 
 	private final Handler thumbnailHandler;
@@ -121,6 +129,8 @@ public final class RedditPostView extends FlingableItemView
 	private final int rrPostTitleCol;
 
 	private final int mThumbnailSizePrefPixels;
+
+	private final boolean mGridMode;
 
 	@Override
 	protected void onSetItemFlingPosition(final float position) {
@@ -185,10 +195,12 @@ public final class RedditPostView extends FlingableItemView
 			final Context context,
 			final PostListingFragment fragmentParent,
 			final BaseActivity activity,
-			final boolean leftHandedMode) {
+			final boolean leftHandedMode,
+			final boolean gridMode) {
 
 		super(context);
 		mActivity = activity;
+		mGridMode = gridMode;
 
 		mAccessibilityActionManager = new AccessibilityActionManager(
 				this,
@@ -200,7 +212,17 @@ public final class RedditPostView extends FlingableItemView
 				if(mUsageId != msg.what) {
 					return;
 				}
+				if(msg.obj == null) {
+					// Thumbnail download failed
+					if(mGridMode) {
+						mGridLoadingSpinner.setVisibility(GONE);
+					}
+					return;
+				}
 				mThumbnailView.setImageBitmap((Bitmap)msg.obj);
+				if(mGridMode) {
+					mGridLoadingSpinner.setVisibility(GONE);
+				}
 			}
 		};
 
@@ -210,7 +232,10 @@ public final class RedditPostView extends FlingableItemView
 		final float subtitleFontScale = PrefsUtility.appearance_fontscale_post_subtitles();
 
 		final View rootView =
-				LayoutInflater.from(context).inflate(R.layout.reddit_post, this, true);
+				LayoutInflater.from(context).inflate(
+						mGridMode ? R.layout.reddit_post_grid : R.layout.reddit_post,
+						this,
+						true);
 
 		mOuterView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_layout_outer));
 		mInnerView = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_layout_inner));
@@ -235,6 +260,25 @@ public final class RedditPostView extends FlingableItemView
 		mImagePreviewLoadingSpinner = new LoadingSpinnerView(activity);
 		mImagePreviewHolder.addView(mImagePreviewLoadingSpinner);
 
+		if(mGridMode) {
+			mGridImageArea = Objects.requireNonNull(
+					rootView.findViewById(R.id.reddit_post_grid_image_area));
+
+			mGridImageHolder = Objects.requireNonNull(
+					rootView.findViewById(R.id.reddit_post_grid_image_holder));
+
+			mGridPlayOverlay = Objects.requireNonNull(
+					rootView.findViewById(R.id.reddit_post_grid_play_overlay));
+
+			mGridLoadingSpinner = new LoadingSpinnerView(activity);
+			final FrameLayout.LayoutParams gridSpinnerLayoutParams
+					= new FrameLayout.LayoutParams(
+							FrameLayout.LayoutParams.WRAP_CONTENT,
+							FrameLayout.LayoutParams.WRAP_CONTENT,
+							Gravity.CENTER);
+			mGridImageHolder.addView(mGridLoadingSpinner, gridSpinnerLayoutParams);
+		}
+
 		mThumbnailView = Objects.requireNonNull(
 				rootView.findViewById(R.id.reddit_post_thumbnail_view));
 
@@ -254,7 +298,9 @@ public final class RedditPostView extends FlingableItemView
 			mInnerView.removeView(mCommentsButton);
 		}
 
-		if(leftHandedMode) {
+		// The elements in the layout below get reversed in left-hand mode. This only
+		// makes sense for the horizontal list layout, not for the vertical grid cards.
+		if(leftHandedMode && !mGridMode) {
 			final ArrayList<View> innerViewElements = new ArrayList<>(3);
 			for(int i = mInnerView.getChildCount() - 1; i >= 0; i--) {
 				innerViewElements.add(mInnerView.getChildAt(i));
@@ -364,9 +410,10 @@ public final class RedditPostView extends FlingableItemView
 				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
 			}
 
-			final boolean showInlinePreview = newPost.shouldShowInlinePreview();
+			final boolean showInlinePreview = !mGridMode && newPost.shouldShowInlinePreview();
+			final boolean showGridImage = mGridMode && newPost.shouldShowGridImage();
 
-			final boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
+			final boolean showThumbnail = !showInlinePreview && !showGridImage && newPost.hasThumbnail;
 
 			if(showInlinePreview) {
 				downloadInlinePreview(newPost, mUsageId);
@@ -377,12 +424,30 @@ public final class RedditPostView extends FlingableItemView
 				setBottomMargin(false);
 			}
 
-			if(showThumbnail) {
+			if(mGridMode) {
+
+				if(showGridImage) {
+					// Full-width high-res preview with the image's real aspect ratio
+					mGridImageArea.setVisibility(VISIBLE);
+					downloadGridPreview(newPost, mUsageId);
+
+				} else if(showThumbnail) {
+					// Fall back to a fixed-height strip of the small thumbnail
+					mGridImageArea.setVisibility(VISIBLE);
+					showGridFallbackThumbnail(newPost, mUsageId);
+
+				} else {
+					mGridImageArea.setVisibility(GONE);
+					mInnerView.setMinimumHeight(General.dpToPixels(mActivity, 64));
+				}
+
+			} else if(showThumbnail) {
 
 				final Bitmap thumbnail = newPost.getThumbnail(this, mUsageId);
 				mThumbnailView.setImageBitmap(thumbnail);
 
 				mThumbnailView.setVisibility(VISIBLE);
+
 				mThumbnailView.setMinimumWidth(mThumbnailSizePrefPixels);
 
 				General.setLayoutWidthHeight(
@@ -468,6 +533,14 @@ public final class RedditPostView extends FlingableItemView
 			final int callbackUsageId) {
 		final Message msg = Message.obtain();
 		msg.obj = thumbnail;
+		msg.what = callbackUsageId;
+		thumbnailHandler.sendMessage(msg);
+	}
+
+	@Override
+	public void thumbnailDownloadFailed(final int callbackUsageId) {
+		final Message msg = Message.obtain();
+		msg.obj = null;
 		msg.what = callbackUsageId;
 		thumbnailHandler.sendMessage(msg);
 	}
@@ -625,6 +698,164 @@ public final class RedditPostView extends FlingableItemView
 					}
 				}
 		));
+	}
+
+	private void downloadGridPreview(
+			@NonNull final RedditPreparedPost post,
+			final int usageId) {
+
+		final Rect windowVisibleDisplayFrame
+				= DisplayUtils.getWindowVisibleDisplayFrame(mActivity);
+
+		// Grid cells are a fraction of the screen width (2-4 columns)
+		final int previewWidth = Math.max(320, windowVisibleDisplayFrame.width() / 2);
+
+		final RedditParsedPost.ImagePreviewDetails preview
+				= post.src.getPreview(previewWidth, 0);
+
+		if(preview == null || preview.width < 10 || preview.height < 10) {
+			showGridFallbackThumbnail(post, usageId);
+			return;
+		}
+
+		mThumbnailView.setVisibility(VISIBLE);
+
+		// Size the card image to the image's real aspect ratio, capping the
+		// height so very tall images don't produce absurdly tall cards. Reset the
+		// holder to a constraint-sized height so the ratio is actually applied
+		// (a previous bind may have left an explicit fixed height behind).
+		final ConstraintLayout.LayoutParams imageHolderLayoutParams
+				= (ConstraintLayout.LayoutParams)mGridImageHolder.getLayoutParams();
+
+		imageHolderLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		imageHolderLayoutParams.height = 0;
+
+		final float aspectRatio = (float)preview.width / (float)preview.height;
+		imageHolderLayoutParams.dimensionRatio
+				= String.valueOf(Math.max(aspectRatio, 0.67f));
+		mGridImageHolder.setLayoutParams(imageHolderLayoutParams);
+
+		mGridLoadingSpinner.setVisibility(VISIBLE);
+		mGridPlayOverlay.setVisibility(GONE);
+
+		CacheManager.getInstance(mActivity).makeRequest(new CacheRequest(
+				preview.url,
+				RedditAccountManager.getAnon(),
+				null,
+				new Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
+				DownloadStrategyIfNotCached.INSTANCE,
+				Constants.FileType.INLINE_IMAGE_PREVIEW,
+				CacheRequest.DownloadQueueType.IMMEDIATE,
+				mActivity,
+				new CacheRequestCallbacks() {
+					@Override
+					public void onDataStreamComplete(
+							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
+							final TimestampUTC timestamp,
+							@NonNull final UUID session,
+							final boolean fromCache,
+							@Nullable final String mimetype) {
+
+						if(usageId != mUsageId) {
+							return;
+						}
+
+						try(InputStream is = stream.create()) {
+
+							final Bitmap data = BitmapFactory.decodeStream(is);
+
+							if(data == null) {
+								throw new IOException("Failed to decode bitmap");
+							}
+
+							// Avoid a crash on badly behaving Android ROMs (where
+							// the ImageView crashes if an image is too big)
+							if(data.getByteCount() > 50 * 1024 * 1024) {
+								throw new RuntimeException("Image was too large: "
+										+ data.getByteCount()
+										+ ", preview URL was "
+										+ preview.url
+										+ " and post was "
+										+ post.src.getIdAndType());
+							}
+
+							final boolean isVideoPreview = post.isVideoPreview();
+
+							AndroidCommon.runOnUiThread(() -> {
+
+								if(usageId != mUsageId) {
+									return;
+								}
+
+								mThumbnailView.setImageBitmap(data);
+								mGridLoadingSpinner.setVisibility(GONE);
+
+								if(isVideoPreview) {
+									mGridPlayOverlay.setVisibility(VISIBLE);
+								}
+							});
+
+						} catch(final Throwable t) {
+							onFailure(General.getGeneralErrorForFailure(
+									mActivity,
+									CacheRequest.RequestFailureType.CONNECTION,
+									t,
+									null,
+									preview.url,
+									Optional.empty()));
+						}
+					}
+
+					@Override
+					public void onFailure(@NonNull final RRError error) {
+
+						if(usageId != mUsageId) {
+							return;
+						}
+
+						Log.e(TAG, "Failed to download grid preview: " + error, error.t);
+
+						AndroidCommon.runOnUiThread(() -> {
+							if(usageId != mUsageId) {
+								return;
+							}
+							showGridFallbackThumbnail(post, usageId);
+						});
+					}
+				}
+		));
+	}
+
+	private void showGridFallbackThumbnail(
+			@NonNull final RedditPreparedPost post,
+			final int usageId) {
+
+		mGridLoadingSpinner.setVisibility(GONE);
+		mGridPlayOverlay.setVisibility(GONE);
+
+		// A fixed-height strip, as used before the high-res grid previews
+		final ConstraintLayout.LayoutParams imageHolderLayoutParams
+				= (ConstraintLayout.LayoutParams)mGridImageHolder.getLayoutParams();
+
+		imageHolderLayoutParams.dimensionRatio = null;
+		mGridImageHolder.setLayoutParams(imageHolderLayoutParams);
+
+		General.setLayoutWidthHeight(
+				mGridImageHolder,
+				ViewGroup.LayoutParams.MATCH_PARENT,
+				General.dpToPixels(mActivity, GRID_THUMBNAIL_HEIGHT_DP));
+
+		final Bitmap thumbnail = post.getThumbnail(this, usageId);
+		mThumbnailView.setImageBitmap(thumbnail);
+		mThumbnailView.setVisibility(VISIBLE);
+
+		// Only show the spinner when a thumbnail download is actually in flight:
+		// for preview-enabled posts the constructor skips the thumbnail download,
+		// and showing a spinner that can never resolve is worse than the fallback
+		// background.
+		if(thumbnail == null && post.hasThumbnail && !post.shouldShowInlinePreview()) {
+			mGridLoadingSpinner.setVisibility(VISIBLE);
+		}
 	}
 
 	private void showPrefPrompt() {

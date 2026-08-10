@@ -31,6 +31,21 @@
         <item>force</item>
     </string-array>
 
+    <string-array name="pref_appearance_post_layout">
+        <item>@string/pref_appearance_post_layout_list</item>
+        <item>@string/pref_appearance_post_layout_grid_2</item>
+        <item>@string/pref_appearance_post_layout_grid_3</item>
+        <item>@string/pref_appearance_post_layout_grid_4</item>
+    </string-array>
+
+    <!-- Constants. Do not change. -->
+    <string-array name="pref_appearance_post_layout_return">
+        <item>list</item>
+        <item>grid_2</item>
+        <item>grid_3</item>
+        <item>grid_4</item>
+    </string-array>
+
     <string-array name="pref_behaviour_fling_post_actions">
         <item>@string/action_upvote</item>
         <item>@string/action_downvote</item>

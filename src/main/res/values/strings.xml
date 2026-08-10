@@ -1114,6 +1114,12 @@
 
 	<!-- 2020-02-04 -->
 	<string name="pref_appearance_posts_header">Posts</string>
+	<string name="pref_appearance_post_layout_key" translatable="false">pref_appearance_post_layout</string>
+	<string name="pref_appearance_post_layout_title">Post layout</string>
+	<string name="pref_appearance_post_layout_list">List (1 column)</string>
+	<string name="pref_appearance_post_layout_grid_2">Grid (2 columns)</string>
+	<string name="pref_appearance_post_layout_grid_3">Grid (3 columns)</string>
+	<string name="pref_appearance_post_layout_grid_4">Grid (4 columns)</string>
 	<string name="pref_appearance_post_subtitle_items_key" translatable="false">pref_appearance_post_subtitle_items_key</string>
 	<string name="pref_appearance_post_subtitle_items_title">Post subtitle entries</string>
 	<string name="pref_appearance_post_subtitle_items_sticky">Sticky tag</string>

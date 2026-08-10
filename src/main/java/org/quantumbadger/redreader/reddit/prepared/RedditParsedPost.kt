@@ -190,6 +190,11 @@ class RedditParsedPost(
 			minHeight)
 	}
 
+    // Number of images in a gallery ("multiple images") post, 0 otherwise.
+    fun getGalleryImageCount(): Int {
+		return src.gallery_data?.items?.size ?: 0
+	}
+
     private fun getPreviewInternal(
 		source: RedditPost.Preview.ImageDetails?,
 		resolutions: List<RedditPost.Preview.ImageDetails>?,

@@ -67,7 +67,7 @@
 							android:id="@+id/reddit_post_thumbnail_view"
 							android:layout_width="match_parent"
 							android:layout_height="match_parent"
-							android:scaleType="centerCrop"
+							android:scaleType="fitCenter"
 							tools:ignore="ContentDescription"/>
 
 					<androidx.constraintlayout.widget.ConstraintLayout
@@ -98,6 +98,23 @@
 								tools:ignore="ContentDescription"/>
 
 					</androidx.constraintlayout.widget.ConstraintLayout>
+
+					<!-- Shows [1/N] for gallery (multi-image) posts -->
+					<com.google.android.material.textview.MaterialTextView
+							android:id="@+id/reddit_post_grid_image_count"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_gravity="bottom|end"
+							android:layout_margin="4dp"
+							android:background="#99000000"
+							android:paddingLeft="4dp"
+							android:paddingRight="4dp"
+							android:paddingTop="1dp"
+							android:paddingBottom="1dp"
+							android:textColor="#FFFFFF"
+							android:textSize="10sp"
+							android:visibility="gone"
+							tools:ignore="SmallSp"/>
 
 				</FrameLayout>
 
@@ -159,8 +176,27 @@
 					android:background="?rrPostCommentsButtonBackCol">
 
 				<ImageView
+						android:id="@+id/reddit_post_score_icon"
 						android:layout_width="18dp"
 						android:layout_height="18dp"
+						android:src="?rrIconArrowUpBold"
+						android:scaleType="fitCenter"
+						android:contentDescription="@string/action_upvote"/>
+
+				<com.google.android.material.textview.MaterialTextView
+						android:id="@+id/reddit_post_score_text"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="4dp"
+						android:gravity="center"
+						android:textSize="11sp"
+						android:textColor="?rrPostCommentsButtonTextCol"
+						tools:ignore="SmallSp"/>
+
+				<ImageView
+						android:layout_width="18dp"
+						android:layout_height="18dp"
+						android:layout_marginLeft="10dp"
 						android:src="?rrIconComments"
 						android:scaleType="fitCenter"
 						android:contentDescription="@string/action_comments"/>

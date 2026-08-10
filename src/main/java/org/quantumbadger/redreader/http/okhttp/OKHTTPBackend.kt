@@ -36,6 +36,7 @@ import org.quantumbadger.redreader.common.General.isSensitiveDebugLoggingEnabled
 import org.quantumbadger.redreader.common.Optional
 import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.RRError
+import org.quantumbadger.redreader.common.RedReaderPicasso
 import org.quantumbadger.redreader.common.Result
 import org.quantumbadger.redreader.common.TorCommon
 import org.quantumbadger.redreader.common.UriString
@@ -125,6 +126,10 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 	@Synchronized
 	override fun recreateHttpBackend() {
 		httpBackend = OKHTTPBackend()
+
+		// Rebuild Picasso with the new client so image downloads keep using the
+		// current proxy/Tor configuration.
+		RedReaderPicasso.recreate()
 	}
 
 	override fun resolveRedirectUri(
@@ -324,6 +329,10 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 				httpBackend = OKHTTPBackend()
 			}
 			return httpBackend!!
+		}
+
+		fun getClient(): OkHttpClient {
+			return (getHttpBackend() as OKHTTPBackend).mClient
 		}
 	}
 }

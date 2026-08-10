@@ -22,6 +22,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -42,6 +43,10 @@ import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
@@ -54,11 +59,14 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.DisplayUtils;
 import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.GenericFactory;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.Priority;
+import org.quantumbadger.redreader.common.RedReaderPicasso;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
@@ -98,6 +106,8 @@ public final class RedditPostView extends FlingableItemView
 	@NonNull private final LinearLayout mInnerView;
 	@NonNull private final LinearLayout mCommentsButton;
 	@NonNull private final TextView mCommentsText;
+	@Nullable private TextView mScoreText = null;
+	@Nullable private TextView mGridImageCount = null;
 	@NonNull private final LinearLayout mPostErrors;
 	@NonNull private final FrameLayout mImagePreviewHolder;
 	@NonNull private final ImageView mImagePreviewImageView;
@@ -277,6 +287,9 @@ public final class RedditPostView extends FlingableItemView
 							FrameLayout.LayoutParams.WRAP_CONTENT,
 							Gravity.CENTER);
 			mGridImageHolder.addView(mGridLoadingSpinner, gridSpinnerLayoutParams);
+
+			mGridImageCount = Objects.requireNonNull(
+					rootView.findViewById(R.id.reddit_post_grid_image_count));
 		}
 
 		mThumbnailView = Objects.requireNonNull(
@@ -293,6 +306,7 @@ public final class RedditPostView extends FlingableItemView
 
 		mCommentsButton = rootView.findViewById(R.id.reddit_post_comments_button);
 		mCommentsText = mCommentsButton.findViewById(R.id.reddit_post_comments_text);
+		mScoreText = mCommentsButton.findViewById(R.id.reddit_post_score_text);
 
 		if(!mCommentsButtonPref) {
 			mInnerView.removeView(mCommentsButton);
@@ -403,6 +417,11 @@ public final class RedditPostView extends FlingableItemView
 
 			mUsageId++;
 
+			// Cancel any in-flight grid image load for this view, so a stale
+			// request from a previous bind can't paint over the new post's
+			// content (Picasso only cancels when a new request targets the view).
+			RedReaderPicasso.INSTANCE.get(mActivity).cancelRequest(mThumbnailView);
+
 			resetSwipeState();
 
 			title.setText(newPost.src.getTitle());
@@ -432,9 +451,10 @@ public final class RedditPostView extends FlingableItemView
 					downloadGridPreview(newPost, mUsageId);
 
 				} else if(showThumbnail) {
-					// Fall back to a fixed-height strip of the small thumbnail
+					// Try the linked image first (for posts that link directly to an
+					// image but have no preview data), falling back to the strip.
 					mGridImageArea.setVisibility(VISIBLE);
-					showGridFallbackThumbnail(newPost, mUsageId);
+					downloadGridFallbackImage(newPost, mUsageId);
 
 				} else {
 					mGridImageArea.setVisibility(GONE);
@@ -461,6 +481,24 @@ public final class RedditPostView extends FlingableItemView
 				mThumbnailView.setMinimumWidth(0);
 				mThumbnailView.setVisibility(GONE);
 				mInnerView.setMinimumHeight(General.dpToPixels(mActivity, 64));
+			}
+
+			if(mGridMode) {
+				// Grid card footer: upvote count and multi-image indicator
+				if(mScoreText != null) {
+					mScoreText.setText(formatScore(newPost.computeScore()));
+				}
+
+				if(mGridImageCount != null) {
+					final int imageCount = newPost.src.getGalleryImageCount();
+
+					if(imageCount > 1) {
+						mGridImageCount.setText("[1/" + imageCount + "]");
+						mGridImageCount.setVisibility(VISIBLE);
+					} else {
+						mGridImageCount.setVisibility(GONE);
+					}
+				}
 			}
 		}
 
@@ -493,7 +531,9 @@ public final class RedditPostView extends FlingableItemView
 
 		title.setContentDescription(mPost.buildAccessibilityTitle(mActivity, false));
 
-		subtitle.setText(mPost.buildSubtitle(mActivity, false));
+		subtitle.setText(mGridMode
+				? mPost.buildSubtitle(mActivity, false, false)
+				: mPost.buildSubtitle(mActivity, false));
 		subtitle.setContentDescription(mPost.buildAccessibilitySubtitle(mActivity, false));
 
 		boolean overlayVisible = true;
@@ -720,110 +760,190 @@ public final class RedditPostView extends FlingableItemView
 
 		mThumbnailView.setVisibility(VISIBLE);
 
-		// Size the card image to the image's real aspect ratio, capping the
-		// height so very tall images don't produce absurdly tall cards. Reset the
-		// holder to a constraint-sized height so the ratio is actually applied
-		// (a previous bind may have left an explicit fixed height behind).
+		// Size the card image to the image's real aspect ratio, so the whole
+		// image is visible without cropping. Reset the holder to a
+		// constraint-sized height so the ratio is actually applied (a previous
+		// bind may have left an explicit fixed height behind).
 		final ConstraintLayout.LayoutParams imageHolderLayoutParams
 				= (ConstraintLayout.LayoutParams)mGridImageHolder.getLayoutParams();
 
 		imageHolderLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
 		imageHolderLayoutParams.height = 0;
 
-		final float aspectRatio = (float)preview.width / (float)preview.height;
 		imageHolderLayoutParams.dimensionRatio
-				= String.valueOf(Math.max(aspectRatio, 0.67f));
+				= String.valueOf((float)preview.width / (float)preview.height);
 		mGridImageHolder.setLayoutParams(imageHolderLayoutParams);
 
 		mGridLoadingSpinner.setVisibility(VISIBLE);
 		mGridPlayOverlay.setVisibility(GONE);
 
-		CacheManager.getInstance(mActivity).makeRequest(new CacheRequest(
-				preview.url,
-				RedditAccountManager.getAnon(),
-				null,
-				new Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
-				DownloadStrategyIfNotCached.INSTANCE,
-				Constants.FileType.INLINE_IMAGE_PREVIEW,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				mActivity,
-				new CacheRequestCallbacks() {
+		// Load the preview through Picasso with fit(), which downsamples the
+		// decoded bitmap to the card's actual size (a fraction of the screen
+		// width) instead of decoding the full-resolution image into memory.
+		RedReaderPicasso.INSTANCE.get(mActivity)
+				.load(preview.url.value)
+				.fit()
+				.centerInside()
+				.into(mThumbnailView, new Callback() {
 					@Override
-					public void onDataStreamComplete(
-							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache,
-							@Nullable final String mimetype) {
+					public void onSuccess() {
 
 						if(usageId != mUsageId) {
 							return;
 						}
 
-						try(InputStream is = stream.create()) {
+						mGridLoadingSpinner.setVisibility(GONE);
 
-							final Bitmap data = BitmapFactory.decodeStream(is);
-
-							if(data == null) {
-								throw new IOException("Failed to decode bitmap");
-							}
-
-							// Avoid a crash on badly behaving Android ROMs (where
-							// the ImageView crashes if an image is too big)
-							if(data.getByteCount() > 50 * 1024 * 1024) {
-								throw new RuntimeException("Image was too large: "
-										+ data.getByteCount()
-										+ ", preview URL was "
-										+ preview.url
-										+ " and post was "
-										+ post.src.getIdAndType());
-							}
-
-							final boolean isVideoPreview = post.isVideoPreview();
-
-							AndroidCommon.runOnUiThread(() -> {
-
-								if(usageId != mUsageId) {
-									return;
-								}
-
-								mThumbnailView.setImageBitmap(data);
-								mGridLoadingSpinner.setVisibility(GONE);
-
-								if(isVideoPreview) {
-									mGridPlayOverlay.setVisibility(VISIBLE);
-								}
-							});
-
-						} catch(final Throwable t) {
-							onFailure(General.getGeneralErrorForFailure(
-									mActivity,
-									CacheRequest.RequestFailureType.CONNECTION,
-									t,
-									null,
-									preview.url,
-									Optional.empty()));
+						if(post.isVideoPreview()) {
+							mGridPlayOverlay.setVisibility(VISIBLE);
 						}
 					}
 
 					@Override
-					public void onFailure(@NonNull final RRError error) {
+					public void onError(final Exception e) {
 
 						if(usageId != mUsageId) {
 							return;
 						}
 
-						Log.e(TAG, "Failed to download grid preview: " + error, error.t);
+						Log.e(TAG, "Failed to download grid preview: " + e, e);
 
-						AndroidCommon.runOnUiThread(() -> {
-							if(usageId != mUsageId) {
-								return;
-							}
+						showGridFallbackThumbnail(post, usageId);
+					}
+				});
+	}
+
+	// For posts where reddit didn't include usable preview data but the post
+	// links directly to an image (e.g. a preview.redd.it URL): fetch the image
+	// itself and display it at the card width with its real aspect ratio,
+	// instead of the small fixed-height thumbnail strip.
+	private void downloadGridFallbackImage(
+			@NonNull final RedditPreparedPost post,
+			final int usageId) {
+
+		if(!post.shouldShowGridImageFallback()) {
+			showGridFallbackThumbnail(post, usageId);
+			return;
+		}
+
+		final UriString url = post.src.getUrl();
+
+		if(url == null || !LinkHandler.isProbablyAnImage(url)) {
+			showGridFallbackThumbnail(post, usageId);
+			return;
+		}
+
+		mThumbnailView.setVisibility(VISIBLE);
+		mGridLoadingSpinner.setVisibility(VISIBLE);
+		mGridPlayOverlay.setVisibility(GONE);
+
+		// Provisional square aspect ratio, corrected once the image is loaded.
+		// Reset the holder to a constraint-sized height so the ratio actually
+		// applies (a previous bind may have left an explicit fixed height).
+		final ConstraintLayout.LayoutParams imageHolderLayoutParams
+				= (ConstraintLayout.LayoutParams)mGridImageHolder.getLayoutParams();
+
+		imageHolderLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+		imageHolderLayoutParams.height = 0;
+		imageHolderLayoutParams.dimensionRatio = "1:1";
+		mGridImageHolder.setLayoutParams(imageHolderLayoutParams);
+
+		// Decode at roughly the card size rather than the full-resolution
+		// image, so memory stays low; the loaded bitmap's dimensions give the
+		// image's real aspect ratio.
+		final Rect windowVisibleDisplayFrame
+				= DisplayUtils.getWindowVisibleDisplayFrame(mActivity);
+
+		final int targetSize = Math.max(320, windowVisibleDisplayFrame.width() / 2);
+
+		RedReaderPicasso.INSTANCE.get(mActivity)
+				.load(url.value)
+				.resize(targetSize, targetSize)
+				.centerInside()
+				.onlyScaleDown()
+				.into(new Target() {
+
+					@Override
+					public void onBitmapLoaded(
+							@NonNull final Bitmap bitmap,
+							@NonNull final Picasso.LoadedFrom from) {
+
+						if(usageId != mUsageId) {
+							return;
+						}
+
+						final int width = bitmap.getWidth();
+						final int height = bitmap.getHeight();
+
+						if(width < 10 || height < 10) {
 							showGridFallbackThumbnail(post, usageId);
-						});
+							return;
+						}
+
+						imageHolderLayoutParams.dimensionRatio
+								= String.valueOf((float)width / (float)height);
+						mGridImageHolder.setLayoutParams(imageHolderLayoutParams);
+
+						mThumbnailView.setImageBitmap(bitmap);
+						mGridLoadingSpinner.setVisibility(GONE);
+
+						if(post.isVideoPreview()) {
+							mGridPlayOverlay.setVisibility(VISIBLE);
+						}
 					}
-				}
-		));
+
+					@Override
+					public void onBitmapFailed(
+							@NonNull final Exception e,
+							@Nullable final Drawable errorDrawable) {
+
+						if(usageId != mUsageId) {
+							return;
+						}
+
+						Log.e(TAG, "Failed to download grid fallback image: " + e, e);
+
+						showGridFallbackThumbnail(post, usageId);
+					}
+
+					@Override
+					public void onPrepareLoad(
+							@Nullable final Drawable placeHolderDrawable) {
+
+						// The loading spinner is already shown
+					}
+				});
+	}
+
+	// Formats a post score compactly, e.g. 23567 -> "23.6K", 1500 -> "1.5K",
+	// 1234567 -> "1.2M", and smaller scores as plain numbers.
+	private static String formatScore(final int score) {
+
+		final boolean negative = score < 0;
+		final long absolute = Math.abs((long)score);
+
+		final String result;
+		if(absolute >= 1_000_000L) {
+			result = formatCompact(absolute / 1_000_000.0, "M");
+		} else if(absolute >= 1_000L) {
+			final String compact = formatCompact(absolute / 1_000.0, "K");
+			result = "1000K".equals(compact) ? "1M" : compact;
+		} else {
+			result = String.valueOf(absolute);
+		}
+
+		return negative ? "-" + result : result;
+	}
+
+	private static String formatCompact(final double value, final String suffix) {
+
+		final long tenths = Math.round(value * 10.0);
+
+		if(tenths % 10 == 0) {
+			return (tenths / 10) + suffix;
+		}
+
+		return (tenths / 10.0) + suffix;
 	}
 
 	private void showGridFallbackThumbnail(

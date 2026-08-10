@@ -44,6 +44,7 @@ dependencies {
 	implementation(libs.commons.text)
 
 	implementation(libs.okhttp)
+	implementation(libs.picasso)
 	implementation(libs.netcipher.webkit)
 	implementation(libs.media3.exoplayer)
 	implementation(libs.media3.ui)

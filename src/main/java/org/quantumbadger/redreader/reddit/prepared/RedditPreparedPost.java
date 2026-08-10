@@ -143,6 +143,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return mShowInlinePreviews && src.getPreview(300, 0) != null;
 	}
 
+	// For posts where reddit provided no preview data (so shouldShowGridImage()
+	// is false) but the post links directly to an image: whether to fetch and
+	// display that image, gated on the same setting as grid card images.
+	public boolean shouldShowGridImageFallback() {
+		return mShowInlinePreviews;
+	}
+
 	public boolean isVideoPreview() {
 		return src.isVideoPreview();
 	}
@@ -167,6 +174,13 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	public SpannableStringBuilder buildSubtitle(
 			final Context context,
 			final boolean headerMode) {
+		return buildSubtitle(context, headerMode, true);
+	}
+
+	public SpannableStringBuilder buildSubtitle(
+			final Context context,
+			final boolean headerMode,
+			final boolean includeScore) {
 
 		final EnumSet<PrefsUtility.AppearancePostSubtitleItem> mPostSubtitleItems;
 		final int mPostAgeUnits;
@@ -310,7 +324,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 					0);
 		}
 
-		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
+		if(includeScore
+				&& mPostSubtitleItems.contains(
+						PrefsUtility.AppearancePostSubtitleItem.SCORE)) {
 			postListDescSb.append(
 					String.valueOf(score),
 					BetterSSB.BOLD | BetterSSB.FOREGROUND_COLOR,

@@ -116,9 +116,17 @@ public final class RedditPostView extends FlingableItemView
 	@NonNull private final LoadingSpinnerView mImagePreviewLoadingSpinner;
 	@NonNull private final LinearLayout mFooter;
 
+	// These are assigned only in the constructor, but only when mGridMode is true
+	// (the grid layout has these views; the regular layout does not). mGridMode is
+	// set from a constructor parameter, so javac's definite-assignment rules mean
+	// these cannot be declared final — hence the PMD suppressions.
+	@SuppressWarnings("PMD.ImmutableField")
 	private ConstraintLayout mGridImageArea;
+	@SuppressWarnings("PMD.ImmutableField")
 	private FrameLayout mGridImageHolder;
+	@SuppressWarnings("PMD.ImmutableField")
 	private ConstraintLayout mGridPlayOverlay;
+	@SuppressWarnings("PMD.ImmutableField")
 	private LoadingSpinnerView mGridLoadingSpinner;
 
 	private int mUsageId = 0;

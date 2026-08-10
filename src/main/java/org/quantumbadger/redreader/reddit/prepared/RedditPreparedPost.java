@@ -845,7 +845,7 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 	// (thumbnailDownloadFailed); it decides how to render either outcome.
 	public interface ThumbnailLoadedCallback {
 		void betterThumbnailAvailable(Bitmap thumbnail, int usageId);
-		default void thumbnailDownloadFailed(int usageId) {}
+		default void thumbnailDownloadFailed(final int usageId) {}
 	}
 
 	public void markAsRead(final Context context) {

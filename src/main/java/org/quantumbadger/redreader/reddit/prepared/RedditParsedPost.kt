@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import org.quantumbadger.redreader.R
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.reddit.PostCommentSort
+import org.quantumbadger.redreader.reddit.kthings.MaybeParseError
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType
 import org.quantumbadger.redreader.reddit.kthings.RedditPost
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement
@@ -143,38 +144,76 @@ class RedditParsedPost(
 		@JvmField val height: Int
 	)
 
-    fun getPreview(minWidth: Int, minHeight: Int) = src.preview?.images?.get(0)?.run {
-		getPreviewInternal(this, minWidth, minHeight)
+    fun getPreview(minWidth: Int, minHeight: Int): ImagePreviewDetails? {
+		val preview = src.preview?.images?.get(0)?.let {
+			getPreviewInternal(it.source, it.resolutions, minWidth, minHeight)
+		}
+		return preview ?: getGalleryPreview(minWidth, minHeight)
 	}
 
     fun getPreviewMP4(minWidth: Int, minHeight: Int)
-		= src.preview?.images?.get(0)?.variants?.mp4?.apply {
-			getPreviewInternal(this, minWidth, minHeight)
+		= src.preview?.images?.get(0)?.variants?.mp4?.let {
+			getPreviewInternal(it.source, it.resolutions, minWidth, minHeight)
+		}
+
+    // Gallery posts ("multiple images") don't include a preview field in the
+    // reddit API response; use the first image from media_metadata instead, so
+    // they can be shown like any other image post (e.g. in grid/column view).
+    private fun getGalleryPreview(minWidth: Int, minHeight: Int): ImagePreviewDetails? {
+
+		val galleryData = src.gallery_data ?: return null
+
+		val firstItem = (galleryData.items.firstOrNull() as? MaybeParseError.Ok)?.value
+			?: return null
+
+		val mediaMetadataEntry = (src.media_metadata?.get(firstItem.media_id)
+			as? MaybeParseError.Ok)?.value ?: return null
+
+		val source = mediaMetadataEntry.s
+
+		val sourceDetails = (source.u ?: source.mp4 ?: source.gif)?.let {
+			RedditPost.Preview.ImageDetails(
+				it,
+				source.x.toInt(),
+				source.y.toInt())
+		}
+
+		val resolutionDetails = mediaMetadataEntry.p?.mapNotNull { meta ->
+			val url = meta.u ?: meta.mp4 ?: meta.gif ?: return@mapNotNull null
+			RedditPost.Preview.ImageDetails(url, meta.x.toInt(), meta.y.toInt())
+		}
+
+		return getPreviewInternal(
+			sourceDetails,
+			resolutionDetails,
+			minWidth,
+			minHeight)
 	}
 
     private fun getPreviewInternal(
-		image: RedditPost.Preview.ImageBase,
+		source: RedditPost.Preview.ImageDetails?,
+		resolutions: List<RedditPost.Preview.ImageDetails>?,
 		minWidth: Int,
 		minHeight: Int
     ): ImagePreviewDetails? {
 
-		val resolutions = image.resolutions
+		val resolutionList = resolutions
 
-		if (resolutions.isNullOrEmpty()) {
+		if (resolutionList.isNullOrEmpty()) {
 			return null
 		}
 
 		var best: RedditPost.Preview.ImageDetails? = null
 
-		val sourceWidth = image.source?.width
-		val sourceHeight = image.source?.height
+		val sourceWidth = source?.width
+		val sourceHeight = source?.height
 
-		for (i in -1 until resolutions.size) {
+		for (i in -1 until resolutionList.size) {
 
 			val resolution = if (i == -1) {
-				image.source ?: continue
+				source ?: continue
 			} else {
-				resolutions[i]
+				resolutionList[i]
 			}
 
 			if (resolution.width < 50 || resolution.height < 50) {

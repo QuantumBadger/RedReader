@@ -48,7 +48,7 @@ class RedditParsedPost(
 
 	val isVideoPreview = src.preview?.run {
 		src.is_video
-				|| images?.get(0)?.variants?.mp4 != null
+				|| images?.firstOrNull()?.variants?.mp4 != null
 				|| reddit_video_preview != null
 				|| when (src.domain?.decoded) {
 			"v.redd.it", "streamable.com", "gfycat.com" -> true
@@ -145,14 +145,14 @@ class RedditParsedPost(
 	)
 
     fun getPreview(minWidth: Int, minHeight: Int): ImagePreviewDetails? {
-		val preview = src.preview?.images?.get(0)?.let {
+		val preview = src.preview?.images?.firstOrNull()?.let {
 			getPreviewInternal(it.source, it.resolutions, minWidth, minHeight)
 		}
 		return preview ?: getGalleryPreview(minWidth, minHeight)
 	}
 
     fun getPreviewMP4(minWidth: Int, minHeight: Int)
-		= src.preview?.images?.get(0)?.variants?.mp4?.let {
+		= src.preview?.images?.firstOrNull()?.variants?.mp4?.let {
 			getPreviewInternal(it.source, it.resolutions, minWidth, minHeight)
 		}
 

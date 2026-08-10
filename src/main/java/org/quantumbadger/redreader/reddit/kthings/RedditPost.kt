@@ -179,7 +179,7 @@ data class RedditPost(
 		}
 
 		if (url?.decoded?.contains(".gif") == true) {
-			preview?.images?.get(0)?.variants?.mp4?.source?.url?.decoded?.apply {
+			preview?.images?.firstOrNull()?.variants?.mp4?.source?.url?.decoded?.apply {
 				return UriString(this)
 			}
 		}

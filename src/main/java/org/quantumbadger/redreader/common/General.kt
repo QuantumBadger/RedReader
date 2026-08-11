@@ -531,14 +531,15 @@ object General {
 	}
 
     @JvmStatic
+	@JvmStatic
 	fun sha1(plaintext: ByteArray): String {
 		val digest: MessageDigest = try {
-			MessageDigest.getInstance("SHA-1")
+			MessageDigest.getInstance("SHA-256")
 		} catch (e: Exception) {
 			throw RuntimeException(e)
 		}
 		return toHex(digest.digest(plaintext))
-    }
+	}
 
 	private fun appIds(context: Context) = AndroidCommon.getPackageInfo(context).run {
 		ids.map {

@@ -530,7 +530,7 @@ object General {
 		return toHex(digest.digest(plaintext.encodeToByteArray()))
 	}
 
-    @JvmStatic
+    
 	@JvmStatic
 	fun sha1(plaintext: ByteArray): String {
 		val digest: MessageDigest = try {

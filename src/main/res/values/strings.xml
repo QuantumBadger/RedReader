@@ -1955,6 +1955,11 @@
 	<string name="pref_about_github_url" translatable="false">https://github.com/QuantumBadger/RedReader</string>
 
 	<!-- 2026-08-22 -->
+	<!--
+		Announcements must stay at most 30 characters long, including in
+		translation: TalkBack silently discards longer announcements when
+		accessibility focus moves just afterwards.
+	-->
 	<string name="accessibility_announcement_upvoted">Upvoted</string>
 	<string name="accessibility_announcement_downvoted">Downvoted</string>
 	<string name="accessibility_announcement_removed_vote">Removed vote</string>

@@ -240,6 +240,7 @@
     <string name="action_link_switch">Switch To Link</string>
     <string name="action_link_short">Link</string>
     <string name="action_collapse">Toggle Collapse</string>
+    <string name="action_collapse_thread">Collapse Thread</string>
     <string name="action_nothing">Do Nothing</string>
 
     <string name="action_report">Report</string>

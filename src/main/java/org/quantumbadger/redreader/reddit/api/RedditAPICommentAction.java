@@ -75,6 +75,7 @@ public class RedditAPICommentAction {
 		USER_PROFILE,
 		COMMENT_LINKS,
 		COLLAPSE,
+		COLLAPSE_THREAD,
 		EDIT,
 		DELETE,
 		EXTERNAL,
@@ -240,6 +241,18 @@ public class RedditAPICommentAction {
 					activity,
 					R.string.action_collapse,
 					RedditCommentAction.COLLAPSE));
+		}
+
+		if(itemPref.contains(RedditCommentAction.COLLAPSE_THREAD)
+				&& commentListingFragment != null
+				&& commentView != null
+				&& !(commentView.getComment().getIndent() == 0
+					&& comment.isCollapsed(changeDataManager))) {
+
+			menu.add(new RCVMenuItem(
+					activity,
+					R.string.action_collapse_thread,
+					RedditCommentAction.COLLAPSE_THREAD));
 		}
 
 		if(itemPref.contains(RedditCommentAction.SHARE)) {
@@ -505,6 +518,11 @@ public class RedditAPICommentAction {
 
 			case COLLAPSE: {
 				commentListingFragment.handleCommentVisibilityToggle(commentView);
+				break;
+			}
+
+			case COLLAPSE_THREAD: {
+				commentListingFragment.handleThreadCollapse(commentView);
 				break;
 			}
 

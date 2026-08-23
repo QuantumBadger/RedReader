@@ -196,6 +196,8 @@ public class CommentListingFragment extends RRFragment
 					R.layout.floating_toolbar,
 					mOverlayFrame,
 					false);
+			mFloatingToolbar.setImportantForAccessibility(
+					View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
 
 			if (PrefsUtility.pref_appearance_left_handed()) {
 				final FrameLayout.LayoutParams toolBarParams =

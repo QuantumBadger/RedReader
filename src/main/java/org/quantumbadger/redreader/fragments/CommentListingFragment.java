@@ -321,11 +321,12 @@ public class CommentListingFragment extends RRFragment
 
 		if(item.isComment()) {
 			final RedditRenderableComment comment = item.asComment();
+			final boolean nowCollapsed = !comment.isCollapsed(changeDataManager);
 
 			changeDataManager.markHidden(
 					TimestampUTC.now(),
 					comment.getIdAndType(),
-					!comment.isCollapsed(changeDataManager));
+					nowCollapsed);
 
 			mCommentListingManager.updateHiddenStatus();
 
@@ -336,6 +337,12 @@ public class CommentListingFragment extends RRFragment
 			if(position == layoutManager.findFirstVisibleItemPosition()) {
 				layoutManager.scrollToPositionWithOffset(position, 0);
 			}
+
+			General.announceForAccessibility(
+					view,
+					nowCollapsed
+							? R.string.accessibility_announcement_comment_collapsed
+							: R.string.accessibility_announcement_comment_expanded);
 		}
 	}
 

@@ -190,6 +190,17 @@ object General {
         }
     }
 
+    // announceForAccessibility was deprecated in Baklava, but the suggested
+    // replacements don't cover brief action confirmations:
+    // https://issuetracker.google.com/issues/425271162
+    @Suppress("DEPRECATION")
+	@JvmStatic
+	fun announceForAccessibility(view: View, textRes: Int) {
+        runOnUiThread {
+            view.announceForAccessibility(view.context.getString(textRes))
+        }
+    }
+
     @JvmStatic
 	fun isTablet(context: Context) = when (PrefsUtility.appearance_twopane()) {
 		AppearanceTwopane.AUTO -> context.resources.configuration.screenLayout and

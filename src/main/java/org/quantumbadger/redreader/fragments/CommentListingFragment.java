@@ -79,6 +79,7 @@ import org.quantumbadger.redreader.views.liststatus.CommentSubThreadView;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.UUID;
@@ -346,6 +347,75 @@ public class CommentListingFragment extends RRFragment
 		}
 	}
 
+	public void handleThreadCollapse(final RedditCommentView view) {
+
+		final RedditChangeDataManager changeDataManager
+				= RedditChangeDataManager.getInstance(mUser);
+
+		RedditCommentListItem item = view.getComment();
+
+		if(!item.isComment()) {
+			return;
+		}
+
+		final HashSet<RedditCommentListItem> ancestors = new HashSet<>();
+
+		for(RedditCommentListItem ancestor = item;
+				ancestor != null;
+				ancestor = ancestor.getParent()) {
+			ancestors.add(ancestor);
+		}
+
+		final int initialItemCount = mCommentListingManager.getAdapter().getItemCount();
+		int threadPosition = -1;
+
+		for(int position = 0; position < initialItemCount; position++) {
+			final GroupedRecyclerViewAdapter.Item candidate
+					= mCommentListingManager.getItemAtPosition(position);
+
+			if(ancestors.contains(candidate)) {
+				item = (RedditCommentListItem)candidate;
+				threadPosition = position;
+				break;
+			}
+		}
+
+		if(threadPosition < 0) {
+			return;
+		}
+
+		if(item.asComment().isCollapsed(changeDataManager)) {
+			changeDataManager.markHidden(
+					TimestampUTC.now(),
+					item.asComment().getIdAndType(),
+					false);
+
+			mCommentListingManager.updateHiddenStatus();
+			return;
+		}
+
+		changeDataManager.markHidden(
+				TimestampUTC.now(),
+				item.asComment().getIdAndType(),
+				true);
+
+		mCommentListingManager.updateHiddenStatus();
+
+		final LinearLayoutManager layoutManager
+				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+		final int itemCount = layoutManager.getItemCount();
+
+		for(int position = threadPosition + 1; position < itemCount; position++) {
+			if(isTopLevelComment(position)) {
+				jumpToPosition(threadPosition, position);
+				return;
+			}
+		}
+
+		// Keep focus on a visible row when the invoking descendant disappears.
+		jumpToPosition(threadPosition);
+	}
+
 	@Override
 	public View getListingView() {
 		return mListingView;
@@ -406,6 +476,10 @@ public class CommentListingFragment extends RRFragment
 				handleCommentVisibilityToggle(view);
 				break;
 
+			case COLLAPSE_THREAD:
+				handleThreadCollapse(view);
+				break;
+
 			case ACTION_MENU: {
 				final RedditCommentListItem item = view.getComment();
 				if(item != null && item.isComment()) {
@@ -442,6 +516,10 @@ public class CommentListingFragment extends RRFragment
 
 			case COLLAPSE:
 				handleCommentVisibilityToggle(view);
+				break;
+
+			case COLLAPSE_THREAD:
+				handleThreadCollapse(view);
 				break;
 
 			case NOTHING:
@@ -784,12 +862,19 @@ public class CommentListingFragment extends RRFragment
 	}
 
 	private void jumpToPosition(final int position) {
+		jumpToPosition(position, position);
+	}
+
+	private void jumpToPosition(
+			final int scrollPosition,
+			final int focusPosition) {
+
 		final LinearLayoutManager layoutManager
 				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
 		mParentJumpCount++;
-		layoutManager.scrollToPositionWithOffset(position, 0);
-		setAccessibilityFocusAfterLayout(position, true);
+		layoutManager.scrollToPositionWithOffset(scrollPosition, 0);
+		setAccessibilityFocusAfterLayout(focusPosition, true);
 	}
 
 	@SuppressLint("AccessibilityFocus")

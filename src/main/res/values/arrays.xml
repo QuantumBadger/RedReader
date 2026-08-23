@@ -103,6 +103,7 @@
 		<item>@string/action_copy_link</item>
 		<item>@string/action_user_profile</item>
 		<item>@string/action_collapse</item>
+		<item>@string/action_collapse_thread</item>
 		<item>@string/action_properties</item>
 		<item>@string/action_actionmenu</item>
 		<item>@string/action_back</item>
@@ -124,6 +125,7 @@
 		<item>copy_url</item>
 		<item>user_profile</item>
 		<item>collapse</item>
+		<item>collapse_thread</item>
 		<item>properties</item>
 		<item>action_menu</item>
 		<item>back</item>
@@ -215,6 +217,7 @@
 
     <string-array name="pref_behaviour_actions_comment">
         <item>@string/action_collapse</item>
+        <item>@string/action_collapse_thread</item>
         <item>@string/action_actionmenu</item>
         <item>@string/action_nothing</item>
     </string-array>
@@ -222,6 +225,7 @@
     <!-- Constants. Do not change. -->
     <string-array name="pref_behaviour_actions_comment_return">
         <item>collapse</item>
+        <item>collapse_thread</item>
         <item>action_menu</item>
         <item>nothing</item>
     </string-array>
@@ -1269,6 +1273,7 @@
 		<item>@string/action_comment_go_to</item>
 		<item>@string/action_comment_links</item>
 		<item>@string/action_collapse</item>
+		<item>@string/action_collapse_thread</item>
 		<item>@string/action_share</item>
 		<item>@string/action_copy_text</item>
 		<item>@string/action_copy_link</item>
@@ -1290,6 +1295,7 @@
 		<item>go_to_comment</item>
 		<item>comment_links</item>
 		<item>collapse</item>
+		<item>collapse_thread</item>
 		<item>share</item>
 		<item>copy_text</item>
 		<item>copy_url</item>

@@ -36,9 +36,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager.BadTokenException
+import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.quantumbadger.redreader.BuildConfig
 import org.quantumbadger.redreader.R
@@ -199,6 +202,37 @@ object General {
         runOnUiThread {
             view.announceForAccessibility(view.context.getString(textRes))
         }
+    }
+
+    // TalkBack reads a view's raw text aloud when it changes under accessibility
+    // focus, ignoring any content description. Install this on views whose content
+    // description already covers their text; description changes still go through.
+    @JvmStatic
+	fun suppressAccessibilityTextChangeEvents(view: View) {
+        ViewCompat.setAccessibilityDelegate(view, object : AccessibilityDelegateCompat() {
+            override fun sendAccessibilityEventUnchecked(
+                host: View,
+                event: AccessibilityEvent
+            ) {
+                if (event.eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED) {
+                    return
+                }
+
+                if (event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+                    val changeTypes = event.contentChangeTypes
+
+                    if ((changeTypes and AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT) != 0
+                        && (changeTypes
+                            and AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
+                            == 0
+                    ) {
+                        return
+                    }
+                }
+
+                super.sendAccessibilityEventUnchecked(host, event)
+            }
+        })
     }
 
     @JvmStatic

@@ -342,6 +342,7 @@ public class RedditCommentView extends FlingableItemView
 
 		mIndentView = rootView.findViewById(R.id.view_reddit_comment_indentview);
 		mHeader = rootView.findViewById(R.id.view_reddit_comment_header);
+		General.suppressAccessibilityTextChangeEvents(mHeader);
 		mBodyHolder = rootView.findViewById(R.id.view_reddit_comment_bodyholder);
 		mIndentedContent = rootView.findViewById(R.id.view_reddit_comment_indented_content);
 

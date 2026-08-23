@@ -89,6 +89,7 @@ public class RedditPostHeaderView extends LinearLayout {
 		subtitle.setTextSize(13.0f * subtitleFontScale);
 		subtitle.setText(post.buildSubtitle(activity, true));
 		subtitle.setContentDescription(post.buildAccessibilitySubtitle(activity, true));
+		General.suppressAccessibilityTextChangeEvents(subtitle);
 
 		subtitle.setTextColor(Color.rgb(200, 200, 200));
 		greyHeader.addView(subtitle);

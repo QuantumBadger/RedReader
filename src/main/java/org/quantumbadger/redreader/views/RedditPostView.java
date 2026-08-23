@@ -228,6 +228,8 @@ public final class RedditPostView extends FlingableItemView
 		title = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_title));
 		subtitle = Objects.requireNonNull(rootView.findViewById(R.id.reddit_post_subtitle));
 
+		General.suppressAccessibilityTextChangeEvents(subtitle);
+
 		mCommentsButtonPref =
 				PrefsUtility.appearance_post_show_comments_button();
 

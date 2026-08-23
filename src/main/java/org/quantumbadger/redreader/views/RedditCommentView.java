@@ -202,6 +202,12 @@ public class RedditCommentView extends FlingableItemView
 					return null;
 				}
 
+				if(mComment.asComment().isCollapsed(mChangeDataManager)) {
+					return new ActionDescriptionPair(
+							RedditAPICommentAction.RedditCommentAction.COLLAPSE,
+							R.string.action_expand_comment);
+				}
+
 				return new ActionDescriptionPair(
 						RedditAPICommentAction.RedditCommentAction.COLLAPSE,
 						R.string.action_collapse);
@@ -572,8 +578,17 @@ public class RedditCommentView extends FlingableItemView
 			@NonNull final PrefsUtility.CommentAction pref) {
 		switch (pref) {
 			case COLLAPSE:
+				if(mComment.asComment().isCollapsed(mChangeDataManager)) {
+					return R.string.action_expand_comment;
+				}
+
 				return R.string.action_collapse;
 			case COLLAPSE_THREAD:
+				if(mComment.getIndent() == 0
+						&& mComment.asComment().isCollapsed(mChangeDataManager)) {
+					return R.string.action_expand_comment;
+				}
+
 				return R.string.action_collapse_thread;
 			case ACTION_MENU:
 				return R.string.action_actionmenu;

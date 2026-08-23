@@ -237,9 +237,13 @@ public class RedditAPICommentAction {
 		}
 
 		if(itemPref.contains(RedditCommentAction.COLLAPSE) && commentListingFragment != null) {
+			final int titleRes = comment.isCollapsed(changeDataManager)
+					? R.string.action_expand_comment
+					: R.string.action_collapse;
+
 			menu.add(new RCVMenuItem(
 					activity,
-					R.string.action_collapse,
+					titleRes,
 					RedditCommentAction.COLLAPSE));
 		}
 

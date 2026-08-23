@@ -346,6 +346,10 @@ public class CommentListingFragment extends RRFragment
 					nowCollapsed
 							? R.string.accessibility_announcement_comment_collapsed
 							: R.string.accessibility_announcement_comment_expanded);
+
+			if(nowCollapsed && position != RecyclerView.NO_POSITION) {
+				focusNextComment(position);
+			}
 		}
 	}
 
@@ -854,6 +858,27 @@ public class CommentListingFragment extends RRFragment
 		}
 	}
 
+	private void focusNextComment(final int startingPosition) {
+		final LinearLayoutManager layoutManager
+				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+
+		for(
+			int pos = startingPosition + 1;
+			pos < layoutManager.getItemCount();
+			pos++
+		) {
+			final GroupedRecyclerViewAdapter.Item item
+					= mCommentListingManager.getItemAtPosition(pos);
+
+			if(item instanceof RedditCommentListItem
+					&& ((RedditCommentListItem)item).isComment()) {
+				mParentJumpCount++;
+				setAccessibilityFocusAfterLayout(pos, true);
+				return;
+			}
+		}
+	}
+
 	private boolean isTopLevelComment(final int position) {
 		final GroupedRecyclerViewAdapter.Item item
 				= mCommentListingManager.getItemAtPosition(position);
@@ -894,13 +919,18 @@ public class CommentListingFragment extends RRFragment
 
 			final RecyclerView.ViewHolder holder
 					= mRecyclerView.findViewHolderForAdapterPosition(position);
+			final LinearLayoutManager layoutManager
+					= (LinearLayoutManager)mRecyclerView.getLayoutManager();
 
-			if(holder != null) {
+			if(holder != null
+					&& position >= layoutManager.findFirstVisibleItemPosition()
+					&& position <= layoutManager.findLastVisibleItemPosition()) {
 				holder.itemView.performAccessibilityAction(
 						AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
 						null);
 
-			} else if(allowRetry && mRecyclerView.hasPendingAdapterUpdates()) {
+			} else if(allowRetry && position >= 0 && position < layoutManager.getItemCount()) {
+				layoutManager.scrollToPosition(position);
 				setAccessibilityFocusAfterLayout(position, false);
 			}
 		});

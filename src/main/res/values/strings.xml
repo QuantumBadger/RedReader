@@ -1953,4 +1953,11 @@
 	<string name="pref_about_github_key" translatable="false">pref_about_github</string>
 	<string name="pref_about_github_title">Source code</string>
 	<string name="pref_about_github_url" translatable="false">https://github.com/QuantumBadger/RedReader</string>
+
+	<!-- 2026-08-22 -->
+	<string name="accessibility_announcement_upvoted">Upvoted</string>
+	<string name="accessibility_announcement_downvoted">Downvoted</string>
+	<string name="accessibility_announcement_removed_vote">Removed vote</string>
+	<string name="accessibility_announcement_comment_collapsed">Collapsed comment</string>
+	<string name="accessibility_announcement_comment_expanded">Expanded</string>
 </resources>

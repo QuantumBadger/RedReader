@@ -1138,6 +1138,17 @@ object RedditPostActions {
 
 						else -> throw java.lang.RuntimeException("Unknown post action")
 					}
+
+					if (vote) {
+						General.announceForAccessibility(
+							activity.window.decorView,
+							when (action) {
+								RedditAPI.ACTION_UPVOTE -> R.string.accessibility_announcement_upvoted
+								RedditAPI.ACTION_DOWNVOTE -> R.string.accessibility_announcement_downvoted
+								else -> R.string.accessibility_announcement_removed_vote
+							}
+						)
+					}
 				}
 
 				private fun revertOnFailure() {

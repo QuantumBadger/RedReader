@@ -1665,7 +1665,11 @@ public final class PrefsUtility {
 				new AppbarItemInfo(
 						OptionsMenuUtility.AppbarItemsPref.SEARCH,
 						R.string.pref_menus_appbar_search_key,
-						MenuItem.SHOW_AS_ACTION_NEVER)
+						MenuItem.SHOW_AS_ACTION_NEVER),
+				new AppbarItemInfo(
+						OptionsMenuUtility.AppbarItemsPref.FILTER,
+						R.string.pref_menus_appbar_filter_key,
+						MenuItem.SHOW_AS_ACTION_ALWAYS)
 		};
 
 

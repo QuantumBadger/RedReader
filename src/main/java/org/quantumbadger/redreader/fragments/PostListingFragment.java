@@ -72,6 +72,7 @@ import org.quantumbadger.redreader.image.GetImageInfoListener;
 import org.quantumbadger.redreader.image.ImageInfo;
 import org.quantumbadger.redreader.io.RequestResponseHandler;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
+import org.quantumbadger.redreader.reddit.PostFilter;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditPostListItem;
 import org.quantumbadger.redreader.reddit.RedditSubredditManager;
@@ -125,6 +126,7 @@ public class PostListingFragment extends RRFragment
 	private final RecyclerView mRecyclerView;
 
 	private final PrefsUtility.AppearancePostLayout mPostLayout;
+	private final PostFilter mPostFilter;
 
 	private final View mOuter;
 
@@ -154,6 +156,9 @@ public class PostListingFragment extends RRFragment
 
 		mPostListingManager = new PostListingManager(parent);
 		mPostLayout = PrefsUtility.appearance_post_layout();
+		mPostFilter = parent instanceof OptionsMenuUtility.OptionsMenuPostsListener
+				? ((OptionsMenuUtility.OptionsMenuPostsListener)parent).getPostFilter()
+				: PostFilter.ALL;
 
 		if(savedInstanceState != null) {
 			mPreviousFirstVisibleItemPosition = savedInstanceState.getInt(
@@ -879,6 +884,11 @@ public class PostListingFragment extends RRFragment
 
 								mAfter = post.getName();
 
+								if(!mPostFilter.matches(post)) {
+									mPostsNotShown = true;
+									continue;
+								}
+
 								final boolean isPostBlocked = subredditFilteringEnabled
 										&& blockedSubreddits.contains(
 										new SubredditCanonicalId(post.getSubreddit().getDecoded()));
@@ -982,7 +992,9 @@ public class PostListingFragment extends RRFragment
 										&& (mAfter == null || mAfter.equals(mLastAfter))) {
 									@StringRes final int emptyViewText;
 
-									if(mPostsNotShown) {
+									if(mPostFilter != PostFilter.ALL) {
+										emptyViewText = R.string.no_posts_match_filter;
+									} else if(mPostsNotShown) {
 										if(mPostListingURL.pathType()
 												== RedditURLParser.SEARCH_POST_LISTING_URL) {
 											emptyViewText = R.string.no_search_results_hidden;

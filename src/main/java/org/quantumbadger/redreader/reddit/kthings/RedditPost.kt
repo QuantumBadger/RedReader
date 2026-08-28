@@ -69,6 +69,7 @@ data class RedditPost(
 
 	val preview: Preview? = null,
 	val is_video: Boolean = false,
+	val post_hint: String? = null,
 
 	val distinguished: String? = null,
 	val suggested_sort: String? = null, // TODO enum type

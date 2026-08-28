@@ -23,6 +23,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
+import org.quantumbadger.redreader.reddit.PostFilter;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
@@ -38,6 +39,7 @@ public class PostListingController {
 
 	private UUID session = null;
 	private PostListingURL url;
+	private PostFilter filter = PostFilter.ALL;
 
 	public void setSession(final UUID session) {
 		this.session = session;
@@ -129,6 +131,14 @@ public class PostListingController {
 		}
 
 		return null;
+	}
+
+	public final void setFilter(final PostFilter filter) {
+		this.filter = filter;
+	}
+
+	public final PostFilter getFilter() {
+		return filter;
 	}
 
 	public Uri getUri() {

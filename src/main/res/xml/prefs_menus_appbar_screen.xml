@@ -25,6 +25,12 @@
 					android:entryValues="@array/pref_menus_appbar_items_return"
 					android:defaultValue="2"/>
 
+	<ListPreference android:title="@string/options_filter_posts"
+					android:key="@string/pref_menus_appbar_filter_key"
+					android:entries="@array/pref_menus_appbar_items"
+					android:entryValues="@array/pref_menus_appbar_items_return"
+					android:defaultValue="2"/>
+
 	<ListPreference android:title="@string/options_refresh"
 					android:key="@string/pref_menus_appbar_refresh_key"
 					android:entries="@array/pref_menus_appbar_items"

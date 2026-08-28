@@ -41,6 +41,7 @@ import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.UnexpectedInternalStateException;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.reddit.PostCommentSort;
+import org.quantumbadger.redreader.reddit.PostFilter;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
@@ -68,7 +69,8 @@ public final class OptionsMenuUtility {
 		SETTINGS,
 		CLOSE_ALL,
 		REPLY,
-		SEARCH
+		SEARCH,
+		FILTER
 	}
 
 	public static final int DO_NOT_SHOW = -1;
@@ -128,6 +130,10 @@ public final class OptionsMenuUtility {
 					false);
 
 		} else if(!subredditsVisible && postsVisible && !commentsVisible) {
+			addAllPostFilters(
+					activity,
+					menu,
+					getOrThrow(appbarItemsPrefs, AppbarItemsPref.FILTER));
 			if(postsSortable) {
 
 				if(areSearchResults) {
@@ -258,6 +264,10 @@ public final class OptionsMenuUtility {
 		} else {
 
 			if(postsVisible && commentsVisible) {
+				addAllPostFilters(
+						activity,
+						menu,
+						getOrThrow(appbarItemsPrefs, AppbarItemsPref.FILTER));
 				if(getOrThrow(appbarItemsPrefs, AppbarItemsPref.SORT) != DO_NOT_SHOW) {
 					final SubMenu sortMenu = menu.addSubMenu(
 							Menu.NONE,
@@ -293,6 +303,10 @@ public final class OptionsMenuUtility {
 					}
 				}
 			} else if(postsVisible) {
+				addAllPostFilters(
+						activity,
+						menu,
+						getOrThrow(appbarItemsPrefs, AppbarItemsPref.FILTER));
 				if(postsSortable) {
 					if(areSearchResults) {
 						addAllSearchSorts(
@@ -1142,6 +1156,44 @@ public final class OptionsMenuUtility {
 		sortPosts.setGroupCheckable(Menu.NONE, true, true);
 	}
 
+	private static void addAllPostFilters(
+			final AppCompatActivity activity,
+			final Menu menu,
+			final int showAsAction) {
+
+		if(showAsAction == DO_NOT_SHOW) {
+			return;
+		}
+
+		final SubMenu filterPosts = menu.addSubMenu(
+				Menu.NONE,
+				AppbarItemsPref.FILTER.ordinal(),
+				Menu.NONE,
+				R.string.options_filter_posts);
+
+		if(showAsAction != MenuItem.SHOW_AS_ACTION_NEVER) {
+			filterPosts.getItem().setIcon(R.drawable.ic_filter_dark);
+			filterPosts.getItem().setShowAsAction(handleShowAsActionIfRoom(showAsAction));
+		}
+
+		final PostFilter activeFilter = ((OptionsMenuPostsListener)activity).getPostFilter();
+
+		for(final PostFilter filter : PostFilter.values()) {
+			final MenuItem menuItem = filterPosts.add(activity.getString(filter.getMenuTitle()))
+					.setCheckable(true)
+					.setOnMenuItemClickListener(item -> {
+						((OptionsMenuPostsListener)activity).onPostFilterSelected(filter);
+						return true;
+					});
+
+			if(filter.equals(activeFilter)) {
+				menuItem.setChecked(true);
+			}
+		}
+
+		filterPosts.setGroupCheckable(Menu.NONE, true, true);
+	}
+
 	private static void addAllSearchSorts(
 			final AppCompatActivity activity,
 			final Menu menu,
@@ -1422,6 +1474,8 @@ public final class OptionsMenuUtility {
 
 		void onSortSelected(PostSort order);
 
+		void onPostFilterSelected(PostFilter filter);
+
 		void onSearchPosts();
 
 		void onSubscribe();
@@ -1439,6 +1493,8 @@ public final class OptionsMenuUtility {
 		void onUnblock();
 
 		PostSort getPostSort();
+
+		PostFilter getPostFilter();
 	}
 
 	public interface OptionsMenuCommentsListener extends OptionsMenuListener {

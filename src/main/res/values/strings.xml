@@ -136,6 +136,12 @@
     <string name="options_sort_subreddits">Sort Subreddits</string>
     <string name="options_sort_posts">Sort Posts</string>
     <string name="options_sort_comments">Sort Comments</string>
+    <string name="options_filter_posts">Filter Posts</string>
+    <string name="filter_posts_all">All Posts</string>
+    <string name="filter_posts_image">Image</string>
+    <string name="filter_posts_video">Video</string>
+    <string name="filter_posts_link">Link</string>
+    <string name="filter_posts_text">Text</string>
 
     <!-- Main Menu -->
 
@@ -1215,6 +1221,7 @@
 	<string name="pref_menus_appbar_items_never">Do not show</string>
 	<string name="pref_menus_appbar_prefix" translatable="false">pref_menus_appbar</string>
 	<string name="pref_menus_appbar_sort_key" translatable="false">pref_menus_appbar_sort</string>
+	<string name="pref_menus_appbar_filter_key" translatable="false">pref_menus_appbar_filter</string>
 	<string name="pref_menus_appbar_refresh_key" translatable="false">pref_menus_appbar_refresh</string>
 	<string name="pref_menus_appbar_past_key" translatable="false">pref_menus_appbar_past</string>
 	<string name="pref_menus_appbar_submit_post_key" translatable="false">pref_menus_appbar_submit_post</string>
@@ -1579,6 +1586,7 @@
 	<!-- 2021-07-25 -->
 	<string name="no_posts_yet">No posts yet.</string>
 	<string name="no_posts_yet_hidden">No posts shown due to settings.</string>
+	<string name="no_posts_match_filter">No posts match this filter.</string>
 	<string name="no_search_results_hidden">No search results shown due to settings.</string>
 
 	<string name="sort_posts_relevance_hour">Relevance: This Hour</string>

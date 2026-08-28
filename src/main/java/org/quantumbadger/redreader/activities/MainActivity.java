@@ -67,6 +67,7 @@ import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.PostCommentSort;
+import org.quantumbadger.redreader.reddit.PostFilter;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.RedditSubredditHistory;
 import org.quantumbadger.redreader.reddit.UserCommentSort;
@@ -913,6 +914,12 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
+	public void onPostFilterSelected(final PostFilter filter) {
+		postListingController.setFilter(filter);
+		requestRefresh(RefreshableFragment.POSTS, false);
+	}
+
+	@Override
 	public void onSearchPosts() {
 		PostListingActivity.onSearchPosts(postListingController, this);
 	}
@@ -1122,6 +1129,15 @@ public class MainActivity extends RefreshableActivity
 		}
 
 		return postListingController.getSort();
+	}
+
+	@Override
+	public PostFilter getPostFilter() {
+		if(postListingController == null) {
+			return PostFilter.ALL;
+		}
+
+		return postListingController.getFilter();
 	}
 
 	@Override

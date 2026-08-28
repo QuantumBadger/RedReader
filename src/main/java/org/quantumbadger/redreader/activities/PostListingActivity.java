@@ -40,6 +40,7 @@ import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
+import org.quantumbadger.redreader.reddit.PostFilter;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
@@ -65,6 +66,7 @@ public class PostListingActivity extends RefreshableActivity
 
 	private static final String SAVEDSTATE_SESSION = "pla_session";
 	private static final String SAVEDSTATE_SORT = "pla_sort";
+	private static final String SAVEDSTATE_FILTER = "pla_filter";
 	private static final String SAVEDSTATE_FRAGMENT = "pla_fragment";
 
 	private PostListingFragment fragment;
@@ -125,6 +127,11 @@ public class PostListingActivity extends RefreshableActivity
 							savedInstanceState.getString(SAVEDSTATE_SORT)));
 				}
 
+				if(savedInstanceState.containsKey(SAVEDSTATE_FILTER)) {
+					controller.setFilter(PostFilter.valueOf(
+							savedInstanceState.getString(SAVEDSTATE_FILTER)));
+				}
+
 				if(savedInstanceState.containsKey(SAVEDSTATE_FRAGMENT)) {
 					fragmentSavedInstanceState = savedInstanceState.getBundle(
 							SAVEDSTATE_FRAGMENT);
@@ -156,6 +163,8 @@ public class PostListingActivity extends RefreshableActivity
 		if(sort != null) {
 			outState.putString(SAVEDSTATE_SORT, sort.name());
 		}
+
+		outState.putString(SAVEDSTATE_FILTER, controller.getFilter().name());
 
 		if(fragment != null) {
 			outState.putBundle(SAVEDSTATE_FRAGMENT, fragment.onSaveInstanceState());
@@ -323,6 +332,13 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public void onSortSelected(final PostSort order) {
 		controller.setSort(order);
+		requestRefresh(RefreshableFragment.POSTS, false);
+		invalidateOptionsMenu();
+	}
+
+	@Override
+	public void onPostFilterSelected(final PostFilter filter) {
+		controller.setFilter(filter);
 		requestRefresh(RefreshableFragment.POSTS, false);
 		invalidateOptionsMenu();
 	}
@@ -576,5 +592,10 @@ public class PostListingActivity extends RefreshableActivity
 	@Override
 	public PostSort getPostSort() {
 		return controller.getSort();
+	}
+
+	@Override
+	public PostFilter getPostFilter() {
+		return controller.getFilter();
 	}
 }

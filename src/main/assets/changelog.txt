@@ -9,6 +9,7 @@ Improved memory usage for inline image previews
 Fix for notification prompt being shown twice when logging in
 Fix for rare database crash when managing accounts
 Fixed crashes caused by system config changes while dialog is open
+Fixed crash when clicking reply too soon on a post
 
 118/1.26
 Added pinch-to-zoom in video player

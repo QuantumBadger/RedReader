@@ -699,6 +699,15 @@ public class CommentListingFragment extends RRFragment
 				&& item.getTitle()
 				.equals(getActivity().getString(R.string.action_reply))) {
 
+			// The reply menu item is added as soon as the fragment is created, but the
+			// post itself is only available once the listing has downloaded.
+			if(mPost == null) {
+				General.quickToast(
+						getActivity(),
+						R.string.error_toast_parent_post_not_downloaded);
+				return true;
+			}
+
 			RedditPostActions.INSTANCE.onActionMenuItemSelected(
 					mPost,
 					(BaseActivity)getActivity(),

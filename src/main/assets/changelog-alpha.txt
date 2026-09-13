@@ -1,5 +1,6 @@
 /Alpha 371 (2026-09-13)
 Fixed crashes caused by system config changes while dialog is open
+Fixed crash when clicking reply too soon on a post
 
 /Alpha 370 (2026-09-13)
 Option to mark posts as read when scrolling past

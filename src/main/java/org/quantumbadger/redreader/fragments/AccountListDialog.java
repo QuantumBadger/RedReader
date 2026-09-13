@@ -50,6 +50,8 @@ public class AccountListDialog extends AppCompatDialogFragment
 
 	private RecyclerView rv;
 
+	private boolean mNotificationPromptShown = false;
+
 	public static void show(final AppCompatActivity activity) {
 		new AccountListDialog().show(
 				activity.getSupportFragmentManager(),
@@ -106,8 +108,13 @@ public class AccountListDialog extends AppCompatDialogFragment
 		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 			rv.setAdapter(new AccountListAdapter(mActivity, this));
 
-			if(mActivity instanceof BaseActivity) {
-				AndroidCommon.promptForNotificationPermission((BaseActivity) mActivity, null);
+			// Logging in fires this listener more than once in quick succession,
+			// so only prompt once per instance of this dialog. Otherwise the
+			// prompts stack up and the user has to dismiss each one in turn.
+			if(!mNotificationPromptShown && mActivity instanceof BaseActivity) {
+				mNotificationPromptShown = AndroidCommon.promptForNotificationPermission(
+						(BaseActivity)mActivity,
+						null);
 			}
 		});
 	}

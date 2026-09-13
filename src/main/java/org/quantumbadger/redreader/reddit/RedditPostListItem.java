@@ -87,4 +87,7 @@ public class RedditPostListItem
 		}
 	}
 
+	public RedditPreparedPost getPost() {
+		return mPost;
+	}
 }

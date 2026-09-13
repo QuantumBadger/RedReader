@@ -1971,4 +1971,8 @@
 	<string name="accessibility_announcement_comment_collapsed">Collapsed comment</string>
 	<!-- Translators: spoken by the screen reader after expanding a comment. Max 30 characters. -->
 	<string name="accessibility_announcement_comment_expanded">Expanded</string>
+
+	<!-- 2026-09-13 -->
+	<string name="pref_behaviour_mark_posts_as_read_on_scroll_key" translatable="false">pref_behaviour_mark_posts_as_read_on_scroll</string>
+	<string name="pref_behaviour_mark_posts_as_read_on_scroll_title">Mark posts as read when scrolled past</string>
 </resources>

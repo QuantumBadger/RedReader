@@ -79,24 +79,46 @@ public final class InlinePreviewLoader {
 	}
 
 	/**
-	 * The preview image to show for a post, together with the size of the box it will be
-	 * displayed in.
+	 * The preview image to show for a post, together with the size of the image itself and
+	 * the size of the box to decode it into.
 	 */
 	public static final class PreviewDetails {
 
 		@NonNull public final UriString url;
+
+		// The size of the image itself, which determines the shape of the area it is
+		// displayed in
+		public final int imageWidthPx;
+		public final int imageHeightPx;
+
+		// The bounds the image is decoded within, which limit the memory it uses. These
+		// are not the size it is displayed at, which is only known once the view
+		// displaying it is measured.
 		public final int boxWidthPx;
 		public final int boxHeightPx;
 
 		private PreviewDetails(
 				@NonNull final UriString url,
+				final int imageWidthPx,
+				final int imageHeightPx,
 				final int boxWidthPx,
 				final int boxHeightPx) {
 
 			this.url = url;
+			this.imageWidthPx = imageWidthPx;
+			this.imageHeightPx = imageHeightPx;
 			this.boxWidthPx = boxWidthPx;
 			this.boxHeightPx = boxHeightPx;
 		}
+	}
+
+	/**
+	 * The maximum height, in pixels, which an inline preview may take up, given the height
+	 * of the area it is displayed in. Taller images are letterboxed into this height, so
+	 * that a post never takes up so much of the list that it is hard to scroll past.
+	 */
+	public static int getMaxPreviewHeightPx(final int displayAreaHeightPx) {
+		return Math.max(1, (Math.max(400, displayAreaHeightPx) * 7) / 8);
 	}
 
 	/**
@@ -115,23 +137,38 @@ public final class InlinePreviewLoader {
 		final Rect windowVisibleDisplayFrame
 				= DisplayUtils.getWindowVisibleDisplayFrame(activity);
 
-		final int screenWidth
-				= Math.min(1080, Math.max(720, windowVisibleDisplayFrame.width()));
-		final int screenHeight
-				= Math.min(2000, Math.max(400, windowVisibleDisplayFrame.height()));
+		final int windowWidth = Math.max(1, windowVisibleDisplayFrame.width());
+
+		// Bounded to keep the memory used by each preview reasonable
+		final int boxWidth = Math.min(1080, Math.max(720, windowWidth));
 
 		final RedditParsedPost.ImagePreviewDetails preview
-				= post.src.getPreview(screenWidth, 0);
+				= post.src.getPreview(boxWidth, 0);
 
 		if(preview == null || preview.width < 10 || preview.height < 10) {
 			return null;
 		}
 
-		final int boundedImageHeight = Math.max(1, Math.min(
-				(screenHeight * 2) / 3,
-				(int)(((long)preview.height * screenWidth) / preview.width)));
+		// A preview is displayed at the width of the post, which is normally the width of
+		// the window, so scaling the height limit by the same factor as the width gives the
+		// height to decode within. This is only an estimate of the size the image will be
+		// displayed at, as the list is not necessarily as large as the window: the post is
+		// narrower in the two pane tablet layout, and shorter wherever there is a toolbar.
+		// Both make this an overestimate, which costs a little memory but never quality.
+		final int maxBoxHeight = Math.max(1, (int)(
+				((long)getMaxPreviewHeightPx(windowVisibleDisplayFrame.height()) * boxWidth)
+						/ windowWidth));
 
-		return new PreviewDetails(preview.url, screenWidth, boundedImageHeight);
+		final int boxHeight = Math.max(1, Math.min(
+				maxBoxHeight,
+				(int)(((long)preview.height * boxWidth) / preview.width)));
+
+		return new PreviewDetails(
+				preview.url,
+				preview.width,
+				preview.height,
+				boxWidth,
+				boxHeight);
 	}
 
 	@NonNull private final BaseActivity mActivity;
@@ -259,13 +296,17 @@ public final class InlinePreviewLoader {
 
 		final int generation = ++mGeneration;
 
-		mBitmap = null;
-		mError = null;
-		mState = State.LOADING;
 		mLoadedForWidthPx = details.boxWidthPx;
 		mLoadedForHeightPx = details.boxHeightPx;
 
-		notifyListener();
+		// When reloading at a higher resolution, keep showing the image we already have
+		// until the new one is ready, rather than flashing up a loading spinner
+		if(mState != State.LOADED || mBitmap == null) {
+			mBitmap = null;
+			mError = null;
+			mState = State.LOADING;
+			notifyListener();
+		}
 
 		mRequest = new CacheRequest(
 				details.url,
@@ -305,6 +346,13 @@ public final class InlinePreviewLoader {
 		}
 
 		mRequest = null;
+
+		if(mState == State.LOADED && mBitmap != null) {
+			// A reload at a higher resolution failed -- keep showing the lower resolution
+			// image, which is much better than showing an error in its place
+			return;
+		}
+
 		mBitmap = null;
 		mError = error;
 		mState = State.FAILED;

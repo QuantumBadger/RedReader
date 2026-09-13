@@ -214,6 +214,18 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 		mPreloadWindow.addAll(newWindow);
 	}
 
+	/**
+	 * Notifies every item in the preload window that it is in the window, despite it having
+	 * been there already. Used when the amount of space available to display each item has
+	 * changed, as an item may need to reload what it has preloaded at a different size.
+	 */
+	public void refreshPreloadWindow() {
+
+		for(final Item<?> item : mPreloadWindow) {
+			item.onPreloadWindowChanged(true);
+		}
+	}
+
 	@NonNull
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(

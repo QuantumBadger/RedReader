@@ -154,6 +154,17 @@ public abstract class RedditListingManager {
 				mLayoutManager.findLastVisibleItemPosition());
 	}
 
+	/**
+	 * As {@link #updatePreloadWindow()}, except that every item in the window is notified,
+	 * rather than only those which have entered or left it. Should be called when the size
+	 * of the list changes, for example due to the screen being rotated.
+	 */
+	public void refreshPreloadWindow() {
+		General.checkThisIsUIThread();
+		updatePreloadWindow();
+		mAdapter.refreshPreloadWindow();
+	}
+
 	public void clearPreloadWindow() {
 		General.checkThisIsUIThread();
 		mAdapter.setPreloadWindow(-1, -1);

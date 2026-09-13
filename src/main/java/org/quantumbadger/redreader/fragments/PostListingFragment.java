@@ -123,6 +123,10 @@ public class PostListingFragment extends RRFragment
 	private final PostListingManager mPostListingManager;
 	private final RecyclerView mRecyclerView;
 
+	// The size the list was at when the preload window was last recalculated
+	private int mLastListWidth = -1;
+	private int mLastListHeight = -1;
+
 	private final View mOuter;
 
 	private RedditIdAndType mAfter = null;
@@ -240,7 +244,7 @@ public class PostListingFragment extends RRFragment
 		// Scrolling isn't the only thing which changes what's on screen -- posts being
 		// added, posts being hidden, and the screen being rotated all do too
 		mRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(
-				mPostListingManager::updatePreloadWindow);
+				this::onListLayout);
 
 		General.setLayoutMatchParent(mRecyclerView);
 
@@ -409,6 +413,25 @@ public class PostListingFragment extends RRFragment
 				layoutManager.findFirstVisibleItemPosition());
 
 		return bundle;
+	}
+
+	private void onListLayout() {
+
+		final int width = mRecyclerView.getWidth();
+		final int height = mRecyclerView.getHeight();
+
+		if(width == mLastListWidth && height == mLastListHeight) {
+			mPostListingManager.updatePreloadWindow();
+			return;
+		}
+
+		mLastListWidth = width;
+		mLastListHeight = height;
+
+		// Each post now has a different amount of space to display its image preview in, so
+		// the previews which are already loaded may be at the wrong resolution. This happens
+		// when the screen is rotated, which doesn't rebind any of the posts on it.
+		mPostListingManager.refreshPreloadWindow();
 	}
 
 	public void cancel() {

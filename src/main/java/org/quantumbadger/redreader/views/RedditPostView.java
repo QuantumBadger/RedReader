@@ -77,7 +77,7 @@ public final class RedditPostView extends FlingableItemView
 	@NonNull private final LinearLayout mCommentsButton;
 	@NonNull private final TextView mCommentsText;
 	@NonNull private final LinearLayout mPostErrors;
-	@NonNull private final FrameLayout mImagePreviewHolder;
+	@NonNull private final InlinePreviewHolderView mImagePreviewHolder;
 	@NonNull private final ImageView mImagePreviewImageView;
 	@NonNull private final ConstraintLayout mImagePreviewPlayOverlay;
 	@NonNull private final LinearLayout mImagePreviewOuter;
@@ -514,18 +514,14 @@ public final class RedditPostView extends FlingableItemView
 		final InlinePreviewLoader loader = post.getInlinePreviewLoader(mActivity);
 
 		if(details == null || loader == null) {
+			mImagePreviewHolder.setImageSize(0, 0);
 			mImagePreviewOuter.setVisibility(GONE);
 			mImagePreviewLoadingSpinner.setVisibility(GONE);
 			setBottomMargin(false);
 			return;
 		}
 
-		final ConstraintLayout.LayoutParams imagePreviewLayoutParams
-				= (ConstraintLayout.LayoutParams)mImagePreviewHolder.getLayoutParams();
-
-		imagePreviewLayoutParams.dimensionRatio
-				= details.boxWidthPx + ":" + details.boxHeightPx;
-		mImagePreviewHolder.setLayoutParams(imagePreviewLayoutParams);
+		mImagePreviewHolder.setImageSize(details.imageWidthPx, details.imageHeightPx);
 
 		mImagePreviewOuter.setVisibility(VISIBLE);
 		setBottomMargin(true);

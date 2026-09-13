@@ -83,6 +83,7 @@ public class WebViewFragment extends Fragment
 	private volatile int lastBackDepthAttempt;
 
 	private WebViewFixed webView;
+	private boolean mViewDestroyed = false;
 	private ProgressBar progressView;
 	private FrameLayout outer;
 
@@ -127,6 +128,7 @@ public class WebViewFragment extends Fragment
 			final Bundle savedInstanceState) {
 
 		mActivity = (BaseActivity)getActivity();
+		mViewDestroyed = false;
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment, null);
 
@@ -274,12 +276,22 @@ public class WebViewFragment extends Fragment
 
 		webView.setWebChromeClient(chromeClient);
 
+		// Cookies are cleared in onDestroyView, but that deletion is asynchronous
+		// and may not have reached disk if the process was killed shortly
+		// afterwards. Clear again here, and only start loading once the deletion
+		// has been applied, so the first request cannot send stale cookies.
+		CookieManager.getInstance().removeAllCookies(cookiesRemoved -> {
 
-		if(mUrl != null) {
-			webView.loadUrl(mUrl.value);
-		} else {
-			webView.loadHtmlUTF8WithBaseURL("https://reddit.com/", html);
-		}
+			if(mViewDestroyed) {
+				return;
+			}
+
+			if(mUrl != null) {
+				webView.loadUrl(mUrl.value);
+			} else {
+				webView.loadHtmlUTF8WithBaseURL("https://reddit.com/", html);
+			}
+		});
 
 		webView.setWebViewClient(new WebViewClient() {
 			@Override
@@ -523,6 +535,8 @@ public class WebViewFragment extends Fragment
 
 	@Override
 	public void onDestroyView() {
+
+		mViewDestroyed = true;
 
 		webView.stopLoading();
 		webView.loadData("<html></html>", "text/plain", "UTF-8");

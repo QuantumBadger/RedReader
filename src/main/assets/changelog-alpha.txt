@@ -2,6 +2,7 @@
 Accessibility announcements for collapsing/expanding comments, and voting (thanks to codeofdusk)
 Fixes for inline image preview size in landscape mode
 Improved memory usage for inline image previews
+Fix for rare database crash when managing accounts
 
 /Alpha 369 (2026-08-01)
 Fix issue with GitHub link

@@ -32,6 +32,7 @@ import androidx.appcompat.widget.TooltipCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.apache.commons.text.StringEscapeUtils
 import org.quantumbadger.redreader.R
+import org.quantumbadger.redreader.fragments.TranslationDialog
 import org.quantumbadger.redreader.account.RedditAccountManager
 import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.activities.BugReportActivity
@@ -73,6 +74,7 @@ import org.quantumbadger.redreader.views.bezelmenu.VerticalToolbar
 object RedditPostActions {
 
 	enum class Action(@StringRes val descriptionResId: Int) {
+		TRANSLATE(R.string.action_translate),
 		UPVOTE(R.string.action_upvote),
 		UNVOTE(R.string.action_vote_remove),
 		DOWNVOTE(R.string.action_downvote),
@@ -350,6 +352,11 @@ object RedditPostActions {
 		action: Action
 	) {
 		when (action) {
+			Action.TRANSLATE -> TranslationDialog.show(
+				activity,
+				listOfNotNull(post.src.title, post.src.rawSelfTextMarkdown)
+					.filter { it.isNotBlank() }.joinToString("\n\n")
+			)
 			Action.UPVOTE -> action(post, activity, RedditAPI.ACTION_UPVOTE)
 			Action.DOWNVOTE -> action(post, activity, RedditAPI.ACTION_DOWNVOTE)
 			Action.UNVOTE -> action(post, activity, RedditAPI.ACTION_UNVOTE)
@@ -691,6 +698,9 @@ object RedditPostActions {
 		}
 		val user = RedditAccountManager.getInstance(activity).defaultAccount
 		val menu = ArrayList<RPVMenuItem>()
+		if (itemPref.contains(Action.TRANSLATE)) {
+			menu.add(RPVMenuItem(activity, R.string.action_translate, Action.TRANSLATE))
+		}
 		if (!RedditAccountManager.getInstance(activity)
 				.defaultAccount
 				.isAnonymous

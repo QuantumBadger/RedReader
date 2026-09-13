@@ -84,6 +84,13 @@ android {
 		versionCode = 118
 		versionName = "1.26"
 
+		externalNativeBuild {
+			cmake {
+				arguments += "-DANDROID_PLATFORM=android-23"
+				arguments += "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+			}
+		}
+
 		vectorDrawables.generatedDensities("mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi")
 		testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 	}
@@ -139,6 +146,13 @@ android {
 	buildFeatures {
 		buildConfig = true
 		compose = true
+	}
+
+	externalNativeBuild {
+		cmake {
+			path = file("src/main/cpp/CMakeLists.txt")
+			version = "3.22.1"
+		}
 	}
 }
 

@@ -464,6 +464,7 @@
     </string-array>
 
     <string-array name="pref_menus_post_context_items">
+		<item>@string/action_translate</item>
         <item>@string/action_upvote</item>
         <item>@string/action_downvote</item>
 		<item>@string/action_comments</item>
@@ -493,6 +494,7 @@
 
     <!-- Constants. Do not change. -->
     <string-array name="pref_menus_post_context_items_return">
+		<item>translate</item>
         <item>upvote</item>
         <item>downvote</item>
 		<item>comments</item>
@@ -1135,6 +1137,7 @@
 
 	<!-- Constants. Do not change. -->
 	<string-array name="pref_menus_post_context_items_default">
+		<item>translate</item>
 		<item>upvote</item>
 		<item>downvote</item>
 		<item>comments</item>
@@ -1257,6 +1260,7 @@
   <!-- 2021-02-16 -->
 
 	<string-array name="pref_menus_comment_context_items">
+		<item>@string/action_translate</item>
 		<item>@string/action_upvote</item>
 		<item>@string/action_downvote</item>
 		<item>@string/action_save</item>
@@ -1278,6 +1282,7 @@
 
 	<!-- Constants. Do not change. -->
 	<string-array name="pref_menus_comment_context_items_return">
+		<item>translate</item>
 		<item>upvote</item>
 		<item>downvote</item>
 		<item>save</item>

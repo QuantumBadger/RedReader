@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Part of RedReader, licensed under GPL-3.0-or-later. -->
+<resources>
+	<string name="action_translate">翻译</string>
+	<string name="prefs_category_translation">本地翻译</string>
+	<string name="translation_model">翻译模型</string>
+	<string name="translation_import">导入模型</string>
+	<string name="translation_import_description">选择 HY-MT2 GGUF 文件（推荐 Q4_K_M）。翻译在本机运行，需要 64 位 Android 6.0 或更高版本。模型与应用分开保存。</string>
+	<string name="translation_model_missing">尚未导入模型。请打开“设置 → 本地翻译”导入。</string>
+	<string name="translation_model_ready">已导入模型：%1$s。首次翻译时检查模型兼容性。</string>
+	<string name="translation_model_working">正在更新翻译模型…</string>
+	<string name="translation_model_error">无法更新模型：%1$s</string>
+	<string name="translation_remove">移除模型</string>
+	<string name="translation_remove_confirm">移除保存在本机的翻译模型？</string>
+	<string name="translation_target_language">翻译为</string>
+	<string name="translation_original">原文</string>
+	<string name="translation_result">译文</string>
+	<string name="translation_empty">没有可翻译的文本。</string>
+	<string name="translation_start_hint">点击“翻译”开始。</string>
+	<string name="translation_running">正在本机翻译…</string>
+	<string name="translation_failed">无法翻译：%1$s</string>
+</resources>

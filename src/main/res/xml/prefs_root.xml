@@ -19,6 +19,10 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
+	<Preference
+		android:key="@string/prefs_category_translation_key"
+		android:title="@string/prefs_category_translation"/>
+
     <Preference
         android:key="@string/prefs_category_appearance_key"
         android:title="@string/prefs_category_appearance"/>

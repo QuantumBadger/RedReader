@@ -38,7 +38,10 @@ public class SettingsActivity extends ViewsBaseActivity {
 				.beginTransaction()
 				.setReorderingAllowed(false)
 				.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-				.replace(R.id.single_fragment_container, SettingsFragment.class, bundle)
+				.replace(R.id.single_fragment_container,
+						"translation".equals(panel)
+								? TranslationSettingsFragment.class : SettingsFragment.class,
+						bundle)
 				.addToBackStack("Settings: " + panel)
 				.commit();
 	}
@@ -56,14 +59,20 @@ public class SettingsActivity extends ViewsBaseActivity {
 		super.onCreate(savedInstanceState);
 
 		setBaseActivityListing(R.layout.single_fragment_layout);
+		if(savedInstanceState != null) {
+			return;
+		}
 
 		final Bundle bundle = new Bundle();
-		bundle.putString("panel", "root");
+		final boolean translation = "translation".equals(getIntent().getStringExtra("panel"));
+		bundle.putString("panel", translation ? "translation" : "root");
 
 		getSupportFragmentManager()
 				.beginTransaction()
 				.setReorderingAllowed(false)
-				.replace(R.id.single_fragment_container, SettingsFragment.class, bundle)
+				.replace(R.id.single_fragment_container,
+						translation ? TranslationSettingsFragment.class : SettingsFragment.class,
+						bundle)
 				.commit();
 	}
 

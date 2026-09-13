@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Part of RedReader, licensed under GPL-3.0-or-later. -->
+<resources>
+	<string name="action_translate">Translate</string>
+	<string name="prefs_category_translation_key" translatable="false">prefs_category_translation</string>
+	<string name="prefs_category_translation">Local translation</string>
+	<string name="translation_model">Translation model</string>
+	<string name="translation_import">Import model</string>
+	<string name="translation_import_description">Choose a HY-MT2 GGUF file (Q4_K_M recommended). Translation runs on this device and requires 64-bit Android 6.0 or later. The model is stored separately from the app.</string>
+	<string name="translation_model_missing">No model imported. Open Settings → Local translation to import one.</string>
+	<string name="translation_model_ready">Imported model: %1$s. Compatibility is checked when translating.</string>
+	<string name="translation_model_working">Updating translation model…</string>
+	<string name="translation_model_error">Could not update the model: %1$s</string>
+	<string name="translation_remove">Remove model</string>
+	<string name="translation_remove_confirm">Remove the imported model from this device?</string>
+	<string name="translation_target_language">Translate into</string>
+	<string name="translation_original">Original</string>
+	<string name="translation_result">Translation</string>
+	<string name="translation_empty">There is no text to translate.</string>
+	<string name="translation_start_hint">Tap Translate to begin.</string>
+	<string name="translation_running">Translating on this device…</string>
+	<string name="translation_failed">Could not translate: %1$s</string>
+	<string-array name="translation_languages" translatable="false">
+		<item>简体中文</item><item>繁體中文</item><item>English</item><item>日本語</item>
+		<item>한국어</item><item>Français</item><item>Deutsch</item><item>Español</item>
+	</string-array>
+	<string-array name="translation_language_codes" translatable="false">
+		<item>zh-Hans</item><item>zh-Hant</item><item>en</item><item>ja</item>
+		<item>ko</item><item>fr</item><item>de</item><item>es</item>
+	</string-array>
+</resources>

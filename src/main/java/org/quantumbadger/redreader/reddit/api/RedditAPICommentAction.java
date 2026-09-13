@@ -32,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.fragments.TranslationDialog;
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.CommentEditActivity;
@@ -62,6 +63,7 @@ import java.util.Locale;
 public class RedditAPICommentAction {
 
 	public enum RedditCommentAction {
+		TRANSLATE,
 		UPVOTE,
 		UNVOTE,
 		DOWNVOTE,
@@ -124,6 +126,11 @@ public class RedditAPICommentAction {
 				RedditAccountManager.getInstance(activity).getDefaultAccount();
 
 		final ArrayList<RCVMenuItem> menu = new ArrayList<>();
+		if(itemPref.contains(RedditCommentAction.TRANSLATE)
+				&& comment.getParsedComment().getRawComment().getBody() != null) {
+			menu.add(new RCVMenuItem(activity, R.string.action_translate,
+					RedditCommentAction.TRANSLATE));
+		}
 
 		if(!user.isAnonymous()) {
 
@@ -314,6 +321,11 @@ public class RedditAPICommentAction {
 				&& commentListingFragment.getPost().isLocked;
 
 		switch(action) {
+
+			case TRANSLATE:
+				TranslationDialog.show(activity,
+						comment.getBody() == null ? null : comment.getBody().getDecoded());
+				break;
 
 			case UPVOTE:
 				action(activity, comment, RedditAPI.ACTION_UPVOTE, changeDataManager);

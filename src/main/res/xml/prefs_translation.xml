@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Part of RedReader, licensed under GPL-3.0-or-later. -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+	<Preference android:key="translation_status"
+		android:title="@string/translation_model"
+		android:summary="@string/translation_model_missing"
+		android:selectable="false"/>
+	<Preference android:key="translation_import"
+		android:title="@string/translation_import"
+		android:summary="@string/translation_import_description"/>
+	<ListPreference android:key="translation_target_language"
+		android:title="@string/translation_target_language"
+		android:entries="@array/translation_languages"
+		android:entryValues="@array/translation_language_codes"
+		android:defaultValue="zh-Hans"
+		app:useSimpleSummaryProvider="true"/>
+	<Preference android:key="translation_remove"
+		android:title="@string/translation_remove"/>
+</PreferenceScreen>

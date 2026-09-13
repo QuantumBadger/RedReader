@@ -79,7 +79,10 @@ build/
 reddit_auth.txt
 /release/**
 /releases/**/**
+/*releases/
 
+/*.sh
 /*.txt
 *.log
 *.har
+

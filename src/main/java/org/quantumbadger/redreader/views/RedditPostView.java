@@ -20,12 +20,9 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,41 +39,25 @@ import androidx.annotation.UiThread;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.activities.BaseActivity;
-import org.quantumbadger.redreader.cache.CacheManager;
-import org.quantumbadger.redreader.cache.CacheRequest;
-import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
-import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
 import org.quantumbadger.redreader.common.AndroidCommon;
-import org.quantumbadger.redreader.common.Constants;
-import org.quantumbadger.redreader.common.DisplayUtils;
 import org.quantumbadger.redreader.common.General;
-import org.quantumbadger.redreader.common.GenericFactory;
-import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.PrefsUtility;
-import org.quantumbadger.redreader.common.Priority;
 import org.quantumbadger.redreader.common.RRError;
 import org.quantumbadger.redreader.common.SharedPrefsWrapper;
-import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
-import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.reddit.api.RedditPostActions;
-import org.quantumbadger.redreader.reddit.prepared.RedditParsedPost;
+import org.quantumbadger.redreader.reddit.prepared.InlinePreviewLoader;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.views.liststatus.ErrorView;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class RedditPostView extends FlingableItemView
-		implements RedditPreparedPost.ThumbnailLoadedCallback {
-
-	private static final String TAG = "RedditPostView";
+		implements RedditPreparedPost.ThumbnailLoadedCallback,
+		InlinePreviewLoader.Listener {
 
 	private static final String PROMPT_PREF_KEY = "inline_image_prompt_accepted";
 
@@ -104,6 +85,9 @@ public final class RedditPostView extends FlingableItemView
 	@NonNull private final LinearLayout mFooter;
 
 	private int mUsageId = 0;
+
+	@Nullable private InlinePreviewLoader mPreviewLoader = null;
+	private boolean mInlinePreviewCounted = false;
 
 	private final Handler thumbnailHandler;
 
@@ -347,7 +331,15 @@ public final class RedditPostView extends FlingableItemView
 	@UiThread
 	public void reset(@NonNull final RedditPreparedPost newPost) {
 
-		if(newPost != mPost) {
+		final boolean isNewPost = newPost != mPost;
+		final boolean showInlinePreview = newPost.shouldShowInlinePreview();
+
+		if(isNewPost) {
+
+			if(mPreviewLoader != null) {
+				mPreviewLoader.setListener(null);
+				mPreviewLoader = null;
+			}
 
 			mThumbnailView.setImageBitmap(null);
 			mImagePreviewImageView.setImageBitmap(null);
@@ -356,6 +348,7 @@ public final class RedditPostView extends FlingableItemView
 			mFooter.removeAllViews();
 
 			mUsageId++;
+			mInlinePreviewCounted = false;
 
 			resetSwipeState();
 
@@ -364,14 +357,9 @@ public final class RedditPostView extends FlingableItemView
 				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
 			}
 
-			final boolean showInlinePreview = newPost.shouldShowInlinePreview();
-
 			final boolean showThumbnail = !showInlinePreview && newPost.hasThumbnail;
 
-			if(showInlinePreview) {
-				downloadInlinePreview(newPost, mUsageId);
-
-			} else {
+			if(!showInlinePreview) {
 				mImagePreviewLoadingSpinner.setVisibility(GONE);
 				mImagePreviewOuter.setVisibility(GONE);
 				setBottomMargin(false);
@@ -406,6 +394,12 @@ public final class RedditPostView extends FlingableItemView
 		newPost.bind(this);
 
 		mPost = newPost;
+
+		// Attaching to the preview loader calls back into this view, so must happen after
+		// mPost has been updated
+		if(isNewPost && showInlinePreview) {
+			attachInlinePreview(newPost);
+		}
 
 		updateAppearance();
 	}
@@ -492,139 +486,131 @@ public final class RedditPostView extends FlingableItemView
 		mOuterView.setLayoutParams(layoutParams);
 	}
 
-	private void downloadInlinePreview(
-			@NonNull final RedditPreparedPost post,
-			final int usageId) {
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
 
-		final Rect windowVisibleDisplayFrame
-				= DisplayUtils.getWindowVisibleDisplayFrame(mActivity);
+		if(mPreviewLoader != null) {
+			mPreviewLoader.setListener(this);
+		}
+	}
 
-		final int screenWidth = Math.min(1080, Math.max(720, windowVisibleDisplayFrame.width()));
-		final int screenHeight = Math.min(2000, Math.max(400, windowVisibleDisplayFrame.height()));
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
 
-		final RedditParsedPost.ImagePreviewDetails preview
-				= post.src.getPreview(screenWidth, 0);
+		// While this view is recycled it has no claim on the preview, which allows the
+		// preview to be released if the post is also outside the preload window
+		if(mPreviewLoader != null) {
+			mPreviewLoader.setListener(null);
+		}
+	}
 
-		if(preview == null || preview.width < 10 || preview.height < 10) {
+	private void attachInlinePreview(@NonNull final RedditPreparedPost post) {
+
+		final InlinePreviewLoader.PreviewDetails details
+				= InlinePreviewLoader.calculatePreviewDetails(mActivity, post);
+
+		final InlinePreviewLoader loader = post.getInlinePreviewLoader(mActivity);
+
+		if(details == null || loader == null) {
 			mImagePreviewOuter.setVisibility(GONE);
 			mImagePreviewLoadingSpinner.setVisibility(GONE);
 			setBottomMargin(false);
 			return;
 		}
 
-		final int boundedImageHeight = Math.min(
-				(screenHeight * 2) / 3,
-				(int)(((long)preview.height * screenWidth) / preview.width));
-
 		final ConstraintLayout.LayoutParams imagePreviewLayoutParams
 				= (ConstraintLayout.LayoutParams)mImagePreviewHolder.getLayoutParams();
 
-		imagePreviewLayoutParams.dimensionRatio = screenWidth + ":" + boundedImageHeight;
+		imagePreviewLayoutParams.dimensionRatio
+				= details.boxWidthPx + ":" + details.boxHeightPx;
 		mImagePreviewHolder.setLayoutParams(imagePreviewLayoutParams);
 
 		mImagePreviewOuter.setVisibility(VISIBLE);
-		mImagePreviewLoadingSpinner.setVisibility(VISIBLE);
 		setBottomMargin(true);
 
-		CacheManager.getInstance(mActivity).makeRequest(new CacheRequest(
-				preview.url,
-				RedditAccountManager.getAnon(),
-				null,
-				new Priority(Constants.Priority.INLINE_IMAGE_PREVIEW),
-				DownloadStrategyIfNotCached.INSTANCE,
-				Constants.FileType.INLINE_IMAGE_PREVIEW,
-				CacheRequest.DownloadQueueType.IMMEDIATE,
-				mActivity,
-				new CacheRequestCallbacks() {
-					@Override
-					public void onDataStreamComplete(
-							@NonNull final GenericFactory<SeekableInputStream, IOException> stream,
-							final TimestampUTC timestamp,
-							@NonNull final UUID session,
-							final boolean fromCache,
-							@Nullable final String mimetype) {
+		mPreviewLoader = loader;
 
-						if(usageId != mUsageId) {
-							return;
-						}
+		// This calls back into onInlinePreviewStateChanged with the current state, which
+		// will be the fully loaded image if this post has already been preloaded
+		loader.setListener(this);
+	}
 
-						try(InputStream is = stream.create()) {
+	@Override
+	public void onInlinePreviewStateChanged(@NonNull final InlinePreviewLoader loader) {
 
-							final Bitmap data = BitmapFactory.decodeStream(is);
+		if(loader != mPreviewLoader) {
+			return;
+		}
 
-							if(data == null) {
-								throw new IOException("Failed to decode bitmap");
-							}
+		mPostErrors.removeAllViews();
 
-							// Avoid a crash on badly behaving Android ROMs (where the ImageView
-							// crashes if an image is too big)
-							// Should never happen as we limit the preview size to 3000x3000
-							if(data.getByteCount() > 50 * 1024 * 1024) {
-								throw new RuntimeException("Image was too large: "
-										+ data.getByteCount()
-										+ ", preview URL was "
-										+ preview.url
-										+ " and post was "
-										+ post.src.getIdAndType());
-							}
+		switch(loader.getState()) {
 
-							final boolean alreadyAcceptedPrompt = General.getSharedPrefs(mActivity)
-									.getBoolean(PROMPT_PREF_KEY, false);
+			case LOADED:
 
-							final int totalPreviewsShown
-									= sInlinePreviewsShownThisSession.incrementAndGet();
+				mImagePreviewImageView.setImageBitmap(loader.getBitmap());
+				mImagePreviewLoadingSpinner.setVisibility(GONE);
+				mImagePreviewOuter.setVisibility(VISIBLE);
+				setBottomMargin(true);
 
-							final boolean isVideoPreview = post.isVideoPreview();
-
-							AndroidCommon.runOnUiThread(() -> {
-								mImagePreviewImageView.setImageBitmap(data);
-								mImagePreviewLoadingSpinner.setVisibility(GONE);
-
-								if(isVideoPreview) {
-									mImagePreviewPlayOverlay.setVisibility(VISIBLE);
-								}
-
-								// Show every 8 previews, starting at the second one
-								if(totalPreviewsShown % 8 == 2 && !alreadyAcceptedPrompt) {
-									showPrefPrompt();
-								}
-							});
-
-						} catch(final Throwable t) {
-							onFailure(General.getGeneralErrorForFailure(
-									mActivity,
-									CacheRequest.RequestFailureType.CONNECTION,
-									t,
-									null,
-									preview.url,
-									Optional.empty()));
-						}
-					}
-
-					@Override
-					public void onFailure(@NonNull final RRError error) {
-
-						Log.e(TAG, "Failed to download image preview: " + error, error.t);
-
-						if(usageId != mUsageId) {
-							return;
-						}
-
-						AndroidCommon.runOnUiThread(() -> {
-
-							mImagePreviewLoadingSpinner.setVisibility(GONE);
-							mImagePreviewOuter.setVisibility(GONE);
-
-							final ErrorView errorView = new ErrorView(
-									mActivity,
-									error);
-
-							mPostErrors.addView(errorView);
-							General.setLayoutMatchWidthWrapHeight(errorView);
-						});
-					}
+				if(mPost.isVideoPreview()) {
+					mImagePreviewPlayOverlay.setVisibility(VISIBLE);
 				}
-		));
+
+				onInlinePreviewShown();
+
+				break;
+
+			case FAILED:
+
+				mImagePreviewImageView.setImageBitmap(null);
+				mImagePreviewPlayOverlay.setVisibility(GONE);
+				mImagePreviewLoadingSpinner.setVisibility(GONE);
+				mImagePreviewOuter.setVisibility(GONE);
+
+				final RRError error = loader.getError();
+
+				if(error != null) {
+					final ErrorView errorView = new ErrorView(mActivity, error);
+					mPostErrors.addView(errorView);
+					General.setLayoutMatchWidthWrapHeight(errorView);
+				}
+
+				break;
+
+			case NOT_LOADED:
+			case LOADING:
+			default:
+
+				mImagePreviewImageView.setImageBitmap(null);
+				mImagePreviewPlayOverlay.setVisibility(GONE);
+				mImagePreviewLoadingSpinner.setVisibility(VISIBLE);
+				mImagePreviewOuter.setVisibility(VISIBLE);
+				setBottomMargin(true);
+
+				break;
+		}
+	}
+
+	private void onInlinePreviewShown() {
+
+		if(mInlinePreviewCounted) {
+			return;
+		}
+
+		mInlinePreviewCounted = true;
+
+		final int totalPreviewsShown = sInlinePreviewsShownThisSession.incrementAndGet();
+
+		final boolean alreadyAcceptedPrompt = General.getSharedPrefs(mActivity)
+				.getBoolean(PROMPT_PREF_KEY, false);
+
+		// Show every 8 previews, starting at the second one
+		if(totalPreviewsShown % 8 == 2 && !alreadyAcceptedPrompt) {
+			showPrefPrompt();
+		}
 	}
 
 	private void showPrefPrompt() {

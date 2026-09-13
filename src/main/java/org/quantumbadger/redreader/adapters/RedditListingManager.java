@@ -136,6 +136,29 @@ public abstract class RedditListingManager {
 		mAdapter.updateHiddenStatus();
 	}
 
+	/**
+	 * Recalculates which items are at, or near, the visible area of the list, so that they
+	 * can preload whatever they need in order to be displayed. Should be called whenever
+	 * the list is scrolled, or items are added to it.
+	 */
+	public void updatePreloadWindow() {
+
+		General.checkThisIsUIThread();
+
+		if(mLayoutManager == null) {
+			return;
+		}
+
+		mAdapter.setPreloadWindow(
+				mLayoutManager.findFirstVisibleItemPosition(),
+				mLayoutManager.findLastVisibleItemPosition());
+	}
+
+	public void clearPreloadWindow() {
+		General.checkThisIsUIThread();
+		mAdapter.setPreloadWindow(-1, -1);
+	}
+
 	public GroupedRecyclerViewAdapter getAdapter() {
 		General.checkThisIsUIThread();
 		return mAdapter;

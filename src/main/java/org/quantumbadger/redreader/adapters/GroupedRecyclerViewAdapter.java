@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicLong;
 
 @SuppressWarnings("ForLoopReplaceableByForEach")
@@ -44,6 +45,13 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
 		public abstract boolean isHidden();
 
+		/**
+		 * Called when this item enters or leaves the preload window -- the range of items at
+		 * or near the visible area of the list. Items use this to load, and release, any
+		 * expensive resources they need in order to be displayed.
+		 */
+		public void onPreloadWindowChanged(final boolean inWindow) {}
+
 		private void onBindViewHolderInner(
 				final RecyclerView.ViewHolder viewHolder) {
 			//noinspection unchecked
@@ -51,9 +59,14 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 		}
 	}
 
+	// The number of items to keep preloaded either side of the visible area of the list
+	private static final int PRELOAD_WINDOW_EXTRA_ITEMS = 5;
+
 	private final ArrayList<Item<?>>[] mItems;
 	private final HashMap<Class<?>, Integer> mItemViewTypeMap = new HashMap<>();
 	private final HashMap<Integer, Item<?>> mViewTypeItemMap = new HashMap<>();
+
+	private final HashSet<Item<?>> mPreloadWindow = new HashSet<>();
 
 	public GroupedRecyclerViewAdapter(final int groups) {
 		//noinspection unchecked
@@ -131,6 +144,74 @@ public class GroupedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 		throw new RuntimeException("Item desiredPosition "
 				+ desiredPosition
 				+ " is too high");
+	}
+
+	private void getItemsInRange(
+			final int firstPosition,
+			final int lastPosition,
+			final Collection<Item<?>> output) {
+
+		int currentPosition = 0;
+
+		for(int groupId = 0; groupId < mItems.length; groupId++) {
+
+			final ArrayList<Item<?>> group = mItems[groupId];
+
+			for(int positionInGroup = 0;
+				positionInGroup < group.size();
+				positionInGroup++) {
+
+				final Item<?> item = group.get(positionInGroup);
+
+				if(item.mCurrentlyHidden) {
+					continue;
+				}
+
+				if(currentPosition > lastPosition) {
+					return;
+				}
+
+				if(currentPosition >= firstPosition) {
+					output.add(item);
+				}
+
+				currentPosition++;
+			}
+		}
+	}
+
+	/**
+	 * Updates the set of items which are at, or near, the visible area of the list, and
+	 * notifies any item which has entered or left that set. Pass a negative first position
+	 * to empty the window.
+	 */
+	public void setPreloadWindow(
+			final int firstVisiblePosition,
+			final int lastVisiblePosition) {
+
+		final HashSet<Item<?>> newWindow = new HashSet<>();
+
+		if(firstVisiblePosition >= 0 && lastVisiblePosition >= firstVisiblePosition) {
+			getItemsInRange(
+					firstVisiblePosition - PRELOAD_WINDOW_EXTRA_ITEMS,
+					lastVisiblePosition + PRELOAD_WINDOW_EXTRA_ITEMS,
+					newWindow);
+		}
+
+		for(final Item<?> item : mPreloadWindow) {
+			if(!newWindow.contains(item)) {
+				item.onPreloadWindowChanged(false);
+			}
+		}
+
+		for(final Item<?> item : newWindow) {
+			if(!mPreloadWindow.contains(item)) {
+				item.onPreloadWindowChanged(true);
+			}
+		}
+
+		mPreloadWindow.clear();
+		mPreloadWindow.addAll(newWindow);
 	}
 
 	@NonNull

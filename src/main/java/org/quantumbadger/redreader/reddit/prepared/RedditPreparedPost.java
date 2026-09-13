@@ -28,6 +28,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.annotation.UiThread;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -87,6 +88,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 	private RedditPostView mBoundView = null;
 
+	@Nullable private InlinePreviewLoader mInlinePreviewLoader = null;
+
 	// TODO too many parameters
 	public RedditPreparedPost(
 			final Context context,
@@ -137,6 +140,27 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 	public boolean isVideoPreview() {
 		return src.isVideoPreview();
+	}
+
+	/**
+	 * Returns the loader responsible for this post's inline image preview, or null if this
+	 * post doesn't have one to show.
+	 */
+	@Nullable
+	@UiThread
+	public InlinePreviewLoader getInlinePreviewLoader(@NonNull final BaseActivity activity) {
+
+		General.checkThisIsUIThread();
+
+		if(!shouldShowInlinePreview()) {
+			return null;
+		}
+
+		if(mInlinePreviewLoader == null) {
+			mInlinePreviewLoader = new InlinePreviewLoader(activity, this);
+		}
+
+		return mInlinePreviewLoader;
 	}
 
 	public void performAction(final BaseActivity activity, final RedditPostActions.Action action) {

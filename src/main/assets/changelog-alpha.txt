@@ -1,3 +1,6 @@
+/Alpha 370 (2026-09-13)
+Improved memory usage for inline image previews
+
 /Alpha 369 (2026-08-01)
 Fix issue with GitHub link
 

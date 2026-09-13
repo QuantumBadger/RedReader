@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
+import org.quantumbadger.redreader.reddit.prepared.InlinePreviewLoader;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.views.RedditPostView;
 
@@ -74,6 +75,16 @@ public class RedditPostListItem
 	@Override
 	public boolean isHidden() {
 		return false;
+	}
+
+	@Override
+	public void onPreloadWindowChanged(final boolean inWindow) {
+
+		final InlinePreviewLoader previewLoader = mPost.getInlinePreviewLoader(mActivity);
+
+		if(previewLoader != null) {
+			previewLoader.setActive(inWindow);
+		}
 	}
 
 }

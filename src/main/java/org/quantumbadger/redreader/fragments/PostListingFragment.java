@@ -232,9 +232,15 @@ public class PostListingFragment extends RRFragment
 					@NonNull final RecyclerView recyclerView,
 					final int dx,
 					final int dy) {
+				mPostListingManager.updatePreloadWindow();
 				onLoadMoreItemsCheck();
 			}
 		});
+
+		// Scrolling isn't the only thing which changes what's on screen -- posts being
+		// added, posts being hidden, and the screen being rotated all do too
+		mRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(
+				mPostListingManager::updatePreloadWindow);
 
 		General.setLayoutMatchParent(mRecyclerView);
 
@@ -406,9 +412,13 @@ public class PostListingFragment extends RRFragment
 	}
 
 	public void cancel() {
+
 		if(mRequest != null) {
 			mRequest.cancel();
 		}
+
+		// Releases every preloaded image preview, and cancels any download in progress
+		mPostListingManager.clearPreloadWindow();
 	}
 
 	public synchronized void restackRefreshCount() {

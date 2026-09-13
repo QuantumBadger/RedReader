@@ -216,9 +216,13 @@ public class MainActivity extends RefreshableActivity
 
 		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
-		if(savedInstanceState == null
-				&& PrefsUtility.pref_behaviour_skiptofrontpage()) {
-			onSelected(SubredditPostListURL.getFrontPage());
+		if(savedInstanceState == null) {
+			if(PrefsUtility.pref_behaviour_skiptopinned() &&
+					!PrefsUtility.pref_pinned_subreddits_is_empty()) {
+				onSelected(SubredditPostListURL.getPinned());
+			} else if(PrefsUtility.pref_behaviour_skiptofrontpage()) {
+				onSelected(SubredditPostListURL.getFrontPage());
+			}
 		}
 	}
 
@@ -467,7 +471,12 @@ public class MainActivity extends RefreshableActivity
 
 			case MainMenuFragment.MENU_MENU_ACTION_FIND_SUBREDDIT: {
 				startActivity(new Intent(this, SubredditSearchActivity.class));
+				break;
 			}
+
+			case MainMenuFragment.MENU_MENU_ACTION_PINNED:
+				onSelected(SubredditPostListURL.getPinned());
+				break;
 		}
 	}
 

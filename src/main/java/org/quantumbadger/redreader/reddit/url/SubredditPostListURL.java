@@ -24,6 +24,7 @@ import androidx.annotation.Nullable;
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.reddit.PostSort;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
@@ -47,6 +48,17 @@ public class SubredditPostListURL extends PostListingURL {
 		return new SubredditPostListURL(Type.ALL, null, null, null, null, null);
 	}
 
+	public static SubredditPostListURL getPinned() {
+		final String pinned = PrefsUtility.pref_pinned_subreddits_multireddit();
+		return new SubredditPostListURL(
+				Type.PINNED,
+				pinned,
+				null,
+				null,
+				null,
+				null);
+	}
+
 	public static RedditURLParser.RedditURL getSubreddit(final String subreddit) throws
 			InvalidSubredditNameException {
 		return getSubreddit(new SubredditCanonicalId(subreddit));
@@ -61,7 +73,7 @@ public class SubredditPostListURL extends PostListingURL {
 	}
 
 	public enum Type {
-		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION, POPULAR
+		FRONTPAGE, ALL, SUBREDDIT, SUBREDDIT_COMBINATION, ALL_SUBTRACTION, POPULAR, PINNED
 	}
 
 	@NonNull public final Type type;
@@ -128,6 +140,7 @@ public class SubredditPostListURL extends PostListingURL {
 			case SUBREDDIT:
 			case SUBREDDIT_COMBINATION:
 			case ALL_SUBTRACTION:
+			case PINNED:
 				builder.encodedPath("/r/");
 				builder.appendPath(subreddit);
 				break;
@@ -310,9 +323,14 @@ public class SubredditPostListURL extends PostListingURL {
 
 				} else if(subreddit.matches("\\w+(\\+[\\w\\.]+)+")) {
 
+					final Type type =
+							subreddit.equals(PrefsUtility.pref_pinned_subreddits_multireddit())
+							? Type.PINNED
+							: Type.SUBREDDIT_COMBINATION;
+
 					if(pathSegments.length == 2) {
 						return new SubredditPostListURL(
-								Type.SUBREDDIT_COMBINATION,
+								type,
 								subreddit,
 								null,
 								limit,
@@ -321,7 +339,7 @@ public class SubredditPostListURL extends PostListingURL {
 
 					} else if(order != null) {
 						return new SubredditPostListURL(
-								Type.SUBREDDIT_COMBINATION,
+								type,
 								subreddit,
 								order,
 								limit,
@@ -419,6 +437,9 @@ public class SubredditPostListURL extends PostListingURL {
 			case SUBREDDIT_COMBINATION:
 			case ALL_SUBTRACTION:
 				return subreddit;
+
+			case PINNED:
+				return context.getString(R.string.mainmenu_pinned);
 
 			default:
 				return super.humanReadableName(context, shorter);

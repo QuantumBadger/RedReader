@@ -150,6 +150,7 @@
     <string name="mainmenu_inbox">Inbox</string>
     <string name="mainmenu_profile">My Profile</string>
     <string name="mainmenu_header_subreddits">Subreddits</string>
+	<string name="mainmenu_pinned">Pinned Subreddits</string>
 
     <!-- General Listing -->
 
@@ -1975,4 +1976,7 @@
 	<!-- 2026-09-13 -->
 	<string name="pref_behaviour_mark_posts_as_read_on_scroll_key" translatable="false">pref_behaviour_mark_posts_as_read_on_scroll</string>
 	<string name="pref_behaviour_mark_posts_as_read_on_scroll_title">Mark posts as read when scrolled past</string>
+
+  <string name="pref_behaviour_skiptopinned_title">Skip to pinned subreddits</string>
+  <string name="pref_behaviour_skiptopinned_key" translatable="false">pref_behaviour_skiptopinned</string>
 </resources>

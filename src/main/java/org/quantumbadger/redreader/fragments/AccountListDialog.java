@@ -58,7 +58,10 @@ public class AccountListDialog extends AppCompatDialogFragment
 				null);
 	}
 
-	private AccountListDialog() {}
+	// Note: this class must have a public no-argument constructor (the implicit
+	// default). The FragmentManager re-instantiates this dialog via reflection when
+	// the activity is recreated while the dialog is showing, and a private
+	// constructor here previously caused a crash on restore.
 
 	@Override
 	public void onActivityResult(

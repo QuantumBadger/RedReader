@@ -17,16 +17,17 @@
 
 package org.quantumbadger.redreader.test.general;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.quantumbadger.redreader.common.Optional;
 import org.quantumbadger.redreader.common.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class StringUtilsTest {
 
@@ -97,5 +98,25 @@ public class StringUtilsTest {
 		assertFalse(StringUtils.isEmpty("\n"));
 		assertFalse(StringUtils.isEmpty("\r"));
 		assertFalse(StringUtils.isEmpty("a"));
+	}
+
+	@Test
+	public void testTruncate() {
+
+		assertEquals("", StringUtils.truncate("", 0));
+		assertEquals("abc", StringUtils.truncate("abc", 3));
+		assertEquals("abc", StringUtils.truncate("abc", 10));
+		assertEquals(
+				"abc\n[... 3 characters truncated]",
+				StringUtils.truncate("abcdef", 3));
+		assertEquals(
+				"\n[... 6 characters truncated]",
+				StringUtils.truncate("abcdef", 0));
+
+		assertNull(StringUtils.truncateNullable(null, 3));
+		assertEquals("abc", StringUtils.truncateNullable("abc", 3));
+		assertEquals(
+				"ab\n[... 1 characters truncated]",
+				StringUtils.truncateNullable("abc", 2));
 	}
 }

@@ -1,3 +1,6 @@
+/Alpha 371 (2026-09-13)
+Fixed crashes caused by system config changes while dialog is open
+
 /Alpha 370 (2026-09-13)
 Option to mark posts as read when scrolling past
 Accessibility announcements for collapsing/expanding comments, and voting (thanks to codeofdusk)

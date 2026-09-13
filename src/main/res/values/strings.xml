@@ -1956,13 +1956,19 @@
 
 	<!-- 2026-08-22 -->
 	<!--
-		Announcements must stay at most 30 characters long, including in
-		translation: TalkBack silently discards longer announcements when
-		accessibility focus moves just afterwards.
+		Screen reader announcements. These must stay at most 30 characters long,
+		including in translation: TalkBack silently discards longer announcements
+		when accessibility focus moves just afterwards. A unit test
+		(AccessibilityAnnouncementLengthTest) enforces this for every locale.
 	-->
+	<!-- Translators: spoken by the screen reader after a vote. Max 30 characters. -->
 	<string name="accessibility_announcement_upvoted">Upvoted</string>
+	<!-- Translators: spoken by the screen reader after a vote. Max 30 characters. -->
 	<string name="accessibility_announcement_downvoted">Downvoted</string>
+	<!-- Translators: spoken by the screen reader after removing a vote. Max 30 characters. -->
 	<string name="accessibility_announcement_removed_vote">Removed vote</string>
+	<!-- Translators: spoken by the screen reader after collapsing a comment. Max 30 characters. -->
 	<string name="accessibility_announcement_comment_collapsed">Collapsed comment</string>
+	<!-- Translators: spoken by the screen reader after expanding a comment. Max 30 characters. -->
 	<string name="accessibility_announcement_comment_expanded">Expanded</string>
 </resources>

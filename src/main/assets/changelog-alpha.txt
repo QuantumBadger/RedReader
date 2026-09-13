@@ -1,5 +1,6 @@
 /Alpha 370 (2026-09-13)
 Accessibility announcements for collapsing/expanding comments, and voting (thanks to codeofdusk)
+Fix accessibility focus when moving between parent comments (thanks to codeofdusk)
 Fixes for inline image preview size in landscape mode
 Improved memory usage for inline image previews
 Fix for notification prompt being shown twice when logging in

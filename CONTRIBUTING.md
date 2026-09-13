@@ -27,6 +27,22 @@ Be careful not to commit this file to git, as this could expose your key.
 
 Go to `Settings > Network > Reddit client ID override` and enter your ID there.
 
+### GitHub Actions builds
+
+In your fork, add a repository secret named `REDDIT_CLIENT_ID` under
+`Settings > Secrets and variables > Actions`. The CI workflow writes it to
+`src/main/assets/reddit_auth.txt` before building both APK variants. The ID is
+embedded in the APK; GitHub Secrets keeps it out of the source repository and logs,
+but does not make it inaccessible to someone inspecting the APK.
+
+CI runs on pushes, pull requests and manual `workflow_dispatch` runs, with no
+scheduled runs. Without the secret (including pull requests from forks), builds
+still work; configure the client ID in the app before accessing Reddit.
+
+Download `RedReader-release` or `RedReader-debug.apk` from the run's artifacts.
+The Release APK is optimized but unsigned; sign it with your own release key
+before installation. The Debug APK is signed with the runner's debug key.
+
 ## What is accepted?
 
 Please submit pull requests for:

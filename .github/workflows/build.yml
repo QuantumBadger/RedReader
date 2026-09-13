@@ -4,8 +4,6 @@ on:
     workflow_dispatch:
     push:
     pull_request:
-    schedule:
-        -   cron: '30 5 * * *'
 
 jobs:
     ci:
@@ -34,8 +32,33 @@ jobs:
                     echo "Installing NDK ${NDK_VERSION}"
                     echo "y" | "$SDKMANAGER" "ndk;$NDK_VERSION" --sdk_root="${ANDROID_SDK_ROOT}"
 
+            -   name: Inject Reddit client ID
+                env:
+                    REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+                shell: python
+                run: |
+                    import os
+                    from pathlib import Path
+
+                    client_id = os.environ["REDDIT_CLIENT_ID"]
+                    if client_id:
+                        if any(char.isspace() or char in '\"\\' for char in client_id):
+                            raise SystemExit("REDDIT_CLIENT_ID contains invalid characters")
+                        Path("src/main/assets/reddit_auth.txt").write_text(
+                            f'"{client_id}"\n', encoding="utf-8"
+                        )
+                    else:
+                        print("REDDIT_CLIENT_ID is not set; configure the client ID in the app before use.")
+
             -   name: Run release build
                 run: ./gradlew assembleRelease
+
+            -   name: Upload release APK
+                uses: actions/upload-artifact@v4
+                with:
+                    name: RedReader-release
+                    path: build/outputs/apk/release/*.apk
+                    if-no-files-found: error
 
             -   name: Run debug build
                 run: ./gradlew assembleDebug

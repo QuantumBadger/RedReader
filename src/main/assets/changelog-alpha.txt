@@ -1,5 +1,5 @@
 /Alpha 370 (2026-09-13)
-Accessibility announcements for certain actions (collapsing/expanding comments, and voting)
+Accessibility announcements for collapsing/expanding comments, and voting (thanks to codeofdusk)
 Fixes for inline image preview size in landscape mode
 Improved memory usage for inline image previews
 

@@ -22,6 +22,7 @@ import android.util.Log
 import okhttp3.CacheControl
 import okhttp3.Call
 import okhttp3.ConnectionPool
+import okhttp3.ConnectionSpec
 import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
@@ -101,6 +102,10 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 			//SOCKS appears to be broken for now, Relevant: https://github.com/square/okhttp/issues/2315
 			builder.proxy(tor)
 		}
+
+		// This restrict the client to only use TLSv1.2 and TLSv1.3
+		// In other word, only modern website with HTTPS enabled
+		builder.connectionSpecs(listOf(ConnectionSpec.RESTRICTED_TLS))
 
 		builder.followRedirects(true)
 		builder.followSslRedirects(true)

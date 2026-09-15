@@ -17,10 +17,33 @@
 
 package org.quantumbadger.redreader.reddit.prepared;
 
+import androidx.annotation.NonNull;
+
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 
 public interface RedditRenderableInboxItem extends RedditRenderableCommentListItem {
 	void handleInboxClick(BaseActivity activity);
 
 	void handleInboxLongClick(BaseActivity activity);
+
+	@NonNull
+	RedditIdAndType getIdAndType();
+
+	/**
+	 * Whether the current user is able to reply to this item.
+	 */
+	boolean canReply(BaseActivity activity);
+
+	void handleInboxReply(
+			BaseActivity activity,
+			RedditChangeDataManager changeDataManager);
+
+	/**
+	 * Whether this item has surrounding context (e.g. a comment thread) which
+	 * can be opened.
+	 */
+	boolean hasContext();
+
+	void handleInboxContext(BaseActivity activity);
 }

@@ -231,7 +231,7 @@ public class OAuthLoginActivity extends ViewsBaseActivity {
 						+ ", error = "
 						+ errorResponse.getStatusCode());
 
-				if (request.getUrl().toString().equals("https://www.reddit.com/svc/shreddit/account/login")
+				if (request.getUrl().toString().startsWith("https://www.reddit.com/svc/shreddit/account/login")
 						&& errorResponse.getStatusCode() / 100 == 4) {
 					DialogUtils.showDialogPositiveNegative(
 							OAuthLoginActivity.this,

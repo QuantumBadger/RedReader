@@ -199,6 +199,10 @@
 						android:entryValues="@array/pref_appearance_age_units_return"
 						android:defaultValue="2"/>
 
+		<CheckBoxPreference android:title="@string/pref_appearance_inbox_collapse_long_messages_title"
+				android:key="@string/pref_appearance_inbox_collapse_long_messages_key"
+				android:defaultValue="true"/>
+
 	</PreferenceCategory>
 
 </PreferenceScreen>

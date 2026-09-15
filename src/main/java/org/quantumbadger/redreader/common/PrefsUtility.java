@@ -575,6 +575,12 @@ public final class PrefsUtility {
 				true);
 	}
 
+	public static boolean pref_appearance_inbox_collapse_long_messages() {
+		return getBoolean(
+				R.string.pref_appearance_inbox_collapse_long_messages_key,
+				true);
+	}
+
 	public enum AppearanceStatusBarMode {
 		ALWAYS_HIDE, HIDE_ON_MEDIA, NEVER_HIDE
 	}

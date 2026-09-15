@@ -36,7 +36,10 @@ data class RedditMessage(
 	val subject: UrlEncodedString? = null,
 	val subreddit_name_prefixed: UrlEncodedString? = null,
 	val replies: RedditFieldReplies = RedditFieldReplies.None,
-	val created_utc: RedditTimestampUTC
+	val created_utc: RedditTimestampUTC,
+	// True if the message is unread. Only present on inbox listings, so null
+	// means "unknown" rather than "read".
+	val new: Boolean? = null
 
 ) : Parcelable, RedditThingWithIdAndType {
 

@@ -459,10 +459,52 @@ public final class RedditAPI {
 			final RedditAccount user,
 			final Context context) {
 
+		postIgnoringResponse(
+				cm,
+				responseHandler,
+				user,
+				Constants.Reddit.getUri("/api/read_all_messages"),
+				new LinkedList<>(),
+				context);
+	}
+
+	/**
+	 * Marks a single inbox item (a private message or a comment reply) as read.
+	 * Note that there is no longer a public API for marking an item as unread.
+	 */
+	public static void markMessageAsRead(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final RedditAccount user,
+			@NonNull final RedditIdAndType idAndType,
+			final Context context) {
+
 		final LinkedList<PostField> postFields = new LinkedList<>();
+		postFields.add(new PostField("id", idAndType.getValue()));
+
+		postIgnoringResponse(
+				cm,
+				responseHandler,
+				user,
+				Constants.Reddit.getUri("/api/read_message"),
+				postFields,
+				context);
+	}
+
+	/**
+	 * Sends a POST request to an endpoint which returns an empty response on
+	 * success, notifying the handler of success or failure.
+	 */
+	private static void postIgnoringResponse(
+			final CacheManager cm,
+			final APIResponseHandler.ActionResponseHandler responseHandler,
+			final RedditAccount user,
+			@NonNull final UriString url,
+			@NonNull final List<PostField> postFields,
+			final Context context) {
 
 		cm.makeRequest(createPostRequestUnprocessedResponse(
-				Constants.Reddit.getUri("/api/read_all_messages"),
+				url,
 				user,
 				postFields,
 				context,

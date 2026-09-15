@@ -579,6 +579,36 @@ public class RedditRenderableComment
 
 	@Override
 	public void handleInboxClick(final BaseActivity activity) {
+		handleInboxContext(activity);
+	}
+
+	@Override
+	public boolean canReply(final BaseActivity activity) {
+		// Archived/locked checks (with user feedback) happen in the reply action
+		return true;
+	}
+
+	@Override
+	public void handleInboxReply(
+			final BaseActivity activity,
+			final RedditChangeDataManager changeDataManager) {
+
+		RedditAPICommentAction.onActionMenuItemSelected(
+				this,
+				null,
+				activity,
+				null,
+				RedditAPICommentAction.RedditCommentAction.REPLY,
+				changeDataManager);
+	}
+
+	@Override
+	public boolean hasContext() {
+		return true;
+	}
+
+	@Override
+	public void handleInboxContext(final BaseActivity activity) {
 		// TODO nullability
 		final UriString commentContext
 				= Constants.Reddit.getUri(mComment.getRawComment().getContext().getDecoded());
@@ -607,6 +637,7 @@ public class RedditRenderableComment
 		return mComment.getIdAlone();
 	}
 
+	@NonNull
 	@Override
 	public RedditIdAndType getIdAndType() {
 		return mComment.getIdAndType();

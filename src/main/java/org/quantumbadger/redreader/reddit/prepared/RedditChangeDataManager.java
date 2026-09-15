@@ -21,6 +21,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountManager;
@@ -37,6 +38,7 @@ import org.quantumbadger.redreader.io.ExtendedDataOutputStream;
 import org.quantumbadger.redreader.io.RedditChangeDataIO;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
+import org.quantumbadger.redreader.reddit.kthings.RedditMessage;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 
 import java.io.IOException;
@@ -316,9 +318,38 @@ public final class RedditChangeDataManager {
 					timestamp,
 					Boolean.TRUE.equals(comment.getLikes()),
 					Boolean.FALSE.equals(comment.getLikes()),
-					false,
+					isReadFromNewFlag(comment.getNew()),
 					comment.getSaved(),
 					mIsHidden); // Use existing value for "collapsed"
+		}
+
+		Entry update(
+				final TimestampUTC timestamp,
+				final RedditMessage message) {
+
+			if(timestamp.isLessThan(mTimestamp)) {
+				return this;
+			}
+
+			return new Entry(
+					timestamp,
+					mIsUpvoted,
+					mIsDownvoted,
+					isReadFromNewFlag(message.getNew()),
+					mIsSaved,
+					mIsHidden);
+		}
+
+		// Converts Reddit's "new" (i.e. unread) flag into a read status. The
+		// field is only present on inbox listings, so when it's absent, keep
+		// whatever read state we already have.
+		private boolean isReadFromNewFlag(@Nullable final Boolean isNew) {
+
+			if(isNew == null) {
+				return mIsRead;
+			}
+
+			return !isNew;
 		}
 
 		Entry update(
@@ -499,6 +530,15 @@ public final class RedditChangeDataManager {
 			final Entry existingEntry = get(comment.getIdAndType());
 			final Entry updatedEntry = existingEntry.update(timestamp, comment);
 			set(comment.getIdAndType(), existingEntry, updatedEntry);
+		}
+	}
+
+	public void update(final TimestampUTC timestamp, final RedditMessage message) {
+
+		synchronized(mLock) {
+			final Entry existingEntry = get(message.getIdAndType());
+			final Entry updatedEntry = existingEntry.update(timestamp, message);
+			set(message.getIdAndType(), existingEntry, updatedEntry);
 		}
 	}
 

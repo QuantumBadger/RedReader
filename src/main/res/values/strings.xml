@@ -1975,4 +1975,17 @@
 	<!-- 2026-09-13 -->
 	<string name="pref_behaviour_mark_posts_as_read_on_scroll_key" translatable="false">pref_behaviour_mark_posts_as_read_on_scroll</string>
 	<string name="pref_behaviour_mark_posts_as_read_on_scroll_title">Mark posts as read when scrolled past</string>
+
+	<!-- 2026-09-15 -->
+	<string name="pref_appearance_inbox_collapse_long_messages_key" translatable="false">pref_appearance_inbox_collapse_long_messages</string>
+	<string name="pref_appearance_inbox_collapse_long_messages_title">Collapse long messages</string>
+	<string name="inbox_show_more">Show more</string>
+	<string name="inbox_show_less">Show less</string>
+	<string name="inbox_mark_read_failed">Failed to update read status</string>
+	<!-- Translators: label of the disabled button shown once an inbox message has been marked as read -->
+	<string name="inbox_button_read">Read</string>
+	<!-- Translators: spoken by the screen reader for an unread inbox message. -->
+	<string name="accessibility_inbox_unread">Unread</string>
+	<!-- Translators: spoken by the screen reader for an inbox message that has been read. -->
+	<string name="accessibility_inbox_read">Read</string>
 </resources>

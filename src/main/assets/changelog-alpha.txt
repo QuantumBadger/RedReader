@@ -1,3 +1,7 @@
+/Alpha 372 (2026-09-15)
+Inbox improvements and ability to mark messages as read
+Workaround for most recent Reddit login page issues
+
 /Alpha 371 (2026-09-13)
 Fixed crashes caused by system config changes while dialog is open
 Fixed crash when clicking reply too soon on a post

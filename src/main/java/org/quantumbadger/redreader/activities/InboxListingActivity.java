@@ -64,6 +64,7 @@ import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
 import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditFieldReplies;
+import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.kthings.RedditListing;
 import org.quantumbadger.redreader.reddit.kthings.RedditMessage;
 import org.quantumbadger.redreader.reddit.kthings.RedditThing;
@@ -79,6 +80,7 @@ import org.quantumbadger.redreader.views.liststatus.LoadingView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 public final class InboxListingActivity extends ViewsBaseActivity {
@@ -108,20 +110,25 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 	private RRThemeAttributes mTheme;
 	private RedditChangeDataManager mChangeDataManager;
 
+	private final ArrayList<InboxItem> mItems = new ArrayList<>();
+
+	// Items which the user has expanded after they were collapsed for length
+	private final HashSet<RedditIdAndType> mExpandedItems = new HashSet<>();
+
 	private final Handler itemHandler = new Handler(Looper.getMainLooper()) {
 		@Override
 		public void handleMessage(final Message msg) {
-			adapter.appendToGroup(0, (GroupedRecyclerViewAdapter.Item)msg.obj);
+			final InboxItem item = (InboxItem)msg.obj;
+			mItems.add(item);
+			adapter.appendToGroup(0, item);
 		}
 	};
 
 	private final class InboxItem extends GroupedRecyclerViewAdapter.Item {
 
-		private final int mListPosition;
 		private final RedditRenderableInboxItem mItem;
 
-		private InboxItem(final int listPosition, final RedditRenderableInboxItem item) {
-			this.mListPosition = listPosition;
+		private InboxItem(final RedditRenderableInboxItem item) {
 			this.mItem = item;
 		}
 
@@ -133,8 +140,11 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 		@Override
 		public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup viewGroup) {
 
-			final RedditInboxItemView view
-					= new RedditInboxItemView(InboxListingActivity.this, mTheme);
+			final RedditInboxItemView view = new RedditInboxItemView(
+					InboxListingActivity.this,
+					mTheme,
+					inboxType != InboxType.SENT,
+					mExpandedItems);
 
 			final RecyclerView.LayoutParams layoutParams
 					= new RecyclerView.LayoutParams(
@@ -152,8 +162,7 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 					InboxListingActivity.this,
 					mChangeDataManager,
 					mTheme,
-					mItem,
-					mListPosition != 0);
+					mItem);
 		}
 
 		@Override
@@ -316,8 +325,6 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 							// TODO {"error": 403} is received for unauthorized subreddits
 
-							int listPosition = 0;
-
 							if (listing.getChildren().isEmpty()) {
 
 								AndroidCommon.runOnUiThread(() -> {
@@ -344,6 +351,8 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 									final RedditComment comment
 											= ((RedditThing.Comment) thing).getData();
 
+									mChangeDataManager.update(timestamp, comment);
+
 									final RedditParsedComment parsedComment
 											= new RedditParsedComment(
 											comment,
@@ -361,22 +370,24 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 									itemHandler.sendMessage(General.handlerMessage(
 											0,
-											new InboxItem(listPosition, renderableComment)));
-
-									listPosition++;
+											new InboxItem(renderableComment)));
 
 								} else if(thing instanceof RedditThing.Message) {
+
+									final RedditMessage messageRaw
+											= ((RedditThing.Message) thing).getData();
+
+									mChangeDataManager.update(timestamp, messageRaw);
 
 									final RedditPreparedMessage message
 											= new RedditPreparedMessage(
 													InboxListingActivity.this,
-													((RedditThing.Message) thing).getData(),
-											inboxType);
+													messageRaw,
+													inboxType);
 
 									itemHandler.sendMessage(General.handlerMessage(
 											0,
-											new InboxItem(listPosition, message)));
-									listPosition++;
+											new InboxItem(message)));
 
 									if(message.src.getReplies()
 											instanceof RedditFieldReplies.Some) {
@@ -395,6 +406,8 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 													= ((RedditThing.Message)childMsgValue.ok())
 															.getData();
 
+											mChangeDataManager.update(timestamp, childMsgRaw);
+
 											final RedditPreparedMessage childMsg
 													= new RedditPreparedMessage(
 															InboxListingActivity.this,
@@ -403,9 +416,7 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 											itemHandler.sendMessage(General.handlerMessage(
 													0,
-													new InboxItem(listPosition, childMsg)));
-
-											listPosition++;
+													new InboxItem(childMsg)));
 										}
 									}
 								} else {
@@ -482,6 +493,19 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 								General.quickToast(
 										context,
 										R.string.mark_all_as_read_success);
+
+								AndroidCommon.runOnUiThread(() -> {
+									final TimestampUTC now = TimestampUTC.now();
+
+									for(final InboxItem item : mItems) {
+										mChangeDataManager.markRead(
+												now,
+												item.mItem.getIdAndType(),
+												true);
+									}
+
+									adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+								});
 							}
 
 							@Override

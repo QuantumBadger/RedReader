@@ -1130,6 +1130,7 @@ public final class PrefsUtility {
 		COPY_URL,
 		USER_PROFILE,
 		COLLAPSE,
+		COLLAPSE_THREAD,
 		ACTION_MENU,
 		PROPERTIES,
 		BACK,
@@ -1149,7 +1150,7 @@ public final class PrefsUtility {
 	}
 
 	public enum CommentAction {
-		COLLAPSE, ACTION_MENU, NOTHING
+		COLLAPSE, COLLAPSE_THREAD, ACTION_MENU, NOTHING
 	}
 
 	public static CommentAction pref_behaviour_actions_comment_tap() {

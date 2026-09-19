@@ -506,7 +506,7 @@
 
     <!-- 2013-08-04 -->
 
-    <string name="pref_appearance_indentlines_title">Show indent lines</string>
+    	<string name="pref_appearance_indentlines_title">Show colorful comment indent bars</string>
     <string name="pref_appearance_indentlines_key" translatable="false">pref_appearance_indentlines</string>
 
     <!-- 2014-03-14 -->

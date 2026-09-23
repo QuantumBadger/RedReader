@@ -29,7 +29,7 @@ public class FingerTracker {
 
 		void onFingersMoved();
 
-		void onFingerUp(Finger finger);
+		void onFingerUp(Finger finger, boolean cancelled);
 	}
 
 	private final Finger[] mFingers = new Finger[10];
@@ -85,7 +85,7 @@ public class FingerTracker {
 				for(final Finger f : mFingers) {
 					if(f.mActive && f.mAndroidId == id) {
 						f.onUp(event);
-						mListener.onFingerUp(f);
+						mListener.onFingerUp(f, false);
 						break;
 					}
 				}
@@ -101,7 +101,7 @@ public class FingerTracker {
 				for(final Finger f : mFingers) {
 					if(f.mActive) {
 						f.onUp(event);
-						mListener.onFingerUp(f);
+						mListener.onFingerUp(f, true);
 					}
 				}
 

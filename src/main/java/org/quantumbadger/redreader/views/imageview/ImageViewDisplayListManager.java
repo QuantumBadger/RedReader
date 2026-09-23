@@ -510,7 +510,10 @@ public class ImageViewDisplayListManager implements
 	}
 
 	@Override
-	public synchronized void onFingerUp(final FingerTracker.Finger finger) {
+	public synchronized void onFingerUp(
+			final FingerTracker.Finger finger,
+			final boolean cancelled
+	) {
 
 		if(mScrollbars == null) {
 			return;
@@ -531,7 +534,7 @@ public class ImageViewDisplayListManager implements
 
 			case DOUBLE_TAP_ONE_FINGER_DOWN:
 
-				if(finger.mDownDuration < TAP_MAX_DURATION_MS) {
+				if(!cancelled && finger.mDownDuration < TAP_MAX_DURATION_MS) {
 					onDoubleTap(finger.mCurrentPos);
 				}
 
@@ -541,7 +544,7 @@ public class ImageViewDisplayListManager implements
 
 			case ONE_FINGER_DOWN:
 
-				if(finger.mDownDuration < TAP_MAX_DURATION_MS) {
+				if(!cancelled && finger.mDownDuration < TAP_MAX_DURATION_MS) {
 
 					// Maybe a single tap
 					mDoubleTapGapTimer.startTimer();

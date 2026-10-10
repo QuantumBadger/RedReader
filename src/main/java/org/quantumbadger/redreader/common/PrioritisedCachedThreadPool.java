@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
@@ -100,7 +102,12 @@ public class PrioritisedCachedThreadPool {
 				}
 
 				assert taskToRun != null;
-				taskToRun.run();
+
+				try {
+					taskToRun.run();
+				} catch(final Throwable t) {
+					Log.e(mThreadName, "Exception in task", t);
+				}
 			}
 		}
 	}

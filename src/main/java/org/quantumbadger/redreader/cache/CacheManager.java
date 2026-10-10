@@ -637,7 +637,18 @@ public final class CacheManager {
 
 				CacheRequest request;
 				while((request = requests.take()) != null) {
-					handleRequest(request);
+					try {
+						handleRequest(request);
+
+					} catch(final Throwable t) {
+						request.notifyFailure(General.getGeneralErrorForFailure(
+								context,
+								CacheRequest.RequestFailureType.STORAGE,
+								t,
+								null,
+								request.url,
+								Optional.empty()));
+					}
 				}
 
 			} catch(final InterruptedException e) {

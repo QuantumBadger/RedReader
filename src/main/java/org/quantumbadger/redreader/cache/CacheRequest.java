@@ -300,7 +300,17 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			final boolean fromCache,
 			@Nullable final String mimetype) {
 
-		mCallbacks.onDataStreamAvailable(streamFactory, timestamp, session, fromCache, mimetype);
+		try {
+			mCallbacks.onDataStreamAvailable(
+					streamFactory,
+					timestamp,
+					session,
+					fromCache,
+					mimetype);
+
+		} catch(final Throwable t) {
+			onCallbackException(t);
+		}
 	}
 
 	public void notifyDataStreamComplete(
@@ -310,7 +320,17 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			final boolean fromCache,
 			@Nullable final String mimetype) {
 
-		mCallbacks.onDataStreamComplete(streamFactory, timestamp, session, fromCache, mimetype);
+		try {
+			mCallbacks.onDataStreamComplete(
+					streamFactory,
+					timestamp,
+					session,
+					fromCache,
+					mimetype);
+
+		} catch(final Throwable t) {
+			onCallbackException(t);
+		}
 	}
 
 	public void notifyFailure(@NonNull final RRError error) {

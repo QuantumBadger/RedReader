@@ -33,11 +33,27 @@ public final class MemoryDataStream {
 	@Nullable private IOException mFailed;
 	private boolean mComplete;
 
+	// Capacities to use for successive reallocations, before falling back to doubling.
+	// See the two-argument constructor.
+	@NonNull private final int[] mGrowthPlan;
+	private int mGrowthPlanIndex = 0;
+
 	public MemoryDataStream() {
 		this(64 * 1024);
 	}
 
 	public MemoryDataStream(final int initialCapacity) {
+		this(initialCapacity, new int[0]);
+	}
+
+	/**
+	 * @param growthPlan The capacities to grow to on successive reallocations, in order.
+	 *                   Once these are exhausted (or if one is too small for the data
+	 *                   being written) the buffer grows by doubling as usual. This allows
+	 *                   a small initial buffer for the common case, with a single jump to
+	 *                   a larger size when the data turns out to be bigger.
+	 */
+	public MemoryDataStream(final int initialCapacity, @NonNull final int[] growthPlan) {
 
 		if(initialCapacity < 1) {
 			throw new RuntimeException("Initial capacity must be at least 1");
@@ -45,12 +61,14 @@ public final class MemoryDataStream {
 
 		mData = new byte[initialCapacity];
 		mSize = 0;
+		mGrowthPlan = growthPlan;
 	}
 
 	public MemoryDataStream(final byte[] data) {
 		mData = data;
 		mSize = data.length;
 		mComplete = true;
+		mGrowthPlan = new int[0];
 	}
 
 	private void ensureCapacity(final int desiredCapacity) {
@@ -59,7 +77,21 @@ public final class MemoryDataStream {
 			return;
 		}
 
-		if(desiredCapacity > (mData.length * 2)) {
+		// Take the next planned size, skipping any which would not be an increase
+		int planned = -1;
+
+		while(mGrowthPlanIndex < mGrowthPlan.length) {
+			final int candidate = mGrowthPlan[mGrowthPlanIndex++];
+			if(candidate > mData.length) {
+				planned = candidate;
+				break;
+			}
+		}
+
+		if(planned >= desiredCapacity) {
+			realloc(planned);
+
+		} else if(desiredCapacity > (mData.length * 2)) {
 			realloc(desiredCapacity + (desiredCapacity / 2));
 
 		} else {
@@ -74,6 +106,13 @@ public final class MemoryDataStream {
 		}
 
 		mData = Arrays.copyOf(mData, newCapacity);
+	}
+
+	/** The current size of the underlying buffer, which is at least {@link #size()}. */
+	public int getCapacity() {
+		synchronized(mLock) {
+			return mData.length;
+		}
 	}
 
 	public int size() {

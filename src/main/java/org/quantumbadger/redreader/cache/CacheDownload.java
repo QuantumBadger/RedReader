@@ -113,6 +113,80 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 		}
 	}
 
+	// The server-reported Content-Length is used to size the buffer exactly, avoiding
+	// the repeated reallocations (and the large discarded intermediate arrays) which
+	// growing the buffer from a small initial size would otherwise cause. It is only a
+	// hint: the buffer still grows if more data arrives than the server reported.
+	//
+	// When no length is reported (which is normal for Reddit API responses, as OkHttp
+	// decompresses them transparently) the initial size is chosen per file type, from
+	// the sizes observed in practice.
+	//
+	// Comment listings are bimodal: most are a few kilobytes, but a large minority are
+	// several hundred kilobytes. They therefore start small, and jump straight to a size
+	// which fits almost every large thread on the first reallocation (see
+	// chooseGrowthPlan), rather than doubling their way up.
+	private static final int DEFAULT_INITIAL_BUFFER_SIZE = 64 * 1024;
+	private static final long MAX_PREALLOCATED_BUFFER_SIZE = 256L * 1024 * 1024;
+
+	private static final int COMMENT_LIST_INITIAL_BUFFER_SIZE = 128 * 1024;
+	private static final int COMMENT_LIST_SECOND_BUFFER_SIZE = 600 * 1024;
+
+	// Growth plans are shared, never copied: MemoryDataStream only reads them
+	private static final int[] NO_GROWTH_PLAN = new int[0];
+	private static final int[] COMMENT_LIST_GROWTH_PLAN
+			= new int[] {COMMENT_LIST_SECOND_BUFFER_SIZE};
+
+	private static boolean isUsableContentLength(@Nullable final Long reportedContentLength) {
+		return reportedContentLength != null
+				&& reportedContentLength >= 1
+				&& reportedContentLength <= MAX_PREALLOCATED_BUFFER_SIZE;
+	}
+
+	public static int chooseInitialBufferSize(
+			@Nullable final Long reportedContentLength,
+			final int fileType) {
+
+		if(isUsableContentLength(reportedContentLength)) {
+			return (int)(long)reportedContentLength;
+		}
+
+		switch(fileType) {
+			case Constants.FileType.COMMENT_LIST:
+				return COMMENT_LIST_INITIAL_BUFFER_SIZE;
+
+			case Constants.FileType.POST_LIST:
+			case Constants.FileType.INLINE_IMAGE_PREVIEW:
+				return 256 * 1024;
+
+			case Constants.FileType.IMAGE:
+				return 2 * 1024 * 1024;
+
+			default:
+				return DEFAULT_INITIAL_BUFFER_SIZE;
+		}
+	}
+
+	/**
+	 * The buffer sizes to use on successive reallocations, if the initial buffer turns
+	 * out to be too small. See {@link MemoryDataStream#MemoryDataStream(int, int[])}.
+	 */
+	@NonNull
+	public static int[] chooseGrowthPlan(
+			@Nullable final Long reportedContentLength,
+			final int fileType) {
+
+		if(isUsableContentLength(reportedContentLength)) {
+			return NO_GROWTH_PLAN;
+		}
+
+		if(fileType == Constants.FileType.COMMENT_LIST) {
+			return COMMENT_LIST_GROWTH_PLAN;
+		}
+
+		return NO_GROWTH_PLAN;
+	}
+
 	public static void resetUserCredentialsOnNextRequest() {
 		resetUserCredentials.set(true);
 	}
@@ -194,171 +268,266 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 				if(mCancelled) {
 					Log.i(TAG, "Request cancelled at start of onSuccess()");
+					General.closeSafely(is);
 					return;
 				}
 
-				final MemoryDataStream stream = new MemoryDataStream(64 * 1024);
+				if(mInitiator.precache && mInitiator.cache) {
+					downloadToCacheFile(mimetype, bodyBytes, is);
+				} else {
+					downloadToMemory(mimetype, bodyBytes, is);
+				}
+			}
+		});
+	}
 
-				mInitiator.notifyDataStreamAvailable(
-						stream::getInputStream,
+	// For precache requests: the data is written straight to the cache file as it arrives,
+	// without ever being held in memory. The data stream callbacks are not invoked, since
+	// nothing is waiting to read the data -- the request exists only to populate the cache.
+	private void downloadToCacheFile(
+			@Nullable final String mimetype,
+			@Nullable final Long bodyBytes,
+			@NonNull final InputStream is) {
+
+		final CacheManager.WritableCacheFile writableCacheFile = openCacheFile(mimetype);
+
+		if(writableCacheFile == null) {
+			// Failure already reported
+			General.closeSafely(is);
+			return;
+		}
+
+		long totalBytesRead = 0;
+
+		try {
+			final byte[] buf = new byte[64 * 1024];
+
+			int bytesRead;
+
+			while((bytesRead = tryReadFully(is, buf)) > 0) {
+
+				totalBytesRead += bytesRead;
+
+				writableCacheFile.writeChunk(buf, 0, bytesRead);
+
+				if(bodyBytes != null) {
+					mInitiator.notifyProgress(false, totalBytesRead, bodyBytes);
+				}
+
+				if(mCancelled) {
+					Log.i(TAG, "Request cancelled during read loop");
+					writableCacheFile.onWriteCancelled();
+					return;
+				}
+			}
+
+			writableCacheFile.onWriteFinished();
+
+			mInitiator.notifyCacheFileWritten(
+					writableCacheFile.getReadableCacheFile(),
+					TimestampUTC.now(),
+					session,
+					false,
+					mimetype);
+
+		} catch(final Throwable t) {
+
+			writableCacheFile.onWriteCancelled();
+
+			// This covers both network and disk errors. The distinction is not worth
+			// tracking here, as a failed precache is only ever logged.
+			mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+					mInitiator.context,
+					CacheRequest.RequestFailureType.CONNECTION,
+					t,
+					null,
+					mInitiator.url,
+					Optional.empty()));
+
+		} finally {
+			General.closeSafely(is);
+		}
+	}
+
+	// For normal requests: the data is read into memory, where the requester can start
+	// consuming it while the download is still in progress, and is then written to the
+	// cache afterwards.
+	private void downloadToMemory(
+			@Nullable final String mimetype,
+			@Nullable final Long bodyBytes,
+			@NonNull final InputStream is) {
+
+		final MemoryDataStream stream = new MemoryDataStream(
+				chooseInitialBufferSize(bodyBytes, mInitiator.fileType),
+				chooseGrowthPlan(bodyBytes, mInitiator.fileType));
+
+		mInitiator.notifyDataStreamAvailable(
+				stream::getInputStream,
+				TimestampUTC.now(),
+				session,
+				false,
+				mimetype);
+
+		try {
+
+			final byte[] buf = new byte[64 * 1024];
+
+			int bytesRead;
+			long totalBytesRead = 0;
+
+			while((bytesRead = tryReadFully(is, buf)) > 0) {
+
+				totalBytesRead += bytesRead;
+
+				stream.writeBytes(buf, 0, bytesRead);
+
+				if(bodyBytes != null) {
+					mInitiator.notifyProgress(
+							false,
+							totalBytesRead,
+							bodyBytes);
+				}
+
+				if(mCancelled) {
+					Log.i(TAG, "Request cancelled during read loop");
+					stream.setFailed(new IOException("Download cancelled"));
+					return;
+				}
+			}
+
+			stream.setComplete();
+
+			mInitiator.notifyDataStreamComplete(
+					stream::getInputStream,
+					TimestampUTC.now(),
+					session,
+					false,
+					mimetype);
+
+		} catch(final Throwable t) {
+
+			stream.setFailed(t instanceof IOException
+					? (IOException)t
+					: new IOException("Got exception during download", t));
+
+			mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+					mInitiator.context,
+					CacheRequest.RequestFailureType.CONNECTION,
+					t,
+					null,
+					mInitiator.url,
+					Optional.empty()));
+
+			return;
+
+		} finally {
+			General.closeSafely(is);
+		}
+
+		// Save it to the cache
+
+		if(mInitiator.cache) {
+
+			final CacheManager.WritableCacheFile writableCacheFile = openCacheFile(mimetype);
+
+			if(writableCacheFile == null) {
+				// Failure already reported
+				return;
+			}
+
+			try {
+				stream.getUnderlyingByteArrayWhenComplete(
+						writableCacheFile::writeWholeFile);
+
+				writableCacheFile.onWriteFinished();
+
+				mInitiator.notifyCacheFileWritten(
+						writableCacheFile.getReadableCacheFile(),
 						TimestampUTC.now(),
 						session,
 						false,
 						mimetype);
 
-				// Download the file into memory
+			} catch(final IOException e) {
 
-				try {
+				writableCacheFile.onWriteCancelled();
 
-					final byte[] buf = new byte[64 * 1024];
-
-					int bytesRead;
-					long totalBytesRead = 0;
-
-					while((bytesRead = tryReadFully(is, buf)) > 0) {
-
-						totalBytesRead += bytesRead;
-
-						stream.writeBytes(buf, 0, bytesRead);
-
-						if(bodyBytes != null) {
-							mInitiator.notifyProgress(
-									false,
-									totalBytesRead,
-									bodyBytes);
-						}
-
-						if(mCancelled) {
-							Log.i(TAG, "Request cancelled during read loop");
-							stream.setFailed(new IOException("Download cancelled"));
-							return;
-						}
-					}
-
-					stream.setComplete();
-
-					mInitiator.notifyDataStreamComplete(
-							stream::getInputStream,
-							TimestampUTC.now(),
-							session,
-							false,
-							mimetype);
-
-				} catch(final Throwable t) {
-
-					stream.setFailed(t instanceof IOException
-							? (IOException)t
-							: new IOException("Got exception during download", t));
-
-					mInitiator.notifyFailure(General.getGeneralErrorForFailure(
-							mInitiator.context,
-							CacheRequest.RequestFailureType.CONNECTION,
-							t,
-							null,
-							mInitiator.url,
-							Optional.empty()));
-
-					return;
-
-				} finally {
-					General.closeSafely(is);
-				}
-
-				// Save it to the cache
-
-				if(mInitiator.cache) {
-
-					@NonNull final CacheManager.WritableCacheFile writableCacheFile;
-
-					final CacheCompressionType cacheCompressionType;
-
-					switch(mInitiator.fileType) {
-						case Constants.FileType.CAPTCHA:
-						case Constants.FileType.IMAGE:
-						case Constants.FileType.INLINE_IMAGE_PREVIEW:
-						case Constants.FileType.NOCACHE:
-						case Constants.FileType.THUMBNAIL:
-							// Image saving/sharing relies the file on disk being "raw"
-							cacheCompressionType = CacheCompressionType.NONE;
-							break;
-
-						case Constants.FileType.COMMENT_LIST:
-						case Constants.FileType.IMAGE_INFO:
-						case Constants.FileType.INBOX_LIST:
-						case Constants.FileType.MULTIREDDIT_LIST:
-						case Constants.FileType.POST_LIST:
-						case Constants.FileType.SUBREDDIT_ABOUT:
-						case Constants.FileType.SUBREDDIT_LIST:
-						case Constants.FileType.USER_ABOUT:
-							cacheCompressionType = CacheCompressionType.ZSTD;
-							break;
-
-						default:
-							Log.e(TAG, "Unhandled filetype: " + mInitiator.fileType);
-							cacheCompressionType = CacheCompressionType.NONE;
-					}
-
-					try {
-						writableCacheFile = manager.openNewCacheFile(
-								mInitiator.url,
-								mInitiator.user,
-								mInitiator.fileType,
-								session,
-								mimetype,
-								cacheCompressionType);
-
-					} catch(final IOException e) {
-
-						Log.e(TAG, "Exception opening cache file for write", e);
-
-						final CacheRequest.RequestFailureType failureType;
-
-						if(manager.getPreferredCacheLocation().exists()) {
-							failureType = CacheRequest.RequestFailureType.STORAGE;
-						} else {
-							failureType = CacheRequest
-									.RequestFailureType.CACHE_DIR_DOES_NOT_EXIST;
-						}
-
-						mInitiator.notifyFailure(General.getGeneralErrorForFailure(
-								mInitiator.context,
-								failureType,
-								e,
-								null,
-								mInitiator.url,
-								Optional.empty()));
-
-						return;
-					}
-
-					try {
-						stream.getUnderlyingByteArrayWhenComplete(
-								writableCacheFile::writeWholeFile);
-
-						writableCacheFile.onWriteFinished();
-
-						mInitiator.notifyCacheFileWritten(
-								writableCacheFile.getReadableCacheFile(),
-								TimestampUTC.now(),
-								session,
-								false,
-								mimetype);
-
-					} catch(final IOException e) {
-
-						writableCacheFile.onWriteCancelled();
-
-						mInitiator.notifyFailure(General.getGeneralErrorForFailure(
-								mInitiator.context,
-								CacheRequest.RequestFailureType.STORAGE,
-								e,
-								null,
-								mInitiator.url,
-								Optional.empty()));
-					}
-				}
+				mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+						mInitiator.context,
+						CacheRequest.RequestFailureType.STORAGE,
+						e,
+						null,
+						mInitiator.url,
+						Optional.empty()));
 			}
-		});
+		}
+	}
+
+	@NonNull
+	private static CacheCompressionType getCacheCompressionType(final int fileType) {
+
+		switch(fileType) {
+			case Constants.FileType.CAPTCHA:
+			case Constants.FileType.IMAGE:
+			case Constants.FileType.INLINE_IMAGE_PREVIEW:
+			case Constants.FileType.NOCACHE:
+			case Constants.FileType.THUMBNAIL:
+				// Image saving/sharing relies the file on disk being "raw"
+				return CacheCompressionType.NONE;
+
+			case Constants.FileType.COMMENT_LIST:
+			case Constants.FileType.IMAGE_INFO:
+			case Constants.FileType.INBOX_LIST:
+			case Constants.FileType.MULTIREDDIT_LIST:
+			case Constants.FileType.POST_LIST:
+			case Constants.FileType.SUBREDDIT_ABOUT:
+			case Constants.FileType.SUBREDDIT_LIST:
+			case Constants.FileType.USER_ABOUT:
+				return CacheCompressionType.ZSTD;
+
+			default:
+				Log.e(TAG, "Unhandled filetype: " + fileType);
+				return CacheCompressionType.NONE;
+		}
+	}
+
+	// Opens a new cache file for this request. On failure, the requester is notified and
+	// null is returned.
+	@Nullable
+	private CacheManager.WritableCacheFile openCacheFile(@Nullable final String mimetype) {
+
+		try {
+			return manager.openNewCacheFile(
+					mInitiator.url,
+					mInitiator.user,
+					mInitiator.fileType,
+					session,
+					mimetype,
+					getCacheCompressionType(mInitiator.fileType));
+
+		} catch(final IOException e) {
+
+			Log.e(TAG, "Exception opening cache file for write", e);
+
+			final CacheRequest.RequestFailureType failureType;
+
+			if(manager.getPreferredCacheLocation().exists()) {
+				failureType = CacheRequest.RequestFailureType.STORAGE;
+			} else {
+				failureType = CacheRequest
+						.RequestFailureType.CACHE_DIR_DOES_NOT_EXIST;
+			}
+
+			mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+					mInitiator.context,
+					failureType,
+					e,
+					null,
+					mInitiator.url,
+					Optional.empty()));
+
+			return null;
+		}
 	}
 
 	@NonNull

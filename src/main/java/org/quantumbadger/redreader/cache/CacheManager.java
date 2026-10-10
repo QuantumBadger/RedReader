@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 
 import com.github.luben.zstd.Zstd;
 import com.github.luben.zstd.ZstdInputStream;
+import com.github.luben.zstd.ZstdOutputStream;
 
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.activities.BugReportActivity;
@@ -319,6 +320,9 @@ public final class CacheManager {
 		private long mUncompressedLength = 0;
 		private long mCompressedLength = 0;
 
+		// Set up on the first call to writeChunk(), when the file is written incrementally
+		@Nullable private OutputStream mChunkStream = null;
+
 		private WritableCacheFile(
 				@NonNull final UriString url,
 				@NonNull final RedditAccount user,
@@ -381,11 +385,45 @@ public final class CacheManager {
 			mUncompressedLength += length;
 		}
 
+		/**
+		 * Writes the next part of the file. Unlike {@link #writeWholeFile}, this may be
+		 * called repeatedly as data arrives, and compresses incrementally, so the whole
+		 * file never has to be held in memory. The two methods must not be mixed.
+		 */
+		public void writeChunk(
+				final byte[] buf,
+				final int offset,
+				final int length) throws IOException {
+
+			if(mChunkStream == null) {
+
+				if(mCacheCompressionType == CacheCompressionType.NONE) {
+					mChunkStream = mOutStream;
+
+				} else if(mCacheCompressionType == CacheCompressionType.ZSTD) {
+					mChunkStream = new ZstdOutputStream(mOutStream, 3);
+
+				} else {
+					throw new RuntimeException(
+							"Unhandled compression type " + mCacheCompressionType);
+				}
+			}
+
+			mChunkStream.write(buf, offset, length);
+			mUncompressedLength += length;
+		}
+
 		public void onWriteFinished() throws IOException {
 
 			if(mWriteExternally) {
 				mCompressedLength = mTmpFile.length();
 				mUncompressedLength = mCompressedLength;
+
+			} else if(mChunkStream != null) {
+				// Finishes the compressed stream (if any) and closes the file
+				mChunkStream.flush();
+				mChunkStream.close();
+				mCompressedLength = mTmpFile.length();
 
 			} else {
 				mOutStream.flush();
@@ -422,6 +460,10 @@ public final class CacheManager {
 		public void onWriteCancelled() {
 
 			try {
+				if(mChunkStream != null) {
+					General.closeSafely(mChunkStream);
+				}
+
 				mOutStream.close();
 				if(!mTmpFile.delete()) {
 					Log.e(TAG, "Failed to delete temp cache file " + mTmpFile.delete());

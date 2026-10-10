@@ -79,6 +79,11 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 
 	public final boolean cache;
 
+	// A precache request only populates the disk cache: the data is streamed straight to
+	// the cache file without being held in memory, and the data stream callbacks are
+	// not invoked. See newPrecacheRequest().
+	public final boolean precache;
+
 	@Nullable private CacheDownload download;
 	private boolean cancelled;
 
@@ -128,6 +133,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				queueType,
 				null,
 				cache,
+				false,
 				context,
 				callbacks);
 	}
@@ -178,6 +184,40 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 				queueType,
 				requestBody,
 				false,
+				false,
+				context,
+				callbacks);
+	}
+
+	/**
+	 * Creates a request whose only purpose is to populate the disk cache, so that a later
+	 * request for the same URL is served locally. The response is streamed directly to the
+	 * cache file rather than being buffered in memory, and the callbacks will only receive
+	 * {@link CacheRequestCallbacks#onCacheFileWritten} or
+	 * {@link CacheRequestCallbacks#onFailure}, never the data stream callbacks.
+	 */
+	@NonNull
+	public static CacheRequest newPrecacheRequest(
+			@NonNull final UriString url,
+			@NonNull final RedditAccount user,
+			@NonNull final Priority priority,
+			@NonNull final DownloadStrategy downloadStrategy,
+			final int fileType,
+			final DownloadQueueType queueType,
+			@NonNull final Context context,
+			@NonNull final CacheRequestCallbacks callbacks) {
+
+		return new CacheRequest(
+				url,
+				user,
+				null,
+				priority,
+				downloadStrategy,
+				fileType,
+				queueType,
+				null,
+				true,
+				true,
 				context,
 				callbacks);
 	}
@@ -193,6 +233,7 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 			final DownloadQueueType queueType,
 			@Nullable final HTTPRequestBody requestBody,
 			final boolean cache,
+			final boolean precache,
 			@NonNull final Context context,
 			@NonNull final CacheRequestCallbacks callbacks) {
 
@@ -218,6 +259,11 @@ public final class CacheRequest implements Comparable<CacheRequest> {
 		this.queueType = queueType;
 		this.requestBody = Optional.ofNullable(requestBody);
 		this.cache = (requestBody == null) && cache;
+		this.precache = precache;
+
+		if(precache && !this.cache) {
+			throw new IllegalArgumentException("A precache request must be cacheable");
+		}
 
 		if(url == null) {
 			notifyFailure(General.getGeneralErrorForFailure(

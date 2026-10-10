@@ -1,6 +1,7 @@
 120/1.28
 Fixed issue where post titles are cut off
 Scrolling performance optimization
+Reduced memory usage and allocation count
 
 119/1.27
 Inbox improvements and ability to mark messages as read

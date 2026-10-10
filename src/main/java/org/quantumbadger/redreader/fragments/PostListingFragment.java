@@ -1080,10 +1080,9 @@ public class PostListingFragment extends RRFragment
 		final UriString url = UriString.from(controller.getUri());
 
 		CacheManager.getInstance(activity)
-				.makeRequest(new CacheRequest(
+				.makeRequest(CacheRequest.newPrecacheRequest(
 						url,
 						RedditAccountManager.getInstance(activity).getDefaultAccount(),
-						null,
 						new Priority(
 								Constants.Priority.COMMENT_PRECACHE,
 							positionInList),
@@ -1196,10 +1195,9 @@ public class PostListingFragment extends RRFragment
 			final UriString url,
 			final int positionInList) {
 
-		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
+		CacheManager.getInstance(activity).makeRequest(CacheRequest.newPrecacheRequest(
 				url,
 				RedditAccountManager.getAnon(),
-				null,
 				new Priority(
 						Constants.Priority.IMAGE_PRECACHE,
 						positionInList),

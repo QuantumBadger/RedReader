@@ -273,13 +273,15 @@ final class CacheDbManager extends SQLiteOpenHelper {
 
 		final Cursor cursor = db.query(
 				TABLE,
-				new String[] {FIELD_ID, FIELD_TIMESTAMP, FIELD_TYPE},
+				new String[] {FIELD_ID, FIELD_TIMESTAMP, FIELD_TYPE, FIELD_STATUS},
 				null,
 				null,
 				null,
 				null,
 				null,
 				null);
+
+		final TimestampUTC inProgressBoundary = currentTime.subtract(TimeDuration.hours(1));
 
 		final HashSet<Long> currentEntries = new HashSet<>();
 		final ArrayList<Long> entriesToDelete = new ArrayList<>();
@@ -290,6 +292,13 @@ final class CacheDbManager extends SQLiteOpenHelper {
 			final long id = cursor.getLong(0);
 			final TimestampUTC timestamp = TimestampUTC.fromUtcMs(cursor.getLong(1));
 			final int type = cursor.getInt(2);
+			final int status = cursor.getInt(3);
+
+			if(status == STATUS_MOVING && inProgressBoundary.isLessThan(timestamp)) {
+				// Still being written
+				currentEntries.add(id);
+				continue;
+			}
 
 			final TimestampUTC pruneIfBeforeMs;
 

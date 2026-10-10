@@ -262,6 +262,27 @@ public final class PrefsUtility {
 				"black")));
 	}
 
+	/**
+	 * The opacity of the scrim drawn behind the navigation bar, as a
+	 * percentage from 0 to 100, or empty if it should be chosen automatically
+	 * based on the navigation bar colour.
+	 */
+	@NonNull
+	public static Optional<Integer> appearance_navbar_opacity() {
+
+		final String value = getString(R.string.pref_appearance_navbar_opacity_key, "auto");
+
+		if ("auto".equals(value)) {
+			return Optional.empty();
+		}
+
+		try {
+			return Optional.of(Math.max(0, Math.min(100, Integer.parseInt(value))));
+		} catch (final NumberFormatException e) {
+			return Optional.empty();
+		}
+	}
+
 	public static void applyTheme(@NonNull final Activity activity) {
 
 		final AppearanceTheme theme = appearance_theme();

@@ -241,6 +241,27 @@
         <item>primarydark</item>
     </string-array>
 
+	<string-array name="pref_appearance_navbar_opacity_options">
+		<item>@string/pref_appearance_navbar_opacity_option_auto</item>
+		<item>0%</item>
+		<item>25%</item>
+		<item>50%</item>
+		<item>75%</item>
+		<item>90%</item>
+		<item>100%</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_appearance_navbar_opacity_options_return">
+		<item>auto</item>
+		<item>0</item>
+		<item>25</item>
+		<item>50</item>
+		<item>75</item>
+		<item>90</item>
+		<item>100</item>
+	</string-array>
+
 	<string-array name="pref_appearance_theme">
 		<item>@string/theme_name_red</item>
 		<item>@string/theme_name_night</item>

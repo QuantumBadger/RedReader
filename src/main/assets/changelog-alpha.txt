@@ -1,4 +1,5 @@
 /Alpha 375 (2026-10-10)
+Option to set the navigation bar opacity
 Fixed issue where post titles are cut off
 Scrolling performance optimization
 Reduced memory usage and allocation count

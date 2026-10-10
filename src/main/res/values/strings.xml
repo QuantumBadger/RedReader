@@ -1990,4 +1990,10 @@
 	<!-- 2026-09-16 -->
 	<!-- Translators: shown under the side-toolbar swipe zone setting when it is disabled because Android's gesture navigation is in use -->
 	<string name="pref_behaviour_bezel_toolbar_swipezone_gesture_nav_summary">Not available with Android gesture navigation</string>
+
+	<!-- 2026-10-10 -->
+	<string name="pref_appearance_navbar_opacity_key" translatable="false">pref_appearance_navbar_opacity</string>
+	<string name="pref_appearance_navbar_opacity_title">Navigation bar opacity</string>
+	<!-- Translators: navigation bar opacity option which picks an opacity based on the navigation bar colour -->
+	<string name="pref_appearance_navbar_opacity_option_auto">Automatic</string>
 </resources>

@@ -1,4 +1,5 @@
 120/1.28
+Option to set the navigation bar opacity
 Fixed issue where post titles are cut off
 Scrolling performance optimization
 Reduced memory usage and allocation count

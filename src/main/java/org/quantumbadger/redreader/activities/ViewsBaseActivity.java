@@ -51,7 +51,8 @@ import java.util.Locale;
 
 public abstract class ViewsBaseActivity extends BaseActivity {
 
-	// Alpha of the scrim drawn behind the 3-button navigation bar, matching
+	// Default alpha of the scrim drawn behind the 3-button navigation bar,
+	// used when the navigation bar opacity preference is "Automatic", matching
 	// the light and dark scrims used by the AndroidX enableEdgeToEdge() default
 	private static final int NAV_BAR_SCRIM_ALPHA_LIGHT = 0xE6;
 	private static final int NAV_BAR_SCRIM_ALPHA_DARK = 0x80;
@@ -61,6 +62,9 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 
 	private FrameLayout mContentListing;
 	private FrameLayout mContentOverlay;
+
+	// The view which paints the system bar areas (see wrapWithSystemBarScrims)
+	@Nullable private View mSystemBarScrimRoot;
 
 	private ImageView mActionbarBackIconView;
 	private View mActionbarTitleOuterView;
@@ -261,6 +265,7 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 	 * bar (and the opaque colour behind a navigation bar at the side of the
 	 * screen), replicating the old window-level navigation bar colour. Not
 	 * used with gesture navigation, where nothing is drawn behind the handle.
+	 * The scrim's opacity comes from navigationBarScrimColour().
 	 */
 	protected int baseActivityNavigationBarColour() {
 
@@ -292,6 +297,30 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 		return colour;
 	}
 
+	/**
+	 * The colour of the scrim drawn behind the 3-button navigation bar: the
+	 * navigation bar colour at the opacity chosen in the preferences, or at a
+	 * default opacity which depends on how light the colour is.
+	 */
+	private static int navigationBarScrimColour(final int navBarColour) {
+
+		final Optional<Integer> opacityPercent = PrefsUtility.appearance_navbar_opacity();
+
+		final int alpha;
+
+		if (opacityPercent.isPresent()) {
+			alpha = Math.round(opacityPercent.get() * 255f / 100f);
+
+		} else if (ColorUtils.calculateLuminance(navBarColour) > 0.5) {
+			alpha = NAV_BAR_SCRIM_ALPHA_LIGHT;
+
+		} else {
+			alpha = NAV_BAR_SCRIM_ALPHA_DARK;
+		}
+
+		return ColorUtils.setAlphaComponent(navBarColour, alpha);
+	}
+
 	private View makeScrim(final int gravity) {
 		final View scrim = new View(this);
 		scrim.setLayoutParams(new FrameLayout.LayoutParams(0, 0, gravity));
@@ -320,6 +349,10 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 	 * Nothing is drawn behind the gesture navigation handle, which floats
 	 * over the content.
 	 *
+	 * The scrim colours are read from the preferences each time the insets
+	 * are applied, so that a change to the navigation bar opacity takes
+	 * effect without restarting the activity (see onSharedPreferenceChanged).
+	 *
 	 * The bottom navigation bar inset is taken by whichever view touches the
 	 * bottom of the screen: the toolbar if it's at the bottom, otherwise the
 	 * content if baseActivityContentExtendsBehindNavigationBar() is true,
@@ -337,22 +370,23 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 
 		final int statusBarColour;
 		final boolean isLightTheme;
+		final int windowBackgroundColour;
 		{
 			final TypedArray appearance = obtainStyledAttributes(new int[]{
 					androidx.appcompat.R.attr.colorPrimaryDark,
-					androidx.appcompat.R.attr.isLightTheme});
+					androidx.appcompat.R.attr.isLightTheme,
+					android.R.attr.colorBackground});
 			statusBarColour = appearance.getColor(0, General.COLOR_INVALID);
 			isLightTheme = appearance.getBoolean(1, false);
+			windowBackgroundColour = appearance.getColor(
+					2,
+					isLightTheme ? Color.WHITE : Color.BLACK);
 			appearance.recycle();
 		}
 
 		final int navBarColour = baseActivityNavigationBarColour();
 		final boolean navBarColourIsLight
 				= ColorUtils.calculateLuminance(navBarColour) > 0.5;
-
-		final int navBarScrimColour = ColorUtils.setAlphaComponent(
-				navBarColour,
-				navBarColourIsLight ? NAV_BAR_SCRIM_ALPHA_LIGHT : NAV_BAR_SCRIM_ALPHA_DARK);
 
 		// Drawn behind the status bar when the content extends behind it
 		final int statusBarScrimColour
@@ -389,6 +423,8 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 		root.addView(scrimRight);
 		root.addView(scrimTop);
 		root.addView(scrimBottom);
+
+		mSystemBarScrimRoot = root;
 
 		final boolean contentExtendsBehindNavBar
 				= baseActivityContentExtendsBehindNavigationBar();
@@ -472,6 +508,14 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 			scrimRight.setBackgroundColor(
 					navBars.right > 0 ? navBarColour : Color.BLACK);
 
+			final int navBarScrimColour = navigationBarScrimColour(navBarColour);
+
+			// The scrim is translucent, so the bar's icons must contrast with
+			// its appearance over the window background, not the tint alone
+			final boolean navBarScrimIsLight = ColorUtils.calculateLuminance(
+					ColorUtils.compositeColors(navBarScrimColour, windowBackgroundColour))
+					> 0.5;
+
 			final int scrimBottomHeight;
 
 			if (tappableBottom > 0) {
@@ -490,11 +534,18 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 			// Where a bar is drawn over the app's scrim, the bar's icons need
 			// to contrast with the scrim. The gesture handle floats over the
 			// content, so it needs to contrast with the theme instead.
-			final boolean barDrawnOverScrim
-					= tappableBottom > 0 || navBars.left > 0 || navBars.right > 0;
+			final boolean navBarIconsOverLightBackground;
+
+			if (tappableBottom > 0) {
+				navBarIconsOverLightBackground = navBarScrimIsLight;
+			} else if (navBars.left > 0 || navBars.right > 0) {
+				navBarIconsOverLightBackground = navBarColourIsLight;
+			} else {
+				navBarIconsOverLightBackground = isLightTheme;
+			}
 
 			insetsController.setAppearanceLightNavigationBars(
-					barDrawnOverScrim ? navBarColourIsLight : isLightTheme);
+					navBarIconsOverLightBackground);
 
 			final boolean passNavBarInsetDown
 					= contentExtendsBehindNavBar && bottomToolbar == null;
@@ -556,6 +607,12 @@ public abstract class ViewsBaseActivity extends BaseActivity {
 				|| key.equals(getString(R.string.pref_menus_quick_account_switcher_key))
 				|| key.equals(getString(R.string.pref_pinned_subreddits_key))) {
 			invalidateOptionsMenu();
+		}
+
+		if (key.equals(getString(R.string.pref_appearance_navbar_opacity_key))
+				&& mSystemBarScrimRoot != null) {
+			// Re-run the insets listener, which repaints the scrims
+			ViewCompat.requestApplyInsets(mSystemBarScrimRoot);
 		}
 	}
 }

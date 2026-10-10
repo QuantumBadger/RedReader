@@ -269,6 +269,19 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 			});
 		}
 
+		{
+			// The entries contain percent signs, which ListPreference would
+			// treat as format specifiers if they were passed to setSummary()
+			// (as for listPrefsToUpdate above), so use a summary provider
+			final ListPreference navbarOpacityPref = findPreference(getString(
+					R.string.pref_appearance_navbar_opacity_key));
+
+			if(navbarOpacityPref != null) {
+				navbarOpacityPref.setSummaryProvider(
+						ListPreference.SimpleSummaryProvider.getInstance());
+			}
+		}
+
 		for(final int pref : editTextPrefsToUpdate) {
 
 			final EditTextPreference editTextPreference =

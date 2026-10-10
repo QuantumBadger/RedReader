@@ -2,6 +2,7 @@
 Fixed issue where post titles are cut off
 Scrolling performance optimization
 Reduced memory usage and allocation count
+Assorted minor bugfixes
 
 /Alpha 374 (2026-09-18)
 Fix for popup menu theme not matching the rest of the app

@@ -27,12 +27,7 @@ import android.os.Build;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.receivers.RegularCachePruner;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Alarms {
-	private static final Map<Alarm, AlarmManager> alarmMap = new HashMap<>();
-	private static final Map<Alarm, PendingIntent> intentMap = new HashMap<>();
 
 	/*
 		An enum to represent an alarm that may be created.
@@ -75,33 +70,11 @@ public class Alarms {
 	 */
 
 	public static void startAlarm(final Alarm alarm, final Context context) {
-		if(!alarmMap.containsKey(alarm)) {
-			final Intent alarmIntent = new Intent(context, alarm.alarmClass());
-
-			int flags = 0;
-
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-				flags |= PendingIntent.FLAG_IMMUTABLE;
-			}
-
-			@SuppressLint("UnspecifiedImmutableFlag")
-			final PendingIntent pendingIntent = PendingIntent.getBroadcast(
-					context,
-					0,
-					alarmIntent,
-					flags);
-
-			final AlarmManager alarmManager
-					= (AlarmManager)(context.getSystemService(Context.ALARM_SERVICE));
-			alarmManager.setInexactRepeating(
-					AlarmManager.RTC,
-					System.currentTimeMillis(),
-					alarm.interval(),
-					pendingIntent);
-
-			alarmMap.put(alarm, alarmManager);
-			intentMap.put(alarm, pendingIntent);
-		}
+		getAlarmManager(context).setInexactRepeating(
+				AlarmManager.RTC,
+				System.currentTimeMillis(),
+				alarm.interval(),
+				getPendingIntent(alarm, context));
 	}
 
 	/**
@@ -110,12 +83,28 @@ public class Alarms {
 	 * @param alarm alarm to stop
 	 */
 
-	public static void stopAlarm(final Alarm alarm) {
-		if(alarmMap.containsKey(alarm)) {
-			alarmMap.get(alarm).cancel(intentMap.get(alarm));
-			alarmMap.remove(alarm);
-			intentMap.remove(alarm);
+	public static void stopAlarm(final Alarm alarm, final Context context) {
+		getAlarmManager(context).cancel(getPendingIntent(alarm, context));
+	}
+
+	private static AlarmManager getAlarmManager(final Context context) {
+		return (AlarmManager)(context.getSystemService(Context.ALARM_SERVICE));
+	}
+
+	@SuppressLint("UnspecifiedImmutableFlag")
+	private static PendingIntent getPendingIntent(final Alarm alarm, final Context context) {
+
+		int flags = 0;
+
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			flags |= PendingIntent.FLAG_IMMUTABLE;
 		}
+
+		return PendingIntent.getBroadcast(
+				context,
+				0,
+				new Intent(context, alarm.alarmClass()),
+				flags);
 	}
 
 	/**

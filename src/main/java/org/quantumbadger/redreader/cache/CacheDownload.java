@@ -50,6 +50,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 	private final UUID session;
 
 	private volatile boolean mCancelled = false;
+	private final AtomicBoolean mFinished = new AtomicBoolean(false);
 	private static final AtomicBoolean resetUserCredentials = new AtomicBoolean(false);
 	private final HTTPBackend.Request mRequest;
 
@@ -78,23 +79,31 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						mInitiator.requestBody.asNullable()));
 	}
 
+	// Returns true the first time it is called, so that only one outcome (success,
+	// failure, or cancellation) is ever reported to the requester
+	private boolean markFinished() {
+		return mFinished.compareAndSet(false, true);
+	}
+
 	public synchronized void cancel() {
 
 		mCancelled = true;
 
+		if(!markFinished()) {
+			return;
+		}
+
 		new Thread() {
 			@Override
 			public void run() {
-				if(mRequest != null) {
-					mRequest.cancel();
-					mInitiator.notifyFailure(General.getGeneralErrorForFailure(
-							mInitiator.context,
-							CacheRequest.RequestFailureType.CANCELLED,
-							null,
-							null,
-							mInitiator.url,
-							Optional.empty()));
-				}
+				mRequest.cancel();
+				mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+						mInitiator.context,
+						CacheRequest.RequestFailureType.CANCELLED,
+						null,
+						null,
+						mInitiator.url,
+						Optional.empty()));
 			}
 		}.start();
 	}
@@ -218,7 +227,9 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 				}
 
 				if(result.status != RedditOAuth.FetchAccessTokenResultStatus.SUCCESS) {
-					mInitiator.notifyFailure(result.error);
+					if(markFinished()) {
+						mInitiator.notifyFailure(result.error);
+					}
 					return;
 				}
 
@@ -249,6 +260,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 						&& TorCommon.isTorEnabled()) {
 					HTTPBackend.getBackend().recreateHttpBackend();
 					resetUserCredentialsOnNextRequest();
+				}
+
+				if(!markFinished()) {
+					return;
 				}
 
 				mInitiator.notifyFailure(General.getGeneralErrorForFailure(
@@ -323,12 +338,14 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 			writableCacheFile.onWriteFinished();
 
-			mInitiator.notifyCacheFileWritten(
-					writableCacheFile.getReadableCacheFile(),
-					TimestampUTC.now(),
-					session,
-					false,
-					mimetype);
+			if(markFinished()) {
+				mInitiator.notifyCacheFileWritten(
+						writableCacheFile.getReadableCacheFile(),
+						TimestampUTC.now(),
+						session,
+						false,
+						mimetype);
+			}
 
 		} catch(final Throwable t) {
 
@@ -336,13 +353,15 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 			// This covers both network and disk errors. The distinction is not worth
 			// tracking here, as a failed precache is only ever logged.
-			mInitiator.notifyFailure(General.getGeneralErrorForFailure(
-					mInitiator.context,
-					CacheRequest.RequestFailureType.CONNECTION,
-					t,
-					null,
-					mInitiator.url,
-					Optional.empty()));
+			if(markFinished()) {
+				mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+						mInitiator.context,
+						CacheRequest.RequestFailureType.CONNECTION,
+						t,
+						null,
+						mInitiator.url,
+						Optional.empty()));
+			}
 
 		} finally {
 			General.closeSafely(is);
@@ -397,6 +416,10 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 			stream.setComplete();
 
+			if(!markFinished()) {
+				return;
+			}
+
 			mInitiator.notifyDataStreamComplete(
 					stream::getInputStream,
 					TimestampUTC.now(),
@@ -410,13 +433,15 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 					? (IOException)t
 					: new IOException("Got exception during download", t));
 
-			mInitiator.notifyFailure(General.getGeneralErrorForFailure(
-					mInitiator.context,
-					CacheRequest.RequestFailureType.CONNECTION,
-					t,
-					null,
-					mInitiator.url,
-					Optional.empty()));
+			if(markFinished()) {
+				mInitiator.notifyFailure(General.getGeneralErrorForFailure(
+						mInitiator.context,
+						CacheRequest.RequestFailureType.CONNECTION,
+						t,
+						null,
+						mInitiator.url,
+						Optional.empty()));
+			}
 
 			return;
 

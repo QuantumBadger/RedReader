@@ -679,6 +679,8 @@ public class RedditAPICommentAction {
 											TimestampUTC.now(),
 											comment.getIdAndType());
 								}
+								break;
+
 							case RedditAPI.ACTION_SAVE:
 								changeDataManager.markSaved(
 										TimestampUTC.now(),

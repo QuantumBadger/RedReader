@@ -1160,7 +1160,6 @@ object RedditPostActions {
 								0 -> changeDataManager.markUnvoted(now, post.src.idAndType)
 								1 -> changeDataManager.markUpvoted(now, post.src.idAndType)
 							}
-							changeDataManager.markSaved(now, post.src.idAndType, false)
 						}
 
 						RedditAPI.ACTION_SAVE -> changeDataManager.markSaved(now, post.src.idAndType, false)

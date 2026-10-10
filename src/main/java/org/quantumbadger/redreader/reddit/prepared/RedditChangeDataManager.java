@@ -519,9 +519,11 @@ public final class RedditChangeDataManager {
 			}
 		}
 
-		for(final RedditIdAndType idAndType : entries.keySet()) {
-			mListeners.map(idAndType, ListenerNotifyOperator.INSTANCE, idAndType);
-		}
+		AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+			for(final RedditIdAndType idAndType : entries.keySet()) {
+				mListeners.map(idAndType, ListenerNotifyOperator.INSTANCE, idAndType);
+			}
+		});
 	}
 
 	public void update(final TimestampUTC timestamp, final RedditComment comment) {

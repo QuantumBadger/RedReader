@@ -301,8 +301,9 @@ public abstract class BaseActivity extends AppCompatActivity
 			return;
 		}
 
-		if (permissions.length != 1) {
-			throw new RuntimeException("Unexpected permission result");
+		if (grantResults.length == 0) {
+			// The request was interrupted: treat as cancelled
+			return;
 		}
 
 		if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {

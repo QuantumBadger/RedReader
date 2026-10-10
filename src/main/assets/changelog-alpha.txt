@@ -1,5 +1,6 @@
 /Alpha 375 (2026-10-10)
 Fixed issue where post titles are cut off
+Scrolling performance optimization
 
 /Alpha 374 (2026-09-18)
 Fix for popup menu theme not matching the rest of the app

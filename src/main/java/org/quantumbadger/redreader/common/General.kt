@@ -673,8 +673,8 @@ object General {
     @JvmStatic
 	fun filenameFromString(url: String): String {
         val uri = url.toUri()
-        var filename = uri.path?.replace(File.separator, "") ?: "file"
-        val parts = filename.substring(1).split("\\.".toRegex(), limit = 2).toTypedArray()
+        var filename = uri.path?.replace(File.separator, "")?.takeUnless { it.isEmpty() } ?: "file"
+        val parts = filename.split("\\.".toRegex(), limit = 2).toTypedArray()
         if (parts.size < 2) {
             filename += if ("v.redd.it" == uri.host) {
                 ".mp4"

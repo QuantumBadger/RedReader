@@ -143,8 +143,7 @@ public final class CacheDownload extends PrioritisedCachedThreadPool.Task {
 
 	// Growth plans are shared, never copied: MemoryDataStream only reads them
 	private static final int[] NO_GROWTH_PLAN = new int[0];
-	private static final int[] COMMENT_LIST_GROWTH_PLAN
-			= new int[] {COMMENT_LIST_SECOND_BUFFER_SIZE};
+	private static final int[] COMMENT_LIST_GROWTH_PLAN = {COMMENT_LIST_SECOND_BUFFER_SIZE};
 
 	private static boolean isUsableContentLength(@Nullable final Long reportedContentLength) {
 		return reportedContentLength != null

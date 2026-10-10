@@ -19,6 +19,7 @@ package org.quantumbadger.redreader.reddit;
 
 import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.common.Constants;
+import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class RedditSubredditHistory {
 
 		if(result == null) {
 			result = new HashSet<>(Constants.Reddit.DEFAULT_SUBREDDITS);
+			result.addAll(PrefsUtility.pref_pinned_subreddits(false));
 			SUBREDDITS.put(account, result);
 		}
 

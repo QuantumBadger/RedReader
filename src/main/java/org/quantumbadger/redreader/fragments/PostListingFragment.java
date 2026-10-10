@@ -315,6 +315,7 @@ public class PostListingFragment extends RRFragment
 					case SUBREDDIT_COMBINATION:
 					case ALL_SUBTRACTION:
 					case POPULAR:
+					case PINNED:
 						setHeader(
 								mPostListingURL.humanReadableName(getActivity(), true),
 								mPostListingURL.humanReadableUrl(),

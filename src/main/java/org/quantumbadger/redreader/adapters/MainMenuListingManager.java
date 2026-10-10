@@ -218,6 +218,17 @@ public class MainMenuListingManager {
 								false));
 			}
 
+			if(mainMenuShortcutItems.contains(MainMenuFragment.MainMenuShortcutItems.PINNED) &&
+					!PrefsUtility.pref_pinned_subreddits_is_empty()) {
+				mAdapter.appendToGroup(
+						GROUP_MAIN_ITEMS,
+						makeItem(
+								R.string.mainmenu_pinned,
+								MainMenuFragment.MENU_MENU_ACTION_PINNED,
+								null,
+								false));
+			}
+
 			if(mainMenuShortcutItems.contains(
 					MainMenuFragment.MainMenuShortcutItems.SUBREDDIT_SEARCH)) {
 
@@ -456,24 +467,16 @@ public class MainMenuListingManager {
 	private void setPinnedSubreddits() {
 
 		final List<SubredditCanonicalId> pinnedSubreddits
-				= PrefsUtility.pref_pinned_subreddits();
+				= PrefsUtility.pref_pinned_subreddits(true);
 
 		mAdapter.removeAllFromGroup(GROUP_PINNED_SUBREDDITS_ITEMS);
 		mAdapter.removeAllFromGroup(GROUP_PINNED_SUBREDDITS_HEADER);
 
 		if(!pinnedSubreddits.isEmpty()) {
-
-			final PrefsUtility.PinnedSubredditSort pinnedSubredditsSort
-					= PrefsUtility.pref_behaviour_pinned_subredditsort();
-
 			mAdapter.appendToGroup(
 					GROUP_PINNED_SUBREDDITS_HEADER,
 					new GroupedRecyclerViewItemListSectionHeaderView(
 							mActivity.getString(R.string.mainmenu_header_subreddits_pinned)));
-
-			if(pinnedSubredditsSort == PrefsUtility.PinnedSubredditSort.NAME) {
-				Collections.sort(pinnedSubreddits);
-			}
 
 			boolean isFirst = true;
 

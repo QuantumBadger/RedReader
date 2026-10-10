@@ -1,3 +1,6 @@
+120/1.28
+Fixed issue where post titles are cut off
+
 119/1.27
 Inbox improvements and ability to mark messages as read
 Option to mark posts as read when scrolling past

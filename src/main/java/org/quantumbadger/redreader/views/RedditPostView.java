@@ -341,6 +341,14 @@ public final class RedditPostView extends FlingableItemView
 			resetSwipeState();
 
 			title.setText(newPost.src.getTitle());
+
+			// TextView doesn't request a layout if the new text fits in the same number
+			// of lines at the view's current width, which leaves stale sizes in its
+			// measure cache (and its parent's). When this recycled view is then measured
+			// at a different width (e.g. the thumbnail column appearing or disappearing),
+			// those stale sizes are reused, and the title is cut off.
+			title.requestLayout();
+
 			if(mCommentsButtonPref) {
 				mCommentsText.setText(String.valueOf(newPost.src.getSrc().getNum_comments()));
 			}
@@ -411,6 +419,7 @@ public final class RedditPostView extends FlingableItemView
 		title.setContentDescription(mPost.buildAccessibilityTitle(mActivity, false));
 
 		subtitle.setText(mPost.buildSubtitle(mActivity, false));
+		subtitle.requestLayout(); // See the comment on the title in reset()
 		subtitle.setContentDescription(mPost.buildAccessibilitySubtitle(mActivity, false));
 
 		boolean overlayVisible = true;

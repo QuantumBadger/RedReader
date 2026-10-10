@@ -61,37 +61,33 @@ class OKHTTPBackend private constructor() : HTTPBackend() {
 
 		// Here we set the over18 cookie if needed, and return it whenever the url contains search
 		// this is necessary to get the reddit API to return NSFW search results
-		if (PrefsUtility.pref_behaviour_nsfw()) {
-			val list: MutableList<Cookie> = ArrayList()
-			val cookieBuilder: Cookie.Builder = Cookie.Builder()
+		val over18Cookies = listOf(
+			Cookie.Builder()
+				.domain("reddit.com")
+				.name("over18")
+				.value("1")
+				.path("/")
+				.build()
+		)
 
-			cookieBuilder.domain("reddit.com")
-			cookieBuilder.name("over18")
-			cookieBuilder.value("1")
-			cookieBuilder.path("/")
-
-			list.add(cookieBuilder.build())
-
-
-			val cookieJar: CookieJar = object : CookieJar {
-				override fun saveFromResponse(
-					url: HttpUrl,
-					cookies: List<Cookie>
-				) {
-					//LOL we do not care
-				}
-
-				override fun loadForRequest(url: HttpUrl): List<Cookie> {
-					return if (url.toString().contains("search")) {
-						list
-					} else {
-						emptyList()
-					}
-				}
+		val cookieJar: CookieJar = object : CookieJar {
+			override fun saveFromResponse(
+				url: HttpUrl,
+				cookies: List<Cookie>
+			) {
+				//LOL we do not care
 			}
 
-			builder.cookieJar(cookieJar)
+			override fun loadForRequest(url: HttpUrl): List<Cookie> {
+				return if (PrefsUtility.pref_behaviour_nsfw() && url.toString().contains("search")) {
+					over18Cookies
+				} else {
+					emptyList()
+				}
+			}
 		}
+
+		builder.cookieJar(cookieJar)
 
 		if (TorCommon.isTorEnabled()) {
 			val tor = Proxy(

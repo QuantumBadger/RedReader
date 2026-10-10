@@ -42,14 +42,15 @@ import org.quantumbadger.redreader.reddit.kthings.RedditMessage;
 import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 public final class RedditChangeDataManager {
 
@@ -662,13 +663,11 @@ public final class RedditChangeDataManager {
 		synchronized(mLock) {
 			final Iterator<Map.Entry<RedditIdAndType, Entry>> iterator =
 					mEntries.entrySet().iterator();
-			final SortedMap<TimestampUTC, RedditIdAndType> byTimestamp = new TreeMap<>();
 
 			while(iterator.hasNext()) {
 
 				final Map.Entry<RedditIdAndType, Entry> entry = iterator.next();
 				final TimestampUTC timestamp = entry.getValue().mTimestamp;
-				byTimestamp.put(timestamp, entry.getKey());
 
 				if(timestamp.isLessThan(timestampBoundary)) {
 
@@ -686,24 +685,31 @@ public final class RedditChangeDataManager {
 
 			// Limit total number of entries to limit our memory usage. This is meant as a
 			// safeguard, as the time-based pruning above should have removed enough already.
-			final Iterator<Map.Entry<TimestampUTC, RedditIdAndType>> iter2 =
-					byTimestamp.entrySet().iterator();
-			while(iter2.hasNext()) {
-				if(mEntries.size() <= MAX_ENTRY_COUNT) {
-					break;
+			final int excess = mEntries.size() - MAX_ENTRY_COUNT;
+
+			if(excess > 0) {
+				final List<Map.Entry<RedditIdAndType, Entry>> byTimestamp
+						= new ArrayList<>(mEntries.entrySet());
+
+				Collections.sort(byTimestamp, (a, b) -> {
+					final TimestampUTC ta = a.getValue().mTimestamp;
+					final TimestampUTC tb = b.getValue().mTimestamp;
+					return ta.isLessThan(tb) ? -1 : (tb.isLessThan(ta) ? 1 : 0);
+				});
+
+				for(final Map.Entry<RedditIdAndType, Entry> entry
+						: byTimestamp.subList(0, excess)) {
+
+					Log.i(TAG, String.format(
+							"Evicting '%s' (%s old)",
+							entry.getKey(),
+							now.elapsedPeriodSince(entry.getValue().mTimestamp).format(
+									TimeStringsDebug.INSTANCE,
+									2
+							)));
+
+					mEntries.remove(entry.getKey());
 				}
-
-				final Map.Entry<TimestampUTC, RedditIdAndType> entry = iter2.next();
-
-				Log.i(TAG, String.format(
-						"Evicting '%s' (%s old)",
-						entry.getValue(),
-						now.elapsedPeriodSince(entry.getKey()).format(
-								TimeStringsDebug.INSTANCE,
-								2
-						)));
-
-				mEntries.remove(entry.getValue());
 			}
 		}
 	}

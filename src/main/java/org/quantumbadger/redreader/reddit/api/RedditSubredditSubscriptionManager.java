@@ -181,6 +181,7 @@ public class RedditSubredditSubscriptionManager {
 
 		pendingSubscriptions.remove(id);
 		subscriptions.toHashset().add(id.toString());
+		persistSubscriptions();
 		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
 	}
 
@@ -192,7 +193,16 @@ public class RedditSubredditSubscriptionManager {
 
 		pendingUnsubscriptions.remove(id);
 		subscriptions.toHashset().remove(id.toString());
+		persistSubscriptions();
 		listeners.map(notifier, SubredditSubscriptionChangeType.LIST_UPDATED);
+	}
+
+	private synchronized void persistSubscriptions() {
+		subscriptions = new WritableHashSet(
+				subscriptions.toHashset(),
+				subscriptions.getTimestamp(),
+				user.getCanonicalUsername());
+		db.put(subscriptions);
 	}
 
 	private static void addToHistory(

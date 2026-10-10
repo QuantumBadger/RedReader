@@ -967,9 +967,12 @@ public class ImageViewActivity extends ViewsBaseActivity
 
 						AndroidCommon.runOnUiThread(() -> {
 							progressBar.setVisibility(View.VISIBLE);
-							progressBar.setIndeterminate(authorizationInProgress);
-							progressBar.setProgress(
-									((float)((1000 * bytesRead) / totalBytes)) / 1000);
+							progressBar.setIndeterminate(
+									authorizationInProgress || totalBytes <= 0);
+
+							if(totalBytes > 0) {
+								progressBar.setProgress((float)bytesRead / (float)totalBytes);
+							}
 							manageAspectRatioIndicator(progressBar);
 
 							if(!mProgressTextSet) {

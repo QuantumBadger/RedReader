@@ -316,7 +316,7 @@ public final class RedditAccountManager extends SQLiteOpenHelper {
 		updateNotifier.removeListener(listener);
 	}
 
-	public void deleteAccount(final RedditAccount account) {
+	public synchronized void deleteAccount(final RedditAccount account) {
 
 		final SQLiteDatabase db = getWritableDatabase();
 		db.delete(TABLE, FIELD_USERNAME + "=?", new String[] {account.username});

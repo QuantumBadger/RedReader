@@ -48,6 +48,44 @@ The Google Play APKs are also available here:
 https://github.com/QuantumBadger/RedReader/releases
 
 
+Signing keys
+-----------
+
+Official APKs (through GitHub and Google Play):
+
+```
+
+SHA1: 71:50:D0:F5:72:11:27:C5:18:84:1B:5D:0B:B5:40:F6:22:31:3F:73
+
+SHA256: D9:49:6A:86:F9:95:08:78:79:F4:11:99:98:6A:6D:36:C1:93:06:AC:90:DB:D1:E0:79:3F:3A:B1:98:1F:37:44
+
+```
+
+
+Alpha APKs (through https://redreader.org/alpha):
+
+
+```
+
+SHA1: A6:B0:7A:2B:0E:6C:12:8C:F7:A6:1A:24:1C:3E:1D:64:B5:24:05:8C
+
+SHA256: 3D:21:14:EC:AE:1F:36:D6:D8:8F:42:78:01:31:84:8F:9B:50:A7:64:5B:9E:7D:AA:72:C6:D6:5E:32:98:81:23
+
+```
+
+
+F-Droid APKs:
+
+
+```
+
+SHA1: 05:CD:0E:67:92:BF:36:B0:B5:F8:AA:3A:64:55:79:10:CA:CA:D2:F3
+
+SHA256: 19:9F:DB:F8:30:08:EC:CE:44:ED:FD:EE:F4:E1:A2:DD:1A:EF:D9:CA:0F:5C:39:5A:36:B4:7C:07:22:07:AC:2F
+
+```
+
+
 Translating
 -----------
 

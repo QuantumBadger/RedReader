@@ -1996,4 +1996,8 @@
 	<string name="pref_appearance_navbar_opacity_title">Navigation bar opacity</string>
 	<!-- Translators: navigation bar opacity option which picks an opacity based on the navigation bar colour -->
 	<string name="pref_appearance_navbar_opacity_option_auto">Automatic</string>
+
+	<string name="action_read_aloud">Read aloud</string>
+	<string name="action_stop_reading">Stop reading</string>
+	<string name="tts_error">Unable to read aloud. Check your text-to-speech settings.</string>
 </resources>

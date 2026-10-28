@@ -27,6 +27,8 @@ import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.common.General;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class BodyElementVerticalSequence extends BodyElement {
 
@@ -35,6 +37,11 @@ public class BodyElementVerticalSequence extends BodyElement {
 	public BodyElementVerticalSequence(@NonNull final ArrayList<BodyElement> elements) {
 		super(BlockType.VERTICAL_SEQUENCE);
 		mElements = elements;
+	}
+
+	@NonNull
+	public List<BodyElement> getElements() {
+		return Collections.unmodifiableList(mElements);
 	}
 
 	@Override

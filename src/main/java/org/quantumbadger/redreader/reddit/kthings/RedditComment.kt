@@ -47,6 +47,10 @@ data class RedditComment(
 	val can_mod_post: Boolean = false,
 	val media_metadata: Map<UrlEncodedString, MaybeParseError<RedditMediaMetadata>>? = null,
 
+	// Whether the post this comment is on is NSFW. Only present outside comment threads,
+	// for example on a user's profile.
+	val over_18: Boolean = false,
+
 	val replies: RedditFieldReplies = RedditFieldReplies.None,
 
 	val id: String,

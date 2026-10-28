@@ -157,7 +157,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		}
 
 		if(mInlinePreviewLoader == null) {
-			mInlinePreviewLoader = new InlinePreviewLoader(activity, this);
+			mInlinePreviewLoader = new InlinePreviewLoader(
+					activity,
+					act -> InlinePreviewLoader.calculatePreviewDetails(act, this));
 		}
 
 		return mInlinePreviewLoader;

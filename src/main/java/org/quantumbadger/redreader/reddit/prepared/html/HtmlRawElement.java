@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import org.quantumbadger.redreader.common.StringUtils;
 import org.quantumbadger.redreader.common.UriString;
+import org.quantumbadger.redreader.reddit.prepared.InlineMedia;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BlockType;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
 
@@ -225,7 +226,21 @@ public abstract class HtmlRawElement {
 						result = new HtmlRawElementTagPassthrough(children);
 
 					} else {
-						result = new HtmlRawElementTagAnchor(children, new UriString(href));
+						final InlineMediaCollector inlineMedia = reader.getInlineMedia();
+
+						final InlineMedia media = inlineMedia == null
+								? null
+								: inlineMedia.resolve(href);
+
+						if(media != null) {
+							result = new HtmlRawElementInlineMedia(
+									children,
+									new UriString(href),
+									media,
+									inlineMedia);
+						} else {
+							result = new HtmlRawElementTagAnchor(children, new UriString(href));
+						}
 					}
 					break;
 				}

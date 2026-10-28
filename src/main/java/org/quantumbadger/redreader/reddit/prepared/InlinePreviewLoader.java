@@ -48,16 +48,17 @@ import java.io.IOException;
 import java.util.UUID;
 
 /**
- * Downloads and decodes the inline image preview for a single post.
+ * Downloads and decodes a single inline image preview: either the preview for a post, or an
+ * image displayed inline in a comment.
  *
  * <p>The decoded bitmap is held here, rather than by the view which displays it, so that it
- * survives that view being recycled. The post listing keeps every post within a few
- * positions of the visible area active (see
+ * survives that view being recycled. The post and comment listings keep every item within a
+ * few positions of the visible area active (see
  * {@link org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter#setPreloadWindow}),
- * which lets the user scroll back and forth over the same posts without any preview having
+ * which lets the user scroll back and forth over the same items without any preview having
  * to be downloaded or decoded again.
  *
- * <p>When a post leaves that window, its preview is released and any download still in
+ * <p>When an item leaves that window, its preview is released and any download still in
  * progress for it is cancelled, which bounds the number of previews held in memory at once.
  *
  * <p>Every method must be called on the UI thread.
@@ -76,6 +77,15 @@ public final class InlinePreviewLoader {
 	public interface Listener {
 		@UiThread
 		void onInlinePreviewStateChanged(@NonNull InlinePreviewLoader loader);
+	}
+
+	public interface DetailsSource {
+		/**
+		 * Returns null if there is no preview to show.
+		 */
+		@Nullable
+		@UiThread
+		PreviewDetails calculatePreviewDetails(@NonNull BaseActivity activity);
 	}
 
 	/**
@@ -97,7 +107,7 @@ public final class InlinePreviewLoader {
 		public final int boxWidthPx;
 		public final int boxHeightPx;
 
-		private PreviewDetails(
+		public PreviewDetails(
 				@NonNull final UriString url,
 				final int imageWidthPx,
 				final int imageHeightPx,
@@ -172,7 +182,7 @@ public final class InlinePreviewLoader {
 	}
 
 	@NonNull private final BaseActivity mActivity;
-	@NonNull private final RedditPreparedPost mPost;
+	@NonNull private final DetailsSource mDetailsSource;
 
 	@Nullable private Listener mListener;
 
@@ -192,12 +202,12 @@ public final class InlinePreviewLoader {
 	private int mLoadedForWidthPx;
 	private int mLoadedForHeightPx;
 
-	InlinePreviewLoader(
+	public InlinePreviewLoader(
 			@NonNull final BaseActivity activity,
-			@NonNull final RedditPreparedPost post) {
+			@NonNull final DetailsSource detailsSource) {
 
 		mActivity = activity;
-		mPost = post;
+		mDetailsSource = detailsSource;
 	}
 
 	@NonNull
@@ -216,7 +226,7 @@ public final class InlinePreviewLoader {
 	}
 
 	/**
-	 * Called when the post enters or leaves the preload window.
+	 * Called when the post or comment enters or leaves the preload window.
 	 */
 	@UiThread
 	public void setActive(final boolean active) {
@@ -226,7 +236,7 @@ public final class InlinePreviewLoader {
 	}
 
 	/**
-	 * Attaches the view which is currently displaying this post, which will be notified of
+	 * Attaches the view which is currently displaying this preview, which will be notified of
 	 * the current state before this method returns, and again whenever it changes. Pass
 	 * null when the view is recycled.
 	 */
@@ -243,6 +253,18 @@ public final class InlinePreviewLoader {
 		notifyListener();
 	}
 
+	/**
+	 * As {@link #setListener(Listener)} with null, but only if the given listener is still
+	 * the one attached. Used where a new view may already have taken over from the old one.
+	 */
+	@UiThread
+	public void removeListener(@NonNull final Listener listener) {
+
+		if(mListener == listener) {
+			setListener(null);
+		}
+	}
+
 	private void update() {
 
 		// A preview is held in memory while the post is either near the visible area of the
@@ -253,7 +275,7 @@ public final class InlinePreviewLoader {
 			return;
 		}
 
-		final PreviewDetails details = calculatePreviewDetails(mActivity, mPost);
+		final PreviewDetails details = mDetailsSource.calculatePreviewDetails(mActivity);
 
 		if(details == null) {
 			return;

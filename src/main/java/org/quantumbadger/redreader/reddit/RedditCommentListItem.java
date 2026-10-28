@@ -31,6 +31,7 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.reddit.kthings.RedditMore;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
 import org.quantumbadger.redreader.reddit.prepared.RedditRenderableComment;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementInlineMedia;
 import org.quantumbadger.redreader.reddit.url.RedditURLParser;
 import org.quantumbadger.redreader.views.LoadMoreCommentsView;
 import org.quantumbadger.redreader.views.RedditCommentView;
@@ -217,4 +218,17 @@ public class RedditCommentListItem
 		return isHidden(mChangeDataManager);
 	}
 
+	@Override
+	public void onPreloadWindowChanged(final boolean inWindow) {
+
+		if(!isComment()) {
+			return;
+		}
+
+		for(final BodyElementInlineMedia media
+				: mComment.getParsedComment().getInlineMedia()) {
+
+			media.getLoader(mActivity).setActive(inWindow);
+		}
+	}
 }

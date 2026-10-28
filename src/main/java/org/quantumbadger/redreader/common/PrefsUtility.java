@@ -152,6 +152,9 @@ public final class PrefsUtility {
 						R.string.pref_appearance_highlight_own_username_key))
 				|| key.equals(context.getString(R.string.pref_images_thumbnail_size_key))
 				|| key.equals(context.getString(R.string.pref_images_inline_image_previews_key))
+				|| key.equals(context.getString(R.string.pref_images_inline_comment_media_key))
+				|| key.equals(context.getString(
+						R.string.pref_images_inline_comment_media_giphy_key))
 				|| key.equals(context.getString(
 						R.string.pref_images_inline_image_previews_nsfw_key))
 				|| key.equals(context.getString(
@@ -854,6 +857,19 @@ public final class PrefsUtility {
 				getString(
 						R.string.pref_images_inline_image_previews_key,
 						"always")));
+	}
+
+	public static NeverAlwaysOrWifiOnly images_inline_comment_media() {
+		return NeverAlwaysOrWifiOnly.valueOf(StringUtils.asciiUppercase(
+				getString(
+						R.string.pref_images_inline_comment_media_key,
+						"never")));
+	}
+
+	public static boolean images_inline_comment_media_giphy() {
+		return getBoolean(
+				R.string.pref_images_inline_comment_media_giphy_key,
+				false);
 	}
 
 	public static boolean images_inline_image_previews_nsfw() {

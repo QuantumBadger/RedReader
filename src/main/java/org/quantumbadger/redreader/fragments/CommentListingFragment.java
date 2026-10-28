@@ -36,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.OneShotPreDrawListener;
@@ -117,6 +118,9 @@ public class CommentListingFragment extends RRFragment
 	private Integer mPreviousFirstVisibleItemPosition;
 	private int mParentJumpCount = 0;
 
+	private int mLastListWidth = -1;
+	private int mLastListHeight = -1;
+
 	public CommentListingFragment(
 			final AppCompatActivity parent,
 			final Bundle savedInstanceState,
@@ -186,6 +190,23 @@ public class CommentListingFragment extends RRFragment
 		mListingView = recyclerViewManager.getOuterView();
 
 		mRecyclerView.setItemAnimator(null);
+
+		// Images in comments are loaded while the comment is near the visible area of the
+		// list, and released once it moves away
+		mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+			@Override
+			public void onScrolled(
+					@NonNull final RecyclerView recyclerView,
+					final int dx,
+					final int dy) {
+				mCommentListingManager.updatePreloadWindow();
+			}
+		});
+
+		// Scrolling isn't the only thing which changes what's on screen -- comments being
+		// added, comments being collapsed, and the screen being rotated all do too
+		mRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(
+				this::onListLayout);
 
 		if(!PrefsUtility.pref_appearance_comments_show_floating_toolbar()) {
 			mFloatingToolbar = null;
@@ -363,6 +384,24 @@ public class CommentListingFragment extends RRFragment
 
 	public RedditPreparedPost getPost() {
 		return mPost;
+	}
+
+	private void onListLayout() {
+
+		final int width = mRecyclerView.getWidth();
+		final int height = mRecyclerView.getHeight();
+
+		if(width == mLastListWidth && height == mLastListHeight) {
+			mCommentListingManager.updatePreloadWindow();
+			return;
+		}
+
+		mLastListWidth = width;
+		mLastListHeight = height;
+
+		// Each image now has a different amount of space to be displayed in, so the images
+		// which are already loaded may be at the wrong resolution
+		mCommentListingManager.refreshPreloadWindow();
 	}
 
 	@Override

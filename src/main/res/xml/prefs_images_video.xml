@@ -27,6 +27,17 @@
 						android:entryValues="@array/list_yes_no_or_wifi_return"
 						android:defaultValue="always"/>
 
+		<ListPreference android:title="@string/pref_images_inline_comment_media_title"
+						android:key="@string/pref_images_inline_comment_media_key"
+						android:entries="@array/list_yes_no_or_wifi_items"
+						android:entryValues="@array/list_yes_no_or_wifi_return"
+						android:defaultValue="never"/>
+
+		<CheckBoxPreference android:title="@string/pref_images_inline_comment_media_giphy_title"
+							android:key="@string/pref_images_inline_comment_media_giphy_key"
+							android:summary="@string/pref_images_inline_comment_media_giphy_summary"
+							android:defaultValue="false"/>
+
 		<CheckBoxPreference android:title="@string/pref_images_inline_image_previews_nsfw_title"
 							android:key="@string/pref_images_inline_image_previews_nsfw_key"
 							android:defaultValue="false"/>

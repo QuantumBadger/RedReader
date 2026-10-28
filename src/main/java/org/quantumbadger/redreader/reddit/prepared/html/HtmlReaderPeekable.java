@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.reddit.prepared.html;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class HtmlReaderPeekable {
 
@@ -25,9 +26,13 @@ public class HtmlReaderPeekable {
 
 	@NonNull private HtmlReader.Token mNext;
 
-	public HtmlReaderPeekable(@NonNull final HtmlReader htmlReader) throws
-			MalformedHtmlException {
+	@Nullable private final InlineMediaCollector mInlineMedia;
+
+	public HtmlReaderPeekable(
+			@NonNull final HtmlReader htmlReader,
+			@Nullable final InlineMediaCollector inlineMedia) throws MalformedHtmlException {
 		mHtmlReader = htmlReader;
+		mInlineMedia = inlineMedia;
 		mNext = mHtmlReader.readNext();
 	}
 
@@ -47,5 +52,10 @@ public class HtmlReaderPeekable {
 
 	public int getPos() {
 		return mHtmlReader.getPos();
+	}
+
+	@Nullable
+	public InlineMediaCollector getInlineMedia() {
+		return mInlineMedia;
 	}
 }

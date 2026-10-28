@@ -20,6 +20,7 @@ package org.quantumbadger.redreader.views;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 
@@ -87,8 +88,16 @@ public final class InlinePreviewHolderView extends FrameLayout {
 	 * out yet, or if this view isn't in one.
 	 */
 	private int getDisplayAreaHeightPx() {
+		return getDisplayAreaHeightPx(this, mWindowVisibleDisplayFrame);
+	}
 
-		ViewParent parent = getParent();
+	/**
+	 * As {@link #getDisplayAreaHeightPx()}, for any view. The rect is used as working space,
+	 * to avoid allocating during measurement.
+	 */
+	static int getDisplayAreaHeightPx(@NonNull final View view, @NonNull final Rect tmpRect) {
+
+		ViewParent parent = view.getParent();
 
 		while(parent != null) {
 
@@ -106,9 +115,9 @@ public final class InlinePreviewHolderView extends FrameLayout {
 			parent = parent.getParent();
 		}
 
-		getWindowVisibleDisplayFrame(mWindowVisibleDisplayFrame);
+		view.getWindowVisibleDisplayFrame(tmpRect);
 
-		return mWindowVisibleDisplayFrame.height();
+		return tmpRect.height();
 	}
 
 	@Override

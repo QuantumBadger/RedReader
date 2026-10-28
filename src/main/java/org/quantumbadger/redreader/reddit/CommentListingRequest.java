@@ -148,6 +148,9 @@ public class CommentListingRequest {
 		final Integer minimumCommentScore
 				= PrefsUtility.pref_behaviour_comment_min();
 
+		boolean showInlineMedia = PrefsUtility.images_inline_comment_media()
+				.isEnabled(General.isConnectionWifi(mContext));
+
 		if(fromCache) {
 			AndroidCommon.runOnUiThread(()
 					-> mListener.onCommentListingRequestCachedCopy(timestamp));
@@ -197,6 +200,13 @@ public class CommentListingRequest {
 
 			parentPostAuthor = parsedPost.getAuthor();
 
+			// Images in comments follow the same NSFW and spoiler settings as post previews
+			if((post.getOver_18() && !PrefsUtility.images_inline_image_previews_nsfw())
+					|| (post.getSpoiler()
+							&& !PrefsUtility.images_inline_image_previews_spoiler())) {
+				showInlineMedia = false;
+			}
+
 			commentListing = ((RedditThing.Listing)((RedditThingResponse.Multiple) thingResponse)
 					.getThings().get(1)).getData();
 		}
@@ -215,7 +225,8 @@ public class CommentListingRequest {
 					null,
 					items,
 					minimumCommentScore,
-					parentPostAuthor);
+					parentPostAuthor,
+					showInlineMedia);
 		}
 
 		final RedditChangeDataManager changeDataManager
@@ -296,7 +307,8 @@ public class CommentListingRequest {
 			final RedditCommentListItem parent,
 			final ArrayList<RedditCommentListItem> output,
 			final Integer minimumCommentScore,
-			final String parentPostAuthor) {
+			final String parentPostAuthor,
+			final boolean showInlineMediaInThread) {
 
 		// TODO handle gracefully by showing error message
 		final RedditThing thing = maybeThing.ok();
@@ -378,9 +390,14 @@ public class CommentListingRequest {
 			final boolean neverAutoCollapse = mCommentListingURL != null
 					&& mCommentListingURL.pathType() == RedditURLParser.USER_COMMENT_LISTING_URL;
 
+			// Comments outside a thread, such as on a user's profile, say whether the post
+			// they're on is NSFW themselves
+			final boolean showInlineMedia = showInlineMediaInThread
+					&& (!comment.getOver_18() || PrefsUtility.images_inline_image_previews_nsfw());
+
 			final RedditCommentListItem item;
 			final RedditRenderableComment renderableComment = new RedditRenderableComment(
-					new RedditParsedComment(comment, mActivity),
+					new RedditParsedComment(comment, mActivity, showInlineMedia),
 					parentPostAuthor,
 					minimumCommentScore,
 					currentCanonicalUserName,
@@ -419,7 +436,8 @@ public class CommentListingRequest {
 							item,
 							output,
 							minimumCommentScore,
-							parentPostAuthor);
+							parentPostAuthor,
+							showInlineMediaInThread);
 				}
 			}
 		}

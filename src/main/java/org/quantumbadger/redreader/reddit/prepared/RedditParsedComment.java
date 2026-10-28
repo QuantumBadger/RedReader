@@ -49,11 +49,14 @@ import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElement;
+import org.quantumbadger.redreader.reddit.prepared.bodytext.BodyElementInlineMedia;
 import org.quantumbadger.redreader.reddit.prepared.html.HtmlReader;
+import org.quantumbadger.redreader.reddit.prepared.html.InlineMediaCollector;
 import org.quantumbadger.redreader.reddit.things.RedditThingWithIdAndType;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,17 +66,48 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 
 	@NonNull private final BodyElement mBody;
 
+	@NonNull private final List<BodyElementInlineMedia> mInlineMedia;
+
 	private final BetterSSB mFlair;
 
 	public RedditParsedComment(
 			final RedditComment comment,
 			final AppCompatActivity activity) {
 
+		this(comment, activity, false);
+	}
+
+	/**
+	 * @param showInlineMedia Whether to display images and GIFs attached to the comment in
+	 *                        its body, rather than as links.
+	 */
+	public RedditParsedComment(
+			final RedditComment comment,
+			final AppCompatActivity activity,
+			final boolean showInlineMedia) {
+
 		mSrc = comment;
+
+		InlineMediaCollector inlineMedia = null;
+
+		if(showInlineMedia) {
+			final InlineMediaResolver resolver = new InlineMediaResolver(
+					comment.getMedia_metadata(),
+					PrefsUtility.images_inline_comment_media_giphy());
+
+			if(!resolver.isEmpty()) {
+				inlineMedia = new InlineMediaCollector(resolver);
+			}
+		}
 
 		mBody = HtmlReader.parse(
 				comment.getBody_html().getDecoded(), // TODO nullable?
-				activity);
+				activity,
+				inlineMedia);
+
+		mInlineMedia = inlineMedia == null
+				? Collections.emptyList()
+				: inlineMedia.getGenerated();
 
 		final String flair = General.mapIfNotNull(
 				comment.getAuthor_flair_text(),
@@ -94,6 +128,14 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 	@NonNull
 	public BodyElement getBody() {
 		return mBody;
+	}
+
+	/**
+	 * The images and GIFs displayed in the body of this comment.
+	 */
+	@NonNull
+	public List<BodyElementInlineMedia> getInlineMedia() {
+		return mInlineMedia;
 	}
 
 	public BetterSSB getFlair() {

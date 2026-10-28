@@ -370,8 +370,20 @@ public class HtmlReader {
 	}
 
 	public static BodyElement parse(
-			@Nullable String html,
+			@Nullable final String html,
 			@NonNull final AppCompatActivity activity) {
+
+		return parse(html, activity, null);
+	}
+
+	/**
+	 * @param inlineMedia If not null, links to media which this collector resolves are
+	 *                    displayed as the media itself.
+	 */
+	public static BodyElement parse(
+			@Nullable String html,
+			@NonNull final AppCompatActivity activity,
+			@Nullable final InlineMediaCollector inlineMedia) {
 
 		if(html == null) {
 			html = "";
@@ -381,7 +393,7 @@ public class HtmlReader {
 
 		try {
 			final HtmlReaderPeekable reader
-					= new HtmlReaderPeekable(new HtmlReader(html));
+					= new HtmlReaderPeekable(new HtmlReader(html), inlineMedia);
 
 			HtmlRawElement rootElement;
 

@@ -1,5 +1,6 @@
 120/1.28
 Option to set the navigation bar opacity
+Option to show images and GIFs inline in comments, including GIFs from Giphy (Settings > Images/Video)
 Fixed issue where post titles are cut off
 Scrolling performance optimization
 Reduced memory usage and allocation count

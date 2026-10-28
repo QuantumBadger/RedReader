@@ -29,5 +29,6 @@ public enum BlockType {
 	HORIZONTAL_RULE,
 	QUOTE,
 	BUTTON,
+	INLINE_MEDIA,
 	ERROR
 }

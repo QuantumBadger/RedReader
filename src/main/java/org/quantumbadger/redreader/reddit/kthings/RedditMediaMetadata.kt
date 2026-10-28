@@ -29,5 +29,8 @@ data class RedditMediaMetadata(
 	val m: String,
 	val s: ImageMetadata,
 	val id: String,
-	val p: List<ImageMetadata>? = null
+	val p: List<ImageMetadata>? = null,
+
+	// The page which external media came from, for example "https://giphy.com/gifs/<id>"
+	val ext: UrlEncodedString? = null
 ) : Parcelable

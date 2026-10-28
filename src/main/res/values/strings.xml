@@ -1996,4 +1996,18 @@
 	<string name="pref_appearance_navbar_opacity_title">Navigation bar opacity</string>
 	<!-- Translators: navigation bar opacity option which picks an opacity based on the navigation bar colour -->
 	<string name="pref_appearance_navbar_opacity_option_auto">Automatic</string>
+
+	<!-- 2026-10-29 -->
+	<string name="pref_images_inline_comment_media_key" translatable="false">pref_images_inline_comment_media</string>
+	<string name="pref_images_inline_comment_media_title">Inline images in comments</string>
+	<string name="pref_images_inline_comment_media_giphy_key" translatable="false">pref_images_inline_comment_media_giphy</string>
+	<string name="pref_images_inline_comment_media_giphy_title">Load GIFs from Giphy</string>
+	<!-- Translators: summary of the setting to show GIFs from Giphy inline in comments. Reddit doesn't provide these, so they're downloaded from Giphy directly. -->
+	<string name="pref_images_inline_comment_media_giphy_summary">Show Giphy GIFs in comments by downloading them from Giphy</string>
+	<!-- Translators: read out by screen readers for an image shown inside a comment -->
+	<string name="inline_media_description_image">Image</string>
+	<!-- Translators: read out by screen readers for an animated GIF shown inside a comment -->
+	<string name="inline_media_description_gif">GIF</string>
+	<!-- Translators: very short label shown on top of animated images in comments -->
+	<string name="inline_media_gif_badge">GIF</string>
 </resources>

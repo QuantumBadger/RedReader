@@ -3,6 +3,7 @@ Option to set the navigation bar opacity
 Fixed issue where post titles are cut off
 Scrolling performance optimization
 Reduced memory usage and allocation count
+Videos embedded in comments now open in the video player, rather than the browser
 Assorted minor bugfixes
 
 119/1.27

@@ -543,6 +543,11 @@ object LinkHandler {
 	private val reddituploadsPattern: Pattern =
 		Pattern.compile(".*[^A-Za-z]i\\.reddituploads\\.com/(\\w+).*")
 	private val redditVideosPattern: Pattern = Pattern.compile(".*[^A-Za-z]v.redd.it/(\\w+).*")
+
+	// Videos embedded in comments are linked to as
+	// "https://reddit.com/link/<comment id>/video/<video id>/player"
+	private val redditCommentVideosPattern: Pattern =
+		Pattern.compile(".*[^A-Za-z]reddit\\.com/link/\\w+/video/(\\w+)/player.*")
 	private val imgflipPattern: Pattern = Pattern.compile(".*[^A-Za-z]imgflip\\.com/i/(\\w+).*")
 	private val makeamemePattern: Pattern = Pattern.compile(".*[^A-Za-z]makeameme\\.org/meme/([\\w\\-]+).*")
 	private val deviantartPattern: Pattern =
@@ -565,6 +570,27 @@ object LinkHandler {
 
 	@JvmStatic
 	fun isRedGifsImage(url: UriString): Boolean = getRedGifsId(url) != null
+
+	/**
+	 * Returns the ID of the video on v.redd.it which this URL points to, if any. This is
+	 * either a link to the video itself, or to the player for a video embedded in a comment.
+	 */
+	@JvmStatic
+	fun getRedditVideoId(url: UriString): String? {
+
+		for (pattern in arrayOf(redditVideosPattern, redditCommentVideosPattern)) {
+			val matcher = pattern.matcher(url.value)
+			if (matcher.find()) {
+				matcher.group(1)?.let { videoId ->
+					if (videoId.length > 3) {
+						return videoId
+					}
+				}
+			}
+		}
+
+		return null
+	}
 
 	// The compact embedded player, intended for use inside a WebView -- unlike
 	// the full site, this doesn't show a cookie banner or other page furniture.
@@ -660,15 +686,8 @@ object LinkHandler {
 			}
 		}
 
-		run {
-			val matchRedditVideos = redditVideosPattern.matcher(url.value)
-			if (matchRedditVideos.find()) {
-				matchRedditVideos.group(1)?.let { imgId ->
-					if (imgId.length > 3) {
-						return true
-					}
-				}
-			}
+		if (getRedditVideoId(url) != null) {
+			return true
 		}
 
 		return getImageUrlPatternMatch(url) != null
@@ -946,21 +965,14 @@ object LinkHandler {
 				}
 			}
 		}
-		run {
-			val matchRedditVideos = redditVideosPattern.matcher(url.value)
-			if (matchRedditVideos.find()) {
-				matchRedditVideos.group(1)?.let { imgId ->
-					if (imgId.length > 3) {
-						RedditVideosAPI.getImageInfo(
-							context,
-							imgId,
-							priority,
-							listener
-						)
-						return
-					}
-				}
-			}
+		getRedditVideoId(url)?.let { videoId ->
+			RedditVideosAPI.getImageInfo(
+				context,
+				videoId,
+				priority,
+				listener
+			)
+			return
 		}
 
 		val imageUrlPatternMatch = getImageUrlPatternMatch(url)

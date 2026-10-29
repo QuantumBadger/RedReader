@@ -1,0 +1,18 @@
+<MPD xmlns="urn:mpeg:dash:schema:mpd:2011" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" mediaPresentationDuration="PT2.2S" minBufferTime="PT4S" profiles="urn:mpeg:dash:profile:isoff-on-demand:2011" type="static" xsi:schemaLocation="urn:mpeg:dash:schema:mpd:2011 DASH-MPD.xsd">
+  <Period duration="PT2.2S" id="0">
+    <AdaptationSet contentType="video" id="0" maxFrameRate="15360/512" maxHeight="270" maxWidth="480" par="16:9" sar="1:1" segmentAlignment="true" startWithSAP="1" subsegmentAlignment="true" subsegmentStartsWithSAP="1">
+      <Representation bandwidth="168233" codecs="avc1.4d401e" frameRate="15360/512" height="220" id="0" mimeType="video/mp4" width="392">
+        <BaseURL>CMAF_220.mp4</BaseURL>
+        <SegmentBase indexRange="892-935" timescale="15360">
+          <Initialization range="0-891" />
+        </SegmentBase>
+      </Representation>
+      <Representation bandwidth="312575" codecs="avc1.4d401e" frameRate="15360/512" height="270" id="1" mimeType="video/mp4" width="480">
+        <BaseURL>CMAF_270.mp4</BaseURL>
+        <SegmentBase indexRange="872-915" timescale="15360">
+          <Initialization range="0-871" />
+        </SegmentBase>
+      </Representation>
+    </AdaptationSet>
+  </Period>
+</MPD>

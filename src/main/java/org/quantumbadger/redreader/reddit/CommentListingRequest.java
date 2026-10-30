@@ -148,11 +148,7 @@ public class CommentListingRequest {
 		final Integer minimumCommentScore
 				= PrefsUtility.pref_behaviour_comment_min();
 
-		final ReactionGifFilter reactionGifFilter
-				= PrefsUtility.pref_behaviour_collapse_reaction_gifs()
-						? new ReactionGifFilter(
-								PrefsUtility.pref_behaviour_reaction_gif_domains())
-						: null;
+		final ReactionGifFilter reactionGifFilter = PrefsUtility.reactionGifFilter();
 
 		if(fromCache) {
 			AndroidCommon.runOnUiThread(()
@@ -401,8 +397,7 @@ public class CommentListingRequest {
 				renderableComment.setBlockedUser(true);
 			}
 
-			if(reactionGifFilter != null && comment.getBody() != null
-					&& reactionGifFilter.isReactionGif(comment.getBody().getDecoded())) {
+			if(ReactionGifFilter.matches(reactionGifFilter, comment.getBody())) {
 				renderableComment.setReactionGif(true);
 			}
 

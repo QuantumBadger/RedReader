@@ -20,6 +20,8 @@ package org.quantumbadger.redreader.reddit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +29,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// Detects comments that are just a reaction GIF, optionally with a few words
+// Detects comments and messages that are just a reaction GIF, optionally with a few words
 public final class ReactionGifFilter {
 
 	public static final String DEFAULT_DOMAINS
@@ -79,6 +81,15 @@ public final class ReactionGifFilter {
 		}
 
 		mDomains = domains;
+	}
+
+	public static boolean matches(
+			@Nullable final ReactionGifFilter filter,
+			@Nullable final UrlEncodedString markdownBody) {
+
+		return filter != null
+				&& markdownBody != null
+				&& filter.isReactionGif(markdownBody.getDecoded());
 	}
 
 	public boolean isReactionGif(@Nullable final String markdownBody) {

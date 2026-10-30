@@ -1007,6 +1007,16 @@ public final class PrefsUtility {
 				ReactionGifFilter.DEFAULT_DOMAINS);
 	}
 
+	// Null if the reaction GIF filter is turned off
+	@Nullable
+	public static ReactionGifFilter reactionGifFilter() {
+		if(!pref_behaviour_collapse_reaction_gifs()) {
+			return null;
+		}
+
+		return new ReactionGifFilter(pref_behaviour_reaction_gif_domains());
+	}
+
 	public enum PostTapAction {
 		LINK, COMMENTS, TITLE_COMMENTS
 	}

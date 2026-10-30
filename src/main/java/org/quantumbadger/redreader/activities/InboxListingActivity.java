@@ -59,6 +59,7 @@ import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.reddit.APIResponseHandler;
+import org.quantumbadger.redreader.reddit.ReactionGifFilter;
 import org.quantumbadger.redreader.reddit.RedditAPI;
 import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
 import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
@@ -330,21 +331,10 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 							// TODO {"error": 403} is received for unauthorized subreddits
 
-							if (listing.getChildren().isEmpty()) {
+							final ReactionGifFilter reactionGifFilter
+									= PrefsUtility.reactionGifFilter();
 
-								AndroidCommon.runOnUiThread(() -> {
-									final View emptyView =
-											LayoutInflater.from(context).inflate(
-													R.layout.no_items_yet,
-													notifications,
-													true);
-
-									((TextView)emptyView.findViewById(R.id.empty_view_text))
-											.setText(R.string.no_messages_yet);
-
-									General.setLayoutMatchWidthWrapHeight(emptyView);
-								});
-							}
+							int itemsShown = 0;
 
 							for(final MaybeParseError<RedditThing> maybeThing
 									: listing.getChildren()) {
@@ -357,6 +347,12 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 											= ((RedditThing.Comment) thing).getData();
 
 									mChangeDataManager.update(timestamp, comment);
+
+									if(ReactionGifFilter.matches(
+											reactionGifFilter,
+											comment.getBody())) {
+										continue;
+									}
 
 									final RedditParsedComment parsedComment
 											= new RedditParsedComment(
@@ -376,6 +372,7 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 									itemHandler.sendMessage(General.handlerMessage(
 											0,
 											new InboxItem(renderableComment)));
+									itemsShown++;
 
 								} else if(thing instanceof RedditThing.Message) {
 
@@ -390,9 +387,14 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 													messageRaw,
 													inboxType);
 
-									itemHandler.sendMessage(General.handlerMessage(
-											0,
-											new InboxItem(message)));
+									if(!ReactionGifFilter.matches(
+											reactionGifFilter,
+											messageRaw.getBody())) {
+										itemHandler.sendMessage(General.handlerMessage(
+												0,
+												new InboxItem(message)));
+										itemsShown++;
+									}
 
 									if(message.src.getReplies()
 											instanceof RedditFieldReplies.Some) {
@@ -413,6 +415,12 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 
 											mChangeDataManager.update(timestamp, childMsgRaw);
 
+											if(ReactionGifFilter.matches(
+													reactionGifFilter,
+													childMsgRaw.getBody())) {
+												continue;
+											}
+
 											final RedditPreparedMessage childMsg
 													= new RedditPreparedMessage(
 															InboxListingActivity.this,
@@ -422,11 +430,28 @@ public final class InboxListingActivity extends ViewsBaseActivity {
 											itemHandler.sendMessage(General.handlerMessage(
 													0,
 													new InboxItem(childMsg)));
+											itemsShown++;
 										}
 									}
 								} else {
 									throw new RuntimeException("Unknown item in list.");
 								}
+							}
+
+							if(itemsShown == 0) {
+
+								AndroidCommon.runOnUiThread(() -> {
+									final View emptyView =
+											LayoutInflater.from(context).inflate(
+													R.layout.no_items_yet,
+													notifications,
+													true);
+
+									((TextView)emptyView.findViewById(R.id.empty_view_text))
+											.setText(R.string.no_messages_yet);
+
+									General.setLayoutMatchWidthWrapHeight(emptyView);
+								});
 							}
 
 							if(loadingView != null) {

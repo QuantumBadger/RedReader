@@ -148,6 +148,8 @@ public class CommentListingRequest {
 		final Integer minimumCommentScore
 				= PrefsUtility.pref_behaviour_comment_min();
 
+		final ReactionGifFilter reactionGifFilter = PrefsUtility.reactionGifFilter();
+
 		if(fromCache) {
 			AndroidCommon.runOnUiThread(()
 					-> mListener.onCommentListingRequestCachedCopy(timestamp));
@@ -215,6 +217,7 @@ public class CommentListingRequest {
 					null,
 					items,
 					minimumCommentScore,
+					reactionGifFilter,
 					parentPostAuthor);
 		}
 
@@ -296,6 +299,7 @@ public class CommentListingRequest {
 			final RedditCommentListItem parent,
 			final ArrayList<RedditCommentListItem> output,
 			final Integer minimumCommentScore,
+			@Nullable final ReactionGifFilter reactionGifFilter,
 			final String parentPostAuthor) {
 
 		// TODO handle gracefully by showing error message
@@ -393,6 +397,10 @@ public class CommentListingRequest {
 				renderableComment.setBlockedUser(true);
 			}
 
+			if(ReactionGifFilter.matches(reactionGifFilter, comment.getBody())) {
+				renderableComment.setReactionGif(true);
+			}
+
 			item = new RedditCommentListItem(
 					renderableComment,
 					parent,
@@ -419,6 +427,7 @@ public class CommentListingRequest {
 							item,
 							output,
 							minimumCommentScore,
+							reactionGifFilter,
 							parentPostAuthor);
 				}
 			}

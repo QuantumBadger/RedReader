@@ -732,6 +732,13 @@
     <string name="pref_behaviour_comment_min_title">Minimum comment score</string>
     <string name="pref_behaviour_comment_min_dialog_title">Collapse comment if score below (blank to show all)</string>
 
+    <string name="pref_behaviour_collapse_reaction_gifs_key" translatable="false">pref_behaviour_collapse_reaction_gifs</string>
+    <string name="pref_behaviour_collapse_reaction_gifs_title">Hide reaction GIFs</string>
+    <string name="pref_behaviour_collapse_reaction_gifs_summary">Just a GIF link with fewer than 5 other words: collapsed in threads, hidden from the inbox and notifications</string>
+    <string name="pref_behaviour_reaction_gif_domains_key" translatable="false">pref_behaviour_reaction_gif_domains</string>
+    <string name="pref_behaviour_reaction_gif_domains_title">Reaction GIF domains</string>
+    <string name="pref_behaviour_reaction_gif_domains_dialog_title">Domains to treat as GIF hosts (comma-separated). Direct .gif links and Reddit\'s GIF picker are always included.</string>
+
     <!-- 2016-03-20 -->
     <string name="lang_sv" translatable="false">svenska</string>
 

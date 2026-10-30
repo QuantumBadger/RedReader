@@ -207,6 +207,18 @@
 						android:entryValues="@array/pref_behaviour_collapse_sticky_comments_items_return"
 						android:defaultValue="only_bots"/>
 
+		<CheckBoxPreference android:title="@string/pref_behaviour_collapse_reaction_gifs_title"
+							android:summary="@string/pref_behaviour_collapse_reaction_gifs_summary"
+							android:key="@string/pref_behaviour_collapse_reaction_gifs_key"
+							android:defaultValue="false"/>
+
+		<EditTextPreference android:title="@string/pref_behaviour_reaction_gif_domains_title"
+							android:key="@string/pref_behaviour_reaction_gif_domains_key"
+							android:dialogTitle="@string/pref_behaviour_reaction_gif_domains_dialog_title"
+							android:dependency="@string/pref_behaviour_collapse_reaction_gifs_key"
+							android:inputType="textUri"
+							android:defaultValue="giphy.com, gph.is, tenor.com"/>
+
     </PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/pref_behaviour_sharing_header">

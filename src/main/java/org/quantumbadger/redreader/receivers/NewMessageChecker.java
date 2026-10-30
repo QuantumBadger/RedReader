@@ -52,7 +52,9 @@ import org.quantumbadger.redreader.common.datastream.SeekableInputStream;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.http.FailedRequestBody;
 import org.quantumbadger.redreader.receivers.announcements.AnnouncementDownloader;
+import org.quantumbadger.redreader.reddit.ReactionGifFilter;
 import org.quantumbadger.redreader.reddit.kthings.JsonUtils;
+import org.quantumbadger.redreader.reddit.kthings.MaybeParseError;
 import org.quantumbadger.redreader.reddit.kthings.RedditComment;
 import org.quantumbadger.redreader.reddit.kthings.RedditIdAndType;
 import org.quantumbadger.redreader.reddit.kthings.RedditListing;
@@ -61,6 +63,7 @@ import org.quantumbadger.redreader.reddit.kthings.RedditThing;
 import org.quantumbadger.redreader.reddit.kthings.UrlEncodedString;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -109,7 +112,8 @@ public class NewMessageChecker extends BroadcastReceiver {
 
 		final CacheManager cm = CacheManager.getInstance(context);
 
-		final UriString url = Constants.Reddit.getUri("/message/unread.json?limit=2");
+		// Fetch extra so that reaction GIFs can be skipped
+		final UriString url = Constants.Reddit.getUri("/message/unread.json?limit=25");
 
 		final CacheRequest request = new CacheRequest(
 				url,
@@ -144,7 +148,32 @@ public class NewMessageChecker extends BroadcastReceiver {
 							final RedditListing listing
 									= ((RedditThing.Listing)listingThing).getData();
 
-							final int messageCount = listing.getChildren().size();
+							final ReactionGifFilter reactionGifFilter
+									= PrefsUtility.reactionGifFilter();
+
+							final ArrayList<RedditThing> unread = new ArrayList<>();
+
+							for(final MaybeParseError<RedditThing> child
+									: listing.getChildren()) {
+
+								final RedditThing childThing = child.ok();
+
+								final UrlEncodedString body;
+
+								if(childThing instanceof RedditThing.Comment) {
+									body = ((RedditThing.Comment)childThing).getData().getBody();
+								} else if(childThing instanceof RedditThing.Message) {
+									body = ((RedditThing.Message)childThing).getData().getBody();
+								} else {
+									body = null;
+								}
+
+								if(!ReactionGifFilter.matches(reactionGifFilter, body)) {
+									unread.add(childThing);
+								}
+							}
+
+							final int messageCount = unread.size();
 
 							if(General.isSensitiveDebugLoggingEnabled()) {
 								Log.i(TAG, "Got response. Message count = " + messageCount);
@@ -154,7 +183,7 @@ public class NewMessageChecker extends BroadcastReceiver {
 								return;
 							}
 
-							final RedditThing thing = listing.getChildren().get(0).ok();
+							final RedditThing thing = unread.get(0);
 
 							String title;
 							final String text

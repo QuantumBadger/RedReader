@@ -210,7 +210,7 @@
 		<CheckBoxPreference android:title="@string/pref_behaviour_collapse_reaction_gifs_title"
 							android:summary="@string/pref_behaviour_collapse_reaction_gifs_summary"
 							android:key="@string/pref_behaviour_collapse_reaction_gifs_key"
-							android:defaultValue="true"/>
+							android:defaultValue="false"/>
 
 		<EditTextPreference android:title="@string/pref_behaviour_reaction_gif_domains_title"
 							android:key="@string/pref_behaviour_reaction_gif_domains_key"

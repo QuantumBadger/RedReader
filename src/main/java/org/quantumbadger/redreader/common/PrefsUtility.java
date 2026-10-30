@@ -998,7 +998,7 @@ public final class PrefsUtility {
 	public static boolean pref_behaviour_collapse_reaction_gifs() {
 		return getBoolean(
 				R.string.pref_behaviour_collapse_reaction_gifs_key,
-				true);
+				false);
 	}
 
 	public static String pref_behaviour_reaction_gif_domains() {

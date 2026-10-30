@@ -241,6 +241,7 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 
 		final int[] editTextPrefsToUpdate = {
 				R.string.pref_behaviour_comment_min_key,
+				R.string.pref_behaviour_reaction_gif_domains_key,
 				R.string.pref_reddit_client_id_override_key
 		};
 

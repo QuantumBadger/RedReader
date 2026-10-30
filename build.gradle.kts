@@ -94,6 +94,10 @@ android {
 	}
 
 	buildTypes {
+		getByName("debug") {
+			// Install alongside the Play Store version
+			applicationIdSuffix = ".gif"
+		}
 		getByName("release") {
 			isMinifyEnabled = true
 			isShrinkResources = false

@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 public final class PrefsUtility {
 
@@ -1801,6 +1802,96 @@ public final class PrefsUtility {
 	public static boolean pref_blocked_subreddits_check(final SubredditCanonicalId subreddit) {
 
 		return pref_blocked_subreddits().contains(subreddit);
+	}
+
+	public static List<String> pref_blocked_subreddit_regexes() {
+		return WritableHashSet.escapedStringToList(getString(
+				R.string.pref_blocked_subreddit_regexes_key,
+				""));
+	}
+
+	public static void pref_blocked_subreddit_regex_add(final String expression) {
+		Pattern.compile(expression);
+		final ArrayList<String> expressions = new ArrayList<>(
+				pref_blocked_subreddit_regexes());
+		if(!expressions.contains(expression)) {
+			expressions.add(expression);
+			sharedPrefs.edit().putString(
+					getPrefKey(R.string.pref_blocked_subreddit_regexes_key),
+					WritableHashSet.listToEscapedString(expressions)).apply();
+		}
+	}
+
+	public static void pref_blocked_subreddit_regex_remove(final String expression) {
+		final ArrayList<String> expressions = new ArrayList<>(
+				pref_blocked_subreddit_regexes());
+		if(expressions.remove(expression)) {
+			sharedPrefs.edit().putString(
+					getPrefKey(R.string.pref_blocked_subreddit_regexes_key),
+					WritableHashSet.listToEscapedString(expressions)).apply();
+		}
+	}
+
+	public static List<String> pref_hidden_post_title_terms() {
+		return WritableHashSet.escapedStringToList(getString(
+				R.string.pref_hidden_post_title_terms_key,
+				""));
+	}
+
+	public static void pref_hidden_post_title_term_add(final String term) {
+		final String normalizedTerm = term.trim();
+		if(normalizedTerm.isEmpty()) {
+			return;
+		}
+
+		final ArrayList<String> terms = new ArrayList<>(pref_hidden_post_title_terms());
+		for(final String existingTerm : terms) {
+			if(existingTerm.equalsIgnoreCase(normalizedTerm)) {
+				return;
+			}
+		}
+
+		terms.add(normalizedTerm);
+		sharedPrefs.edit().putString(
+				getPrefKey(R.string.pref_hidden_post_title_terms_key),
+				WritableHashSet.listToEscapedString(terms)).apply();
+	}
+
+	public static void pref_hidden_post_title_term_remove(final String term) {
+		final ArrayList<String> terms = new ArrayList<>(pref_hidden_post_title_terms());
+		if(terms.remove(term)) {
+			sharedPrefs.edit().putString(
+					getPrefKey(R.string.pref_hidden_post_title_terms_key),
+					WritableHashSet.listToEscapedString(terms)).apply();
+		}
+	}
+
+	public static List<String> pref_hidden_post_title_regexes() {
+		return WritableHashSet.escapedStringToList(getString(
+				R.string.pref_hidden_post_title_regexes_key,
+				""));
+	}
+
+	public static void pref_hidden_post_title_regex_add(final String expression) {
+		Pattern.compile(expression);
+		final ArrayList<String> expressions = new ArrayList<>(
+				pref_hidden_post_title_regexes());
+		if(!expressions.contains(expression)) {
+			expressions.add(expression);
+			sharedPrefs.edit().putString(
+					getPrefKey(R.string.pref_hidden_post_title_regexes_key),
+					WritableHashSet.listToEscapedString(expressions)).apply();
+		}
+	}
+
+	public static void pref_hidden_post_title_regex_remove(final String expression) {
+		final ArrayList<String> expressions = new ArrayList<>(
+				pref_hidden_post_title_regexes());
+		if(expressions.remove(expression)) {
+			sharedPrefs.edit().putString(
+					getPrefKey(R.string.pref_hidden_post_title_regexes_key),
+					WritableHashSet.listToEscapedString(expressions)).apply();
+		}
 	}
 
 	///////////////////////////////

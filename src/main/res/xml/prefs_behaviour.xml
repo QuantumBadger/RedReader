@@ -107,6 +107,14 @@
 						android:entryValues="@array/pref_behaviour_blocked_subredditsort_array_return"
 						android:defaultValue="name"/>
 
+		<Preference android:title="@string/pref_behaviour_manage_blocked_subreddits_title"
+					android:key="@string/pref_behaviour_manage_blocked_subreddits_key"
+					android:summary="@string/pref_behaviour_manage_blocked_subreddits_summary"/>
+
+		<Preference android:title="@string/pref_behaviour_hidden_post_titles_title"
+					android:key="@string/pref_behaviour_hidden_post_titles_key"
+					android:summary="@string/pref_behaviour_hidden_post_titles_summary"/>
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_behaviour_actions_post_header">

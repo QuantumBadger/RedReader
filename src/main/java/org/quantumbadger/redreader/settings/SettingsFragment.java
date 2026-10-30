@@ -24,8 +24,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -66,6 +70,8 @@ import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
 import org.quantumbadger.redreader.reddit.prepared.RedditChangeDataManager;
+import org.quantumbadger.redreader.reddit.things.SubredditCanonicalId;
+import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -74,6 +80,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.regex.PatternSyntaxException;
 
 public final class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -165,6 +172,24 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 		PrefsUtility.applyLanguageSetting();
 
 		addPreferencesFromResource(resource);
+
+		final Preference manageBlockedSubredditsPreference = findPreference(getString(
+				R.string.pref_behaviour_manage_blocked_subreddits_key));
+		if(manageBlockedSubredditsPreference != null) {
+			manageBlockedSubredditsPreference.setOnPreferenceClickListener(preference -> {
+				showBlockedSubredditsDialog(requireContext());
+				return true;
+			});
+		}
+
+		final Preference hiddenPostTitlesPreference = findPreference(getString(
+				R.string.pref_behaviour_hidden_post_titles_key));
+		if(hiddenPostTitlesPreference != null) {
+			hiddenPostTitlesPreference.setOnPreferenceClickListener(preference -> {
+				showHiddenPostTitlesDialog(requireContext());
+				return true;
+			});
+		}
 
 		final int[] listPrefsToUpdate = {
 				R.string.pref_appearance_twopane_key,
@@ -665,6 +690,223 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 			}
 
 		}
+	}
+
+	private void showBlockedSubredditsDialog(@NonNull final Context context) {
+		final List<SubredditCanonicalId> blockedSubreddits
+				= PrefsUtility.pref_blocked_subreddits();
+		final List<String> regexes = PrefsUtility.pref_blocked_subreddit_regexes();
+		final ArrayList<String> displayedRules = new ArrayList<>();
+		final ArrayList<Boolean> isRegex = new ArrayList<>();
+
+		for(final SubredditCanonicalId subreddit : blockedSubreddits) {
+			displayedRules.add(subreddit.getDisplayNameLowercase());
+			isRegex.add(false);
+		}
+		for(final String regex : regexes) {
+			final boolean caseInsensitive = regex.startsWith("(?i)");
+			final String expression = caseInsensitive ? regex.substring(4) : regex;
+			displayedRules.add("/" + expression + "/ ("
+					+ (caseInsensitive ? "case-insensitive" : "case-sensitive") + ")");
+			isRegex.add(true);
+		}
+
+		final CharSequence[] entries = displayedRules.isEmpty()
+				? new CharSequence[] { getString(R.string.blocked_subreddits_empty) }
+				: displayedRules.toArray(new CharSequence[0]);
+
+		new MaterialAlertDialogBuilder(context)
+				.setTitle(R.string.pref_behaviour_manage_blocked_subreddits_title)
+				.setItems(entries, (dialog, which) -> {
+					if(displayedRules.isEmpty()) {
+						return;
+					}
+					final String rule = displayedRules.get(which);
+					new MaterialAlertDialogBuilder(context)
+							.setTitle(R.string.blocked_subreddits_remove_title)
+							.setMessage(getString(
+									R.string.blocked_subreddits_remove_message,
+								rule))
+							.setNegativeButton(android.R.string.cancel, null)
+							.setPositiveButton(R.string.unblock_subreddit, (confirm, button) -> {
+								if(isRegex.get(which)) {
+									PrefsUtility.pref_blocked_subreddit_regex_remove(
+											rawRegex(regexes, which, blockedSubreddits.size()));
+								} else {
+									PrefsUtility.pref_blocked_subreddits_remove(
+											context,
+											blockedSubreddits.get(which));
+								}
+								showBlockedSubredditsDialog(context);
+							})
+							.show();
+				})
+				.setPositiveButton(R.string.blocked_subreddits_add, (dialog, which) ->
+						showAddBlockedSubredditDialog(context))
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
+	}
+
+	private static String rawRegex(
+			final List<String> regexes,
+			final int displayedIndex,
+			final int exactSubredditCount) {
+		return regexes.get(displayedIndex - exactSubredditCount);
+	}
+
+	private void showHiddenPostTitlesDialog(@NonNull final Context context) {
+		final List<String> terms = PrefsUtility.pref_hidden_post_title_terms();
+		final List<String> regexes = PrefsUtility.pref_hidden_post_title_regexes();
+		final ArrayList<String> displayedRules = new ArrayList<>();
+		final ArrayList<Boolean> isRegex = new ArrayList<>();
+
+		for(final String term : terms) {
+			displayedRules.add(term + " (title contains)");
+			isRegex.add(false);
+		}
+		for(final String regex : regexes) {
+			final boolean caseInsensitive = regex.startsWith("(?i)");
+			final String expression = caseInsensitive ? regex.substring(4) : regex;
+			displayedRules.add("/" + expression + "/ ("
+					+ (caseInsensitive ? "case-insensitive" : "case-sensitive") + ")");
+			isRegex.add(true);
+		}
+
+		final CharSequence[] entries = displayedRules.isEmpty()
+				? new CharSequence[] { getString(R.string.hidden_post_titles_empty) }
+				: displayedRules.toArray(new CharSequence[0]);
+
+		new MaterialAlertDialogBuilder(context)
+				.setTitle(R.string.pref_behaviour_hidden_post_titles_title)
+				.setItems(entries, (dialog, which) -> {
+					if(displayedRules.isEmpty()) {
+						return;
+					}
+					final String rule = displayedRules.get(which);
+					new MaterialAlertDialogBuilder(context)
+							.setTitle(R.string.hidden_post_titles_remove_title)
+							.setMessage(getString(
+									R.string.hidden_post_titles_remove_message,
+								rule))
+							.setNegativeButton(android.R.string.cancel, null)
+							.setPositiveButton(R.string.hidden_post_titles_remove, (confirm, button) -> {
+								if(isRegex.get(which)) {
+									PrefsUtility.pref_hidden_post_title_regex_remove(
+											rawRegex(regexes, which, terms.size()));
+								} else {
+									PrefsUtility.pref_hidden_post_title_term_remove(
+											terms.get(which));
+								}
+								showHiddenPostTitlesDialog(context);
+							})
+							.show();
+				})
+				.setPositiveButton(R.string.blocked_subreddits_add, (dialog, which) ->
+						showAddHiddenPostTitleDialog(context))
+				.setNegativeButton(android.R.string.cancel, null)
+				.show();
+	}
+
+	private void showAddHiddenPostTitleDialog(@NonNull final Context context) {
+		final EditText input = new EditText(context);
+		input.setSingleLine(true);
+		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		input.setHint(R.string.hidden_post_titles_add_hint);
+		final CheckBox caseInsensitive = new CheckBox(context);
+		caseInsensitive.setText(R.string.hidden_post_titles_case_insensitive);
+
+		final LinearLayout dialogContents = new LinearLayout(context);
+		dialogContents.setOrientation(LinearLayout.VERTICAL);
+		final int horizontalPadding = (int)(24 * context.getResources()
+				.getDisplayMetrics().density);
+		dialogContents.setPadding(horizontalPadding, 0, horizontalPadding, 0);
+		dialogContents.addView(input);
+		dialogContents.addView(caseInsensitive);
+
+		new MaterialAlertDialogBuilder(context)
+				.setTitle(R.string.pref_behaviour_hidden_post_titles_title)
+				.setView(dialogContents)
+				.setNegativeButton(android.R.string.cancel, null)
+				.setPositiveButton(R.string.blocked_subreddits_add, (dialog, which) -> {
+					final String value = input.getText().toString().trim();
+					if(value.length() >= 2 && value.startsWith("/") && value.endsWith("/")) {
+						final String expression = value.substring(1, value.length() - 1);
+						if(expression.isEmpty()) {
+							General.quickToast(context, R.string.hidden_post_titles_invalid_rule);
+							showAddHiddenPostTitleDialog(context);
+							return;
+						}
+						try {
+							PrefsUtility.pref_hidden_post_title_regex_add(
+									caseInsensitive.isChecked() ? "(?i)" + expression : expression);
+						} catch(final PatternSyntaxException e) {
+							General.quickToast(context, R.string.hidden_post_titles_invalid_rule);
+							showAddHiddenPostTitleDialog(context);
+							return;
+						}
+					} else if(value.isEmpty()) {
+						General.quickToast(context, R.string.hidden_post_titles_invalid_rule);
+						showAddHiddenPostTitleDialog(context);
+						return;
+					} else {
+						PrefsUtility.pref_hidden_post_title_term_add(value);
+					}
+					showHiddenPostTitlesDialog(context);
+				})
+				.show();
+	}
+
+	private void showAddBlockedSubredditDialog(@NonNull final Context context) {
+		final EditText input = new EditText(context);
+		input.setSingleLine(true);
+		input.setInputType(InputType.TYPE_CLASS_TEXT);
+		input.setHint(R.string.blocked_subreddits_add_hint);
+		final CheckBox caseInsensitive = new CheckBox(context);
+		caseInsensitive.setText(R.string.blocked_subreddits_case_insensitive);
+
+		final LinearLayout dialogContents = new LinearLayout(context);
+		dialogContents.setOrientation(LinearLayout.VERTICAL);
+		final int horizontalPadding = (int)(24 * context.getResources()
+				.getDisplayMetrics().density);
+		dialogContents.setPadding(horizontalPadding, 0, horizontalPadding, 0);
+		dialogContents.addView(input);
+		dialogContents.addView(caseInsensitive);
+
+		new MaterialAlertDialogBuilder(context)
+				.setTitle(R.string.blocked_subreddits_add)
+				.setView(dialogContents)
+				.setNegativeButton(android.R.string.cancel, null)
+				.setPositiveButton(android.R.string.ok, (dialog, which) -> {
+					final String value = input.getText().toString().trim();
+					if(value.length() >= 2 && value.startsWith("/") && value.endsWith("/")) {
+						final String expression = value.substring(1, value.length() - 1);
+						if(expression.isEmpty()) {
+							General.quickToast(context, R.string.blocked_subreddits_invalid_regex);
+							showAddBlockedSubredditDialog(context);
+							return;
+						}
+						try {
+							PrefsUtility.pref_blocked_subreddit_regex_add(
+									caseInsensitive.isChecked() ? "(?i)" + expression : expression);
+						} catch(final PatternSyntaxException e) {
+							General.quickToast(context, R.string.blocked_subreddits_invalid_regex);
+							showAddBlockedSubredditDialog(context);
+							return;
+						}
+					} else {
+						try {
+							PrefsUtility.pref_blocked_subreddits_add(
+									context,
+									new SubredditCanonicalId(value));
+						} catch(final InvalidSubredditNameException e) {
+							General.quickToast(context, R.string.blocked_subreddits_invalid_name);
+							showAddBlockedSubredditDialog(context);
+							return;
+						}
+					}
+					showBlockedSubredditsDialog(context);
+				})
+				.show();
 	}
 
 	//Based on https://stackoverflow.com/a/55724743

@@ -36,9 +36,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager.BadTokenException
+import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
+import androidx.core.view.AccessibilityDelegateCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.quantumbadger.redreader.BuildConfig
 import org.quantumbadger.redreader.R
@@ -190,6 +194,48 @@ object General {
         }
     }
 
+    // announceForAccessibility was deprecated in Baklava, but the suggested
+    // replacements don't cover brief action confirmations:
+    // https://issuetracker.google.com/issues/425271162
+    @Suppress("DEPRECATION")
+	@JvmStatic
+	fun announceForAccessibility(view: View, textRes: Int) {
+        runOnUiThread {
+            view.announceForAccessibility(view.context.getString(textRes))
+        }
+    }
+
+    // TalkBack reads a view's raw text aloud when it changes under accessibility
+    // focus, ignoring any content description. Install this on views whose content
+    // description already covers their text; description changes still go through.
+    @JvmStatic
+	fun suppressAccessibilityTextChangeEvents(view: View) {
+        ViewCompat.setAccessibilityDelegate(view, object : AccessibilityDelegateCompat() {
+            override fun sendAccessibilityEventUnchecked(
+                host: View,
+                event: AccessibilityEvent
+            ) {
+                if (event.eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED) {
+                    return
+                }
+
+                if (event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+                    val changeTypes = event.contentChangeTypes
+
+                    if ((changeTypes and AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT) != 0
+                        && (changeTypes
+                            and AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION)
+                            == 0
+                    ) {
+                        return
+                    }
+                }
+
+                super.sendAccessibilityEventUnchecked(host, event)
+            }
+        })
+    }
+
     @JvmStatic
 	fun isTablet(context: Context) = when (PrefsUtility.appearance_twopane()) {
 		AppearanceTwopane.AUTO -> context.resources.configuration.screenLayout and
@@ -198,6 +244,133 @@ object General {
 
 		AppearanceTwopane.NEVER -> false
 		AppearanceTwopane.FORCE -> true
+	}
+
+	/**
+	 * True if the system reserves the left or right screen edges for its own
+	 * gestures, i.e. Android 10+ gesture navigation is enabled. The view must
+	 * be attached to a window, otherwise this returns false.
+	 */
+	@JvmStatic
+	fun isGestureNavigationEnabled(view: View): Boolean {
+
+		val insets = ViewCompat.getRootWindowInsets(view) ?: return false
+
+		val gestures = insets.getInsets(WindowInsetsCompat.Type.systemGestures())
+
+		// With 3-button navigation in landscape, the nav bar itself may sit on
+		// the left or right, and is included in the system gesture insets.
+		// Only count edge area beyond the system bars as a gesture zone.
+		val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+		return gestures.left > bars.left || gestures.right > bars.right
+	}
+
+	/**
+	 * Receives the system bar insets passed down by the enclosing
+	 * ViewsBaseActivity: the status bar's top inset and the navigation bar's
+	 * bottom inset. Each is zero unless the activity lays its content out
+	 * behind that bar -- see
+	 * ViewsBaseActivity.baseActivityContentExtendsBehindNavigationBar() and
+	 * ViewsBaseActivity.baseActivityContentExtendsBehindStatusBar().
+	 */
+	fun interface SystemBarInsetsListener {
+		fun onSystemBarInsets(top: Int, bottom: Int)
+	}
+
+	/**
+	 * Calls [listener] with the system bar insets whenever insets are
+	 * dispatched to [view], for views which extend behind a bar and need to
+	 * position their own contents clear of it. See [SystemBarInsetsListener].
+	 */
+	@JvmStatic
+	fun onSystemBarInsets(view: View, listener: SystemBarInsetsListener) {
+
+		requestApplyInsetsWhenAttached(view)
+
+		ViewCompat.setOnApplyWindowInsetsListener(view) { _, insets ->
+			listener.onSystemBarInsets(
+				insets.getInsets(WindowInsetsCompat.Type.statusBars()).top,
+				insets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+			)
+			insets
+		}
+	}
+
+	/**
+	 * Pads [view] by the system bar insets, keeping its content clear of the
+	 * bars while the view itself extends behind them. For a ViewGroup,
+	 * clipToPadding is disabled so that scrolling content is drawn behind
+	 * the bars. See [SystemBarInsetsListener].
+	 */
+	@JvmStatic
+	fun applySystemBarPadding(view: View) {
+
+		val basePaddingTop = view.paddingTop
+		val basePaddingBottom = view.paddingBottom
+
+		if (view is ViewGroup) {
+			view.clipToPadding = false
+		}
+
+		onSystemBarInsets(view) { top, bottom ->
+			view.setPadding(
+				view.paddingLeft,
+				basePaddingTop + top,
+				view.paddingRight,
+				basePaddingBottom + bottom
+			)
+		}
+	}
+
+	/**
+	 * Insets are only dispatched when the window requests them, so a view
+	 * added to an already laid-out window (e.g. a pane in two-column mode,
+	 * filled in when the user selects a post) would otherwise never receive
+	 * them. This requests a dispatch each time the view is attached.
+	 */
+	private fun requestApplyInsetsWhenAttached(view: View) {
+
+		if (view.isAttachedToWindow) {
+			ViewCompat.requestApplyInsets(view)
+		}
+
+		view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+
+			override fun onViewAttachedToWindow(v: View) {
+				ViewCompat.requestApplyInsets(v)
+			}
+
+			override fun onViewDetachedFromWindow(v: View) {
+				// Nothing to do
+			}
+		})
+	}
+
+	/**
+	 * Adds the system bar insets to the top and bottom margins of [view], for
+	 * views which should sit clear of the bars within a container which
+	 * extends behind them. See [SystemBarInsetsListener].
+	 */
+	@JvmStatic
+	fun applySystemBarMargin(view: View) {
+
+		val baseParams = view.layoutParams as MarginLayoutParams
+		val baseMarginTop = baseParams.topMargin
+		val baseMarginBottom = baseParams.bottomMargin
+
+		onSystemBarInsets(view) { top, bottom ->
+
+			val params = view.layoutParams as MarginLayoutParams
+
+			if (params.topMargin != baseMarginTop + top
+				|| params.bottomMargin != baseMarginBottom + bottom
+			) {
+				params.topMargin = baseMarginTop + top
+				params.bottomMargin = baseMarginBottom + bottom
+				view.layoutParams = params
+			}
+		}
 	}
 
     @Suppress("DEPRECATION")
@@ -500,8 +673,8 @@ object General {
     @JvmStatic
 	fun filenameFromString(url: String): String {
         val uri = url.toUri()
-        var filename = uri.path?.replace(File.separator, "") ?: "file"
-        val parts = filename.substring(1).split("\\.".toRegex(), limit = 2).toTypedArray()
+        var filename = uri.path?.replace(File.separator, "")?.takeUnless { it.isEmpty() } ?: "file"
+        val parts = filename.split("\\.".toRegex(), limit = 2).toTypedArray()
         if (parts.size < 2) {
             filename += if ("v.redd.it" == uri.host) {
                 ".mp4"

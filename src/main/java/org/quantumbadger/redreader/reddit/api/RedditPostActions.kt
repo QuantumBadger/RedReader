@@ -52,6 +52,7 @@ import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
 import org.quantumbadger.redreader.common.time.TimestampUTC
 import org.quantumbadger.redreader.fragments.PostPropertiesDialog
+import org.quantumbadger.redreader.fragments.ReportDialog
 import org.quantumbadger.redreader.reddit.APIResponseHandler.ActionResponseHandler
 import org.quantumbadger.redreader.reddit.RedditAPI
 import org.quantumbadger.redreader.reddit.RedditAPI.RedditAction
@@ -378,14 +379,18 @@ object RedditPostActions {
 				.setNegativeButton(R.string.dialog_cancel, null)
 				.show()
 
-			Action.REPORT -> MaterialAlertDialogBuilder(activity)
-				.setTitle(R.string.action_report)
-				.setMessage(R.string.action_report_sure)
-				.setPositiveButton(
-					R.string.action_report
-				) { _, _ -> action(post, activity, RedditAPI.ACTION_REPORT) }
-				.setNegativeButton(R.string.dialog_cancel, null)
-				.show()
+			Action.REPORT -> {
+				if (RedditAccountManager.getInstance(activity).defaultAccount.isAnonymous) {
+					General.showMustBeLoggedInDialog(activity)
+				} else {
+					ReportDialog.show(
+						activity,
+						post.src.idAndType,
+						post.src.subreddit,
+						false
+					)
+				}
+			}
 
 			Action.CROSSPOST_ORIGIN -> {
 				val crosspostOriginPost = PostCommentListingURL.forPostId(post.src.isCrosspost)
@@ -581,7 +586,7 @@ object RedditPostActions {
 				}
 			}
 
-			Action.BACK -> activity.onBackPressed()
+			Action.BACK -> activity.onBackPressedDispatcher.onBackPressed()
 			Action.PIN -> try {
 				PrefsUtility.pref_pinned_subreddits_add(
 					activity,
@@ -1095,7 +1100,6 @@ object RedditPostActions {
 			RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src.idAndType, false)
 			RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src.idAndType, true)
 			RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src.idAndType, false)
-			RedditAPI.ACTION_REPORT -> {}
 			RedditAPI.ACTION_DELETE -> {}
 			else -> throw java.lang.RuntimeException("Unknown post action $action")
 		}
@@ -1127,13 +1131,23 @@ object RedditPostActions {
 						RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src.idAndType, false)
 						RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src.idAndType, true)
 						RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src.idAndType, false)
-						RedditAPI.ACTION_REPORT -> {}
 						RedditAPI.ACTION_DELETE -> General.quickToast(
 							activity,
 							R.string.delete_success
 						)
 
 						else -> throw java.lang.RuntimeException("Unknown post action")
+					}
+
+					if (vote) {
+						General.announceForAccessibility(
+							activity.window.decorView,
+							when (action) {
+								RedditAPI.ACTION_UPVOTE -> R.string.accessibility_announcement_upvoted
+								RedditAPI.ACTION_DOWNVOTE -> R.string.accessibility_announcement_downvoted
+								else -> R.string.accessibility_announcement_removed_vote
+							}
+						)
 					}
 				}
 
@@ -1146,14 +1160,12 @@ object RedditPostActions {
 								0 -> changeDataManager.markUnvoted(now, post.src.idAndType)
 								1 -> changeDataManager.markUpvoted(now, post.src.idAndType)
 							}
-							changeDataManager.markSaved(now, post.src.idAndType, false)
 						}
 
 						RedditAPI.ACTION_SAVE -> changeDataManager.markSaved(now, post.src.idAndType, false)
 						RedditAPI.ACTION_UNSAVE -> changeDataManager.markSaved(now, post.src.idAndType, true)
 						RedditAPI.ACTION_HIDE -> changeDataManager.markHidden(now, post.src.idAndType, false)
 						RedditAPI.ACTION_UNHIDE -> changeDataManager.markHidden(now, post.src.idAndType, true)
-						RedditAPI.ACTION_REPORT -> {}
 						RedditAPI.ACTION_DELETE -> {}
 						else -> throw java.lang.RuntimeException("Unknown post action $action")
 					}

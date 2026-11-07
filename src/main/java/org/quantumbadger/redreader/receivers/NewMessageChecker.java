@@ -80,7 +80,10 @@ public class NewMessageChecker extends BroadcastReceiver {
 		AnnouncementDownloader.performDownload(context);
 	}
 
-	public static void checkForNewMessages(final Context context) {
+	public static void checkForNewMessages(final Context rawContext) {
+
+		// Ensure notification strings respect the app's language setting
+		final Context context = PrefsUtility.getLocalisedContext(rawContext);
 
 		Log.i("RedReader", "Checking for new messages.");
 

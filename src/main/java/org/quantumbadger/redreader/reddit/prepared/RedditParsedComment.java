@@ -33,6 +33,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.cache.CacheRequest;
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks;
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached;
+import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.BetterSSB;
 import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.General;
@@ -200,9 +201,11 @@ public class RedditParsedComment implements RedditThingWithIdAndType {
 											image,
 											alignment);
 
-									if (mFlair != null) {
-										mFlair.replace(placeholder, span);
-									}
+									AndroidCommon.runOnUiThread(() -> {
+										if (mFlair != null) {
+											mFlair.replace(placeholder, span);
+										}
+									});
 								} catch (final Throwable t) {
 									onFailure(new RRError(
 											"Exception while downloading emote",

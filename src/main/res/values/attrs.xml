@@ -19,6 +19,7 @@
 <resources>
 
 	<attr name="rrActionBarPopupThemeStyle" format="reference" />
+	<attr name="rrPopupBackgroundCol" format="color" />
 
     <attr name="rrListDividerCol" format="color" />
     <attr name="rrListHeaderTextCol" format="color" />
@@ -57,6 +58,8 @@
 	<attr name="rrPostInlinePreviewDivider" format="color" />
 	<attr name="rrCrosspostBackCol" format="color" />
 	<attr name="rrCrosspostTextCol" format="color" />
+	<attr name="rrLockedpostBackCol" format="color" />
+	<attr name="rrLockedpostTextCol" format="color" />
 
     <attr name="rrCommentBodyCol" format="color" />
     <attr name="rrCommentHeaderCol" format="color" />

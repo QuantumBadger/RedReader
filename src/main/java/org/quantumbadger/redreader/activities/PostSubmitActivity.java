@@ -87,13 +87,6 @@ public class PostSubmitActivity extends ViewsBaseActivity implements
 	}
 
 	@Override
-	public void onBackPressed() {
-		if(General.onBackPressed()) {
-			super.onBackPressed();
-		}
-	}
-
-	@Override
 	public void onSubredditSelected(
 			@NonNull final String username,
 			@NonNull final SubredditCanonicalId subreddit) {
@@ -130,7 +123,7 @@ public class PostSubmitActivity extends ViewsBaseActivity implements
 	@Override
 	public void onContentFragmentSubredditDoesNotExist() {
 
-		onBackPressed();
+		getOnBackPressedDispatcher().onBackPressed();
 
 		final Context applicationContext = getApplicationContext();
 
@@ -144,7 +137,7 @@ public class PostSubmitActivity extends ViewsBaseActivity implements
 	@Override
 	public void onContentFragmentSubredditPermissionDenied() {
 
-		onBackPressed();
+		getOnBackPressedDispatcher().onBackPressed();
 
 		final Context applicationContext = getApplicationContext();
 
@@ -159,7 +152,7 @@ public class PostSubmitActivity extends ViewsBaseActivity implements
 
 	@Override
 	public void onContentFragmentFlairRequestError(@NonNull final RRError error) {
-		onBackPressed();
+		getOnBackPressedDispatcher().onBackPressed();
 		General.showResultDialog(this, error);
 	}
 }

@@ -163,15 +163,7 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	@Override
 	public void handleInboxClick(final BaseActivity activity) {
 
-		if(src.getAuthor() == null) {
-			return;
-		}
-
-		final String currentCanonicalUserName = RedditAccountManager.getInstance(activity)
-				.getDefaultAccount().getCanonicalUsername();
-
-		if(!StringUtils.asciiLowercase(src.getAuthor().getDecoded().trim())
-				.equals(currentCanonicalUserName)) {
+		if(canReply(activity)) {
 			openReplyActivity(activity);
 		}
 	}
@@ -179,6 +171,43 @@ public final class RedditPreparedMessage implements RedditRenderableInboxItem {
 	@Override
 	public void handleInboxLongClick(final BaseActivity activity) {
 		handleInboxClick(activity);
+	}
+
+	@NonNull
+	@Override
+	public RedditIdAndType getIdAndType() {
+		return idAndType;
+	}
+
+	@Override
+	public boolean canReply(final BaseActivity activity) {
+
+		if(src.getAuthor() == null) {
+			return false;
+		}
+
+		final String currentCanonicalUserName = RedditAccountManager.getInstance(activity)
+				.getDefaultAccount().getCanonicalUsername();
+
+		return !StringUtils.asciiLowercase(src.getAuthor().getDecoded().trim())
+				.equals(currentCanonicalUserName);
+	}
+
+	@Override
+	public void handleInboxReply(
+			final BaseActivity activity,
+			final RedditChangeDataManager changeDataManager) {
+		openReplyActivity(activity);
+	}
+
+	@Override
+	public boolean hasContext() {
+		return false;
+	}
+
+	@Override
+	public void handleInboxContext(final BaseActivity activity) {
+		// Private messages have no context to show
 	}
 
 	@Override

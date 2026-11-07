@@ -19,7 +19,6 @@ package org.quantumbadger.redreader.activities
 import android.os.Bundle
 import android.util.Log
 import org.quantumbadger.redreader.R
-import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.General.isSensitiveDebugLoggingEnabled
 import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.common.UriString
@@ -50,15 +49,9 @@ class AlbumListingActivity : ComposeBaseActivity() {
 
 		setContentCompose {
 			AlbumScreen(
-				onBackPressed = this::onBackPressed,
+				onBackPressed = { onBackPressedDispatcher.onBackPressed() },
 				albumUrl = url
 			)
-		}
-	}
-
-	override fun onBackPressed() {
-		if (General.onBackPressed()) {
-			super.onBackPressed()
 		}
 	}
 }

@@ -352,11 +352,4 @@ public class ImgurUploadActivity extends ViewsBaseActivity {
 					}
 				})));
 	}
-
-	@Override
-	public void onBackPressed() {
-		if(General.onBackPressed()) {
-			super.onBackPressed();
-		}
-	}
 }

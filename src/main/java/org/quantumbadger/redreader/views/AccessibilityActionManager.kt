@@ -40,6 +40,15 @@ class AccessibilityActionManager(
 	}
 
 	fun removeAllActions() {
+		// The click/long-click hints are labelled standard actions, which
+		// aren't tracked in existingActions. Clear them first:
+		// ViewCompat.addAccessibilityAction reuses the id of any existing
+		// action whose label matches, so a stale hint label left in the list
+		// would capture a matching custom action onto the standard action's
+		// id, hiding it from screen readers' custom action lists.
+		setClickHint(null)
+		setLongClickHint(null)
+
 		existingActions.forEach {
 			ViewCompat.removeAccessibilityAction(view, it)
 		}

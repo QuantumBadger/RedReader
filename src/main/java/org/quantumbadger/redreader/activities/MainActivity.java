@@ -135,6 +135,11 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
+	protected boolean baseActivityContentExtendsBehindNavigationBar() {
+		return true;
+	}
+
+	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		PrefsUtility.applyTheme(this);
@@ -166,6 +171,15 @@ public class MainActivity extends RefreshableActivity
 		setTitle(R.string.app_name);
 
 		RedditAccountManager.getInstance(this).addUpdateListener(this);
+
+		recreateSubscriptionListener();
+
+		// Inflate the layout before running any preference migrations below.
+		// Those migrations write to shared preferences, and the resulting
+		// change notification is delivered synchronously on the main thread,
+		// which triggers doRefresh(ALL). In two-pane mode that dereferences
+		// mLeftPane/mRightPane, which are only assigned by MAIN_RELAYOUT.
+		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
 		final AndroidCommon.PackageInfo pInfo = RedReader.getInstance(this).getPackageInfo();
 
@@ -211,10 +225,6 @@ public class MainActivity extends RefreshableActivity
 		} else {
 			AndroidCommon.promptForNotificationPermission(this, null);
 		}
-
-		recreateSubscriptionListener();
-
-		doRefresh(RefreshableFragment.MAIN_RELAYOUT, false, null);
 
 		if(savedInstanceState == null
 				&& PrefsUtility.pref_behaviour_skiptofrontpage()) {
@@ -613,6 +623,7 @@ public class MainActivity extends RefreshableActivity
 				mRightPane = null;
 			}
 
+			invalidateBackPressedCallback();
 			invalidateOptionsMenu();
 			requestRefresh(RefreshableFragment.ALL, false);
 
@@ -623,12 +634,21 @@ public class MainActivity extends RefreshableActivity
 
 			final FrameLayout postContainer = isMenuShown ? mRightPane : mLeftPane;
 
-			if(isMenuShown && (which == RefreshableFragment.ALL
-					|| which == RefreshableFragment.MAIN)) {
-				mainMenuFragment = new MainMenuFragment(this, null, force);
-				mainMenuView = mainMenuFragment.createCombinedListingAndOverlayView();
-				mLeftPane.removeAllViews();
-				mLeftPane.addView(mainMenuView);
+			if(which == RefreshableFragment.ALL || which == RefreshableFragment.MAIN) {
+
+				if(isMenuShown) {
+					mainMenuFragment = new MainMenuFragment(this, null, force);
+					mainMenuView = mainMenuFragment.createCombinedListingAndOverlayView();
+					mLeftPane.removeAllViews();
+					mLeftPane.addView(mainMenuView);
+
+				} else {
+					// The menu is hidden behind the post/comment panes. Discard the
+					// retained instance so that it is rebuilt fresh when the user
+					// presses back, rather than reappearing with stale contents.
+					mainMenuFragment = null;
+					mainMenuView = null;
+				}
 			}
 
 			if(postListingController != null && (which == RefreshableFragment.ALL
@@ -663,24 +683,25 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	@Override
-	public void onBackPressed() {
+	protected boolean baseActivityMustInterceptBack() {
+		return twoPane && !isMenuShown;
+	}
 
-		if(!General.onBackPressed()) {
-			return;
-		}
+	@Override
+	protected boolean baseActivityOnBackPressed() {
 
 		if(!twoPane || isMenuShown) {
-			super.onBackPressed();
-			return;
+			return false;
 		}
 
 		isMenuShown = true;
 
-		mainMenuFragment = new MainMenuFragment(
-				this,
-				null,
-				false); // TODO preserve position
-		mainMenuView = mainMenuFragment.createCombinedListingAndOverlayView();
+		// Reuse the retained menu (preserving its scroll position and list
+		// contents) if we still have it, otherwise build a new one.
+		if(mainMenuFragment == null || mainMenuView == null) {
+			mainMenuFragment = new MainMenuFragment(this, null, false);
+			mainMenuView = mainMenuFragment.createCombinedListingAndOverlayView();
+		}
 
 		commentListingFragment = null;
 		commentListingView = null;
@@ -693,6 +714,7 @@ public class MainActivity extends RefreshableActivity
 
 		showBackButton(false);
 		invalidateOptionsMenu();
+		return true;
 	}
 
 	@Override
@@ -717,11 +739,12 @@ public class MainActivity extends RefreshableActivity
 				mLeftPane.addView(postListingView);
 				mRightPane.addView(commentListingView);
 
-				mainMenuFragment = null;
-				mainMenuView = null;
+				// mainMenuFragment and mainMenuView are intentionally retained
+				// (detached from mLeftPane) so their state can be restored on back.
 
 				isMenuShown = false;
 
+				invalidateBackPressedCallback();
 				invalidateOptionsMenu();
 
 			} else {
@@ -1032,7 +1055,7 @@ public class MainActivity extends RefreshableActivity
 
 		switch(item.getItemId()) {
 			case android.R.id.home:
-				onBackPressed();
+				getOnBackPressedDispatcher().onBackPressed();
 				return true;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -1109,7 +1132,7 @@ public class MainActivity extends RefreshableActivity
 	}
 
 	private void showBackButton(final boolean isVisible) {
-		configBackButton(isVisible, v -> onBackPressed());
+		configBackButton(isVisible, v -> getOnBackPressedDispatcher().onBackPressed());
 	}
 
 	@Override

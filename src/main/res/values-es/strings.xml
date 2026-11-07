@@ -27,7 +27,7 @@
     <string name="prefs_category_menus">Menús</string>
     <!-- Appearance Prefs -->
     <string name="pref_appearance_theme_header">Tema</string>
-    <string name="pref_appearance_thumbnails_header">Miniaturas de imágenes</string>
+    <string name="pref_appearance_thumbnails_header">Miniaturas</string>
     <string name="pref_appearance_comments_header">Comentarios</string>
     <string name="pref_appearance_twopane_title">Modo tableta (dos paneles)</string>
     <string name="pref_appearance_theme_title">Tema</string>
@@ -360,16 +360,16 @@
     <string name="pref_menus_mainmenu_useritems_title">Ítems de usuario</string>
     <string name="mainmenu_submitted">Publicaciones enviadas</string>
     <string name="mainmenu_downvoted">Publicaciones votadas negativamente</string>
-    <string name="mainmenu_modmail">Correo para moderadores</string>
+    <string name="mainmenu_modmail">Correo para mods</string>
     <string name="sidebar_activity_title">Barra lateral</string>
     <!-- 2014-04-20 -->
-    <string name="header_subscriber_count">%s subscriptores</string>
-    <string name="header_subscriber_count_unknown">El número de subscriptores es desconocido</string>
+    <string name="header_subscriber_count">%s suscriptores</string>
+    <string name="header_subscriber_count_unknown">Número de suscriptores desconocido</string>
     <!-- 2014-04-21 -->
     <string name="invalid_subreddit_name">Nombre de subreddit no válido</string>
     <!-- 2014-04-26 -->
     <string name="web_view_clear_cache">Limpiar caché</string>
-    <string name="web_view_clear_cache_success_toast">Caché, historial, cookies, y datos de formulario borrados.</string>
+    <string name="web_view_clear_cache_success_toast">Caché, historial, cookies y datos de formulario borrados.</string>
     <!-- 2014-11-15 -->
     <string name="karma_link">Karma de enlaces</string>
     <string name="karma_comment">Karma de comentarios</string>
@@ -424,7 +424,7 @@
     <!-- 2015-08-15 -->
     <string name="action_delete">Eliminar</string>
     <string name="delete_confirm">¿Estás seguro de que quieres eliminarlo?</string>
-    <string name="delete_success">Eliminado exitosamente. El elemento seguirá visible hasta que actualices.</string>
+    <string name="delete_success">Eliminado exitosamente. El elemento permanecerá visible hasta que actualices.</string>
     <string name="pref_appearance_hide_username_main_menu_title">Esconder nombre de usuario</string>
     <string name="mainmenu_useritems">Elementos del usuario</string>
     <!-- 2015-09-13 -->
@@ -436,7 +436,7 @@
     <string name="album_already_last_image">Ya es la última imagen del álbum.</string>
     <string name="upgrade_v190_login_message">RedReader se ha actualizado y ahora utiliza OAuth para la identificación en Reddit. Si te habías identificado antes de actualizar, ahora estás desconectado.</string>
     <string name="pref_behaviour_videoview_mode_title">Visor de video</string>
-    <string name="pref_behaviour_videoview_mode_internal_videoview">Visor de vídeo interno (recommendado)</string>
+    <string name="pref_behaviour_videoview_mode_internal_videoview">Visor de vídeo interno (recomendado)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Aplicación externa: VLC</string>
     <string name="videoview_mode_app_vlc_launch_failed">No se pudo iniciar VLC. Por favor, actualiza VLC o cambia tu configuración del visor de vídeo.</string>
     <!-- 2015-10-05 -->
@@ -503,7 +503,7 @@
     <string name="pref_behaviour_imageview_mode_internal_opengl">Visor interno (OpenGL)</string>
     <string name="pref_behaviour_albumview_mode_title">Visor de álbumes</string>
     <string name="pref_behaviour_albumview_mode_internal_list">Visor interno (lista)</string>
-    <string name="error_tor_start_failed">Orbot no pudo iniciarse. Tor no funcionará correctamente.</string>
+    <string name="error_tor_start_failed">Orbot ha fallado al iniciarse. Tor no funcionará correctamente.</string>
     <!-- 2016-06-30 -->
     <string name="inbox_unread_only">Sólo mensajes sin leer</string>
     <!-- 2016-07-02 -->
@@ -550,7 +550,7 @@
     <string name="pref_cache_general_header">General</string>
     <string name="pref_cache_location_title">Ubicación de almacenamiento de caché</string>
     <string name="error_cache_dir_does_not_exist_title">El directorio de caché no existe</string>
-    <string name="error_cache_dir_does_not_exist_message">No se ha podido acceder al directorio de la caché. Por favor, elige una ubicación diferente en la configuración de la caché.</string>
+    <string name="error_cache_dir_does_not_exist_message">No se pudo acceder al directorio de caché. Por favor elige una ubicación diferente en los ajustes de caché.</string>
     <!-- 2016-08-15 -->
     <string name="pref_behaviour_pinned_subredditsort">Subreddits fijados</string>
     <string name="sort_pinned_subreddit_name">Por nombre</string>
@@ -596,7 +596,7 @@
     <!-- 2017-02-23 -->
     <string name="action_back">Volver</string>
     <!-- 2017-03-07 -->
-    <string name="pref_menus_subreddit_context_items_title">Elementos del menú de acción del Subreddit</string>
+    <string name="pref_menus_subreddit_context_items_title">Elementos de acción en el menú contextual de subreddit</string>
     <string name="mainmenu_toast_not_subscribed">¡Aún no te has suscrito a este subreddit!</string>
     <string name="mainmenu_toast_subscribed">¡Ya estás suscrito a este subreddit!</string>
     <string name="mainmenu_toast_not_pinned">¡Este subreddit no ha sido fijado al menú principal!</string>
@@ -613,7 +613,7 @@
     <string name="action_subscribe_subreddit">Suscribirte al Subreddit</string>
     <string name="action_unsubscribe_subreddit">Anular suscripción al Subreddit</string>
     <!-- 2017-04-14 -->
-    <string name="collapsed_self_post">Autopublicación colapsada</string>
+    <string name="collapsed_self_post">Entrada plegada</string>
     <!-- 2017-05-08 -->
     <string name="button_next_comment_parent">Comentario padre siguiente</string>
     <string name="button_prev_comment_parent">Comentario padre anterior</string>
@@ -622,12 +622,12 @@
     <string name="download_link_title">Descargar archivo</string>
     <string name="download_link_message">Esto es un enlace de descarga. ¿Deseas abrir esto en un navegador externo?</string>
     <string name="pref_cache_maxage_entry_title">Borrar marcadores en cache (leído, voto positivo, etc.) después de</string>
-    <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
+    <string name="pref_appearance_comment_header_items_gold">Oro de Reddit</string>
     <string name="mainmenu_custom_destination_search">Buscar</string>
-    <string name="pref_menus_link_context_items_title">Enlazar elementos del menú de acción</string>
-    <string name="pref_behaviour_self_post_tap_actions_title">Auto-toque de publicación</string>
+    <string name="pref_menus_link_context_items_title">Elemento de acción en el menú contextual de enlaces</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Acción al tocar publicación</string>
     <string name="pref_menus_show_popular_main_menu_title">Mostrar /r/popular en el menú principal</string>
-    <string name="pref_behaviour_video_playback_controls_title">Mostrar controles al reproducir video</string>
+    <string name="pref_behaviour_video_playback_controls_title">Habilitar controles de reproducción de vídeo</string>
     <string name="error_no_suitable_apps_available">No se encontraron aplicaciones adecuadas.</string>
     <string name="pref_behaviour_sharing_share_text_title">Incluir texto al compartir comentario</string>
     <string name="disable_replies_to_infobox_failed">No se pudieron desactivar las respuestas a la bandeja de entrada</string>
@@ -639,7 +639,7 @@
     <string name="pref_behaviour_sharing_include_desc_title">Incluir título/descripción al compartir</string>
     <string name="share_comments_for">Comentarios para %s</string>
     <string name="share_comment_by_on_reddit">Comentarios por %s en Reddit</string>
-    <string name="gold">Gold</string>
+    <string name="gold">Oro</string>
     <string name="title_license">Licencia</string>
     <string name="pref_appearance_left_handed_title">Modo zurdo</string>
     <string name="post_submit_mark_nsfw">Marcar como NSFW</string>

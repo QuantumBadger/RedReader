@@ -74,11 +74,18 @@ public class WebViewActivity extends ViewsBaseActivity
 	}
 
 	@Override
-	public void onBackPressed() {
+	protected boolean baseActivityMustInterceptBack() {
+		// Always intercept, as the WebView may need to navigate back through
+		// its history. This is deliberately not conditional on canGoBack(), as
+		// that would have to be rechecked on every navigation (including ones
+		// the page makes itself via the history API), and missing one would
+		// close the browser instead of going back.
+		return true;
+	}
 
-		if(General.onBackPressed() && !webView.onBackButtonPressed()) {
-			super.onBackPressed();
-		}
+	@Override
+	protected boolean baseActivityOnBackPressed() {
+		return webView.onBackButtonPressed();
 	}
 
 	@Override

@@ -59,4 +59,26 @@
 		<item name="android:textFontWeight" tools:targetApi="p">400</item>
 	</style>
 
+	<!-- Popup menus (toolbar overflow, sort dropdown, etc.) -->
+
+	<style name="RR.PopupMenu.ItemText" parent="TextAppearance.AppCompat.Subhead">
+		<item name="android:letterSpacing">0</item>
+	</style>
+
+	<style name="RR.PopupTheme.Dark" parent="ThemeOverlay.AppCompat.Dark">
+		<item name="colorSurface">?attr/rrPopupBackgroundCol</item>
+		<item name="colorSurfaceContainer">?attr/rrPopupBackgroundCol</item>
+		<item name="colorOnSurface">?android:attr/textColorPrimary</item>
+		<item name="colorOnSurfaceVariant">?android:attr/textColorSecondary</item>
+		<item name="elevationOverlayEnabled">false</item>
+	</style>
+
+	<style name="RR.PopupTheme.Light" parent="ThemeOverlay.AppCompat.Light">
+		<item name="colorSurface">?attr/rrPopupBackgroundCol</item>
+		<item name="colorSurfaceContainer">?attr/rrPopupBackgroundCol</item>
+		<item name="colorOnSurface">?android:attr/textColorPrimary</item>
+		<item name="colorOnSurfaceVariant">?android:attr/textColorSecondary</item>
+		<item name="elevationOverlayEnabled">false</item>
+	</style>
+
 </resources>

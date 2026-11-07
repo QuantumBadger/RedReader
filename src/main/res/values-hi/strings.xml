@@ -14,16 +14,32 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
+  --><resources>
     <string name="firstrun_login_title">लॉग इन</string>
     <string name="firstrun_login_message">आप ने फ़िलहाल में लॉग इन नहीं किया है । आप मेनू से अकाउंट्स दबा के अकाउंट की सूची को देख सकते हैं ।</string>
     <string name="firstrun_login_button_now">अभी लॉग इन करें</string>
-    <string name="firstrun_login_button_later">अनाम रहें</string>
+    <string name="firstrun_login_button_later">गुमनाम रहें</string>
     <string name="prefs_category_appearance">दिखावट</string>
-    <string name="prefs_category_behaviour">बिहेवीयर</string>
+    <string name="prefs_category_behaviour">व्यवहार</string>
     <string name="prefs_category_cache">कैश</string>
     <string name="prefs_category_menus">मेनूज़</string>
     <string name="pref_appearance_theme_header">थीम</string>
     <string name="pref_appearance_thumbnails_header">थम्बनेल्ज़</string>
+    <string name="pref_appearance_fontscale_posts_title">पोस्ट टाइटल्स</string>
+    <string name="pref_appearance_theme_title">थीम</string>
+    <string name="pref_appearance_comments_header">कॉमेंट्स</string>
+    <string name="pref_appearance_thumbnails_show_title">थंबनेल दिखाएँ</string>
+    <string name="pref_appearance_thumbnails_wifionly_title">थंबनेल्स केवल वाई-फाई पर</string>
+    <string name="pref_appearance_thumbnails_nsfw_show_title">असुरक्षित थंबनेल्स दिखाएँ</string>
+    <string name="pref_appearance_twopane_title">टैबलेट मोड (दो फलक)</string>
+    <string name="pref_appearance_comment_header_items_title">टिप्पणी हेडर प्रविष्टियाँ</string>
+    <string name="pref_behaviour_notifications_title">अधिसूचनाएं</string>
+    <string name="pref_behaviour_actions_post_header">पोस्ट क्रियाएँ</string>
+    <string name="pref_behaviour_actions_comment_header">टिप्पणी क्रियाएँ</string>
+    <string name="pref_behaviour_posts_header">पोस्ट</string>
+    <string name="pref_behaviour_nsfw_title">NSFW सामग्री दिखाएँ</string>
+    <string name="pref_behaviour_fling_post_left_title">बाईं ओर</string>
+    <string name="pref_behaviour_fling_post_right_title">दाहिनी ओर</string>
+    <string name="pref_cache_pruning">कैश छंटाई</string>
+    <string name="pref_behaviour_actions_comment_tap_title">प्रेस</string>
 </resources>

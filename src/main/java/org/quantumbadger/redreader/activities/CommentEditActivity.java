@@ -185,11 +185,4 @@ public class CommentEditActivity extends ViewsBaseActivity {
 
 		return true;
 	}
-
-	@Override
-	public void onBackPressed() {
-		if(General.onBackPressed()) {
-			super.onBackPressed();
-		}
-	}
 }

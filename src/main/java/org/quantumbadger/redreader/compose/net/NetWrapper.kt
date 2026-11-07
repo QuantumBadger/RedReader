@@ -24,6 +24,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -43,11 +44,14 @@ import org.quantumbadger.redreader.cache.CacheRequest
 import org.quantumbadger.redreader.cache.CacheRequest.DownloadQueueType
 import org.quantumbadger.redreader.cache.CacheRequestCallbacks
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategy
+import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyAlways
 import org.quantumbadger.redreader.cache.downloadstrategy.DownloadStrategyIfNotCached
 import org.quantumbadger.redreader.common.AndroidCommon
 import org.quantumbadger.redreader.common.Constants
+import org.quantumbadger.redreader.common.General
 import org.quantumbadger.redreader.common.GenericFactory
 import org.quantumbadger.redreader.common.LinkHandler
+import org.quantumbadger.redreader.common.Optional
 import org.quantumbadger.redreader.common.Priority
 import org.quantumbadger.redreader.common.RRError
 import org.quantumbadger.redreader.common.UriString
@@ -59,6 +63,9 @@ import org.quantumbadger.redreader.compose.ctx.LocalRedditUser
 import org.quantumbadger.redreader.image.AlbumInfo
 import org.quantumbadger.redreader.image.GetAlbumInfoListener
 import org.quantumbadger.redreader.image.ImageSize
+import org.quantumbadger.redreader.jsonwrap.JsonValue
+import org.quantumbadger.redreader.reddit.api.SubredditReportFlow
+import org.quantumbadger.redreader.reddit.api.SubredditRules
 import java.io.IOException
 import java.util.UUID
 import kotlin.math.max
@@ -384,4 +391,141 @@ private fun <T> fetchFile(
 	}
 
 	return state
+}
+
+/**
+ * Fetches everything needed to show the report flow for a thing in the given
+ * subreddit: the subreddit rules, the sitewide report reason tree, and whether
+ * the subreddit accepts free-form report reasons.
+ *
+ * The rules request is the important one: if the `/about` request fails then
+ * free-form reports are assumed to be enabled.
+ */
+@Composable
+fun fetchSubredditReportFlow(
+	subredditName: String,
+	user: RedditAccountId = LocalRedditUser.current,
+): State<NetRequestStatus<SubredditReportFlow>> {
+
+	val context = LocalContext.current.applicationContext
+
+	val rulesUri = remember(subredditName) {
+		UriString.from(
+			Constants.Reddit.getUriBuilder("/r/$subredditName/about/rules.json")
+				.appendQueryParameter("raw_json", "1")
+				.build()
+		)
+	}
+
+	val aboutUri = remember(subredditName) {
+		UriString.from(
+			Constants.Reddit.getUriBuilder("/r/$subredditName/about.json")
+				.appendQueryParameter("raw_json", "1")
+				.build()
+		)
+	}
+
+	val rulesFilter: (FileRequestMetadata) -> NetRequestStatus<FileRequestResult<SubredditRules>> =
+		remember(rulesUri) {
+			{
+				try {
+					val json = JsonValue.parse(it.streamFactory.create())
+
+					val parsed = SubredditRules.parse(json)
+						?: throw IOException("Invalid subreddit rules format")
+
+					NetRequestStatus.Success(FileRequestResult(metadata = it, data = parsed))
+
+				} catch (e: Exception) {
+					NetRequestStatus.Failed(
+						General.getGeneralErrorForFailure(
+							context,
+							CacheRequest.RequestFailureType.PARSE,
+							e,
+							null,
+							rulesUri,
+							Optional.empty()
+						)
+					)
+				}
+			}
+		}
+
+	val aboutFilter: (FileRequestMetadata) -> NetRequestStatus<FileRequestResult<Boolean>> =
+		remember(aboutUri) {
+			{
+				try {
+					val json = JsonValue.parse(it.streamFactory.create())
+
+					val freeFormReports = json.getObjectAtPath("data").orElseNull()
+						?.getBoolean("free_form_reports") ?: true
+
+					NetRequestStatus.Success(FileRequestResult(metadata = it, data = freeFormReports))
+
+				} catch (e: Exception) {
+					NetRequestStatus.Failed(
+						General.getGeneralErrorForFailure(
+							context,
+							CacheRequest.RequestFailureType.PARSE,
+							e,
+							null,
+							aboutUri,
+							Optional.empty()
+						)
+					)
+				}
+			}
+		}
+
+	val rules = fetchFile(
+		uri = rulesUri,
+		user = user,
+		priority = Priority(Constants.Priority.API_ACTION),
+		downloadStrategy = DownloadStrategyAlways.INSTANCE,
+		fileType = Constants.FileType.NOCACHE,
+		queueType = CacheRequest.DownloadQueueType.REDDIT_API,
+		cache = false,
+		filter = rulesFilter
+	)
+
+	val about = fetchFile(
+		uri = aboutUri,
+		user = user,
+		priority = Priority(Constants.Priority.API_ACTION),
+		downloadStrategy = DownloadStrategyAlways.INSTANCE,
+		fileType = Constants.FileType.NOCACHE,
+		queueType = CacheRequest.DownloadQueueType.REDDIT_API,
+		cache = false,
+		filter = aboutFilter
+	)
+
+	return remember(rules, about) {
+		derivedStateOf {
+			when (val r = rules.value) {
+				is NetRequestStatus.Failed -> r
+
+				is NetRequestStatus.Success -> {
+					val freeFormReports = when (val a = about.value) {
+						is NetRequestStatus.Success -> a.result.data
+						is NetRequestStatus.Failed -> true
+						else -> null
+					}
+
+					if (freeFormReports == null) {
+						NetRequestStatus.Connecting
+					} else {
+						NetRequestStatus.Success(
+							SubredditReportFlow(
+								rules = r.result.data.rules,
+								siteRulesFlow = r.result.data.siteRulesFlow,
+								freeFormReports = freeFormReports
+							)
+						)
+					}
+				}
+
+				else -> NetRequestStatus.Connecting
+			}
+		}
+	}
 }

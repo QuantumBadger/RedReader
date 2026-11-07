@@ -109,6 +109,9 @@ public class ImageViewDisplayListManager implements
 
 	private ImageViewScrollbars mScrollbars;
 
+	private int mTopInset;
+	private int mBottomInset;
+
 	private float mScreenDensity = 1;
 
 	public ImageViewDisplayListManager(
@@ -192,7 +195,34 @@ public class ImageViewDisplayListManager implements
 				mImageTileSource.getHeight()
 		);
 
+		mScrollbars.setInsets(mTopInset, mBottomInset);
+
 		scene.add(mScrollbars);
+	}
+
+	/**
+	 * Sets the heights of the status bar and navigation bar (or gesture
+	 * handle) drawn over the top and bottom of the surface, so that the
+	 * scrollbars are kept clear of them, and the image is fitted to and kept
+	 * within the area between them.
+	 */
+	public synchronized void setInsets(final int topInset, final int bottomInset) {
+
+		mTopInset = topInset;
+		mBottomInset = bottomInset;
+
+		if(mScrollbars != null) {
+			mScrollbars.setInsets(topInset, bottomInset);
+			mScrollbars.showBars();
+		}
+
+		if(mBoundsHelper != null) {
+			mBoundsHelper = new BoundsHelper(
+					mResolutionX, mResolutionY,
+					mTopInset, mBottomInset,
+					mImageTileSource.getWidth(), mImageTileSource.getHeight(),
+					mCoordinateHelper);
+		}
 	}
 
 	@Override
@@ -209,6 +239,7 @@ public class ImageViewDisplayListManager implements
 
 		mBoundsHelper = new BoundsHelper(
 				width, height,
+				mTopInset, mBottomInset,
 				mImageTileSource.getWidth(), mImageTileSource.getHeight(),
 				mCoordinateHelper);
 
@@ -419,7 +450,9 @@ public class ImageViewDisplayListManager implements
 			case DOUBLE_TAP_ONE_FINGER_DRAG: {
 
 				final MutableFloatPoint2D screenCentre = mTmpPoint1_onFingersMoved;
-				screenCentre.set(mResolutionX / 2, mResolutionY / 2);
+				screenCentre.set(
+						mResolutionX / 2,
+						mTopInset + (mResolutionY - mTopInset - mBottomInset) / 2);
 
 				mCoordinateHelper.scaleAboutScreenPoint(
 						screenCentre,
@@ -571,9 +604,11 @@ public class ImageViewDisplayListManager implements
 			targetScale = minScale;
 
 		} else {
+			// Fill the area not covered by the system bars along one axis
 			targetScale = Math.max(
 					(float)mResolutionX / (float)mImageTileSource.getWidth(),
-					(float)mResolutionY / (float)mImageTileSource.getHeight()
+					(float)(mResolutionY - mTopInset - mBottomInset)
+							/ (float)mImageTileSource.getHeight()
 			);
 
 			if(Math.abs((targetScale / currentScale) - 1.0) < 0.05) {

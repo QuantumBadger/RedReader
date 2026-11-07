@@ -35,7 +35,7 @@
     <string name="pref_appearance_thumbnails_show_title">إظهار الصور المصغرة</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">إظهار للمنشورات الغير لائقة</string>
     <string name="pref_appearance_thumbnails_wifionly_title">عرض الصور المصغرة عند الاتصال عبر الواي فاي فقط</string>
-    <string name="pref_appearance_comment_header_items_title">أعلى التعليق</string>
+    <string name="pref_appearance_comment_header_items_title">محتوى رأسية التعليق</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">الإخطارات</string>
     <string name="pref_behaviour_actions_post_header">إجراءات المنشور</string>
@@ -43,7 +43,7 @@
     <string name="pref_behaviour_posts_header">المنشورات</string>
     <string name="pref_behaviour_fling_post_left_title">إزاحة المنشور لليسار</string>
     <string name="pref_behaviour_fling_post_right_title">إزاحة المنشور لليمين</string>
-    <string name="pref_behaviour_actions_comment_tap_title">إجراء النقر على تعليق</string>
+    <string name="pref_behaviour_actions_comment_tap_title">أنقر</string>
     <string name="pref_behaviour_nsfw_title">إظهار المنشورات غير اللائقة</string>
     <!-- Cache Prefs -->
     <string name="pref_cache_pruning">تقليم ذاكره التخزين المؤقت</string>
@@ -52,10 +52,10 @@
     <string name="pref_cache_maxage_image_title">حذف الصور المخزنة مؤقتا بعد</string>
     <string name="pref_cache_precache_images_header">تحميل الصور إلى الخابية</string>
     <string name="pref_cache_precache_images_title">تحميل الصور إلى الخابية</string>
-    <string name="pref_cache_precache_images_wifionly_title">عند الاتصال بالواي فاي فقط</string>
+    <string name="pref_cache_precache_images_wifionly_title">على شبكة الواي فاي فقط</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">محتويات قائمة المنشور</string>
-    <string name="pref_menus_post_toolbar_items_title">محتويات شريط أدوات المنشور</string>
+    <string name="pref_menus_post_context_items_title">عناصر قائمة الإجراء</string>
+    <string name="pref_menus_post_toolbar_items_title">عناصر شريط الأدوات الجانبي</string>
     <!-- Options Menu -->
     <string name="options_accounts">الحسابات</string>
     <string name="options_accounts_long">حسابات ريديت</string>
@@ -193,7 +193,7 @@
     <string name="bug_button_send">إرسال التقرير عبر البريد الإلكتروني</string>
     <string name="bug_button_ignore">عدم إرسال التقرير</string>
     <!-- General errors -->
-    <string name="error_403_title">اسم المستخدم غير صحيح</string>
+    <string name="error_403_title">تم رفض الإذن</string>
     <string name="error_403_message">لا يمتلك المستخدم الصلاحيات الكافية لعمل ذلك.</string>
     <string name="error_subreddit_required_title">المنتدى الفرعي مطلوب</string>
     <string name="error_subreddit_required_message">عليك اختيار أحد المنتديات الفرعية.</string>
@@ -325,9 +325,9 @@
     <!-- 2013-07-01 -->
     <string name="web_view_open_browser">عرض باستخدام المتصفح</string>
     <!-- 2013-07-26 -->
-    <string name="pref_behaviour_useinternalbrowser_title">استخدام المتصفح الداخلي</string>
+    <string name="pref_behaviour_useinternalbrowser_title">استخدم المتصفح الداخلي</string>
     <!-- 2013-07-29 -->
-    <string name="pref_appearance_linkbuttons_title">إظهار أزرار الرابط</string>
+    <string name="pref_appearance_linkbuttons_title">أظهر أزرار الرابط</string>
     <!-- 2013-08-04 -->
     <string name="pref_appearance_indentlines_title">إظهار خطوط المسافة البادئة</string>
     <!-- 2014-03-14 -->
@@ -358,10 +358,10 @@
     <string name="options_unsubscribing">إلغاء الاشتراك…</string>
     <string name="options_sidebar">إظهار الشريط الجانبي</string>
     <!-- 2014-04-13 -->
-    <string name="pref_menus_mainmenu_useritems_title">مكونات القائمة الرئيسية</string>
+    <string name="pref_menus_mainmenu_useritems_title">عناصر المستخدم</string>
     <string name="mainmenu_submitted">المنشورات المقدّمة</string>
     <string name="mainmenu_downvoted">المنشورات السيئة</string>
-    <string name="mainmenu_modmail">بريد المشرف</string>
+    <string name="mainmenu_modmail">بريد الإشراف</string>
     <string name="sidebar_activity_title">شريط جانبي</string>
     <!-- 2014-04-20 -->
     <string name="header_subscriber_count">%s مشتركين</string>
@@ -375,7 +375,7 @@
     <string name="pref_appearance_comment_header_items_gold">ذهب ريديت</string>
     <string name="karma_link">سمعة الروابط</string>
     <string name="karma_comment">سمعة التعليقات</string>
-    <string name="imageview_decode_failed">فشل في عرض الصورة. إعادة محاولة عرضها باستخدام المتصفح الداخلي.</string>
+    <string name="imageview_decode_failed">فشل في عرض الصورة. إعادة محاولة عرضها باستخدام المتصفح.</string>
     <string name="user_comments">التعليقات</string>
     <string name="comment_header_specific_thread_title">يعرض حاليا سلسلة تعليقات محدد.</string>
     <string name="comment_header_specific_thread_message">انقر هنا لعرض جميع التعليقات لهذا المنشور.</string>
@@ -390,8 +390,8 @@
     <string name="mark_all_as_read_success">كل الرسائل عُلِمة كمقروءة.</string>
     <string name="error_title_login_user_denied_permission">تم رفض الإذن</string>
     <string name="error_message_login_user_denied_permission">تم رفض الإذن بالوصول إلى الحساب. الرجاء المحاولة مره أخرى.</string>
-    <string name="error_title_login_unknown_reddit_error">خطأ ريديت غير معروف:%s</string>
-    <string name="imageview_invalid_video">الفيديو طالح. إعادة محاولة عرضه باستخدام المتصفح الداخلي.</string>
+    <string name="error_title_login_unknown_reddit_error">خطأ ريديت غير معروف: %s</string>
+    <string name="imageview_invalid_video">الفيديو غير صالح. إعادة محاولة عرضه باستخدام المتصفح.</string>
     <string name="download_authorizing">مصادقه…</string>
     <string name="pref_behaviour_skiptofrontpage_title">انتقل إلى الصفحة الأولي</string>
     <string name="error_archived_vote">تم أرشفة ولم يعد بالإمكان التصويت عليه.</string>
@@ -400,8 +400,8 @@
     <string name="screen_orientation_portrait">طولي</string>
     <string name="screen_orientation_landscape">عرضي</string>
     <string name="options_close_all">أغلق الكل</string>
-    <string name="pref_menus_optionsmenu_items_title">عناصر قائمه الخيارات</string>
-    <string name="pref_behaviour_bezel_toolbar_header">شريط أدوات الإطار الخارجي</string>
+    <string name="pref_menus_optionsmenu_items_title">عناصر قائمه النقط الثلاث</string>
+    <string name="pref_behaviour_bezel_toolbar_header">شريط الأدوات الجانبي للمنشور</string>
     <string name="pref_behaviour_bezel_toolbar_swipezone_title">حجم منطقه سحب شريط أدوات الإطار الخارجي</string>
     <string name="pref_behaviour_gifview_mode_title">عارض الصور المتحركة &lt;GIF&gt;</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">العارض الداخلي (&lt;Movie&gt; لأندرويد 4.0ومافوق )</string>
@@ -414,17 +414,17 @@
     <string name="pref_appearance_hide_username_main_menu_title">إخفاء اسم المستخدم في القائمة الرئيسية</string>
     <string name="mainmenu_useritems">عناصر المستخدم</string>
     <string name="selected_link_is_not_image">الرابط المختار ليس صورة.</string>
-    <string name="imgur_album">ألبوم &lt;Imgur&gt;</string>
-    <string name="album_already_first_image">لا توجد صورة قبل هذه الصورة في الألبوم.</string>
-    <string name="album_already_last_image">لا توجد صورة بعد هذه الصورة في الألبوم.</string>
-    <string name="upgrade_v190_login_message">تمت ترقيه &lt;RedReader&gt; ، الآن يتم استخدام &lt;oAuth&gt; لمصادقة ريديت. إذا كنت قد سجلت الدخول إلى حساب قبل الترقية ، سيتم تسجيل خروجك الآن.</string>
-    <string name="pref_behaviour_videoview_mode_title">عارض الفيديو</string>
+    <string name="imgur_album">ألبوم Imgur (إمجور)</string>
+    <string name="album_already_first_image">لا توجد صورة قبل هذه أصلا.</string>
+    <string name="album_already_last_image">كانت تلك آخر صورة.</string>
+    <string name="upgrade_v190_login_message">تمت ترقيه ردريدر، صار يستخدم &lt;oAuth&gt; لمصادقة ريديت. إذا كنت قد سجلت قبل الترقية، عليك أن تسجل دخولك مرة أخرى.</string>
+    <string name="pref_behaviour_videoview_mode_title">عارض المرئية</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">عارض الفيديو الداخلي (منصوح به)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">التطبيق الخارجي: &lt;VLC&gt;</string>
-    <string name="videoview_mode_app_vlc_launch_failed">فشل في تشغيل &lt;VLC&gt;. الرجاء ترقية &lt;VLC&gt; أو قم بتغير عارض الفيديو المفضل.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">فشل تشغيل &lt;VLC&gt;. يُرجى ترقيته أو تغيير العارض.</string>
     <string name="error_url_required_title">مطلوب رابط</string>
     <string name="error_url_required_message">يجب تحديد رابط.</string>
-    <string name="sort_comments_qa">أسئلة وأجوبة</string>
+    <string name="sort_comments_qa">سين سؤال وجيم جواب</string>
     <string name="pref_behaviour_gallery_swipe_length_title">حجم السحب للألبوم</string>
     <string name="pref_cache_precache_comments_header">تحميل التعليقات إلى الخابية</string>
     <string name="pref_cache_precache_comments_title">تحميل التعليقات إلى الخابية</string>
@@ -576,4 +576,33 @@
     <string name="pref_behaviour_sharing_include_desc_title">تضمين العنوان/الوصف عند النشر</string>
     <string name="share_comments_for">تعليقات ل%s</string>
     <string name="share_comment_by_on_reddit">التعليق من قبل %s في ريديت</string>
+    <string name="pref_appearance_left_handed_title">وضع أيسر</string>
+    <string name="error_already_submitted_title">تم التقديم من قبل</string>
+    <string name="post_submit_mark_spoiler">وضع علامة تحذير لحرق الأحداث</string>
+    <string name="title_license">رخصة</string>
+    <string name="post_submit_mark_nsfw">اعتباره كمحتوى مقيد</string>
+    <string name="error_already_submitted_message">هذه المنشورة تم نشرها الى هذا المجتمع فعلا.</string>
+    <string name="comment_reply_done_norefresh">تم ارسال الرد.</string>
+    <string name="sort_posts_best">الافضل</string>
+    <string name="pref_behaviour_usecustomtabs_title">استخدام علامات تبويب اندرويد مخصصة</string>
+    <string name="pref_behaviour_usecustomtabs_summary">استخدام علامات تبويب اندرويد مخصصة عند توفرها</string>
+    <string name="pref_behaviour_hide_read_posts_title">اخفاء المنشورات التي تم قرائتها</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">الاختصارات</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">اظهار المجتمعات المتعددة</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">اظهار المجتمعات التي تم الاشتراك بها</string>
+    <string name="mainmenu_random_nsfw">مجتمع مقيد عشوائي</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">اظهار موضح معدل طول وعرض الصورة</string>
+    <string name="pref_appearance_bottom_toolbar_title">اظهار شريط الادوات في الاسفل</string>
+    <string name="pref_behaviour_video_mute_default_title">كتم مقاطع الفيديو بشكل اساسي/افتراضي</string>
+    <string name="prefs_category_images_video">الصور/مقاطع الفيديو</string>
+    <string name="notification_channel_name_reddit_messages">رسائل ريديت القادمة</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">اختر تطبيقاً للمشاركة</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">استخدم حوار المشاركة الداخلي</string>
+    <string name="error_toast_no_share_app_installed">لا يوجد تطبيق مناسب لمشاركة هذا.</string>
+    <string name="pref_appearance_fontscale_post_subtitles_title">العناوين الفرعية للمنشور</string>
+    <string name="pref_appearance_fontscale_post_header_titles_title">عناوين المنشورات المفتوحة</string>
+    <string name="pref_appearance_fontscale_post_header_subtitles_title">العناوين الفرعية للمنشور المفتوح</string>
+    <string name="pref_appearance_fontscale_comment_headers_title">رؤوس التعليق/البريد</string>
+    <string name="pref_appearance_posts_header">المنشورات</string>
+    <string name="pref_appearance_post_subtitle_items_subreddit">مجتمع</string>
 </resources>

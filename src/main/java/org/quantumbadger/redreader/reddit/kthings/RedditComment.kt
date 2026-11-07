@@ -71,7 +71,11 @@ data class RedditComment(
 
 	val stickied: Boolean = false,
 
-	val collapsed_reason_code: String? = null
+	val collapsed_reason_code: String? = null,
+
+	// True if the comment is an unread inbox item. Only present on inbox
+	// listings, so null means "unknown" rather than "read".
+	val new: Boolean? = null
 
 ) : Parcelable, RedditThingWithIdAndType {
 

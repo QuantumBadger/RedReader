@@ -26,6 +26,11 @@ import org.quantumbadger.redreader.common.PrefsUtility
 import org.quantumbadger.redreader.compose.ctx.RRComposeContext
 
 open class ComposeBaseActivity: BaseActivity() {
+
+	// This activity calls enableEdgeToEdge() itself, and Compose handles the
+	// window insets
+	override fun baseActivityConfiguresEdgeToEdge() = false
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		enableEdgeToEdge()
 		PrefsUtility.applyTheme(this)
@@ -35,7 +40,7 @@ open class ComposeBaseActivity: BaseActivity() {
 	protected fun setContentCompose(content: @Composable () -> Unit) {
 		setContentView(ComposeView(this).also { view ->
 			view.setContent {
-				RRComposeContext(this) {
+				RRComposeContext(this, controlsStatusBar = true) {
 					content()
 				}
 			}

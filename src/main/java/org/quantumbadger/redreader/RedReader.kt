@@ -57,6 +57,7 @@ class RedReader : Application() {
 
 		GlobalExceptionHandler.init(this)
 		PrefsUtility.init(this)
+		PrefsUtility.applyLanguageSetting()
 		ComposePrefsSingleton.init(this)
 		Fonts.onAppCreate(assets)
 

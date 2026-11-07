@@ -46,6 +46,7 @@
                  android:allowBackup="true"
 				 android:fullBackupContent="@xml/backup_rules"
 				 android:dataExtractionRules="@xml/data_extraction_rules"
+				 android:localeConfig="@xml/locales_config"
 				 android:supportsRtl="true"
 				 android:usesCleartextTraffic="true"
 				 tools:ignore="UnusedAttribute">
@@ -54,6 +55,8 @@
 		<meta-data android:name="com.lge.support.SPLIT_WINDOW" android:value="true" />
 
 		<meta-data android:name="android.webkit.WebView.MetricsOptOut" android:value="true" />
+		<meta-data android:name="android.webkit.WebView.EnableSafeBrowsing" android:value="false" />
+
 
 		<activity android:name=".activities.MainActivity"
 				  android:configChanges="orientation|screenSize|keyboardHidden"

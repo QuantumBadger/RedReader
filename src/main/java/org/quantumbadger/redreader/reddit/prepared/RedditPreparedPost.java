@@ -28,6 +28,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.annotation.UiThread;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccount;
@@ -87,6 +88,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 
 	private RedditPostView mBoundView = null;
 
+	@Nullable private InlinePreviewLoader mInlinePreviewLoader = null;
+
 	// TODO too many parameters
 	public RedditPreparedPost(
 			final Context context,
@@ -139,6 +142,27 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		return src.isVideoPreview();
 	}
 
+	/**
+	 * Returns the loader responsible for this post's inline image preview, or null if this
+	 * post doesn't have one to show.
+	 */
+	@Nullable
+	@UiThread
+	public InlinePreviewLoader getInlinePreviewLoader(@NonNull final BaseActivity activity) {
+
+		General.checkThisIsUIThread();
+
+		if(!shouldShowInlinePreview()) {
+			return null;
+		}
+
+		if(mInlinePreviewLoader == null) {
+			mInlinePreviewLoader = new InlinePreviewLoader(activity, this);
+		}
+
+		return mInlinePreviewLoader;
+	}
+
 	public void performAction(final BaseActivity activity, final RedditPostActions.Action action) {
 		RedditPostActions.INSTANCE.onActionMenuItemSelected(this, activity, action);
 	}
@@ -180,7 +204,9 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 				R.attr.rrGoldTextCol,
 				R.attr.rrGoldBackCol,
 				R.attr.rrCrosspostTextCol,
-				R.attr.rrCrosspostBackCol
+				R.attr.rrCrosspostBackCol,
+				R.attr.rrLockedpostTextCol,
+				R.attr.rrLockedpostBackCol
 		});
 
 		final int boldCol;
@@ -198,6 +224,8 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 		final int rrGoldBackCol = appearance.getColor(6, 255);
 		final int rrCrosspostTextCol = appearance.getColor(7, 255);
 		final int rrCrosspostBackCol = appearance.getColor(8, 255);
+		final int rrLockedpostTextCol = appearance.getColor(9, 255);
+		final int rrLockedpostBackCol = appearance.getColor(10, 255);
 
 		appearance.recycle();
 
@@ -269,6 +297,22 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 						Color.WHITE,
 						Color.RED,
 						1f); // TODO color?
+				postListDescSb.append("  ", 0);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.LOCKED)) {
+			if(src.isLocked()) {
+				postListDescSb.append(
+						" "
+								+ context.getString(R.string.locked)
+								+ " ",
+						BetterSSB.BOLD
+								| BetterSSB.FOREGROUND_COLOR
+								| BetterSSB.BACKGROUND_COLOR,
+						rrLockedpostTextCol,
+						rrLockedpostBackCol,
+						1f);
 				postListDescSb.append("  ", 0);
 			}
 		}
@@ -669,6 +713,15 @@ public final class RedditPreparedPost implements RedditChangeDataManager.Listene
 								conciseMode
 										? R.string.accessibility_subtitle_nsfw_withperiod_concise
 										: R.string.accessibility_subtitle_nsfw_withperiod))
+						.append(separator);
+			}
+		}
+
+		if(mPostSubtitleItems.contains(PrefsUtility.AppearancePostSubtitleItem.LOCKED)) {
+			if(src.isLocked()) {
+				a11yEmbellish
+						.append(context.getString(
+								R.string.accessibility_subtitle_lockedpost))
 						.append(separator);
 			}
 		}

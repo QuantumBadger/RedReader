@@ -128,13 +128,13 @@ public class FingerTracker {
 		int mAndroidId;
 
 		final MutableFloatPoint2D mStartPos = new MutableFloatPoint2D();
-		final MutableFloatPoint2D mCurrentPos = new MutableFloatPoint2D();
-		final MutableFloatPoint2D mLastPos = new MutableFloatPoint2D();
-		final MutableFloatPoint2D mPosDifference = new MutableFloatPoint2D();
-		final MutableFloatPoint2D mTotalPosDifference = new MutableFloatPoint2D();
+		public final MutableFloatPoint2D mCurrentPos = new MutableFloatPoint2D();
+		public final MutableFloatPoint2D mLastPos = new MutableFloatPoint2D();
+		public final MutableFloatPoint2D mPosDifference = new MutableFloatPoint2D();
+		public final MutableFloatPoint2D mTotalPosDifference = new MutableFloatPoint2D();
 
 		long mDownStartTime;
-		long mDownDuration;
+		public long mDownDuration;
 
 		public void onDown(final MotionEvent event) {
 			final int index = event.getActionIndex();

@@ -281,11 +281,4 @@ public class PMSendActivity extends ViewsBaseActivity {
 			lastText = textEdit.getText().toString();
 		}
 	}
-
-	@Override
-	public void onBackPressed() {
-		if(General.onBackPressed()) {
-			super.onBackPressed();
-		}
-	}
 }

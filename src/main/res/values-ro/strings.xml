@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ This file is part of RedReader.
   ~
@@ -14,109 +14,66 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-<resources>
-
+  --><resources>
     <!-- First Run Dialog -->
-
     <string name="firstrun_login_title">Logați-vă</string>
     <string name="firstrun_login_message">Nu sunteți logat. Puteți accesa lista conturilor selectând "Conturi" în meniu.</string>
     <string name="firstrun_login_button_now">Logați-vă acum</string>
     <string name="firstrun_login_button_later">Fiți anonim</string>
-
     <!-- Preference Headers -->
-
     <string name="prefs_category_appearance">Aspect</string>
     <string name="prefs_category_behaviour">Conduită</string>
     <string name="prefs_category_cache">Cache</string>
     <string name="prefs_category_menus">Meniuri</string>
-
     <!-- Appearance Prefs -->
-
     <string name="pref_appearance_theme_header">Design</string>
     <string name="pref_appearance_thumbnails_header">Thumbnail-uri</string>
     <string name="pref_appearance_comments_header">Comentariile</string>
-
     <string name="pref_appearance_twopane_title">Modul Tabletă (despărțit în două)</string>
-
     <string name="pref_appearance_theme_title">Design</string>
-
-
-    <string name="pref_appearance_fontscale_posts_title">Mărimea fonturilor postărilor</string>
-
-
+    <string name="pref_appearance_fontscale_posts_title">Titlurile postărilor</string>
     <string name="pref_appearance_thumbnails_show_title">Arată thumbnail-urile</string>
-
     <string name="pref_appearance_thumbnails_nsfw_show_title">Arată thumbnail-urile NSFW</string>
-
     <string name="pref_appearance_thumbnails_wifionly_title">Thumbnail-urile doar prin Wi-Fi</string>
-
-
-    <string name="pref_appearance_comment_header_items_title">Header-ul Comentariilor</string>
-
+    <string name="pref_appearance_comment_header_items_title">Intrări din antetul comentariilor</string>
     <!-- Behaviour Prefs -->
-
     <string name="pref_behaviour_notifications_title">Notificări</string>
-
     <string name="pref_behaviour_actions_post_header">Conduita Postărilor</string>
     <string name="pref_behaviour_actions_comment_header">Conduita Comentariilor</string>
     <string name="pref_behaviour_posts_header">Postări</string>
-
-    <string name="pref_behaviour_fling_post_left_title">Glisarea Postării în Stânga</string>
-
-    <string name="pref_behaviour_fling_post_right_title">Glisarea Postării în Dreapta</string>
-
-    <string name="pref_behaviour_actions_comment_tap_title">Acțiune la Apăsarea Comentariilor</string>
-
+    <string name="pref_behaviour_fling_post_left_title">Glisare în Stânga</string>
+    <string name="pref_behaviour_fling_post_right_title">Glisare în Dreapta</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Apăsați</string>
     <string name="pref_behaviour_nsfw_title">Arată conținutul NSFW</string>
-
     <!-- Cache Prefs -->
-
     <string name="pref_cache_pruning">Curățare Cache</string>
-
     <string name="pref_cache_maxage_listing_title">Șterge lista cache după</string>
-
     <string name="pref_cache_maxage_thumb_title">Șterge thumbnail-urile din cache după</string>
-
     <string name="pref_cache_maxage_image_title">Șterge imaginile din cache după</string>
-
     <string name="pref_cache_precache_images_header">Salvează Imaginile în Cache</string>
-
     <string name="pref_cache_precache_images_title">Salvează imaginile în cache</string>
-
     <string name="pref_cache_precache_images_wifionly_title">Doar prin Wi-Fi</string>
-
     <!-- Menu Prefs -->
-
-    <string name="pref_menus_post_context_items_title">Item-urile Meniului Postărilor</string>
-
-    <string name="pref_menus_post_toolbar_items_title">Afișează bara de instrumente</string>
-
+    <string name="pref_menus_post_context_items_title">Elemente din meniul de acțiuni</string>
+    <string name="pref_menus_post_toolbar_items_title">Elemente din bara de instrumente laterală</string>
     <!-- Options Menu -->
-
     <string name="options_accounts">Conturi</string>
     <string name="options_accounts_long">Conturi de Reddit</string>
     <string name="options_theme">Aspect</string>
     <string name="options_settings">Setări</string>
-
     <string name="options_submit_post">Scrieți o Postare</string>
-
     <string name="options_refresh">Reîncărcare</string>
     <string name="options_refresh_subreddits">Reîncărcare Subreddit-uri</string>
     <string name="options_refresh_posts">Reîncărcare Postări</string>
     <string name="options_refresh_comments">Reîncărcare Comentarii</string>
-
     <string name="options_past">Versiunile Anterioare</string>
-    <string name="options_past_posts">Past Post List Versions</string>
+    <string name="options_past_posts">Versiunile Anterioare ale Listei de Postări</string>
     <string name="options_past_comments">Lista Versiunilor Comentariilor Anterioare</string>
-
     <string name="options_sort">Sortează</string>
     <string name="options_sort_subreddits">Sortează Subreddit-urile</string>
     <string name="options_sort_posts">Sortează Postările</string>
     <string name="options_sort_comments">Sortează Comentariile</string>
-
     <!-- Main Menu -->
-
     <string name="mainmenu_frontpage">Pagina Principală</string>
     <string name="mainmenu_all">Toate Subreddit-urile</string>
     <string name="mainmenu_custom">Alegeți un Subreddit</string>
@@ -127,32 +84,22 @@
     <string name="mainmenu_inbox">Căsuță Poștală</string>
     <string name="mainmenu_profile">Profilul Meu</string>
     <string name="mainmenu_header_subreddits">Subreddit-uri</string>
-
     <!-- General Listing -->
-
     <string name="listing_cached">Vizualizarea copiei în cache din %s</string>
-
     <!-- Accounts Dialog -->
-
     <string name="accounts_anon">Anonim</string>
     <string name="accounts_active">Activ</string>
     <string name="accounts_add">Adăugați un Cont Reddit</string>
     <string name="accounts_setactive">Activați</string>
     <string name="accounts_reauth">Reautentificare</string>
     <string name="accounts_delete">Ștergere</string>
-
     <string name="accounts_loggingin">Înregistrare…</string>
     <string name="accounts_loggingin_msg">Un moment…</string>
-
     <string name="accounts_username">Nume de utilizator</string>
     <string name="accounts_password">Parola</string>
-
     <string name="accounts_login">Autentificare</string>
-
     <string name="accounts_delete_sure">Sunteți sigur că vreți să ștergeți acest cont?</string>
-
     <!-- Post Sorts -->
-
     <string name="sort_posts_hot">Important</string>
     <string name="sort_posts_new">Nou</string>
     <string name="sort_posts_rising">În Creștere</string>
@@ -164,28 +111,21 @@
     <string name="sort_posts_top_month">Top: Ultima lună</string>
     <string name="sort_posts_top_year">Top: Ultimul an</string>
     <string name="sort_posts_top_all">Top: De la Început</string>
-
     <!-- Comment Sorts -->
-
     <string name="sort_comments_best">Cele mai bune</string>
     <string name="sort_comments_hot">Importante</string>
     <string name="sort_comments_new">Noi</string>
     <string name="sort_comments_old">Vechi</string>
     <string name="sort_comments_controversial">Controversate</string>
     <string name="sort_comments_top">Top</string>
-
     <!-- Dialog Buttons -->
-
     <string name="dialog_close">Închideți</string>
     <string name="dialog_cancel">Opriți</string>
     <string name="dialog_yes">Da</string>
     <string name="dialog_no">Nu</string>
     <string name="dialog_go">Porniți</string>
-
     <!-- Thing Actions -->
-
     <string name="action_menu_post_title">Conduita Postărilor</string>
-
     <string name="action_upvote">Upvote</string>
     <string name="action_downvote">Downvote</string>
     <string name="action_vote_remove">Anulați Votul</string>
@@ -218,15 +158,11 @@
     <string name="action_link_short">Link</string>
     <string name="action_collapse">Minimizați</string>
     <string name="action_nothing">Nu faceți nimic</string>
-
     <string name="action_report">Raportează</string>
     <string name="action_report_sure">Sunteți sigur că doriți să raportați?</string>
-
     <string name="action_save_image">Salvează Imaginea</string>
     <string name="action_save_image_success">Salvează Imaginea în Folder ca</string>
-
     <!-- Download Messages -->
-
     <string name="download_waiting">Așteptați…</string>
     <string name="download_connecting">Se conectează…</string>
     <string name="download_downloadstarting">Începe descărcarea…</string>
@@ -234,14 +170,10 @@
     <string name="download_loading">Se încarcă…</string>
     <string name="download_done">Terminat.</string>
     <string name="download_failed">Eșuat.</string>
-
     <!-- Image View -->
-
-    <string name="imageview_oom">Nu mai aveți memorie. Se încearcă browser-ul intern.</string>
-    <string name="imageview_invalid_gif">GIF invalid. Se încearcă browser-ul intern.</string>
-
+    <string name="imageview_oom">Fără memorie. Încercați cu browserul web.</string>
+    <string name="imageview_invalid_gif">GIF nevalid. Încercați cu browserul web.</string>
     <!-- Comment Reply/Edit, Post Submit -->
-
     <string name="comment_reply_send">Trimiteți</string>
     <string name="comment_edit_save">Salvați</string>
     <string name="comment_reply_preview">Vizualizați</string>
@@ -252,89 +184,61 @@
     <string name="comment_edit_done">Comentariu editat. Schimbările vor apărea după ce dați refresh.</string>
     <string name="post_submit_title_hint">Titlu</string>
     <string name="subreddit_selection_textbox_hint">Subreddit</string>
-    <string name="post_captcha_title">Imagine Captcha</string>
+    <string name="post_captcha_title">Imagine CAPTCHA</string>
     <string name="post_captcha_submit_button">Postați</string>
     <string name="post_submit_done">Postare trimisă.</string>
-
     <!-- Bug Reporting -->
-
     <string name="bug_title">S-a întâmpinat o eroare.</string>
-    <string name="bug_message">RedReader has encountered an error.\n\nWould you like to send a bug report to the developer? If so, an email will be filled in for you with all the relevant information, and you can inspect the contents before sending.RedReader a întâmpinat o eroare.\n\Doriți să trimiteți developer-ului raportul bug-ului? Dacă da, se va deschide un e-mail pentru dumneavoastră cu toate informațiile relevante, ca dumneavoastră să puteți corecta elementele înainte să le trimiteți.</string>
+    <string name="bug_message">RedReader a întâmpinat o eroare.\n\nDoriți să trimiteți dezvoltatorului un raport de eroare? Dacă da, se va deschide un e-mail completat cu toate informațiile relevante, iar dumneavoastră puteți verifica conținutul înainte de a-l trimite.</string>
     <string name="bug_button_send">Trimiteți raportul bug-ului prin e-mail</string>
     <string name="bug_button_ignore">Nu trimiteți raportul bug-ului</string>
-
     <!-- General errors -->
-
-    <string name="error_403_title">Utilizator Nerecunoscut</string>
-    <string name="error_403_message">Reddit ne semnalează că utilizatorul nu are permisiunea de a face asta. Încercați să vă relogați (ștergându-vă contul din lista conturilor, și apoi adăugându-l iar).</string>
-
+    <string name="error_403_title">Acces refuzat</string>
+    <string name="error_403_message">Reddit ne semnalează că utilizatorul nu are permisiunea de a face asta.</string>
     <string name="error_subreddit_required_title">Este Necesar Subreddit-ul</string>
     <string name="error_subreddit_required_message">Trebuie să specificați un subreddit.</string>
-
     <string name="error_bad_captcha_title">Cod CAPTCHA Invalid</string>
     <string name="error_bad_captcha_message">Codul CAPTCHA introdus nu este corect. Încercați din nou.</string>
-
     <string name="error_404_title">Nu Este Găsit (404)</string>
     <string name="error_404_message">Nu s-au găsit informațiile cerute.</string>
-
     <string name="error_unknown_api_title">Eroare</string>
     <string name="error_unknown_api_message">Serverul nu a primit comanda, dintr-un motiv necunoscut. Încercați din nou.</string>
-
     <string name="error_redditdown_title">Reddit este Inaccesibil</string>
     <string name="error_redditdown_message">Momentan Reddit este supraîncărcat. Încercați din nou.</string>
-
     <string name="error_cancelled_title">Operațiune Anulată</string>
     <string name="error_cancelled_message">Operațiunea actuală s-a anulat.</string>
-
     <string name="error_parse_title">Eroare de Analiză</string>
     <string name="error_parse_message">Reddit trimite date de nerecunoscut.</string>
-
     <string name="error_unexpected_cache_title">Eroare Cauzată de Pierderea Cache</string>
     <string name="error_unexpected_cache_message">S-a produs o eroareă internă, legată de cache.</string>
-
     <string name="error_unexpected_storage_title">Eroare Neașteptată de Stocare</string>
     <string name="error_unexpected_storage_message">S-a produs o eroare internă, legată de stocarea cache. Probabil nu mai aveți spațiu.</string>
-
     <string name="error_connection_title">Eroare de Conectare</string>
     <string name="error_connection_message">Este o problemă la conectarea serverului. Verificați semnalul internetului și conectați-vă din nou.</string>
-
     <string name="error_malformed_url_title">URL Greșit</string>
     <string name="error_malformed_url_message">Ați încercat accesarea unui URL greșit</string>
-
     <string name="error_unknown_title">Eroare Necunoscută</string>
     <string name="error_unknown_message">S-a produs o eroare necunoscută. Încercați din nou.</string>
-
     <!-- Post list specific errors -->
-
     <string name="error_postlist_cache_title">Terminarea Cache Stocat</string>
     <string name="error_postlist_cache_message">Vizualizați o versiune veche a informațiilor, fără a avea opțiunea de a accesa sesiunea. Reîncărcați pentru a descărca ultimele postări, sau selectați un mod diferit din setări.</string>
-
     <string name="error_postlist_redditdown_title">Reddit este Inaccesibil</string>
     <string name="error_postlist_redditdown_message">Momentan Reddit este supraîncărcat. Reîncărcați pentru a descărca ultimele postări, sau selectați un mod diferit din setări.</string>
-
     <!-- Session List -->
-
     <string name="session_active">Activ</string>
-
     <!-- Time -->
-
     <string name="time_ago">Acum %s</string>
-
     <!-- User Profile -->
-
     <string name="userprofile_created">Creat</string>
     <string name="userprofile_isfriend">Este Prieten</string>
     <string name="userprofile_isgold">Reddit Gold</string>
     <string name="userprofile_moderator">Este Moderator</string>
     <string name="userprofile_viewcomments">Vizualizați Comentariile</string>
     <string name="userprofile_viewposts">Vizualizați Postările</string>
-
     <!-- Comment/Post Properties -->
-
     <string name="props_comment_title">Proprietățile Comentariilor</string>
     <string name="props_post_title">Proprietățile Postării</string>
     <string name="props_error_title">Proprietățile Erorii</string>
-
     <string name="props_title">Titlu</string>
     <string name="props_author">Autor</string>
     <string name="props_author_flair">Textul Flair-ului Autorului</string>
@@ -346,30 +250,22 @@
     <string name="props_num_comments">Numărul Comentariilor</string>
     <string name="props_body_markdown">Corp Principal</string>
     <string name="props_self_markdown">Textul dumneavoastră</string>
-
     <string name="props_never">Niciodată</string>
     <string name="props_up">Sus</string>
     <string name="props_down">Jos</string>
-
     <!-- Notifications -->
-
     <string name="notification_comment">%s v-a răspuns</string>
     <string name="notification_message">%s v-a trimis un mesaj</string>
-    <string name="notification_message_multiple">Mesaje noi pe reddit</string>
+    <string name="notification_message_multiple">Mesaje noi pe Reddit</string>
     <string name="notification_message_action">Apăsați pentru vizualizare</string>
-
     <!-- General -->
-
     <string name="general_true">Adevărat</string>
     <string name="general_false">Fals</string>
-
     <!-- 2013-05-17 Arrays -->
-
     <string name="pref_appearance_twopane_never">Niciodată</string>
     <string name="pref_appearance_twopane_auto">Detectare automată</string>
     <string name="pref_appearance_twopane_landscape">Doar în modul Panoramă</string>
     <string name="pref_appearance_twopane_force">Mereu (se poate vedea nepotrivit)</string>
-
     <string name="theme_name_red">Roșu</string>
     <string name="theme_name_night">Înnoptat</string>
     <string name="theme_name_green">Verde</string>
@@ -377,7 +273,6 @@
     <string name="theme_name_ltblue">Albastru Deschis</string>
     <string name="theme_name_orange">Portocaliu</string>
     <string name="theme_name_gray">Gri</string>
-
     <string name="time_1hr">1 oră</string>
     <string name="time_6hr">6 ore</string>
     <string name="time_1day">1 zi</string>
@@ -385,99 +280,63 @@
     <string name="time_1week">1 săptămână</string>
     <string name="time_1month">1 lună</string>
     <string name="time_3month">3 luni</string>
-
     <string name="pref_appearance_comment_header_items_author">Autor</string>
     <string name="pref_appearance_comment_header_items_flair">Flair</string>
     <string name="pref_appearance_comment_header_items_score">Scor</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Upvoturi/downvoturi</string>
     <string name="pref_appearance_comment_header_items_age">Vârstă</string>
-
     <!-- 2013-05-17 -->
-
     <string name="error_toast_notloggedin">Trebuie să fiți logat pentru a face asta.</string>
-
     <string name="button_moredetail">Mai Multe Detalii</string>
-
     <string name="pref_appearance_scale_normal">Normal</string>
-
     <string name="error_invalid_password_title">Parolă Greșită</string>
     <string name="error_invalid_password_message">Numele sau parola au fost greșite</string>
-
     <string name="error_ratelimit_title">Prea multe încercări invalide.</string>
-    <string name="error_ratelimit_message">Blocat din cauza logării eșuate în mod repetat de pe acest IP. Reddit spune:</string>
-
+    <string name="error_ratelimit_message">Blocat din cauza prea multor încercări de conectare nevalide de la acest IP. Reddit spune:</string>
     <string name="general_success">Succes</string>
-
     <string name="message_nowloggedin">Sunteți logat</string>
     <string name="message_cannotlogin">Nu v-ați putut loga.</string>
-
     <string name="error_toast_no_urls_in_comment">Niciun URL în acest comentariu.</string>
     <string name="error_toast_no_urls_in_self">Niciun URL în acest thread simplu</string>
     <string name="error_toast_parent_post_not_downloaded">Deocamdată nu s-a descărcat postul principal.</string>
-
     <string name="download_subreddits">Se descarcă subreddit-urile…</string>
-
     <string name="subtitle_points">puncte</string>
     <string name="subtitle_by">de</string>
     <string name="subtitle_to">spre</string>
-	<plurals name="load_more_comments_button_reply_count">
-		<item quantity="one">"Încarcă mai multe comentarii (%d răspuns)"</item>
-		<item quantity="other">"Încarcă mai multe comentarii (%d răspunsuri)"</item>
-	</plurals>
-
+    <plurals name="load_more_comments_button_reply_count">
+        <item quantity="one">"Încarcă mai multe comentarii (%d răspuns)"</item>
+        <item quantity="other">"Încarcă mai multe comentarii (%d răspunsuri)"</item>
+    </plurals>
     <string name="general_unknown">necunoscut</string>
-
     <string name="action_search">Căutați</string>
     <string name="search_subreddit_restrict">Restricționați căutările la</string>
-
     <string name="title_changelog">Ce Este Nou</string>
-
-    <string name="pref_behaviour_commentsort">Sortarea Implicită a Comentariilor</string>
-
+    <string name="pref_behaviour_commentsort">Comentarii (implicit)</string>
     <!-- 2013-05-18 -->
-
     <string name="action_fling_disabled">Dezactivat</string>
-
     <string name="pref_about_version_title">Versiune</string>
-
     <string name="prefs_category_about">Despre</string>
-
     <!-- 2013-06-07 -->
-
     <string name="pref_behaviour_sort_header">Sortează</string>
-
     <!-- 2013-06-09 -->
-
     <string name="pref_appearance_locale_header">Local</string>
-
     <string name="pref_appearance_langforce_title">Limbi</string>
-
     <string name="lang_auto">Automat</string>
-
     <!-- 2013-06-25 -->
-
     <string name="prefs_category_network">Rețea</string>
-    <string name="pref_network_https_title">Activați HTTPS</string>
+    <string name="pref_network_https_title">Utilizați HTTPS</string>
     <!-- 2013-07-01 -->
-
     <string name="web_view_open_browser">Vizualizați în Browser</string>
-
     <!-- 2013-07-26 -->
-
-    <string name="pref_behaviour_useinternalbrowser_title">Folosiți Browser-ul Intern</string>
+    <string name="pref_behaviour_useinternalbrowser_title">Folosiți browser-ul intern</string>
     <!-- 2013-07-29 -->
-
-    <string name="pref_appearance_linkbuttons_title">Arată Butoanele Link-ului</string>
+    <string name="pref_appearance_linkbuttons_title">Arată butoanele link-ului</string>
     <!-- 2013-08-04 -->
-
     <string name="pref_appearance_indentlines_title">Arată indentat liniile</string>
     <!-- 2014-03-14 -->
-
     <string name="load_more_posts">Încarcă mai multe postări</string>
-
     <string name="pref_behaviour_postcount_title">Restricționează limita postărilor</string>
     <string name="pref_behaviour_postcount_items_all">Toate</string>
-
     <!-- 2014-03-17 -->
     <string name="time_year">an</string>
     <string name="time_years">ani</string>
@@ -492,379 +351,585 @@
     <string name="time_sec">secundă</string>
     <string name="time_secs">secunde</string>
     <string name="time_ms">ms</string>
-
     <!-- 2014-03-18 -->
-
     <string name="error_disk_space_title">Nu mai aveți spațiu de stocare</string>
     <string name="error_disk_space_message">Descărcare neefectuată din cauză memoriei plină. Ștergeți câteva fișiere și încercați din nou.</string>
-
     <!-- 2014-03-23 -->
-
     <string name="options_subscribe">Abonați-vă</string>
     <string name="options_unsubscribe">Dezabonați-vă</string>
     <string name="options_subscribing">Vă abonați…</string>
     <string name="options_unsubscribing">Vă dezabonați…</string>
     <string name="options_sidebar">Vezi Sidebar</string>
-
     <!-- 2014-04-13 -->
-
-    <string name="pref_menus_mainmenu_useritems_title">Meniul Principal al Itemilor Meniului</string>
-
+    <string name="pref_menus_mainmenu_useritems_title">Elemente utilizator</string>
     <string name="mainmenu_submitted">Postări Efectuate</string>
     <string name="mainmenu_downvoted">Postări Downvoted</string>
-    <string name="mainmenu_modmail">Mail-ul de Mod</string>
-
+    <string name="mainmenu_modmail">Modmail</string>
     <string name="sidebar_activity_title">Sidebar</string>
-
     <!-- 2014-04-20 -->
-
     <string name="header_subscriber_count">%s abonați</string>
-    <string name="header_subscriber_count_unknown">Numărul abonaților nu este cunoscut</string>
-
+    <string name="header_subscriber_count_unknown">Număr de abonați necunoscut</string>
     <!-- 2014-04-21 -->
-
     <string name="invalid_subreddit_name">Numele subreddit-ului greșit</string>
-
     <!-- 2014-04-26 -->
-
     <string name="web_view_clear_cache">Goliți Cache</string>
     <string name="web_view_clear_cache_success_toast">Cache, istoric, cookies și date șterse.</string>
-
     <!-- 2014-09-21 -->
     <string name="gold">Gold</string>
     <string name="pref_appearance_comment_header_items_gold">Reddit Gold</string>
-
     <!-- 2014-11-15 -->
     <string name="karma_link">Karma Linkurilor</string>
     <string name="karma_comment">Karma Comentariilor</string>
-
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Nu s-a încărcat imaginea. Se încearcă browser-ul intern.</string>
-
+    <string name="imageview_decode_failed">Nu s-a putut decoda imaginea. Încercați cu browserul web.</string>
     <!-- 2014-12-06 -->
     <string name="user_comments">Comentarii</string>
-
     <!-- 2014-12-07 -->
     <string name="comment_header_specific_thread_title">Momentan vizualizați un thread specific comentariilor.</string>
     <string name="comment_header_specific_thread_message">Apăsați aici pentru a vedea toate comentariile.</string>
-
     <!-- 2014-12-18 -->
     <string name="action_comment_context">Context</string>
     <string name="action_comment_go_to">Mergeți la comentariu</string>
-
     <!-- 2015-01-03 -->
     <string name="webview_https_already">URL-ul activ folosește deja HTTPS.</string>
     <string name="webview_https_unknownprotocol">Protocol necunoscut, se aștepta \'http://\'</string>
     <string name="webview_use_https">Folosește HTTPS</string>
-
     <!-- 2015-01-16 -->
-	<!-- 2015-01-26 -->
+    <!-- 2015-01-26 -->
     <string name="sort_posts_relevance">Relevanță</string>
     <string name="sort_posts_comments">Comentarii</string>
-
     <!-- 2015-04-06 -->
     <string name="mark_all_as_read">Marchează-le pe toate ca fiind citite</string>
     <string name="mark_all_as_read_success">Toate mesajele sunt marcate ca fiind citite.</string>
-
     <!-- 2015-05-17 -->
     <string name="error_title_login_user_denied_permission">Permisiune Respinsă</string>
     <string name="error_message_login_user_denied_permission">Permisiunea de a va accesa contul a fost respinsă. Încercați din nou.</string>
-
-    <string name="error_title_login_unknown_reddit_error">Eroare reddit nerecunoscută: %s</string>
-
+    <string name="error_title_login_unknown_reddit_error">Eroare Reddit necunoscută: %s</string>
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Video invalid. Se încearcă browser-ul intern.</string>
+    <string name="imageview_invalid_video">Videoclip nevalid. Încercați cu browserul web.</string>
     <string name="download_authorizing">Autentificare…</string>
-
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Salt până la prima pagină</string>
     <!-- 2015-06-07 -->
     <string name="error_archived_vote">A fost arhivat și nu se mai poate vota.</string>
-
     <!-- 2015-06-20 -->
-    <string name="pref_behaviour_screenorientation_title">Orientarea Ecranului</string>
+    <string name="pref_behaviour_screenorientation_title">Orientarea ecranului</string>
     <string name="screen_orientation_auto">Auto</string>
     <string name="screen_orientation_portrait">Portret</string>
     <string name="screen_orientation_landscape">Panoramă</string>
-
     <!-- 2015-06-28 -->
-    <string name="options_close_all">Închide ToT</string>
-
-    <string name="pref_menus_optionsmenu_items_title">Itemii Meniului Opțiuni</string>
-
+    <string name="options_close_all">Închide Tot</string>
+    <string name="pref_menus_optionsmenu_items_title">Elemente de meniu cu trei puncte</string>
     <!-- 2015-07-05 -->
-    <string name="pref_behaviour_bezel_toolbar_header">Toolbar Bezel</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Zona de glisare a toolbar-ului Bezel</string>
-
-    <string name="pref_behaviour_gifview_mode_title">GIF Viewer</string>
+    <string name="pref_behaviour_bezel_toolbar_header">Bara de instrumente laterală a postării</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Dimensiunea zonei de glisare a barei de instrumente laterale din postare</string>
+    <string name="pref_behaviour_gifview_mode_title">Vizualizator GIF</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">Viewer Intern (Movie, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Viewer intern (Legacy)</string>
-
-	<string name="pref_behaviour_view_mode_internal_browser">Browser Intern</string>
+    <string name="pref_behaviour_view_mode_internal_browser">Browser Intern</string>
     <string name="pref_behaviour_view_mode_external_browser">Browser Extern</string>
-
     <!-- 2015-08-15 -->
-
     <string name="action_delete">Șterge</string>
     <string name="delete_confirm">Sunteți sigur că doriți ștergerea?</string>
     <string name="delete_success">Ștergere completă. Datele vor fi vizibile până dați refresh.</string>
-
-    <string name="pref_appearance_hide_username_main_menu_title">Ascundeți numele în meniul principal</string>
-    <string name="mainmenu_useritems">User Items</string>
-
+    <string name="pref_appearance_hide_username_main_menu_title">Ascunde numele de utilizator</string>
+    <string name="mainmenu_useritems">Elemente utilizator</string>
     <!-- 2015-09-13 -->
     <string name="selected_link_is_not_image">Link-ul selectat nu este o imagine.</string>
-
     <!-- 2015-10-03 -->
     <string name="imgur_album">Album Imgur</string>
-
     <!-- 2015-10-04 -->
     <string name="album_already_first_image">Sunteți deja la prima imagine din album.</string>
     <string name="album_already_last_image">Sunteți deja la ultima imagine din album.</string>
-
-    <string name="upgrade_v190_login_message">RedReader a fost upgradat, și acum folosește oAuth pentru autentificare. Dacă erați logați inainte de upgrade, acum sunteți automat delogat.</string>
-
-    <string name="pref_behaviour_videoview_mode_title">Video Viewer</string>
+    <string name="upgrade_v190_login_message">RedReader a făcut upgrade și acum utilizează OAuth pentru autentificarea Reddit. Dacă ați fost conectat la un cont înainte de upgrade, acum sunteți deconectat.</string>
+    <string name="pref_behaviour_videoview_mode_title">Vizualizator video</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Intern VideoView (recomandat)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">App Extern: VLC</string>
-
-    <string name="videoview_mode_app_vlc_launch_failed">Nu s-a putut deschide VLC. Upgradați VLC sau schimbați preferințele video din setări.</string>
-
+    <string name="videoview_mode_app_vlc_launch_failed">Nu s-a putut porni VLC. Vă rugăm să faceți upgrade VLC sau să vă schimbați preferințele pentru Vizualizare video.</string>
     <!-- 2015-10-05 -->
     <string name="error_url_required_title">Specificați un URL</string>
     <string name="error_url_required_message">Trebuie să specificați un URL.</string>
-
     <!-- 2015-10-16 -->
     <string name="sort_comments_qa">Q&amp;A</string>
-
     <!-- 2015-10-31 -->
-    <string name="pref_behaviour_gallery_swipe_length_title">Lungimea Glisării Galeriei</string>
+    <string name="pref_behaviour_gallery_swipe_length_title">Lungimea glisării în galerie</string>
     <!-- 2015-11-19 -->
     <string name="pref_cache_precache_comments_header">Comentarii Preîncărcate</string>
-
     <string name="pref_cache_precache_comments_title">Preîncarcă comentariile</string>
-
     <string name="pref_cache_precache_comments_wifionly_title">Doar prin Wi-Fi</string>
-
-    <string name="mainmenu_header_subreddits_subscribed">Subscribed Subreddits</string>
+    <string name="mainmenu_header_subreddits_subscribed">Subreddit-uri Abonate</string>
     <string name="mainmenu_header_subreddits_pinned">Subreddit-uri Fixate</string>
-
     <string name="pin_subreddit">Fixați în Meniul Principal</string>
     <string name="unpin_subreddit">Scoateți din Meniul Principal</string>
     <!-- 2015-11-22 -->
     <string name="props_image_title">Informațiile Imaginii</string>
-    <string name="props_caption">Caption</string>
+    <string name="props_caption">Descriere</string>
     <string name="props_resolution">Rezoluție</string>
-
     <!-- 2015-12-06 -->
     <string name="error_too_fast_title">Prea des</string>
-    <string name="error_too_fast_message">Reddit says you are making submissions too quickly. Please wait a few minutes before trying again.Reddit</string>
-
+    <string name="error_too_fast_message">Reddit spune că trimiteți postări prea repede. Vă rugăm să așteptați câteva minute înainte de a încerca din nou.</string>
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Blocați Subreddit-ul</string>
     <string name="unblock_subreddit">Deblocați Subreddit-ul</string>
-    <string name="block_done">Subreddit blocat. Va fi blocat și pe /r/all.</string>
-    <string name="unblock_done">Subreddit deblocat. Va fi deblocat și de pe /r/all</string>
-
+    <string name="block_done">Subreddit blocat. Vizitele viitoare pe prima pagină, /r/popular și /r/all vor exclude acest subreddit.</string>
+    <string name="unblock_done">Subreddit deblocat. Vizitele viitoare pe prima pagină, /r/popular și /r/all vor include acest subreddit.</string>
     <!-- 2016-03-14-->
     <string name="pref_behaviour_comments_header">Comentarii</string>
-
-    <string name="pref_behaviour_comment_min_title">Scorul Minim al Comentariilor</string>
+    <string name="pref_behaviour_comment_min_title">Scorul minim pentru comentarii</string>
     <string name="pref_behaviour_comment_min_dialog_title">Minimizează automat comentariile dacă au un scor sub (lăsați gol pentru a le vedea pe toate)</string>
-
     <!-- 2016-03-20 -->
     <!-- 2016-04-02 -->
     <string name="open_with">Deschideți cu</string>
     <string name="pref_network_tor_title">Folosiți Tor</string>
     <!-- 2016-04-03 -->
     <string name="error_tor_not_installed">Tor nu va funcționa dacă nu aveți instalat Orbot. Doriți să instalați acum?</string>
-    <string name="error_tor_setting_failed">Setare proxy eșuată.</string>
-
+    <string name="error_tor_setting_failed">Nu s-a putut seta proxy.</string>
     <!-- 2016-04-10 -->
     <string name="error_parse_imgur_title">Eroare de Analiză</string>
     <string name="error_parse_imgur_message">Imgur a trimis date nerecunoscute.</string>
-
     <string name="error_upload_fail_imgur_title">Încărcare eșuată</string>
     <string name="error_upload_fail_imgur_message">Încărcare respinsă de Imgur din motive necunoscute.</string>
-
     <string name="upload_to_imgur">Încărcați pe Imgur</string>
     <string name="no_file_selected">Niciun fișier selectat</string>
     <string name="button_upload">Încărcați</string>
     <string name="button_browse">Navigați…</string>
-
     <string name="error_file_too_big_title">Fișier prea mare</string>
     <string name="error_file_too_big_message">Mărimea fișierului (%1$s) e mai mare decât limita încărcării (%2$s).</string>
-
-    <string name="error_file_open_failed_title">Deschiderea fișierului eșuată</string>
+    <string name="error_file_open_failed_title">Fișierul nu poate fi deschis</string>
     <string name="error_file_open_failed_message">S-a produs o eroare în deschiderea fișierului.</string>
-
     <string name="image_selected_summary">Imagine selectată: %1$dx%2$d, %3$s</string>
-
-	<!-- 2016-06-10 -->
-	<string name="submit_post_specify_subreddit">Specificați un subreddit</string>
-	<string name="submit_post_title_empty">Titlul nu poate fi gol</string>
-	<string name="submit_post_url_empty">URL nu poate fi gol</string>
-	<string name="submit_post_self_text_hint">Thread Simplu</string>
-	<string name="submit_post_url_hint">URL</string>
-
-	<!-- 2016-06-24 -->
-	<string name="save_image_permission_denied">Permisiune eșuată: nu s-a putut salva imaginea.</string>
-	
-	<!-- 2016-06-25 -->
-	<string name="pref_behaviour_imageview_mode_title">Viewer Imagine</string>
-	<string name="pref_behaviour_imageview_mode_internal_opengl">Viewer Intern (OpenGL)</string>
-
-	<string name="pref_behaviour_albumview_mode_title">Album Viewer</string>
-	<string name="pref_behaviour_albumview_mode_internal_list">Viewer Intern (list)</string>
-
-	<string name="error_tor_start_failed">Orbot nu s-a încărcat. Tor nu va funcționa corect.</string>
-
-	<!-- 2016-06-30 -->
-	<string name="inbox_unread_only">Doar Mesajele Necitite</string>
-	
-	<!-- 2016-07-02 -->
-	<string name="pref_behaviour_actions_comment_longclick_title">cțiunea Apăsării Lungi pe Comment</string>
-
-	<string name="no_comments_yet">Nu sunt comentarii incă.</string>
-
-	<!-- 2016-07-09 -->
-	<string name="pm_send_hint_recipient">Destinatar</string>
-	<string name="pm_send_hint_subject">Subiect</string>
-	<string name="pm_send_hint_message_text">Textul mesajului</string>
-
-	<string name="pm_send_done">Mesaj trimis.</string>
-
-	<string name="userprofile_pm">Trimite Mesaj</string>
-
-	<string name="error_too_long_title">Prea lung</string>
-	<string name="error_too_long_message">Reddit spune că ați folosit prea mult text.</string>
-
-	<string name="pm_send_actionbar">Trimite Mesaj</string>
-	<string name="submit_post_actionbar">Trimite Postare</string>
-	<string name="submit_comment_actionbar">Trimite Comentariu</string>
-	<string name="edit_comment_actionbar">Editează Comentariu</string>
-	
-	<!-- 2016-07-16 -->
-	<string name="pref_behaviour_fling_comment_left_title">Acțiunea Glisării Comentariilor în Stânga</string>
-
-	<string name="pref_behaviour_fling_comment_right_title">Acțiunea Glisării Comentariilor în Dreapta</string>
-
-	<!-- 2016-07-17 -->
-	<string name="comment_header_search_thread_title">Vizualizați rezultatele căutării unui thread de comentarii.</string>
-	<string name="no_search_results">Nu s-a găsit niciun rezultat.</string>
-
-	<!-- 2016-07-24 -->
-	<string name="action_search_comments">Caută Comentarii</string>
-
-	<!-- 2016-07-29 -->
-	<string name="pref_appearance_navbar_color_title">Culoarea Bării de Navigare</string>
-
-	<string name="pref_appearance_navbar_color_option_black">Negru</string>
-	<string name="pref_appearance_navbar_color_option_primary">Primar (deschisă)</string>
-	<string name="pref_appearance_navbar_color_option_primarydark">Primar (închisă)</string>
-
-	<string name="pref_not_supported_before_lollipop">Neutilizabil pre-Android Lollipop</string>
-
-	<!-- 2016-08-03 -->
-	<string name="action_copy_text">Copiază Text</string>
-	<string name="action_copy_link">Copiază Link</string>
-
-	<string name="pref_behaviour_postsort">Sortarea Implicită a Postărilor</string>
-
-	<!-- 2016-08-06 -->
-	<string name="mainmenu_custom_destination">Locație anume</string>
-	<string name="mainmenu_custom_destination_subreddit">Subreddit</string>
-	<string name="mainmenu_custom_destination_user">Utilizator</string>
-	<string name="mainmenu_custom_destination_url">URL</string>
-
-	<string name="mainmenu_header_multireddits">Multireddit-uri</string>
-
-	<string name="pref_behaviour_share_permalink_title">Distribuie ca permalink</string>
-
-	<!-- 2016-08-10 -->
-	<string name="pref_cache_general_header">General</string>
-
-	<string name="pref_cache_location_title">Locația de stocare Cache</string>
-
-	<string name="error_cache_dir_does_not_exist_title">Cache directory missing</string>
-	<string name="error_cache_dir_does_not_exist_message">Nu se poate accesa folder-ul sursei cache. Alegeți o locație diferită din setări.</string>
-
-	<!-- 2016-08-15 -->
-	<string name="pref_behaviour_pinned_subredditsort">Sortarea Subreddit-urilor Fixate</string>
-	<string name="sort_pinned_subreddit_name">După Nume</string>
-	<string name="sort_pinned_subreddit_date">După Dată</string>
-
-	<!-- 2016-09-01 -->
-	<string name="load_more_comments_failed_unknown_url_type">Nu se pot încărca mai multe comentarii. URL necunoscut.</string>
-
-	<!-- 2016-09-04 -->
-	<string name="pref_appearance_image_viewer_header">Viewer pentru Imagini</string>
-
-	<string name="pref_appearance_image_viewer_show_floating_toolbar_title">Arată toolbar-ul peste imagine</string>
-	<string name="pref_appearance_link_text_clickable_title">Fă textul link-ului clickable</string>
-	<!-- 2016-09-07 -->
-	<string name="pref_appearance_hide_android_status_title">Ascunde bara de status Android</string>
-	<!-- 2016-09-08 -->
-	<string name="pref_behaviour_enable_swipe_refresh_title">Glisează în jos pentru reîncărcare</string>
-	<!-- 2016-09-10 -->
-	<string name="mainmenu_header_subreddits_blocked">Subreddit-uri Blocate</string>
-	<string name="pref_behaviour_blocked_subredditsort">Sortează Subreddit-urile Blocate</string>
-	<string name="sort_blocked_subreddit_name">După Nume</string>
-	<string name="sort_blocked_subreddit_date">După Dată</string>
-
-	<!-- 2016-09-21 -->
-	<string name="pref_appearance_show_blocked_subreddits_main_menu_title">Arătați subreddit-urile blocate în meniul principal</string>
-
-	<!-- 2016-10-02 -->
-	<string name="pref_cache_rerequest_postlist_age_title">Reîncărcați postările dacă memoria cache este mai veche de</string>
-
-	<string name="time_2hr">2 ore</string>
-	<string name="time_3hr">3 ore</string>
-
-	<!-- 2016-10-08 -->
-	<string name="time_every_time">Mereu</string>
-
-<string name="theme_name_night_lowcontrast">Noapte (contrast scăzut)</string>
-	<string name="theme_name_ultrablack">Ultra Întunecat</string>
-
-	<string name="send_replies_to_inbox">Trimite răspunsurile către inbox-ul meu</string>
-
-	<string name="action_share_image">Distribuie imaginea</string>
-
-	<string name="error_403_title_nonreddit">Permisiune refuzată</string>
-	<string name="error_403_message_nonreddit">Server-ul a răspuns cu o eroare de permisiune refuzată.</string>
-
-	<string name="submit_pmreply_actionbar">Răspunde</string>
-	<string name="pm_reply_done">Răspuns trimis.</string>
-
-	<string name="mainmenu_popular">Subreddituri populare</string>
-
-	<string name="action_back">Înapoi</string>
-
-	<string name="mainmenu_toast_not_subscribed">Nu ești abonat la acest subreddit încă!</string>
-	<string name="mainmenu_toast_subscribed">Ești deja abonat la acest subreddit!</string>
-	<string name="mainmenu_toast_not_pinned">Acest subreddit nu este fixat în meniul principal!</string>
-	<string name="mainmenu_toast_pinned">Acest subreddit este deja fixat în meniul principal!</string>
-	<string name="mainmenu_toast_not_blocked">Acest subreddit nu este blocat!</string>
-	<string name="mainmenu_toast_blocked">Acest subreddit este deja blocat!</string>
-	<string name="edit_post_actionbar">Editează postarea</string>
-	<string name="post_edit_done">Postare editată. Schimbările vor apărea după reîmprospătare.</string>
-	<string name="action_block_subreddit">Blochează subreddit</string>
-	<string name="action_unblock_subreddit">Deblochează subreddit</string>
-	<string name="action_pin_subreddit">Fixează subredditul în meniul principal</string>
-	<string name="action_unpin_subreddit">Anulează fixarea subredditului la meniul principal</string>
-	<string name="action_subscribe_subreddit">Abonează-te la subreddit</string>
-	<string name="action_unsubscribe_subreddit">Dezabonează-te de la subreddit</string>
-
-	<string name="pref_appearance_comments_show_floating_toolbar_title">Arată bara plutitoare deasupra comentariilor</string>
-	<string name="download_link_title">Descarcă fișier</string>
-	<string name="download_link_message">Acesta este un link de descărcare. Dorești să îl deschizi într-un browser extern?</string>
-
-	<string name="pref_menus_show_popular_main_menu_title">Afișează /r/popular în meniul principal</string>
-	<string name="pref_behaviour_video_playback_controls_title">Activează controlul pentru video</string>
-
-	<string name="error_no_suitable_apps_available">Nu s-au găsit aplicații potrivite.</string>
-
-<string name="mainmenu_custom_destination_search">Căutare</string>
-
-	</resources>
+    <!-- 2016-06-10 -->
+    <string name="submit_post_specify_subreddit">Specificați un subreddit</string>
+    <string name="submit_post_title_empty">Titlul nu poate fi gol</string>
+    <string name="submit_post_url_empty">URL nu poate fi gol</string>
+    <string name="submit_post_self_text_hint">Thread Simplu</string>
+    <string name="submit_post_url_hint">URL</string>
+    <!-- 2016-06-24 -->
+    <string name="save_image_permission_denied">Permisiune eșuată: nu s-a putut salva imaginea.</string>
+    <!-- 2016-06-25 -->
+    <string name="pref_behaviour_imageview_mode_title">Vizualizator de imagini</string>
+    <string name="pref_behaviour_imageview_mode_internal_opengl">Viewer Intern (OpenGL)</string>
+    <string name="pref_behaviour_albumview_mode_title">Vizualizator de album</string>
+    <string name="pref_behaviour_albumview_mode_internal_list">Viewer Intern (list)</string>
+    <string name="error_tor_start_failed">Nu s-a putut porni Orbot. Tor nu va funcționa corect.</string>
+    <!-- 2016-06-30 -->
+    <string name="inbox_unread_only">Doar Mesajele Necitite</string>
+    <!-- 2016-07-02 -->
+    <string name="pref_behaviour_actions_comment_longclick_title">Apăsare prelungită</string>
+    <string name="no_comments_yet">Nu sunt comentarii încă.</string>
+    <!-- 2016-07-09 -->
+    <string name="pm_send_hint_recipient">Destinatar</string>
+    <string name="pm_send_hint_subject">Subiect</string>
+    <string name="pm_send_hint_message_text">Textul mesajului</string>
+    <string name="pm_send_done">Mesaj trimis.</string>
+    <string name="userprofile_pm">Trimite Mesaj</string>
+    <string name="error_too_long_title">Prea lung</string>
+    <string name="error_too_long_message">Reddit spune că ați folosit prea mult text.</string>
+    <string name="pm_send_actionbar">Trimite Mesaj</string>
+    <string name="submit_post_actionbar">Trimite Postare</string>
+    <string name="submit_comment_actionbar">Trimite Comentariu</string>
+    <string name="edit_comment_actionbar">Editează Comentariu</string>
+    <!-- 2016-07-16 -->
+    <string name="pref_behaviour_fling_comment_left_title">Glisare în stânga</string>
+    <string name="pref_behaviour_fling_comment_right_title">Glisare în dreapta</string>
+    <!-- 2016-07-17 -->
+    <string name="comment_header_search_thread_title">Vizualizați rezultatele căutării unui thread de comentarii.</string>
+    <string name="no_search_results">Nu s-a găsit niciun rezultat.</string>
+    <!-- 2016-07-24 -->
+    <string name="action_search_comments">Caută Comentarii</string>
+    <!-- 2016-07-29 -->
+    <string name="pref_appearance_navbar_color_title">Culoarea barei de navigare și stare</string>
+    <string name="pref_appearance_navbar_color_option_black">Negru</string>
+    <string name="pref_appearance_navbar_color_option_primary">Primar (deschis)</string>
+    <string name="pref_appearance_navbar_color_option_primarydark">Primar (închis)</string>
+    <string name="pref_not_supported_before_lollipop">Neutilizabil pre-Android Lollipop</string>
+    <!-- 2016-08-03 -->
+    <string name="action_copy_text">Copiază Text</string>
+    <string name="action_copy_link">Copiază Link</string>
+    <string name="pref_behaviour_postsort">Postări (implicit)</string>
+    <!-- 2016-08-06 -->
+    <string name="mainmenu_custom_destination">Locație anume</string>
+    <string name="mainmenu_custom_destination_subreddit">Subreddit</string>
+    <string name="mainmenu_custom_destination_user">Utilizator</string>
+    <string name="mainmenu_custom_destination_url">URL</string>
+    <string name="mainmenu_header_multireddits">Multireddit-uri</string>
+    <string name="pref_behaviour_share_permalink_title">Distribuie ca permalink</string>
+    <!-- 2016-08-10 -->
+    <string name="pref_cache_general_header">General</string>
+    <string name="pref_cache_location_title">Locația de stocare Cache</string>
+    <string name="error_cache_dir_does_not_exist_title">Directorul cache lipsește</string>
+    <string name="error_cache_dir_does_not_exist_message">Nu s-a putut accesa directorul cache. Vă rugăm să alegeți o altă locație în setările cache.</string>
+    <!-- 2016-08-15 -->
+    <string name="pref_behaviour_pinned_subredditsort">Subreddituri fixate</string>
+    <string name="sort_pinned_subreddit_name">După Nume</string>
+    <string name="sort_pinned_subreddit_date">După Dată</string>
+    <!-- 2016-09-01 -->
+    <string name="load_more_comments_failed_unknown_url_type">Nu se pot încărca mai multe comentarii. URL necunoscut.</string>
+    <!-- 2016-09-04 -->
+    <string name="pref_appearance_image_viewer_header">Viewer pentru Imagini</string>
+    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Afișați butoanele plutitoare peste imagini și videoclipuri</string>
+    <string name="pref_appearance_link_text_clickable_title">Fă textul link-ului clickable</string>
+    <!-- 2016-09-07 -->
+    <string name="pref_appearance_hide_android_status_title">Ascunde bara de status</string>
+    <!-- 2016-09-08 -->
+    <string name="pref_behaviour_enable_swipe_refresh_title">Glisează în jos pentru reîncărcare</string>
+    <!-- 2016-09-10 -->
+    <string name="mainmenu_header_subreddits_blocked">Subreddit-uri Blocate</string>
+    <string name="pref_behaviour_blocked_subredditsort">Subreddituri blocate</string>
+    <string name="sort_blocked_subreddit_name">După Nume</string>
+    <string name="sort_blocked_subreddit_date">După Dată</string>
+    <!-- 2016-09-21 -->
+    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Afișează subreddituri blocate</string>
+    <!-- 2016-10-02 -->
+    <string name="pref_cache_rerequest_postlist_age_title">Reîncărcați postările dacă memoria cache este mai veche de</string>
+    <string name="time_2hr">2 ore</string>
+    <string name="time_3hr">3 ore</string>
+    <!-- 2016-10-08 -->
+    <string name="time_every_time">Mereu</string>
+    <string name="theme_name_night_lowcontrast">Noapte (contrast scăzut)</string>
+    <string name="theme_name_ultrablack">Ultra Întunecat</string>
+    <string name="send_replies_to_inbox">Trimite răspunsurile către inbox-ul meu</string>
+    <string name="action_share_image">Distribuie imaginea</string>
+    <string name="error_403_title_nonreddit">Permisiune refuzată</string>
+    <string name="error_403_message_nonreddit">Server-ul a răspuns cu o eroare de permisiune refuzată.</string>
+    <string name="submit_pmreply_actionbar">Răspunde</string>
+    <string name="pm_reply_done">Răspuns trimis.</string>
+    <string name="mainmenu_popular">Subreddituri populare</string>
+    <string name="action_back">Înapoi</string>
+    <string name="mainmenu_toast_not_subscribed">Nu ești abonat la acest subreddit încă!</string>
+    <string name="mainmenu_toast_subscribed">Ești deja abonat la acest subreddit!</string>
+    <string name="mainmenu_toast_not_pinned">Acest subreddit nu este fixat în meniul principal!</string>
+    <string name="mainmenu_toast_pinned">Acest subreddit este deja fixat în meniul principal!</string>
+    <string name="mainmenu_toast_not_blocked">Acest subreddit nu este blocat!</string>
+    <string name="mainmenu_toast_blocked">Acest subreddit este deja blocat!</string>
+    <string name="edit_post_actionbar">Editează postarea</string>
+    <string name="post_edit_done">Postare editată. Schimbările vor apărea după reîmprospătare.</string>
+    <string name="action_block_subreddit">Blochează subreddit</string>
+    <string name="action_unblock_subreddit">Deblochează subreddit</string>
+    <string name="action_pin_subreddit">Fixează subredditul în meniul principal</string>
+    <string name="action_unpin_subreddit">Anulează fixarea subredditului la meniul principal</string>
+    <string name="action_subscribe_subreddit">Abonează-te la subreddit</string>
+    <string name="action_unsubscribe_subreddit">Dezabonează-te de la subreddit</string>
+    <string name="pref_appearance_comments_show_floating_toolbar_title">Afișați butoanele de navigare peste comentarii</string>
+    <string name="download_link_title">Descarcă fișier</string>
+    <string name="download_link_message">Acesta este un link de descărcare. Dorești să îl deschizi într-un browser extern?</string>
+    <string name="pref_menus_show_popular_main_menu_title">Afișează /r/popular în meniul principal</string>
+    <string name="pref_behaviour_video_playback_controls_title">Activează controlul pentru video</string>
+    <string name="error_no_suitable_apps_available">Nu s-au găsit aplicații potrivite.</string>
+    <string name="mainmenu_custom_destination_search">Căutare</string>
+    <string name="button_next_comment_parent">Următorul comentariu părinte</string>
+    <string name="button_prev_comment_parent">Comentariul părinte anterior</string>
+    <string name="collapsed_self_post">Postare personală restrânsă</string>
+    <string name="pref_menus_subreddit_context_items_title">Elemente din meniul de acțiuni subreddit</string>
+    <string name="pref_cache_maxage_entry_title">Șterge flag-urile memorate în cache (citite, votate pozitiv etc.) după</string>
+    <string name="pref_menus_link_context_items_title">Elemente din meniul de acțiuni pentru linkuri</string>
+    <string name="image_gallery_no_image_present_title">Imagine negăsită</string>
+    <string name="title_attribution">Atribuire</string>
+    <string name="pref_appearance_navbar_color_option_white">Alb</string>
+    <string name="cache_clear_dialog_listings_data">Listări (%s)</string>
+    <string name="accessibility_subtitle_gold_withperiod">Aur acordat: %d.</string>
+    <string name="accessibility_subtitle_age_withperiod">Vechime: %s.</string>
+    <string name="edittext_hint_comment_body_text">Text de comentariu</string>
+    <string name="pref_behaviour_save_location_prompt_every_time">Întreabă de fiecare dată</string>
+    <string name="pref_appearance_not_possible_in_tablet_mode">Nu este posibil în modul tabletă</string>
+    <string name="pref_behaviour_save_location_system_default">Utilizați sistemul implicit</string>
+    <string name="search_listing_header_query">Interogare de căutare</string>
+    <string name="pref_appearance_left_handed_title">Modul stângaci</string>
+    <string name="notification_channel_name_reddit_messages">Mesaje Reddit primite</string>
+    <string name="sort_posts_best">Cel mai bun</string>
+    <string name="pref_appearance_bottom_toolbar_title">Afișați bara de instrumente în partea de jos</string>
+    <string name="pref_behaviour_hide_read_posts_title">Ascunde postările citite</string>
+    <string name="error_nsfw_subreddits_disabled_title">Subreddit NSFW blocat</string>
+    <string name="unsubscription_successful">Dezabonat de la %s</string>
+    <string name="spoiler">Spoiler</string>
+    <string name="error_message_malformed_html">Nu s-a putut analiza corpul textului. Vă rugăm să raportați acest lucru dezvoltatorului aplicației.</string>
+    <string name="pref_behaviour_user_postsort_title">Postări ale utilizatorului (implicit)</string>
+    <string name="action_search_posts">Căutați postări</string>
+    <string name="pref_behaviour_imagevideo_tap_close_title">Atingeți pentru a închide imaginile/videoclipurile</string>
+    <string name="pref_appearance_post_subtitle_items_subreddit">Subreddit</string>
+    <string name="sort_comments_top_all">Top: Tot timpul</string>
+    <string name="button_error_details">Detalii</string>
+    <string name="pref_appearance_toolbar_header">Bara de instrumente</string>
+    <string name="pref_appearance_post_age_units_title">Precizia vechimii postărilor</string>
+    <string name="pref_appearance_age_units_1">O unitate (x ore)</string>
+    <string name="cache_clear_dialog_loading">Se încarcă dimensiunile de utilizare a datelor</string>
+    <string name="accessibility_image_viewer_go_back">Du-te înapoi</string>
+    <string name="cache_clear_dialog_images">Imagini</string>
+    <string name="cache_clear_dialog_flags">Flag-uri</string>
+    <string name="accessibility_subtitle_sticky_withperiod">Fixată.</string>
+    <string name="accessibility_subtitle_spoiler_withperiod">Conține spoilere.</string>
+    <string name="error_subreddit_does_not_exist_title">Subreddit nevalid</string>
+    <string name="backup_preferences_error_old_android_title">Sistem prea vechi</string>
+    <string name="sort_posts_new_hour">Nou: Ora aceasta</string>
+    <string name="sort_posts_new_year">Nou: Anul acesta</string>
+    <string name="sort_posts_hot_hour">Fierbinte: Ora aceasta</string>
+    <string name="sort_posts_hot_today">Fierbinte: Astăzi</string>
+    <string name="sort_posts_comments_year">Comentarii: Anul Acesta</string>
+    <string name="link_does_not_exist">Acest link nu există. Este posibil să fi fost șters.</string>
+    <string name="video_mute">Mut</string>
+    <string name="video_unmute">Sonor</string>
+    <string name="video_restart">Reporniți videoclipul</string>
+    <string name="post_submit_mark_spoiler">Marchează ca spoiler</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_summary">Afișați o imagine a încărcării media atunci când este disponibil</string>
+    <string name="action_save_image_success_no_path">Imaginea a fost salvată cu succes</string>
+    <string name="pref_header_inline_image_previews">Previzualizările imaginilor în linie</string>
+    <string name="pref_appearance_hide_headertoolbar_commentlist_title">Ascundeți bara de instrumente antet listei de comentarii</string>
+    <string name="pref_appearance_fontscale_global_title">Global</string>
+    <string name="pref_appearance_fontscale_use_global">Utilizați scara globală a fonturilor</string>
+    <string name="prefs_category_fonts">Font</string>
+    <string name="pref_appearance_fontscale_header">Scara fontului</string>
+    <string name="search_results_query_only">Căutare pentru „%s”</string>
+    <string name="search_results_short">Rezultatele Căutării</string>
+    <string name="pref_behaviour_video_mute_default_title">Dezactivați sunetul videoclipurilor în mod implicit</string>
+    <string name="mainmenu_custom_empty_search_query">Interogare de căutare goală.</string>
+    <string name="disable_replies_to_infobox_failed">Nu s-au putut dezactiva răspunsurile la inbox</string>
+    <string name="mainmenu_random">Subreddit aleatoriu</string>
+    <string name="pref_behaviour_sharing_include_desc_title">Includeți titlul/descrierea atunci când distribuiți</string>
+    <string name="share_comments_for">Comentarii pentru %s</string>
+    <string name="share_comment_by_on_reddit">Comentariu de %s pe Reddit</string>
+    <string name="title_license">Licență</string>
+    <string name="post_submit_mark_nsfw">Marchează ca NSFW</string>
+    <string name="error_already_submitted_title">Deja trimis</string>
+    <string name="comment_reply_done_norefresh">Răspuns trimis.</string>
+    <string name="pref_behaviour_usecustomtabs_title">Utilizați filele personalizate Android</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Folosiți filele personalizate Android când sunt disponibile</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">Comenzi rapide</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Afișați subreddit-urile abonate</string>
+    <string name="mainmenu_random_nsfw">Subreddit aleatoriu NSFW</string>
+    <string name="pref_appearance_show_aspect_ratio_indicator_title">Afișează indicatorul raportului de aspect</string>
+    <string name="prefs_category_images_video">Imagini/Video</string>
+    <string name="post_text_copied_to_clipboard">Textul postării a fost copiat în clipboard</string>
+    <string name="action_copy_selftext">Copiază textul postării</string>
+    <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Selectați o aplicație pentru partajare</string>
+    <string name="pref_behaviour_sharing_share_dialog_title">Utilizați dialogul de distribuire încorporat</string>
+    <string name="error_toast_no_share_app_installed">Nu a fost instalată nicio aplicație adecvată pentru a partaja acest conținut.</string>
+    <string name="pref_appearance_fontscale_post_subtitles_title">Subtitlurile postărilor</string>
+    <string name="pref_appearance_fontscale_post_header_titles_title">Titlurile postărilor deschise</string>
+    <string name="pref_appearance_fontscale_comment_headers_title">Antete de comentariu/Inbox</string>
+    <string name="pref_appearance_posts_header">Postări</string>
+    <string name="pref_appearance_post_subtitle_items_title">Intrări de subtitlu în postare</string>
+    <string name="pref_appearance_post_subtitle_items_sticky">Etichetă de fixare</string>
+    <string name="pref_appearance_post_subtitle_items_spoiler">Etichetă spoiler</string>
+    <string name="pref_appearance_post_subtitle_items_nsfw">Etichetă NSFW</string>
+    <string name="pref_appearance_post_subtitle_items_domain">Domeniu</string>
+    <string name="pref_appearance_post_header_subtitle_items_title">Intrări de subtitlu în postarea deschisă</string>
+    <string name="list_yes_no_or_wifi_always">Mereu</string>
+    <string name="list_yes_no_or_wifi_wifionly">Doar prin Wi-Fi</string>
+    <string name="list_yes_no_or_wifi_never">Niciodată</string>
+    <string name="error_nsfw_subreddits_disabled_message">Conținutul NSFW este momentan dezactivat în setări.</string>
+    <string name="pref_appearance_fontscale_linkbuttons_title">Butoane de legătură</string>
+    <string name="pref_appearance_fontscale_bodytext_title">Corpul textului</string>
+    <string name="upgrade_message">Actualizat la versiunea %s</string>
+    <string name="error_toast_failed_open_external_browser">Nu s-a putut deschide adresa URL „%s” în browser-ul extern</string>
+    <string name="error_toast_no_email_apps">Nu sunt instalate aplicații de e-mail!</string>
+    <string name="bug_chooser_title">Trimiteți un raport de eroare prin e-mail</string>
+    <string name="subscription_successful">Abonat la %s</string>
+    <string name="pin_successful">S-a fixat %s în meniul principal</string>
+    <string name="unpin_successful">S-a anulat fixarea %s din meniul principal</string>
+    <string name="pref_menus_mainmenu_header">Meniul Principal</string>
+    <string name="pref_menus_posts_header">Postări</string>
+    <string name="error_title_malformed_html">HTML incorect</string>
+    <string name="props_body_html">Corp (HTML)</string>
+    <string name="props_self_html">Text propriu (HTML)</string>
+    <string name="pref_appearance_hide_headertoolbar_postlist_title">Ascundeți bara de instrumente pentru antetul listei de postări</string>
+    <string name="post_link_copied_to_clipboard">Linkul de postare a fost copiat în clipboard</string>
+    <string name="link_copied_to_clipboard">Link copiat în clipboard</string>
+    <string name="comment_link_copied_to_clipboard">Linkul de comentariu a fost copiat în clipboard</string>
+    <string name="comment_text_copied_to_clipboard">Textul comentariului a fost copiat în clipboard</string>
+    <string name="copied_to_clipboard">Copiat în clipboard</string>
+    <string name="prefs_category_menus_appbar_screen">Elemente din bara de acțiuni</string>
+    <string name="pref_menus_appbar_items_always">Afișează întotdeauna butonul</string>
+    <string name="pref_menus_appbar_items_if_room">Afișează butonul dacă este spațiu</string>
+    <string name="pref_menus_appbar_items_never">Nu arăta</string>
+    <string name="pref_appearance_post_show_comments_button_title">Afișați butonul de comentarii</string>
+    <string name="action_comments_with_count">Vedeți comentariile (%d)</string>
+    <string name="pref_behaviour_multi_postsort_title">Postări multireddit (implicit)</string>
+    <string name="pref_behaviour_user_commentsort_title">Comentarii utilizator (implicit)</string>
+    <string name="sort_comments_top_hour">Top: Ora aceasta</string>
+    <string name="sort_comments_top_today">Top: Astăzi</string>
+    <string name="sort_comments_top_week">Top: Săptămâna aceasta</string>
+    <string name="sort_comments_top_month">Top: Luna aceasta</string>
+    <string name="sort_comments_top_year">Top: Anul acesta</string>
+    <string name="pref_behaviour_video_zoom_default_title">Decupați videoclipurile pentru a umple ecranul</string>
+    <string name="image_gallery_removed_title">Galeria a fost eliminată</string>
+    <string name="image_gallery_no_data_present_title">Galeria nu a fost găsită</string>
+    <string name="image_gallery_no_data_present_message">Nu a fost găsită nicio galerie de imagini la linkul specificat. Este posibil să fi fost ștearsă.</string>
+    <string name="button_error_send_report">Raportează</string>
+    <string name="image_gallery_no_image_present_message">Imaginea specificată nu a putut fi găsită. Este posibil să fi fost ștearsă.</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Utilizați browserul intern (recomandat)</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Utilizați browserul extern (recomandat)</string>
+    <string name="dialog_continue">Continuă</string>
+    <string name="press_back_again">Apăsați înapoi din nou</string>
+    <string name="pref_behaviour_postlist_back_again">Apăsați înapoi de două ori pentru a ieși din lista de postări</string>
+    <string name="pref_behaviour_back_button_title">Butonul Înapoi</string>
+    <string name="pref_appearance_hide_toolbar_on_scroll_title">Ascundeți bara de instrumente pe derulare</string>
+    <string name="pref_behaviour_save_location_title">Destinația salvării</string>
+    <string name="pref_menus_quick_account_switcher_title">Utilizați schimbarea rapidă a contului</string>
+    <string name="options_account_manager">Administrare…</string>
+    <string name="time_after">după %s</string>
+    <string name="time_after_reply">a răspuns %s mai târziu</string>
+    <string name="pref_appearance_post_header_age_units_title">Precizia vechimii postărilor deschise</string>
+    <string name="pref_appearance_comment_age_units_title">Precizia vechimii comentariilor</string>
+    <string name="pref_appearance_inbox_header">Inbox</string>
+    <string name="pref_appearance_inbox_age_units_title">Precizia vechimii mesajelor din inbox</string>
+    <string name="pref_appearance_age_units_2">Două unități (x ore, x minute)</string>
+    <string name="pref_appearance_age_units_3">Trei unități (x ore, x minute, x secunde)</string>
+    <string name="pref_appearance_comment_age_mode_title">Mod de afișare a vechimii comentariilor</string>
+    <string name="pref_appearance_comment_age_mode_relative_post">Relativ la postare (după x minute)</string>
+    <string name="pref_appearance_comment_age_mode_relative_parent">Relativ cu comentariul părinte (răspuns x minute mai târziu)</string>
+    <string name="pref_cache_clear_title">Goliți memoria cache</string>
+    <string name="dialog_clear">Golește</string>
+    <string name="cache_clear_dialog_loaded">Dimensiunile de utilizare a datelor încărcate</string>
+    <string name="cache_clear_dialog_listings">Listări</string>
+    <string name="cache_clear_dialog_thumbnails">Miniaturi</string>
+    <string name="cache_clear_dialog_thumbnails_data">Miniaturi (%s)</string>
+    <string name="cache_clear_dialog_images_data">Imagini (%s)</string>
+    <string name="pref_images_thumbnail_size_title">Dimensiune miniatură</string>
+    <string name="accessibility_image_viewer_title">Vizualizarea imaginii</string>
+    <string name="accessibility_image_viewer_view_comments">Vizualizați comentariile</string>
+    <string name="accessibility_subtitle_nsfw_withperiod">Nerecomandat la locul de muncă.</string>
+    <string name="accessibility_subtitle_flair_withperiod">Fler: %s.</string>
+    <string name="accessibility_subtitle_points_withperiod">Scor: %d.</string>
+    <string name="accessibility_subtitle_author_withperiod">Autor: %s.</string>
+    <string name="accessibility_subtitle_subreddit_withperiod">Sub-reddit: %s.</string>
+    <string name="accessibility_subtitle_domain_withperiod">Domeniu: %s.</string>
+    <string name="accessibility_subtitle_selfpost_withperiod">Postare de tip text.</string>
+    <string name="accessibility_subtitle_points_unknown_withperiod">Scor ascuns.</string>
+    <string name="accessibility_subtitle_comment_collapsed">Textul comentariului este ascuns.</string>
+    <string name="accessibility_subtitle_domain_i_redd_it">Imagini Reddit</string>
+    <string name="accessibility_subtitle_domain_v_redd_it">Videoclipuri Reddit</string>
+    <string name="pref_images_high_res_thumbnails_title">Miniaturi de înaltă rezoluție</string>
+    <string name="pref_images_inline_image_previews_title">Previzualizările imaginilor în linie</string>
+    <string name="pref_images_inline_image_previews_nsfw_title">Afișați previzualizările NSFW</string>
+    <string name="pref_header_image_viewer">Vizualizator de imagini</string>
+    <string name="error_inline_preview_failed_title">Eroare de descărcare</string>
+    <string name="error_inline_preview_failed_message">Nu s-a putut descărca previzualizarea imaginii.</string>
+    <string name="inline_preview_prompt_title">Previzualizări de imagini</string>
+    <string name="inline_preview_prompt_turn_off">Opriți</string>
+    <string name="inline_preview_prompt_keep_showing">Continuă să arăți</string>
+    <string name="album_image_default_text">Imagine %d</string>
+    <string name="imageview_image_info_failed">Metadatele imaginii nu au putut fi descărcate. Încearcă cu browserul web.</string>
+    <string name="imageview_download_failed">Descărcarea a fost întreruptă. Încearcă cu browserul web.</string>
+    <string name="prefs_category_accessibility">Accesibilitate</string>
+    <string name="pref_accessibility_separate_body_text_lines_title">Separă liniile de text ale corpului</string>
+    <string name="pref_menus_mainmenu_dev_announcements_title">Afișați anunțuri de la dezvoltator</string>
+    <string name="button_dismiss">Închide</string>
+    <string name="button_view">Vezi</string>
+    <string name="action_not_handled_by_installed_app_toast">Nu a fost găsită nicio aplicație care să gestioneze această acțiune</string>
+    <string name="pref_accessibility_min_comment_height_title">Înălțimea minimă a comentariilor</string>
+    <string name="pref_accessibility_min_comment_height_none">Niciuna</string>
+    <string name="pref_menus_comments_header">Comentarii</string>
+    <string name="pref_behaviour_post_title_opens_comments_title">Titlul postării deschide comentariile</string>
+    <string name="mainmenu_sent_messages">Mesaje Trimise</string>
+    <string name="post_submit_flair_none_available">Nu există fler-uri disponibile</string>
+    <string name="subreddit_selector_title">Selectați subreddit</string>
+    <string name="post_submit_heading">Se trimite postarea către %1$s ca utilizator %2$s.</string>
+    <string name="error_subreddit_does_not_exist_message">Subreddit-ul specificat nu există.</string>
+    <string name="error_subreddit_info_permission_denied_title">Acces refuzat</string>
+    <string name="error_subreddit_info_permission_denied_message">Utilizatorul conectat nu poate accesa informații despre acel subreddit.</string>
+    <string name="invalid_subreddit_name_message">Vă rugăm să introduceți un nume de subreddit valid.</string>
+    <string name="pref_images_inline_image_previews_spoiler_title">Afișează previzualizările de tip spoiler</string>
+    <string name="pref_appearance_thumbnails_spoiler_show_title">Afișați miniaturile spoilerului</string>
+    <string name="video_rewind">Derulează înapoi</string>
+    <string name="video_play">Redare</string>
+    <string name="video_pause">Pauză</string>
+    <string name="video_fast_forward">Derulează înainte</string>
+    <string name="video_zoom_in">Mărește</string>
+    <string name="video_zoom_out">Micșorează</string>
+    <string name="pref_item_backup_preferences_title">Preferințe copie de siguranță</string>
+    <string name="pref_item_restore_preferences_title">Preferințe restabilire</string>
+    <string name="restore_preferences_error_invalid_file_title">Fișier nevalid</string>
+    <string name="restore_preferences_error_invalid_file_version_message">Fișierul selectat a fost creat de o versiune mai nouă a RedReader și nu poate fi deschis.</string>
+    <string name="restore_preferences_error_version_warning_title">Avertizare</string>
+    <string name="button_continue_anyway">Continuă oricum</string>
+    <string name="button_cancel">Anulare</string>
+    <string name="button_restore_preferences">Restabilire</string>
+    <string name="restore_preferences_success">Restabilirea a reușit</string>
+    <string name="backup_preferences_error_old_android_message">Această funcție necesită Android 4.4 sau o versiune ulterioară.</string>
+    <string name="error_no_file_manager_title">Fără manager de fișiere</string>
+    <string name="error_post_flair_required_title">Fler necesar</string>
+    <string name="error_post_flair_required_message">Regulile acestui subreddit necesită un fler pentru postarea dvs.</string>
+    <string name="error_post_submit_title">Eroare la trimiterea postării</string>
+    <string name="error_tor_connection_title">Eroare Tor</string>
+    <string name="error_imgur_400_title">Eroare Imgur</string>
+    <string name="error_imgur_400_message">Imgur respinge încărcarea acestei imagini, posibil din cauza unei limite de rată. Utilizați o altă gazdă de imagini sau încercați din nou mai târziu.</string>
+    <string name="error_content_blocker_title">Blocant de conținut detectat</string>
+    <string name="error_http_429_title">Prea multe cereri</string>
+    <string name="error_http_429_message">Serverul a respins cererea din cauza unei limite de rată. Vă rugăm să încercați din nou peste un moment.</string>
+    <string name="error_comment_submit_title">Eroare la trimiterea comentariului</string>
+    <string name="accessibility_subtitle_author_moderator_withperiod">Autor: %s, moderator.</string>
+    <string name="accessibility_subtitle_author_admin_withperiod">Autor: %s, admin.</string>
+    <string name="accessibility_subtitle_author_submitter_moderator_withperiod">Autor: %s, depunător și moderator.</string>
+    <string name="accessibility_subtitle_author_submitter_withperiod">Autor: %s, depunător.</string>
+    <string name="accessibility_subtitle_author_submitter_admin_withperiod">Autor: %s, depunător și admin.</string>
+    <string name="sort_posts_controversial_hour">Controversat: Ora aceasta</string>
+    <string name="sort_posts_controversial_today">Controversat: Astăzi</string>
+    <string name="sort_posts_controversial_week">Controversat: Săptămâna Aceasta</string>
+    <string name="sort_posts_controversial_month">Controversat: Luna Aceasta</string>
+    <string name="sort_posts_controversial_all">Controversat: Tot timpul</string>
+    <string name="no_posts_yet">Nicio postare încă.</string>
+    <string name="no_posts_yet_hidden">Nu sunt afișate postări din cauza setărilor.</string>
+    <string name="sort_posts_relevance_hour">Relevanță: Ora Aceasta</string>
+    <string name="sort_posts_relevance_today">Relevanță: Astăzi</string>
+    <string name="sort_posts_relevance_week">Relevanță: Săptămâna Aceasta</string>
+    <string name="sort_posts_relevance_month">Relevanță: Luna Aceasta</string>
+    <string name="sort_posts_relevance_year">Relevanță: Anul Acesta</string>
+    <string name="sort_posts_relevance_all">Relevanță: Tot Timpul</string>
+    <string name="sort_posts_new_today">Nou: Astăzi</string>
+    <string name="sort_posts_new_week">Nou: Săptămâna Aceasta</string>
+    <string name="sort_posts_new_month">Nou: Luna aceasta</string>
+    <string name="sort_posts_new_all">Nou: Tot Timpul</string>
+    <string name="sort_posts_hot_week">Fierbinte: Săptămâna Aceasta</string>
+    <string name="sort_posts_hot_month">Fierbinte: Luna Aceasta</string>
+    <string name="sort_posts_hot_year">Fierbinte: Anul Acesta</string>
+    <string name="sort_posts_hot_all">Fierbinte: Tot Timpul</string>
+    <string name="sort_posts_comments_hour">Comentarii: Ora Aceasta</string>
+    <string name="sort_posts_comments_today">Comentarii: Astăzi</string>
+    <string name="sort_posts_comments_week">Comentarii: Săptămâna Aceasta</string>
+    <string name="sort_posts_comments_month">Comentarii: Luna Aceasta</string>
+    <string name="sort_posts_comments_all">Comentarii: Tot Timpul</string>
+    <string name="pref_appearance_android_status_always_hide">Mereu</string>
+    <string name="pref_appearance_android_status_hide_on_media">Când vizualizați conținut media</string>
+    <string name="pref_appearance_android_status_never_hide">Niciodată</string>
+    <string name="pref_appearance_comment_header_items_controversiality">Indicator controversat (†)</string>
+    <string name="accessibility_subtitle_controversiality_withperiod">Votat controversat.</string>
+    <string name="search_listing_header_limit_location">Limitați la locație</string>
+    <string name="search_results_query_and_location">Căutați „%1$s” pe %2$s</string>
+    <string name="search_results_location_only">Căutați pe %s</string>
+    <string name="image_gallery_removed_message">Această galerie a fost eliminată și nu mai este accesibilă.</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Atingere pe postarea text</string>
+    <string name="pref_behaviour_sharing_share_text_title">Includeți text când distribuiți comentariul</string>
+    <string name="pref_menus_show_random_main_menu_title">Arată /r/random în meniul principal</string>
+    <string name="pref_behaviour_sharing_header">Partajarea</string>
+    <string name="error_already_submitted_message">Această postare a fost deja trimisă la acest subreddit.</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Afișați multireddits</string>
+    <string name="pref_appearance_fontscale_post_header_subtitles_title">Subtitlurile postărilor deschise</string>
+    <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Utilizați setări diferite pentru postările deschise</string>
+    <string name="pref_network_tor_summary">Când utilizați un browser extern sau file personalizate, linkurile nu vor fi deschise folosind Tor (cu excepția cazului în care browserul dvs. este configurat să folosească Tor)</string>
+    <string name="must_login_message">Trebuie să fiți conectat cu un cont Reddit pentru a face acest lucru.</string>
+    <string name="subreddit_link_copied_to_clipboard">Linkul subreddit-ului a fost copiat în clipboard</string>
+    <string name="pref_menus_appbar_items_overflow_only">Afișează numai în meniul cu trei puncte</string>
+    <string name="image_gallery">Galerie de imagini</string>
+    <string name="reddit_login_browser_popup_line_1">Pentru a vă autentifica, veți fi trimis acum spre Reddit într-un browser web.</string>
+    <string name="reddit_login_browser_popup_line_2">Când autentificarea este completă, ar trebui să fiți redirecționat înapoi la RedReader. Dacă autentificarea eșuează, puteți încerca un alt browser utilizând caseta de selectare de mai jos.</string>
+    <string name="pref_behaviour_imagevideo_tap_close_summary">Nu afectează videoclipurile dacă sunt activate comenzile de redare</string>
+    <string name="pref_appearance_comment_age_mode_absolute">Timp de la comentariu (acum x minute)</string>
+    <string name="three_dots_menu">Mai multe opțiuni</string>
+    <string name="accessibility_subtitle_edited_since_being_posted">Text editat de când a fost postat.</string>
+    <string name="inline_preview_prompt_message">Continuați să afișați previzualizările imaginii în linie ca cea de mai sus\? Puteți modifica oricând acest lucru în setări.</string>
+    <string name="pref_videos_download_before_playing_title">Descărcați complet videoclipurile înainte de a începe redarea</string>
+    <string name="pref_accessibility_separate_body_text_lines_summary">În comentariu și în textul autopostării, faceți fiecare rând focalizat individual, în loc să citiți întregul comentariu deodată</string>
+    <string name="pref_menus_comment_context_items_title">Elemente din meniul de acțiuni</string>
+    <string name="post_submit_flair_none_selected">Niciun fler selectat</string>
+    <string name="accessibility_subtitle_recipient_withperiod">Destinatar: %s.</string>
+    <string name="prefs_category_backup_restore">Copie de siguranță/Restabilire</string>
+    <string name="restore_preferences_error_invalid_file_contents_message">Fișierul selectat nu este un fișier de rezervă valid pentru preferințe.</string>
+    <string name="restore_preferences_error_version_warning_message">Fișierul selectat a fost creat de o versiune mai nouă a RedReader. Restabilirea preferințelor din acest fișier poate duce la blocări și instabilitate.</string>
+    <string name="backup_preferences_success">Copia de siguranță a reușit</string>
+    <string name="error_no_file_manager_message">Sistemului de operare de pe acest dispozitiv îi lipsește un manager de fișiere compatibil cu Android Storage Access Framework. Dacă este prezent un manager de fișiere, acesta poate fi dezactivat.</string>
+    <string name="error_tor_connection_message">Nu se poate conecta la Tor. Asigurați-vă că aplicația Orbot rulează sau dezactivați Tor din setările de rețea.</string>
+    <string name="error_content_blocker_message">Rețeaua actuală pare să blocheze această solicitare folosind DNS. Luați în considerare utilizarea unui VPN sau activarea DNS prin HTTPS în setările rețelei Android.</string>
+    <string name="sort_posts_controversial_year">Controversat: Anul Acesta</string>
+    <string name="no_search_results_hidden">Nu sunt afișate rezultate ale căutării din cauza setărilor.</string>
+    <string name="error_archived_reply">Acesta a fost arhivat și nu se mai poate răspunde.</string>
+</resources>

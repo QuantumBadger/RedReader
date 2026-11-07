@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import org.quantumbadger.redreader.R;
+import org.quantumbadger.redreader.common.General;
 
 public class ScrollbarRecyclerViewManager {
 
@@ -52,6 +53,11 @@ public class ScrollbarRecyclerViewManager {
 		mScrollbarFrame = mOuter.findViewById(R.id.scrollbar_recyclerview_scrollbarframe);
 
 		mSwipeRefreshLayout.setEnabled(false);
+
+		// The listing extends behind the navigation bar (see
+		// ViewsBaseActivity), so keep the last item and the scrollbar clear of it
+		General.applySystemBarPadding(mRecyclerView);
+		General.applySystemBarMargin(mScrollbarFrame);
 
 		final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
 		mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -79,12 +85,12 @@ public class ScrollbarRecyclerViewManager {
 				mScrollUnnecessary = scrollUnnecessary;
 
 				if(!scrollUnnecessary) {
-					final int recyclerViewHeight = mRecyclerView.getMeasuredHeight();
+					final int scrollbarFrameHeight = mScrollbarFrame.getMeasuredHeight();
 					final int scrollBarHeight = mScrollbar.getMeasuredHeight();
 
 					final double topPadding = ((double)firstVisible / (double)(totalCount
 							- itemsVisible))
-							* (recyclerViewHeight - scrollBarHeight);
+							* (scrollbarFrameHeight - scrollBarHeight);
 
 					mScrollbarFrame.setPadding(0, (int)Math.round(topPadding), 0, 0);
 				}

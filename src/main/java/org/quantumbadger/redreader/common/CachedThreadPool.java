@@ -17,6 +17,8 @@
 
 package org.quantumbadger.redreader.common;
 
+import android.util.Log;
+
 import java.util.ArrayDeque;
 
 public class CachedThreadPool {
@@ -81,7 +83,11 @@ public class CachedThreadPool {
 					taskToRun = mTasks.removeFirst();
 				}
 
-				taskToRun.run();
+				try {
+					taskToRun.run();
+				} catch(final Throwable t) {
+					Log.e(mThreadName, "Exception in task", t);
+				}
 			}
 		}
 	}

@@ -30,7 +30,6 @@ import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.DialogUtils;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -270,14 +269,12 @@ public class CommentListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	public void onBackPressed() {
-		if(General.onBackPressed()) {
-			super.onBackPressed();
-		}
+	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		return true;
 	}
 
 	@Override
-	protected boolean baseActivityAllowToolbarHideOnScroll() {
+	protected boolean baseActivityContentExtendsBehindNavigationBar() {
 		return true;
 	}
 

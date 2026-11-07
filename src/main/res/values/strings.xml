@@ -1408,12 +1408,6 @@
 	<string name="error_inline_preview_failed_title">Download error</string>
 	<string name="error_inline_preview_failed_message">Could not download image preview.</string>
 
-	<string name="inline_preview_prompt_title">Image previews</string>
-	<string name="inline_preview_prompt_message">Continue showing inline image previews like the one above? You can change this at any time in the settings.</string>
-
-	<string name="inline_preview_prompt_turn_off">Turn off</string>
-	<string name="inline_preview_prompt_keep_showing">Keep showing</string>
-
 	<!-- 2020-11-27 -->
 
 	<string name="edittext_hint_comment_body_text">Comment text</string>
@@ -1931,4 +1925,82 @@
 
 	<!-- 2025-12-07 -->
 	<string name="no_messages_yet">No messages yet.</string>
+
+	<!-- 2026-07-19 -->
+	<string name="report_prompt_why">Why are you reporting this?</string>
+	<string name="report_reason_other">Other</string>
+	<string name="report_other_reason_hint">Reason</string>
+	<string name="report_additional_info_hint">Additional information (optional)</string>
+	<string name="report_username_hint">Username</string>
+	<string name="report_file_complaint">File a complaint</string>
+	<string name="report_success">Report submitted</string>
+	<string name="dialog_back">Back</string>
+
+	<!-- 2026-08-01 -->
+	<string name="lang_mr" translatable="false">मराठी</string>
+	<string name="lang_ms" translatable="false">Bahasa Melayu</string>
+	<string name="lang_tr" translatable="false">Türkçe</string>
+	<string name="lang_ca" translatable="false">Català</string>
+	<string name="lang_fa" translatable="false">فارسی</string>
+	<string name="lang_ko" translatable="false">한국어</string>
+	<string name="lang_lv" translatable="false">Latviešu</string>
+	<string name="lang_nn" translatable="false">Norsk nynorsk</string>
+	<string name="lang_or" translatable="false">ଓଡ଼ିଆ</string>
+	<string name="lang_pa" translatable="false">ਪੰਜਾਬੀ</string>
+	<string name="lang_pt_rBR" translatable="false">Português (Brasil)</string>
+	<string name="lang_sr" translatable="false">српски</string>
+	<string name="lang_th" translatable="false">ไทย</string>
+
+	<string name="pref_about_github_key" translatable="false">pref_about_github</string>
+	<string name="pref_about_github_title">Source code</string>
+	<string name="pref_about_github_url" translatable="false">https://github.com/QuantumBadger/RedReader</string>
+
+	<!-- 2026-08-22 -->
+	<!--
+		Screen reader announcements. These must stay at most 30 characters long,
+		including in translation: TalkBack silently discards longer announcements
+		when accessibility focus moves just afterwards. A unit test
+		(AccessibilityAnnouncementLengthTest) enforces this for every locale.
+	-->
+	<!-- Translators: spoken by the screen reader after a vote. Max 30 characters. -->
+	<string name="accessibility_announcement_upvoted">Upvoted</string>
+	<!-- Translators: spoken by the screen reader after a vote. Max 30 characters. -->
+	<string name="accessibility_announcement_downvoted">Downvoted</string>
+	<!-- Translators: spoken by the screen reader after removing a vote. Max 30 characters. -->
+	<string name="accessibility_announcement_removed_vote">Removed vote</string>
+	<!-- Translators: spoken by the screen reader after collapsing a comment. Max 30 characters. -->
+	<string name="accessibility_announcement_comment_collapsed">Collapsed comment</string>
+	<!-- Translators: spoken by the screen reader after expanding a comment. Max 30 characters. -->
+	<string name="accessibility_announcement_comment_expanded">Expanded</string>
+
+	<!-- 2026-09-13 -->
+	<string name="pref_behaviour_mark_posts_as_read_on_scroll_key" translatable="false">pref_behaviour_mark_posts_as_read_on_scroll</string>
+	<string name="pref_behaviour_mark_posts_as_read_on_scroll_title">Mark posts as read when scrolled past</string>
+
+	<!-- 2026-09-15 -->
+	<string name="pref_appearance_inbox_collapse_long_messages_key" translatable="false">pref_appearance_inbox_collapse_long_messages</string>
+	<string name="pref_appearance_inbox_collapse_long_messages_title">Collapse long messages</string>
+	<string name="inbox_show_more">Show more</string>
+	<string name="inbox_show_less">Show less</string>
+	<string name="inbox_mark_read_failed">Failed to update read status</string>
+	<!-- Translators: label of the disabled button shown once an inbox message has been marked as read -->
+	<string name="inbox_button_read">Read</string>
+	<!-- Translators: spoken by the screen reader for an unread inbox message. -->
+	<string name="accessibility_inbox_unread">Unread</string>
+	<!-- Translators: spoken by the screen reader for an inbox message that has been read. -->
+	<string name="accessibility_inbox_read">Read</string>
+
+	<string name="locked">LOCKED</string>
+	<string name="pref_appearance_post_subtitle_items_locked">Locked tag</string>
+	<string name="accessibility_subtitle_lockedpost">Locked post.</string>
+
+	<!-- 2026-09-16 -->
+	<!-- Translators: shown under the side-toolbar swipe zone setting when it is disabled because Android's gesture navigation is in use -->
+	<string name="pref_behaviour_bezel_toolbar_swipezone_gesture_nav_summary">Not available with Android gesture navigation</string>
+
+	<!-- 2026-10-10 -->
+	<string name="pref_appearance_navbar_opacity_key" translatable="false">pref_appearance_navbar_opacity</string>
+	<string name="pref_appearance_navbar_opacity_title">Navigation bar opacity</string>
+	<!-- Translators: navigation bar opacity option which picks an opacity based on the navigation bar colour -->
+	<string name="pref_appearance_navbar_opacity_option_auto">Automatic</string>
 </resources>

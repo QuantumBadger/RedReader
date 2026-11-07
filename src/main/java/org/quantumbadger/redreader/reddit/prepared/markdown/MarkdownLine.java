@@ -142,7 +142,8 @@ public final class MarkdownLine {
 			case '9': {
 				final CharArrSubstring num = src.readInteger(spacesAtStart);
 
-				if(src.length > spacesAtStart + num.length + 2
+				if(num.length <= 5
+						&& src.length > spacesAtStart + num.length + 2
 						&& src.charAt(spacesAtStart + num.length) == '.'
 						&& src.charAt(spacesAtStart + num.length + 1) == ' ') {
 

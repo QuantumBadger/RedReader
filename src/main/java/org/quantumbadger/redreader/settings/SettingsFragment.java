@@ -25,9 +25,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentActivity;
@@ -54,9 +57,11 @@ import org.quantumbadger.redreader.common.Constants;
 import org.quantumbadger.redreader.common.DialogUtils;
 import org.quantumbadger.redreader.common.FileUtils;
 import org.quantumbadger.redreader.common.General;
+import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsBackup;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.TorCommon;
+import org.quantumbadger.redreader.common.UriString;
 import org.quantumbadger.redreader.common.time.TimeDuration;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
 import org.quantumbadger.redreader.receivers.NewMessageChecker;
@@ -86,6 +91,52 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 	}
 
 	@Override
+	public void onViewCreated(
+			@NonNull final View view,
+			@Nullable final Bundle savedInstanceState) {
+
+		super.onViewCreated(view, savedInstanceState);
+
+		// The preference list extends behind the navigation bar (see
+		// SettingsActivity), so keep the last preference clear of it
+		General.applySystemBarPadding(getListView());
+
+		final ListPreference swipeZonePref = findPreference(getString(
+				R.string.pref_behaviour_bezel_toolbar_swipezone_key));
+
+		if(swipeZonePref == null) {
+			return;
+		}
+
+		// The system gesture insets are only available once the view is
+		// attached to a window
+		final Runnable update = () -> {
+			if(General.isGestureNavigationEnabled(view)) {
+				swipeZonePref.setEnabled(false);
+				swipeZonePref.setSummary(
+						R.string.pref_behaviour_bezel_toolbar_swipezone_gesture_nav_summary);
+			}
+		};
+
+		if(view.isAttachedToWindow()) {
+			update.run();
+
+		} else {
+			view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+				@Override
+				public void onViewAttachedToWindow(@NonNull final View v) {
+					update.run();
+				}
+
+				@Override
+				public void onViewDetachedFromWindow(@NonNull final View v) {
+					// Nothing to do
+				}
+			});
+		}
+	}
+
+	@Override
 	public void onCreatePreferences(
 			final Bundle savedInstanceState,
 			final String rootKey) {
@@ -108,6 +159,10 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 		} catch(final Exception e) {
 			throw new RuntimeException(e);
 		}
+
+		// On Android 13+ the user may have changed the app's language in the
+		// system settings, so sync the language preference before displaying it
+		PrefsUtility.applyLanguageSetting();
 
 		addPreferencesFromResource(resource);
 
@@ -214,6 +269,19 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 			});
 		}
 
+		{
+			// The entries contain percent signs, which ListPreference would
+			// treat as format specifiers if they were passed to setSummary()
+			// (as for listPrefsToUpdate above), so use a summary provider
+			final ListPreference navbarOpacityPref = findPreference(getString(
+					R.string.pref_appearance_navbar_opacity_key));
+
+			if(navbarOpacityPref != null) {
+				navbarOpacityPref.setSummaryProvider(
+						ListPreference.SimpleSummaryProvider.getInstance());
+			}
+		}
+
 		for(final int pref : editTextPrefsToUpdate) {
 
 			final EditTextPreference editTextPreference =
@@ -272,6 +340,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 				findPreference(getString(R.string.pref_network_tor_key));
 		final Preference licensePref =
 				findPreference(getString(R.string.pref_about_license_key));
+		final Preference githubPref =
+				findPreference(getString(R.string.pref_about_github_key));
 		final Preference backupPreferencesPref =
 				findPreference(getString(R.string.pref_item_backup_preferences_key));
 		final Preference restorePreferencesPref =
@@ -305,6 +375,23 @@ public final class SettingsFragment extends PreferenceFragmentCompat {
 		if(licensePref != null) {
 			licensePref.setOnPreferenceClickListener(preference -> {
 				HtmlViewActivity.showAsset(context, "license.html");
+				return true;
+			});
+		}
+
+		if(githubPref != null) {
+			githubPref.setOnPreferenceClickListener(preference -> {
+
+				final BaseActivity activity = (BaseActivity)getActivity();
+
+				if(activity == null) {
+					return true;
+				}
+
+				LinkHandler.onLinkClicked(
+						activity,
+						new UriString(getString(R.string.pref_about_github_url)));
+
 				return true;
 			});
 		}

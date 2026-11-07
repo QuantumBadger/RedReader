@@ -34,7 +34,6 @@ import org.quantumbadger.redreader.account.RedditAccount;
 import org.quantumbadger.redreader.account.RedditAccountChangeListener;
 import org.quantumbadger.redreader.account.RedditAccountManager;
 import org.quantumbadger.redreader.common.DialogUtils;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.time.TimestampUTC;
@@ -529,17 +528,22 @@ public class PostListingActivity extends RefreshableActivity
 	}
 
 	@Override
-	public void onBackPressed() {
+	protected boolean baseActivityMustInterceptBack() {
+		return PrefsUtility.pref_behaviour_back_again();
+	}
+
+	@Override
+	protected boolean baseActivityOnBackPressed() {
 
 		if(PrefsUtility.pref_behaviour_back_again()
 				&& (mDoubleTapBack_lastTapMs < SystemClock.uptimeMillis() - 5000)) {
 
 			mDoubleTapBack_lastTapMs = SystemClock.uptimeMillis();
 			Toast.makeText(this, R.string.press_back_again, Toast.LENGTH_SHORT).show();
-
-		} else if(General.onBackPressed()) {
-			super.onBackPressed();
+			return true;
 		}
+
+		return false;
 	}
 
 	@Override
@@ -566,6 +570,11 @@ public class PostListingActivity extends RefreshableActivity
 
 	@Override
 	protected boolean baseActivityAllowToolbarHideOnScroll() {
+		return true;
+	}
+
+	@Override
+	protected boolean baseActivityContentExtendsBehindNavigationBar() {
 		return true;
 	}
 

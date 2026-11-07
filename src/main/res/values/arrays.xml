@@ -241,6 +241,27 @@
         <item>primarydark</item>
     </string-array>
 
+	<string-array name="pref_appearance_navbar_opacity_options">
+		<item>@string/pref_appearance_navbar_opacity_option_auto</item>
+		<item>0%</item>
+		<item>25%</item>
+		<item>50%</item>
+		<item>75%</item>
+		<item>90%</item>
+		<item>100%</item>
+	</string-array>
+
+	<!-- Constants. Do not change. -->
+	<string-array name="pref_appearance_navbar_opacity_options_return">
+		<item>auto</item>
+		<item>0</item>
+		<item>25</item>
+		<item>50</item>
+		<item>75</item>
+		<item>90</item>
+		<item>100</item>
+	</string-array>
+
 	<string-array name="pref_appearance_theme">
 		<item>@string/theme_name_red</item>
 		<item>@string/theme_name_night</item>
@@ -296,6 +317,19 @@
 		<item>@string/lang_ja</item>
 		<item>@string/lang_lt</item>
 		<item>@string/lang_sv</item>
+		<item>@string/lang_mr</item>
+		<item>@string/lang_ms</item>
+		<item>@string/lang_tr</item>
+		<item>@string/lang_ca</item>
+		<item>@string/lang_fa</item>
+		<item>@string/lang_ko</item>
+		<item>@string/lang_lv</item>
+		<item>@string/lang_nn</item>
+		<item>@string/lang_or</item>
+		<item>@string/lang_pa</item>
+		<item>@string/lang_pt_rBR</item>
+		<item>@string/lang_sr</item>
+		<item>@string/lang_th</item>
     </string-array>
 
     <!-- Constants. Do not change. -->
@@ -329,6 +363,19 @@
 		<item>ja</item>
 		<item>lt</item>
 		<item>sv</item>
+		<item>mr</item>
+		<item>ms</item>
+		<item>tr</item>
+		<item>ca</item>
+		<item>fa</item>
+		<item>ko</item>
+		<item>lv</item>
+		<item>nn</item>
+		<item>or</item>
+		<item>pa</item>
+		<item>pt-rBR</item>
+		<item>sr</item>
+		<item>th</item>
     </string-array>
 
     <string-array name="pref_cache_maxage">
@@ -876,6 +923,7 @@
 		<item>@string/pref_appearance_post_subtitle_items_spoiler</item>
 		<item>@string/pref_appearance_post_subtitle_items_nsfw</item>
 		<item>@string/pref_appearance_post_subtitle_items_crosspost</item>
+		<item>@string/pref_appearance_post_subtitle_items_locked</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -893,6 +941,7 @@
 		<item>spoiler</item>
 		<item>nsfw</item>
 		<item>crosspost</item>
+		<item>locked</item>
 	</string-array>
 
 	<!-- Constants. Do not change. -->
@@ -908,6 +957,7 @@
 		<item>spoiler</item>
 		<item>nsfw</item>
 		<item>crosspost</item>
+		<item>locked</item>
 	</string-array>
 
 	<!-- 2020-02-05 -->

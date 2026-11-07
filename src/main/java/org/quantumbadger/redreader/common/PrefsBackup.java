@@ -70,6 +70,7 @@ public final class PrefsBackup {
 		IGNORED_PREFS.add(NewMessageChecker.PREFS_SAVED_MESSAGE_TIMESTAMP);
 		IGNORED_PREFS.add(FeatureFlagHandler.PREF_LAST_VERSION);
 		IGNORED_PREFS.add(FeatureFlagHandler.PREF_FIRST_RUN_MESSAGE_SHOWN);
+		IGNORED_PREFS.add(PrefsUtility.PREF_LANGUAGE_SETTING_MIGRATED);
 	}
 
 	public interface BackupDestination {

@@ -42,6 +42,7 @@ import org.quantumbadger.redreader.activities.BaseActivity;
 import org.quantumbadger.redreader.activities.BugReportActivity;
 import org.quantumbadger.redreader.activities.OptionsMenuUtility;
 import org.quantumbadger.redreader.activities.SessionChangeListener;
+import org.quantumbadger.redreader.adapters.GroupedRecyclerViewAdapter;
 import org.quantumbadger.redreader.adapters.MainMenuListingManager;
 import org.quantumbadger.redreader.adapters.PostListingManager;
 import org.quantumbadger.redreader.cache.CacheManager;
@@ -123,6 +124,10 @@ public class PostListingFragment extends RRFragment
 	private final PostListingManager mPostListingManager;
 	private final RecyclerView mRecyclerView;
 
+	// The size the list was at when the preload window was last recalculated
+	private int mLastListWidth = -1;
+	private int mLastListHeight = -1;
+
 	private final View mOuter;
 
 	private RedditIdAndType mAfter = null;
@@ -138,6 +143,12 @@ public class PostListingFragment extends RRFragment
 	private final HashSet<String> mPostIds = new HashSet<>(200);
 
 	private Integer mPreviousFirstVisibleItemPosition;
+
+	private final boolean mMarkPostsAsReadOnScroll;
+
+	// All items at positions below this have already been scrolled off the top
+	// of the screen, and any posts amongst them have been marked as read.
+	private int mMarkReadOnScrollNextPosition = 0;
 
 	// Session may be null
 	public PostListingFragment(
@@ -205,6 +216,8 @@ public class PostListingFragment extends RRFragment
 				break;
 		}
 
+		mMarkPostsAsReadOnScroll = PrefsUtility.pref_behaviour_mark_posts_as_read_on_scroll();
+
 		if(mPostCountLimit > 0) {
 			restackRefreshCount();
 		}
@@ -232,9 +245,16 @@ public class PostListingFragment extends RRFragment
 					@NonNull final RecyclerView recyclerView,
 					final int dx,
 					final int dy) {
+				mPostListingManager.updatePreloadWindow();
+				markPostsAsReadOnScroll();
 				onLoadMoreItemsCheck();
 			}
 		});
+
+		// Scrolling isn't the only thing which changes what's on screen -- posts being
+		// added, posts being hidden, and the screen being rotated all do too
+		mRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(
+				this::onListLayout);
 
 		General.setLayoutMatchParent(mRecyclerView);
 
@@ -405,10 +425,33 @@ public class PostListingFragment extends RRFragment
 		return bundle;
 	}
 
+	private void onListLayout() {
+
+		final int width = mRecyclerView.getWidth();
+		final int height = mRecyclerView.getHeight();
+
+		if(width == mLastListWidth && height == mLastListHeight) {
+			mPostListingManager.updatePreloadWindow();
+			return;
+		}
+
+		mLastListWidth = width;
+		mLastListHeight = height;
+
+		// Each post now has a different amount of space to display its image preview in, so
+		// the previews which are already loaded may be at the wrong resolution. This happens
+		// when the screen is rotated, which doesn't rebind any of the posts on it.
+		mPostListingManager.refreshPreloadWindow();
+	}
+
 	public void cancel() {
+
 		if(mRequest != null) {
 			mRequest.cancel();
 		}
+
+		// Releases every preloaded image preview, and cancels any download in progress
+		mPostListingManager.clearPreloadWindow();
 	}
 
 	public synchronized void restackRefreshCount() {
@@ -501,6 +544,55 @@ public class PostListingFragment extends RRFragment
 				post.markAsRead(getActivity());
 			}
 		}.start();
+	}
+
+	private void markPostsAsReadOnScroll() {
+
+		if(!mMarkPostsAsReadOnScroll) {
+			return;
+		}
+
+		final LinearLayoutManager layoutManager
+				= (LinearLayoutManager)mRecyclerView.getLayoutManager();
+
+		if(layoutManager == null) {
+			return;
+		}
+
+		// Every item before the first visible one has been scrolled fully off
+		// the top of the screen. Checking a range, rather than just the item
+		// at the top, means a fast fling can't skip any posts.
+		final int firstVisiblePosition = layoutManager.findFirstVisibleItemPosition();
+
+		if(firstVisiblePosition == RecyclerView.NO_POSITION
+				|| firstVisiblePosition <= mMarkReadOnScrollNextPosition) {
+			return;
+		}
+
+		final Activity activity = getActivity();
+
+		if(activity == null) {
+			return;
+		}
+
+		for(int pos = mMarkReadOnScrollNextPosition; pos < firstVisiblePosition; pos++) {
+
+			final GroupedRecyclerViewAdapter.Item<?> item
+					= mPostListingManager.getItemAtPosition(pos);
+
+			// The list also contains headers, notifications, etc
+			if(item instanceof RedditPostListItem) {
+
+				final RedditPreparedPost post = ((RedditPostListItem)item).getPost();
+
+				if(!post.isRead()) {
+					// This is a no-op if "mark posts as read" is disabled
+					post.markAsRead(activity);
+				}
+			}
+		}
+
+		mMarkReadOnScrollNextPosition = firstVisiblePosition;
 	}
 
 	private void onLoadMoreItemsCheck() {
@@ -993,10 +1085,9 @@ public class PostListingFragment extends RRFragment
 		final UriString url = UriString.from(controller.getUri());
 
 		CacheManager.getInstance(activity)
-				.makeRequest(new CacheRequest(
+				.makeRequest(CacheRequest.newPrecacheRequest(
 						url,
 						RedditAccountManager.getInstance(activity).getDefaultAccount(),
-						null,
 						new Priority(
 								Constants.Priority.COMMENT_PRECACHE,
 							positionInList),
@@ -1109,10 +1200,9 @@ public class PostListingFragment extends RRFragment
 			final UriString url,
 			final int positionInList) {
 
-		CacheManager.getInstance(activity).makeRequest(new CacheRequest(
+		CacheManager.getInstance(activity).makeRequest(CacheRequest.newPrecacheRequest(
 				url,
 				RedditAccountManager.getAnon(),
-				null,
 				new Priority(
 						Constants.Priority.IMAGE_PRECACHE,
 						positionInList),

@@ -44,13 +44,13 @@ class RedditTermsActivity : ViewsBaseActivity() {
 
 	override fun baseActivityIsActionBarBackEnabled() = false
 
+	override fun baseActivityNavigationBarColour() = Color.rgb(0x55, 0x55, 0x55)
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 
 		PrefsUtility.applySettingsTheme(this)
 
 		super.onCreate(savedInstanceState)
-
-		window.navigationBarColor = Color.rgb(0x55, 0x55, 0x55)
 
 		setBaseActivityListing(R.layout.reddit_terms_activity)
 

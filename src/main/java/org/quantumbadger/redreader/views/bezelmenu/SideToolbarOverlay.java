@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import org.quantumbadger.redreader.common.General;
+
 public class SideToolbarOverlay extends FrameLayout {
 
 	private View contents;
@@ -35,6 +37,10 @@ public class SideToolbarOverlay extends FrameLayout {
 
 	public SideToolbarOverlay(final Context context) {
 		super(context);
+
+		// The overlay extends behind the navigation bar, so keep the
+		// toolbar clear of it
+		General.applySystemBarPadding(this);
 	}
 
 	public void setContents(final View contents) {

@@ -367,13 +367,6 @@ public class CommentReplyActivity extends ViewsBaseActivity {
 		}
 	}
 
-	@Override
-	public void onBackPressed() {
-		if(General.onBackPressed()) {
-			super.onBackPressed();
-		}
-	}
-
 	private void uploadPicture() {
 		final Intent intent = new Intent(this, ImgurUploadActivity.class);
 		startActivityForResultWithCallback(intent, (resultCode, data) -> {

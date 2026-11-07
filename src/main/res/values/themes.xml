@@ -21,7 +21,6 @@
     <style name="RR.Dark" parent="Theme.Material3.Dark.NoActionBar">
 
 		<item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
-		<item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
@@ -62,7 +61,10 @@
 
 		<item name="alertDialogTheme">@style/RR.Dark.Dialog.Alert</item>
         <item name="materialAlertDialogTheme">@style/RR.MaterialOverlay.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.Material3.Dark</item>
+		<item name="rrActionBarPopupThemeStyle">@style/RR.PopupTheme.Dark</item>
+		<item name="rrPopupBackgroundCol">#2C2C2C</item>
+		<item name="textAppearanceLargePopupMenu">@style/RR.PopupMenu.ItemText</item>
+		<item name="textAppearanceSmallPopupMenu">@style/RR.PopupMenu.ItemText</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -94,6 +96,8 @@
         <item name="rrGoldTextCol">#000000</item>
 		<item name="rrCrosspostBackCol">#0288D1</item>
 		<item name="rrCrosspostTextCol">#FFFFFF</item>
+		<item name="rrLockedpostBackCol">#8B0000</item>
+		<item name="rrLockedpostTextCol">#FFFFFF</item>
 
 		<item name="rrPostToolbarCol">#181818</item>
 
@@ -176,7 +180,8 @@
 		<item name="rrLoadingRingForegroundCol">#AAAAAA</item>
 		<item name="rrLoadingRingBackgroundCol">#323232</item>
 
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.Material3.Dark</item>
+		<item name="rrActionBarPopupThemeStyle">@style/RR.PopupTheme.Dark</item>
+		<item name="rrPopupBackgroundCol">#3C3C3C</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -200,6 +205,8 @@
 		<item name="rrGoldTextCol">#000000</item>
 		<item name="rrCrosspostBackCol">#0288D1</item>
 		<item name="rrCrosspostTextCol">#FFFFFF</item>
+		<item name="rrLockedpostBackCol">#8B0000</item>
+		<item name="rrLockedpostTextCol">#FFFFFF</item>
 
 		<!-- Comment -->
 
@@ -246,7 +253,8 @@
 		<item name="rrLoadingRingForegroundCol">#C8C8C8</item>
 		<item name="rrLoadingRingBackgroundCol">#000000</item>
 
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.Material3.Dark</item>
+		<item name="rrActionBarPopupThemeStyle">@style/RR.PopupTheme.Dark</item>
+		<item name="rrPopupBackgroundCol">#1C1C1C</item>
 
 		<item name="actionBarSize">48dp</item>
 
@@ -270,6 +278,8 @@
 		<item name="rrGoldTextCol">#000000</item>
 		<item name="rrCrosspostBackCol">#0288D1</item>
 		<item name="rrCrosspostTextCol">#FFFFFF</item>
+		<item name="rrLockedpostBackCol">#8B0000</item>
+		<item name="rrLockedpostTextCol">#FFFFFF</item>
 
 		<item name="rrPostToolbarCol">#000000</item>
 
@@ -296,6 +306,11 @@
 		<item name="colorAccent">#99DDDD</item>
 		<item name="rrActionBarCol">#555555</item>
 		<item name="android:windowBackground">@color/settingsWindowBackground</item>
+
+		<item name="rrActionBarPopupThemeStyle">@style/RR.PopupTheme.Dark</item>
+		<item name="rrPopupBackgroundCol">#2C2C2C</item>
+		<item name="textAppearanceLargePopupMenu">@style/RR.PopupMenu.ItemText</item>
+		<item name="textAppearanceSmallPopupMenu">@style/RR.PopupMenu.ItemText</item>
 	</style>
 
     <style name="RR.Startup" parent="RR.Dark">
@@ -304,7 +319,6 @@
     <style name="RR.Light.DarkActionBar" parent="Theme.Material3.Light.NoActionBar">
 
 		<item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
-		<item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>
 
         <item name="android:actionOverflowButtonStyle">@style/RR.Base.Widget.AppCompat.ActionButton.Overflow</item>
 
@@ -349,7 +363,10 @@
 
 		<item name="alertDialogTheme">@style/RR.Dark.Dialog.Alert</item>
         <item name="materialAlertDialogTheme">@style/RR.MaterialOverlay.Dialog.Alert</item>
-		<item name="rrActionBarPopupThemeStyle">@style/ThemeOverlay.Material3.Light</item>
+		<item name="rrActionBarPopupThemeStyle">@style/RR.PopupTheme.Light</item>
+		<item name="rrPopupBackgroundCol">#FFFFFF</item>
+		<item name="textAppearanceLargePopupMenu">@style/RR.PopupMenu.ItemText</item>
+		<item name="textAppearanceSmallPopupMenu">@style/RR.PopupMenu.ItemText</item>
 
         <item name="rrListDividerCol">#CCCCCC</item>
         <item name="rrListHeaderTextCol">?colorAccent</item>
@@ -397,6 +414,8 @@
         <item name="rrGoldTextCol">#000000</item>
 		<item name="rrCrosspostBackCol">#0288D1</item>
 		<item name="rrCrosspostTextCol">#FFFFFF</item>
+		<item name="rrLockedpostBackCol">#8B0000</item>
+		<item name="rrLockedpostTextCol">#FFFFFF</item>
 
 		<item name="rrPostToolbarCol">#F2FBFB</item>
 

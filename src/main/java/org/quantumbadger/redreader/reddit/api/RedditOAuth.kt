@@ -854,6 +854,18 @@ object RedditOAuth {
 		override fun toString(): String {
 			return token
 		}
+
+		// Tokens are compared by value: RedditAccount.equals() relies on this, and
+		// account objects are re-created from the database on every reload.
+		override fun equals(other: Any?): Boolean {
+			if (this === other) return true
+			if (other == null || javaClass != other.javaClass) return false
+			return token == (other as Token).token
+		}
+
+		override fun hashCode(): Int {
+			return token.hashCode()
+		}
 	}
 
 	class AccessToken(token: String?) : Token(token!!) {

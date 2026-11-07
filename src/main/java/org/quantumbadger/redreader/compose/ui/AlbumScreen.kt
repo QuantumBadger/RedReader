@@ -63,6 +63,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.pluralStringResource
@@ -416,6 +417,15 @@ fun AlbumScreen(
 		// Top bar
 		Row(
 			modifier = Modifier
+                // The top bar floats above the list, but a background alone isn't hit-testable,
+                // so without this taps and scrolls would pass through to the items underneath
+                .pointerInput(Unit) {
+                    awaitPointerEventScope {
+                        while (true) {
+                            awaitPointerEvent().changes.forEach { it.consume() }
+                        }
+                    }
+                }
                 .shadow(topBarShadow)
                 .background(theme.postCard.listBackgroundColor)
                 .padding(insets)

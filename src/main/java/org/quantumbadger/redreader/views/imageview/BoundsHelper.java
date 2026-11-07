@@ -22,7 +22,12 @@ import org.quantumbadger.redreader.common.MutableFloatPoint2D;
 public class BoundsHelper {
 
 	private final int mResolutionX;
-	private final int mResolutionY;
+
+	// The area not covered by the status bar or navigation bar (or gesture
+	// handle), which the image is fitted to and kept within
+	private final int mTopInset;
+	private final int mUsableHeight;
+
 	private final int mImageResolutionX;
 	private final int mImageResolutionY;
 	private final CoordinateHelper mCoordinateHelper;
@@ -31,18 +36,20 @@ public class BoundsHelper {
 
 	public BoundsHelper(
 			final int resolutionX, final int resolutionY,
+			final int topInset, final int bottomInset,
 			final int imageResolutionX, final int imageResolutionY,
 			final CoordinateHelper coordinateHelper) {
 
 		mResolutionX = resolutionX;
-		mResolutionY = resolutionY;
+		mTopInset = topInset;
+		mUsableHeight = resolutionY - topInset - bottomInset;
 		mImageResolutionX = imageResolutionX;
 		mImageResolutionY = imageResolutionY;
 		mCoordinateHelper = coordinateHelper;
 
 		mMinScale = Math.min(
 				(float)mResolutionX / (float)mImageResolutionX,
-				(float)mResolutionY / (float)mImageResolutionY
+				(float)mUsableHeight / (float)mImageResolutionY
 		);
 	}
 
@@ -75,13 +82,13 @@ public class BoundsHelper {
 			posOffset.x = mResolutionX - scaledImageWidth;
 		}
 
-		if(scaledImageHeight <= mResolutionY) {
-			posOffset.y = (mResolutionY - scaledImageHeight) / 2;
+		if(scaledImageHeight <= mUsableHeight) {
+			posOffset.y = mTopInset + (mUsableHeight - scaledImageHeight) / 2;
 
-		} else if(posOffset.y > 0) {
-			posOffset.y = 0;
-		} else if(posOffset.y < mResolutionY - scaledImageHeight) {
-			posOffset.y = mResolutionY - scaledImageHeight;
+		} else if(posOffset.y > mTopInset) {
+			posOffset.y = mTopInset;
+		} else if(posOffset.y < mTopInset + mUsableHeight - scaledImageHeight) {
+			posOffset.y = mTopInset + mUsableHeight - scaledImageHeight;
 		}
 	}
 

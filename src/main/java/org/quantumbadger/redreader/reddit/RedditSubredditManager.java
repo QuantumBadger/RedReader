@@ -62,6 +62,12 @@ public class RedditSubredditManager {
 	private static RedditSubredditManager singleton;
 	private static RedditAccount singletonUser;
 
+	// One SQLiteOpenHelper per database file. Two helpers on the same file would
+	// have separate connection pools and could lock each other out (e.g. when a
+	// stale manager's write thread is still pending after an account change).
+	private static final HashMap<String, RawObjectDB<SubredditCanonicalId, RedditSubreddit>>
+			subredditDbs = new HashMap<>();
+
 	private final WeakCache<SubredditCanonicalId, RedditSubreddit, RRError>
 			subredditCache;
 
@@ -82,10 +88,7 @@ public class RedditSubredditManager {
 		// Subreddit cache
 
 		final RawObjectDB<SubredditCanonicalId, RedditSubreddit> subredditDb
-				= new RawObjectDB<>(
-				context,
-				getDbFilename("subreddits", user),
-				RedditSubreddit.class);
+				= getSubredditDb(context, getDbFilename("subreddits", user));
 
 		final ThreadedRawObjectDB<SubredditCanonicalId, RedditSubreddit, RRError>
 				subredditDbWrapper
@@ -94,6 +97,23 @@ public class RedditSubredditManager {
 				new RedditAPIIndividualSubredditDataRequester(context, user));
 
 		subredditCache = new WeakCache<>(subredditDbWrapper);
+	}
+
+	private static synchronized RawObjectDB<SubredditCanonicalId, RedditSubreddit> getSubredditDb(
+			final Context context,
+			final String dbFilename) {
+
+		RawObjectDB<SubredditCanonicalId, RedditSubreddit> db = subredditDbs.get(dbFilename);
+
+		if(db == null) {
+			db = new RawObjectDB<>(
+					context.getApplicationContext(),
+					dbFilename,
+					RedditSubreddit.class);
+			subredditDbs.put(dbFilename, db);
+		}
+
+		return db;
 	}
 
 	private static String getDbFilename(final String type, final RedditAccount user) {

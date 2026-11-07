@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ This file is part of RedReader.
+  ~
+  ~ RedReader is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ RedReader is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with RedReader.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<com.google.android.material.card.MaterialCardView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:id="@+id/inbox_item_card"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginTop="4dp"
+		android:layout_marginBottom="4dp"
+		android:clickable="true"
+		android:focusable="true"
+		app:cardBackgroundColor="?rrListItemBackgroundCol"
+		app:cardCornerRadius="8dp"
+		app:cardElevation="2dp"
+		app:strokeColor="?rrListDividerCol"
+		app:strokeWidth="1dp">
+
+	<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+		<View
+				android:id="@+id/inbox_item_unread_indicator"
+				android:layout_width="4dp"
+				android:layout_height="match_parent"
+				android:background="?colorAccent"
+				android:importantForAccessibility="no"/>
+
+		<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:paddingStart="12dp"
+				android:paddingEnd="12dp"
+				android:paddingTop="10dp"
+				android:paddingBottom="2dp">
+
+			<TextView
+					android:id="@+id/inbox_item_header"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textColor="?rrCommentHeaderCol"/>
+
+			<org.quantumbadger.redreader.views.MaxHeightFrameLayout
+					android:id="@+id/inbox_item_body_holder"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="4dp">
+
+				<FrameLayout
+						android:id="@+id/inbox_item_body"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"/>
+
+				<View
+						android:id="@+id/inbox_item_body_fade"
+						android:layout_width="match_parent"
+						android:layout_height="48dp"
+						android:layout_gravity="bottom"
+						android:background="@drawable/inbox_body_fade"
+						android:importantForAccessibility="no"/>
+
+			</org.quantumbadger.redreader.views.MaxHeightFrameLayout>
+
+			<com.google.android.material.button.MaterialButton
+					android:id="@+id/inbox_item_show_more"
+					style="@style/Widget.Material3.Button.TextButton"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal"
+					android:text="@string/inbox_show_more"/>
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+				<androidx.constraintlayout.helper.widget.Flow
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						app:constraint_referenced_ids="inbox_item_button_reply,inbox_item_button_context,inbox_item_button_mark_read"
+						app:flow_horizontalBias="1"
+						app:flow_horizontalGap="4dp"
+						app:flow_horizontalStyle="packed"
+						app:flow_wrapMode="chain"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						app:layout_constraintEnd_toEndOf="parent"/>
+
+				<com.google.android.material.button.MaterialButton
+						android:id="@+id/inbox_item_button_reply"
+						style="@style/Widget.Material3.Button.TextButton.Icon"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/action_reply"
+						app:icon="?rrIconReply"/>
+
+				<com.google.android.material.button.MaterialButton
+						android:id="@+id/inbox_item_button_context"
+						style="@style/Widget.Material3.Button.TextButton.Icon"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/action_comment_context"
+						app:icon="?rrIconLink"/>
+
+				<com.google.android.material.button.MaterialButton
+						android:id="@+id/inbox_item_button_mark_read"
+						style="@style/Widget.Material3.Button.TextButton.Icon"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="@string/action_mark_read"
+						app:icon="?rrIconEnvOpen"/>
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -71,6 +71,14 @@ interface ComposeThemeDropdownMenu {
 	val background: Color
 }
 
+interface ComposeThemeReportFlow {
+	val title: TextStyle
+	val item: TextStyle
+	val body: TextStyle
+	val background: Color
+	val iconColor: Color
+}
+
 interface ComposeThemeError {
 	val title: TextStyle
 	val message: TextStyle
@@ -105,10 +113,18 @@ interface ComposeTheme {
 	val album: ComposeThemeAlbum
 	val error: ComposeThemeError
 	val linkButton: ComposeThemeLinkButton
+	val reportFlow: ComposeThemeReportFlow
 }
 
+/**
+ * @param controlsStatusBar Whether to set the status bar appearance to match
+ * the theme. Only full-screen Compose activities should set this: Compose
+ * content hosted in a dialog shares the host activity's window, and would
+ * clobber the appearance chosen by the activity.
+ */
 @Composable
 fun RRComposeContextTheme(
+	controlsStatusBar: Boolean = false,
 	content: @Composable () -> Unit,
 ) {
 	val prefs = LocalComposePrefs.current
@@ -117,7 +133,7 @@ fun RRComposeContextTheme(
 	val theme = ComposeThemeImpl(prefs)
 
 	val view = LocalView.current
-	if (!view.isInEditMode) {
+	if (controlsStatusBar && !view.isInEditMode) {
 		SideEffect {
 			val window = (view.context as Activity).window
 			WindowCompat.getInsetsController(window, view).apply {
@@ -260,6 +276,29 @@ class ComposeThemeImpl(prefs: ComposePrefs) : ComposeTheme {
 			fontSize = 16.sp * prefs.appearanceFontScaleGlobal // TODO different setting
 		)
 		override val background = colorPopupBackground
+	}
+
+	override val reportFlow = object : ComposeThemeReportFlow {
+		override val title = baseTextStyle.copy(
+			color = colorText,
+			fontWeight = FontWeight.W600,
+			fontSize = 18.sp * prefs.appearanceFontScaleGlobal
+		)
+
+		override val item = baseTextStyle.copy(
+			color = colorText,
+			fontWeight = FontWeight.W500,
+			fontSize = 15.sp * prefs.appearanceFontScaleGlobal
+		)
+
+		override val body = baseTextStyle.copy(
+			color = colorSubtext,
+			fontWeight = FontWeight.W400,
+			fontSize = 14.sp * prefs.appearanceFontScaleGlobal
+		)
+
+		override val background = colorPopupBackground
+		override val iconColor = colorIcon
 	}
 
 	override val error = object : ComposeThemeError {

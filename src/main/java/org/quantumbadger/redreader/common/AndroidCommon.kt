@@ -145,26 +145,31 @@ object AndroidCommon {
 		setAutoCompleteTextViewItemsNoFilter(view, items.toList())
 	}
 
+	/**
+	 * Prompts the user to grant the notification permission, if it is needed.
+	 *
+	 * @return true if the prompt was shown, false if no prompt was necessary.
+	 */
 	@JvmStatic
 	fun promptForNotificationPermission(
         activity: BaseActivity,
         onDisabled: Runnable? = null
-	) {
+	): Boolean {
 		if (Build.VERSION.SDK_INT < 33) {
-			return
+			return false
 		}
 
 		if (!PrefsUtility.pref_behaviour_notifications()) {
-			return
+			return false
 		}
 
 		if (RedditAccountManager.getInstance(activity).defaultAccount.isAnonymous) {
-			return
+			return false
 		}
 
 		if (ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS)
 				== PackageManager.PERMISSION_GRANTED) {
-			return
+			return false
 		}
 
 		DialogUtils.showDialogPositiveNegative(
@@ -197,6 +202,8 @@ object AndroidCommon {
 				onDisabled?.run()
 			}
 		)
+
+		return true
 	}
 
 	@JvmStatic

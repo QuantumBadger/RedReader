@@ -29,21 +29,21 @@
     <string name="pref_appearance_theme_header">Tema</string>
     <string name="pref_appearance_thumbnails_header">Miniatyrbilder</string>
     <string name="pref_appearance_comments_header">Kommentarer</string>
-    <string name="pref_appearance_twopane_title">Tablettläge (två paneler)</string>
+    <string name="pref_appearance_twopane_title">Surfplatteläge (två paneler)</string>
     <string name="pref_appearance_theme_title">Tema</string>
-    <string name="pref_appearance_fontscale_posts_title">Skalning av typsnittsstorlek för poster</string>
+    <string name="pref_appearance_fontscale_posts_title">Inläggstitlar</string>
     <string name="pref_appearance_thumbnails_show_title">Visa miniatyrbilder</string>
     <string name="pref_appearance_thumbnails_nsfw_show_title">Visa NSFW-miniatyrbilder</string>
     <string name="pref_appearance_thumbnails_wifionly_title">Miniatyrbilder endast över Wi-Fi</string>
-    <string name="pref_appearance_comment_header_items_title">Kommentarshuvud</string>
+    <string name="pref_appearance_comment_header_items_title">Kommentarshuvudets innehåll</string>
     <!-- Behaviour Prefs -->
     <string name="pref_behaviour_notifications_title">Aviseringar</string>
     <string name="pref_behaviour_actions_post_header">Inläggshandlingar</string>
     <string name="pref_behaviour_actions_comment_header">Kommentarshandlingar</string>
     <string name="pref_behaviour_posts_header">Inlägg</string>
-    <string name="pref_behaviour_fling_post_left_title">Kommando vid vänsterflingning av inlägg</string>
-    <string name="pref_behaviour_fling_post_right_title">Kommando vid högerflingning av inlägg</string>
-    <string name="pref_behaviour_actions_comment_tap_title">Kommando vid knackning på kommentar</string>
+    <string name="pref_behaviour_fling_post_left_title">Vänsterflingning</string>
+    <string name="pref_behaviour_fling_post_right_title">Högerflingning</string>
+    <string name="pref_behaviour_actions_comment_tap_title">Tryck</string>
     <string name="pref_behaviour_nsfw_title">Visa NSFW-innehåll</string>
     <!-- Cache Prefs -->
     <string name="pref_cache_pruning">Cacherensning</string>
@@ -54,7 +54,7 @@
     <string name="pref_cache_precache_images_title">Förhandscacha bilder</string>
     <string name="pref_cache_precache_images_wifionly_title">Endast över Wi-Fi</string>
     <!-- Menu Prefs -->
-    <string name="pref_menus_post_context_items_title">Element i kontextmenyn för inlägg</string>
+    <string name="pref_menus_post_context_items_title">Element i kontextmenyn</string>
     <string name="pref_menus_post_toolbar_items_title">Element i verktygsraden för inlägg</string>
     <!-- Options Menu -->
     <string name="options_accounts">Konton</string>
@@ -125,7 +125,7 @@
     <string name="dialog_no">Nej</string>
     <string name="dialog_go">Gå till</string>
     <!-- Thing Actions -->
-    <string name="action_menu_post_title">Inläggshandlingar</string>
+    <string name="action_menu_post_title">Inläggsalternativ</string>
     <string name="action_upvote">Rösta upp</string>
     <string name="action_downvote">Rösta ned</string>
     <string name="action_vote_remove">Radera röst</string>
@@ -171,8 +171,8 @@
     <string name="download_done">Klart.</string>
     <string name="download_failed">Misslyckades.</string>
     <!-- Image View -->
-    <string name="imageview_oom">Slut på minne. Försöker med intern webbläsare.</string>
-    <string name="imageview_invalid_gif">Ogiltig GIF. Försöker med intern webbläsare.</string>
+    <string name="imageview_oom">Slut på minne. Försöker med webbläsare.</string>
+    <string name="imageview_invalid_gif">Ogiltig GIF. Försöker med webbläsare.</string>
     <!-- Comment Reply/Edit, Post Submit -->
     <string name="comment_reply_send">Skicka</string>
     <string name="comment_edit_save">Spara</string>
@@ -184,7 +184,7 @@
     <string name="comment_edit_done">Kommentar redigerad. Gjorda förändringar kommer att synas efter att du laddat om.</string>
     <string name="post_submit_title_hint">Titel</string>
     <string name="subreddit_selection_textbox_hint">Subreddit</string>
-    <string name="post_captcha_title">Captcha</string>
+    <string name="post_captcha_title">CAPTCHA</string>
     <string name="post_captcha_submit_button">Skicka</string>
     <string name="post_submit_done">Inlägg skickat.</string>
     <!-- Bug Reporting -->
@@ -193,8 +193,8 @@
     <string name="bug_button_send">Skicka buggrapport via e-post</string>
     <string name="bug_button_ignore">Skicka inte buggrapport</string>
     <!-- General errors -->
-    <string name="error_403_title">Ogiltig användare</string>
-    <string name="error_403_message">Reddit säger att den nuvarande användaren inte har behörighet att göra det. Försök logga ut, och därefter logga in igen (genom att radera kontot från kontolistan, och därefter lägga till det igen).</string>
+    <string name="error_403_title">Åtkomst nekad</string>
+    <string name="error_403_message">Reddit säger att den nuvarande användaren inte har behörighet att göra det.</string>
     <string name="error_subreddit_required_title">Subreddit krävs</string>
     <string name="error_subreddit_required_message">Du måste specificera en subreddit.</string>
     <string name="error_bad_captcha_title">Ogiltig CAPTCHA</string>
@@ -256,14 +256,14 @@
     <!-- Notifications -->
     <string name="notification_comment">%s svarade dig</string>
     <string name="notification_message">%s skickade dig ett meddelande</string>
-    <string name="notification_message_multiple">Nya meddeladen på reddit</string>
+    <string name="notification_message_multiple">Nya meddelanden på Reddit</string>
     <string name="notification_message_action">Tryck för att visa</string>
     <!-- General -->
     <string name="general_true">Sant</string>
     <string name="general_false">Falskt</string>
     <!-- 2013-05-17 Arrays -->
     <string name="pref_appearance_twopane_never">Aldrig</string>
-    <string name="pref_appearance_twopane_auto">Auto-detektera</string>
+    <string name="pref_appearance_twopane_auto">Upptäck automatiskt</string>
     <string name="pref_appearance_twopane_landscape">Endast landskap</string>
     <string name="pref_appearance_twopane_force">Alltid (kan se konstigt ut)</string>
     <string name="theme_name_red">Röd</string>
@@ -281,7 +281,7 @@
     <string name="time_1month">1 månad</string>
     <string name="time_3month">3 månader</string>
     <string name="pref_appearance_comment_header_items_author">Författare</string>
-    <string name="pref_appearance_comment_header_items_flair">Stil</string>
+    <string name="pref_appearance_comment_header_items_flair">Flair</string>
     <string name="pref_appearance_comment_header_items_score">Poäng</string>
     <string name="pref_appearance_comment_header_items_upsdowns">Uppröstningar/nedröstningar</string>
     <string name="pref_appearance_comment_header_items_age">Ålder</string>
@@ -292,7 +292,7 @@
     <string name="error_invalid_password_title">Ogiltigt lösenord</string>
     <string name="error_invalid_password_message">Ditt användarnamn eller lösenord var felaktigt.</string>
     <string name="error_ratelimit_title">För många ogiltiga försök.</string>
-    <string name="error_ratelimit_message">Blockerad på grund av för många ogiltiga inloggningsförsök från detta IP. Reddit säger:</string>
+    <string name="error_ratelimit_message">Blockerad på grund av för många ogiltiga inloggningsförsök från denna IP. Reddit säger:</string>
     <string name="general_success">Lyckat</string>
     <string name="message_nowloggedin">Du är nu inloggad.</string>
     <string name="message_cannotlogin">Kunde inte logga in.</string>
@@ -311,7 +311,7 @@
     <string name="action_search">Sök</string>
     <string name="search_subreddit_restrict">Begränsa sökning till</string>
     <string name="title_changelog">Vad är nytt</string>
-    <string name="pref_behaviour_commentsort">Förvald sortering av kommentarer</string>
+    <string name="pref_behaviour_commentsort">Kommentarer (standard)</string>
     <!-- 2013-05-18 -->
     <string name="action_fling_disabled">Inaktiverad</string>
     <string name="pref_about_version_title">Version</string>
@@ -324,7 +324,7 @@
     <string name="lang_auto">Automatisk</string>
     <!-- 2013-06-25 -->
     <string name="prefs_category_network">Nätverk</string>
-    <string name="pref_network_https_title">Aktivera HTTPS</string>
+    <string name="pref_network_https_title">Använd HTTPS</string>
     <!-- 2013-07-01 -->
     <string name="web_view_open_browser">Visa i webbläsare</string>
     <!-- 2013-07-26 -->
@@ -361,14 +361,14 @@
     <string name="options_unsubscribing">Avslutar prenumeration…</string>
     <string name="options_sidebar">Visa sidorad</string>
     <!-- 2014-04-13 -->
-    <string name="pref_menus_mainmenu_useritems_title">Användarelement på huvudmeny</string>
+    <string name="pref_menus_mainmenu_useritems_title">Användarelement</string>
     <string name="mainmenu_submitted">Inskickade inlägg</string>
     <string name="mainmenu_downvoted">Nedröstade inlägg</string>
-    <string name="mainmenu_modmail">Mod-e-postadress</string>
+    <string name="mainmenu_modmail">Modmejl</string>
     <string name="sidebar_activity_title">Sidorad</string>
     <!-- 2014-04-20 -->
     <string name="header_subscriber_count">%s prenumeranter</string>
-    <string name="header_subscriber_count_unknown">Antalet prenumeranter okänt</string>
+    <string name="header_subscriber_count_unknown">Okänt antal prenumeranter</string>
     <!-- 2014-04-21 -->
     <string name="invalid_subreddit_name">Ogiltigt subreddit-namn</string>
     <!-- 2014-04-26 -->
@@ -381,7 +381,7 @@
     <string name="karma_link">Länkkarma</string>
     <string name="karma_comment">Kommentarskarma</string>
     <!-- 2014-12-02 -->
-    <string name="imageview_decode_failed">Misslyckades med att avkoda bild. Försöker med intern webbläsare.</string>
+    <string name="imageview_decode_failed">Kunde inte avkoda bild. Försöker med webbläsare.</string>
     <!-- 2014-12-06 -->
     <string name="user_comments">Kommentarer</string>
     <!-- 2014-12-07 -->
@@ -404,9 +404,9 @@
     <!-- 2015-05-17 -->
     <string name="error_title_login_user_denied_permission">Åtkomst nekad</string>
     <string name="error_message_login_user_denied_permission">Åtkomst till kontot nekad. Vänligen försök igen.</string>
-    <string name="error_title_login_unknown_reddit_error">Okänt reddit-fel: %s</string>
+    <string name="error_title_login_unknown_reddit_error">Okänt Reddit-fel: %s</string>
     <!-- 2015-05-23 -->
-    <string name="imageview_invalid_video">Ogiltig video. Försöker med intern webbläsare.</string>
+    <string name="imageview_invalid_video">Ogiltig video. Försöker med webbläsare.</string>
     <string name="download_authorizing">Autentiserar…</string>
     <!-- 2015-05-29 -->
     <string name="pref_behaviour_skiptofrontpage_title">Hoppa till förstasidan</string>
@@ -419,10 +419,10 @@
     <string name="screen_orientation_landscape">Landskap</string>
     <!-- 2015-06-28 -->
     <string name="options_close_all">Stäng alla</string>
-    <string name="pref_menus_optionsmenu_items_title">Element på alternativmeny</string>
+    <string name="pref_menus_optionsmenu_items_title">Element på trepunktsmenyn</string>
     <!-- 2015-07-05 -->
-    <string name="pref_behaviour_bezel_toolbar_header">Bezel-verktygsrad</string>
-    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Storlek på svepzon på Bezel-verktysrad</string>
+    <string name="pref_behaviour_bezel_toolbar_header">Sidoverktygsrad för inlägg</string>
+    <string name="pref_behaviour_bezel_toolbar_swipezone_title">Storlek på svepzonen för inläggens sidoverktygsrad</string>
     <string name="pref_behaviour_gifview_mode_title">GIF-visare</string>
     <string name="pref_behaviour_gifview_mode_internal_movie">Intern visare (Film, Android 4.0+)</string>
     <string name="pref_behaviour_gifview_mode_internal_legacy">Intern visare (legacy)</string>
@@ -432,7 +432,7 @@
     <string name="action_delete">Radera</string>
     <string name="delete_confirm">Är du säker på att du vill radera detta?</string>
     <string name="delete_success">Framgångsrikt raderat. Elementet kommer att vara synligt till du laddar om.</string>
-    <string name="pref_appearance_hide_username_main_menu_title">Göm användarnamn i huvudmeny</string>
+    <string name="pref_appearance_hide_username_main_menu_title">Göm användarnamn</string>
     <string name="mainmenu_useritems">Användarelement</string>
     <!-- 2015-09-13 -->
     <string name="selected_link_is_not_image">Den valda länken är inte en bild.</string>
@@ -441,11 +441,11 @@
     <!-- 2015-10-04 -->
     <string name="album_already_first_image">Redan på första bilden i albumet.</string>
     <string name="album_already_last_image">Redan på sista bilden i albumet.</string>
-    <string name="upgrade_v190_login_message">RedReader har uppgraderats, och använder nu oAuth för reddit-autentisering. Om du var inloggad på ett konto innan uppgraderingen så har du nu loggats ut.</string>
+    <string name="upgrade_v190_login_message">RedReader har uppgraderats, och använder nu OAuth för Reddit-autentisering. Om du var inloggad på ett konto innan uppgraderingen så har du nu loggats ut.</string>
     <string name="pref_behaviour_videoview_mode_title">Videovisare</string>
     <string name="pref_behaviour_videoview_mode_internal_videoview">Intern VideoView (rekommenderas)</string>
     <string name="pref_behaviour_videoview_mode_external_app_vlc">Extern app: VLC</string>
-    <string name="videoview_mode_app_vlc_launch_failed">Misslyckades att starta VLC. Vänligen uppgradera VLC eller ändra din inställning för videovisare.</string>
+    <string name="videoview_mode_app_vlc_launch_failed">Kunde inte starta VLC. Vänligen uppgradera VLC eller ändra din inställning för videovisare.</string>
     <!-- 2015-10-05 -->
     <string name="error_url_required_title">URL krävs</string>
     <string name="error_url_required_message">Du måste specificera en URL.</string>
@@ -471,12 +471,12 @@
     <!-- 2015-12-19 -->
     <string name="block_subreddit">Blockera subreddit</string>
     <string name="unblock_subreddit">Sluta blockera subreddit</string>
-    <string name="block_done">Subreddit blockerad. Framtida besök på /r/all kommer att exkludera denna subreddit.</string>
-    <string name="unblock_done">Subreddit inte längre blockerad. Framtida besök på /r/all kommer att inkludera denna subreddit.</string>
+    <string name="block_done">Subreddit blockerad. Framtida besök på startsidan, /r/popular, och /r/all kommer att exkludera denna subreddit.</string>
+    <string name="unblock_done">Subreddit inte längre blockerad. Framtida besök på startsidan, /r/popular, och /r/all kommer att inkludera denna subreddit.</string>
     <!-- Weblate 2020-01-25 -->
     <string name="mainmenu_custom_destination_url">URL</string>
-    <string name="pref_menus_subreddit_context_items_title">Element i kontextmenyn för subreddit</string>
-    <string name="error_tor_setting_failed">Misslyckades att ställa in proxy.</string>
+    <string name="pref_menus_subreddit_context_items_title">Element i subredditmenyn</string>
+    <string name="error_tor_setting_failed">Kunde inte ställa in proxy.</string>
     <string name="error_too_long_title">För långt</string>
     <string name="pref_behaviour_albumview_mode_title">Albumvisare</string>
     <string name="pref_behaviour_sharing_header">Delning</string>
@@ -491,7 +491,7 @@
     <string name="pref_appearance_navbar_color_option_black">Svart</string>
     <string name="action_share_image">Dela bild</string>
     <string name="error_cache_dir_does_not_exist_message">Kunde inte komma åt cachekatalogen. Vänligen välj en annan plats i inställningarna för cache.</string>
-    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Visa flytande verktygsrad ovanpå bild</string>
+    <string name="pref_appearance_image_viewer_show_floating_toolbar_title">Visa flytande knappar ovanpå bilder och videos</string>
     <string name="time_2hr">2 timmar</string>
     <string name="mainmenu_popular">Populära subredditar</string>
     <string name="submit_pmreply_actionbar">Svara</string>
@@ -517,12 +517,12 @@
     <string name="error_403_message_nonreddit">Servern svarade med ett \"åtkomst nekad\"-fel.</string>
     <string name="pref_behaviour_comment_min_title">Minimumpoäng för kommentarer</string>
     <string name="submit_comment_actionbar">Skicka kommentar</string>
-    <string name="pref_behaviour_postsort">Standardsortering av inlägg</string>
-    <string name="pref_behaviour_self_post_tap_actions_title">Kommando vid knackning på egeninlägg</string>
+    <string name="pref_behaviour_postsort">Inlägg (standard)</string>
+    <string name="pref_behaviour_self_post_tap_actions_title">Tryck på egeninlägg</string>
     <string name="action_copy_text">Kopiera text</string>
     <string name="no_comments_yet">Inga kommentarer ännu.</string>
     <string name="error_file_open_failed_message">Ett fel inträffade vid försök att öppna filen.</string>
-    <string name="pref_behaviour_fling_comment_left_title">Handling vid vänsterfling av kommentar</string>
+    <string name="pref_behaviour_fling_comment_left_title">Vänsterfling</string>
     <string name="pref_appearance_image_viewer_header">Bildvisare</string>
     <string name="mainmenu_toast_not_pinned">Denna subreddit är inte fäst på huvudmenyn!</string>
     <string name="pref_behaviour_enable_swipe_refresh_title">Svep nedåt för att ladda om</string>
@@ -530,10 +530,10 @@
     <string name="pm_send_hint_subject">Ämne</string>
     <string name="open_with">Öppna med</string>
     <string name="pm_send_hint_message_text">Meddelandetext</string>
-    <string name="pref_behaviour_fling_comment_right_title">Kommando vid högerfling av kommentar</string>
+    <string name="pref_behaviour_fling_comment_right_title">Högerfling</string>
     <string name="submit_post_url_empty">URL kan inte vara tom</string>
     <string name="pref_menus_show_popular_main_menu_title">Visa /r/popular på huvudmenyn</string>
-    <string name="pref_menus_link_context_items_title">Element i länkkontextmenyn</string>
+    <string name="pref_menus_link_context_items_title">Element i länkmenyn</string>
     <string name="collapsed_self_post">Egeninlägg ihopfällt</string>
     <string name="submit_post_self_text_hint">Text</string>
     <string name="pref_appearance_navbar_color_option_primary">Primär (ljus)</string>
@@ -550,18 +550,18 @@
     <string name="comment_header_search_thread_title">Du visar för närvarande sökresultat för en kommentarstråd.</string>
     <string name="theme_name_night_lowcontrast">Natt (låg kontrast)</string>
     <string name="error_upload_fail_imgur_message">Uppladdningen avvisades av Imgur av okänd anledning.</string>
-    <string name="error_file_open_failed_title">Misslyckades att öppna fil</string>
+    <string name="error_file_open_failed_title">Kunde inte öppna fil</string>
     <string name="download_link_message">Detta är en nedladdningslänk. Vill du ladda detta i en extern webbläsare?</string>
     <string name="pref_menus_show_random_main_menu_title">Visa /r/random i huvudmenyn</string>
     <string name="share_comments_for">Kommentarer för %s</string>
     <string name="error_file_too_big_title">Filen för stor</string>
     <string name="edit_comment_actionbar">Redigera kommentar</string>
-    <string name="pref_behaviour_pinned_subredditsort">Sortering av fästa subredditar</string>
+    <string name="pref_behaviour_pinned_subredditsort">Fästa subredditar</string>
     <string name="pref_behaviour_sharing_include_desc_title">Inkludera titel/beskrivning vid delning</string>
     <string name="action_search_comments">Sök bland kommentarer</string>
     <string name="pm_send_hint_recipient">Mottagare</string>
-    <string name="pref_appearance_navbar_color_title">Färg på navigationsraden</string>
-    <string name="error_tor_start_failed">Orbot misslyckades att starta. Tor kommer inte att fungera korrekt.</string>
+    <string name="pref_appearance_navbar_color_title">Navigations- och statusradens färg</string>
+    <string name="error_tor_start_failed">Kunde inte starta Orbot. Tor kommer inte att fungera korrekt.</string>
     <string name="mainmenu_toast_pinned">Denna subreddit är redan fäst på huvudmenyn!</string>
     <string name="submit_post_actionbar">Skicka inlägg</string>
     <string name="mainmenu_toast_not_blocked">Denna subreddit är inte blockerad!</string>
@@ -571,13 +571,13 @@
     <string name="error_parse_imgur_message">Imgur skickade data som jag inte kunde förstå.</string>
     <string name="pref_behaviour_imageview_mode_internal_opengl">Intern visare (OpenGL)</string>
     <string name="mainmenu_toast_not_subscribed">Du prenumererar inte på denna subreddit ännu!</string>
-    <string name="pref_appearance_hide_android_status_title">Göm Android-statusrad</string>
+    <string name="pref_appearance_hide_android_status_title">Göm statusrad</string>
     <string name="button_next_comment_parent">Nästa förälderkommentar</string>
     <string name="pref_cache_general_header">Allmänt</string>
     <string name="pref_cache_location_title">Plats för lagring av cache</string>
-    <string name="pref_appearance_comments_show_floating_toolbar_title">Visa flytande verktygsrad ovanpå kommentarer</string>
+    <string name="pref_appearance_comments_show_floating_toolbar_title">Visa navigationsknappar ovanpå kommentarer</string>
     <string name="action_back">Tillbaka</string>
-    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Visa blockerade subredditar i huvudmenyn</string>
+    <string name="pref_appearance_show_blocked_subreddits_main_menu_title">Visa blockerade subredditar</string>
     <string name="load_more_comments_failed_unknown_url_type">Kan inte ladda fler kommentarer: okänd URL-typ.</string>
     <string name="theme_name_ultrablack">Ultrasvart</string>
     <string name="pm_reply_done">Svar skickat.</string>
@@ -588,7 +588,7 @@
     <string name="mainmenu_toast_blocked">Denna subreddit är redan blockerad!</string>
     <string name="sort_blocked_subreddit_date">Efter datum (tillagd)</string>
     <string name="pref_cache_rerequest_postlist_age_title">Ladda om inlägg om cache äldre än</string>
-    <string name="pref_behaviour_actions_comment_longclick_title">Handling vid långt klick på kommentar</string>
+    <string name="pref_behaviour_actions_comment_longclick_title">Långtryck</string>
     <string name="mainmenu_custom_destination_subreddit">Subreddit</string>
     <string name="pref_behaviour_albumview_mode_internal_list">Intern visare (lista)</string>
     <string name="inbox_unread_only">Endast olästa meddelanden</string>
@@ -597,14 +597,14 @@
     <string name="pref_behaviour_sharing_share_text_title">Inkludera text vid delning av kommentar</string>
     <string name="pref_network_tor_title">Använd TOR</string>
     <string name="action_unpin_subreddit">Fäst inte längre subreddit på huvudmenyn</string>
-    <string name="disable_replies_to_infobox_failed">Inaktivering av svar till inkorgen misslyckades</string>
+    <string name="disable_replies_to_infobox_failed">Kunde inte stänga av svar till inkorgen</string>
     <string name="pref_appearance_link_text_clickable_title">Gör länktexter klickbara</string>
     <string name="time_every_time">Varje gång</string>
     <string name="share_comment_by_on_reddit">Kommentarer av %s på Reddit</string>
     <string name="mainmenu_custom_destination_user">Användare</string>
     <string name="pref_behaviour_imageview_mode_title">Bildvisare</string>
     <string name="pref_cache_maxage_entry_title">Radera cachade flaggor (läst, uppröstat, etc.) efter</string>
-    <string name="pref_behaviour_blocked_subredditsort">Sortering av blockerade subredditar</string>
+    <string name="pref_behaviour_blocked_subredditsort">Blockerade subredditar</string>
     <string name="submit_post_title_empty">Titel kan inte vara tom</string>
     <string name="post_edit_done">Inlägg redigerat. Förändringar kommer att synas efter att du laddat om.</string>
     <string name="error_cache_dir_does_not_exist_title">Cachekatalog saknas</string>
@@ -613,25 +613,199 @@
     <string name="pref_appearance_show_aspect_ratio_indicator_summary">Om möjligt, visa visuellt att mdia laddas</string>
     <string name="action_copy_selftext">Kopiera Self-Text</string>
     <string name="pref_appearance_bottom_toolbar_title">Visa verktygsfältet i botten</string>
-    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Visa prenumererade subreddits</string>
-    <string name="pref_behaviour_usecustomtabs_summary">Använd modifierade flikar om tillgängligt</string>
-    <string name="pref_behaviour_usecustomtabs_title">Använd modifierade flikar</string>
+    <string name="pref_menus_show_subscribed_subreddits_main_menu_title">Visa prenumererade subredditar</string>
+    <string name="pref_behaviour_usecustomtabs_summary">Använd Androidanpassade flikar om tillgängligt</string>
+    <string name="pref_behaviour_usecustomtabs_title">Använd Androidanpassade flikar</string>
     <string name="error_already_submitted_title">Redan postad</string>
     <string name="pref_appearance_left_handed_title">Vänsterhandsläge</string>
     <string name="error_toast_no_share_app_installed">Ingen tillgänglig app för att dela det här.</string>
     <string name="pref_behaviour_sharing_share_dialog_title">Använd inbyggd dialog för delning</string>
     <string name="pref_behaviour_sharing_share_dialog_dialogtitle">Välj en app för delning</string>
-    <string name="post_text_copied_to_clipboard">Inlägget kopierat till urklipp</string>
+    <string name="post_text_copied_to_clipboard">Inläggets självtext kopierat till urklipp</string>
     <string name="notification_channel_name_reddit_messages">Inkommande Reddit-meddelanden</string>
     <string name="prefs_category_images_video">Bild/Video</string>
     <string name="pref_behaviour_video_mute_default_title">Tysta videos som standard</string>
     <string name="pref_appearance_show_aspect_ratio_indicator_title">Visa indikator för bildförhållande</string>
     <string name="mainmenu_random_nsfw">Slumpmässig NSFW Subreddit</string>
-    <string name="pref_menus_show_multireddit_main_menu_title">Visa Multireddits</string>
-    <string name="pref_menus_mainmenu_shortcutitems_title">Genvägar på startsidan</string>
+    <string name="pref_menus_show_multireddit_main_menu_title">Visa multireddits</string>
+    <string name="pref_menus_mainmenu_shortcutitems_title">Genvägar</string>
     <string name="pref_behaviour_hide_read_posts_title">Göm lästa inlägg</string>
     <string name="sort_posts_best">Bäst</string>
     <string name="post_submit_mark_spoiler">Markera som spoiler</string>
     <string name="post_submit_mark_nsfw">Markera som NSFW</string>
     <string name="title_license">Licens</string>
+    <string name="options_account_manager">Hantera…</string>
+    <string name="pref_appearance_toolbar_header">Verktygsfält</string>
+    <string name="image_gallery_removed_title">Galleri borttaget</string>
+    <string name="pref_appearance_post_subtitle_items_title">Inläggsdetaljer</string>
+    <string name="pref_appearance_post_subtitle_items_sticky">Sticky-etikett</string>
+    <string name="pref_appearance_post_subtitle_items_nsfw">NSFW-etikett</string>
+    <string name="pref_appearance_post_subtitle_items_domain">Domän</string>
+    <string name="pref_appearance_post_subtitle_items_use_different_settings_title">Använd andra inställningar för öppnade inlägg</string>
+    <string name="pref_appearance_post_header_subtitle_items_title">Inläggsdetaljer för öppnade inlägg</string>
+    <string name="image_gallery_removed_message">Detta galleri har tagits bort och är inte längre tillgängligt.</string>
+    <string name="pref_appearance_post_header_age_units_title">Åldersprecision för öppnade inlägg</string>
+    <string name="pref_menus_quick_account_switcher_title">Använd snabb kontobytning</string>
+    <string name="pref_appearance_comment_age_units_title">Åldersprecision för kommentarer</string>
+    <string name="pref_appearance_comment_age_mode_title">Läge för kommentarålder</string>
+    <string name="pref_appearance_comment_age_mode_relative_parent">Relativ till förälderkommentar (svarade x min senare)</string>
+    <string name="pref_appearance_comment_age_mode_relative_post">Relativ till inlägg (efter x min)</string>
+    <string name="pref_appearance_posts_header">Inlägg</string>
+    <string name="pref_appearance_post_subtitle_items_spoiler">Spoiler-etikett</string>
+    <string name="pref_appearance_post_subtitle_items_subreddit">Subreddit</string>
+    <string name="pref_appearance_post_show_comments_button_title">Visa kommentarsknapp</string>
+    <string name="pref_appearance_post_age_units_title">Åldersprecision för inlägg</string>
+    <string name="prefs_category_accessibility">Tillgänglighet</string>
+    <string name="pref_appearance_hide_toolbar_on_scroll_title">Dölj verktygsfältet vid skrollning</string>
+    <string name="pref_appearance_comment_header_items_controversiality">Kontroversiell-indikator (†)</string>
+    <string name="pref_appearance_comment_age_mode_absolute">Tid sedan kommentering (x min sedan)</string>
+    <string name="pref_appearance_inbox_age_units_title">Åldersprecision för meddelanden i inkorgen</string>
+    <string name="pref_appearance_age_units_2">Två enheter (x timmar, x minuter)</string>
+    <string name="pref_appearance_android_status_hide_on_media">Medan media visas</string>
+    <string name="pref_appearance_age_units_1">En enhet (x timmar)</string>
+    <string name="pref_appearance_age_units_3">Tre enheter (x timmar, x minuter, x sekunder)</string>
+    <string name="pref_appearance_navbar_color_option_white">Vit</string>
+    <string name="pref_appearance_android_status_always_hide">Alltid</string>
+    <string name="pref_appearance_android_status_never_hide">Aldrig</string>
+    <string name="prefs_category_backup_restore">Säkerhetskopiera/Återställ</string>
+    <string name="button_continue_anyway">Fortsätt ändå</string>
+    <string name="pref_item_backup_preferences_title">Säkerhetskopiera inställningar</string>
+    <string name="button_cancel">Avbryt</string>
+    <string name="pref_item_restore_preferences_title">Återställ inställningar (från fil)</string>
+    <string name="restore_preferences_error_invalid_file_title">Ogiltig fil</string>
+    <string name="restore_preferences_error_invalid_file_contents_message">Den valda filen är inte en giltig säkerhetskopia.</string>
+    <string name="restore_preferences_error_version_warning_title">Varning</string>
+    <string name="restore_preferences_error_invalid_file_version_message">Den valda filen skapades med en nyare version av RedReader och kan inte öppnas.</string>
+    <string name="restore_preferences_error_version_warning_message">Den valda filen skapades med en nyare version av RedReader. Återställning av inställningar från denna fil kan leda till krascher och instabilitet.</string>
+    <string name="button_restore_preferences">Återställ</string>
+    <string name="backup_preferences_success">Säkerhetskopieringen lyckades</string>
+    <string name="restore_preferences_success">Återställningen lyckades</string>
+    <string name="image_gallery">Galleri</string>
+    <string name="image_gallery_no_data_present_message">Inget bildgalleri hittades på den specificerade länken. Det kan ha tagits bort.</string>
+    <string name="list_yes_no_or_wifi_wifionly">Endast över Wi-Fi</string>
+    <string name="copied_to_clipboard">Kopierat till urklipp</string>
+    <string name="image_gallery_no_data_present_title">Galleriet hittades inte</string>
+    <string name="image_gallery_no_image_present_title">Bilden hittades inte</string>
+    <string name="image_gallery_no_image_present_message">Den specificerade bilden kunde inte hittas. Den kan ha tagits bort.</string>
+    <string name="button_error_details">Detaljer</string>
+    <string name="link_does_not_exist">Denna länk existerar inte. Den kan ha tagits bort.</string>
+    <string name="error_inline_preview_failed_title">Nedladdningsfel</string>
+    <string name="error_inline_preview_failed_message">Kunde inte ladda ned bildförhandsvisning.</string>
+    <string name="pref_appearance_fontscale_post_header_titles_title">Inläggstitlar för öppnade inlägg</string>
+    <string name="pref_appearance_fontscale_post_header_subtitles_title">Inläggsbeskrivningar för öppnade inlägg</string>
+    <string name="pref_appearance_fontscale_header">Fontstorlek</string>
+    <string name="pref_appearance_fontscale_global_title">Global</string>
+    <string name="pref_appearance_fontscale_use_global">Använd global fontstorlek</string>
+    <string name="pref_appearance_fontscale_linkbuttons_title">Länkknappar</string>
+    <string name="pref_appearance_fontscale_bodytext_title">Brödtext</string>
+    <string name="pref_appearance_fontscale_post_subtitles_title">Inläggsdetaljer</string>
+    <string name="pref_appearance_fontscale_comment_headers_title">Kommentars- och inkorgshuvud</string>
+    <string name="list_yes_no_or_wifi_always">Alltid</string>
+    <string name="list_yes_no_or_wifi_never">Aldrig</string>
+    <string name="error_nsfw_subreddits_disabled_title">Blockerad NSFW-subreddit</string>
+    <string name="error_nsfw_subreddits_disabled_message">NSFW-innehåll är avstängt i inställningarna.</string>
+    <string name="search_results_short">Sökresultat</string>
+    <string name="search_results_query_only">Sökning efter \"%s\"</string>
+    <string name="pref_network_tor_summary">När extern webbläsare eller Androidanpassade flikar används kommer inte länkar att öppnas med Tor (förutom om din webbläsare är inställd att använda Tor)</string>
+    <string name="prefs_category_fonts">Typsnitt</string>
+    <string name="must_login_message">Du måste vara inloggad på ett Reddit-konto för att göra detta.</string>
+    <string name="upgrade_message">Uppdaterad till version %s</string>
+    <string name="error_toast_failed_open_external_browser">Misslyckades att öppna url \"%s\" i extern webbläsare</string>
+    <string name="error_toast_no_email_apps">Inga mejlappar installerade!</string>
+    <string name="bug_chooser_title">Mejla buggrapport</string>
+    <string name="subscription_successful">Prenumererad till %s</string>
+    <string name="unsubscription_successful">Avprenumererad från %s</string>
+    <string name="pin_successful">Fäste %s till huvudmenyn</string>
+    <string name="unpin_successful">Lossade %s från huvudmenyn</string>
+    <string name="pref_menus_mainmenu_header">Huvudmeny</string>
+    <string name="pref_menus_posts_header">Inlägg</string>
+    <string name="spoiler">Spoiler</string>
+    <string name="error_title_malformed_html">Felformaterad HTML</string>
+    <string name="error_message_malformed_html">Kunde inte tolka brödtexten. Rapportera vänligen detta till apputvecklaren.</string>
+    <string name="props_body_html">Brödtext (HTML)</string>
+    <string name="props_self_html">Egentext (HTML)</string>
+    <string name="pref_appearance_hide_headertoolbar_commentlist_title">Dölj kommentarslisthuvudets verktygsrad</string>
+    <string name="post_link_copied_to_clipboard">Inläggslänk kopierad</string>
+    <string name="link_copied_to_clipboard">Länk kopierad</string>
+    <string name="comment_link_copied_to_clipboard">Kommentarslänk kopierad</string>
+    <string name="comment_text_copied_to_clipboard">Kommentarstext kopierad</string>
+    <string name="subreddit_link_copied_to_clipboard">Subredditens länk kopierad</string>
+    <string name="pref_menus_appbar_items_always">Visa alltid knapp</string>
+    <string name="pref_menus_appbar_items_if_room">Visa knapp vid tillräcklig plats</string>
+    <string name="pref_menus_appbar_items_overflow_only">Visa endast i trepunktsmeny</string>
+    <string name="pref_menus_appbar_items_never">Visa inte</string>
+    <string name="action_search_posts">Sök inlägg</string>
+    <string name="action_comments_with_count">Visa kommentarer (%d)</string>
+    <string name="pref_behaviour_user_postsort_title">Användarinlägg (standard)</string>
+    <string name="pref_behaviour_multi_postsort_title">Multireddit-inlägg (standard)</string>
+    <string name="pref_behaviour_user_commentsort_title">Användarkommentarer (standard)</string>
+    <string name="sort_comments_top_hour">Topp: denna timme</string>
+    <string name="sort_comments_top_today">Topp: idag</string>
+    <string name="sort_comments_top_week">Topp: denna vecka</string>
+    <string name="sort_comments_top_month">Topp: denna månad</string>
+    <string name="sort_comments_top_year">Topp: i år</string>
+    <string name="sort_comments_top_all">Topp: alltid</string>
+    <string name="pref_behaviour_video_zoom_default_title">Beskär videor för att fylla skärmen</string>
+    <string name="button_error_send_report">Rapportera</string>
+    <string name="reddit_login_browser_popup_line_1">För att logga in kommer du dirigeras till Reddit i en webbläsare.</string>
+    <string name="reddit_login_browser_popup_line_2">När inloggningen är klar kommer du bli tillbakaskickad till RedReader. Om inloggningen misslyckas kan du testa en annan webbläsare med kryssrutan nedan.</string>
+    <string name="reddit_login_browser_popup_use_internal_browser">Använd intern webbläsare (rekommenderas)</string>
+    <string name="reddit_login_browser_popup_use_external_browser">Använd extern webbläsare (rekommenderas)</string>
+    <string name="dialog_continue">Fortsätt</string>
+    <string name="title_attribution">Attribution</string>
+    <string name="action_save_image_success_no_path">Bild sparad</string>
+    <string name="pref_behaviour_imagevideo_tap_close_title">Tryck för att stänga bilder/videor</string>
+    <string name="pref_behaviour_imagevideo_tap_close_summary">Påverkar inte videor om spelningskontroller är aktiverat</string>
+    <string name="press_back_again">Tryck tillbaka igen</string>
+    <string name="pref_behaviour_postlist_back_again">Tryck tillbaka två gånger för att stänga inläggslistan</string>
+    <string name="pref_behaviour_back_button_title">Tillbakaknappen</string>
+    <string name="pref_behaviour_save_location_title">Spardestination</string>
+    <string name="pref_behaviour_save_location_prompt_every_time">Fråga varje gång</string>
+    <string name="pref_behaviour_save_location_system_default">Använd systemstandard</string>
+    <string name="pref_appearance_not_possible_in_tablet_mode">Inte möjligt i surfplattsläge</string>
+    <string name="time_after">efter %s</string>
+    <string name="time_after_reply">svarade %s senare</string>
+    <string name="pref_appearance_inbox_header">Inkorg</string>
+    <string name="pref_cache_clear_title">Rensa cache</string>
+    <string name="dialog_clear">Rensa</string>
+    <string name="cache_clear_dialog_loading">Laddar använd datamängd</string>
+    <string name="cache_clear_dialog_loaded">Laddat använd datamängd</string>
+    <string name="cache_clear_dialog_listings">Listor</string>
+    <string name="cache_clear_dialog_listings_data">Listor (%s)</string>
+    <string name="cache_clear_dialog_thumbnails">Miniatyrbilder</string>
+    <string name="cache_clear_dialog_thumbnails_data">Miniatyrbilder (%s)</string>
+    <string name="cache_clear_dialog_images">Bilder</string>
+    <string name="cache_clear_dialog_images_data">Bilder (%s)</string>
+    <string name="cache_clear_dialog_flags">Flaggor</string>
+    <string name="three_dots_menu">Fler alternativ</string>
+    <string name="pref_images_thumbnail_size_title">Miniatyrbildsstorlek</string>
+    <string name="accessibility_image_viewer_title">Visar bild</string>
+    <string name="accessibility_image_viewer_view_comments">Visa kommentarer</string>
+    <string name="accessibility_image_viewer_go_back">Gå tillbaka</string>
+    <string name="accessibility_subtitle_spoiler_withperiod">Innehåller spoilers.</string>
+    <string name="accessibility_subtitle_sticky_withperiod">Fäst.</string>
+    <string name="accessibility_subtitle_nsfw_withperiod">Olämpligt för arbetsplatsen.</string>
+    <string name="accessibility_subtitle_flair_withperiod">Flair: %s.</string>
+    <string name="accessibility_subtitle_points_withperiod">Poäng: %d.</string>
+    <string name="accessibility_subtitle_gold_withperiod">Tilldelat guld: %d.</string>
+    <string name="accessibility_subtitle_age_withperiod">Ålder: %s.</string>
+    <string name="accessibility_subtitle_author_withperiod">Författare: %s.</string>
+    <string name="accessibility_subtitle_subreddit_withperiod">Sub-reddit: %s.</string>
+    <string name="accessibility_subtitle_domain_withperiod">Domän: %s.</string>
+    <string name="accessibility_subtitle_selfpost_withperiod">Textinlägg.</string>
+    <string name="accessibility_subtitle_points_unknown_withperiod">Poäng dolt.</string>
+    <string name="accessibility_subtitle_edited_since_being_posted">Text redigerad sedan publicering.</string>
+    <string name="accessibility_subtitle_comment_collapsed">Kommentarstext dold.</string>
+    <string name="accessibility_subtitle_domain_i_redd_it">Redditbilder</string>
+    <string name="accessibility_subtitle_domain_v_redd_it">Redditvideor</string>
+    <string name="pref_images_high_res_thumbnails_title">Högupplösta miniatyrbilder</string>
+    <string name="pref_header_image_viewer">Bildvisare</string>
+    <string name="inline_preview_prompt_title">Bildförhandsvisningar</string>
+    <string name="inline_preview_prompt_turn_off">Stäng av</string>
+    <string name="inline_preview_prompt_keep_showing">Fortsätt visa</string>
+    <string name="edittext_hint_comment_body_text">Kommentarstext</string>
+    <string name="album_image_default_text">Bild %d</string>
+    <string name="imageview_image_info_failed">Kunde inte ladda ner bildmetadata. Försöker med webbläsare.</string>
+    <string name="imageview_download_failed">Nedladdning var avbruten. Försöker med webbläsare.</string>
+    <string name="search_results_location_only">Sökning i %s</string>
 </resources>

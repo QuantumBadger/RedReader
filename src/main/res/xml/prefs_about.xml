@@ -31,4 +31,9 @@
 			android:key="@string/pref_about_license_key"
 			android:title="@string/title_license"/>
 
+	<Preference
+			android:key="@string/pref_about_github_key"
+			android:title="@string/pref_about_github_title"
+			android:summary="@string/pref_about_github_url"/>
+
 </PreferenceScreen>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="firstrun_login_title">ورود</string>
+    <string name="firstrun_login_message">شما در حال حاضر وارد نشده‌اید. شما می‌توانید با انتخاب کردن اکانت‌ها در منو به لیست اکانت دسترسی داشته باشید.</string>
+    <string name="firstrun_login_button_now">الان وارد شوید</string>
+    <string name="firstrun_login_button_later">حالت ناشناس</string>
+    <string name="prefs_category_appearance">ظاهر</string>
+    <string name="prefs_category_behaviour">طرز رفتار</string>
+    <string name="pref_appearance_theme_header">زمینه</string>
+    <string name="pref_appearance_thumbnails_header">تصاویر کوچک</string>
+    <string name="pref_appearance_comments_header">نظرات</string>
+    <string name="pref_appearance_theme_title">زمینه</string>
+</resources>

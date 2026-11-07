@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.fragments.WebViewFragment;
 
@@ -91,10 +90,14 @@ public class HtmlViewActivity extends ViewsBaseActivity {
 	}
 
 	@Override
-	public void onBackPressed() {
+	protected boolean baseActivityMustInterceptBack() {
+		// Always intercept, as the WebView may need to navigate back through
+		// its history. See the equivalent method in WebViewActivity.
+		return true;
+	}
 
-		if(General.onBackPressed() && !webView.onBackButtonPressed()) {
-			super.onBackPressed();
-		}
+	@Override
+	protected boolean baseActivityOnBackPressed() {
+		return webView.onBackButtonPressed();
 	}
 }

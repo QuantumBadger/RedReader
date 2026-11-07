@@ -99,4 +99,36 @@ public final class StringUtils {
 	public static String fromUTF8(@NonNull final byte[] bytes) {
 		return new String(bytes, General.CHARSET_UTF8);
 	}
+
+	/**
+	 * Truncates {@code input} so that at most {@code maxLength} characters of it are
+	 * kept, appending a note saying how many characters were dropped. Strings which
+	 * already fit are returned unchanged.
+	 */
+	@NonNull
+	public static String truncate(@NonNull final String input, final int maxLength) {
+
+		if(input.length() <= maxLength) {
+			return input;
+		}
+
+		final int omitted = input.length() - maxLength;
+
+		return input.substring(0, maxLength)
+				+ "\n[... "
+				+ omitted
+				+ " characters truncated]";
+	}
+
+	@Nullable
+	public static String truncateNullable(
+			@Nullable final String input,
+			final int maxLength) {
+
+		if(input == null) {
+			return null;
+		}
+
+		return truncate(input, maxLength);
+	}
 }

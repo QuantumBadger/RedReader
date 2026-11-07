@@ -20,13 +20,19 @@ package org.quantumbadger.redreader.activities;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.common.General;
@@ -63,6 +69,30 @@ public abstract class BaseActivity extends AppCompatActivity
 		void onActivityResult(int resultCode, @Nullable Intent data);
 	}
 
+	private final OnBackPressedCallback mBackPressedCallback
+			= new OnBackPressedCallback(true) {
+		@Override
+		public void handleOnBackPressed() {
+
+			if (!osHandlesBackAnimations() && !General.onBackPressed()) {
+				// Debounced: ignore rapid repeated presses
+				return;
+			}
+
+			if (baseActivityOnBackPressed()) {
+				invalidateBackPressedCallback();
+				return;
+			}
+
+			// Not intercepting this press: disable this callback and
+			// re-dispatch, so that the next handler runs (either the fragment
+			// back stack, or the default behaviour of finishing the activity).
+			setEnabled(false);
+			getOnBackPressedDispatcher().onBackPressed();
+			invalidateBackPressedCallback();
+		}
+	};
+
 	public void closeAllExceptMain() {
 		closingAll = true;
 		closeIfNecessary();
@@ -75,11 +105,13 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		mSharedPreferences = General.getSharedPrefs(this);
 
+		if (baseActivityConfiguresEdgeToEdge()) {
+			applyEdgeToEdge();
+		}
+
 		if (PrefsUtility.pref_appearance_android_status()
 				== PrefsUtility.AppearanceStatusBarMode.ALWAYS_HIDE) {
-			getWindow().setFlags(
-					WindowManager.LayoutParams.FLAG_FULLSCREEN,
-					WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			hideStatusBar();
 		}
 
 		if (PrefsUtility.behaviour_block_screenshots()) {
@@ -94,13 +126,123 @@ public abstract class BaseActivity extends AppCompatActivity
 		setOrientationFromPrefs();
 		closeIfNecessary();
 
+		getOnBackPressedDispatcher().addCallback(this, mBackPressedCallback);
+		invalidateBackPressedCallback();
+
 		GlobalExceptionHandler.handleLastCrash(this);
+	}
+
+	/**
+	 * True if the OS animates back navigation itself (predictive back), which
+	 * is the default for apps targeting API 36+. In this case the back
+	 * callback is only enabled while the activity actually needs to intercept
+	 * back presses (so that the system animations run the rest of the time),
+	 * and the double-press guard is skipped, as the gesture animation already
+	 * guards against accidental presses.
+	 */
+	private static boolean osHandlesBackAnimations() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA;
+	}
+
+	/**
+	 * Called when the user navigates back. Return true to consume the press,
+	 * or false for the default behaviour. Subclasses which override this must
+	 * also override {@link #baseActivityMustInterceptBack()}, and call
+	 * {@link #invalidateBackPressedCallback()} whenever its result changes.
+	 */
+	protected boolean baseActivityOnBackPressed() {
+		return false;
+	}
+
+	/**
+	 * Whether {@link #baseActivityOnBackPressed()} might currently consume a
+	 * back press. When the OS provides predictive back animations, back
+	 * presses are only intercepted while this returns true.
+	 */
+	protected boolean baseActivityMustInterceptBack() {
+		return false;
+	}
+
+	protected final void invalidateBackPressedCallback() {
+		mBackPressedCallback.setEnabled(
+				!osHandlesBackAnimations() || baseActivityMustInterceptBack());
+	}
+
+	/**
+	 * Whether this class should configure the window for edge-to-edge display.
+	 * Subclasses which call enableEdgeToEdge() themselves should return false.
+	 */
+	protected boolean baseActivityConfiguresEdgeToEdge() {
+		return true;
+	}
+
+	/**
+	 * Lays the window out edge-to-edge on all API levels, with transparent
+	 * system bars and light bar icons (matching the app's pre-edge-to-edge
+	 * appearance). Bar backgrounds are drawn by the app (a translucent scrim
+	 * behind the 3-button navigation bar, and nothing behind the gesture
+	 * navigation handle) -- see ViewsBaseActivity.
+	 */
+	private void applyEdgeToEdge() {
+
+		final Window window = getWindow();
+
+		// The first getDecorView() call runs PhoneWindow.generateLayout(),
+		// which reads the enforce*Contrast attributes back out of the theme.
+		// The decor must therefore exist before the contrast flags below are
+		// set, or they'd be silently reverted (leaving the system to draw a
+		// theme-tinted scrim over the 3-button navigation bar).
+		final WindowInsetsControllerCompat controller
+				= WindowCompat.getInsetsController(window, window.getDecorView());
+
+		WindowCompat.setDecorFitsSystemWindows(window, false);
+
+		if (Build.VERSION.SDK_INT < 35) {
+			// Deprecated and a no-op from SDK 35 onwards: the status bar is
+			// always transparent once edge-to-edge is enforced
+			window.setStatusBarColor(Color.TRANSPARENT);
+		}
+
+		// Deliberately called on every API level, even though it's deprecated
+		// and draws nothing from SDK 35 onwards: it marks the nav bar colour
+		// as app-specified, which stops DecorView deriving the nav button
+		// appearance from the window background's luminance
+		// (APPEARANCE_FORCE_LIGHT_NAVIGATION_BARS) and overriding the
+		// appearance requested via the insets controller
+		window.setNavigationBarColor(Color.TRANSPARENT);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+			// The app draws its own bar backgrounds, so the system shouldn't
+			// add a contrast scrim of its own (e.g. for 3-button navigation)
+			window.setStatusBarContrastEnforced(false);
+			window.setNavigationBarContrastEnforced(false);
+		}
+
+		controller.setAppearanceLightStatusBars(false);
+		controller.setAppearanceLightNavigationBars(false);
+	}
+
+	protected final void hideStatusBar() {
+
+		final WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(
+				getWindow(),
+				getWindow().getDecorView());
+
+		controller.setSystemBarsBehavior(
+				WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+		controller.hide(WindowInsetsCompat.Type.statusBars());
+	}
+
+	protected final void showStatusBar() {
+		WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView())
+				.show(WindowInsetsCompat.Type.statusBars());
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		setOrientationFromPrefs();
+		invalidateBackPressedCallback();
 		closeIfNecessary();
 		TorCommon.updateTorStatus();
 	}
@@ -159,8 +301,9 @@ public abstract class BaseActivity extends AppCompatActivity
 			return;
 		}
 
-		if (permissions.length != 1) {
-			throw new RuntimeException("Unexpected permission result");
+		if (grantResults.length == 0) {
+			// The request was interrupted: treat as cancelled
+			return;
 		}
 
 		if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mainmenu_profile">ମୋ ପ୍ରୋଫାଇଲ୍</string>
+    <string name="options_refresh">ସତେଜ</string>
+    <string name="pref_appearance_theme_header">ଥିମ୍</string>
+    <string name="prefs_category_appearance">ରୂପ</string>
+    <string name="prefs_category_behaviour">ଆଚରଣ</string>
+    <string name="pref_appearance_comments_header">ମନ୍ତଵ୍ୟ</string>
+    <string name="pref_behaviour_notifications_title">ଵିଜ୍ଞପ୍ତି</string>
+    <string name="pref_appearance_theme_title">ଥିମ୍</string>
+    <string name="options_settings">ସେଟିଂ</string>
+    <string name="options_sort">ସଜାନ୍ତୁ</string>
+    <string name="accounts_username">ଉପଭୋକ୍ତା ନାମ</string>
+    <string name="accounts_password">ପାସ୍‍ୱର୍ଡ଼</string>
+    <string name="sort_posts_new">ନୂଆ</string>
+    <string name="sort_posts_controversial">ଵିଵାଦୀୟ</string>
+    <string name="sort_posts_top">ଶ୍ରେଷ୍ଠ</string>
+    <string name="sort_comments_best">ଉତ୍ତମ</string>
+    <string name="sort_comments_new">ନୂଆ</string>
+    <string name="dialog_yes">ହଁ</string>
+    <string name="dialog_no">ନାହିଁ</string>
+    <string name="dialog_go">ଯିବା</string>
+    <string name="action_hide">ଲୁଚାଅ</string>
+    <string name="action_unhide">ଦେଖାଅ</string>
+    <string name="action_actionmenu_short">କୃତ୍ୟ</string>
+    <string name="action_edit">ସମ୍ପାଦନା</string>
+    <string name="action_user_profile_short">ଉପଭୋକ୍ତା</string>
+    <string name="action_user_profile">ଉପଭୋକ୍ତା ପ୍ରୋଫାଇଲ୍</string>
+    <string name="action_comments">ମନ୍ତଵ୍ୟ ଦେଖନ୍ତୁ</string>
+    <string name="sort_comments_old">ପୁରୁଣା</string>
+    <string name="sort_comments_controversial">ଵିଵାଦୀୟ</string>
+    <string name="sort_comments_top">ଶ୍ରେଷ୍ଠ</string>
+    <string name="accessibility_image_viewer_view_comments">ମନ୍ତଵ୍ୟ ଦେଖନ୍ତୁ</string>
+    <string name="accessibility_subtitle_author_admin_withperiod">ଲେଖକ: %s, ପ୍ରଶାସକ।</string>
+    <string name="accessibility_subtitle_author_submitter_admin_withperiod">ଲେଖକ: %s, ଦାଖଲକାରୀ ଏଵଂ ପ୍ରଶାସକ।</string>
+    <string name="karma_comment">ମନ୍ତଵ୍ୟ କର୍ମ</string>
+    <string name="karma_link">ଲିଙ୍କ୍ କର୍ମ</string>
+    <string name="pref_appearance_left_handed_title">ବାମ ହାତ ମୋଡ୍</string>
+    <string name="prefs_category_accessibility">ଅଭିଗମ୍ୟତା</string>
+</resources>

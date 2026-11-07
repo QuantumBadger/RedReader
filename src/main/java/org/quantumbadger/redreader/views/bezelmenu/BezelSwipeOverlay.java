@@ -59,15 +59,26 @@ public class BezelSwipeOverlay extends View {
 
 		if(action == MotionEvent.ACTION_DOWN) {
 
+			final int edge;
+
 			if(event.getX() < mSwipeZonePixels) {
-				return listener.onSwipe(LEFT);
+				edge = LEFT;
 
 			} else if(event.getX() > getWidth() - mSwipeZonePixels) {
-				return listener.onSwipe(RIGHT);
+				edge = RIGHT;
 
 			} else {
 				return listener.onTap();
 			}
+
+			// The screen edges belong to the system's back gesture when gesture
+			// navigation is enabled, so the swipe zone is disabled to avoid the
+			// toolbar appearing at the start of every back gesture.
+			if(General.isGestureNavigationEnabled(this)) {
+				return listener.onTap();
+			}
+
+			return listener.onSwipe(edge);
 		}
 
 		return false;

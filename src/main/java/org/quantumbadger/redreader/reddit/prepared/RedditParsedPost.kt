@@ -104,6 +104,17 @@ class RedditParsedPost(
 
 	val isSelfPost = src.is_self
 
+	val mediaType = when {
+		src.crosspost_parent != null -> "crosspost"
+		src.is_self -> "self"
+		src.is_video || isVideoPreview -> "video"
+		src.gallery_data != null -> "gallery"
+		src.domain?.decoded in setOf("i.redd.it", "i.imgur.com")
+				|| src.url?.decoded?.substringBefore('?')?.lowercase()
+				?.matches(Regex(".*\\.(jpe?g|png|gif|webp)$")) == true -> "image"
+		else -> "link"
+	}
+
 	val upvotePercentage = src.upvote_ratio?.times(100.0)?.toInt()
 
     init {

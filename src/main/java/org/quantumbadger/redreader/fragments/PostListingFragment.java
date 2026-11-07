@@ -838,6 +838,11 @@ public class PostListingFragment extends RRFragment
 											post,
 											false);
 
+									if(!PrefsUtility.pref_media_type(parsedPost.getMediaType())) {
+										mPostsNotShown = true;
+										continue;
+									}
+
 									final RedditPreparedPost preparedPost = new RedditPreparedPost(
 											activity,
 											cm,

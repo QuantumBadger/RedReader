@@ -93,6 +93,14 @@ public final class PrefsUtility {
 		sharedPrefs.edit().putBoolean(getPrefKey(id), newValue).apply();
 	}
 
+	public static boolean pref_media_type(final String type) {
+		return sharedPrefs.getBoolean("pref_media_type_" + type, true);
+	}
+
+	public static void pref_media_type_set(final String type, final boolean enabled) {
+		sharedPrefs.edit().putBoolean("pref_media_type_" + type, enabled).apply();
+	}
+
 	@SuppressWarnings("unused")
 	private static long getLong(
 			final int id,

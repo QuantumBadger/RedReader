@@ -135,6 +135,13 @@
     <string name="options_sort">Sort</string>
     <string name="options_sort_subreddits">Sort Subreddits</string>
     <string name="options_sort_posts">Sort Posts</string>
+    <string name="options_media_type">Media Type</string>
+    <string name="media_type_video">Video</string>
+    <string name="media_type_image">Image</string>
+    <string name="media_type_gallery">Gallery</string>
+    <string name="media_type_self">Self Text</string>
+    <string name="media_type_link">Link</string>
+    <string name="media_type_crosspost">Crosspost</string>
     <string name="options_sort_comments">Sort Comments</string>
 
     <!-- Main Menu -->

@@ -27,6 +27,7 @@ import android.view.SubMenu;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuCompat;
 import androidx.window.layout.WindowMetricsCalculator;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -1140,6 +1141,41 @@ public final class OptionsMenuUtility {
 		addSortsToNewSubmenu(activity, sortPosts, TOP_SORTS);
 
 		sortPosts.setGroupCheckable(Menu.NONE, true, true);
+
+		addMediaTypeSubMenu(activity, sortPosts);
+	}
+
+	private static final String[] MEDIA_TYPES
+			= {"video", "image", "gallery", "self", "link", "crosspost"};
+	private static final int[] MEDIA_TYPE_TITLES = {
+			R.string.media_type_video,
+			R.string.media_type_image,
+			R.string.media_type_gallery,
+			R.string.media_type_self,
+			R.string.media_type_link,
+			R.string.media_type_crosspost};
+
+	private static void addMediaTypeSubMenu(final AppCompatActivity activity, final Menu menu) {
+
+		// A different group ID puts a divider between the sorts and this submenu
+		MenuCompat.setGroupDividerEnabled(menu, true);
+		final SubMenu mediaMenu
+				= menu.addSubMenu(1, Menu.NONE, Menu.NONE, R.string.options_media_type);
+
+		for(int i = 0; i < MEDIA_TYPES.length; i++) {
+			final String type = MEDIA_TYPES[i];
+			mediaMenu.add(MEDIA_TYPE_TITLES[i])
+					.setCheckable(true)
+					.setChecked(PrefsUtility.pref_media_type(type))
+					.setOnMenuItemClickListener(item -> {
+						item.setChecked(!item.isChecked());
+						PrefsUtility.pref_media_type_set(type, item.isChecked());
+						final OptionsMenuPostsListener listener
+								= (OptionsMenuPostsListener)activity;
+						listener.onSortSelected(listener.getPostSort());	// Pretend that the sort mode was changed so that the feed gets reppulated
+						return true;
+					});
+		}
 	}
 
 	private static void addAllSearchSorts(

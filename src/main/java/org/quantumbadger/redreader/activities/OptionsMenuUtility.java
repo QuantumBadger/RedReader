@@ -1172,7 +1172,8 @@ public final class OptionsMenuUtility {
 						PrefsUtility.pref_media_type_set(type, item.isChecked());
 						final OptionsMenuPostsListener listener
 								= (OptionsMenuPostsListener)activity;
-						listener.onSortSelected(listener.getPostSort());	// Pretend that the sort mode was changed so that the feed gets reppulated
+						// Pretend that the sort mode was changed so that the feed gets reppulated
+						listener.onSortSelected(listener.getPostSort());
 						return true;
 					});
 		}

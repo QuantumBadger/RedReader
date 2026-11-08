@@ -24,6 +24,8 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -36,7 +38,6 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.os.BundleCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -47,6 +48,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.quantumbadger.redreader.R;
 import org.quantumbadger.redreader.activities.BaseActivity;
+import org.quantumbadger.redreader.activities.WebViewActivity;
 import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.common.AndroidCommon;
 import org.quantumbadger.redreader.common.General;
@@ -74,15 +76,21 @@ import java.util.TimerTask;
 public class WebViewFragment extends Fragment
 		implements RedditPostView.PostSelectionListener {
 
+	public interface BrowserCloseListener {
+		void onBrowserCloseRequested();
+	}
+
 	private BaseActivity mActivity;
 
 	private UriString mUrl;
+	private RedditPost mPost;
 	private String html;
 	private volatile UriString currentUrl;
 	private volatile boolean goingBack;
 	private volatile int lastBackDepthAttempt;
 
 	private WebViewFixed webView;
+	private VideoEnabledWebChromeClient chromeClient;
 	private boolean mViewDestroyed = false;
 	private ProgressBar progressView;
 	private FrameLayout outer;
@@ -117,6 +125,7 @@ public class WebViewFragment extends Fragment
 		// TODO load position/etc?
 		super.onCreate(savedInstanceState);
 		mUrl = BundleCompat.getParcelable(requireArguments(), "url", UriString.class);
+		mPost = BundleCompat.getParcelable(requireArguments(), "post", RedditPost.class);
 		html = requireArguments().getString("html");
 	}
 
@@ -132,16 +141,13 @@ public class WebViewFragment extends Fragment
 
 		outer = (FrameLayout)inflater.inflate(R.layout.web_view_fragment, null);
 
-		final RedditPost srcPost = BundleCompat.getParcelable(requireArguments(),
-				"post",
-				RedditPost.class);
 		final RedditPreparedPost post;
 
-		if(srcPost != null) {
+		if(mPost != null) {
 
 			final RedditParsedPost parsedPost = new RedditParsedPost(
 					mActivity,
-					srcPost,
+					mPost,
 					false);
 
 			post = new RedditPreparedPost(
@@ -176,7 +182,7 @@ public class WebViewFragment extends Fragment
 		final FrameLayout fullscreenViewFrame
 				= outer.findViewById(R.id.web_view_fragment_fullscreen_frame);
 
-		final VideoEnabledWebChromeClient chromeClient = new VideoEnabledWebChromeClient(
+		chromeClient = new VideoEnabledWebChromeClient(
 				loadingViewFrame,
 				fullscreenViewFrame) {
 			@Override
@@ -185,6 +191,9 @@ public class WebViewFragment extends Fragment
 				super.onProgressChanged(view, newProgress);
 
 				AndroidCommon.UI_THREAD_HANDLER.post(() -> {
+					if(mViewDestroyed) {
+						return;
+					}
 					progressView.setProgress(newProgress);
 					progressView.setVisibility(newProgress == 100
 							? View.GONE
@@ -299,7 +308,7 @@ public class WebViewFragment extends Fragment
 					final WebView view,
 					final WebResourceRequest request) {
 
-				if(request == null) {
+				if(mViewDestroyed || request == null) {
 					return false;
 				}
 
@@ -324,7 +333,7 @@ public class WebViewFragment extends Fragment
 					if(webView.canGoBackOrForward(lastBackDepthAttempt)) {
 						webView.goBackOrForward(lastBackDepthAttempt);
 					} else {
-						mActivity.finish();
+						closeBrowser();
 					}
 				} else {
 
@@ -424,13 +433,8 @@ public class WebViewFragment extends Fragment
 			public void onPageStarted(final WebView view, final String url, final Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 
-				if(mUrl != null && url != null) {
-
-					final AppCompatActivity activity = mActivity;
-
-					if(activity != null) {
-						activity.setTitle(url);
-					}
+				if(!mViewDestroyed && isAdded() && mUrl != null && url != null) {
+					mActivity.setTitle(url);
 				}
 			}
 
@@ -444,7 +448,7 @@ public class WebViewFragment extends Fragment
 
 						AndroidCommon.UI_THREAD_HANDLER.post(() -> {
 
-							if(currentUrl == null || url == null) {
+							if(mViewDestroyed || currentUrl == null || url == null) {
 								return;
 							}
 
@@ -466,7 +470,7 @@ public class WebViewFragment extends Fragment
 								if(webView.canGoBackOrForward(lastBackDepthAttempt)) {
 									webView.goBackOrForward(lastBackDepthAttempt);
 								} else {
-									mActivity.finish();
+									closeBrowser();
 								}
 
 							} else {
@@ -488,6 +492,8 @@ public class WebViewFragment extends Fragment
 
 		final FrameLayout outerFrame = new FrameLayout(mActivity);
 		outerFrame.addView(outer);
+		General.onSystemBarInsets(outerFrame,
+				(top, bottom) -> outerFrame.setPadding(0, 0, 0, bottom));
 
 		if(post != null) {
 
@@ -538,6 +544,7 @@ public class WebViewFragment extends Fragment
 
 		mViewDestroyed = true;
 
+		chromeClient.onHideCustomView();
 		webView.stopLoading();
 		webView.loadData("<html></html>", "text/plain", "UTF-8");
 		webView.reload();
@@ -553,6 +560,10 @@ public class WebViewFragment extends Fragment
 	}
 
 	public boolean onBackButtonPressed() {
+
+		if(chromeClient.onBackPressed()) {
+			return true;
+		}
 
 		if(webView.canGoBack()) {
 			goingBack = true;
@@ -576,6 +587,90 @@ public class WebViewFragment extends Fragment
 
 	public UriString getCurrentUrl() {
 		return (currentUrl != null) ? currentUrl : mUrl;
+	}
+
+	public void addBrowserMenuItems(final Menu menu) {
+		menu.add(0, WebViewActivity.VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
+		menu.add(0, WebViewActivity.CLEAR_CACHE, 1, R.string.web_view_clear_cache);
+		menu.add(0, WebViewActivity.USE_HTTPS, 2, R.string.webview_use_https);
+		menu.add(0, WebViewActivity.SHARE, 3, R.string.action_share);
+	}
+
+	public boolean onBrowserMenuItemSelected(final MenuItem item) {
+
+		final UriString url = getCurrentUrl();
+
+		switch(item.getItemId()) {
+
+			case WebViewActivity.VIEW_IN_BROWSER:
+				if(url != null) {
+					try {
+						final Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(url.toUri());
+						startActivity(intent);
+						closeBrowser();
+
+					} catch(final Exception e) {
+						Toast.makeText(
+								mActivity,
+								"Error: could not launch browser.",
+								Toast.LENGTH_LONG).show();
+					}
+				}
+				return true;
+
+			case WebViewActivity.CLEAR_CACHE:
+				clearCache();
+				Toast.makeText(
+						mActivity,
+						R.string.web_view_clear_cache_success_toast,
+						Toast.LENGTH_LONG).show();
+				return true;
+
+			case WebViewActivity.USE_HTTPS:
+				if(url != null) {
+					if(url.value.startsWith("https://")) {
+						General.quickToast(mActivity, R.string.webview_https_already);
+						return true;
+					}
+
+					if(!url.value.startsWith("http://")) {
+						General.quickToast(mActivity, R.string.webview_https_unknownprotocol);
+						return true;
+					}
+
+					LinkHandler.onLinkClicked(
+							mActivity,
+							new UriString(url.value.replace("http://", "https://")),
+							true,
+							mPost);
+				}
+				return true;
+
+			case WebViewActivity.SHARE:
+				if(url != null) {
+					LinkHandler.shareText(
+							mActivity,
+							mPost != null ? mPost.getTitle().getDecoded() : null,
+							url.value);
+				}
+				return true;
+
+			default:
+				return false;
+		}
+	}
+
+	private void closeBrowser() {
+		if(mViewDestroyed) {
+			return;
+		}
+
+		if(mActivity instanceof BrowserCloseListener) {
+			((BrowserCloseListener)mActivity).onBrowserCloseRequested();
+		} else {
+			mActivity.finish();
+		}
 	}
 
 	@Override

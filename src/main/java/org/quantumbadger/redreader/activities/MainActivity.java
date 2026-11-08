@@ -18,6 +18,7 @@
 package org.quantumbadger.redreader.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,6 +38,8 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.os.BundleCompat;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -64,6 +67,7 @@ import org.quantumbadger.redreader.fragments.CommentListingFragment;
 import org.quantumbadger.redreader.fragments.MainMenuFragment;
 import org.quantumbadger.redreader.fragments.PostListingFragment;
 import org.quantumbadger.redreader.fragments.SessionListDialog;
+import org.quantumbadger.redreader.fragments.WebViewFragment;
 import org.quantumbadger.redreader.listingcontrollers.CommentListingController;
 import org.quantumbadger.redreader.listingcontrollers.PostListingController;
 import org.quantumbadger.redreader.reddit.PostCommentSort;
@@ -73,6 +77,7 @@ import org.quantumbadger.redreader.reddit.UserCommentSort;
 import org.quantumbadger.redreader.reddit.api.RedditOAuth;
 import org.quantumbadger.redreader.reddit.api.RedditSubredditSubscriptionManager;
 import org.quantumbadger.redreader.reddit.api.SubredditSubscriptionState;
+import org.quantumbadger.redreader.reddit.kthings.RedditPost;
 import org.quantumbadger.redreader.reddit.prepared.RedditPreparedPost;
 import org.quantumbadger.redreader.reddit.things.InvalidSubredditNameException;
 import org.quantumbadger.redreader.reddit.things.RedditSubreddit;
@@ -98,6 +103,7 @@ public class MainActivity extends RefreshableActivity
 		OptionsMenuUtility.OptionsMenuPostsListener,
 		OptionsMenuUtility.OptionsMenuCommentsListener,
 		SessionChangeListener,
+		WebViewFragment.BrowserCloseListener,
 		RedditSubredditSubscriptionManager.SubredditSubscriptionStateChangeListener {
 
 	private static final String TAG = "MainActivity";
@@ -120,6 +126,15 @@ public class MainActivity extends RefreshableActivity
 	private FrameLayout mRightPane;
 
 	private boolean isMenuShown = true;
+	private WebViewFragment webViewFragment;
+	private boolean browserReplacedMenu;
+	private boolean pendingBrowserClose;
+
+	private static final String BROWSER_TAG = "tablet_browser";
+	private static final String BROWSER_URL = "browser_url";
+	private static final String BROWSER_POST = "browser_post";
+	private static final String BROWSER_POSTS_URL = "browser_posts_url";
+	private static final String BROWSER_COMMENTS_URL = "browser_comments_url";
 
 	private final AtomicReference<RedditSubredditSubscriptionManager.ListenerContext>
 			mSubredditSubscriptionListenerContext = new AtomicReference<>(null);
@@ -145,6 +160,14 @@ public class MainActivity extends RefreshableActivity
 		PrefsUtility.applyTheme(this);
 
 		super.onCreate(savedInstanceState);
+
+		// The listing views are rebuilt by this activity. Rebuild the browser
+		// alongside them, rather than restoring it into an empty right pane.
+		final Fragment restoredBrowser
+				= getSupportFragmentManager().findFragmentByTag(BROWSER_TAG);
+		if(restoredBrowser != null) {
+			getSupportFragmentManager().beginTransaction().remove(restoredBrowser).commitNow();
+		}
 
 		if(!isTaskRoot()
 				&& getIntent().hasCategory(Intent.CATEGORY_LAUNCHER)
@@ -230,6 +253,45 @@ public class MainActivity extends RefreshableActivity
 				&& PrefsUtility.pref_behaviour_skiptofrontpage()) {
 			onSelected(SubredditPostListURL.getFrontPage());
 		}
+
+		if(savedInstanceState != null && savedInstanceState.containsKey(BROWSER_URL)) {
+			final RedditURLParser.RedditURL postsUrl = RedditURLParser.parseProbablePostListing(
+					Uri.parse(savedInstanceState.getString(BROWSER_POSTS_URL)));
+			onSelected((PostListingURL)postsUrl);
+
+			final String commentsUrl = savedInstanceState.getString(BROWSER_COMMENTS_URL);
+			if(twoPane && commentsUrl != null) {
+				commentListingController = new CommentListingController(
+						RedditURLParser.parseProbableCommentListing(Uri.parse(commentsUrl)));
+				isMenuShown = false;
+				mLeftPane.removeAllViews();
+				mRightPane.removeAllViews();
+				mLeftPane.addView(postListingView);
+				requestRefresh(RefreshableFragment.COMMENTS, false);
+			}
+
+			final UriString url = new UriString(savedInstanceState.getString(BROWSER_URL));
+			final RedditPost post = BundleCompat.getParcelable(
+					savedInstanceState, BROWSER_POST, RedditPost.class);
+			if(!openInternalBrowser(url, post)) {
+				LinkHandler.onLinkClicked(this, url, true, post);
+			}
+		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(@NonNull final Bundle outState) {
+		if(webViewFragment != null) {
+			outState.putString(BROWSER_URL, webViewFragment.getCurrentUrl().value);
+			outState.putParcelable(BROWSER_POST, BundleCompat.getParcelable(
+					webViewFragment.requireArguments(), "post", RedditPost.class));
+			outState.putString(BROWSER_POSTS_URL, postListingController.getUri().toString());
+			if(!browserReplacedMenu && commentListingController != null) {
+				outState.putString(
+						BROWSER_COMMENTS_URL, commentListingController.getUri().toString());
+			}
+		}
+		super.onSaveInstanceState(outState);
 	}
 
 	private void recreateSubscriptionListener() {
@@ -595,6 +657,10 @@ public class MainActivity extends RefreshableActivity
 
 		if(which == RefreshableFragment.MAIN_RELAYOUT) {
 
+			if(webViewFragment != null) {
+				onBrowserCloseRequested();
+			}
+
 			mainMenuFragment = null;
 			postListingFragment = null;
 			commentListingFragment = null;
@@ -667,8 +733,10 @@ public class MainActivity extends RefreshableActivity
 					== RefreshableFragment.COMMENTS)) {
 				commentListingFragment = commentListingController.get(this, force, null);
 				commentListingView = commentListingFragment.createCombinedListingAndOverlayView();
-				mRightPane.removeAllViews();
-				mRightPane.addView(commentListingView);
+				if(webViewFragment == null && !isMenuShown) {
+					mRightPane.removeAllViews();
+					mRightPane.addView(commentListingView);
+				}
 			}
 
 		} else {
@@ -690,6 +758,13 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	protected boolean baseActivityOnBackPressed() {
 
+		if(webViewFragment != null) {
+			if(!webViewFragment.onBackButtonPressed()) {
+				onBrowserCloseRequested();
+			}
+			return true;
+		}
+
 		if(!twoPane || isMenuShown) {
 			return false;
 		}
@@ -705,6 +780,7 @@ public class MainActivity extends RefreshableActivity
 
 		commentListingFragment = null;
 		commentListingView = null;
+		commentListingController = null;
 
 		mLeftPane.removeAllViews();
 		mRightPane.removeAllViews();
@@ -717,10 +793,74 @@ public class MainActivity extends RefreshableActivity
 		return true;
 	}
 
+	/** Returns whether the built-in browser can open alongside the current post listing. */
+	public boolean openInternalBrowser(final UriString url, @Nullable final RedditPost post) {
+
+		if(!twoPane || postListingView == null
+				|| getSupportFragmentManager().isStateSaved()) {
+			return false;
+		}
+
+		if(webViewFragment == null) {
+			browserReplacedMenu = isMenuShown;
+			if(isMenuShown) {
+				mLeftPane.removeAllViews();
+				mRightPane.removeAllViews();
+				mLeftPane.addView(postListingView);
+				isMenuShown = false;
+			} else {
+				mRightPane.removeAllViews();
+			}
+		}
+
+		webViewFragment = WebViewFragment.newInstance(url, post);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.main_right_frame, webViewFragment, BROWSER_TAG)
+				.commitNow();
+
+		showBackButton(true);
+		invalidateBackPressedCallback();
+		invalidateOptionsMenu();
+		return true;
+	}
+
+	private void removeBrowser() {
+		final WebViewFragment browser = webViewFragment;
+		webViewFragment = null;
+		getSupportFragmentManager().beginTransaction().remove(browser).commitNow();
+		setTitle(R.string.app_name);
+	}
+
+	@Override
+	public void onBrowserCloseRequested() {
+
+		if(webViewFragment == null) {
+			return;
+		}
+		if(getSupportFragmentManager().isStateSaved()) {
+			pendingBrowserClose = true;
+			return;
+		}
+
+		pendingBrowserClose = false;
+		removeBrowser();
+		if(browserReplacedMenu) {
+			baseActivityOnBackPressed();
+		} else {
+			mRightPane.addView(commentListingView);
+			invalidateOptionsMenu();
+		}
+		invalidateBackPressedCallback();
+	}
+
 	@Override
 	public void onPostCommentsSelected(final RedditPreparedPost post) {
 
 		if(twoPane) {
+
+			if(webViewFragment != null) {
+				removeBrowser();
+			}
 
 			commentListingController
 					= new CommentListingController(
@@ -772,7 +912,7 @@ public class MainActivity extends RefreshableActivity
 	public boolean onCreateOptionsMenu(final Menu menu) {
 
 		final boolean postsVisible = postListingFragment != null;
-		final boolean commentsVisible = commentListingFragment != null;
+		final boolean commentsVisible = webViewFragment == null && commentListingFragment != null;
 
 		final boolean postsSortable = postListingController != null
 				&& postListingController.isSortable();
@@ -850,8 +990,11 @@ public class MainActivity extends RefreshableActivity
 				subredditPinState,
 				subredditBlockedState);
 
-		if(commentListingFragment != null) {
+		if(commentsVisible) {
 			commentListingFragment.onCreateOptionsMenu(menu);
+		}
+		if(webViewFragment != null) {
+			webViewFragment.addBrowserMenuItems(menu);
 		}
 
 		return true;
@@ -1039,6 +1182,10 @@ public class MainActivity extends RefreshableActivity
 	protected void onResume() {
 		super.onResume();
 
+		if(pendingBrowserClose) {
+			onBrowserCloseRequested();
+		}
+
 		if(mainMenuFragment != null) {
 			mainMenuFragment.onUpdateAnnouncement();
 		}
@@ -1047,7 +1194,11 @@ public class MainActivity extends RefreshableActivity
 	@Override
 	public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
 
-		if(commentListingFragment != null) {
+		if(webViewFragment != null && webViewFragment.onBrowserMenuItemSelected(item)) {
+			return true;
+		}
+
+		if(webViewFragment == null && commentListingFragment != null) {
 			if(commentListingFragment.onOptionsItemSelected(item)) {
 				return true;
 			}

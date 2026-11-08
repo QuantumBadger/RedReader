@@ -22,12 +22,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.core.content.IntentCompat;
 
 import org.quantumbadger.redreader.R;
-import org.quantumbadger.redreader.common.General;
 import org.quantumbadger.redreader.common.LinkHandler;
 import org.quantumbadger.redreader.common.PrefsUtility;
 import org.quantumbadger.redreader.common.UriString;
@@ -41,12 +39,10 @@ public class WebViewActivity extends ViewsBaseActivity
 		implements RedditPostView.PostSelectionListener {
 
 	private WebViewFragment webView;
-	public static final int VIEW_IN_BROWSER = 10;
-	public static final int CLEAR_CACHE = 20;
-	public static final int USE_HTTPS = 30;
-	public static final int SHARE = 40;
-
-	private RedditPost mPost;
+	public static final int VIEW_IN_BROWSER = 1000;
+	public static final int CLEAR_CACHE = 1010;
+	public static final int USE_HTTPS = 1020;
+	public static final int SHARE = 1030;
 
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -58,13 +54,13 @@ public class WebViewActivity extends ViewsBaseActivity
 		final Intent intent = getIntent();
 
 		final UriString url = IntentCompat.getParcelableExtra(intent, "url", UriString.class);
-		mPost = IntentCompat.getParcelableExtra(intent, "post", RedditPost.class);
+		final RedditPost post = IntentCompat.getParcelableExtra(intent, "post", RedditPost.class);
 
 		if(url == null) {
 			BugReportActivity.handleGlobalError(this, "No URL");
 		}
 
-		webView = WebViewFragment.newInstance(url, mPost);
+		webView = WebViewFragment.newInstance(url, post);
 
 		setBaseActivityListing(View.inflate(this, R.layout.main_single, null));
 
@@ -103,79 +99,12 @@ public class WebViewActivity extends ViewsBaseActivity
 
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
-
-		final UriString currentUrl = webView.getCurrentUrl();
-
-		switch(item.getItemId()) {
-
-			case VIEW_IN_BROWSER:
-				if(currentUrl != null) {
-					try {
-						final Intent intent = new Intent(Intent.ACTION_VIEW);
-						intent.setData(currentUrl.toUri());
-						startActivity(intent);
-						finish(); //to clear from backstack
-
-					} catch(final Exception e) {
-						Toast.makeText(
-								this,
-								"Error: could not launch browser.",
-								Toast.LENGTH_LONG).show();
-					}
-				}
-				return true;
-
-			case CLEAR_CACHE:
-
-				webView.clearCache();
-				Toast.makeText(
-						this,
-						R.string.web_view_clear_cache_success_toast,
-						Toast.LENGTH_LONG).show();
-				return true;
-
-			case USE_HTTPS:
-
-				if(currentUrl != null) {
-
-					if(currentUrl.value.startsWith("https://")) {
-						General.quickToast(this, R.string.webview_https_already);
-						return true;
-					}
-
-					if(!currentUrl.value.startsWith("http://")) {
-						General.quickToast(this, R.string.webview_https_unknownprotocol);
-						return true;
-					}
-
-					LinkHandler.onLinkClicked(
-							this,
-							new UriString(currentUrl.value.replace("http://", "https://")),
-							true,
-							mPost);
-					return true;
-				}
-
-			case SHARE:
-				if(currentUrl != null) {
-					LinkHandler.shareText(
-							this,
-							mPost != null ? mPost.getTitle().getDecoded() : null,
-							currentUrl.value);
-				}
-				return true;
-
-			default:
-				return super.onOptionsItemSelected(item);
-		}
+		return webView.onBrowserMenuItemSelected(item) || super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		menu.add(0, VIEW_IN_BROWSER, 0, R.string.web_view_open_browser);
-		menu.add(0, CLEAR_CACHE, 1, R.string.web_view_clear_cache);
-		menu.add(0, USE_HTTPS, 2, R.string.webview_use_https);
-		menu.add(0, SHARE, 3, R.string.action_share);
+		webView.addBrowserMenuItems(menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 

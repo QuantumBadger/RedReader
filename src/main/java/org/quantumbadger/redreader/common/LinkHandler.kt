@@ -35,6 +35,7 @@ import org.quantumbadger.redreader.activities.AlbumListingActivity
 import org.quantumbadger.redreader.activities.BaseActivity
 import org.quantumbadger.redreader.activities.CommentListingActivity
 import org.quantumbadger.redreader.activities.ImageViewActivity
+import org.quantumbadger.redreader.activities.MainActivity
 import org.quantumbadger.redreader.activities.PMSendActivity
 import org.quantumbadger.redreader.activities.PostListingActivity
 import org.quantumbadger.redreader.activities.WebViewActivity
@@ -475,6 +476,10 @@ object LinkHandler {
 		post: RedditPost?
 	) {
 		if (url != null) {
+			if (activity is MainActivity && activity.openInternalBrowser(url, post)) {
+				return
+			}
+
 			val intent = Intent()
 			intent.setClass(activity, WebViewActivity::class.java)
 			intent.putExtra("url", url)

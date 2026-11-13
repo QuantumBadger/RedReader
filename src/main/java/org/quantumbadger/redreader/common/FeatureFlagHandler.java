@@ -32,6 +32,7 @@ import org.quantumbadger.redreader.cache.CacheManager;
 import org.quantumbadger.redreader.fragments.AccountListDialog;
 import org.quantumbadger.redreader.fragments.ChangelogDialog;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public final class FeatureFlagHandler {
@@ -60,7 +61,8 @@ public final class FeatureFlagHandler {
 		DEFAULT_PREF_CUSTOM_TABS("defaultPrefCustomTabs"),
 		CROSSPOST_ORIGIN_MENU_ITEM("crosspostOriginMenuItem"),
 		MAIN_MENU_RANDOM_REMOVED("mainMenuRandomRemoved"),
-		POST_SUBTITLE_LOCKED_TAG("postSubtitleLockedTag");
+		POST_SUBTITLE_LOCKED_TAG("postSubtitleLockedTag"),
+		COLLAPSE_THREAD_COMMENT_MENU_ITEM("collapseThreadCommentMenuItem");
 
 		@NonNull private final String id;
 
@@ -270,6 +272,28 @@ public final class FeatureFlagHandler {
 				prefs.edit()
 						.putStringSet(
 								context.getString(R.string.pref_menus_comment_context_items_key),
+								existingCommentActionMenuItems)
+						.apply();
+			}
+
+			if(getAndSetFeatureFlag(prefs, FeatureFlag.COLLAPSE_THREAD_COMMENT_MENU_ITEM)
+					== FeatureFlagStatus.UPGRADE_NEEDED) {
+
+				Log.i(TAG, "Upgrading, add collapse thread to comment action menu.");
+
+				final Set<String> existingCommentActionMenuItems = new HashSet<>(
+						getStringSet(
+								R.string.pref_menus_comment_context_items_key,
+								R.array.pref_menus_comment_context_items_return,
+								context,
+								prefs));
+
+				existingCommentActionMenuItems.add("collapse_thread");
+
+				prefs.edit()
+						.putStringSet(
+								context.getString(
+										R.string.pref_menus_comment_context_items_key),
 								existingCommentActionMenuItems)
 						.apply();
 			}

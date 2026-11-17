@@ -3,6 +3,7 @@ Option to set the navigation bar opacity
 Fixed issue where post titles are cut off
 Scrolling performance optimization
 Reduced memory usage and allocation count
+More of a user's comments are loaded when scrolling to the end of the list
 Assorted minor bugfixes
 
 119/1.27

@@ -80,6 +80,7 @@ public class CommentListingRequest {
 	private final boolean mParsePostSelfText;
 	private final CacheManager mCacheManager;
 	private final RedditURLParser.RedditURL mUrl;
+	private final boolean mIsLaterPage;
 	private final RedditAccount mUser;
 	private final UUID mSession;
 	private final DownloadStrategy mDownloadStrategy;
@@ -93,6 +94,7 @@ public class CommentListingRequest {
 			final RedditURLParser.RedditURL commentListingURL,
 			final boolean parsePostSelfText,
 			final RedditURLParser.RedditURL url,
+			final boolean isLaterPage,
 			final RedditAccount user,
 			final UUID session,
 			final DownloadStrategy downloadStrategy,
@@ -104,6 +106,7 @@ public class CommentListingRequest {
 		mCommentListingURL = commentListingURL;
 		mParsePostSelfText = parsePostSelfText;
 		mUrl = url;
+		mIsLaterPage = isLaterPage;
 		mUser = user;
 		mSession = session;
 		mDownloadStrategy = downloadStrategy;
@@ -127,7 +130,13 @@ public class CommentListingRequest {
 
 		void onCommentListingRequestPostDownloaded(RedditPreparedPost post);
 
-		void onCommentListingRequestAllItemsDownloaded(ArrayList<RedditCommentListItem> items);
+		/**
+		 * @param after If this is a listing of comments which continues on another page, the
+		 *              value to request the next page with. Otherwise null.
+		 */
+		void onCommentListingRequestAllItemsDownloaded(
+				ArrayList<RedditCommentListItem> items,
+				@Nullable String after);
 	}
 
 	private void onThingDownloaded(
@@ -138,7 +147,8 @@ public class CommentListingRequest {
 	) {
 		String parentPostAuthor = null;
 
-		if(mActivity instanceof SessionChangeListener) {
+		// The session is that of the first page of the listing
+		if(mActivity instanceof SessionChangeListener && !mIsLaterPage) {
 			((SessionChangeListener)mActivity).onSessionChanged(
 					session,
 					SessionChangeListener.SessionChangeType.COMMENTS,
@@ -156,10 +166,13 @@ public class CommentListingRequest {
 		AndroidCommon.runOnUiThread(mListener::onCommentListingRequestParseStart);
 
 		@NonNull final RedditListing commentListing;
+		@Nullable final String after;
 
 		if(thingResponse instanceof RedditThingResponse.Single) {
 			commentListing = ((RedditThing.Listing)((RedditThingResponse.Single) thingResponse)
 					.getThing()).getData();
+
+			after = commentListing.getAfter();
 
 		} else {
 			final RedditThingResponse.Multiple multiple
@@ -199,6 +212,9 @@ public class CommentListingRequest {
 
 			commentListing = ((RedditThing.Listing)((RedditThingResponse.Multiple) thingResponse)
 					.getThings().get(1)).getData();
+
+			// The comments on a post are fetched using "load more" items instead
+			after = null;
 		}
 
 		// Download comments
@@ -230,7 +246,7 @@ public class CommentListingRequest {
 		}
 
 		AndroidCommon.runOnUiThread(()
-				-> mListener.onCommentListingRequestAllItemsDownloaded(items));
+				-> mListener.onCommentListingRequestAllItemsDownloaded(items, after));
 	}
 
 	@NonNull
